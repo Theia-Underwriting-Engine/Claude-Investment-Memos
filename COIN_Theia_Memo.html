@@ -1,0 +1,1683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Coinbase Global — Theia Equity Research Memo</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: #fff;
+    color: #1a1a2e;
+    width: 816px;
+    margin: 0 auto;
+    padding: 32px 40px;
+    font-size: 11px;
+    line-height: 1.45;
+  }
+
+  /* Title bar */
+  .title-bar {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    color: #1a1a2e;
+    border-bottom: 3px solid #1a1a2e;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 3px solid #1a1a2e;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+  }
+  .header h1 {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+  .header .ticker {
+    font-size: 13px;
+    font-weight: 600;
+    color: #555;
+  }
+  .header .date {
+    font-size: 10px;
+    color: #888;
+  }
+
+  /* Price bar */
+  .price-bar {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    background: #f4f6f9;
+    border-radius: 4px;
+    padding: 6px 12px;
+    margin-bottom: 14px;
+    font-size: 10.5px;
+  }
+  .price-bar .price {
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .price-bar .chg { color: #c0392b; font-weight: 600; }
+  .price-bar .chg.pos { color: #27ae60; }
+  .price-bar .label { color: #888; font-weight: 500; }
+
+  /* Section titles */
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #1a1a2e;
+    border-bottom: 1.5px solid #ccc;
+    padding-bottom: 3px;
+    margin: 12px 0 6px 0;
+  }
+
+  /* Memo section header (numbered 1-10) */
+  .memo-section {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a1a2e;
+    border-bottom: 2px solid #1a1a2e;
+    padding-bottom: 4px;
+    margin: 24px 0 10px 0;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 4px;
+  }
+  table.kv td { padding: 2px 0; }
+  table.kv td:first-child { color: #555; width: 45%; }
+  table.kv td:last-child { text-align: right; font-weight: 600; }
+
+  table.data { font-size: 10px; }
+  table.data th {
+    text-align: right;
+    font-weight: 600;
+    color: #888;
+    padding: 2px 6px;
+    border-bottom: 1px solid #ddd;
+    white-space: nowrap;
+  }
+  table.data th:first-child { text-align: left; }
+  table.data td {
+    text-align: right;
+    padding: 2px 6px;
+  }
+  table.data td:first-child {
+    text-align: left;
+    font-weight: 500;
+    color: #333;
+  }
+  table.data tr.section-row td {
+    font-weight: 700;
+    color: #1a1a2e;
+    padding-top: 5px;
+    border-top: 1px solid #eee;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  table.data tr:nth-child(even) { background: #fafbfc; }
+  table.data tr.section-row { background: transparent !important; }
+
+  .est { color: #2563eb; }
+
+  /* Two-col layout */
+  .two-col {
+    display: flex;
+    gap: 24px;
+  }
+  .two-col > div { flex: 1; }
+
+  /* EV Bridge */
+  table.ev td { padding: 1.5px 0; }
+  table.ev td:first-child { color: #555; }
+  table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+  table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+  /* Revenue exposure */
+  table.rev { font-size: 10px; }
+  table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+  table.rev th:first-child { text-align: left; }
+  table.rev td { text-align: right; padding: 2px 4px; }
+  table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+  .source-note {
+    font-size: 8px;
+    color: #aaa;
+    margin-top: 8px;
+    text-align: right;
+  }
+
+  .sub-label {
+    font-size: 9px;
+    font-weight: 600;
+    color: #888;
+    margin: 5px 0 2px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+
+  /* Horizontal valuation grid */
+  .val-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0;
+    margin-bottom: 4px;
+  }
+  .val-grid .val-cell {
+    padding: 4px 6px;
+    border-right: 1px solid #eee;
+  }
+  .val-grid .val-cell:last-child { border-right: none; }
+  .val-grid .val-label {
+    font-size: 8.5px;
+    color: #888;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  .val-grid .val-num {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-top: 1px;
+  }
+  .val-grid .val-sub {
+    font-size: 8px;
+    color: #aaa;
+    font-weight: 400;
+  }
+
+  /* Prose text */
+  .prose {
+    font-size: 11px;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 8px;
+  }
+
+  /* Framework items (7 Powers, 5 Forces) */
+  .fw-item {
+    margin-bottom: 6px;
+  }
+  .fw-item .fw-name {
+    font-weight: 700;
+    color: #1a1a2e;
+  }
+  .fw-item .fw-rating {
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 1px 6px;
+    border-radius: 3px;
+    margin-left: 6px;
+    display: inline-block;
+  }
+  .fw-rating.strong { background: #d4edda; color: #155724; }
+  .fw-rating.moderate { background: #fff3cd; color: #856404; }
+  .fw-rating.weak { background: #f8d7da; color: #721c24; }
+  .fw-rating.high { background: #f8d7da; color: #721c24; }
+  .fw-rating.low { background: #d4edda; color: #155724; }
+
+  /* Sensitivity tables */
+  table.sensitivity {
+    font-size: 9px;
+    margin: 8px 0;
+    width: 100%;
+  }
+  table.sensitivity th {
+    background: #f4f6f9;
+    font-weight: 600;
+    padding: 3px 6px;
+    text-align: center;
+  }
+  table.sensitivity td {
+    text-align: center;
+    padding: 3px 6px;
+  }
+  table.sensitivity td.base {
+    background: #e8f4fd;
+    font-weight: 700;
+  }
+
+  /* Model case blocks */
+  .case-block {
+    background: #fafbfc;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 12px;
+    margin-bottom: 16px;
+  }
+  .case-block .case-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 8px;
+  }
+  .case-block .case-desc {
+    font-size: 10px;
+    color: #666;
+    margin-bottom: 10px;
+    font-style: italic;
+  }
+  .case-block .driver-label {
+    font-size: 9px;
+    font-weight: 600;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-top: 8px;
+    margin-bottom: 4px;
+  }
+  .case-block .driver-row {
+    background: #e8f4fd;
+    padding: 3px 6px;
+    margin-bottom: 2px;
+    font-size: 10px;
+    border-radius: 2px;
+  }
+  .case-block .driver-row span:first-child {
+    display: inline-block;
+    width: 60%;
+    font-weight: 500;
+    color: #333;
+  }
+  .case-block .driver-row span:last-child {
+    text-align: right;
+    font-weight: 600;
+    color: #1a1a2e;
+  }
+  .case-block table.scenario-mini {
+    font-size: 9px;
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8px 0;
+  }
+  .case-block table.scenario-mini td {
+    padding: 2px 4px;
+    text-align: right;
+    color: #1a1a2e;
+  }
+  .case-block table.scenario-mini td:first-child {
+    text-align: left;
+    color: #555;
+    font-weight: 500;
+  }
+  .case-block table.scenario-mini tr:nth-child(even) {
+    background: #fff;
+  }
+  .case-block .exit-metrics {
+    border-top: 1px solid #ddd;
+    padding-top: 6px;
+    margin-top: 6px;
+  }
+  .case-block .exit-price {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-top: 4px;
+  }
+  .case-block .exit-upside {
+    font-size: 10px;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+
+  /* Bar chart styling */
+  .case-chart {
+    margin-top: 16px;
+    padding: 12px;
+    background: #f9f9f9;
+    border-radius: 4px;
+  }
+  .case-chart svg {
+    width: 100%;
+    height: auto;
+  }
+
+  /* Verdict box */
+  .verdict {
+    background: #f4f6f9;
+    border-left: 4px solid #1a1a2e;
+    padding: 10px 14px;
+    margin: 12px 0;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  /* Appendix section */
+  .appendix {
+    margin-top: 32px;
+    padding: 16px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  .appendix h3 {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 10px;
+  }
+  .appendix .code-block {
+    background: #2d2d2d;
+    color: #f8f8f2;
+    padding: 10px;
+    border-radius: 3px;
+    overflow-x: auto;
+    font-size: 9px;
+    font-family: 'Courier New', monospace;
+    line-height: 1.4;
+    margin: 8px 0;
+  }
+  .appendix .code-block code {
+    display: block;
+    white-space: pre;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- MAIN TITLE -->
+<div class="title-bar">Coinbase | Preliminary Memo for Theia</div>
+
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<div class="memo-section">1. Business Overview</div>
+<div class="prose">
+Coinbase Global (NASDAQ: COIN) is the largest publicly traded cryptocurrency exchange in the US and one of the largest globally. Founded in 2012 and headquartered in San Francisco, CEO Brian Armstrong leads approximately 4,951 employees. The company operates a multi-sided platform connecting retail and institutional users to trade, custody, stake, and earn rewards on crypto assets, while rapidly expanding into equities, derivatives (via the 2025 Deribit acquisition), prediction markets, and stablecoin payments (USDC via a partnership with Circle). The core thesis: Coinbase is positioning itself as the "Everything Exchange" — a one-stop financial services platform leveraging its trusted crypto brand, regulatory compliance leadership (12% of global crypto custody), and expanding product suite to capture multiple trillions in financial services revenue as blockchain technology reshapes the global financial system.
+</div>
+
+<!-- SECTION 2: FINANCIAL SUMMARY (FactSet) -->
+<div class="memo-section">2. Financial Summary</div>
+
+<!-- HEADER -->
+<div class="header">
+  <div>
+    <h1>Coinbase Global, Inc. Class A</h1>
+    <span class="ticker">NASDAQ: COIN  ·  CUSIP 19260Q107</span>
+  </div>
+  <span class="date">As of Mar 02, 2026 · Source: FactSet</span>
+</div>
+
+<!-- PRICE BAR -->
+<div class="price-bar">
+  <span class="price">$185.24</span>
+  <span>
+    <span class="label">1M</span> <span class="chg pos">+1.3%</span> &nbsp;
+    <span class="label">3M</span> <span class="chg">-34.3%</span> &nbsp;
+    <span class="label">6M</span> <span class="chg">-39.8%</span> &nbsp;
+    <span class="label">YTD</span> <span class="chg">-19.6%</span> &nbsp;
+    <span class="label">1Y</span> <span class="chg">-11.6%</span>
+  </span>
+  <span style="margin-left:auto;">
+    <span class="label">52-Wk</span> $139.36 – $444.64 &nbsp;
+    <span class="label">% of High</span> 41.7%
+  </span>
+</div>
+
+<!-- TWO-COL: KEY STATS + EV BRIDGE -->
+<div class="two-col">
+
+  <!-- KEY STATS (Trading) -->
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv">
+      <tr><td>Ticker</td><td>COIN-US</td></tr>
+      <tr><td>Price</td><td>$185.24</td></tr>
+      <tr><td>Volume</td><td>12,306,820</td></tr>
+      <tr><td>30D Avg Vol</td><td>13,536,574</td></tr>
+      <tr><td>Float</td><td>96.4%</td></tr>
+      <tr><td>Short Interest</td><td>1.5 Days / 12.39% of Float</td></tr>
+    </table>
+  </div>
+
+  <!-- EV BRIDGE -->
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev">
+      <tr><td>Share Price</td><td>$185.24</td></tr>
+      <tr><td>Basic Shares</td><td>264.08</td></tr>
+      <tr><td style="padding-left:12px;font-size:9px;color:#999;">Class A Common</td><td style="font-size:9px;color:#999;">223.04</td></tr>
+      <tr><td style="padding-left:12px;font-size:9px;color:#999;">Class B Common</td><td style="font-size:9px;color:#999;">41.03</td></tr>
+      <tr><td><b>Market Cap</b></td><td><b>$48,917.3</b></td></tr>
+      <tr><td>Diluted Shares (Stock Comp)</td><td>20.11</td></tr>
+      <tr><td><b>Fully Diluted Mkt Cap</b></td><td><b>$52,642.0</b></td></tr>
+      <tr><td>+ Consolidated Debt</td><td>7,658.7</td></tr>
+      <tr><td>– Cash & Equivalents</td><td>(11,929.5)</td></tr>
+      <tr><td>– Investments in Unconsol Subs</td><td>(623.0)</td></tr>
+      <tr class="total"><td>Enterprise Value</td><td>$47,748.2</td></tr>
+    </table>
+    <div style="font-size:8px;color:#aaa;margin-top:2px;">Millions of USD. Zero-value items omitted.</div>
+  </div>
+
+</div>
+
+<!-- CURRENT VALUATION — horizontal strip -->
+<div class="section-title">Current Valuation</div>
+<div class="val-grid">
+  <div class="val-cell"><div class="val-label">Market Cap</div><div class="val-num">$48,917M</div></div>
+  <div class="val-cell"><div class="val-label">Enterprise Value</div><div class="val-num">$47,748M</div></div>
+  <div class="val-cell"><div class="val-label">P/E <span class="val-sub">LTM</span></div><div class="val-num">42.2x</div></div>
+  <div class="val-cell"><div class="val-label">EV/EBITDA <span class="val-sub">LTM</span></div><div class="val-num">44.0x</div></div>
+  <div class="val-cell"><div class="val-label">EV/Sales <span class="val-sub">LTM</span></div><div class="val-num">6.7x</div></div>
+  <div class="val-cell"><div class="val-label">P/S <span class="val-sub">LTM</span></div><div class="val-num">6.9x</div></div>
+</div>
+<div class="val-grid" style="border-top:1px solid #eee;">
+  <div class="val-cell"><div class="val-label">Fully Dil Mkt Cap</div><div class="val-num">$52,642M</div></div>
+  <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">12.92%</div></div>
+  <div class="val-cell"><div class="val-label">Beta <span class="val-sub">3Y Adj</span></div><div class="val-num">2.25</div></div>
+  <div class="val-cell"><div class="val-label">Avg Rating</div><div class="val-num" style="font-size:11px;">OW <span class="val-sub">(1.47)</span></div></div>
+  <div class="val-cell"><div class="val-label">Target Price</div><div class="val-num">$244.63</div></div>
+  <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num" style="font-size:10px;">May 07, 2026</div></div>
+</div>
+
+<!-- VALUATION -->
+<div class="section-title">Valuation</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th></th><th>5Yr Avg</th><th>Dec '23</th><th>Dec '24</th><th>Dec '25</th>
+      <th class="est">Dec '26E</th><th class="est">Dec '27E</th><th class="est">Dec '28E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>P/E</td><td>112.3x</td><td>466.9x</td><td>26.2x</td><td>50.8x</td><td class="est">48.4x</td><td class="est">30.2x</td><td class="est">20.3x</td></tr>
+    <tr><td>P/Sales</td><td>8.6x</td><td>14.2x</td><td>10.3x</td><td>9.0x</td><td class="est">6.8x</td><td class="est">5.7x</td><td class="est">4.9x</td></tr>
+    <tr><td>P/BV</td><td>5.4x</td><td>6.7x</td><td>6.1x</td><td>4.1x</td><td class="est">3.3x</td><td class="est">3.5x</td><td>—</td></tr>
+    <tr><td>EV/Sales</td><td>—</td><td>14.2x</td><td>9.6x</td><td>8.4x</td><td class="est">6.7x</td><td class="est">5.6x</td><td class="est">4.8x</td></tr>
+    <tr><td>EV/EBITDA</td><td>—</td><td>512.6x</td><td>20.2x</td><td>55.1x</td><td class="est">18.4x</td><td class="est">13.8x</td><td class="est">12.9x</td></tr>
+    <tr><td>EV/EBIT</td><td>—</td><td>NM</td><td>21.0x</td><td>66.5x</td><td class="est">33.9x</td><td class="est">20.8x</td><td class="est">13.2x</td></tr>
+  </tbody>
+</table>
+
+<!-- REVENUE EXPOSURE -->
+<div class="section-title">Revenue Exposure <span style="font-weight:400;color:#888;text-transform:none;letter-spacing:0;">(FY Dec '25 — $7,181M)</span></div>
+<div class="two-col" style="gap:16px;">
+  <div>
+    <div class="sub-label">By Business Unit</div>
+    <table class="rev">
+      <thead><tr><th></th><th>% Rev</th><th>Rev (M)</th><th>Y/Y %</th></tr></thead>
+      <tbody>
+        <tr><td>Consumer</td><td>46.3%</td><td>$3,323</td><td>-3.1%</td></tr>
+        <tr><td>Stablecoin</td><td>18.8%</td><td>$1,349</td><td>48.1%</td></tr>
+        <tr><td>Blockchain Rewards</td><td>9.4%</td><td>$677</td><td>-4.0%</td></tr>
+        <tr><td>Other Sub & Svcs</td><td>7.7%</td><td>$555</td><td>95.8%</td></tr>
+        <tr><td>Institutional</td><td>6.7%</td><td>$480</td><td>38.8%</td></tr>
+        <tr><td>Corp Interest & Other</td><td>4.1%</td><td>$298</td><td>10.0%</td></tr>
+        <tr><td>Other Transaction</td><td>3.5%</td><td>$253</td><td>20.3%</td></tr>
+        <tr><td>Interest & Finance</td><td>3.4%</td><td>$247</td><td>-7.1%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <div class="sub-label">By Geography</div>
+    <table class="rev">
+      <thead><tr><th></th><th>% Rev</th><th>Rev (M)</th><th>Y/Y %</th></tr></thead>
+      <tbody>
+        <tr><td>United States</td><td>83.7%</td><td>$6,011</td><td>10.1%</td></tr>
+        <tr><td>International</td><td>16.3%</td><td>$1,171</td><td>6.1%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- FINANCIALS -->
+<div class="section-title">Financials</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th></th><th>5Yr CAGR</th><th>Dec '23</th><th>Dec '24</th><th>Dec '25</th>
+      <th class="est">Dec '26E</th><th class="est">Dec '27E</th><th class="est">Dec '28E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="8">Income Statement</td></tr>
+    <tr><td>Revenue</td><td>41.2%</td><td>$3,108</td><td>$6,564</td><td>$7,181</td><td class="est">$7,168</td><td class="est">$8,525</td><td class="est">$10,006</td></tr>
+    <tr><td>Gross Income</td><td>37.7%</td><td>$2,595</td><td>$5,653</td><td>$5,644</td><td class="est">$6,181</td><td class="est">$7,368</td><td class="est">$8,032</td></tr>
+    <tr><td>EBITDA</td><td>18.7%</td><td>$86</td><td>$3,122</td><td>$1,095</td><td class="est">$2,599</td><td class="est">$3,461</td><td class="est">$3,702</td></tr>
+    <tr><td>EBIT</td><td>17.3%</td><td>($54)</td><td>$2,994</td><td>$907</td><td class="est">$1,408</td><td class="est">$2,291</td><td class="est">$3,618</td></tr>
+    <tr><td>Net Income</td><td>63.4%</td><td>$95</td><td>$2,578</td><td>$1,260</td><td class="est">$1,011</td><td class="est">$1,630</td><td class="est">$2,081</td></tr>
+    <tr><td>EPS (Diluted)</td><td>52.3%</td><td>$0.37</td><td>$9.48</td><td>$4.45</td><td class="est">$3.82</td><td class="est">$6.14</td><td class="est">$9.12</td></tr>
+    <tr class="section-row"><td colspan="8">Margins</td></tr>
+    <tr><td>Gross Margin</td><td></td><td>83.5%</td><td>86.1%</td><td>78.6%</td><td class="est">86.2%</td><td class="est">86.4%</td><td class="est">80.3%</td></tr>
+    <tr><td>EBITDA Margin</td><td></td><td>2.8%</td><td>47.6%</td><td>15.2%</td><td class="est">36.3%</td><td class="est">40.6%</td><td class="est">37.0%</td></tr>
+    <tr><td>Net Margin</td><td></td><td>3.0%</td><td>39.3%</td><td>17.6%</td><td class="est">14.1%</td><td class="est">19.1%</td><td class="est">20.8%</td></tr>
+    <tr><td>FCF Margin</td><td></td><td>21.5%</td><td>47.3%</td><td>33.8%</td><td class="est">23.5%</td><td class="est">28.3%</td><td class="est">30.7%</td></tr>
+    <tr class="section-row"><td colspan="8">Cash Flow</td></tr>
+    <tr><td>Net Op CF</td><td>NM</td><td>$668</td><td>$3,104</td><td>$2,426</td><td class="est">$1,628</td><td class="est">$2,351</td><td class="est">$2,529</td></tr>
+    <tr><td>CapEx</td><td>NM</td><td>$0</td><td>$101</td><td>$16</td><td class="est">$75</td><td class="est">$84</td><td class="est">$70</td></tr>
+    <tr><td>FCF</td><td>NM</td><td>$668</td><td>$3,104</td><td>$2,426</td><td class="est">$1,684</td><td class="est">$2,410</td><td class="est">$3,068</td></tr>
+    <tr class="section-row"><td colspan="8">Returns & Leverage</td></tr>
+    <tr><td>ROE</td><td></td><td>1.6%</td><td>31.1%</td><td>10.1%</td><td class="est">6.9%</td><td class="est">11.5%</td><td>—</td></tr>
+    <tr><td>Debt/Equity</td><td></td><td>48.5%</td><td>45.7%</td><td>52.9%</td><td class="est">47.2%</td><td class="est">39.7%</td><td>—</td></tr>
+    <tr><td>Interest Coverage</td><td></td><td>NM</td><td>37.1x</td><td>10.6x</td><td class="est">16.1x</td><td class="est">26.9x</td><td class="est">50.4x</td></tr>
+  </tbody>
+</table>
+
+<div class="source-note">All monetary values in Millions of USD. Estimates (E) follow broker consensus. Source: FactSet Fundamentals & Estimates.</div>
+
+<!-- SECTION 3: HELMER'S 7 POWERS -->
+<div class="memo-section">3. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <span class="fw-name">Scale Economies</span> <span class="fw-rating strong">Strong</span>
+  <div class="prose">Coinbase has built a high fixed-cost infrastructure for compliance, custody, trading matching, and engineering. As trading volumes scale, these fixed costs amortize across an increasingly large revenue base. With 12% of all global crypto stored on the platform and ~$7.2B in FY25 revenue, the unit economics improve materially with incremental transaction volume. The subscription and services business (growing 23% YoY to $2.8B) is particularly scalable.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">Network Effects</span> <span class="fw-rating strong">Strong</span>
+  <div class="prose">Two-sided marketplace dynamics benefit from classic liquidity feedback loops: more trading volume → tighter spreads and better execution → attracts more traders. Coinbase's Base L2 blockchain has direct network effects (more developers → more apps → more users). USDC stablecoin creates indirect network effects through ecosystem adoption; 150 companies announced stablecoin integrations within 3 months of the GENIUS Act passing, directly benefiting Coinbase's distribution.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">Counter-Positioning</span> <span class="fw-rating moderate">Moderate</span>
+  <div class="prose">Traditional brokerages (Schwab, Fidelity) find it difficult to offer full-stack crypto services (custodial storage, staking, DeFi access, derivatives) without building deep crypto infrastructure from scratch. This is why JPMorgan partnered with Coinbase rather than building internally. However, pure-play fintechs like Robinhood and Kraken are building competitive offerings, limiting the moat here.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">Switching Costs</span> <span class="fw-rating moderate">Moderate</span>
+  <div class="prose">Institutional clients face high switching costs due to established custody agreements, API integrations, compliance workflows, and relationship capital with Coinbase's institutional team. Retail switching costs are lower but rising with Coinbase One membership (growing subscriber base with premium features), the Coinbase Card, loans, and the Everything Exchange making the platform progressively stickier as customers accumulate features.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">Branding</span> <span class="fw-rating strong">Strong</span>
+  <div class="prose">Coinbase has built "the most trusted brand in crypto" per management. This is a genuine competitive advantage in an industry plagued by fraud and security breaches (FTX, etc.). The company works with 5 G-SIB banks, 150+ government agencies, and is now a member of the S&P 500, reinforcing institutional legitimacy. Brand pricing power is evident in willingness to pay a premium for perceived safety and compliance.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">Cornered Resource</span> <span class="fw-rating moderate">Moderate</span>
+  <div class="prose">Coinbase controls regulatory licenses across 40+ jurisdictions, holds the BitLicense in New York, and maintains the largest institutional banking relationships. The 2025 acquisition of Deribit (closed in Q4) gives Coinbase access to the dominant crypto options trading venue. 12% of global crypto custody is a significant but not fully cornered resource; competitors can acquire licenses and build cold storage systems, though Coinbase's head start is substantial.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">Process Power</span> <span class="fw-rating moderate">Moderate</span>
+  <div class="prose">Deep crypto-native expertise (early adoption of DEX trading, DeFi, multiparty computation cold storage) is difficult for traditional finance incumbents to replicate. The company has shipped 12 products generating $100M+ ARR and completed 10 acquisitions/acqui-hires in 2025 alone, demonstrating rapid execution capability. However, this advantage is more about talent and culture than embedded, durable organizational processes.</div>
+</div>
+
+<div class="prose" style="margin-top:12px; font-style: italic;">
+<strong>Summary:</strong> The strongest moats are scale economies (fixed infrastructure + increasing volume), network effects (liquidity loops + ecosystem adoption), and branding (trust in crypto). The combination of regulatory leadership, custody dominance, and an expanding product suite creates a compounding flywheel that is difficult for any single competitor to replicate, though Robinhood and traditional finance entrants pose real competitive threats.
+</div>
+
+<!-- SECTION 4: PORTER'S 5 FORCES -->
+<div class="memo-section">4. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <span class="fw-name">Threat of New Entrants</span> <span class="fw-rating low">Low</span>
+  <div class="prose">Massive regulatory barriers (BitLicense, multi-jurisdictional compliance, AML/KYC infrastructure), high capital requirements for custody infrastructure, and the need for deep liquidity pools create significant moats. However, existing financial players (JPMorgan, PayPal, Schwab) are entering the space through partnerships or organic initiatives, and a well-capitalized new entrant could eventually compete on product breadth. The low threat rating reflects these barriers outweighing the risk of new competitors today.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">Bargaining Power of Suppliers</span> <span class="fw-rating low">Low</span>
+  <div class="prose">Key "suppliers" are blockchain networks (open protocols with no leverage) and Circle (the USDC stablecoin partner). While Circle's relationship is contractual, Coinbase has significant leverage as the largest USDC distributor and end-user. The partnership benefits both parties equally, and Coinbase could theoretically launch its own stablecoin if Circle relationship deteriorated. No other material supply dependencies.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">Bargaining Power of Buyers</span> <span class="fw-rating moderate">Moderate</span>
+  <div class="prose">Retail users can multi-home across Robinhood, Kraken, Gemini, and others, creating price sensitivity. Institutional clients are stickier due to custody and workflow integration. Coinbase One membership reduces retail price sensitivity by bundling services. However, take rates are under compression from competition and mix shift (advanced traders and Coinbase One members pay lower per-trade fees), creating ongoing margin pressure. Buyers have meaningful alternatives but Coinbase's brand and Everything Exchange differentiation provide some insulation.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">Threat of Substitutes</span> <span class="fw-rating moderate">Moderate</span>
+  <div class="prose">Decentralized exchanges (Uniswap, dYdX) offer non-custodial trading without intermediaries. Self-custody wallets reduce the need for centralized platforms. However, regulatory compliance, fiat on-ramps, user experience, and institutional support keep most users on centralized exchanges. The Everything Exchange (equities, prediction markets, commodities) further reduces substitution risk by widening the TAM beyond pure crypto trading.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">Competitive Rivalry</span> <span class="fw-rating high">High</span>
+  <div class="prose">The competitive set includes Binance (global dominance but regulatory risk), Kraken (strong institutional offering), Robinhood (mass market access), and emerging players (Crypto.com, OKX). Trading volumes across all platforms are growing, but market share is contested. Differentiation is increasingly important, and Coinbase's Everything Exchange, regulatory posture, and institutional relationships are significant competitive advantages. However, high rivalry and pricing pressure on take rates are ongoing headwinds.</div>
+</div>
+
+<div class="prose" style="margin-top:12px; font-style: italic;">
+<strong>Summary:</strong> The competitive environment is moderately favorable for Coinbase. Regulatory barriers and trust/branding provide strong protection against new entrants. However, high competitive rivalry and ongoing take rate compression from both substitutes (DEXs) and direct competitors (Robinhood) mean that success depends on continuous product innovation and market share defense.
+</div>
+
+<!-- SECTION 5: WHAT DRIVES THE STOCK -->
+<div class="memo-section">5. What Drives the Stock?</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Crypto Trading Volumes (Spot + Derivatives)</span>
+  <div class="prose">Direct revenue driver for transaction revenue ($3.8B in FY25). Bitcoin and Ethereum price movements drive retail engagement and retail transaction volume. Q4 2025 saw record derivatives volume via Deribit despite softer spot markets. Key watch: total platform trading volume trajectory and the mix between spot (lower margin) and derivatives (higher margin). Bullish if volumes >$300B annualized; bearish if <$200B.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Bitcoin / Crypto Prices</span>
+  <div class="prose">BTC is at all-time highs (~$150K range in early 2026), driving new user acquisition and trading activity. Each 10% move in BTC price correlates with ~5-7% move in retail activity on Coinbase. Higher crypto prices also increase the value of staked assets and custody assets, indirectly boosting revenue. A sustained crypto downturn would pressure both transaction volume and user engagement.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. USDC Circulation & Stablecoin Revenue</span>
+  <div class="prose">Stablecoin revenue is now $1.35B annually (18.8% of total), growing 48% YoY. Driven by Average USDC Market Cap × Fed Funds Rate × Coinbase revenue share. USDC reached ~$75B market cap (though revised to ~$56B in corrected guidance). GENIUS Act passing (signed into law) is a major tailwind for regulated US stablecoins. A doubling of USDC market cap to $100B+ would add ~$200-250M in annual revenue. Bullish catalyst: regulatory adoption accelerating stablecoin payments.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Regulatory Clarity</span>
+  <div class="prose">CLARITY Act, market structure bills, and GENIUS Act represent major regulatory tailwinds. The shift in SEC posture under the new administration is positive for crypto. Clear regulatory frameworks unlock institutional adoption and corporate treasury allocation to crypto. Negative news (anti-crypto regulation) would trigger sharp sell-off; positive news (new licenses, clearer frameworks) is a catalyst for multiple expansion.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Everything Exchange Adoption (Equities, Prediction Markets, Derivatives)</span>
+  <div class="prose">Equities launched with ~10,000 tickers in Q4. Prediction markets rolled out to 100% of customers. Deribit derivatives integration is early but showing momentum. Success here expands TAM far beyond crypto and reduces revenue cyclicality (equities/prediction markets less correlated to BTC). Bullish if these new products reach $500M+ in combined revenue by FY27; bearish if they remain niche.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">6. Take Rate Trends</span>
+  <div class="prose">Consumer take rates have compressed from mix shift (Coinbase One, advanced trading, institutional) and competitive pressure. Blended take rate is key metric. Bullish: take rate stabilizes as mix stabilizes and Everything Exchange adds higher-margin products. Bearish: continued compression from Robinhood and retail competition, or mass migration to Coinbase One (recurring revenue but lower per-trade fees).</div>
+</div>
+
+<!-- SECTION 6: WHAT DRIVES THE BUSINESS -->
+<div class="memo-section">6. What Drives the Business?</div>
+
+<div class="prose">
+Revenue decomposition by segment shows the fundamental unit economics:
+</div>
+
+<table class="data">
+  <thead>
+    <tr>
+      <th>Revenue Line (FY25)</th>
+      <th>Driver Formula</th>
+      <th>Revenue ($M)</th>
+      <th>% of Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Consumer Trading</td><td>Spot Vol × Retail Take Rate</td><td>$3,323</td><td>46.3%</td></tr>
+    <tr><td>Stablecoin Revenue</td><td>Avg USDC MktCap × Fed Rate × Rev Share%</td><td>$1,349</td><td>18.8%</td></tr>
+    <tr><td>Blockchain Rewards</td><td>Staked Assets × Avg Yield × Commission%</td><td>$677</td><td>9.4%</td></tr>
+    <tr><td>Institutional Trading</td><td>Inst Volume × Institutional Take Rate</td><td>$480</td><td>6.7%</td></tr>
+    <tr><td>Other Sub & Svcs</td><td>Coinbase One Members × ARPU + Cloud/Prime</td><td>$555</td><td>7.7%</td></tr>
+    <tr><td>Other Transaction</td><td>Derivatives Volume (Deribit) × Fee Rate</td><td>$253</td><td>3.5%</td></tr>
+    <tr><td>Interest & Finance</td><td>Custodial Cash Balances × Interest Earned</td><td>$247</td><td>3.4%</td></tr>
+    <tr><td>Corp Interest & Other</td><td>Treasury Yield + Crypto Gains/Losses</td><td>$298</td><td>4.1%</td></tr>
+  </tbody>
+</table>
+
+<div class="prose" style="margin-top:12px;">
+The most leveraged revenue drivers are: (1) Consumer trading volume and take rates, which drive 46% of revenue—highly sensitive to crypto prices and user engagement. (2) USDC circulation, which is recurring, high-margin, and growing fastest (48% YoY)—sensitive to stablecoin adoption and Fed rate environment. (3) Derivatives volume via Deribit, which is now the fastest-growing new revenue stream, with all-time high trading in Q4 2025 despite softer spot markets. A 20% increase in average USDC market cap would add ~$130M in annual revenue. A doubling of derivatives volume would add ~$150-200M. These two drivers together have more upside optionality than the mature consumer trading business.
+</div>
+
+<!-- SECTION 7: SENSITIVITIES -->
+<div class="memo-section">7. Sensitivities on Core Business Drivers</div>
+
+<div style="margin-bottom: 12px;">
+<strong>Annual Consumer Spot Trading Volume ($B) vs. Blended Retail Take Rate (basis points) → Estimated Annual Consumer Revenue ($M)</strong>
+<div class="prose" style="margin-top: 4px;">Current: ~$350B volume, ~95 bps take rate</div>
+</div>
+
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th style="width:20%;">Volume / Rate</th>
+      <th>70 bps</th>
+      <th>85 bps</th>
+      <th>100 bps (Base)</th>
+      <th>115 bps</th>
+      <th>130 bps</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>$200B</td>
+      <td>$1,400</td>
+      <td>$1,700</td>
+      <td>$2,000</td>
+      <td>$2,300</td>
+      <td>$2,600</td>
+    </tr>
+    <tr>
+      <td>$300B</td>
+      <td>$2,100</td>
+      <td>$2,550</td>
+      <td>$3,000</td>
+      <td>$3,450</td>
+      <td>$3,900</td>
+    </tr>
+    <tr>
+      <td>$400B (Base)</td>
+      <td>$2,800</td>
+      <td>$3,400</td>
+      <td class="base">$4,000</td>
+      <td>$4,600</td>
+      <td>$5,200</td>
+    </tr>
+    <tr>
+      <td>$500B</td>
+      <td>$3,500</td>
+      <td>$4,250</td>
+      <td>$5,000</td>
+      <td>$5,750</td>
+      <td>$6,500</td>
+    </tr>
+    <tr>
+      <td>$600B</td>
+      <td>$4,200</td>
+      <td>$5,100</td>
+      <td>$6,000</td>
+      <td>$6,900</td>
+      <td>$7,800</td>
+    </tr>
+  </tbody>
+</table>
+
+<div style="margin-bottom: 12px; margin-top: 16px;">
+<strong>Average USDC Market Cap ($B) vs. Fed Funds Rate (%) → Estimated Annual Stablecoin Revenue ($M)</strong>
+<div class="prose" style="margin-top: 4px;">Current: ~$56B USDC, ~4.25% Fed Funds</div>
+</div>
+
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th style="width:20%;">USDC Cap / Rate</th>
+      <th>2.5%</th>
+      <th>3.25%</th>
+      <th>4.0% (Base)</th>
+      <th>4.75%</th>
+      <th>5.5%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>$40B</td>
+      <td>$515</td>
+      <td>$650</td>
+      <td>$800</td>
+      <td>$925</td>
+      <td>$1,100</td>
+    </tr>
+    <tr>
+      <td>$56B (Base)</td>
+      <td>$725</td>
+      <td>$910</td>
+      <td class="base">$1,120</td>
+      <td>$1,295</td>
+      <td>$1,540</td>
+    </tr>
+    <tr>
+      <td>$75B</td>
+      <td>$970</td>
+      <td>$1,220</td>
+      <td>$1,500</td>
+      <td>$1,730</td>
+      <td>$2,063</td>
+    </tr>
+    <tr>
+      <td>$100B</td>
+      <td>$1,295</td>
+      <td>$1,625</td>
+      <td>$2,000</td>
+      <td>$2,310</td>
+      <td>$2,750</td>
+    </tr>
+  </tbody>
+</table>
+
+<div style="margin-bottom: 12px; margin-top: 16px;">
+<strong>Total Platform Trading Volume ($B annualized) vs. Bitcoin Price ($K) → Proxy for Overall Engagement & Estimated Total Revenue ($M)</strong>
+<div class="prose" style="margin-top: 4px;">Current: ~$800B volume, ~$100K BTC</div>
+</div>
+
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th style="width:20%;">Volume / BTC</th>
+      <th>$50K</th>
+      <th>$80K</th>
+      <th>$120K (Base)</th>
+      <th>$150K</th>
+      <th>$200K</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>$400B</td>
+      <td>$5,200</td>
+      <td>$6,100</td>
+      <td>$6,800</td>
+      <td>$7,200</td>
+      <td>$7,600</td>
+    </tr>
+    <tr>
+      <td>$600B</td>
+      <td>$6,200</td>
+      <td>$7,300</td>
+      <td>$8,200</td>
+      <td>$8,800</td>
+      <td>$9,400</td>
+    </tr>
+    <tr>
+      <td>$800B (Base)</td>
+      <td>$7,100</td>
+      <td>$8,400</td>
+      <td class="base">$9,200</td>
+      <td>$10,000</td>
+      <td>$10,900</td>
+    </tr>
+    <tr>
+      <td>$1,000B</td>
+      <td>$8,000</td>
+      <td>$9,500</td>
+      <td>$10,500</td>
+      <td>$11,300</td>
+      <td>$12,400</td>
+    </tr>
+    <tr>
+      <td>$1,200B</td>
+      <td>$8,800</td>
+      <td>$10,400</td>
+      <td>$11,600</td>
+      <td>$12,600</td>
+      <td>$13,800</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- SECTION 8: 3-YEAR MODEL -->
+<div class="memo-section">8. 3-Year Financial Model (5 Cases)</div>
+
+<div class="prose">
+The following model projects FY26-28 across five scenarios as vertical case blocks. Each case shows key drivers, summary P&L metrics, and terminal valuation.
+</div>
+
+<!-- CASE 1: BEAR SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 1: Bear Severe</div>
+  <div class="case-desc">Crypto winter persists; trading volumes contract to $200-300B; USDC adoption stalls at $40B; take rate compression accelerates; Everything Exchange fails to gain traction.</div>
+
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Trading Volume</span><span>$200-300B</span></div>
+  <div class="driver-row"><span>Blended Take Rate</span><span>70-80 bps</span></div>
+  <div class="driver-row"><span>USDC Market Cap</span><span>$40B</span></div>
+  <div class="driver-row"><span>Fed Funds Rate</span><span>2.5-3.0%</span></div>
+  <div class="driver-row"><span>Crypto Price Environment</span><span>Sustained downtrend</span></div>
+
+  <div class="driver-label" style="margin-top: 10px;">Summary P&L (FY26E, FY27E, FY28E)</div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$5,400</td><td>$5,700</td><td>$6,200</td></tr>
+    <tr><td>Gross Income</td><td>4,644</td><td>4,902</td><td>4,960</td></tr>
+    <tr><td>EBITDA</td><td>1,594</td><td>1,702</td><td>1,610</td></tr>
+    <tr><td>EBIT</td><td>1,374</td><td>1,482</td><td>1,390</td></tr>
+    <tr><td>Net Income</td><td>880</td><td>962</td><td>892</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$3.03</td><td>$3.31</td><td>$3.07</td></tr>
+    <tr><td>EBITDA Margin</td><td>29.5%</td><td>29.8%</td><td>25.9%</td></tr>
+    <tr><td>Net Margin</td><td>16.3%</td><td>16.9%</td><td>14.4%</td></tr>
+    <tr><td>FCF</td><td>$1,200</td><td>$1,350</td><td>$1,400</td></tr>
+  </table>
+
+  <div class="exit-metrics">
+    <div style="font-size: 10px; color: #888;">FY28 Exit Valuation</div>
+    <div class="exit-price">$46.05</div>
+    <div class="exit-upside" style="color: #c0392b;">-75.1% vs Current</div>
+  </div>
+</div>
+
+<!-- CASE 2: BEAR MILD -->
+<div class="case-block">
+  <div class="case-name">Case 2: Bear Mild</div>
+  <div class="case-desc">Slow volume growth; USDC adoption to $50B; take rates stabilize; moderate interest in new products.</div>
+
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Trading Volume</span><span>$400-500B</span></div>
+  <div class="driver-row"><span>Blended Take Rate</span><span>85-95 bps</span></div>
+  <div class="driver-row"><span>USDC Market Cap</span><span>$50B</span></div>
+  <div class="driver-row"><span>Fed Funds Rate</span><span>3.25-3.75%</span></div>
+  <div class="driver-row"><span>Crypto Price Environment</span><span>Mild recovery</span></div>
+
+  <div class="driver-label" style="margin-top: 10px;">Summary P&L (FY26E, FY27E, FY28E)</div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$6,300</td><td>$7,100</td><td>$8,100</td></tr>
+    <tr><td>Gross Income</td><td>5,418</td><td>6,106</td><td>6,480</td></tr>
+    <tr><td>EBITDA</td><td>2,238</td><td>2,656</td><td>2,730</td></tr>
+    <tr><td>EBIT</td><td>2,018</td><td>2,436</td><td>2,510</td></tr>
+    <tr><td>Net Income</td><td>1,364</td><td>1,677</td><td>1,732</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$4.70</td><td>$5.78</td><td>$5.97</td></tr>
+    <tr><td>EBITDA Margin</td><td>35.5%</td><td>37.4%</td><td>33.7%</td></tr>
+    <tr><td>Net Margin</td><td>21.6%</td><td>23.6%</td><td>21.4%</td></tr>
+    <tr><td>FCF</td><td>$1,800</td><td>$2,050</td><td>$2,200</td></tr>
+  </table>
+
+  <div class="exit-metrics">
+    <div style="font-size: 10px; color: #888;">FY28 Exit Valuation</div>
+    <div class="exit-price">$131.34</div>
+    <div class="exit-upside" style="color: #c0392b;">-29.1% vs Current</div>
+  </div>
+</div>
+
+<!-- CASE 3: BASE CASE -->
+<div class="case-block" style="border: 2px solid #1a1a2e; background: #fff;">
+  <div class="case-name">Case 3: Base Case</div>
+  <div class="case-desc">Consensus estimates; USDC at $75B by end of period; mixed success on Everything Exchange; volume growth modest.</div>
+
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Trading Volume</span><span>$600-800B</span></div>
+  <div class="driver-row"><span>Blended Take Rate</span><span>95-100 bps</span></div>
+  <div class="driver-row"><span>USDC Market Cap</span><span>$75B</span></div>
+  <div class="driver-row"><span>Fed Funds Rate</span><span>4.0-4.25%</span></div>
+  <div class="driver-row"><span>Crypto Price Environment</span><span>Stable/modest growth</span></div>
+
+  <div class="driver-label" style="margin-top: 10px;">Summary P&L (FY26E, FY27E, FY28E)</div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$7,168</td><td>$8,525</td><td>$10,006</td></tr>
+    <tr><td>Gross Income</td><td>6,181</td><td>7,368</td><td>8,005</td></tr>
+    <tr><td>EBITDA</td><td>2,605</td><td>3,462</td><td>3,805</td></tr>
+    <tr><td>EBIT</td><td>2,385</td><td>3,242</td><td>3,585</td></tr>
+    <tr><td>Net Income</td><td>1,639</td><td>2,282</td><td>2,539</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$5.65</td><td>$7.87</td><td>$8.75</td></tr>
+    <tr><td>EBITDA Margin</td><td>36.3%</td><td>40.6%</td><td>38.0%</td></tr>
+    <tr><td>Net Margin</td><td>22.9%</td><td>26.8%</td><td>25.4%</td></tr>
+    <tr><td>FCF</td><td>$2,050</td><td>$2,600</td><td>$3,200</td></tr>
+  </table>
+
+  <div class="exit-metrics">
+    <div style="font-size: 10px; color: #888;">FY28 Exit Valuation (30x P/E)</div>
+    <div class="exit-price">$262.50</div>
+    <div class="exit-upside" style="color: #27ae60;">+41.6% vs Current</div>
+  </div>
+</div>
+
+<!-- CASE 4: BULL MILD -->
+<div class="case-block">
+  <div class="case-name">Case 4: Bull Mild</div>
+  <div class="case-desc">Crypto cycle resumes; volumes reach $800B+; USDC adoption accelerates to $100B; new products add incremental revenue; take rate mix improves.</div>
+
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Trading Volume</span><span>$800-1,000B</span></div>
+  <div class="driver-row"><span>Blended Take Rate</span><span>100-110 bps</span></div>
+  <div class="driver-row"><span>USDC Market Cap</span><span>$100B</span></div>
+  <div class="driver-row"><span>Fed Funds Rate</span><span>4.75-5.0%</span></div>
+  <div class="driver-row"><span>Crypto Price Environment</span><span>Strong bull cycle</span></div>
+
+  <div class="driver-label" style="margin-top: 10px;">Summary P&L (FY26E, FY27E, FY28E)</div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$7,900</td><td>$9,400</td><td>$11,000</td></tr>
+    <tr><td>Gross Income</td><td>6,794</td><td>8,084</td><td>8,800</td></tr>
+    <tr><td>EBITDA</td><td>3,014</td><td>3,984</td><td>4,400</td></tr>
+    <tr><td>EBIT</td><td>2,794</td><td>3,764</td><td>4,180</td></tr>
+    <tr><td>Net Income</td><td>1,945</td><td>2,673</td><td>2,985</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$6.71</td><td>$9.22</td><td>$10.29</td></tr>
+    <tr><td>EBITDA Margin</td><td>38.2%</td><td>42.3%</td><td>40.0%</td></tr>
+    <tr><td>Net Margin</td><td>24.6%</td><td>28.4%</td><td>27.1%</td></tr>
+    <tr><td>FCF</td><td>$2,400</td><td>$3,000</td><td>$3,600</td></tr>
+  </table>
+
+  <div class="exit-metrics">
+    <div style="font-size: 10px; color: #888;">FY28 Exit Valuation (38x P/E)</div>
+    <div class="exit-price">$391.02</div>
+    <div class="exit-upside" style="color: #27ae60;">+110.9% vs Current</div>
+  </div>
+</div>
+
+<!-- CASE 5: BULL SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 5: Bull Severe</div>
+  <div class="case-desc">Full crypto adoption cycle; volumes >$1.2T; USDC at $150B+; Everything Exchange becomes major revenue driver; scale benefits flow through margins.</div>
+
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Trading Volume</span><span>>$1.2T annualized</span></div>
+  <div class="driver-row"><span>Blended Take Rate</span><span>110-120 bps</span></div>
+  <div class="driver-row"><span>USDC Market Cap</span><span>$150B+</span></div>
+  <div class="driver-row"><span>Fed Funds Rate</span><span>5.0-5.5%</span></div>
+  <div class="driver-row"><span>Crypto Price Environment</span><span>Peak bull market</span></div>
+
+  <div class="driver-label" style="margin-top: 10px;">Summary P&L (FY26E, FY27E, FY28E)</div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$8,600</td><td>$10,800</td><td>$13,000</td></tr>
+    <tr><td>Gross Income</td><td>7,396</td><td>9,288</td><td>10,400</td></tr>
+    <tr><td>EBITDA</td><td>3,396</td><td>4,888</td><td>5,700</td></tr>
+    <tr><td>EBIT</td><td>3,176</td><td>4,668</td><td>5,480</td></tr>
+    <tr><td>Net Income</td><td>2,232</td><td>3,351</td><td>3,960</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$7.69</td><td>$11.55</td><td>$13.66</td></tr>
+    <tr><td>EBITDA Margin</td><td>39.5%</td><td>45.3%</td><td>43.8%</td></tr>
+    <tr><td>Net Margin</td><td>25.9%</td><td>31.0%</td><td>30.5%</td></tr>
+    <tr><td>FCF</td><td>$2,750</td><td>$3,600</td><td>$4,400</td></tr>
+  </table>
+
+  <div class="exit-metrics">
+    <div style="font-size: 10px; color: #888;">FY28 Exit Valuation (50x P/E)</div>
+    <div class="exit-price">$683.00</div>
+    <div class="exit-upside" style="color: #27ae60;">+268.6% vs Current</div>
+  </div>
+</div>
+
+<!-- BAR CHART -->
+<div class="case-chart">
+  <svg viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background -->
+    <rect width="700" height="250" fill="#fafbfc"/>
+
+    <!-- Axis lines -->
+    <line x1="50" y1="180" x2="650" y2="180" stroke="#ccc" stroke-width="1"/>
+    <line x1="50" y1="30" x2="50" y2="180" stroke="#ccc" stroke-width="1"/>
+
+    <!-- Current price line (dashed) -->
+    <line x1="50" y1="155" x2="650" y2="155" stroke="#d0d0d0" stroke-width="2" stroke-dasharray="5,5"/>
+    <text x="55" y="150" font-size="9" fill="#888" font-weight="500">Current: $185.24</text>
+
+    <!-- Y-axis labels -->
+    <text x="30" y="183" font-size="9" fill="#888" text-anchor="end">$0</text>
+    <text x="30" y="133" font-size="9" fill="#888" text-anchor="end">$250</text>
+    <text x="30" y="83" font-size="9" fill="#888" text-anchor="end">$500</text>
+    <text x="30" y="33" font-size="9" fill="#888" text-anchor="end">$750</text>
+
+    <!-- Scale: $0 at y=180, $700 at y=40, so 1px = $5 -->
+    <!-- Bars - centered, wider spacing -->
+    <!-- Bear Severe: $46 → height = 9.2px -->
+    <rect x="80" y="171" width="70" height="9" fill="#e0e0e0" stroke="#999" stroke-width="1"/>
+    <text x="115" y="165" font-size="11" font-weight="700" text-anchor="middle" fill="#1a1a2e">$46</text>
+
+    <!-- Bear Mild: $131 → height = 26.2px -->
+    <rect x="170" y="154" width="70" height="26" fill="#e0e0e0" stroke="#999" stroke-width="1"/>
+    <text x="205" y="148" font-size="11" font-weight="700" text-anchor="middle" fill="#1a1a2e">$131</text>
+
+    <!-- Base: $263 → height = 52.5px -->
+    <rect x="260" y="127" width="70" height="53" fill="#d0d0d0" stroke="#666" stroke-width="1.5"/>
+    <text x="295" y="121" font-size="11" font-weight="700" text-anchor="middle" fill="#1a1a2e">$263</text>
+
+    <!-- Bull Mild: $391 → height = 78.2px -->
+    <rect x="350" y="102" width="70" height="78" fill="#e0e0e0" stroke="#999" stroke-width="1"/>
+    <text x="385" y="96" font-size="11" font-weight="700" text-anchor="middle" fill="#1a1a2e">$391</text>
+
+    <!-- Bull Severe: $683 → height = 136.6px, capped at chart area -->
+    <rect x="440" y="44" width="70" height="136" fill="#e0e0e0" stroke="#999" stroke-width="1"/>
+    <text x="475" y="38" font-size="11" font-weight="700" text-anchor="middle" fill="#1a1a2e">$683</text>
+
+    <!-- X-axis labels -->
+    <text x="115" y="198" font-size="10" font-weight="600" text-anchor="middle" fill="#1a1a2e">Bear Severe</text>
+
+    <text x="205" y="198" font-size="10" font-weight="600" text-anchor="middle" fill="#1a1a2e">Bear Mild</text>
+
+    <text x="295" y="198" font-size="10" font-weight="600" text-anchor="middle" fill="#1a1a2e">Base Case</text>
+
+    <text x="385" y="198" font-size="10" font-weight="600" text-anchor="middle" fill="#1a1a2e">Bull Mild</text>
+
+    <text x="475" y="198" font-size="10" font-weight="600" text-anchor="middle" fill="#1a1a2e">Bull Severe</text>
+  </svg>
+</div>
+
+<!-- SECTION 9: COMPS -->
+<div class="memo-section">9. Comparable Companies</div>
+
+<div class="prose">
+Based on FactSet data, Coinbase is valued against a peer group of crypto/fintech exchanges, payment processors, and wealth management platforms. Below are the selected financials and valuation multiples.
+</div>
+
+<div class="section-title" style="margin-top: 12px;">Selected Financials</div>
+<table class="data" style="font-size: 9px; margin-top: 6px;">
+  <thead>
+    <tr>
+      <th style="width: 20%;">Company</th>
+      <th>Ticker</th>
+      <th>Price</th>
+      <th>Mkt Cap (M)</th>
+      <th>EV (M)</th>
+      <th>Sales (M)</th>
+      <th>EBIT (M)</th>
+      <th>EBITDA (M)</th>
+      <th>EV/EBIT</th>
+      <th>EV/EBITDA</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="font-weight: 700; background: #f0f0f0;">
+      <td><strong>Coinbase Global</strong></td>
+      <td>COIN-US</td>
+      <td>$182.36</td>
+      <td>$51,816</td>
+      <td>$46,922</td>
+      <td>$7,181</td>
+      <td>$907</td>
+      <td>$1,095</td>
+      <td>51.8x</td>
+      <td>42.9x</td>
+    </tr>
+    <tr>
+      <td>Gemini Space Station A</td>
+      <td>GEMI-US</td>
+      <td>$6.50</td>
+      <td>$817</td>
+      <td>$586</td>
+      <td>$190</td>
+      <td>($388)</td>
+      <td>($356)</td>
+      <td>NM</td>
+      <td>NM</td>
+    </tr>
+    <tr>
+      <td>Bullish</td>
+      <td>BLSH-US</td>
+      <td>$33.12</td>
+      <td>$5,322</td>
+      <td>$5,459</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Exodus Movement A</td>
+      <td>EXOD-US</td>
+      <td>$10.83</td>
+      <td>$354</td>
+      <td>$304</td>
+      <td>$137</td>
+      <td>$15</td>
+      <td>$20</td>
+      <td>20.0x</td>
+      <td>15.5x</td>
+    </tr>
+    <tr>
+      <td>Bitcoin Depot A</td>
+      <td>BTM-US</td>
+      <td>$4.76</td>
+      <td>$62</td>
+      <td>$59</td>
+      <td>$636</td>
+      <td>$58</td>
+      <td>$66</td>
+      <td>1.0x</td>
+      <td>0.9x</td>
+    </tr>
+    <tr>
+      <td>WonderFi Technologies</td>
+      <td>WNDR-CA</td>
+      <td>$0.23</td>
+      <td>$160</td>
+      <td>$138</td>
+      <td>$41</td>
+      <td>($13)</td>
+      <td>($7)</td>
+      <td>NM</td>
+      <td>NM</td>
+    </tr>
+    <tr>
+      <td>Antalpha Platform A</td>
+      <td>ANTA-US</td>
+      <td>$8.44</td>
+      <td>$221</td>
+      <td>$251</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Tectona Ltd</td>
+      <td>TECT-IL</td>
+      <td>$0.89</td>
+      <td>$32</td>
+      <td>$26</td>
+      <td>$3</td>
+      <td>($4)</td>
+      <td>($4)</td>
+      <td>NM</td>
+      <td>NM</td>
+    </tr>
+    <tr style="font-weight: 600; background: #fafbfc; border-top: 1px solid #ddd;">
+      <td>Average</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>24.3x</td>
+      <td>19.8x</td>
+    </tr>
+    <tr style="font-weight: 600; background: #fafbfc;">
+      <td>Median</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>20.0x</td>
+      <td>15.5x</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top: 12px;">Valuation Multiples</div>
+<table class="data" style="font-size: 9px; margin-top: 6px;">
+  <thead>
+    <tr>
+      <th style="width: 20%;">Company</th>
+      <th>Ticker</th>
+      <th>EV ($M)</th>
+      <th>P/E Actual</th>
+      <th>P/E FY1</th>
+      <th>P/E FY2</th>
+      <th>EV/Sales</th>
+      <th>EV/EBIT</th>
+      <th>EV/EBITDA</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="font-weight: 700; background: #f0f0f0;">
+      <td><strong>Coinbase Global</strong></td>
+      <td>COIN-US</td>
+      <td>$46,922</td>
+      <td>41.0x</td>
+      <td>47.7x</td>
+      <td>29.7x</td>
+      <td>6.5x</td>
+      <td>51.8x</td>
+      <td>42.9x</td>
+    </tr>
+    <tr>
+      <td>Gemini Space Station A</td>
+      <td>GEMI-US</td>
+      <td>$586</td>
+      <td>NM</td>
+      <td>NM</td>
+      <td>NM</td>
+      <td>3.1x</td>
+      <td>NM</td>
+      <td>NM</td>
+    </tr>
+    <tr>
+      <td>Bullish</td>
+      <td>BLSH-US</td>
+      <td>$5,459</td>
+      <td>NM</td>
+      <td>56.6x</td>
+      <td>35.4x</td>
+      <td>NM</td>
+      <td>NM</td>
+      <td>NM</td>
+    </tr>
+    <tr>
+      <td>Exodus Movement A</td>
+      <td>EXOD-US</td>
+      <td>$304</td>
+      <td>2.9x</td>
+      <td>9.0x</td>
+      <td>23.0x</td>
+      <td>2.2x</td>
+      <td>20.0x</td>
+      <td>15.5x</td>
+    </tr>
+    <tr>
+      <td>Bitcoin Depot A</td>
+      <td>BTM-US</td>
+      <td>$59</td>
+      <td>5.7x</td>
+      <td>1.9x</td>
+      <td>7.3x</td>
+      <td>0.1x</td>
+      <td>1.0x</td>
+      <td>0.9x</td>
+    </tr>
+    <tr>
+      <td>WonderFi Technologies</td>
+      <td>WNDR-CA</td>
+      <td>$138</td>
+      <td>NM</td>
+      <td>NM</td>
+      <td>NM</td>
+      <td>3.4x</td>
+      <td>NM</td>
+      <td>NM</td>
+    </tr>
+    <tr>
+      <td>Antalpha Platform A</td>
+      <td>ANTA-US</td>
+      <td>$251</td>
+      <td>NM</td>
+      <td>18.6x</td>
+      <td>12.4x</td>
+      <td>NM</td>
+      <td>NM</td>
+      <td>NM</td>
+    </tr>
+    <tr>
+      <td>Tectona Ltd</td>
+      <td>TECT-IL</td>
+      <td>$26</td>
+      <td>NM</td>
+      <td>NM</td>
+      <td>NM</td>
+      <td>8.7x</td>
+      <td>NM</td>
+      <td>NM</td>
+    </tr>
+    <tr style="font-weight: 600; background: #fafbfc; border-top: 1px solid #ddd;">
+      <td>Average</td>
+      <td></td>
+      <td></td>
+      <td>16.5x</td>
+      <td>26.7x</td>
+      <td>21.6x</td>
+      <td>4.0x</td>
+      <td>24.3x</td>
+      <td>19.8x</td>
+    </tr>
+    <tr style="font-weight: 600; background: #fafbfc;">
+      <td>Median</td>
+      <td></td>
+      <td></td>
+      <td>5.7x</td>
+      <td>18.6x</td>
+      <td>23.0x</td>
+      <td>3.2x</td>
+      <td>20.0x</td>
+      <td>15.5x</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="prose" style="margin-top: 12px;">
+<strong>Valuation Commentary:</strong> Coinbase at 51.8x EV/EBIT and 42.9x EV/EBITDA reflects the premium valuation of a high-growth fintech platform. The 6.5x EV/Sales is elevated but justified by 86% gross margins. At the base case of $263 by FY28, the valuation implies 30x terminal P/E, which is reasonable for fast-growing fintech (Shopify, Block trade at 40-60x). Bear cases imply downside to $46-131, reflecting crypto downturn and maturation risk; bull cases imply $391-683, reflecting crypto adoption acceleration and TAM expansion beyond crypto trading. Coinbase remains well-covered with 25+ analysts; the median peer valuation provides benchmark context for repricing risk.
+</div>
+
+<!-- SECTION 10: IS THIS A THEIA INVESTMENT? -->
+<div class="memo-section">10. Is This a Theia Investment?</div>
+
+<div class="verdict">
+<strong>(i) Market Cap Bucket: Large Cap ($48.9B)</strong> <span class="fw-rating weak">Weak</span><br>
+Coinbase sits well outside Theia's sweet spot. The fund targets microcaps (<$1B) and small caps ($1-5B) where information asymmetries are highest and analyst coverage is sparse. At $49B, COIN is covered by 25+ analysts and is actively traded, making it difficult to find durable informational edge.
+</div>
+
+<div class="verdict">
+<strong>(ii) Analyst Coverage: 25+ Analysts</strong> <span class="fw-rating weak">Weak</span><br>
+Heavy institutional coverage reduces the probability that the market is significantly mispricing the stock. The consensus view (OW rating, $244.63 target, implying 32% upside) reflects the bull case broadly. Finding alpha here requires contrarian views on revenue drivers, margin trajectory, or multiple compression/expansion risk that the sell-side is missing.
+</div>
+
+<div class="verdict">
+<strong>(iii) Blockchain / Internet Finance Thesis Alignment</strong> <span class="fw-rating strong">Strong</span><br>
+Direct and tight alignment. Coinbase is literally the leading crypto exchange and stablecoin infrastructure company. A successful blockchain/internet finance thesis requires large-scale crypto adoption and stablecoin payments infrastructure; Coinbase is the most direct pure-play beneficiary. This is not a tangential exposure—it's core.
+</div>
+
+<div class="verdict">
+<strong>(iv) Outcome Dispersion: Wide Dispersion</strong> <span class="fw-rating strong">Strong</span><br>
+Based on the sensitivity analysis and model, the range of plausible outcomes is massive. Bear severe case implies ~$46 (-75%), base case $262 (+42%), bull severe case $683 (+269%). This is a reflection of crypto cyclicality (highly binary outcomes depending on regulatory clarity and adoption rates) combined with multiple new business lines (Everything Exchange, stablecoins, derivatives) that are unproven at scale. The outcome dispersion is genuinely wide, which is typically favorable for Theia (more mispricing potential).
+</div>
+
+<div class="prose" style="margin-top: 12px; padding: 10px 14px; background: #f4f6f9; border-left: 4px solid #1a1a2e;">
+<strong>Investment Thesis Summary for Theia:</strong><br><br>
+Theia seeks small cap companies that aren't well covered and are strongly aligned on core internet finance thesis with wide outcome dispersion.<br><br>
+<strong>Verdict: Maybe — Core Thesis Alignment with Wide Outcome Dispersion, But Market Cap & Coverage Are Headwinds</strong><br><br>
+The bull case for Coinbase is compelling: regulatory clarity accelerating, USDC adoption scaling, Everything Exchange opening TAM, derivatives momentum. The bear case is also material: crypto could enter prolonged downturn, competition from Robinhood and traditional finance intensifies, take rate compression continues. This wide dispersion of outcomes means the stock could see significant repricing if sentiment shifts or new information emerges. However, at $49B market cap with 25+ analysts covering, this is a well-researched name where the market has already priced in much of the upside/downside. Better suited as a benchmark/tracking position or opportunistic entry on significant price dislocations (e.g., crypto crash) than a core Theia holding. Ideal scenario for Theia ownership: A sustained crypto winter takes COIN to $80-100, at which point the Everything Exchange and regulatory tailwinds create a 3-5x opportunity. In that scenario, Theia could buy into a dislocated market and ride the recovery. For now, monitor the stock, but focus alpha-hunting energy on smaller-cap fintech and blockchain plays where the market is more fragmented.
+</div>
+
+<div class="source-note" style="margin-top: 24px;">This Theia Equity Research Memo was prepared on March 4, 2026 using FactSet financial data, Q4 2025 earnings call transcripts, and publicly available information. All forward-looking statements are subject to risks including regulatory changes, competitive dynamics, and crypto market cyclicality. Not investment advice.</div>
+
+<!-- SECTION 11: APPENDIX — PYTHON CODE -->
+<div class="appendix">
+  <div class="memo-section">11. Appendix — Python Code for Model & Sensitivity Generation</div>
+
+  <div style="margin-bottom: 12px;">
+    <strong>A. Sensitivity Table Generator</strong>
+    <div class="prose" style="margin-top: 6px;">Parameterized function to generate sensitivity tables for any business driver pair:</div>
+  </div>
+
+  <div class="code-block"><code>import pandas as pd
+import numpy as np
+
+def sensitivity_table(driver1_name, driver1_values, driver1_unit,
+                      driver2_name, driver2_values, driver2_unit,
+                      formula_func, output_unit="$M"):
+    """
+    Generate a sensitivity table for two business drivers.
+
+    Args:
+        driver1_name: Name of first driver (e.g., "Trading Volume")
+        driver1_values: List of values for rows [200, 300, 400, 500, 600]
+        driver1_unit: Unit label for driver1 (e.g., "$B")
+        driver2_name: Name of second driver (e.g., "Take Rate")
+        driver2_values: List of values for columns [70, 85, 100, 115, 130]
+        driver2_unit: Unit label for driver2 (e.g., "bps")
+        formula_func: Function that takes (driver1, driver2) and returns output
+        output_unit: Unit for output (default "$M")
+
+    Returns:
+        pandas DataFrame with sensitivity table
+    """
+
+    # Build matrix
+    matrix = np.zeros((len(driver1_values), len(driver2_values)))
+
+    for i, d1 in enumerate(driver1_values):
+        for j, d2 in enumerate(driver2_values):
+            matrix[i, j] = formula_func(d1, d2)
+
+    # Create DataFrame
+    df = pd.DataFrame(
+        matrix,
+        index=[f"{v}{driver1_unit}" for v in driver1_values],
+        columns=[f"{v}{driver2_unit}" for v in driver2_values]
+    )
+
+    # Format with commas
+    df = df.applymap(lambda x: f"${x:,.0f}")
+
+    return df
+
+
+# Example: Consumer Trading Revenue Sensitivity
+# Formula: Volume ($B) * Take Rate (bps) / 10,000 = Revenue ($M)
+def consumer_revenue_formula(volume_b, take_rate_bps):
+    return (volume_b * take_rate_bps / 10_000) * 1_000  # Convert to $M
+
+trading_volumes = [200, 300, 400, 500, 600]
+take_rates = [70, 85, 100, 115, 130]
+
+consumer_sensitivity = sensitivity_table(
+    driver1_name="Trading Volume",
+    driver1_values=trading_volumes,
+    driver1_unit="B",
+    driver2_name="Blended Retail Take Rate",
+    driver2_values=take_rates,
+    driver2_unit=" bps",
+    formula_func=consumer_revenue_formula,
+    output_unit="$M"
+)
+
+print("Consumer Trading Revenue Sensitivity:")
+print(consumer_sensitivity)
+
+
+# Example: Stablecoin Revenue Sensitivity
+# Formula: USDC Market Cap ($B) * Fed Rate (%) * 60% revenue share / 100 = Revenue ($M)
+def stablecoin_revenue_formula(usdc_cap_b, fed_rate_pct):
+    return (usdc_cap_b * fed_rate_pct * 0.60 / 100) * 1_000
+
+usdc_caps = [40, 56, 75, 100]
+fed_rates = [2.5, 3.25, 4.0, 4.75, 5.5]
+
+stablecoin_sensitivity = sensitivity_table(
+    driver1_name="USDC Market Cap",
+    driver1_values=usdc_caps,
+    driver1_unit="B",
+    driver2_name="Fed Funds Rate",
+    driver2_values=fed_rates,
+    driver2_unit="%",
+    formula_func=stablecoin_revenue_formula,
+    output_unit="$M"
+)
+
+print("\nStablecoin Revenue Sensitivity:")
+print(stablecoin_sensitivity)
+</code></div>
+
+  <div style="margin-bottom: 12px; margin-top: 16px;">
+    <strong>B. 5-Case Model Generator</strong>
+    <div class="prose" style="margin-top: 6px;">Build financial projections across five scenarios with key driver assumptions:</div>
+  </div>
+
+  <div class="code-block"><code>def project_financials(case_name, case_desc, drivers, years=[2026, 2027, 2028]):
+    """
+    Project financial statements for a given case scenario.
+
+    Args:
+        case_name: Name of case (e.g., "Base Case")
+        case_desc: Description of case assumptions
+        drivers: Dict with keys: trading_volume_b, take_rate_bps, usdc_cap_b,
+                 fed_rate_pct, gross_margin_pct, opex_base_m, opex_growth
+        years: List of fiscal years to project
+
+    Returns:
+        Dict with P&L projections for each year
+    """
+
+    results = {}
+
+    for year_idx, year in enumerate(years):
+        # Extract drivers
+        vol_b = drivers['trading_volume_b'][year_idx]
+        take_rate = drivers['take_rate_bps'][year_idx] / 10_000
+        usdc_cap = drivers['usdc_cap_b'][year_idx]
+        fed_rate = drivers['fed_rate_pct'][year_idx] / 100
+        gm_pct = drivers['gross_margin_pct'][year_idx] / 100
+
+        # Consumer trading revenue
+        consumer_trading = vol_b * take_rate * 1_000  # $B to $M
+
+        # Stablecoin revenue
+        stablecoin = usdc_cap * fed_rate * 0.60 * 1_000
+
+        # Other revenue (estimated at % of consumer trading)
+        other_revenue = consumer_trading * 0.35
+
+        # Total Revenue
+        revenue = consumer_trading + stablecoin + other_revenue
+
+        # Gross Profit
+        gross_profit = revenue * gm_pct
+
+        # OpEx (base year 2026 = $3,560M, grows 5% + variable)
+        if year_idx == 0:
+            opex = drivers.get('opex_2026_m', 3_560)
+        else:
+            prev_opex = results[years[year_idx - 1]]['OpEx']
+            opex = prev_opex * (1 + 0.05)  # 5% growth
+
+        # EBITDA
+        ebitda = gross_profit - opex
+        ebitda_margin = ebitda / revenue if revenue > 0 else 0
+
+        # D&A
+        da = 220  # Fixed D&A
+
+        # EBIT
+        ebit = ebitda - da
+
+        # Interest
+        interest = 200
+
+        # EBT
+        ebt = ebit - interest
+
+        # Tax
+        tax = ebt * 0.25
+
+        # Net Income
+        net_income = ebt - tax
+
+        # EPS (290M diluted shares)
+        eps = net_income / 290
+
+        # Net Margin
+        net_margin = net_income / revenue if revenue > 0 else 0
+
+        # Store results
+        results[year] = {
+            'Revenue': revenue,
+            'Gross Profit': gross_profit,
+            'OpEx': opex,
+            'EBITDA': ebitda,
+            'EBITDA Margin': ebitda_margin,
+            'D&A': da,
+            'EBIT': ebit,
+            'Interest': interest,
+            'EBT': ebt,
+            'Tax': tax,
+            'Net Income': net_income,
+            'Net Margin': net_margin,
+            'EPS (Diluted)': eps
+        }
+
+    return {
+        'case_name': case_name,
+        'case_desc': case_desc,
+        'results': results
+    }
+
+
+# Define five case scenarios
+case_definitions = {
+    'Bear Severe': {
+        'trading_volume_b': [250, 280, 300],
+        'take_rate_bps': [75, 75, 75],
+        'usdc_cap_b': [40, 42, 45],
+        'fed_rate_pct': [2.75, 2.75, 2.75],
+        'gross_margin_pct': [86, 86, 80]
+    },
+    'Bear Mild': {
+        'trading_volume_b': [420, 520, 650],
+        'take_rate_bps': [90, 90, 90],
+        'usdc_cap_b': [50, 55, 60],
+        'fed_rate_pct': [3.5, 3.5, 3.5],
+        'gross_margin_pct': [86, 86, 80]
+    },
+    'Base Case': {
+        'trading_volume_b': [600, 750, 900],
+        'take_rate_bps': [100, 100, 100],
+        'usdc_cap_b': [75, 85, 95],
+        'fed_rate_pct': [4.0, 4.0, 4.0],
+        'gross_margin_pct': [86, 86, 80]
+    },
+    'Bull Mild': {
+        'trading_volume_b': [800, 950, 1100],
+        'take_rate_bps': [105, 105, 105],
+        'usdc_cap_b': [100, 120, 140],
+        'fed_rate_pct': [4.75, 4.75, 4.75],
+        'gross_margin_pct': [86, 86, 80]
+    },
+    'Bull Severe': {
+        'trading_volume_b': [1000, 1250, 1500],
+        'take_rate_bps': [115, 115, 115],
+        'usdc_cap_b': [150, 175, 200],
+        'fed_rate_pct': [5.0, 5.0, 5.0],
+        'gross_margin_pct': [86, 86, 80]
+    }
+}
+
+# Generate projections for all cases
+all_cases = {}
+for case_name, drivers in case_definitions.items():
+    all_cases[case_name] = project_financials(case_name, "", drivers)
+
+# Print summary
+for case_name, case_data in all_cases.items():
+    print(f"\n{case_name}:")
+    for year, metrics in case_data['results'].items():
+        print(f"  {year}: Revenue ${metrics['Revenue']:,.0f}M, EPS ${metrics['EPS (Diluted)']:.2f}")
+</code></div>
+
+</div>
+
+</body>
+</html>
