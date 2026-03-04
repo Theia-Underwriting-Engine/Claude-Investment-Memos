@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=816px">
+<title>Upstart Holdings | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', Arial, sans-serif; background: #fff; color: #1a1a2e; width: 816px; margin: 0 auto; padding: 32px 40px; font-size: 11px; line-height: 1.45; }
+.title-bar { font-size: 20px; font-weight: 700; letter-spacing: -0.4px; color: #1a1a2e; border-bottom: 3px solid #1a1a2e; padding-bottom: 10px; margin-bottom: 20px; text-align: center; }
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 28px 0 10px 0; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+table.ev tr.indent td:first-child { padding-left: 12px; font-size: 9.5px; color: #777; }
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; border: 1px solid #eee; border-radius: 3px; }
+.val-grid .val-cell { padding: 5px 6px; border-right: 1px solid #eee; border-bottom: 1px solid #eee; }
+.val-grid .val-cell:nth-child(6), .val-grid .val-cell:nth-child(12) { border-right: none; }
+.val-grid .val-cell:nth-child(7), .val-grid .val-cell:nth-child(8), .val-grid .val-cell:nth-child(9), .val-grid .val-cell:nth-child(10), .val-grid .val-cell:nth-child(11), .val-grid .val-cell:nth-child(12) { border-bottom: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+.prose { font-size: 11px; line-height: 1.65; color: #333; margin-bottom: 8px; }
+.fw-item { margin-bottom: 7px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+.fw-summary { margin-top: 8px; padding: 6px 10px; background: #f4f6f9; border-left: 3px solid #1a1a2e; font-size: 10.5px; font-style: italic; color: #444; }
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; border: 1px solid #e0e0e0; }
+table.sensitivity th:first-child { text-align: left; }
+table.sensitivity td { text-align: center; padding: 3px 6px; border: 1px solid #f0f0f0; }
+table.sensitivity td:first-child { text-align: left; font-weight: 600; background: #f4f6f9; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; color: #1a1a2e; }
+.sens-title { font-size: 10px; font-weight: 700; margin: 14px 0 2px 0; color: #1a1a2e; }
+.sens-current { font-size: 9px; color: #888; margin-bottom: 4px; font-style: italic; }
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 14px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 8px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 700; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0 4px 0; }
+.case-block table.scenario-mini th { text-align: right; font-weight: 600; color: #888; padding: 2px 5px; border-bottom: 1px solid #ddd; font-size: 8.5px; }
+.case-block table.scenario-mini th:first-child { text-align: left; }
+.case-block table.scenario-mini td { padding: 2px 5px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #f5f5f5; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 7px; margin-top: 6px; display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+.case-block .exit-price { font-size: 15px; font-weight: 700; color: #1a1a2e; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; color: #555; }
+.case-chart { margin-top: 16px; padding: 12px 12px 4px 12px; background: #f9f9f9; border-radius: 4px; border: 1px solid #eee; }
+.case-chart svg { width: 100%; height: auto; }
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 10px 0; font-size: 11px; line-height: 1.6; }
+.screen-item { margin-bottom: 10px; }
+.screen-item .screen-label { font-weight: 700; }
+.screen-item .screen-detail { color: #444; margin-top: 2px; font-size: 10.5px; line-height: 1.5; }
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 8.5px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+.neg { color: #c0392b; }
+.cases-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.num-list { padding-left: 0; list-style: none; }
+.num-list li { margin-bottom: 6px; padding-left: 0; }
+.num-list li strong { color: #1a1a2e; }
+table.comps { font-size: 9.5px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 7px; border-bottom: 1.5px solid #ddd; white-space: nowrap; }
+table.comps th:first-child { text-align: left; }
+table.comps td { text-align: right; padding: 2px 7px; }
+table.comps td:first-child { text-align: left; font-weight: 400; color: #333; white-space: nowrap; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-weight: 600; background: #fafbfc; border-top: 1px solid #eee; font-style: italic; }
+table.comps tr:nth-child(even):not(.subject):not(.stat-row) { background: #fafbfc; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Upstart Holdings, Inc. | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="prose">
+Upstart Holdings, Inc. (UPST) is an AI-powered consumer lending marketplace founded in 2012 and headquartered in San Mateo, CA. Co-founded by Dave Girouard (CEO, ex-Google), the company's core thesis is that traditional FICO-based credit underwriting is a blunt instrument that simultaneously rejects creditworthy borrowers and approves ones who will default — and that a machine-learning model trained on hundreds of non-traditional variables can dramatically outperform it. The platform connects consumers seeking personal, auto, home equity, and small-dollar loans with a network of 100+ bank and credit union lending partners, as well as institutional capital, earning fees at origination and on an ongoing servicing basis.
+</div>
+<div class="prose">
+Upstart does not primarily lend its own capital — it is a fee-based marketplace that generated $950M in fee revenue on $11.0B of loan originations in FY2025 (a blended take rate of ~8.6%). The AI model currently incorporates over 2,500 variables and is trained on ~104 million repayment events, generating approximately 105,000 new training data points per day. The company's 2025 internal study found its model approves 43% more borrowers at 33% lower average APR than FICO-based underwriting — the core value proposition for both borrowers and lenders. After two difficult years (FY2022–2023) caused by a sharp deterioration in institutional funding, EBITDA turned positive in 2024 and reached $230M on an adjusted basis in FY2025, with management expressing high confidence in a "very strong 2026" driven by new product commercialization (auto, HELOC) and conversion rate improvements from AI model upgrades.
+</div>
+<div class="prose">
+<strong>Headquarters:</strong> San Mateo, CA &nbsp;|&nbsp; <strong>CEO:</strong> Dave Girouard (co-founder) &nbsp;|&nbsp; <strong>CTO:</strong> Paul Gu (co-founder) &nbsp;|&nbsp; <strong>CFO:</strong> Sanjay Datta &nbsp;|&nbsp; <strong>Employees:</strong> ~1,400 &nbsp;|&nbsp; <strong>Founded:</strong> 2012 &nbsp;|&nbsp; <strong>IPO:</strong> Dec 2020 (Nasdaq: UPST)
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Financial Summary</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="header">
+  <div><h1>Upstart Holdings, Inc.</h1><span class="ticker">UPST · Nasdaq · CUSIP 91680M107</span></div>
+  <div class="date">As of Mar 3, 2026 &nbsp;|&nbsp; Source: FactSet</div>
+</div>
+
+<div class="price-bar">
+  <span class="price">$28.24</span>
+  <span class="label">52-Wk:</span><span>$25.60 – $87.30</span>
+  <span class="label">% of High:</span><span>32.4%</span>
+  <span class="label">1M</span><span class="chg">▼ 24.6%</span>
+  <span class="label">3M</span><span class="chg">▼ 39.3%</span>
+  <span class="label">6M</span><span class="chg">▼ 56.6%</span>
+  <span class="label">YTD</span><span class="chg">▼ 34.6%</span>
+  <span class="label">1Y</span><span class="chg">▼ 51.7%</span>
+</div>
+
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv">
+      <tr><td>Ticker / Exchange</td><td>UPST / Nasdaq</td></tr>
+      <tr><td>Previous Close</td><td>$28.24</td></tr>
+      <tr><td>Volume (last session)</td><td>5.38M shares</td></tr>
+      <tr><td>30D Avg Daily Vol</td><td>5.54M shares</td></tr>
+      <tr><td>Float (%)</td><td>87.1%</td></tr>
+      <tr><td>Short Interest</td><td>27.5% of float / 3.2 days</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev">
+      <tr><td>Price (Mar 3, 2026)</td><td>$28.24</td></tr>
+      <tr><td>Basic Shares (Common Stock)</td><td>98.06M</td></tr>
+      <tr><td>Market Cap</td><td>$2,769M</td></tr>
+      <tr><td>+ Stock Comp (diluted)</td><td>3.95M shs → $112M</td></tr>
+      <tr><td>Fully Diluted Market Cap</td><td>$2,881M</td></tr>
+      <tr><td>+ Consolidated Debt</td><td>$1,829M</td></tr>
+      <tr><td>– Cash &amp; Equivalents</td><td>($1,057M)</td></tr>
+      <tr class="total"><td>Enterprise Value</td><td>$3,653M</td></tr>
+    </table>
+    <div style="font-size:8px;color:#aaa;margin-top:3px;">Millions USD. Source: FactSet.</div>
+  </div>
+</div>
+
+<div class="section-title" style="margin-top:14px;">Current Valuation</div>
+<div class="val-grid">
+  <div class="val-cell"><div class="val-label">Mkt Cap</div><div class="val-num">$2,769M</div></div>
+  <div class="val-cell"><div class="val-label">Enterprise Value</div><div class="val-num">$3,653M</div></div>
+  <div class="val-cell"><div class="val-label">P/E (LTM)</div><div class="val-num">65.7x</div></div>
+  <div class="val-cell"><div class="val-label">EV/EBITDA (LTM)</div><div class="val-num">54.1x</div></div>
+  <div class="val-cell"><div class="val-label">EV/Sales (LTM)</div><div class="val-num">3.50x</div></div>
+  <div class="val-cell"><div class="val-label">P/S (LTM)</div><div class="val-num">3.04x</div></div>
+  <div class="val-cell"><div class="val-label">FD Mkt Cap</div><div class="val-num">$2,881M</div></div>
+  <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">10.56%</div></div>
+  <div class="val-cell"><div class="val-label">Beta (3Y Adj.)</div><div class="val-num">2.96</div></div>
+  <div class="val-cell"><div class="val-label">Avg Rating</div><div class="val-num">OW</div><div class="val-sub">1.67 / 16 brokers</div></div>
+  <div class="val-cell"><div class="val-label">Target Price</div><div class="val-num">$48.19</div><div class="val-sub">+71% upside</div></div>
+  <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num" style="font-size:10px;">May 12, 2026</div><div class="val-sub">Q1 2026E Rev: $299M</div></div>
+</div>
+
+<div class="section-title">Valuation Multiples</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th style="text-align:left;"></th>
+      <th>5Yr Avg</th>
+      <th>Dec '23</th>
+      <th>Dec '24</th>
+      <th>Dec '25</th>
+      <th class="est">Dec '26E</th>
+      <th class="est">Dec '27E</th>
+      <th class="est">Dec '28E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="8">Price Multiples</td></tr>
+    <tr><td>Price / Earnings</td><td>40.5x</td><td>NM</td><td>NM</td><td>96.5x</td><td class="est">13.8x</td><td class="est">9.6x</td><td class="est">6.6x</td></tr>
+    <tr><td>Price / Sales</td><td>7.6x</td><td>6.7x</td><td>8.7x</td><td>4.5x</td><td class="est">2.0x</td><td class="est">1.5x</td><td class="est">1.2x</td></tr>
+    <tr><td>Price / Book Value</td><td>7.5x</td><td>5.6x</td><td>9.1x</td><td>5.4x</td><td class="est">3.1x</td><td class="est">2.5x</td><td class="est">1.9x</td></tr>
+    <tr class="section-row"><td colspan="8">EV Multiples</td></tr>
+    <tr><td>EV / Sales</td><td>8.8x</td><td>9.1x</td><td>11.0x</td><td>5.1x</td><td class="est">2.6x</td><td class="est">2.0x</td><td class="est">1.6x</td></tr>
+    <tr><td>EV / EBITDA</td><td>18.5x</td><td>NM</td><td>NM</td><td>79.3x</td><td class="est">12.0x</td><td class="est">8.3x</td><td class="est">6.3x</td></tr>
+    <tr><td>EV / EBIT</td><td>30.7x</td><td>NM</td><td>NM</td><td>125.5x</td><td class="est">29.0x</td><td class="est">14.4x</td><td class="est">10.2x</td></tr>
+  </tbody>
+</table>
+
+<div class="two-col" style="margin-top:12px;">
+  <div>
+    <div class="section-title">Revenue Exposure — Business Unit (FY2025)</div>
+    <table class="rev">
+      <thead><tr><th style="text-align:left;">Segment</th><th>% of Rev</th><th>Revenue ($M)</th><th>YoY Chg</th></tr></thead>
+      <tbody>
+        <tr><td>Fee Revenue</td><td>91.0%</td><td>$950</td><td>+49.5%</td></tr>
+        <tr><td>Net Interest Income</td><td>9.0%</td><td>$94</td><td>—</td></tr>
+        <tr style="font-weight:700;border-top:1px solid #ddd;"><td>Total</td><td>100%</td><td>$1,044</td><td>+64.0%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Revenue Exposure — Geography (FY2025)</div>
+    <table class="rev">
+      <thead><tr><th style="text-align:left;">Geography</th><th>% of Rev</th><th>Revenue ($M)</th><th>YoY Chg</th></tr></thead>
+      <tbody>
+        <tr><td>United States</td><td>100%</td><td>$1,044</td><td>+64.0%</td></tr>
+        <tr><td>International</td><td>—</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="section-title" style="margin-top:12px;">Financials (USD Millions, except EPS)</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th style="text-align:left;"></th>
+      <th>5Yr CAGR</th>
+      <th>Dec '23</th>
+      <th>Dec '24</th>
+      <th>Dec '25</th>
+      <th class="est">Dec '26E</th>
+      <th class="est">Dec '27E</th>
+      <th class="est">Dec '28E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="8">Income Statement</td></tr>
+    <tr><td>Revenue</td><td>34.9%</td><td>$514</td><td>$637</td><td>$1,044</td><td class="est">$1,413</td><td class="est">$1,868</td><td class="est">$2,315</td></tr>
+    <tr><td>Gross Income</td><td>—</td><td>$489</td><td>$616</td><td>$1,019</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>EBITDA</td><td>36.9%</td><td class="neg">($232)</td><td class="neg">($152)</td><td>$67</td><td class="est">$305</td><td class="est">$441</td><td class="est">$575</td></tr>
+    <tr><td>EBIT</td><td>29.4%</td><td class="neg">($257)</td><td class="neg">($173)</td><td>$43</td><td class="est">$126</td><td class="est">$253</td><td class="est">$358</td></tr>
+    <tr><td>Net Income</td><td>55.0%</td><td class="neg">($240)</td><td class="neg">($129)</td><td>$54</td><td class="est">$137</td><td class="est">$250</td><td class="est">$410</td></tr>
+    <tr><td>EPS (Diluted)</td><td>40.9%</td><td class="neg">($2.87)</td><td class="neg">($1.44)</td><td>$0.45</td><td class="est">$1.01</td><td class="est">$1.90</td><td class="est">$2.77</td></tr>
+    <tr class="section-row"><td colspan="8">Balance Sheet</td></tr>
+    <tr><td>Cash &amp; ST Investments</td><td>—</td><td>$468</td><td>$976</td><td>$1,057</td><td class="est">$714</td><td class="est">$874</td><td class="est">$1,692</td></tr>
+    <tr><td>Total Assets</td><td>44.2%</td><td>$2,017</td><td>$2,367</td><td>$2,975</td><td class="est">$3,006</td><td class="est">$3,276</td><td class="est">$3,757</td></tr>
+    <tr><td>Total Liabilities</td><td>—</td><td>$1,382</td><td>$1,734</td><td>$2,176</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Shareholders' Equity</td><td>21.6%</td><td>$635</td><td>$633</td><td>$799</td><td class="est">$1,005</td><td class="est">$1,168</td><td class="est">$1,800</td></tr>
+    <tr class="section-row"><td colspan="8">Cash Flow</td></tr>
+    <tr><td>Net Operating CF</td><td>—</td><td class="neg">($160)</td><td>$186</td><td class="neg">($148)</td><td class="est">$156</td><td class="est">$226</td><td class="est">$452</td></tr>
+    <tr><td>Capital Expenditure</td><td>26.8%</td><td>$12</td><td>$10</td><td>$18</td><td class="est">$4</td><td class="est">$6</td><td class="est">$12</td></tr>
+    <tr><td>Free Cash Flow</td><td>—</td><td class="neg">($162)</td><td>$186</td><td class="neg">($148)</td><td class="est">$152</td><td class="est">$220</td><td class="est">$440</td></tr>
+    <tr class="section-row"><td colspan="8">Margins &amp; Returns</td></tr>
+    <tr><td>Gross Margin</td><td>77.6%</td><td>95.2%</td><td>96.8%</td><td>97.6%</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>EBITDA Margin</td><td>—</td><td class="neg">(45.1%)</td><td class="neg">(23.9%)</td><td>6.5%</td><td class="est">21.6%</td><td class="est">23.6%</td><td class="est">24.8%</td></tr>
+    <tr><td>Operating Margin</td><td>—</td><td class="neg">(50.0%)</td><td class="neg">(27.2%)</td><td>4.1%</td><td class="est">8.9%</td><td class="est">13.6%</td><td class="est">15.4%</td></tr>
+    <tr><td>Net Margin</td><td>—</td><td class="neg">(46.8%)</td><td class="neg">(20.2%)</td><td>5.1%</td><td class="est">9.7%</td><td class="est">13.4%</td><td class="est">17.7%</td></tr>
+    <tr><td>FCF Margin</td><td>—</td><td class="neg">(31.5%)</td><td>29.1%</td><td class="neg">(14.2%)</td><td class="est">10.8%</td><td class="est">11.8%</td><td class="est">19.0%</td></tr>
+    <tr class="section-row"><td colspan="8">Returns &amp; Leverage</td></tr>
+    <tr><td>Return on Equity</td><td>—</td><td class="neg">(36.7%)</td><td class="neg">(20.3%)</td><td>7.5%</td><td class="est">22.4%</td><td class="est">25.9%</td><td class="est">29.4%</td></tr>
+    <tr><td>Total Debt / Equity</td><td>—</td><td>195.8%</td><td>243.2%</td><td>237.5%</td><td class="est">135.2%</td><td class="est">112.3%</td><td class="est">72.0%</td></tr>
+    <tr><td>Interest Coverage</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="est">5.3x</td><td class="est">11.0x</td><td class="est">12.6x</td></tr>
+  </tbody>
+</table>
+<div class="source-note">GAAP/IFRS standardized. Estimates per broker majority. Source: FactSet Fundamentals &amp; Estimates. Note: FY2025 EBITDA/EBIT reflect GAAP basis; Adjusted EBITDA (per 10-K, excl. SBC) was $230.5M. Negative historical EBIT/EBITDA shown as ($ amount); corresponding multiples shown as NM.</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Helmer's 7 Powers</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="fw-item">
+  <span class="fw-name">1. Scale Economies</span><span class="fw-rating moderate">Moderate</span>
+  <div class="prose" style="margin-top:4px;">Upstart's model development costs (engineering, compute, data infrastructure) are largely fixed and spread across an ever-growing origination base — $11.0B in FY2025 vs. $1.3B in FY2020. The cost to underwrite the marginal loan is essentially zero once the model exists. However, the primary value of scale is in data accumulation (see Cornered Resource), not unit cost reduction in the traditional sense. Loan-level variable costs (fraud checks, verification) remain, limiting pure scale economy depth.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Network Effects</span><span class="fw-rating moderate">Moderate</span>
+  <div class="prose" style="margin-top:4px;">Upstart benefits from a data network effect: more loans originated → more repayment events → better models → higher approval rates and lower APRs → more borrowers and lending partners → still more loans. This is a genuine flywheel but operates on a years-long lag rather than instantly. The two-sided marketplace structure (borrowers + lending partners) creates indirect network effects — more lenders compete for the same borrower pool, driving down borrower rates and improving conversion. These are real but weaker than direct social network effects; a smaller competitor can still underwrite loans with reasonable accuracy at modest scale.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Counter-Positioning</span><span class="fw-rating strong">Strong</span>
+  <div class="prose" style="margin-top:4px;">This is arguably Upstart's single most durable advantage. Large banks own vast loan repayment datasets but cannot deploy them in the way Upstart does without: (a) admitting their FICO-based underwriting has been wrong for decades, (b) accepting the pricing and model control that Upstart's architecture requires, and (c) cannibalizing their existing credit card and personal loan businesses. A JPMorgan Chase could not partner with Upstart without funding its own disintermediation — so they don't. Meanwhile, their incumbent credit underwriting continues to "approve the wrong people at the wrong price" by Upstart's framing. The counter-position is structural, not circumstantial.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Switching Costs</span><span class="fw-rating moderate">Moderate</span>
+  <div class="prose" style="margin-top:4px;">Lending partners (banks/CUs) that integrate Upstart's API into their loan origination workflows face meaningful switching costs: re-building or re-integrating a competing underwriting stack, retraining staff, and accepting a period of performance uncertainty during transition. Repeat borrowers on Upstart.com (who have positive credit history with the platform) get systematically better rates on re-application, creating mild borrower lock-in. However, consumers face essentially zero switching cost if they choose to shop elsewhere, and smaller lending partners can exit if performance disappoints.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Branding</span><span class="fw-rating weak">Weak</span>
+  <div class="prose" style="margin-top:4px;">Upstart has built consumer awareness ("Upstart.com" as a lending destination) but does not command significant brand premium or habitual purchasing. Most borrowers reach Upstart through performance marketing, comparison sites (NerdWallet, LendingTree), or bank partner referrals — not brand loyalty. The Upstart brand conveys "AI-powered loan approval" to informed consumers but lacks the broad consumer recognition of a SoFi or even a LendingClub. Branding is not a meaningful competitive moat here.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">6. Cornered Resource</span><span class="fw-rating strong">Strong</span>
+  <div class="prose" style="margin-top:4px;">Upstart's training dataset — ~104 million repayment events, 2,500+ non-traditional variables, and ~30 proprietary ML models — is a genuinely non-replicable asset. A competitor starting today would need 10+ years of origination and repayment history across macro cycles before their model would approach comparable accuracy. Incumbents have loan data but lack the diversity of non-credit variables (employment, income trajectory, cost of living, bank transaction behavior) that Upstart uses. The dataset compounds in value as more loans are originated, and the data generates its own training data — unlike general-purpose AI where data can be licensed. Additionally, the proprietary Upstart Macro Index (UMI), calibrated in real-time, represents an institutional knowledge resource that cannot be bought or copied quickly.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">7. Process Power</span><span class="fw-rating strong">Strong</span>
+  <div class="prose" style="margin-top:4px;">Over 13 years, Upstart has built an organizational machine for AI-driven credit: 60% of engineers weekly active on LLM-powered development tools, 700+ custom internal GPTs, a culture that continuously deploys model improvements (Model 22 as of Q2 2025 vs. Model 1 in 2012), and a process for spinning up new product categories (auto, HELOC) by training foundational credit models on cross-category data. The ability to take HELOC automated approvals from &lt;1% to ~20% in four months, and to reduce end-to-end loan pricing latency by 30% via parallelization, reflects embedded organizational capability that cannot be replicated by hiring or acquiring. This is a process organization built around AI iteration, not a technology that can be licensed.</div>
+</div>
+
+<div class="fw-summary">The strongest moats are <strong>Counter-Positioning</strong> (incumbents rationally cannot copy the model), <strong>Cornered Resource</strong> (104M repayment events + 2,500 non-traditional variables = years of irreplicable training data), and <strong>Process Power</strong> (organizational machine for continuous AI improvement). The data flywheel creates a secondary Network Effect, but the primary moat is structural competitive positioning rather than network lock-in.</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Porter's 5 Forces</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="fw-item">
+  <span class="fw-name">1. Threat of New Entrants</span><span class="fw-rating moderate">Moderate</span>
+  <div class="prose" style="margin-top:4px;">Building an AI lending marketplace requires no physical capital, which lowers entry barriers structurally. However, acquiring lending partner relationships (banks/CUs require regulatory comfort, performance track records, and integration investment), building compliant consumer acquisition channels, and — critically — accumulating enough repayment data to train accurate models each require years and tens of millions of dollars. A well-funded startup could enter personal lending, but matching Upstart's 104M-event training set and 100+ lending partner network would take a decade under favorable conditions. Regulatory scrutiny of AI lending models (fair lending, CFPB oversight) further raises the bar.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Bargaining Power of Suppliers (Capital &amp; Funding)</span><span class="fw-rating high">High</span>
+  <div class="prose" style="margin-top:4px;">Upstart's "suppliers" are its capital providers — bank/CU lending partners and institutional investors who purchase or fund the loans originated on the platform. In 2022, when institutional funding tightened dramatically amid rate hikes, Upstart's revenue collapsed 67% YoY — the defining illustration of funding supplier power. Concentration remains a risk: the top 3 lending partners accounted for 83% of loans originated and 61% of total revenue in FY2025. Management has worked to mitigate this through committed capital arrangements (&gt;50% of platform funding now committed, 100% retention of private credit partners, September 2025 ABS oversubscribed), but concentration risk remains elevated. Funding is the single largest structural vulnerability for the business model.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Bargaining Power of Buyers (Borrowers)</span><span class="fw-rating moderate">Moderate</span>
+  <div class="prose" style="margin-top:4px;">Consumers face almost zero switching costs and have full price transparency through comparison sites. However, Upstart's model genuinely delivers lower rates for a meaningful cohort (43% more approvals, 33% lower APR than FICO alternatives) — borrowers who would have been rejected elsewhere don't have an equivalent alternative, dampening their bargaining power. For super-prime borrowers who could get comparable rates from SoFi or LendingClub, Upstart competes on rate and UX, not lock-in. On net, the borrower side is moderately competitive but not structurally adverse since Upstart's value prop is differentiated rate pricing.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Threat of Substitutes</span><span class="fw-rating high">High</span>
+  <div class="prose" style="margin-top:4px;">Personal loans are a commoditized product structurally. Credit cards, BNPL, home equity withdrawal, 401(k) loans, personal loans from banks, and marketplace lenders are all substitutes for the Upstart personal loan. For debt consolidation (the primary use case), a balance transfer credit card is a near-perfect substitute. The substitute threat is somewhat mitigated for borrowers who don't qualify elsewhere (Upstart's AI-approved "near prime" cohort), but for the large swath of prime borrowers, alternative sources of capital are readily available and often equally priced.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Competitive Rivalry</span><span class="fw-rating high">High</span>
+  <div class="prose" style="margin-top:4px;">The U.S. consumer lending market is intensely competitive. LendingClub, SoFi, Avant, Prosper, and dozens of bank/CU direct-origination programs compete for the same personal loan borrowers. SoFi benefits from a banking license and low-cost deposit funding; LendingClub has its own bank charter. In Q3 2025, both LendingClub and SoFi reportedly grew origination volumes while Upstart's model tightened due to UMI signals — a real-world illustration of competitive dynamics. In auto (Upstart's emerging vertical), DriveTime, Capital One Auto, and dealer-embedded financing compete. Rivalry is high across all product categories and is unlikely to diminish as the market grows.</div>
+</div>
+
+<div class="fw-summary">The competitive environment is <strong>challenging</strong>: funding supplier concentration is a genuine existential risk demonstrated by history (2022), substitute products are ubiquitous, and rivalry is intense. The company is somewhat insulated by its counter-positioning and data moat, but neither eliminates the need to continuously outperform on model accuracy to justify the lending partner ecosystem's continued participation.</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">5. What Drives the Stock?</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<ol class="num-list">
+  <li><strong>1. Loan Origination Volume / Transaction Volume ($B)</strong><br><span class="prose">The single most-watched metric. FY2025 volume was $11.0B (+86% YoY); consensus calls for ~$16–17B in FY2026. Each $1B of volume at a blended 8.6% take rate = ~$86M of incremental fee revenue. Volume is the product of: (a) rate inquiries, (b) conversion rate, and (c) average loan size. Any quarter where volume misses — as it did in Q3 2025 when UMI rose and conversion fell from 23.9% to 20.6% — triggers severe stock reactions due to the high operating leverage embedded in the fee-based model.</span></li>
+  <li><strong>2. Conversion Rate (Rate Inquiries → Funded Loans)</strong><br><span class="prose">The conversion rate is the most model-sensitive metric and the primary bear/bull toggle. At 23.9% in Q2 2025, Upstart beat estimates significantly; at 20.6% in Q3, the miss was sudden and model-driven (UMI tightening). Bullish scenario: Model 22 improvements + marketing AI driving conversion toward 25%+. Bearish scenario: macro deterioration pushes UMI above 1.5, collapsing conversion to sub-15% (as occurred in 2022). This is the metric to watch every quarter.</span></li>
+  <li><strong>3. New Product Commercialization (Auto and HELOC)</strong><br><span class="prose">Auto + HELOC + small dollar are collectively ~12% of originations today but 300%+ YoY growth. If auto retail reaches meaningful scale (~$1B+ quarterly) and HELOC automation reaches personal-loan-level efficiency (currently scaling from &lt;1% to 20% automated approvals in 4 months), total addressable origination volume could be 5–10x current levels. Management called auto "a contributor in 2026." Third-party capital deals for new products are the enabling catalyst — if they close on schedule, balance sheet constraints lift and new product scaling can accelerate. Quarterly new product origination share is the key tracking metric.</span></li>
+  <li><strong>4. Take Rate &amp; Contribution Margin</strong><br><span class="prose">Management deliberately moderated take rates beginning Q4 2025 (contribution margin guided to 53% vs. 57–58% prior quarters) to invest in origination volume and customer lifetime value. This is a lever they can pull in either direction. Bulls see this as rational volume investment; bears see margin compression. The blended take rate (fee revenue / transaction volume) has been ~8.5–9.0% historically; any sustained compression below 8% would indicate competitive pricing pressure and would be a negative signal.</span></li>
+  <li><strong>5. Funding Mix and Balance Sheet Normalization</strong><br><span class="prose">Upstart held ~$1.2B of loans on its own balance sheet in Q3 2025 (primarily R&D-stage new product loans), representing significant capital consumption and credit risk. Management's guidance to close third-party capital deals for auto and HELOC would release this capital, improve FCF, and remove the structural risk of credit losses from new, immature product models. Investors will track: (a) timing of committed capital deal announcements for new products, and (b) trajectory of loans held on balance sheet. If balance sheet grows further without offsetting third-party deals, it signals funding challenges and elevates credit risk.</span></li>
+  <li><strong>6. Macro / Credit Conditions (UMI)</strong><br><span class="prose">Upstart's Upstart Macro Index (UMI = 1.39 as of Dec 31, 2025) is the company's proprietary real-time macro calibration metric. A UMI of 1.39 means macro adds ~39% incremental credit risk vs. baseline. When UMI rises, the model tightens automatically — conversion falls, volume misses, stock gets punished. A declining UMI (improving credit conditions) is the largest potential bull catalyst; CEO Girouard noted that improving repayment speeds and easing consumption growth could signal "a long-anticipated tailwind." Rate cuts from the Fed are also unambiguously positive: lower consumer borrowing costs, improved conversion, lower investor return requirements.</span></li>
+</ol>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Business?</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="prose">Upstart's revenue is almost entirely driven by two fee streams that compound off a single origination flywheel: origination fees (a flow) and servicing fees (a growing stock). Below is the full revenue decomposition to fundamental drivers.</div>
+
+<table class="data" style="margin-top:8px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Revenue Line</th>
+      <th style="text-align:left;">Driver Formula</th>
+      <th>FY2025 Actual</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="3">Fee Revenue ($950M | 91% of Total)</td></tr>
+    <tr>
+      <td>Origination Fees (primary)</td>
+      <td style="text-align:left;font-weight:400;">Rate Inquiries × Conversion Rate × Avg Loan Size × Origination Fee Rate (%)</td>
+      <td>~$780M (est.)</td>
+    </tr>
+    <tr>
+      <td>Servicing Fees (growing stock)</td>
+      <td style="text-align:left;font-weight:400;">Outstanding UPB × Annual Servicing Fee Rate (~1.0–1.5%)</td>
+      <td>~$170M (est.)</td>
+    </tr>
+    <tr class="section-row"><td colspan="3">Net Interest Income ($94M | 9% of Total — declining)</td></tr>
+    <tr>
+      <td>NII on Balance Sheet Loans</td>
+      <td style="text-align:left;font-weight:400;">Avg Balance Sheet Loans ($B) × Net Yield (%) above funding cost</td>
+      <td>~$94M (guided)</td>
+    </tr>
+    <tr class="section-row"><td colspan="3">Full Decomposition: Origination Fee Revenue</td></tr>
+    <tr>
+      <td style="padding-left:12px;">Rate Inquiries (annual)</td>
+      <td style="text-align:left;font-weight:400;">Organic search + paid marketing + lending partner referrals + repeat borrowers</td>
+      <td>~7.7M/yr</td>
+    </tr>
+    <tr>
+      <td style="padding-left:12px;">× Conversion Rate</td>
+      <td style="text-align:left;font-weight:400;">AI model approval rate × applicant acceptance rate (borrower says yes to offered terms)</td>
+      <td>19.4%</td>
+    </tr>
+    <tr>
+      <td style="padding-left:12px;">= Loans Originated (#)</td>
+      <td style="text-align:left;font-weight:400;"></td>
+      <td>1,497,149</td>
+    </tr>
+    <tr>
+      <td style="padding-left:12px;">× Average Loan Size</td>
+      <td style="text-align:left;font-weight:400;">Mix of personal (~$6,500–8,000), auto ($25,000–40,000), HELOC ($55,000–60,000), small dollar ($300–1,500)</td>
+      <td>~$7,350</td>
+    </tr>
+    <tr>
+      <td style="padding-left:12px;">= Transaction Volume ($)</td>
+      <td style="text-align:left;font-weight:400;"></td>
+      <td>$11.0B</td>
+    </tr>
+    <tr>
+      <td style="padding-left:12px;">× Blended Take Rate (%)</td>
+      <td style="text-align:left;font-weight:400;">Origination fee + servicing fee as % of principal originated; personal loan ~9%, auto ~6–8%, HELOC ~4–5%</td>
+      <td>8.64%</td>
+    </tr>
+    <tr style="font-weight:700;"><td style="padding-left:12px;">= Fee Revenue ($)</td><td></td><td>$950M</td></tr>
+  </tbody>
+</table>
+
+<div class="prose" style="margin-top:10px;">
+<strong>Which 3 drivers have the most leverage on total revenue:</strong> (1) <strong>Conversion rate</strong> — moving from 19.4% to 24% is equivalent to adding $460M of annualized fee revenue at constant inquiries and loan size, with essentially zero marginal cost. This is the single highest-leverage variable. (2) <strong>New product mix (avg loan size)</strong> — if HELOC scales from 1% to 15% of originations, average loan size could rise from $7,350 to $15,000+, more than doubling total volume without adding a single new inquiry. (3) <strong>Take rate stability</strong> — management is currently sacrificing ~1–2% of take rate to drive volume; this compression, if it persists, could offset volume gains; if it reverses as new products mature, margins expand rapidly. The servicing fee stream becomes incrementally important as the outstanding serviced loan book compounds — it is less visible but provides durable, rate-independent recurring revenue.
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">7. Sensitivities on Core Business Drivers</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="sens-title">TABLE 1 — Annual Transaction Volume ($B) × Blended Take Rate (%) → Annual Fee Revenue ($M)</div>
+<div class="sens-current">Current (FY2025): ~$11.0B volume × 8.64% take rate = $950M fee revenue &nbsp;|&nbsp; 2026E consensus implies ~$15–16B volume at ~8.5% take rate</div>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Volume \ Take Rate</th>
+      <th>7.5%</th>
+      <th>8.0%</th>
+      <th>8.5%</th>
+      <th>9.0%</th>
+      <th>9.5%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$10B</td><td>$750</td><td>$800</td><td>$850</td><td>$900</td><td>$950</td></tr>
+    <tr><td>$12B</td><td>$900</td><td>$960</td><td>$1,020</td><td>$1,080</td><td>$1,140</td></tr>
+    <tr><td>$14B</td><td>$1,050</td><td>$1,120</td><td>$1,190</td><td>$1,260</td><td>$1,330</td></tr>
+    <tr><td>$16B</td><td>$1,200</td><td>$1,280</td><td class="base">$1,360</td><td>$1,440</td><td>$1,520</td></tr>
+    <tr><td>$18B</td><td>$1,350</td><td>$1,440</td><td>$1,530</td><td>$1,620</td><td>$1,710</td></tr>
+  </tbody>
+</table>
+
+<div class="sens-title" style="margin-top:16px;">TABLE 2 — Rate Inquiries (M/yr) × Conversion Rate (%) → Loans Originated (000s)</div>
+<div class="sens-current">Current (FY2025): ~7.7M inquiries × 19.4% = 1,497K loans &nbsp;|&nbsp; Q3 2025: 20.6%; Q2 2025: 23.9%; Q3 2025 app volume was highest in 3+ years at >2M/quarter</div>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Inquiries \ Conv. Rate</th>
+      <th>15%</th>
+      <th>18%</th>
+      <th>20%</th>
+      <th>23%</th>
+      <th>26%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>6M inquiries</td><td>900K</td><td>1,080K</td><td>1,200K</td><td>1,380K</td><td>1,560K</td></tr>
+    <tr><td>8M inquiries</td><td>1,200K</td><td>1,440K</td><td class="base">1,600K</td><td>1,840K</td><td>2,080K</td></tr>
+    <tr><td>10M inquiries</td><td>1,500K</td><td>1,800K</td><td>2,000K</td><td>2,300K</td><td>2,600K</td></tr>
+    <tr><td>12M inquiries</td><td>1,800K</td><td>2,160K</td><td>2,400K</td><td>2,760K</td><td>3,120K</td></tr>
+    <tr><td>15M inquiries</td><td>2,250K</td><td>2,700K</td><td>3,000K</td><td>3,450K</td><td>3,900K</td></tr>
+  </tbody>
+</table>
+
+<div class="sens-title" style="margin-top:16px;">TABLE 3 — Total Revenue ($M) × EBITDA Margin (%) → EBITDA ($M)</div>
+<div class="sens-current">Current (FY2025): ~$1,044M revenue × 6.5% GAAP EBITDA margin = $67M GAAP EBITDA (Adj. EBITDA excl. SBC: $230M, 22.0% adj. margin) &nbsp;|&nbsp; 2026E consensus: $1,413M × 21.6% = $305M</div>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Revenue \ EBITDA Margin</th>
+      <th>12%</th>
+      <th>17%</th>
+      <th>22%</th>
+      <th>28%</th>
+      <th>35%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$1,000M</td><td>$120</td><td>$170</td><td>$220</td><td>$280</td><td>$350</td></tr>
+    <tr><td>$1,200M</td><td>$144</td><td>$204</td><td>$264</td><td>$336</td><td>$420</td></tr>
+    <tr><td>$1,413M</td><td>$170</td><td>$240</td><td class="base">$311</td><td>$396</td><td>$495</td></tr>
+    <tr><td>$1,700M</td><td>$204</td><td>$289</td><td>$374</td><td>$476</td><td>$595</td></tr>
+    <tr><td>$2,000M</td><td>$240</td><td>$340</td><td>$440</td><td>$560</td><td>$700</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">8. 3-Year Model (2026E – 2028E)</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="prose" style="margin-bottom:12px;">Five cases built from core business drivers (transaction volume, conversion rate, take rate, contribution margin). Base case = FactSet consensus. All cases model 2026E–2028E P&amp;L. Exit valuation: trailing P/E applied to 2028E EPS; current price $28.24.</div>
+
+<div class="cases-grid">
+
+<!-- BEAR SEVERE -->
+<div class="case-block">
+  <div class="case-name">🐻 Bear Case — Severe</div>
+  <div class="case-desc">Macro deteriorates (UMI rises to 1.6+), new product funding deals stall, conversion collapses to 2022-like levels; institutional capital re-prices or withdraws</div>
+  <div class="driver-label">Key Drivers (2026E)</div>
+  <div class="driver-row"><span>Transaction Volume</span><span>$10.5B</span></div>
+  <div class="driver-row"><span>Conversion Rate</span><span>15%</span></div>
+  <div class="driver-row"><span>Blended Take Rate</span><span>8.0%</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>10%</span></div>
+  <table class="scenario-mini">
+    <thead><tr><th style="text-align:left;"></th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+    <tbody>
+      <tr><td>Revenue</td><td>$960</td><td>$1,100</td><td>$1,280</td></tr>
+      <tr><td>Gross Income</td><td>$939</td><td>$1,076</td><td>$1,252</td></tr>
+      <tr><td>EBITDA</td><td>$96</td><td>$143</td><td>$192</td></tr>
+      <tr><td>EBIT</td><td>$12</td><td>$48</td><td>$90</td></tr>
+      <tr><td>Net Income</td><td>$2</td><td>$22</td><td>$44</td></tr>
+      <tr><td>EPS</td><td>$0.02</td><td>$0.21</td><td>$0.42</td></tr>
+      <tr><td>EBITDA Margin</td><td>10.0%</td><td>13.0%</td><td>15.0%</td></tr>
+      <tr><td>FCF</td><td>$48</td><td>$85</td><td>$118</td></tr>
+    </tbody>
+  </table>
+  <div class="exit-metrics">
+    <span>Exit: 10x P/E on '28E EPS $0.42</span>
+    <span class="exit-price">$4.20/share</span>
+    <span class="exit-upside">▼ 85% from current</span>
+  </div>
+</div>
+
+<!-- BEAR MILD -->
+<div class="case-block">
+  <div class="case-name">🐻 Bear Case — Mild</div>
+  <div class="case-desc">New products ramp slower than expected; conversion stays in 17–19% range; macro remains elevated but not deteriorating; funding for auto/HELOC delayed 2–3 quarters</div>
+  <div class="driver-label">Key Drivers (2026E)</div>
+  <div class="driver-row"><span>Transaction Volume</span><span>$13.5B</span></div>
+  <div class="driver-row"><span>Conversion Rate</span><span>18%</span></div>
+  <div class="driver-row"><span>Blended Take Rate</span><span>8.2%</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>17%</span></div>
+  <table class="scenario-mini">
+    <thead><tr><th style="text-align:left;"></th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+    <tbody>
+      <tr><td>Revenue</td><td>$1,175</td><td>$1,460</td><td>$1,780</td></tr>
+      <tr><td>Gross Income</td><td>$1,149</td><td>$1,427</td><td>$1,740</td></tr>
+      <tr><td>EBITDA</td><td>$200</td><td>$277</td><td>$373</td></tr>
+      <tr><td>EBIT</td><td>$80</td><td>$152</td><td>$233</td></tr>
+      <tr><td>Net Income</td><td>$65</td><td>$125</td><td>$195</td></tr>
+      <tr><td>EPS</td><td>$0.61</td><td>$1.18</td><td>$1.84</td></tr>
+      <tr><td>EBITDA Margin</td><td>17.0%</td><td>19.0%</td><td>21.0%</td></tr>
+      <tr><td>FCF</td><td>$112</td><td>$190</td><td>$285</td></tr>
+    </tbody>
+  </table>
+  <div class="exit-metrics">
+    <span>Exit: 11x P/E on '28E EPS $1.84</span>
+    <span class="exit-price">$20.24/share</span>
+    <span class="exit-upside">▼ 28% from current</span>
+  </div>
+</div>
+
+<!-- BASE -->
+<div class="case-block">
+  <div class="case-name">📊 Base Case — Consensus</div>
+  <div class="case-desc">FactSet consensus estimates; new products ramp on schedule; conversion recovers to 22–24%; macro stabilizes; committed capital deals close in H1 2026</div>
+  <div class="driver-label">Key Drivers (2026E)</div>
+  <div class="driver-row"><span>Transaction Volume</span><span>~$16B</span></div>
+  <div class="driver-row"><span>Conversion Rate</span><span>22%</span></div>
+  <div class="driver-row"><span>Blended Take Rate</span><span>8.5%</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>21.6%</span></div>
+  <table class="scenario-mini">
+    <thead><tr><th style="text-align:left;"></th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+    <tbody>
+      <tr><td>Revenue</td><td>$1,413</td><td>$1,868</td><td>$2,315</td></tr>
+      <tr><td>Gross Income</td><td>$1,381</td><td>$1,825</td><td>$2,262</td></tr>
+      <tr><td>EBITDA</td><td>$305</td><td>$441</td><td>$575</td></tr>
+      <tr><td>EBIT</td><td>$126</td><td>$253</td><td>$358</td></tr>
+      <tr><td>Net Income</td><td>$137</td><td>$250</td><td>$410</td></tr>
+      <tr><td>EPS</td><td>$1.01</td><td>$1.90</td><td>$2.77</td></tr>
+      <tr><td>EBITDA Margin</td><td>21.6%</td><td>23.6%</td><td>24.8%</td></tr>
+      <tr><td>FCF</td><td>$152</td><td>$220</td><td>$440</td></tr>
+    </tbody>
+  </table>
+  <div class="exit-metrics">
+    <span>Exit: 13x P/E on '28E EPS $2.77</span>
+    <span class="exit-price">$36.01/share</span>
+    <span class="exit-upside">▲ 28% from current</span>
+  </div>
+</div>
+
+<!-- BULL MILD -->
+<div class="case-block">
+  <div class="case-name">🐂 Bull Case — Mild</div>
+  <div class="case-desc">Auto &amp; HELOC ramp faster than consensus; marketing AI delivers 50% uplift on originations; macro improves (UMI declines to 1.15); Fed rate cuts boost conversion and capital appetite</div>
+  <div class="driver-label">Key Drivers (2026E)</div>
+  <div class="driver-row"><span>Transaction Volume</span><span>$20B</span></div>
+  <div class="driver-row"><span>Conversion Rate</span><span>26%</span></div>
+  <div class="driver-row"><span>Blended Take Rate</span><span>8.7%</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>28%</span></div>
+  <table class="scenario-mini">
+    <thead><tr><th style="text-align:left;"></th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+    <tbody>
+      <tr><td>Revenue</td><td>$1,785</td><td>$2,390</td><td>$3,100</td></tr>
+      <tr><td>Gross Income</td><td>$1,745</td><td>$2,337</td><td>$3,031</td></tr>
+      <tr><td>EBITDA</td><td>$500</td><td>$741</td><td>$1,054</td></tr>
+      <tr><td>EBIT</td><td>$240</td><td>$430</td><td>$660</td></tr>
+      <tr><td>Net Income</td><td>$220</td><td>$395</td><td>$590</td></tr>
+      <tr><td>EPS</td><td>$2.08</td><td>$3.72</td><td>$5.56</td></tr>
+      <tr><td>EBITDA Margin</td><td>28.0%</td><td>31.0%</td><td>34.0%</td></tr>
+      <tr><td>FCF</td><td>$340</td><td>$540</td><td>$790</td></tr>
+    </tbody>
+  </table>
+  <div class="exit-metrics">
+    <span>Exit: 18x P/E on '28E EPS $5.56</span>
+    <span class="exit-price">$100.08/share</span>
+    <span class="exit-upside">▲ 254% from current</span>
+  </div>
+</div>
+
+</div>
+
+<!-- BULL SEVERE (full width) -->
+<div class="case-block">
+  <div class="case-name">🚀 Bull Case — Severe</div>
+  <div class="case-desc">Platform inflects: AI model improvement drives 25%+ conversion; small dollar + auto retail + HELOC all cross $2B+ annually; new product take rates mature; Upstart's data flywheel creates clear market-share gains vs. FICO-based lenders; macro normalizes fully</div>
+  <div style="display:flex;gap:24px;">
+    <div style="flex:1;">
+      <div class="driver-label">Key Drivers (2026E)</div>
+      <div class="driver-row"><span>Transaction Volume</span><span>$24B</span></div>
+      <div class="driver-row"><span>Conversion Rate</span><span>28%</span></div>
+      <div class="driver-row"><span>Blended Take Rate</span><span>9.0%</span></div>
+      <div class="driver-row"><span>EBITDA Margin</span><span>32%</span></div>
+    </div>
+    <div style="flex:2;">
+      <table class="scenario-mini">
+        <thead><tr><th style="text-align:left;"></th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+        <tbody>
+          <tr><td>Revenue</td><td>$2,200</td><td>$3,080</td><td>$4,000</td></tr>
+          <tr><td>Gross Income</td><td>$2,151</td><td>$3,011</td><td>$3,912</td></tr>
+          <tr><td>EBITDA</td><td>$704</td><td>$1,078</td><td>$1,560</td></tr>
+          <tr><td>EBIT</td><td>$370</td><td>$640</td><td>$1,000</td></tr>
+          <tr><td>Net Income</td><td>$345</td><td>$600</td><td>$935</td></tr>
+          <tr><td>EPS</td><td>$3.25</td><td>$5.65</td><td>$8.80</td></tr>
+          <tr><td>EBITDA Margin</td><td>32.0%</td><td>35.0%</td><td>39.0%</td></tr>
+          <tr><td>FCF</td><td>$500</td><td>$800</td><td>$1,250</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="exit-metrics">
+    <span>Exit: 22x P/E on '28E EPS $8.80</span>
+    <span class="exit-price">$193.60/share</span>
+    <span class="exit-upside">▲ 586% from current</span>
+  </div>
+</div>
+
+<!-- SVG Bar Chart -->
+<div class="case-chart">
+  <div style="font-size:10px;font-weight:600;color:#555;margin-bottom:8px;">Implied Share Price by Case (2028E Exit) vs. Current Price $28.24</div>
+  <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">
+    <!-- Y-axis -->
+    <line x1="55" y1="10" x2="55" y2="165" stroke="#ccc" stroke-width="1"/>
+    <!-- X-axis -->
+    <line x1="55" y1="165" x2="695" y2="165" stroke="#ccc" stroke-width="1"/>
+    <!-- Y-axis labels -->
+    <text x="50" y="168" text-anchor="end" font-size="8" fill="#888">$0</text>
+    <text x="50" y="125" text-anchor="end" font-size="8" fill="#888">$50</text>
+    <text x="50" y="84" text-anchor="end" font-size="8" fill="#888">$100</text>
+    <text x="50" y="43" text-anchor="end" font-size="8" fill="#888">$150</text>
+    <text x="50" y="15" text-anchor="end" font-size="8" fill="#888">$200</text>
+    <!-- Grid lines -->
+    <line x1="55" y1="125" x2="695" y2="125" stroke="#f0f0f0" stroke-width="1" stroke-dasharray="3,3"/>
+    <line x1="55" y1="84" x2="695" y2="84" stroke="#f0f0f0" stroke-width="1" stroke-dasharray="3,3"/>
+    <line x1="55" y1="43" x2="695" y2="43" stroke="#f0f0f0" stroke-width="1" stroke-dasharray="3,3"/>
+    <!-- Current price dashed line: $28.24 → y = 165 - (28.24/200)*155 = 165 - 21.9 = 143.1 -->
+    <line x1="55" y1="143" x2="695" y2="143" stroke="#e74c3c" stroke-width="1.2" stroke-dasharray="4,3"/>
+    <text x="697" y="146" font-size="8" fill="#e74c3c" font-weight="600">$28.24</text>
+    <!-- Bars: scale = (val/200)*155, y_top = 165 - scaled_h -->
+    <!-- Bear Severe $4.20: h=3.3, y_top=161.7 -->
+    <rect x="72" y="162" width="80" height="3" fill="#b0b8c1" rx="1"/>
+    <text x="112" y="158" text-anchor="middle" font-size="8.5" fill="#555">$4.20</text>
+    <text x="112" y="178" text-anchor="middle" font-size="8" fill="#888">Bear</text>
+    <text x="112" y="188" text-anchor="middle" font-size="8" fill="#888">Severe</text>
+    <!-- Bear Mild $20.24: h=15.7, y_top=149.3 -->
+    <rect x="194" y="149" width="80" height="16" fill="#b0b8c1" rx="1"/>
+    <text x="234" y="145" text-anchor="middle" font-size="8.5" fill="#555">$20.24</text>
+    <text x="234" y="178" text-anchor="middle" font-size="8" fill="#888">Bear</text>
+    <text x="234" y="188" text-anchor="middle" font-size="8" fill="#888">Mild</text>
+    <!-- Base $36.01: h=27.9, y_top=137.1 -->
+    <rect x="316" y="137" width="80" height="28" fill="#7f8c8d" rx="1"/>
+    <text x="356" y="133" text-anchor="middle" font-size="8.5" fill="#555">$36.01</text>
+    <text x="356" y="178" text-anchor="middle" font-size="8" fill="#888">Base</text>
+    <!-- Bull Mild $100.08: h=77.6, y_top=87.4 -->
+    <rect x="438" y="87" width="80" height="78" fill="#6c757d" rx="1"/>
+    <text x="478" y="83" text-anchor="middle" font-size="8.5" fill="#555">$100.08</text>
+    <text x="478" y="178" text-anchor="middle" font-size="8" fill="#888">Bull</text>
+    <text x="478" y="188" text-anchor="middle" font-size="8" fill="#888">Mild</text>
+    <!-- Bull Severe $193.60: h=150.2, y_top=14.8 -->
+    <rect x="560" y="15" width="80" height="150" fill="#495057" rx="1"/>
+    <text x="600" y="11" text-anchor="middle" font-size="8.5" fill="#555">$193.60</text>
+    <text x="600" y="178" text-anchor="middle" font-size="8" fill="#888">Bull</text>
+    <text x="600" y="188" text-anchor="middle" font-size="8" fill="#888">Severe</text>
+  </svg>
+  <div style="font-size:8px;color:#aaa;margin-top:4px;">Red dashed line = current price $28.24. Exit multiple applied to 2028E EPS. Bars reflect terminal share price, not return.</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Comps</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="prose" style="margin-bottom:6px;font-size:10px;color:#555;">Note: FactSet EV in comps tables reflects FactSet's comp methodology ($5,540M); primary EV Bridge (Section 2) reflects $3,653M using standard method. Difference likely due to balance sheet loan treatment. All values in USD millions.</div>
+
+<div class="section-title">StreetAccount Comps — Fintech / Digital Lending</div>
+<table class="comps">
+  <thead><tr><th>Company</th><th>Mkt Cap ($M)</th><th>EV ($M)</th><th>TEV/EBITDA</th></tr></thead>
+  <tbody>
+    <tr class="subject"><td>Upstart Holdings, Inc.</td><td>$2,769</td><td>$5,540</td><td>81.8x</td></tr>
+    <tr><td>Affirm Holdings (Class A)</td><td>$15,933</td><td>$28,811</td><td>24.3x</td></tr>
+    <tr><td>SoFi Technologies</td><td>$23,733</td><td>$29,504</td><td>31.5x</td></tr>
+    <tr><td>Toast, Inc. (Class A)</td><td>$17,146</td><td>$19,584</td><td>52.6x</td></tr>
+    <tr><td>PayPal Holdings</td><td>$42,700</td><td>$58,186</td><td>7.6x</td></tr>
+    <tr><td>Block, Inc. (Class A)</td><td>$37,683</td><td>$41,319</td><td>11.4x</td></tr>
+    <tr><td>Global Payments</td><td>$21,748</td><td>$33,081</td><td>8.7x</td></tr>
+    <tr><td>Akamai Technologies</td><td>$14,790</td><td>$17,317</td><td>11.8x</td></tr>
+    <tr><td>LendingClub Corp</td><td>$1,712</td><td>$1,366</td><td>3.1x</td></tr>
+    <tr><td>Marqeta (Class A)</td><td>$1,730</td><td>$1,132</td><td>NM</td></tr>
+    <tr class="stat-row"><td>Median (excl. Upstart)</td><td>—</td><td>—</td><td>11.6x</td></tr>
+    <tr class="stat-row"><td>Average (excl. Upstart)</td><td>—</td><td>—</td><td>18.9x</td></tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:10px;">Named Competitors</div>
+<table class="comps">
+  <thead><tr><th>Company</th><th>Mkt Cap ($M)</th><th>EV ($M)</th><th>TEV/EBITDA</th></tr></thead>
+  <tbody>
+    <tr class="subject"><td>Upstart Holdings, Inc.</td><td>$2,769</td><td>$5,540</td><td>81.8x</td></tr>
+    <tr><td>Dave, Inc. (Class A)</td><td>$2,819</td><td>$3,160</td><td>14.2x</td></tr>
+    <tr><td>DeFi Development Corporation</td><td>$110</td><td>$4</td><td>NM</td></tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:10px;">Peer Group — Software (Size-Selected)</div>
+<table class="comps">
+  <thead><tr><th>Company</th><th>Mkt Cap ($M)</th><th>EV ($M)</th><th>TEV/EBITDA</th></tr></thead>
+  <tbody>
+    <tr class="subject"><td>Upstart Holdings, Inc.</td><td>$2,769</td><td>$5,540</td><td>81.8x</td></tr>
+    <tr><td>Q2 Holdings</td><td>$3,153</td><td>$4,611</td><td>39.7x</td></tr>
+    <tr><td>Freshworks (Class A)</td><td>$2,341</td><td>$2,797</td><td>69.8x</td></tr>
+    <tr><td>Vertex, Inc. (Class A)</td><td>$2,342</td><td>$3,256</td><td>29.7x</td></tr>
+    <tr><td>RingCentral (Class A)</td><td>$3,153</td><td>$3,991</td><td>10.2x</td></tr>
+    <tr><td>Alarm.com Holdings</td><td>$2,450</td><td>$3,152</td><td>16.9x</td></tr>
+    <tr><td>Sezzle Inc.</td><td>$2,482</td><td>$2,337</td><td>13.1x</td></tr>
+    <tr><td>Teradata Corporation</td><td>$2,799</td><td>$3,005</td><td>10.0x</td></tr>
+    <tr class="stat-row"><td>Median (excl. Upstart)</td><td>—</td><td>—</td><td>15.0x</td></tr>
+    <tr class="stat-row"><td>Average (excl. Upstart)</td><td>—</td><td>—</td><td>27.1x</td></tr>
+  </tbody>
+</table>
+
+<div class="prose" style="margin-top:10px;">
+Upstart trades at 81.8x EV/EBITDA on an LTM basis — a premium to every comp set, justified by its 64% revenue CAGR (FY2023–2025) and the near-total absence of GAAP EBITDA until FY2025. On a forward basis (2026E: 12.0x EV/EBITDA, 13.8x P/E), Upstart is actually <em>cheaper</em> than many higher-quality SaaS peers that trade at 25–40x EBITDA, reflecting the market's skepticism about whether the growth trajectory is sustainable and the lack of a banking license. The most relevant comps for forward valuation are <strong>Affirm</strong> (24.3x LTM, similar AI-driven credit marketplace) and <strong>SoFi</strong> (31.5x LTM, bank-chartered with deposit funding advantage). If Upstart closes the gap to Affirm's multiple on 2026E EBITDA of $305M, implied EV would be ~$7.4B, or ~$54/share — in line with the consensus $48.19 target price. The discount to SoFi/Affirm appears appropriate given Upstart's lack of a banking license and higher funding concentration risk.
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">10. Is This a Theia Investment?</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="prose" style="color:#555;font-style:italic;margin-bottom:10px;">Theia seeks small-cap companies that aren't well covered and are strongly aligned on the core internet finance thesis with wide outcome dispersion.</div>
+
+<div class="screen-item">
+  <div class="screen-label">(i) Market Cap Bucket: Small Cap ($1B–$5B) <span class="fw-rating strong">Strong</span></div>
+  <div class="screen-detail">Market cap $2,769M as of March 3, 2026 — squarely in Theia's small/mid-cap sweet spot. At just 32% of its 52-week high ($87.30), the stock has been devastated by macro-driven model conservatism and institutional risk-off. This creates the kind of disconnection between business quality and market price that Theia targets.</div>
+</div>
+
+<div class="screen-item">
+  <div class="screen-label">(ii) Analyst Coverage: 16 Brokers <span class="fw-rating moderate">Moderate</span></div>
+  <div class="screen-detail">16 broker contributors puts Upstart at the upper bound of "moderately covered." However, given the stock's complexity (AI underwriting, macro sensitivity, balance sheet dynamics, multi-product transition), analyst models vary widely — the range between bear and bull consensus targets is exceptionally wide, suggesting significant analytical disagreement that creates opportunity. Coverage is sufficient for price discovery but insufficient to guarantee consensus accuracy on the new product trajectory.</div>
+</div>
+
+<div class="screen-item">
+  <div class="screen-label">(iii) Blockchain / Internet Finance Thesis Alignment: Core <span class="fw-rating strong">Strong</span></div>
+  <div class="screen-detail">Upstart is a textbook "internet finance" investment: AI-driven disruption of a $150T+ global credit market, replacing century-old FICO-based underwriting with machine learning, operating as a two-sided marketplace rather than a balance-sheet lender. The company is what Theia's thesis predicts should exist — a technology layer inserting itself between consumers and capital through superior information processing. HELOC expansion (home lending digitization) and auto finance (dealer-embedded AI) extend the thesis into new asset classes. No blockchain component, but the internet finance alignment is as strong as any company in the coverage universe.</div>
+</div>
+
+<div class="screen-item">
+  <div class="screen-label">(iv) Outcome Dispersion: Extremely Wide <span class="fw-rating strong">Strong</span></div>
+  <div class="screen-detail">Bear severe implied price: <strong>$4.20/share</strong> (2022-style institutional funding collapse + macro shock). Bull severe implied price: <strong>$193.60/share</strong> (platform inflection, new products scale, macro normalization). This is a 46x spread between outcomes — far wider than typical for any single name. The current price of $28.24 sits essentially at the floor of the range, offering highly asymmetric upside if management's "amazing 2026" materializes. The asymmetry is further supported by the stock's already-severe drawdown (–52% YoY) and the stock's historically mean-reverting behavior (peak ~$400 in 2021, trough ~$13 in 2022, recovery to $87 in 2025, back to $28).</div>
+</div>
+
+<div class="verdict">
+  <strong>Verdict: MAYBE → YES with position sizing discipline.</strong><br><br>
+  Upstart checks three of four Theia boxes at maximum strength (market cap, thesis alignment, outcome dispersion) and the fourth (coverage) at moderate. The core investment case is straightforward: the AI model is genuinely superior, the data moat is compounding, management has demonstrated profitability discipline (Adj. EBITDA went from -$17M in FY2023 to $230M in FY2025), and at 13.8x 2026E P/E the stock is not priced for a growth story. <br><br>
+  The key risks that justify "maybe" rather than "yes" outright: (1) <strong>Funding concentration</strong> — three partners at 83% of loans is existential risk that 2022 proved is real; (2) <strong>No banking license</strong> — SoFi and LendingClub have structural funding cost advantages Upstart cannot replicate without a bank acquisition; (3) <strong>New product timing uncertainty</strong> — auto and HELOC are scaling but third-party capital deals for new products have repeatedly been "coming soon"; (4) <strong>Model opacity</strong> — Upstart's own CTO cannot fully explain what Model 22 is doing, which is a real investor communication and regulatory risk. <br><br>
+  <strong>Recommended approach:</strong> Initiate a small position (~0.5–1.0% of portfolio) at current levels, with a thesis trigger around (a) confirmation of committed capital deals for auto/HELOC in Q1–Q2 2026 and (b) Q1 2026 conversion rate recovering above 23%. Add aggressively on confirmation. Target price: $48–55 (base/bull mild). Stop-loss: below $20 (signals bear mild case materializing).
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section" style="margin-top:28px;">Appendix — Python Code for Sensitivity &amp; Model Analysis</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="prose" style="margin-bottom:6px;">Parameterized Python for interactive sensitivity analysis and 5-case modeling. Adjust inputs at the top of each block.</div>
+
+<div style="font-size:10px;font-weight:600;margin:8px 0 4px 0;">Sensitivity Table Generator (Table 1: Fee Revenue)</div>
+<div class="code-block">import numpy as np
+import pandas as pd
+
+# ── INPUTS ─────────────────────────────────────────────────────────────────
+volumes_B = [10, 12, 14, 16, 18]          # Annual transaction volume ($B)
+take_rates = [0.075, 0.080, 0.085, 0.090, 0.095]   # Blended take rate
+base_volume = 16.0                         # 2026E consensus implied volume ($B)
+base_take_rate = 0.085                     # 2026E consensus blended take rate
+# ───────────────────────────────────────────────────────────────────────────
+
+rows = []
+for vol in volumes_B:
+    row = {}
+    for tr in take_rates:
+        fee_rev_M = vol * tr * 1000        # $M
+        row[f"{tr:.1%}"] = round(fee_rev_M)
+    rows.append(row)
+
+df = pd.DataFrame(rows, index=[f"${v}B" for v in volumes_B])
+df.columns.name = "Take Rate"
+df.index.name = "Volume"
+
+# Highlight base case
+def highlight_base(val, vol_label, tr_label):
+    vol_num = float(vol_label.replace("$","").replace("B",""))
+    tr_num = float(tr_label.rstrip("%"))/100
+    if abs(vol_num - base_volume) < 1.5 and abs(tr_num - base_take_rate) < 0.003:
+        return "★ BASE"
+    return str(val)
+
+print("Fee Revenue Sensitivity ($M) — Volume ($B) × Take Rate")
+print(df.to_string())
+print(f"\nBase case: ${base_volume}B × {base_take_rate:.1%} = ${base_volume*base_take_rate*1000:.0f}M")
+</div>
+
+<div style="font-size:10px;font-weight:600;margin:12px 0 4px 0;">5-Case Model Builder</div>
+<div class="code-block">import pandas as pd
+
+CURRENT_PRICE = 28.24
+SHARES_DILUTED = 106.0       # ~106M diluted shares assumed 2028E
+
+# ── CASE DEFINITIONS ──────────────────────────────────────────────────────
+# Each case: (label, rev_26, ebitda_margin_26, rev_27, ebitda_margin_27,
+#             rev_28, ebitda_margin_28, exit_pe, description)
+cases = [
+    ("Bear Severe",  960,  0.10, 1100, 0.13, 1280, 0.15, 10,  "Macro shock, funding withdrawal"),
+    ("Bear Mild",   1175,  0.17, 1460, 0.19, 1780, 0.21, 11,  "Slow new product ramp"),
+    ("Base",        1413,  0.216,1868, 0.236,2315, 0.248,13,  "FactSet consensus"),
+    ("Bull Mild",   1785,  0.28, 2390, 0.31, 3100, 0.34, 18,  "Auto/HELOC ramp + macro improves"),
+    ("Bull Severe", 2200,  0.32, 3080, 0.35, 4000, 0.39, 22,  "Platform inflection"),
+]
+
+TAX_RATE = 0.21
+INT_EXPENSE = 80   # $M, approximate
+
+results = []
+for label, r26, m26, r27, m27, r28, m28, pe, desc in cases:
+    ebitda28 = r28 * m28
+    ebit28 = ebitda28 * 0.62        # rough EBIT = EBITDA * 0.62 (D&A ~38% of EBITDA gap)
+    ebt28 = max(ebit28 - INT_EXPENSE, 0)
+    ni28 = ebt28 * (1 - TAX_RATE)
+    eps28 = ni28 / SHARES_DILUTED
+    implied_price = eps28 * pe
+    upside = (implied_price / CURRENT_PRICE - 1) * 100
+    results.append({
+        "Case": label,
+        "Rev 2026E ($M)": r26,
+        "EBITDA Margin 26E": f"{m26:.0%}",
+        "Rev 2028E ($M)": r28,
+        "EBITDA Margin 28E": f"{m28:.0%}",
+        "EPS 2028E": f"${eps28:.2f}",
+        "Exit P/E": f"{pe}x",
+        "Implied Price": f"${implied_price:.2f}",
+        "Upside/Down": f"{upside:+.0f}%",
+    })
+
+df = pd.DataFrame(results).set_index("Case")
+print(df.T.to_string())
+</div>
+
+<div style="font-size:10px;font-weight:600;margin:12px 0 4px 0;">Conversion Rate Monitor (Quarterly Tracking)</div>
+<div class="code-block">## Track the key Upstart metrics each quarter to assess case migration
+## Update `actuals` dict after each earnings release
+
+actuals = {
+    "FY2023": {"conv_rate": 0.098, "volume_B": 4.645,  "take_rate": 0.086, "adj_ebitda_margin": -0.03},
+    "FY2024": {"conv_rate": 0.151, "volume_B": 5.930,  "take_rate": 0.087, "adj_ebitda_margin": 0.02},
+    "FY2025": {"conv_rate": 0.194, "volume_B": 11.004, "take_rate": 0.086, "adj_ebitda_margin": 0.22},
+    "Q2-25":  {"conv_rate": 0.239, "volume_B": 2.80,   "take_rate": None,  "adj_ebitda_margin": None},
+    "Q3-25":  {"conv_rate": 0.206, "volume_B": 2.85,   "take_rate": None,  "adj_ebitda_margin": None},
+    # Update below each quarter:
+    # "Q4-25":  {"conv_rate": None,  "volume_B": None,    "take_rate": None,  "adj_ebitda_margin": None},
+    # "Q1-26":  {"conv_rate": None,  "volume_B": None,    "take_rate": None,  "adj_ebitda_margin": None},
+}
+
+# Thesis trigger thresholds
+BULL_TRIGGER_CONV  = 0.235   # If conv rate recovers above 23.5% → upgrade toward Bull Mild
+BEAR_TRIGGER_CONV  = 0.150   # If conv rate drops below 15% → downgrade toward Bear Severe
+BULL_TRIGGER_VOL   = 4.0     # Quarterly volume $B for bull signal
+BEAR_TRIGGER_VOL   = 2.0     # Quarterly volume $B for bear signal
+
+print("Upstart Quarterly Scorecard")
+print(f"{'Period':<10} {'Conv Rate':>12} {'Vol ($B)':>10} {'Signal':>12}")
+print("-" * 50)
+for period, d in actuals.items():
+    cr = d["conv_rate"]
+    vol = d["volume_B"]
+    if cr is None: continue
+    if isinstance(vol, float) and vol > 2.5:
+        qvol = vol / (4 if "FY" in period else 1)
+    else:
+        qvol = vol
+    signal = "BULL" if cr >= BULL_TRIGGER_CONV else ("BEAR" if cr <= BEAR_TRIGGER_CONV else "BASE")
+    print(f"{period:<10} {cr:>11.1%} {vol:>10.2f}  {signal:>12}")
+</div>
+
+<div class="source-note" style="margin-top:16px;">Sources: FactSet Fundamentals &amp; Estimates (Snapshot_UPST-US, Mar 4 2026), Q3 2025 Earnings Call (Nov 4, 2025), Q2 2025 Earnings Call (Aug 5, 2025), Upstart Investor Day (Aug 26, 2025), Upstart Holdings 10-K FY2025. Prepared by Theia Research. For internal use only.</div>
+
+</body>
+</html>
