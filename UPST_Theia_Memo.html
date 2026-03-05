@@ -1191,7 +1191,7 @@ df.index.name = "Volume"
 def highlight_base(val, vol_label, tr_label):
     vol_num = float(vol_label.replace("$","").replace("B",""))
     tr_num = float(tr_label.rstrip("%"))/100
-    if abs(vol_num - base_volume) < 1.5 and abs(tr_num - base_take_rate) < 0.003:
+    if abs(vol_num - base_volume) &lt; 1.5 and abs(tr_num - base_take_rate) &lt; 0.003:
         return "★ BASE"
     return str(val)
 
@@ -1221,7 +1221,7 @@ driver_cases = {
 }
 
 print("Driver → Revenue Reconciliation (2026E)")
-print(f"{'Case':<14} {'Loans(K)':>9} {'Volume($B)':>11} {'FeeRev($M)':>11} {'NII($M)':>8} {'Total($M)':>10}")
+print(f"{'Case':&lt;14} {'Loans(K)':&gt;9} {'Volume($B)':&gt;11} {'FeeRev($M)':&gt;11} {'NII($M)':&gt;8} {'Total($M)':&gt;10}")
 print("-" * 65)
 for name, d in driver_cases.items():
     loans_K = d["inquiries_M"] * d["conv"] * 1000
@@ -1230,7 +1230,7 @@ for name, d in driver_cases.items():
     volume_B2 = (loans_K * 1000) * (d["avg_loan_K"] * 1000) / 1e9
     fee_rev = volume_B2 * d["take_rate"] * 1000  # $M
     total = fee_rev + d["nii_M"]
-    print(f"{name:<14} {loans_K:>9.0f} {volume_B2:>11.1f} {fee_rev:>11.0f} {d['nii_M']:>8.0f} {total:>10.0f}")
+    print(f"{name:&lt;14} {loans_K:&gt;9.0f} {volume_B2:&gt;11.1f} {fee_rev:&gt;11.0f} {d['nii_M']:&gt;8.0f} {total:&gt;10.0f}")
 
 # ── CASE DEFINITIONS ──────────────────────────────────────────────────────
 cases = [
@@ -1298,20 +1298,20 @@ actuals = {
 }
 
 # Thesis trigger thresholds — map to case transitions
-BULL_TRIGGER_CONV  = 0.235   # Conv rate > 23.5% → upgrade toward Bull Mild
-BEAR_TRIGGER_CONV  = 0.150   # Conv rate < 15% → downgrade toward Bear Severe
+BULL_TRIGGER_CONV  = 0.235   # Conv rate &gt; 23.5% → upgrade toward Bull Mild
+BEAR_TRIGGER_CONV  = 0.150   # Conv rate &lt; 15% → downgrade toward Bear Severe
 BULL_TRIGGER_VOL   = 4.0     # Quarterly volume $B → bull signal
 BEAR_TRIGGER_VOL   = 2.0     # Quarterly volume $B → bear signal
 
 print("Upstart Quarterly Scorecard")
-print(f"{'Period':<10} {'Conv Rate':>12} {'Vol ($B)':>10} {'Signal':>12}")
+print(f"{'Period':&lt;10} {'Conv Rate':&gt;12} {'Vol ($B)':&gt;10} {'Signal':&gt;12}")
 print("-" * 50)
 for period, d in actuals.items():
     cr = d["conv_rate"]
     vol = d["volume_B"]
     if cr is None: continue
-    signal = "BULL" if cr >= BULL_TRIGGER_CONV else ("BEAR" if cr <= BEAR_TRIGGER_CONV else "BASE")
-    print(f"{period:<10} {cr:>11.1%} {vol:>10.2f}  {signal:>12}")
+    signal = "BULL" if cr &gt;= BULL_TRIGGER_CONV else ("BEAR" if cr &lt;= BEAR_TRIGGER_CONV else "BASE")
+    print(f"{period:&lt;10} {cr:&gt;11.1%} {vol:&gt;10.2f}  {signal:&gt;12}")
 </div>
 
 <div class="source-note" style="margin-top:16px;">Sources: FactSet Fundamentals &amp; Estimates (Snapshot_UPST-US, Mar 4 2026), Q3 2025 Earnings Call (Nov 4, 2025), Q2 2025 Earnings Call (Aug 5, 2025), Upstart Investor Day (Aug 26, 2025), Upstart Holdings 10-K FY2025. Prepared by Theia Research. For internal use only.</div>
