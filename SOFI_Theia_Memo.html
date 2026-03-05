@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>SoFi Technologies | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+table.ev tr.indent td:first-child { padding-left: 10px; font-size: 10px; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 6px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; border: 1px solid #eee; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+table.sensitivity td.row-header { text-align: left; font-weight: 600; background: #f4f6f9; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #f5f5f5; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; display: flex; align-items: baseline; gap: 20px; }
+.case-block .exit-price { font-size: 16px; font-weight: 700; color: #1a1a2e; }
+.case-block .exit-upside { font-size: 11px; font-weight: 600; }
+.exit-up { color: #27ae60; }
+.exit-dn { color: #c0392b; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">SoFi Technologies | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+<p class="prose">SoFi Technologies (NASDAQ: SOFI) is a digitally-native national bank and fintech platform headquartered in San Francisco, CA, founded in 2011 and led by CEO Anthony Noto (former Goldman Sachs, NFL, Twitter) since 2018. Operating under a federally-chartered national bank license (obtained in 2022), SoFi offers a fully integrated one-stop financial services platform covering borrowing (personal, student, home loans), saving and spending (SoFi Money, credit card, SoFi Pay), investing (brokerage, crypto, private markets, ETFs), and protection (insurance). Additionally, SoFi's Technology Platform segment — consisting of Galileo (card processing infrastructure) and Technisys (core banking platform) — provides white-label BaaS infrastructure to 200+ fintechs and enterprise clients processing 8B+ transactions annually. The company employs approximately 6,500 people.</p>
+<p class="prose">The SoFi thesis rests on three structural advantages: (1) targeting "overachievers" — high-income, high-credit borrowers (avg. income $158K, FICO 746+) historically underserved by banks optimizing for ROE over member need; (2) a cross-buy flywheel where 40% of new products opened by existing members amplifies LTV without incremental acquisition cost; and (3) the national bank charter enabling unique capabilities including the first bank-issued stablecoin (SoFiUSD, Dec-2025), the first bank-offered consumer crypto trading (SoFi Crypto, Nov-2025), and blockchain-based international payments (SoFi Pay, Oct-2025). As of Q4 2025, SoFi has 13.7M members (+35% YoY), $37.5B in deposits, 22.9% total capital ratio, and is guiding ≥30% adjusted net revenue CAGR with 38–42% EPS CAGR through 2028.</p>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 2: FINANCIAL SUMMARY -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Financial Summary — Theia FactSet Summary</div>
+
+<div class="header">
+  <div>
+    <h1>SoFi Technologies, Inc.</h1>
+    <div class="ticker">SOFI-US &nbsp;·&nbsp; NASDAQ &nbsp;·&nbsp; Common Equity &nbsp;·&nbsp; CUSIP: 83406F102</div>
+  </div>
+  <div class="date">As of March 4, 2026</div>
+</div>
+
+<div class="price-bar">
+  <div><span class="label">Price</span><br><span class="price">$18.61</span></div>
+  <div><span class="label">1M</span><br><span class="chg">-9.2%</span></div>
+  <div><span class="label">3M</span><br><span class="chg">-36.3%</span></div>
+  <div><span class="label">6M</span><br><span class="chg">-25.7%</span></div>
+  <div><span class="label">YTD</span><br><span class="chg">-28.0%</span></div>
+  <div><span class="label">1Y</span><br><span class="chg pos">+44.0%</span></div>
+  <div><span class="label">52W Range</span><br><span style="font-weight:600">$8.60 – $32.73</span></div>
+</div>
+
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv">
+      <tr><td>Ticker</td><td>SOFI-US</td></tr>
+      <tr><td>Price</td><td>$18.61</td></tr>
+      <tr><td>Last Volume</td><td>71,879,350</td></tr>
+      <tr><td>30D Avg Volume</td><td>64,423,751</td></tr>
+      <tr><td>Float %</td><td>98.15%</td></tr>
+      <tr><td>Short Interest</td><td>9.84% float / 1.8 days</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev">
+      <tr><td>Basic Shares</td><td>1,275.3M</td></tr>
+      <tr><td>× Price</td><td>$18.61</td></tr>
+      <tr class="total"><td>Market Cap</td><td>$23,733M</td></tr>
+      <tr class="indent"><td>&nbsp;&nbsp;+ Dil. Options / RSUs</td><td>+154.7M shares</td></tr>
+      <tr class="indent"><td>&nbsp;&nbsp;Conv. Debt (dilution)</td><td>$91M</td></tr>
+      <tr class="indent"><td>&nbsp;&nbsp;Stock Comp (dilution)</td><td>$63M</td></tr>
+      <tr class="total"><td>Fully Dil. Mkt Cap</td><td>$26,612M</td></tr>
+      <tr><td>+ Consolidated Debt</td><td>+$1,815M</td></tr>
+      <tr><td>− ITM Conv. Debt (in dil. shares)</td><td>−$863M</td></tr>
+      <tr><td>− Cash &amp; Equivalents</td><td>−$5,357M</td></tr>
+      <tr class="total"><td>Enterprise Value</td><td>$22,207M</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="section-title" style="margin-top:14px;">Current Valuation</div>
+<div class="val-grid" style="background:#f4f6f9;border-radius:4px;border:1px solid #eee;">
+  <div class="val-cell">
+    <div class="val-label">Market Cap</div>
+    <div class="val-num">$23.7B</div>
+    <div class="val-sub">Basic shares</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">EV</div>
+    <div class="val-num">$22.2B</div>
+    <div class="val-sub">Adj cash/debt</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">P/E (LTM)</div>
+    <div class="val-num">49.0x</div>
+    <div class="val-sub">$0.39 EPS</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">EV/EBITDA</div>
+    <div class="val-num">24.5x</div>
+    <div class="val-sub">LTM</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">EV/Sales</div>
+    <div class="val-num">4.66x</div>
+    <div class="val-sub">LTM</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">P/Sales</div>
+    <div class="val-num">5.25x</div>
+    <div class="val-sub">LTM</div>
+  </div>
+</div>
+<div class="val-grid" style="background:#f4f6f9;border-radius:4px;border:1px solid #eee;border-top:none;">
+  <div class="val-cell">
+    <div class="val-label">Fully Dil. Mkt Cap</div>
+    <div class="val-num">$26.6B</div>
+    <div class="val-sub">1,430M shares</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">WACC</div>
+    <div class="val-num">12.74%</div>
+    <div class="val-sub">Implied</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Beta (5yr)</div>
+    <div class="val-num">2.01</div>
+    <div class="val-sub">Monthly</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Avg Rating</div>
+    <div class="val-num">Hold</div>
+    <div class="val-sub">1.84 / 19 brokers</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Target Price</div>
+    <div class="val-num">$26.56</div>
+    <div class="val-sub">+43% implied upside</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Next Earnings</div>
+    <div class="val-num">May 4</div>
+    <div class="val-sub">Q1 2026E</div>
+  </div>
+</div>
+
+<div class="section-title" style="margin-top:14px;">Valuation Multiples</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th style="text-align:left">Multiple</th>
+      <th>5Yr Avg</th>
+      <th>Dec'23</th>
+      <th>Dec'24</th>
+      <th>Dec'25</th>
+      <th class="est">Dec'26E</th>
+      <th class="est">Dec'27E</th>
+      <th class="est">Dec'28E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>P/E</td><td>21.4x</td><td>NM</td><td>39.0x</td><td>67.9x</td><td class="est">31.0x</td><td class="est">22.7x</td><td class="est">18.9x</td></tr>
+    <tr><td>P/Sales</td><td>4.9x</td><td>3.2x</td><td>4.5x</td><td>6.9x</td><td class="est">5.1x</td><td class="est">4.1x</td><td class="est">3.5x</td></tr>
+    <tr><td>P/TBV</td><td>—</td><td>—</td><td>—</td><td>2.7x</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>EV/Sales</td><td>7.5x</td><td>4.1x</td><td>5.0x</td><td>6.9x</td><td class="est">4.7x</td><td class="est">3.9x</td><td class="est">3.3x</td></tr>
+    <tr><td>EV/EBITDA</td><td>24.5x</td><td>12.1x</td><td>30.2x</td><td>35.4x</td><td class="est">14.0x</td><td class="est">10.6x</td><td class="est">9.0x</td></tr>
+    <tr><td>EV/EBIT</td><td>NM</td><td>15.1x</td><td>44.6x</td><td>47.3x</td><td class="est">21.1x</td><td class="est">14.9x</td><td class="est">12.0x</td></tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:14px;">Revenue Exposure (Dec'25, segment basis)</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Business Segment</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left">Segment</th><th>$M</th><th>% Mix</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Lending</td><td>$1,849</td><td>48.1%</td><td>+24.5%</td></tr>
+        <tr><td>Financial Services</td><td>$1,542</td><td>40.1%</td><td>+87.7%</td></tr>
+        <tr><td>Technology Platform</td><td>$450</td><td>11.7%</td><td>+13.9%</td></tr>
+        <tr style="font-weight:700;border-top:1px solid #ccc"><td>Total (segment)</td><td>$3,841</td><td>100%</td><td>+43.7%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <div class="sub-label">By Geography</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left">Region</th><th>$M</th><th>% Mix</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>United States</td><td>$3,365</td><td>93.1%</td><td>—</td></tr>
+        <tr><td>All Foreign</td><td>$249</td><td>6.9%</td><td>+152.7%</td></tr>
+        <tr style="font-style:italic;color:#888"><td colspan="4" style="font-size:9px;padding-top:2px">Foreign growth driven by Galileo LatAm expansion</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="section-title" style="margin-top:14px;">Financials ($M)</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th style="text-align:left"></th>
+      <th>Dec'23</th>
+      <th>Dec'24</th>
+      <th>Dec'25</th>
+      <th class="est">Dec'26E</th>
+      <th class="est">Dec'27E</th>
+      <th class="est">Dec'28E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">Income Statement</td></tr>
+    <tr><td>Revenue</td><td>$2,912</td><td>$3,766</td><td>$4,770</td><td class="est">$4,679</td><td class="est">$5,748</td><td class="est">$6,797</td></tr>
+    <tr><td>Gross Income</td><td>1,819</td><td>2,171</td><td>2,912</td><td class="est">3,935</td><td class="est">4,850</td><td class="est">5,831</td></tr>
+    <tr><td>EBITDA</td><td>992</td><td>630</td><td>933</td><td class="est">1,582</td><td class="est">2,085</td><td class="est">2,477</td></tr>
+    <tr><td>EBIT</td><td>790</td><td>426</td><td>698</td><td class="est">1,051</td><td class="est">1,492</td><td class="est">1,852</td></tr>
+    <tr><td>Net Income</td><td>(301)</td><td>499</td><td>481</td><td class="est">829</td><td class="est">1,167</td><td class="est">1,474</td></tr>
+    <tr><td>EPS (Dil)</td><td>($0.36)</td><td>$0.40</td><td>$0.39</td><td class="est">$0.60</td><td class="est">$0.82</td><td class="est">$0.99</td></tr>
+    <tr class="section-row"><td colspan="7">Margins</td></tr>
+    <tr><td>Gross Margin</td><td>62.5%</td><td>57.7%</td><td>61.1%</td><td class="est">84.1%</td><td class="est">84.4%</td><td class="est">85.8%</td></tr>
+    <tr><td>EBITDA Margin</td><td>34.1%</td><td>16.7%</td><td>19.6%</td><td class="est">33.8%</td><td class="est">36.3%</td><td class="est">36.4%</td></tr>
+    <tr><td>Net Margin</td><td>NM</td><td>13.3%</td><td>10.1%</td><td class="est">17.7%</td><td class="est">20.3%</td><td class="est">21.7%</td></tr>
+    <tr class="section-row"><td colspan="7">Cash Flow (Note: Op CF reflects loan portfolio changes per bank accounting)</td></tr>
+    <tr><td>Net Operating CF</td><td>$552</td><td>$1,270</td><td>$1,525</td><td class="est">($5,802)</td><td class="est">($2,997)</td><td class="est">($4,474)</td></tr>
+    <tr><td>CapEx</td><td>(121)</td><td>(164)</td><td>(251)</td><td class="est">(222)</td><td class="est">(252)</td><td class="est">(280)</td></tr>
+    <tr><td>FCF (ex-loan portfolio)</td><td>$431</td><td>$1,106</td><td>$1,274</td><td class="est">$666</td><td class="est">$985</td><td class="est">$1,866</td></tr>
+    <tr class="section-row"><td colspan="7">Balance Sheet</td></tr>
+    <tr><td>Cash &amp; Equivalents</td><td>$4,156</td><td>$2,764</td><td>$5,357</td><td class="est">$5,743</td><td class="est">$6,294</td><td class="est">$8,147</td></tr>
+    <tr><td>Total Assets</td><td>30,075</td><td>36,251</td><td>50,660</td><td class="est">60,211</td><td class="est">69,895</td><td class="est">73,782</td></tr>
+    <tr><td>Total SH Equity</td><td>5,555</td><td>6,525</td><td>10,489</td><td class="est">11,492</td><td class="est">12,926</td><td class="est">14,387</td></tr>
+    <tr><td>Tangible BV/Share</td><td>—</td><td>$4.47</td><td>$7.01</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Total Capital Ratio</td><td>—</td><td>—</td><td>22.9%</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>NIM (Q4)</td><td>—</td><td>—</td><td>5.72%</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+  </tbody>
+</table>
+<div class="source-note">Source: FactSet, March 4, 2026. Historical GAAP revenues; Dec'26E+ estimates reflect analyst consensus. Mgmt guides adj. net revenue $4.655B (2026E), $3.6B (2025A). Negative Op CF in estimates reflects balance sheet growth (loans treated as operating outflows under bank GAAP). FCF calculated excluding loan portfolio changes.</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 3: HELMER'S 7 POWERS -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Scale Economies</span><span class="fw-rating strong">Strong</span>
+  <p class="prose" style="margin-top:3px">SoFi's cost to acquire members falls meaningfully with brand scale — marketing dollars now reach a 9.6% unaided awareness base vs. 2% in 2018, with effectiveness doubling per the Josh Allen campaign. Galileo processes 8B+ transactions/year for 200+ clients, spreading fixed tech infrastructure costs across a massive volume base. The $37.5B deposit franchise is self-reinforcing — a larger deposit base allows SoFi to offer best-in-class APY without repricing its entire book, a structural edge over both large banks and neo-banks.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Network Effects</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:3px">Indirect data network effects: 13.7M members generate behavioral and credit data that trains proprietary ML underwriting models and personalizes the AI-driven "Coach" product, creating a feedback loop that improves product quality for all users. SoFiUSD's value as a stablecoin grows with distribution breadth (8B Galileo transactions/year) — more adopters reduces friction and increases merchant/partner acceptance. These are data/distribution network effects, not direct user-to-user effects, limiting the strength.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Counter-Positioning</span><span class="fw-rating strong">Strong</span>
+  <p class="prose" style="margin-top:3px">This is SoFi's sharpest structural advantage. JPMorgan Chase earns $60B+ in credit card revenue; offering a product that refinances $1 trillion of card debt from 24% to 12% would directly cannibalize its most profitable business. Traditional banks are structurally incapable of adopting SoFi's member-centric model without destroying their own income statements. The same logic applies to crypto — Coinbase built its business on uninsured, non-interest-bearing wallets, and cannot match the FDIC-insured, interest-bearing experience SoFi offers without abandoning its product architecture.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Switching Costs</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:3px">Multi-product members face real switching friction: direct deposit re-routing, auto-pay updates, brokerage account transfers, and credit history with SoFi's underwriting engine all create stickiness. The 97% direct deposit rate confirms SoFi is a primary banking relationship for the vast majority of depositors. However, banking switching costs are lower than enterprise software — determined consumers can migrate. The upcoming AI "Coach" product — which uses all SoFi's data to optimize a member's financial life — should meaningfully deepen this moat.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Branding</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:3px">SoFi's brand has grown from 2% to 9.6% unaided awareness in eight years, aided by naming rights (SoFi Stadium, LA), the Josh Allen NFL partnership, and SoFi TGL golf. Management targets mid-20s awareness to reach "top 10 financial institution" status. The brand communicates a clear aspirational identity — "get your money right" for overachievers — which is genuinely differentiated from generic bank positioning. Still, 90% of consumers don't spontaneously think of SoFi when considering financial products, limiting current brand power.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">6. Cornered Resource</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:3px">The national bank charter is a genuine scarce resource — obtaining one requires years of regulatory investment, capital commitment, and demonstrated management competence. SoFi is the only nationally chartered bank offering crypto trading, a stablecoin on a public blockchain, and blockchain-based international remittance. The Galileo/Technisys platform, built through ~$1.2B in acquisitions, is a proprietary technology stack that competitors would take years to replicate. The Fed master account (enabling SoFiUSD reserves at zero credit/liquidity risk) is available only to bank holding companies.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">7. Process Power</span><span class="fw-rating strong">Strong</span>
+  <p class="prose" style="margin-top:3px">SoFi's internal tech development velocity is remarkable: Smart Card launched in 4.5 months; SoFiUSD from concept to stablecoin issuance in under a year; SoFi Crypto live in months after the March 2025 OCC guidance. With 40+ AI proof-of-concepts across fraud, marketing, lending, and member engagement — and the entire Galileo/Technisys stack owned in-house — SoFi can move significantly faster than bank competitors that rely on legacy core systems. This embedded capability is the organizational equivalent of a moat that compounds with use.</p>
+</div>
+
+<p class="prose"><strong>Summary:</strong> The strongest powers are Counter-Positioning (vs. traditional banks), Process Power (tech velocity via owned infrastructure), and Scale Economies. The bank charter plus crypto-first strategy creates a window that incumbents cannot close without self-harm and that pure fintechs cannot close without regulatory investment.</p>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 4: PORTER'S 5 FORCES -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Threat of New Entrants</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:3px">National bank charters create a formidable barrier — SoFi spent years and significant capital to obtain one, enabling FDIC insurance, Fed account access, and crypto permissibility. However, sponsor-bank models allow fintechs (Chime, Robinhood) to offer bank-like products through partner banks without regulatory investment. Post-2025 OCC guidance, more institutions will attempt to enter SoFi's crypto-banking niche, though obtaining a comparable charter remains a multi-year, capital-intensive undertaking.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Bargaining Power of Suppliers</span><span class="fw-rating low">Low</span>
+  <p class="prose" style="margin-top:3px">Deposit funding comes from 13.7M individual members — atomized and price-elastic at the margin but overall not concentrated. Capital markets buyers for LPB originations are numerous and competitive (SoFi just signed a new partner in Jan 2026 with several at final term sheet stage); demand exceeds supply. Technology vendors (AWS, Visa, Mastercard) have limited pricing power over SoFi given scale. The Galileo platform reduces dependence on third-party processing infrastructure.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Bargaining Power of Buyers</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:3px">Individual consumers have abundant alternatives in every product category, but multi-product engagement reduces price sensitivity — a member with direct deposit, personal loan, brokerage, and crypto on SoFi is unlikely to comparison-shop aggressively. LPB institutional buyers (asset managers, insurance companies) do have negotiating leverage at the margin, though SoFi's demand > supply position and credit quality track record limits their power. The Smart Card's 5% grocery cashback illustrates SoFi's willingness to compete on economics to win and retain relationships.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Threat of Substitutes</span><span class="fw-rating high">High</span>
+  <p class="prose" style="margin-top:3px">Every SoFi product has credible substitutes: Coinbase/Robinhood for crypto; Rocket/United Wholesale for mortgages; Marcus/Ally/Discover for HYSAs; Chase Sapphire/AmEx for credit cards; Betterment/Robinhood for investing. The key mitigant is that no single competitor offers the full integrated stack with a national bank charter — so product-level substitution doesn't necessarily mean relationship loss. But product quality must remain best-in-class to prevent leakage.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Competitive Rivalry</span><span class="fw-rating high">High</span>
+  <p class="prose" style="margin-top:3px">SoFi competes with the largest financial institutions in the world: JPMorgan ($500B+ mkt cap), American Express, Discover, and Chase in lending and deposits; Coinbase and Robinhood in invest/crypto; Galileo competes with FIS, Fiserv, and Jack Henry. The competitive intensity is structural and will increase as large banks accelerate digital investment. SoFi's counter-positioning and bank charter create a distinctive niche but not insulation from well-resourced rivals.</p>
+</div>
+
+<p class="prose"><strong>Summary:</strong> The competitive environment is challenging, with high rivalry and substitution risk. The primary protection comes from SoFi's structural differentiation — the bank charter enables what competitors literally cannot offer, and the counter-positioning vs. traditional bank business models reduces head-to-head competition at the core thesis level.</p>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 5: WHAT DRIVES THE STOCK? -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="memo-section">5. What Drives the Stock?</div>
+
+<div class="prose">
+<p style="margin-bottom:6px"><strong>1. Member growth velocity.</strong> The primary investor KPI. SoFi added 1M members in Q4 2025 alone (35% YoY). An acceleration toward 40%+ would signal the brand is achieving "escape velocity" — bullish re-rate. Any sustained deceleration below 20% would indicate market saturation or competitive loss and would compress the multiple significantly. Watch quarterly member adds as the leading signal.</p>
+
+<p style="margin-bottom:6px"><strong>2. Financial Services segment revenue per product.</strong> At $104/product/year in Q4 2025 (up from $81 in Q4 2024), this is the flywheel metric. The bull case for the stock is this growing to $150+ as crypto, stablecoin, and AI-personalization monetize at scale. Each dollar increase in FS revenue/product flows nearly entirely to contribution profit given the fixed-cost nature of the digital platform. This is the highest-multiple driver and the one to watch in every earnings call.</p>
+
+<p style="margin-bottom:6px"><strong>3. Lending credit quality (personal loan charge-offs).</strong> SoFi trades at a premium multiple in part because its credit metrics have remained pristine (WA FICO 746, charge-off 2.8% annualized, below 8% lifetime tolerance). Any meaningful deterioration in the 90-day delinquency rate or charge-off trajectory — especially in a rising unemployment environment — would compress multiple rapidly. Beta of 2.01 reflects this asymmetric downside. Monitor: 90-day DQ rate (currently 52bps), net charge-off rate (280bps), and management guidance on vintage performance.</p>
+
+<p style="margin-bottom:6px"><strong>4. Loan Platform Business (LPB) execution.</strong> LPB annualized at $775M in Q4 2025, up from &lt;$250M a year prior. This is pure capital-light fee income — no balance sheet risk, no credit exposure. New partner signings, renewal rates, and fee economics (currently ~106% execution on personal loans) are the KPIs. A slowdown in LPB demand from institutional investors would force SoFi to either originate less or hold more on balance sheet, pressuring capital ratios and reducing the fee mix story.</p>
+
+<p style="margin-bottom:6px"><strong>5. Crypto / SoFiUSD monetization.</strong> Near-zero revenue today but management explicitly describes this as a "game changer." Key to watch: SoFiUSD circulation outstanding, number of Galileo partner banks adopting SoFiUSD infrastructure, and fee economics from institutional crypto trading. Any quantification of stablecoin or crypto-as-infrastructure revenue would likely trigger a material re-rating — this is the largest option value in the stock.</p>
+
+<p><strong>6. Interest rate trajectory.</strong> Rate cuts are net positive for loan origination volumes (student refi, home loans particularly sensitive — "gangbusters" with 100-200bps cuts per management) but compress NII on deposits (60-70% downward beta). Management guides NIM above 5% through the cycle. Macro rate path directly influences both the size and timing of the bull case.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 6: WHAT DRIVES THE BUSINESS? -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Business?</div>
+
+<div class="section-title">Revenue Driver Decomposition</div>
+<table class="data" style="margin-bottom:16px">
+  <thead>
+    <tr>
+      <th style="text-align:left">Revenue Line</th>
+      <th style="text-align:left">Driver Formula</th>
+      <th>2025A KPI</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="3">Lending (~48% of Revenue)</td></tr>
+    <tr>
+      <td>Personal Loan NII</td>
+      <td style="text-align:left;font-size:10px;color:#333">Balance Sheet Loans × NIM (5.72% Q4)</td>
+      <td>$22B book; $7.5B Q4 orig.</td>
+    </tr>
+    <tr>
+      <td>LPB Fee Revenue</td>
+      <td style="text-align:left;font-size:10px;color:#333">LPB Originations × Take Rate (~5%) + Servicing Fees</td>
+      <td>$14.5B ann.; $775M ann. rev</td>
+    </tr>
+    <tr>
+      <td>Student Loan NII</td>
+      <td style="text-align:left;font-size:10px;color:#333">Refinance Volume × Spread vs. Fed Funds</td>
+      <td>~$1B/qtr; ~$400B TAM</td>
+    </tr>
+    <tr>
+      <td>Home Loan Revenue</td>
+      <td style="text-align:left;font-size:10px;color:#333">Origination Volume × Secondary Mkt Execution (102.3%)</td>
+      <td>$1.1B Q4; $4.5B ann. pace</td>
+    </tr>
+    <tr class="section-row"><td colspan="3">Financial Services (~40% of Revenue)</td></tr>
+    <tr>
+      <td>Deposit / Money NII</td>
+      <td style="text-align:left;font-size:10px;color:#333">Total Deposits × (NIM − Deposit Rate); 60-70% downward beta</td>
+      <td>$37.5B deposits; 97% DD</td>
+    </tr>
+    <tr>
+      <td>Interchange Revenue</td>
+      <td style="text-align:left;font-size:10px;color:#333">Annual Card Spend × Interchange Rate (~1.5%)</td>
+      <td>$22B ann. spend; +66% YoY</td>
+    </tr>
+    <tr>
+      <td>Brokerage / Invest Fees</td>
+      <td style="text-align:left;font-size:10px;color:#333">AUM × Fee Rate + Trading Commission × Volume</td>
+      <td>2.2x YoY brokerage rev</td>
+    </tr>
+    <tr>
+      <td>Referral / SoFi Plus Fees</td>
+      <td style="text-align:left;font-size:10px;color:#333">Members × Referral Conversion Rate × Fee per Lead</td>
+      <td>Key driver of non-int income</td>
+    </tr>
+    <tr class="section-row"><td colspan="3">Technology Platform (~12% of Revenue)</td></tr>
+    <tr>
+      <td>Galileo Processing</td>
+      <td style="text-align:left;font-size:10px;color:#333">Accounts on Platform × Processing Revenue / Account</td>
+      <td>200+ clients, 8B tx/yr</td>
+    </tr>
+    <tr>
+      <td>Technisys Licensing</td>
+      <td style="text-align:left;font-size:10px;color:#333">Contracted Clients × ARR per Client</td>
+      <td>Large client exit Q4; +20% norm.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose">The three drivers with the highest revenue leverage are: <strong>(1) Personal loan NIM</strong> — at $22B of balance sheet loans, each 10bps of NIM is ~$22M/year; <strong>(2) Financial Services revenue per product</strong> — at 20M products, each $10 increase in annual revenue/product adds $200M to the top line with near-zero marginal cost; and <strong>(3) LPB origination volume</strong> — every $1B of additional LPB volume generates ~$50M in fee revenue with no balance sheet risk. The key insight: the capital-light FS segment and LPB are the structural re-rating drivers; Lending provides the deposit franchise and credit quality track record that makes everything else possible.</p>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 7: SENSITIVITIES -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="memo-section">7. Sensitivities on Core Business Drivers</div>
+
+<p class="prose"><strong>Sensitivity 1: On-Balance Sheet Personal Loan Portfolio ($B) × Net Interest Margin (%) → Annual Lending NII ($M)</strong></p>
+<p class="prose" style="margin-bottom:4px;font-size:10px">Current: Balance sheet personal loans ~$18B (Q4 2025 est.); NIM 5.72% (Q4 2025); Note: larger portfolio = higher NII but higher capital consumption.</p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th style="text-align:left">Loan Book ($B) →<br>NIM ↓</th>
+      <th>$12B</th>
+      <th>$15B</th>
+      <th>$18B</th>
+      <th>$22B</th>
+      <th>$28B</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td class="row-header">4.50%</td><td>$540M</td><td>$675M</td><td>$810M</td><td>$990M</td><td>$1,260M</td></tr>
+    <tr><td class="row-header">5.00%</td><td>$600M</td><td>$750M</td><td>$900M</td><td>$1,100M</td><td>$1,400M</td></tr>
+    <tr><td class="row-header">5.50%</td><td>$660M</td><td>$825M</td><td class="base">$990M</td><td>$1,210M</td><td>$1,540M</td></tr>
+    <tr><td class="row-header">6.00%</td><td>$720M</td><td>$900M</td><td>$1,080M</td><td>$1,320M</td><td>$1,680M</td></tr>
+    <tr><td class="row-header">6.50%</td><td>$780M</td><td>$975M</td><td>$1,170M</td><td>$1,430M</td><td>$1,820M</td></tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:12px"><strong>Sensitivity 2: Total SoFi Members (M) × Financial Services Revenue per Product ($/yr) → Annual FS Revenue ($M)</strong></p>
+<p class="prose" style="margin-bottom:4px;font-size:10px">Current: 13.7M members (Q4 2025); ~1.46 products/member avg.; FS rev/product $104/yr (Q4 2025 annualized); 2026E guidance implies ~$115/product at ~17.5M members.</p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th style="text-align:left">Members (M) →<br>Rev/Product ↓</th>
+      <th>13M</th>
+      <th>16M</th>
+      <th>18M</th>
+      <th>22M</th>
+      <th>28M</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td class="row-header">$80/yr</td><td>$1,517M</td><td>$1,868M</td><td>$2,102M</td><td>$2,566M</td><td>$3,264M</td></tr>
+    <tr><td class="row-header">$95/yr</td><td>$1,801M</td><td>$2,218M</td><td>$2,496M</td><td>$3,049M</td><td>$3,877M</td></tr>
+    <tr><td class="row-header">$115/yr</td><td>$2,181M</td><td>$2,685M</td><td class="base">$3,021M</td><td>$3,691M</td><td>$4,694M</td></tr>
+    <tr><td class="row-header">$135/yr</td><td>$2,561M</td><td>$3,153M</td><td>$3,547M</td><td>$4,334M</td><td>$5,511M</td></tr>
+    <tr><td class="row-header">$165/yr</td><td>$3,131M</td><td>$3,854M</td><td>$4,336M</td><td>$5,297M</td><td>$6,736M</td></tr>
+  </tbody>
+</table>
+<p class="prose" style="margin-top:6px;font-size:10px;color:#666">Note: FS Revenue = Members × avg. products/member (assumed 1.46x) × Revenue/Product. The $165/product scenario assumes crypto monetization (~$30-40/product) and AI-driven product uptake materially inflect the mix.</p>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 8: 3-YEAR MODEL -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="memo-section">8. 3-Year Model (2028E Horizon, 5 Scenarios)</div>
+<p class="prose" style="margin-bottom:12px">Cases are built around the core business drivers from Section 6. Each case varies the three highest-leverage inputs: total origination volume (Lending), Financial Services revenue per product (FS), and EBITDA margin expansion (operating leverage). Current price: <strong>$18.61</strong>. All figures in $M except EPS.</p>
+
+<!-- CASE 1: BEAR SEVERE -->
+<div class="case-block">
+  <div class="case-name">Bear Case (Severe) — "Recession + Crypto Regulatory Reversal"</div>
+  <div class="case-desc">Unemployment rises to 6.5%+, personal loan charge-offs breach 5%, compelling balance sheet contraction. A change in OCC/Administration guidance reverses crypto permissibility, eliminating the stablecoin/crypto optionality. Member growth slows to ~12% CAGR. NIM compresses to 4.5% as rates fall faster than expected.</div>
+  <div class="driver-label">Key Drivers (2028E)</div>
+  <div class="driver-row"><span>Member Growth CAGR (2025→2028)</span><span>+12% / yr → 19M members</span></div>
+  <div class="driver-row"><span>Total Originations (2028E)</span><span>$22B (vs. $36B in 2025)</span></div>
+  <div class="driver-row"><span>FS Revenue / Product</span><span>$75 / yr (NII contraction)</span></div>
+  <div class="driver-row"><span>NIM</span><span>4.5% (rate cuts + credit spread)</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>20% (high fixed costs, low scale)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$4,800</td></tr>
+    <tr><td>Gross Income</td><td>2,640</td></tr>
+    <tr><td>EBITDA</td><td>960</td></tr>
+    <tr><td>EBIT</td><td>720</td></tr>
+    <tr><td>Net Income</td><td>336</td></tr>
+    <tr><td>EPS (Dil)</td><td>$0.22</td></tr>
+    <tr><td>Gross Margin</td><td>55.0%</td></tr>
+    <tr><td>EBITDA Margin</td><td>20.0%</td></tr>
+    <tr><td>Net Margin</td><td>7.0%</td></tr>
+    <tr><td>FCF</td><td>$380</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>
+      <div style="font-size:9px;color:#888;font-weight:600">EXIT P/E APPLIED</div>
+      <div style="font-weight:600;font-size:11px">10x EPS</div>
+    </div>
+    <div>
+      <div style="font-size:9px;color:#888;font-weight:600">IMPLIED PRICE</div>
+      <div class="exit-price">$2.20</div>
+    </div>
+    <div>
+      <div style="font-size:9px;color:#888;font-weight:600">UPSIDE / DOWNSIDE</div>
+      <div class="exit-upside exit-dn">-88% vs. $18.61</div>
+    </div>
+  </div>
+</div>
+
+<!-- CASE 2: BEAR MILD -->
+<div class="case-block">
+  <div class="case-name">Bear Case (Mild) — "Rate Stickiness + Slower Member Growth"</div>
+  <div class="case-desc">Rates remain elevated longer than expected, suppressing student loan refi volumes and home loan originations. Member growth moderates to ~20% CAGR. Financial Services monetization progresses but crypto/stablecoin revenues remain immaterial through 2028. LPB grows but institutional demand cools.</div>
+  <div class="driver-label">Key Drivers (2028E)</div>
+  <div class="driver-row"><span>Member Growth CAGR (2025→2028)</span><span>+20% / yr → 23.7M members</span></div>
+  <div class="driver-row"><span>Total Originations (2028E)</span><span>$42B</span></div>
+  <div class="driver-row"><span>FS Revenue / Product</span><span>$95 / yr</span></div>
+  <div class="driver-row"><span>NIM</span><span>5.2%</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>28%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$5,600</td></tr>
+    <tr><td>Gross Income</td><td>3,360</td></tr>
+    <tr><td>EBITDA</td><td>1,568</td></tr>
+    <tr><td>EBIT</td><td>1,232</td></tr>
+    <tr><td>Net Income</td><td>616</td></tr>
+    <tr><td>EPS (Dil)</td><td>$0.41</td></tr>
+    <tr><td>Gross Margin</td><td>60.0%</td></tr>
+    <tr><td>EBITDA Margin</td><td>28.0%</td></tr>
+    <tr><td>Net Margin</td><td>11.0%</td></tr>
+    <tr><td>FCF</td><td>$875</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>
+      <div style="font-size:9px;color:#888;font-weight:600">EXIT P/E APPLIED</div>
+      <div style="font-weight:600;font-size:11px">18x EPS</div>
+    </div>
+    <div>
+      <div style="font-size:9px;color:#888;font-weight:600">IMPLIED PRICE</div>
+      <div class="exit-price">$7.38</div>
+    </div>
+    <div>
+      <div style="font-size:9px;color:#888;font-weight:600">UPSIDE / DOWNSIDE</div>
+      <div class="exit-upside exit-dn">-60% vs. $18.61</div>
+    </div>
+  </div>
+</div>
+
+<!-- CASE 3: BASE -->
+<div class="case-block">
+  <div class="case-name">Base Case — "Consensus / Management Guidance Trajectory"</div>
+  <div class="case-desc">Member growth continues at ~25% CAGR. Rate environment follows Fed funds futures (2 cuts in 2026). NIM stays above 5%. Crypto/stablecoin revenues contribute modestly by 2028. LPB and Financial Services continue compounding. Management 2028 EPS CAGR of 38-42% approximately achievable.</div>
+  <div class="driver-label">Key Drivers (2028E)</div>
+  <div class="driver-row"><span>Member Growth CAGR (2025→2028)</span><span>+25% / yr → 26.6M members</span></div>
+  <div class="driver-row"><span>Total Originations (2028E)</span><span>$56B</span></div>
+  <div class="driver-row"><span>FS Revenue / Product</span><span>$115 / yr</span></div>
+  <div class="driver-row"><span>NIM</span><span>5.5%</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>36% (operating leverage)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$6,797</td></tr>
+    <tr><td>Gross Income</td><td>5,831</td></tr>
+    <tr><td>EBITDA</td><td>2,477</td></tr>
+    <tr><td>EBIT</td><td>1,852</td></tr>
+    <tr><td>Net Income</td><td>1,474</td></tr>
+    <tr><td>EPS (Dil)</td><td>$0.99</td></tr>
+    <tr><td>Gross Margin</td><td>85.8%</td></tr>
+    <tr><td>EBITDA Margin</td><td>36.4%</td></tr>
+    <tr><td>Net Margin</td><td>21.7%</td></tr>
+    <tr><td>FCF</td><td>$1,866</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>
+      <div style="font-size:9px;color:#888;font-weight:600">EXIT P/E APPLIED</div>
+      <div style="font-weight:600;font-size:11px">25x EPS</div>
+    </div>
+    <div>
+      <div style="font-size:9px;color:#888;font-weight:600">IMPLIED PRICE</div>
+      <div class="exit-price">$24.75</div>
+    </div>
+    <div>
+      <div style="font-size:9px;color:#888;font-weight:600">UPSIDE / DOWNSIDE</div>
+      <div class="exit-upside exit-up">+33% vs. $18.61</div>
+    </div>
+  </div>
+</div>
+
+<!-- CASE 4: BULL MILD -->
+<div class="case-block">
+  <div class="case-name">Bull Case (Mild) — "Crypto Monetization Inflects, Member Growth Accelerates"</div>
+  <div class="case-desc">SoFiUSD achieves meaningful B2B distribution through Galileo's 200+ client base, adding $20-30 per product in revenue. Rate cuts accelerate student loan refi volumes. Member growth re-accelerates to 30% CAGR driven by viral word-of-mouth and AI-driven personalization. LPB near-prime expansion adds material new origination volume.</div>
+  <div class="driver-label">Key Drivers (2028E)</div>
+  <div class="driver-row"><span>Member Growth CAGR (2025→2028)</span><span>+30% / yr → 30.8M members</span></div>
+  <div class="driver-row"><span>Total Originations (2028E)</span><span>$72B (incl. near-prime LPB)</span></div>
+  <div class="driver-row"><span>FS Revenue / Product</span><span>$135 / yr (crypto adds ~$25)</span></div>
+  <div class="driver-row"><span>NIM</span><span>5.8%</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>41%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$8,500</td></tr>
+    <tr><td>Gross Income</td><td>6,800</td></tr>
+    <tr><td>EBITDA</td><td>3,485</td></tr>
+    <tr><td>EBIT</td><td>2,890</td></tr>
+    <tr><td>Net Income</td><td>1,955</td></tr>
+    <tr><td>EPS (Dil)</td><td>$1.30</td></tr>
+    <tr><td>Gross Margin</td><td>80.0%</td></tr>
+    <tr><td>EBITDA Margin</td><td>41.0%</td></tr>
+    <tr><td>Net Margin</td><td>23.0%</td></tr>
+    <tr><td>FCF</td><td>$2,550</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>
+      <div style="font-size:9px;color:#888;font-weight:600">EXIT P/E APPLIED</div>
+      <div style="font-weight:600;font-size:11px">30x EPS</div>
+    </div>
+    <div>
+      <div style="font-size:9px;color:#888;font-weight:600">IMPLIED PRICE</div>
+      <div class="exit-price">$39.00</div>
+    </div>
+    <div>
+      <div style="font-size:9px;color:#888;font-weight:600">UPSIDE / DOWNSIDE</div>
+      <div class="exit-upside exit-up">+110% vs. $18.61</div>
+    </div>
+  </div>
+</div>
+
+<!-- CASE 5: BULL SEVERE -->
+<div class="case-block">
+  <div class="case-name">Bull Case (Severe) — "Platform Flywheel + SoFiUSD at Scale"</div>
+  <div class="case-desc">SoFiUSD becomes the dominant bank-issued stablecoin infrastructure, distributed to banks and fintechs through Galileo (8B transactions/year). Crypto/stablecoin adds $50+ per product annually. Member growth hits 40% CAGR driven by international expansion (SoFi Pay) and business banking launch. SoFi becomes a top-10 consumer brand (mid-20s unaided awareness).</div>
+  <div class="driver-label">Key Drivers (2028E)</div>
+  <div class="driver-row"><span>Member Growth CAGR (2025→2028)</span><span>+40% / yr → 37.5M members</span></div>
+  <div class="driver-row"><span>Total Originations (2028E)</span><span>$95B+</span></div>
+  <div class="driver-row"><span>FS Revenue / Product</span><span>$165 / yr (crypto + stablecoin)</span></div>
+  <div class="driver-row"><span>NIM</span><span>6.0%</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>46% (platform operating leverage)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$11,000</td></tr>
+    <tr><td>Gross Income</td><td>9,350</td></tr>
+    <tr><td>EBITDA</td><td>5,060</td></tr>
+    <tr><td>EBIT</td><td>4,290</td></tr>
+    <tr><td>Net Income</td><td>2,860</td></tr>
+    <tr><td>EPS (Dil)</td><td>$1.91</td></tr>
+    <tr><td>Gross Margin</td><td>85.0%</td></tr>
+    <tr><td>EBITDA Margin</td><td>46.0%</td></tr>
+    <tr><td>Net Margin</td><td>26.0%</td></tr>
+    <tr><td>FCF</td><td>$3,600</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>
+      <div style="font-size:9px;color:#888;font-weight:600">EXIT P/E APPLIED</div>
+      <div style="font-weight:600;font-size:11px">38x EPS</div>
+    </div>
+    <div>
+      <div style="font-size:9px;color:#888;font-weight:600">IMPLIED PRICE</div>
+      <div class="exit-price">$72.58</div>
+    </div>
+    <div>
+      <div style="font-size:9px;color:#888;font-weight:600">UPSIDE / DOWNSIDE</div>
+      <div class="exit-upside exit-up">+290% vs. $18.61</div>
+    </div>
+  </div>
+</div>
+
+<!-- SVG BAR CHART -->
+<div class="case-chart">
+<svg viewBox="0 0 680 270" xmlns="http://www.w3.org/2000/svg" style="display:block">
+  <!-- Grid lines -->
+  <line x1="60" y1="220" x2="650" y2="220" stroke="#ddd" stroke-width="1"/>
+  <line x1="60" y1="20" x2="650" y2="20" stroke="#eee" stroke-width="0.5"/>
+  <!-- Y-axis labels -->
+  <text x="55" y="224" font-size="8" font-family="Arial" text-anchor="end" fill="#888">$0</text>
+  <!-- $20 → y = 220 - (20/72.58)*200 = 220 - 55.1 = 164.9 -->
+  <line x1="60" y1="164.9" x2="650" y2="164.9" stroke="#eee" stroke-width="0.5" stroke-dasharray="3,3"/>
+  <text x="55" y="168.5" font-size="8" font-family="Arial" text-anchor="end" fill="#888">$20</text>
+  <!-- $40 → y = 220 - (40/72.58)*200 = 220 - 110.2 = 109.8 -->
+  <line x1="60" y1="109.8" x2="650" y2="109.8" stroke="#eee" stroke-width="0.5" stroke-dasharray="3,3"/>
+  <text x="55" y="113.5" font-size="8" font-family="Arial" text-anchor="end" fill="#888">$40</text>
+  <!-- $60 → y = 220 - (60/72.58)*200 = 220 - 165.3 = 54.7 -->
+  <line x1="60" y1="54.7" x2="650" y2="54.7" stroke="#eee" stroke-width="0.5" stroke-dasharray="3,3"/>
+  <text x="55" y="58.3" font-size="8" font-family="Arial" text-anchor="end" fill="#888">$60</text>
+
+  <!-- Bear Severe: $2.20, height = (2.20/72.58)*200 = 6.1px; y_top = 213.9 -->
+  <rect x="73" y="213.9" width="80" height="6.1" fill="#b0b0b0" rx="2"/>
+  <text x="113" y="209" font-size="8" font-family="Arial" text-anchor="middle" fill="#555">$2.20</text>
+
+  <!-- Bear Mild: $7.38, height = (7.38/72.58)*200 = 20.3px; y_top = 199.7 -->
+  <rect x="193" y="199.7" width="80" height="20.3" fill="#b0b0b0" rx="2"/>
+  <text x="233" y="195" font-size="8" font-family="Arial" text-anchor="middle" fill="#555">$7.38</text>
+
+  <!-- Base: $24.75, height = (24.75/72.58)*200 = 68.3px; y_top = 151.7 -->
+  <rect x="313" y="151.7" width="80" height="68.3" fill="#555" rx="2"/>
+  <text x="353" y="147" font-size="8" font-family="Arial" text-anchor="middle" fill="#333">$24.75</text>
+
+  <!-- Bull Mild: $39.00, height = (39.00/72.58)*200 = 107.5px; y_top = 112.5 -->
+  <rect x="433" y="112.5" width="80" height="107.5" fill="#444" rx="2"/>
+  <text x="473" y="108" font-size="8" font-family="Arial" text-anchor="middle" fill="#333">$39.00</text>
+
+  <!-- Bull Severe: $72.58, height = (72.58/72.58)*200 = 200px; y_top = 20 -->
+  <rect x="553" y="20" width="80" height="200" fill="#1a1a2e" rx="2"/>
+  <text x="593" y="15" font-size="8" font-family="Arial" text-anchor="middle" fill="#333">$72.58</text>
+
+  <!-- Current price dashed line: $18.61, y = 220 - (18.61/72.58)*200 = 220 - 51.3 = 168.7 -->
+  <line x1="60" y1="168.7" x2="650" y2="168.7" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <text x="648" y="165" font-size="8" font-family="Arial" text-anchor="end" fill="#c0392b" font-weight="600">Current $18.61</text>
+
+  <!-- X-axis labels -->
+  <text x="113" y="235" font-size="8" font-family="Arial" text-anchor="middle" fill="#666">Bear Severe</text>
+  <text x="233" y="235" font-size="8" font-family="Arial" text-anchor="middle" fill="#666">Bear Mild</text>
+  <text x="353" y="235" font-size="8" font-family="Arial" text-anchor="middle" fill="#666">Base</text>
+  <text x="473" y="235" font-size="8" font-family="Arial" text-anchor="middle" fill="#666">Bull Mild</text>
+  <text x="593" y="235" font-size="8" font-family="Arial" text-anchor="middle" fill="#666">Bull Severe</text>
+
+  <text x="355" y="255" font-size="9" font-family="Arial" text-anchor="middle" fill="#999">Implied Share Price by Scenario — 2028E Exit (3-Year Horizon from Mar-2026)</text>
+</svg>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 9: COMPS -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Comparable Companies</div>
+
+<div class="section-title">Group A — Named Competitors: Selected Financials (LTM)</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th style="text-align:left">Company</th>
+      <th>Mkt Cap ($M)</th>
+      <th>EV ($M)</th>
+      <th>Revenue ($M)</th>
+      <th>EBITDA ($M)</th>
+      <th>EBIT ($M)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="font-weight:700;background:#f0f0f0">
+      <td>SoFi Technologies (SOFI)</td><td>$26,612</td><td>$22,207</td><td>$4,770</td><td>$933</td><td>$698</td>
+    </tr>
+    <tr><td>Chime Financial</td><td>$9,698</td><td>$8,629</td><td>$1,966</td><td>NM</td><td>NM</td></tr>
+    <tr><td>SLM Corp (SLM)</td><td>$3,878</td><td>$5,509</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td>Marqeta (MQ)</td><td>$1,848</td><td>$776</td><td>—</td><td>NM</td><td>NM</td></tr>
+    <tr><td>Q2 Holdings (QTWO)</td><td>$3,329</td><td>$3,200</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td>EVERTEC (EVTC)</td><td>$1,840</td><td>$2,661</td><td>—</td><td>—</td><td>—</td></tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px">Group A — Named Competitors: Valuation Multiples (LTM)</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th style="text-align:left">Company</th>
+      <th>EV/Revenue</th>
+      <th>EV/EBITDA</th>
+      <th>EV/EBIT</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="font-weight:700;background:#f0f0f0">
+      <td>SoFi Technologies (SOFI)</td><td>4.7x</td><td>23.8x</td><td>31.8x</td>
+    </tr>
+    <tr><td>Chime Financial</td><td>4.4x</td><td>NM</td><td>NM</td></tr>
+    <tr><td>SLM Corp (SLM)</td><td>—</td><td>3.3x</td><td>3.3x</td></tr>
+    <tr><td>Marqeta (MQ)</td><td>—</td><td>NM</td><td>NM</td></tr>
+    <tr><td>Q2 Holdings (QTWO)</td><td>—</td><td>27.8x</td><td>70.1x</td></tr>
+    <tr><td>EVERTEC (EVTC)</td><td>—</td><td>8.2x</td><td>13.6x</td></tr>
+    <tr style="font-weight:600;background:#fafbfc"><td>Average (excl. NM)</td><td>—</td><td>13.1x</td><td>24.4x</td></tr>
+    <tr style="font-weight:600;background:#fafbfc"><td>Median (excl. NM)</td><td>—</td><td>8.2x</td><td>13.6x</td></tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px">Group B — RBICS Specialty Finance: Valuation Multiples (LTM)</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th style="text-align:left">Company</th>
+      <th>Mkt Cap ($M)</th>
+      <th>EV ($M)</th>
+      <th>EV/EBITDA</th>
+      <th>EV/EBIT</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="font-weight:700;background:#f0f0f0">
+      <td>SoFi Technologies (SOFI)</td><td>$26,612</td><td>$22,207</td><td>23.8x</td><td>31.8x</td>
+    </tr>
+    <tr><td>Synchrony Financial (SYF)</td><td>$24,305</td><td>$23,873</td><td>2.2x</td><td>2.2x</td></tr>
+    <tr><td>Corpay (CPAY)</td><td>$23,171</td><td>$23,924</td><td>9.7x</td><td>11.5x</td></tr>
+    <tr><td>Global Payments (GPN)</td><td>$21,940</td><td>$35,925</td><td>9.6x</td><td>16.3x</td></tr>
+    <tr><td>Circle Internet Group</td><td>$27,649</td><td>NM</td><td>NM</td><td>NM</td></tr>
+    <tr style="font-weight:600;background:#fafbfc"><td>Average (excl. NM)</td><td>—</td><td>—</td><td>11.3x</td><td>15.5x</td></tr>
+    <tr style="font-weight:600;background:#fafbfc"><td>Median (excl. NM)</td><td>—</td><td>—</td><td>9.6x</td><td>13.9x</td></tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:10px">SoFi trades at a meaningful premium to both comp groups — 23.8x EV/EBITDA vs. a 13.1x average for named competitors and 11.3x for RBICS specialty finance. The premium is partially justified by SoFi's superior revenue growth profile (+38% YoY in Q4 2025 vs. low-single-digit for most comps) and the high optionality of the crypto/stablecoin business that generates no revenue today. However, with EPS of only $0.39 in 2025 and consensus at $0.60 in 2026, the current valuation essentially prices in the base-to-bull scenario — there is limited margin of safety at current levels. The stock's -36% pullback from its 52-week high of $32.73 suggests the market has partially de-risked the crypto premium.</p>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 10: IS THIS A THEIA INVESTMENT? -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="memo-section">10. Is This a Theia Investment?</div>
+<p class="prose" style="margin-bottom:8px;font-style:italic">Theia seeks small cap companies that aren't well covered and are strongly aligned on the core internet finance thesis with wide outcome dispersion.</p>
+
+<div class="verdict">
+  <strong>(i) Market Cap Bucket: $23.7B Basic / $26.6B Fully Diluted</strong> <span class="fw-rating weak">Weak</span>
+  <br>SoFi is firmly <strong>Large Cap</strong> — well above Theia's preferred micro- ($&lt;1B) and small-cap ($1–5B) sweet spot. The recent pullback from $32.73 (52-week high) to $18.61 has compressed market cap from ~$42B to ~$24B, but this is still a large-cap company by any measure. Only a bear scenario causing a sustained &lt;$5B valuation would bring SoFi into Theia's preferred size range — which would also imply substantial fundamental deterioration.
+</div>
+
+<div class="verdict">
+  <strong>(ii) Analyst Coverage: 19 Broker Contributors</strong> <span class="fw-rating weak">Weak</span>
+  <br>SoFi is well-covered at 19 analysts, above Theia's under-covered threshold of &lt;5. Active coverage by JPMorgan, Goldman Sachs, UBS, Jefferies, Mizuho, Citigroup, TD Securities, Needham, William Blair, Stephens, and Citizens JMP Securities means consensus expectations are well-informed, sell-side EPS models are detailed and frequently updated, and alpha from an information edge is difficult to establish. This is the opposite of the "undiscovered" profile Theia targets.
+</div>
+
+<div class="verdict">
+  <strong>(iii) Blockchain / Internet Finance Thesis Alignment: First National Bank in Crypto/Stablecoin</strong> <span class="fw-rating strong">Strong</span>
+  <br>SoFi is perhaps the most direct institutional expression of the internet finance thesis in US public markets: (a) the first nationally chartered bank to offer consumer crypto trading, (b) the first national bank to issue a stablecoin on a public permissionless blockchain (SoFiUSD, December 2025), (c) blockchain-based international remittance (SoFi Pay, using Bitcoin Lightning Network), (d) digital-native banking infrastructure (Galileo) powering the entire US fintech ecosystem. SoFi is not "adjacent" to the thesis — it IS the thesis, with regulatory standing that pure crypto-native competitors can't match. Alignment: <strong>Core.</strong>
+</div>
+
+<div class="verdict">
+  <strong>(iv) Outcome Dispersion: Bear $2.20 → Bull $72.58 (3-Year Horizon)</strong> <span class="fw-rating strong">Strong</span>
+  <br>The range of outcomes is extremely wide — from -88% (regulatory reversal + credit cycle + recession) to +290% (SoFiUSD becomes bank stablecoin infrastructure at scale). The primary drivers of dispersion are: crypto regulatory environment (binary), credit cycle (nonlinear downside), member growth trajectory (compounding upside), and stablecoin/B2B monetization (currently zero, optionally enormous). This is precisely the type of wide-distribution outcome where behavioral/analytical mispricing can occur — particularly given the stock's recent -36% drawdown on macro concerns rather than fundamental deterioration.
+</div>
+
+<div style="margin-top:16px; background:#1a1a2e; color:#fff; padding:12px 16px; border-radius:4px;">
+  <strong style="font-size:13px">Verdict: MAYBE — Exceptional Thesis + Dispersion, But Too Large for Theia's Core Mandate</strong>
+  <p style="margin-top:8px;font-size:11px;line-height:1.6;color:#ddd">SoFi scores perfectly on thesis alignment (core internet finance + crypto infrastructure) and outcome dispersion (400pt range from bear to bull). However, it fails on Theia's two structural screens — large cap ($24B) and well-covered (19 analysts). The -36% three-month drawdown provides a better entry point than three months ago, and the stock now prices closer to base case than bull case. A position in SoFi would require Theia to operate outside its core mandate. <strong style="color:#fff">Monitor closely for: (1) a sustained de-rating below $5B cap that brings it into range, OR (2) any thesis event where the market materially misprices the crypto/stablecoin optionality vs. lending credit risks.</strong></p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 11: APPENDIX — PYTHON CODE -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="appendix">
+<div class="memo-section">11. Appendix — Parameterized Python Code</div>
+
+<div class="section-title">Sensitivity Table Generator</div>
+<div class="code-block">import numpy as np
+import pandas as pd
+
+# ─── SENSITIVITY 1: Loan Book Size vs. NIM → Lending NII ───────────────────────
+def lending_nii_sensitivity(
+    loan_books_bn = [12, 15, 18, 22, 28],   # $B on balance sheet
+    nim_pcts = [4.50, 5.00, 5.50, 6.00, 6.50],  # Net interest margin %
+    base_book = 18,                           # Current est. balance sheet ($B)
+    base_nim  = 5.50                          # Current NIM %
+):
+    rows = []
+    for nim in nim_pcts:
+        row = {}
+        for book in loan_books_bn:
+            nii = book * 1000 * (nim / 100)   # $M
+            row[f"${book}B"] = f"${nii:,.0f}M"
+        rows.append({"NIM": f"{nim:.2f}%", **row})
+    df = pd.DataFrame(rows).set_index("NIM")
+    print("Sensitivity 1: Personal Loan Book ($B) × NIM → Annual NII ($M)")
+    print(f"Current: ~${base_book}B book, {base_nim}% NIM → ${base_book*1000*(base_nim/100):,.0f}M NII")
+    print(df.to_string())
+    return df
+
+# ─── SENSITIVITY 2: Members × FS Rev/Product → FS Revenue ─────────────────────
+def fs_revenue_sensitivity(
+    members_m = [13, 16, 18, 22, 28],        # Total members (millions)
+    rev_per_product = [80, 95, 115, 135, 165], # FS revenue per product ($/yr)
+    products_per_member = 1.46,               # Current average (20M products / 13.7M members)
+    base_members = 18,                        # 2026E est. members (M)
+    base_rev_pp  = 115                        # 2026E est. FS rev/product
+):
+    rows = []
+    for rpp in rev_per_product:
+        row = {}
+        for m in members_m:
+            fs_rev = m * products_per_member * rpp  # $M
+            row[f"{m}M mbrs"] = f"${fs_rev:,.0f}M"
+        rows.append({"Rev/Product": f"${rpp}/yr", **row})
+    df = pd.DataFrame(rows).set_index("Rev/Product")
+    base = base_members * products_per_member * base_rev_pp
+    print("\nSensitivity 2: Members (M) × FS Revenue/Product → Annual FS Revenue ($M)")
+    print(f"Current: {base_members}M members, ${base_rev_pp}/product → ${base:,.0f}M FS Revenue")
+    print(df.to_string())
+    return df
+
+lending_nii_sensitivity()
+fs_revenue_sensitivity()</div>
+
+<div class="section-title" style="margin-top:16px">5-Case Model Generator (2028E)</div>
+<div class="code-block">import pandas as pd
+
+# ─── INPUT PARAMETERS ──────────────────────────────────────────────────────────
+CURRENT_PRICE = 18.61
+DILUTED_SHARES_M = 1_500  # est. 2028 diluted share count
+
+cases = {
+    "Bear Severe": {
+        "desc": "Recession + crypto regulatory reversal",
+        "revenue":     4_800,
+        "gross_pct":   0.55,
+        "ebitda_pct":  0.20,
+        "ebit_pct":    0.15,
+        "net_pct":     0.07,
+        "exit_pe":     10,
+    },
+    "Bear Mild": {
+        "desc": "Rate stickiness + slower member growth",
+        "revenue":     5_600,
+        "gross_pct":   0.60,
+        "ebitda_pct":  0.28,
+        "ebit_pct":    0.22,
+        "net_pct":     0.11,
+        "exit_pe":     18,
+    },
+    "Base": {
+        "desc": "Consensus / management guidance trajectory",
+        "revenue":     6_797,
+        "gross_pct":   0.858,
+        "ebitda_pct":  0.364,
+        "ebit_pct":    0.273,
+        "net_pct":     0.217,
+        "exit_pe":     25,
+    },
+    "Bull Mild": {
+        "desc": "Crypto monetization inflects, members +30% CAGR",
+        "revenue":     8_500,
+        "gross_pct":   0.80,
+        "ebitda_pct":  0.41,
+        "ebit_pct":    0.34,
+        "net_pct":     0.23,
+        "exit_pe":     30,
+    },
+    "Bull Severe": {
+        "desc": "SoFiUSD at scale, member growth +40% CAGR",
+        "revenue":    11_000,
+        "gross_pct":   0.85,
+        "ebitda_pct":  0.46,
+        "ebit_pct":    0.39,
+        "net_pct":     0.26,
+        "exit_pe":     38,
+    },
+}
+
+# ─── BUILD MODEL ───────────────────────────────────────────────────────────────
+def build_model(cases, current_price=CURRENT_PRICE, shares_m=DILUTED_SHARES_M):
+    results = {}
+    for name, p in cases.items():
+        rev   = p["revenue"]
+        gross = rev * p["gross_pct"]
+        ebitda = rev * p["ebitda_pct"]
+        ebit  = rev * p["ebit_pct"]
+        ni    = rev * p["net_pct"]
+        eps   = ni / shares_m * 1_000           # $
+        impl  = eps * p["exit_pe"]
+        upside = (impl - current_price) / current_price * 100
+        results[name] = {
+            "Revenue ($M)":      f"${rev:,.0f}",
+            "Gross Income ($M)": f"${gross:,.0f}",
+            "EBITDA ($M)":       f"${ebitda:,.0f}",
+            "EBIT ($M)":         f"${ebit:,.0f}",
+            "Net Income ($M)":   f"${ni:,.0f}",
+            "EPS":               f"${eps:.2f}",
+            "Exit P/E":          f"{p['exit_pe']}x",
+            "Implied Price":     f"${impl:.2f}",
+            "Upside / (Dwn)":    f"{upside:+.1f}%",
+        }
+    df = pd.DataFrame(results)
+    print("\n3-Year Model (2028E) — SoFi Technologies")
+    print(f"Current Price: ${current_price:.2f} | Diluted Shares: {shares_m:,}M")
+    print(df.to_string())
+    return df
+
+build_model(cases)</div>
+</div>
+
+<div class="source-note" style="margin-top:16px">Prepared by Claude Code (Anthropic) for Theia | Source data: FactSet Snapshot SOFI-US (March 4, 2026), Q4 2025 Earnings Call (Jan 30, 2026), KBW Fintech Payments Conference (Nov 11, 2025). This memo is for internal research purposes only and does not constitute investment advice.</div>
+
+</body>
+</html>
