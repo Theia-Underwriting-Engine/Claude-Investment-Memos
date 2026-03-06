@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Figure Technology Solutions | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', Arial, sans-serif; background: #fff; color: #1a1a2e; width: 816px; margin: 0 auto; padding: 32px 40px; font-size: 11px; line-height: 1.45; }
+.title-bar { font-size: 20px; font-weight: 700; letter-spacing: -0.4px; color: #1a1a2e; border-bottom: 3px solid #1a1a2e; padding-bottom: 10px; margin-bottom: 20px; text-align: center; }
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+.fw-item { margin-bottom: 10px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; font-size: 8.5px; }
+.case-block table.scenario-mini th:first-child { text-align: left; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini tr.dim td { color: #888; font-style: italic; font-size: 8.5px; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+.alphasense-box { background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 4px; padding: 8px 12px; margin-bottom: 14px; font-size: 10px; color: #1e3a5f; }
+.bull-col .section-title { color: #155724; border-bottom-color: #155724; }
+.bear-col .section-title { color: #721c24; border-bottom-color: #721c24; }
+.bullet-item { margin-bottom: 7px; }
+.bullet-item .b-name { font-weight: 700; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Figure Technology Solutions, Inc. | Preliminary Memo for Theia</div>
+
+<!-- ===================== SECTION 1: BUSINESS OVERVIEW ===================== -->
+<div class="memo-section">1. Business Overview</div>
+<p class="prose">
+Figure Technology Solutions, Inc. (FIGR) is a San Francisco-based fintech company founded in 2018 by Mike Cagney (former CEO of SoFi) that has built the first vertically integrated, blockchain-native capital markets platform for consumer lending. The company operates across three interlocking layers: (1) <strong>FT Intermediate</strong>, which originates home equity lines of credit (HELOCs), first-lien mortgages, SMB loans, and DSCR loans through a proprietary LOS that cuts origination cost to under $1,000 and time-to-fund to 5 days versus the industry average of $11,000 and 45 days; (2) <strong>Figure Connect</strong>, a two-sided capital markets marketplace where originators sell standardized, blockchain-registered loans to institutional buyers at a ~3% ecosystem fee with ~80% contribution margins; and (3) <strong>Democratized Prime</strong>, a DeFi-native warehouse financing platform where originators borrow against tokenized loan collateral at ~50bps, paired with <strong>YLDS</strong>, a yield-bearing SEC-registered stablecoin serving as the settlement layer. All loans are registered on the Provenance Blockchain via DART (Digital Asset Registry Technology), creating homogeneous, immutable assets with transparent performance history — the infrastructure that management believes constitutes a durable institutional moat ("you can't AI your way into AAA"). CEO Michael Tannenbaum leads day-to-day operations alongside CFO Macrina Kgil; the company IPO'd on NYSE in August 2025, raising $787.5M. For FY2025, Figure reported $506.9M in revenue (+84% Y/Y), $251.1M in Adjusted EBITDA (48.8% margin), and $8.4B in consumer loan marketplace volume (+63% Y/Y).
+</p>
+
+<!-- ===================== SECTION 2: FINANCIAL SUMMARY ===================== -->
+<div class="memo-section">2. Financial Summary</div>
+
+<div class="header">
+  <div>
+    <h1>Figure Technology Solutions, Inc.</h1>
+    <span class="ticker">FIGR-US &nbsp;·&nbsp; NYSE &nbsp;·&nbsp; CUSIP 349381103</span>
+  </div>
+  <div class="date">As of March 5, 2026 &nbsp;·&nbsp; Source: FactSet</div>
+</div>
+
+<div class="price-bar">
+  <div><span class="price">$31.50</span></div>
+  <div><span class="label">1M</span> <span class="chg">-23.67%</span></div>
+  <div><span class="label">3M</span> <span class="chg">-19.23%</span></div>
+  <div><span class="label">6M</span> <span class="chg">—</span></div>
+  <div><span class="label">YTD</span> <span class="chg">-22.87%</span></div>
+  <div><span class="label">1Y</span> <span class="chg">—</span></div>
+  <div><span class="label">52W Range</span> <span style="font-weight:600">$25.01 – $78.00</span></div>
+  <div><span class="label">% of 52W High</span> <span style="font-weight:600">40.4%</span></div>
+</div>
+
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv">
+      <tr><td>Primary Ticker</td><td>FIGR-US</td></tr>
+      <tr><td>Exchange</td><td>NYSE</td></tr>
+      <tr><td>Current Price</td><td>$31.50</td></tr>
+      <tr><td>Volume (latest)</td><td>5,537,605</td></tr>
+      <tr><td>30D Avg Daily Vol</td><td>5,303,840</td></tr>
+      <tr><td>Float (%)</td><td>59.63%</td></tr>
+      <tr><td>Short Interest</td><td>3.1 Days / 11.78% Float</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev">
+      <tr><td>Price (Mar 05, '26)</td><td>$31.50</td></tr>
+      <tr><td>Basic Shares — Class A (M)</td><td>177.73</td></tr>
+      <tr><td>&nbsp;&nbsp; Class B Convertible (M)</td><td>37.89</td></tr>
+      <tr><td>Market Cap</td><td>$6,792M</td></tr>
+      <tr><td>+ Stock Comp (dilution, M)</td><td>40.21</td></tr>
+      <tr><td>Fully Dil. Market Cap</td><td>$8,059M</td></tr>
+      <tr><td>+ Consolidated Debt</td><td>$803M</td></tr>
+      <tr><td>− Cash &amp; Equivalents</td><td>($1,200M)</td></tr>
+      <tr><td>− Investments in Unconsol. Subs</td><td>($6M)</td></tr>
+      <tr><td>+ Non-Controlling Interest</td><td>$9M</td></tr>
+      <tr class="total"><td>Enterprise Value</td><td>$7,665M</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="section-title">Current Valuation</div>
+<div class="val-grid">
+  <div class="val-cell"><div class="val-label">Market Cap</div><div class="val-num">$6.8B</div><div class="val-sub">Basic</div></div>
+  <div class="val-cell"><div class="val-label">Enterprise Value</div><div class="val-num">$7.7B</div><div class="val-sub">As of Mar '26</div></div>
+  <div class="val-cell"><div class="val-label">P/E (NTM)</div><div class="val-num">34.7x</div><div class="val-sub">2026E $0.91</div></div>
+  <div class="val-cell"><div class="val-label">EV/EBITDA</div><div class="val-num">20.1x</div><div class="val-sub">2026E Adj.</div></div>
+  <div class="val-cell"><div class="val-label">EV/Sales</div><div class="val-num">10.9x</div><div class="val-sub">2026E</div></div>
+  <div class="val-cell"><div class="val-label">P/Sales</div><div class="val-num">9.7x</div><div class="val-sub">2026E</div></div>
+</div>
+<div class="val-grid">
+  <div class="val-cell"><div class="val-label">Fully Dil. Mkt Cap</div><div class="val-num">$8.1B</div><div class="val-sub">255.84M shs</div></div>
+  <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">14.83%</div><div class="val-sub">FactSet est.</div></div>
+  <div class="val-cell"><div class="val-label">Beta (3Y Adj.)</div><div class="val-num">2.52</div><div class="val-sub">High vol.</div></div>
+  <div class="val-cell"><div class="val-label">Avg Rating</div><div class="val-num">OW</div><div class="val-sub">1.40 / 9 analysts</div></div>
+  <div class="val-cell"><div class="val-label">Target Price</div><div class="val-num">$52.90</div><div class="val-sub">+67.9% upside</div></div>
+  <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">Jun 03</div><div class="val-sub">2026</div></div>
+</div>
+
+<div class="section-title">Valuation Multiples</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th>Multiple</th><th>5Yr Avg</th><th>Dec '23</th><th>Dec '24</th><th>Dec '25</th>
+      <th class="est">Dec '26E</th><th class="est">Dec '27E</th><th class="est">Dec '28E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Price / Earnings</td><td>13.1x</td><td>—</td><td>—</td><td>50.3x</td><td class="est">34.7x</td><td class="est">25.6x</td><td class="est">21.9x</td></tr>
+    <tr><td>P / Sales</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="est">9.7x</td><td class="est">8.0x</td><td class="est">6.8x</td></tr>
+    <tr><td>EV / Sales</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="est">10.9x</td><td class="est">9.0x</td><td class="est">7.7x</td></tr>
+    <tr><td>EV / EBITDA</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="est">20.1x</td><td class="est">15.4x</td><td class="est">14.8x</td></tr>
+    <tr><td>EV / EBIT</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="est">29.4x</td><td class="est">20.5x</td><td class="est">15.4x</td></tr>
+  </tbody>
+</table>
+
+<div class="two-col" style="margin-top:10px;">
+  <div>
+    <div class="section-title">Revenue by Business Unit (Dec '25)</div>
+    <table class="rev">
+      <thead><tr><th>Segment</th><th>% Rev</th><th>Rev ($M)</th><th>Y/Y Gr%</th></tr></thead>
+      <tbody>
+        <tr><td>FT Intermediate (Lending)</td><td>95.3%</td><td>$327</td><td>+58.5%</td></tr>
+        <tr><td>Markets (Exchange/DeFi)</td><td>4.7%</td><td>$16</td><td>+506.3%</td></tr>
+        <tr><td><strong>Total</strong></td><td><strong>100%</strong></td><td><strong>$507M</strong></td><td><strong>+84.4%</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Revenue by Geography (Dec '25)</div>
+    <table class="rev">
+      <thead><tr><th>Region</th><th>% Rev</th><th>Rev ($M)</th><th>Y/Y Gr%</th></tr></thead>
+      <tbody>
+        <tr><td>United States</td><td>100.0%</td><td>$341</td><td>+62.7%</td></tr>
+        <tr><td><strong>Total</strong></td><td><strong>100%</strong></td><td><strong>$507M</strong></td><td><strong>+84.4%</strong></td></tr>
+      </tbody>
+    </table>
+    <p class="prose" style="font-size:9px;color:#888;margin-top:4px;">Note: Rev exposure totals reflect FactSet segment reporting; geography total reflects US-only operations. Figure is 100% domestic.</p>
+  </div>
+</div>
+
+<div class="section-title">Financials</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th>($M unless noted)</th><th>5Yr CAGR</th><th>Dec '23</th><th>Dec '24</th><th>Dec '25</th>
+      <th class="est">Dec '26E</th><th class="est">Dec '27E</th><th class="est">Dec '28E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="8">Income Statement</td></tr>
+    <tr><td>Revenue</td><td>—</td><td>$183</td><td>$275</td><td>$507</td><td class="est">$703</td><td class="est">$854</td><td class="est">$998</td></tr>
+    <tr><td>Gross Income</td><td>—</td><td>$126</td><td>$213</td><td>$442</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>EBIT</td><td>—</td><td>$2</td><td>$87</td><td>$170</td><td class="est">$261</td><td class="est">$373</td><td class="est">$498</td></tr>
+    <tr><td>Adj. EBITDA</td><td>—</td><td>$21</td><td>$104</td><td>$251</td><td class="est">$382</td><td class="est">$498</td><td class="est">$517</td></tr>
+    <tr><td>Net Income</td><td>—</td><td>($48)</td><td>$17</td><td>$134</td><td class="est">$234</td><td class="est">$306</td><td class="est">$396</td></tr>
+    <tr><td>EPS (Diluted)</td><td>—</td><td>($0.23)</td><td>$0.08</td><td>$0.63</td><td class="est">$0.91</td><td class="est">$1.23</td><td class="est">$1.44</td></tr>
+    <tr class="section-row"><td colspan="8">Margins</td></tr>
+    <tr><td>Gross Margin</td><td>46.7%</td><td>68.5%</td><td>77.6%</td><td>87.2%</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>EBIT Margin</td><td>13.2%</td><td>1.0%</td><td>31.6%</td><td>33.6%</td><td class="est">37.1%</td><td class="est">43.7%</td><td class="est">49.9%</td></tr>
+    <tr><td>Net Margin</td><td>1.3%</td><td>NM</td><td>6.3%</td><td>26.4%</td><td class="est">33.3%</td><td class="est">35.9%</td><td class="est">39.7%</td></tr>
+    <tr><td>Adj. EBITDA Margin</td><td>—</td><td>11.4%</td><td>37.9%</td><td>49.5%</td><td class="est">54.3%</td><td class="est">58.3%</td><td class="est">51.8%</td></tr>
+    <tr class="section-row"><td colspan="8">Balance Sheet</td></tr>
+    <tr><td>Cash &amp; ST Inv</td><td>—</td><td>$182</td><td>$423</td><td>$1,200</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Total Assets</td><td>—</td><td>$660</td><td>$1,160</td><td>—</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Total Shareholders' Equity</td><td>—</td><td>$217</td><td>$355</td><td>—</td><td class="est">$1,507</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr class="section-row"><td colspan="8">Cash Flow</td></tr>
+    <tr><td>Net Operating CF</td><td>—</td><td>($3,289)</td><td>($4,794)</td><td>—</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>CapEx</td><td>—</td><td>$17</td><td>$17</td><td>—</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td colspan="8" style="font-size:8.5px;color:#888;padding-top:3px;font-style:italic;">Note: Negative OpCF reflects GAAP treatment of mortgage originations as operating cash outflows (loans-held-for-sale). As Figure Connect volume (capital-light) scales, this metric normalizes.</td></tr>
+    <tr class="section-row"><td colspan="8">Returns &amp; Leverage</td></tr>
+    <tr><td>ROE</td><td>1.2%</td><td>—</td><td>6.0%</td><td>—</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Debt / Equity</td><td>77.0%</td><td>191.2%</td><td>193.9%</td><td>—</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Interest Coverage</td><td>1.0x</td><td>0.04x</td><td>1.54x</td><td>3.49x</td><td class="est">5.09x</td><td class="est">6.18x</td><td class="est">10.67x</td></tr>
+  </tbody>
+</table>
+<p class="source-note">Source: FactSet Fundamentals &amp; Estimates. Estimates (blue) follow broker majority. All figures GAAP/IFRS standardized unless noted. Adj. EBITDA = company-reported non-GAAP metric excluding stock-based compensation.</p>
+
+<!-- ===================== SECTION 3: BULL & BEAR CASES ===================== -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+<div class="two-col">
+  <div class="bull-col">
+    <div class="section-title">Bull Cases</div>
+    <div class="bullet-item">
+      <span class="b-name">First-Lien Inflection:</span> Management declared 2026 the "Year of the First Lien" — existing partners originate $300B+ annually in first-lien mortgages that currently route to Fannie/Freddie. At $1K origination cost (vs $11K industry avg), Figure's technology is materially cheaper for first-lien. Capturing even 2% of partner first-lien volume at current take rates doubles marketplace volume.
+    </div>
+    <div class="bullet-item">
+      <span class="b-name">GSE / DART Acceptance:</span> If Fannie Mae or Freddie Mac formally accept DART as equivalent to MERS, Figure instantly becomes eligible to originate and sell agency mortgages on its blockchain rails. The conforming mortgage market exceeds $2T annually — a single percentage point of market share is $20B in origination volume.
+    </div>
+    <div class="bullet-item">
+      <span class="b-name">Operating Leverage Flywheel:</span> Q4 2025 demonstrated the thesis: volume +131% Y/Y while OpEx (ex-SBC) grew only 13%. The blockchain infrastructure is fully built; marginal cost of additional volume is near zero. Management targets 60%+ Adj. EBITDA margins vs. 51.6% today, with every incremental dollar falling disproportionately to the bottom line.
+    </div>
+    <div class="bullet-item">
+      <span class="b-name">DeFi/YLDS Ecosystem Monetization:</span> YLDS crossed $328M in circulation at Q4 2025-end, growing 20x in one quarter. Democratized Prime reached $206M in matched offers after 10x Q/Q growth. As YLDS and DP scale into the billions, they generate recurring fee income independent of origination cycles — transforming Figure from a volume-driven lender into a financial infrastructure platform.
+    </div>
+    <div class="bullet-item">
+      <span class="b-name">Multi-Asset Expansion (Auto, SMB, DSCR):</span> The Agora Data auto partnership opens the $1.6T auto lending market with no incremental origination cost — pure margin infrastructure fees. SMB loans doubled Q/Q in Q4. DSCR volume grew 4.3x Q/Q. Each new asset class adds supply to Figure Connect, strengthening buyer liquidity and making the marketplace harder to displace.
+    </div>
+  </div>
+  <div class="bear-col">
+    <div class="section-title">Bear Cases</div>
+    <div class="bullet-item">
+      <span class="b-name">Rate Sensitivity / HELOC Demand Shock:</span> Figure's core HELOC business exists because consumers are rate-locked into their primary mortgages. If the Fed cuts rates aggressively (e.g., Fed Funds below 4%), the rate lock-in effect dissolves and consumers rush to cash-out refis. The HELOC TAM could contract 20-40% in a rapid rate-cut environment, and Figure has no revenue protection from this scenario.
+    </div>
+    <div class="bullet-item">
+      <span class="b-name">Pricing Pressure from Better and NFTYDoor:</span> NFTYDoor has already captured ~38% of HELOC volume at one major partner by undercutting Figure 40-50bps. Better operates 30bps cheaper with comparable technology. If pricing pressure forces Figure to lower its rates broadly, net take rate could compress from 3.8% toward 3.0%, reducing revenue per dollar of volume by ~20%.
+    </div>
+    <div class="bullet-item">
+      <span class="b-name">DART vs. MERS — GSE Rejection Risk:</span> Until GSEs formally accept DART, Figure cannot originate or sell conforming agency loans. Figure's entire first-lien thesis requires a regulatory breakthrough that faces deep institutional inertia. A multi-year delay keeps Figure confined to the non-QM/non-conforming niche, limiting the TAM ceiling.
+    </div>
+    <div class="bullet-item">
+      <span class="b-name">"Crypto Stigma" and Reputational Risk:</span> Experts consistently note that major banks refuse to engage with blockchain-branded lenders due to post-FTX reputational concerns. The Q4 2025 phishing breach (SSNs exposed for ~12,400 customers) is exactly the kind of event that reinforces this stigma. A second serious security incident or a Provenance Blockchain vulnerability could be catastrophic for institutional trust.
+    </div>
+    <div class="bullet-item">
+      <span class="b-name">Customer Concentration and Revenue Fragility:</span> Top 7 customers account for 91% of Figure Exchange trading volume. CMG Financial alone represents ~60% of HELOC unit count and ~50% of HELOC dollar volume within its Figure channel. If even one or two top partners reduce allocations or pivot to competitors, Figure could face acute, short-term revenue shocks disproportionate to their aggregate partner count.
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SECTION 4: HELMER'S 7 POWERS ===================== -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Scale Economies</span><span class="fw-rating strong">Strong</span>
+  <p class="prose" style="margin-top:4px;">Figure's cost structure is a textbook scale economy story. The underlying blockchain infrastructure — Provenance Blockchain, DART, the proprietary LOS, and the Figure Connect marketplace — was built over seven years at significant capital investment and is now largely amortized. Each incremental dollar of origination volume requires almost no additional infrastructure spend. This was made explicit in Q4 2025: consumer loan marketplace volume grew 131% year-over-year while operating expenses (excluding stock-based compensation) grew only 13%. That "drop-through" dynamic means that as Figure scales from $8.4B to $20B+ in annual volume, a disproportionately large share of every revenue dollar flows directly to Adjusted EBITDA — the core of the 60%+ margin target. Critically, scale also reinforces the capital markets side: larger aggregate origination volume means more performance history, more data for securitization rating agencies, and broader investor familiarity with the asset class, creating a self-reinforcing credibility cycle that is structurally unavailable to smaller competitors. A new entrant would need 3-5 years of origination history at comparable scale before institutional ABS buyers would consistently purchase their securitizations at comparable spreads.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Network Effects</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">Figure's marketplace exhibits meaningful multi-sided network effects, though they are still developing relative to mature two-sided markets. On the origination side, 307 active lending partners creates adoption contagion among non-bank mortgage brokers: IMBs increasingly want to use the same rails as their peers, making Figure the industry-standard non-QM HELOC platform. On the investor/liquidity side, each additional institutional buyer (asset managers, insurers, sovereign wealth funds) who participates in Figure Connect improves price discovery and bid-ask spreads for loan sellers, which in turn attracts more originators, who bring more volume, which attracts more buyers — a classic positive feedback loop. Democratized Prime adds a third network dimension: the more assets that are tokenized and pledged on-chain, the deeper the DeFi liquidity pool becomes for all borrowers, further lowering warehouse financing costs. YLDS adds a fourth layer: the more it circulates, the more useful it becomes as a settlement medium for new partners exploring YLDS-funded loan origination (as Newtek is evaluating). These effects are not yet at "winner-take-all" scale — Better and NFTYDoor can still grow simultaneously — but the trajectory is toward a multi-dimensional flywheel whose defensiveness compounds with each passing quarter.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Counter-Positioning</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">Large traditional banks are structurally constrained in their ability to fully replicate Figure's model without damaging their existing franchise. Banks derive significant revenue from the legacy HELOC origination model — branch-intensive, human-underwritten, slow — and have compliance departments, rate committees, and thousands of staff optimized for that old process. Moving to a blockchain-native, DeFi-integrated system that eliminates most human touchpoints would require dismantling the very infrastructure that employs their mortgage workforces, inviting regulatory scrutiny from conservative bank examiners, and associating their regulated institution with a "crypto" brand that post-FTX remains radioactive for mainstream financial institutions. As one expert noted: major banks would rather exit the non-bank HELOC market entirely than risk a "PR nightmare" from a blockchain-associated lending failure. The result is that the most formidable potential capital sources — JPMorgan, Bank of America, Wells Fargo — act as correspondent lenders routing business TO Figure rather than competing with it. However, well-funded fintech competitors like Better (with its Tinman platform) and NFTYDoor face no such incumbency burden, which limits how structural this advantage truly is at the fintech competitive layer.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Switching Costs</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">Once a mortgage origination partner integrates with Figure's white-label platform, the switching costs are meaningful but not insurmountable. The integration process involves API connectivity between the partner's LOS and Figure's system, retraining loan officers on a new application workflow, replacing co-branded marketing materials, and potentially renegotiating capital markets agreements — a process AlphaSense expert calls suggest takes several months and requires sustained grassroots sales effort at the loan-officer level. The key insight is that switching must be sold not just to the partner's technology team but to individual loan officers who have built "muscle memory" around Figure's UI, and who must be personally convinced the new system is meaningfully better before they change their daily behavior. At 307 active partners, Figure has created organizational entrenchment across a broad swath of the non-bank lending ecosystem. However, switching costs have clear limits: if Better or NFTYDoor sustain a 40-50bps pricing advantage for 6-12 months, the economic incentive to endure integration friction grows substantially — meaning these switching costs protect margin erosion in the short-term but are not a permanent moat against sustained, material price competition.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Branding</span><span class="fw-rating weak">Weak</span>
+  <p class="prose" style="margin-top:4px;">Figure's brand is primarily B2B, not B2C. The majority of loan volume flows through the partner-branded channel: the end borrower transacts with their mortgage broker's co-branded product and may never know Figure originated the loan. This is the intentional design of the white-label architecture, and it entirely prevents Figure from building consumer brand equity that could drive direct demand or justify rate premiums at the borrower level. Within the institutional B2B ecosystem, Figure's brand connotes speed, technical innovation, and reliability — Mike Cagney's track record with SoFi is widely respected across non-bank lending — but this institutional credibility is not transferable to consumer pricing power. The Q4 2025 phishing breach (approximately 12,400 Social Security numbers exposed) is exactly the kind of reputational incident that can damage the institutional brand in the short-to-medium term, particularly with risk-averse bank correspondents and institutional securitization buyers who are already cautious about blockchain-associated counterparties.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">6. Cornered Resource</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">Figure controls three proprietary assets that are difficult to replicate. First, DART: the first blockchain-native lien registry providing an on-chain alternative to MERS (Mortgage Electronic Registration Systems). DART automatically updates loan ownership by "listening" to immutable Provenance Blockchain activity in real time, eliminating the periodic manual reconciliation required by MERS and reducing assignment fees by an estimated $50/loan while cutting third-party diligence costs by up to 80%. Building an equivalent registered system requires years of industry acceptance, legal precedent establishment, and institutional relationship-building with rating agencies and GSEs — none of which can be bought quickly. Second, the accumulated performance data: Figure has $20B+ in tokenized, standardized consumer lending performance history on-chain — the AAA-eligible track record that institutional ABS buyers require. Third, YLDS: a first-mover yield-bearing stablecoin with SEC registration, natively integrated into mortgage settlement infrastructure. Note that DART's value as a cornered resource is contingent on GSE acceptance; if MERS retains monopoly in agency channels indefinitely, DART's moat is constrained to the non-conforming, private credit segment.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">7. Process Power</span><span class="fw-rating strong">Strong</span>
+  <p class="prose" style="margin-top:4px;">This is Figure's most durable competitive advantage. The organizational capability to originate a mortgage in 5 days for under $1,000 — compared to the industry average of 45 days and $11,045 — is not a software feature that can be downloaded or copied. It is a deeply embedded operational process comprising a fully proprietary LOS, automated AVM (automated valuation model) for property assessment, digital title review, blockchain lien perfection, automated underwriting rules, and integrated capital markets execution, all built and refined over seven years of production origination. Management is now layering AI across this stack: an AI customer service agent (75% chat containment rate), AI-assisted title review, and AI-based underwriting validation — and, critically, these AI agents trained on Figure's origination workflows can be deployed on third-party assets to certify them ("Figure Certified" program), extending the process moat into new asset originator onboarding. The key insight: process power in financial services requires not just the technology but the organizational judgment, the institutional relationships with rating agencies and securitization buyers, and the operational trust that can only be earned through years of reliable performance. As management puts it, "you cannot AI your way into AAA" — and this is precisely right. A competitor starting today would need 3-5 years of at-scale origination before AAA-rated securitizations became routinely accessible.</p>
+</div>
+
+<p class="prose" style="margin-top:6px;"><strong>Summary:</strong> Figure's strongest moats are Process Power (the vertically integrated origination + capital markets stack) and Scale Economies (infrastructure leverage on incremental volume). Network Effects and Counter-Positioning provide meaningful but still-developing structural advantages. Branding is the weakest link, creating vulnerability to direct competitor pricing strategies.</p>
+
+<!-- ===================== SECTION 5: PORTER'S 5 FORCES ===================== -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Threat of New Entrants</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">Entering the digitized non-QM HELOC origination market meaningfully requires building a compliant LOS, establishing blockchain infrastructure with institutional acceptance, cultivating capital markets relationships with ABS investors and warehouse lenders, accumulating years of origination performance history for securitization purposes, and building a 300+ partner network — a 3-5 year timeline and several hundred million dollars at minimum. These are substantial barriers. However, the front-end user experience (the point-of-sale, the application interface) can be replicated far faster with modern SaaS development tools, as Better and NFTYDoor have demonstrated. The primary entry barrier is the back-end: Figure's institutional ABS buyer relationships, its credibility with rating agencies who have issued AAA ratings on its securitizations, and its $20B+ of performance history. Large tech companies (e.g., a fintech arm of Apple, Google, or Stripe) would have the capital to accelerate entry, though the regulatory complexity of mortgage origination creates additional drag. The threat is "Moderate" — significant infrastructure barriers exist but are surmountable for well-capitalized, focused entrants.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Bargaining Power of Suppliers</span><span class="fw-rating low">Low</span>
+  <p class="prose" style="margin-top:4px;">Figure's "suppliers" are primarily the Provenance Blockchain network, cloud infrastructure providers (Amazon Web Services and similar), automated valuation model (AVM) data providers, and credit bureau data services. The Provenance Blockchain is a public, permissioned ledger with no single supplier who can extract rent — notably, Figure's co-founders were involved in its creation, giving them deep protocol influence and favorable positioning. Cloud computing is highly commoditized, with multiple competing providers. AVM services (CoreLogic, Clear Capital, etc.) and credit bureau data are widely available from multiple competing vendors. Figure has intentionally built its most critical functions in-house — the LOS, capital markets operations, servicing — eliminating dependence on external vendors for core revenue-generating capabilities. Supplier power is minimal and not a material business risk.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Bargaining Power of Buyers</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">Figure serves two buyer groups with meaningfully different power dynamics. Origination partners (the 307 IMBs, banks, and broker networks) have growing alternatives in Better, NFTYDoor, and Spring EQ, and are increasingly willing to allocate volume to whichever provider offers the best combination of speed and economics. One expert confirmed NFTYDoor captured ~38% of HELOC volume at a major partner solely through pricing; another noted Better's pricing is roughly 30bps cheaper than Figure's. As the market matures and alternatives proliferate, partners will have more credible alternatives and more leverage in negotiations. Institutional capital markets buyers (ABS investors, insurance companies, sovereign wealth funds who buy loans on Figure Connect) also hold meaningful power: they can demand tighter spreads or higher premiums on less familiar products (e.g., first-lien or auto loans that lack Figure's years of HELOC performance history). That said, the depth of institutional demand for standardized, blockchain-native home equity assets appears to be structurally growing, and Figure's monopoly on DART/Provenance-registered assets provides some protection against competing for the exact same asset-class buyers.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Threat of Substitutes</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">The primary economic substitutes for a Figure HELOC are: (1) cash-out refinance — directly competes for the same consumer need (unlocking home equity) but is currently unattractive because consumers hold low fixed-rate mortgages from pre-2022; (2) bank HELOCs — slower and often unavailable (many large banks exited this market post-COVID), but trust and rate subsidies occasionally win for bank-loyal consumers; (3) personal loans at much higher rates for smaller amounts; (4) home equity investments (HEIs) from Unison, Point, etc. — a niche but growing substitute. The single most important substitute threat is the rate environment: a sustained Federal Reserve easing cycle that brings 30-year mortgage rates below 5.5% would dissolve the rate lock-in effect driving HELOC demand and make cash-out refis economically rational for millions of households. Figure's strategic response to this risk — expanding aggressively into first-lien originations (now 19% of volume) — directly converts the substitute threat into an addressable market, which is strategically sound but requires time and execution to fully realize.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Competitive Rivalry</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">In the non-bank digitized HELOC space, rivalry has intensified meaningfully since Figure's IPO. NFTYDoor is already capturing ~38% of volume at one major partner with a 40-50bps price advantage; Better's Tinman platform is described by industry experts as "comparable in user experience" and priced ~30bps cheaper. Spring EQ and other non-QM originators are also growing. That said, traditional bank competitors remain structurally constrained (see Counter-Positioning above), and the overall mortgage origination market is large enough ($2T+ annually) that multiple competitors can coexist. Figure's competitive position is strongest in the marketplace infrastructure layer (Figure Connect and Democratized Prime), where no direct competitor yet offers equivalent institutional-grade tokenized liquidity. The risk is that rivalry intensifies specifically in the origination layer (HELOC pricing), where Figure's premium is most exposed. Figure is executing a rational strategic response — shifting volume toward the capital-light Connect model and diversifying into first-lien, auto, and SMB — which reduces its dependence on any single origination product's competitive intensity.</p>
+</div>
+
+<p class="prose" style="margin-top:6px;"><strong>Summary:</strong> The competitive environment is <strong>moderately challenging</strong>. The origination layer faces intensifying fintech rivalry on pricing, but the capital markets infrastructure layer (Figure Connect, Democratized Prime, YLDS) remains effectively uncontested. The industry structure is more favorable than a commoditized mortgage lender but less protected than a pure enterprise software marketplace.</p>
+
+<!-- ===================== SECTION 6: WHAT DRIVES THE STOCK? ===================== -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<p class="prose">These are the 6 variables that would move FIGR materially in the next 12 months. They are, in priority order:</p>
+
+<p class="prose"><strong>1. Consumer Loan Marketplace Volume:</strong> The primary KPI. Full-year 2025 came in at $8.4B (+63% Y/Y); consensus implies ~$12B for 2026E. Any quarter where volume growth meaningfully exceeds or disappoints vs. street models will drive the stock proportionally. Watch for sequential Q/Q trends (seasonal: Nov-Feb typically slower), partner count expansion beyond 307, and any announced "mega-partner" relationships. This is the single most read-through metric for the entire thesis.</p>
+
+<p class="prose"><strong>2. Net Take Rate Trajectory:</strong> Management guided 3.5%-4.0% NTM for 2026. A compression toward 3.3% (due to pricing pressure from Better/NFTYDoor or unfavorable product mix) signals competitive erosion and/or margin risk. A hold at 3.8%+ signals pricing power retention. The market will interpret any sustained take rate compression as a sign that Figure's pricing premium is fading — highly negative for multiple. This is the most important "tell" on competitive dynamics.</p>
+
+<p class="prose"><strong>3. Figure Connect Penetration Rate:</strong> Connect volume was 54% of total in Q4 2025, up from 0% 18 months prior. The migration toward Connect is the key driver of Adj. EBITDA margin expansion (80% contribution margin on Connect vs. balance-sheet-heavy legacy model). Every 5-10 percentage points of additional Connect penetration represents meaningful structural margin improvement. The market has begun pricing in the capital-light model; any reversal (balance sheet growing as % of volume) would be viewed negatively.</p>
+
+<p class="prose"><strong>4. First-Lien / New Product Traction:</strong> Management declared 2026 "The Year of the First Lien." First-lien grew from 12% to 19% of mix in 2025. Any data points confirming first-lien acceleration (toward 30%+) validate the multi-trillion dollar TAM expansion story and would likely expand the stock's multiple. Conversely, slow first-lien adoption signals that the GSE/conventional mortgage channel remains structurally closed to Figure.</p>
+
+<p class="prose"><strong>5. YLDS Circulation / Democratized Prime Balance:</strong> YLDS crossed $328M at Q4 end (up 20x in one quarter). Democratized Prime reached $206M in matched offers (+10x Q/Q). These DeFi metrics are optionality-priced by the market — they're small today but carry significant embedded value if they scale. The OPEN on-chain equity marketplace (first public company to issue blockchain-native shares in Q4 2025) adds another metric to watch. Growth in these emerging verticals signals that Figure is becoming a financial infrastructure platform, not just a mortgage company — a potentially significant multiple-expanding narrative.</p>
+
+<p class="prose"><strong>6. GSE/DART Regulatory Developments:</strong> A binary catalyst. Any public announcement that Fannie Mae or Freddie Mac are formally testing or accepting DART as equivalent to MERS would be a major positive re-rating event — opening the $2T+ conforming mortgage market. Conversely, regulatory headwinds against DeFi or blockchain-based lien registries (particularly from CFPB or state regulators) could suppress the multiple. This is a low-probability/high-impact driver that the market is not fully pricing into current levels.</p>
+
+<!-- ===================== SECTION 7: WHAT DRIVES THE BUSINESS? ===================== -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<p class="prose">Revenue can be decomposed into four distinct economic engines. The first two are volume-sensitive; the third is portfolio-size-sensitive; the fourth is nascent/optionality.</p>
+
+<div class="section-title">Revenue Decomposition</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th style="width:30%">Revenue Line</th>
+      <th style="width:45%">Driver Formula</th>
+      <th>2025A Est.</th>
+      <th>% of Rev</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Figure Connect Marketplace Fees</td>
+      <td>Connect Volume ($B) × Ecosystem Fee (%) — sliding scale ~2.8%-3.2%</td>
+      <td>~$170M</td>
+      <td>~34%</td>
+    </tr>
+    <tr>
+      <td>Balance-Sheet Origination Revenue</td>
+      <td>Non-Connect Volume ($B) × Gain-on-Sale (%) + Origination Fees (~1.5%)</td>
+      <td>~$215M</td>
+      <td>~42%</td>
+    </tr>
+    <tr>
+      <td>Servicing Income</td>
+      <td>Cumulative Serviced Portfolio ($B) × 25bps/yr (avg ~5yr loan life)</td>
+      <td>$31.5M</td>
+      <td>6%</td>
+    </tr>
+    <tr>
+      <td>Interest Income</td>
+      <td>Loans Held-for-Sale ($B) × Weighted Avg. Note Rate + Cash × Risk-Free Rate</td>
+      <td>$74.8M</td>
+      <td>15%</td>
+    </tr>
+    <tr>
+      <td>Markets (Exchange + OPEN)</td>
+      <td>Trading Volume ($B) × Exchange Fee (~0.1-0.2bps) + OPEN listing/custody fees</td>
+      <td>$16.1M</td>
+      <td>3%</td>
+    </tr>
+    <tr style="font-weight:700; border-top:1.5px solid #1a1a2e;">
+      <td>Total Revenue</td>
+      <td></td>
+      <td>$506.9M</td>
+      <td>100%</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:8px;">The <strong>most important driver</strong> is Consumer Loan Marketplace Volume — the aggregate dollar amount of loans originated through Figure's platform — because it directly powers both the Connect fees and the balance-sheet origination line. As Connect penetration grows (currently 54%), the mix shifts from capital-intensive gain-on-sale toward the pure-fee Connect model, which earns less per dollar of volume but at 80% contribution margins vs. 30-40% on balance sheet. The <strong>second most important driver</strong> is the blended effective take rate (management guides 3.5-4.0% NTM), which determines revenue per dollar of volume. The <strong>third most important</strong> is operating leverage: with 80% of costs fixed (technology infrastructure, compliance, G&amp;A), every incremental dollar of volume has marginal cost near zero after the platform is built, creating the path to 60%+ EBITDA margins.</p>
+
+<div class="section-title">Key Unit Economics</div>
+<div class="two-col">
+  <div>
+    <table class="kv">
+      <tr><td>Figure Origination Cost per Loan</td><td>&lt;$1,000</td></tr>
+      <tr><td>Industry Average Origination Cost</td><td>$11,045</td></tr>
+      <tr><td>Figure Time-to-Fund</td><td>5 days</td></tr>
+      <tr><td>Industry Average Time-to-Fund</td><td>~45 days</td></tr>
+      <tr><td>Connect Contribution Margin</td><td>~80%</td></tr>
+      <tr><td>Figure Net Take Rate (Q4 2025)</td><td>3.8%</td></tr>
+    </table>
+  </div>
+  <div>
+    <table class="kv">
+      <tr><td>Ecosystem Fee (Connect)</td><td>~3% of loan balance</td></tr>
+      <tr><td>Securitization Admin Fee</td><td>~40bps</td></tr>
+      <tr><td>Servicing Fee (annual)</td><td>25bps on balance</td></tr>
+      <tr><td>Democratized Prime Fee</td><td>~50bps on matched balance</td></tr>
+      <tr><td>DART Cost Savings per Loan</td><td>~$50 vs. MERS</td></tr>
+      <tr><td>3rd-Party Diligence Cost Reduction</td><td>Up to 80%</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ===================== SECTION 8: SENSITIVITIES ===================== -->
+<div class="memo-section">8. Sensitivities on Core Business Drivers</div>
+
+<p class="prose"><strong>Table 1: 2028E Total Marketplace Volume ($B) vs. Blended Revenue Yield (%) → 2028E Revenue ($M)</strong><br>
+<em>Base: Volume = $20B (assumed 2028E), Blended Revenue Yield = 4.0%, Recurring Revenue = $200M. Blended Yield captures all volume-driven revenue sources (Connect fees, gain-on-sale, origination fees). Current (Q4 2025 annualized): Volume ~$10.8B, Blended Yield ~5.8% all-in.</em></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Volume \ Yield</th><th>3.5%</th><th>4.0%</th><th>4.5%</th><th>5.0%</th><th>5.5%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>$14B</strong></td><td>$690</td><td>$760</td><td>$830</td><td>$900</td><td>$970</td></tr>
+    <tr><td><strong>$17B</strong></td><td>$795</td><td>$880</td><td>$965</td><td>$1,050</td><td>$1,135</td></tr>
+    <tr><td><strong>$20B</strong></td><td>$900</td><td class="base">$1,000</td><td>$1,100</td><td>$1,200</td><td>$1,300</td></tr>
+    <tr><td><strong>$23B</strong></td><td>$1,005</td><td>$1,120</td><td>$1,235</td><td>$1,350</td><td>$1,465</td></tr>
+    <tr><td><strong>$26B</strong></td><td>$1,110</td><td>$1,240</td><td>$1,370</td><td>$1,500</td><td>$1,630</td></tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:12px;"><strong>Table 2: 2028E Revenue ($M) vs. Adj. EBITDA Margin (%) → 2028E Diluted EPS ($)</strong><br>
+<em>Assumptions: D&amp;A = $20M, Net Interest = $20M income (net cash position), Effective Tax Rate = 15%, Diluted Shares = 275M. Management's long-term EBITDA margin target is 60%+. Current (Q4 2025): 51.6% Adj. EBITDA margin on $158M quarterly revenue.</em></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Revenue \ EBITDA Margin</th><th>45%</th><th>50%</th><th>55%</th><th>60%</th><th>65%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>$700M</strong></td><td>$0.85</td><td>$0.96</td><td>$1.07</td><td>$1.17</td><td>$1.28</td></tr>
+    <tr><td><strong>$850M</strong></td><td>$1.06</td><td>$1.19</td><td>$1.32</td><td>$1.45</td><td>$1.58</td></tr>
+    <tr><td><strong>$1,000M</strong></td><td>$1.27</td><td>$1.42</td><td class="base">$1.57</td><td>$1.73</td><td>$1.88</td></tr>
+    <tr><td><strong>$1,200M</strong></td><td>$1.55</td><td>$1.73</td><td>$1.91</td><td>$2.10</td><td>$2.28</td></tr>
+    <tr><td><strong>$1,500M</strong></td><td>$1.96</td><td>$2.19</td><td>$2.42</td><td>$2.65</td><td>$2.88</td></tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:12px;"><strong>Table 3: 2028E Diluted EPS ($) vs. Exit P/E Multiple → Implied Share Price ($)</strong><br>
+<em>Current price: $31.50. Consensus 2028E EPS: $1.44. Note: At current price of $31.50, the market is effectively pricing in 2026E consensus EPS ($0.91) at a 34.6x forward P/E — implying limited premium for the 2027-2028 growth runway if the exit multiple stays compressed at 22x. At 35x (appropriate for a high-growth, 55%+ EBITDA-margin fintech), the consensus base case implies $50.40.</em></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>EPS \ Exit P/E</th><th>15x</th><th>22x</th><th>30x</th><th>35x</th><th>42x</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>$0.70</strong></td><td>$10.50</td><td>$15.40</td><td>$21.00</td><td>$24.50</td><td>$29.40</td></tr>
+    <tr><td><strong>$1.00</strong></td><td>$15.00</td><td>$22.00</td><td>$30.00</td><td>$35.00</td><td>$42.00</td></tr>
+    <tr><td><strong>$1.44</strong></td><td>$21.60</td><td>$31.68</td><td>$43.20</td><td class="base">$50.40</td><td>$60.48</td></tr>
+    <tr><td><strong>$2.00</strong></td><td>$30.00</td><td>$44.00</td><td>$60.00</td><td>$70.00</td><td>$84.00</td></tr>
+    <tr><td><strong>$3.00</strong></td><td>$45.00</td><td>$66.00</td><td>$90.00</td><td>$105.00</td><td>$126.00</td></tr>
+  </tbody>
+</table>
+
+<!-- ===================== SECTION 9: 3-YEAR MODEL ===================== -->
+<div class="memo-section">9. 3-Year Model (2026E–2028E)</div>
+<p class="prose">Five scenario cases driven by Marketplace Volume, Blended Revenue Yield, and EBITDA Margin expansion. Key Drivers show Year 3 (2028E) values — the terminal year on which exit multiples are applied. Case narratives describe the 3-year scenario arc. Base case follows FactSet consensus.</p>
+
+<!-- CASE 1 -->
+<div class="case-block">
+  <div class="case-name">🐻 Case 1: HELOC Demand Compression — Market Headwinds</div>
+  <div class="case-desc">The Federal Reserve cuts rates faster than expected; consumers pivot aggressively to cash-out refis; HELOC origination market contracts 20-30%. Simultaneously, Better and NFTYDoor accelerate market share capture through sustained 40-50bps pricing advantage. Figure's take rate compresses toward 3.2%, EBITDA margin expansion stalls as fixed costs are leveraged against flat volume.</div>
+  <div class="prose" style="font-size:10px;margin-bottom:6px;"><strong>2026</strong> — Rate cuts begin; HELOC application volume drops 15-20%. Figure's Q1/Q2 miss on volume drives analyst downgrades. Revenue declines from 2025 run-rate. <strong>2027</strong> — HELOC market finds a new lower equilibrium; Figure fights to retain partner wallet share. Modest volume recovery but pricing permanently compressed. <strong>2028</strong> — Stable but uninspiring: Figure maintains #1 non-bank market share but at materially lower unit economics. Margins stall; investor thesis challenged.</div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Consumer Loan Marketplace Volume</span><span>$11B</span></div>
+  <div class="driver-row"><span>Blended Revenue Yield</span><span>3.2%</span></div>
+  <div class="driver-row"><span>Figure Connect Penetration</span><span>55%</span></div>
+  <div class="driver-row"><span>Adj. EBITDA Margin</span><span>43.9%</span></div>
+  <table class="scenario-mini">
+    <thead>
+      <tr><th>Metric</th><th>2026E</th><th>2027E</th><th>2028E</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>$Revenue</td><td>$490</td><td>$520</td><td>$560</td></tr>
+      <tr class="dim"><td>&nbsp;&nbsp;Revenue Growth %</td><td>(3.3%)</td><td>6.1%</td><td>7.7%</td></tr>
+      <tr><td>Gross Income</td><td>421</td><td>449</td><td>487</td></tr>
+      <tr class="dim"><td>&nbsp;&nbsp;Gross Margin %</td><td>86.0%</td><td>86.3%</td><td>87.0%</td></tr>
+      <tr><td>Adj. EBITDA</td><td>206</td><td>218</td><td>246</td></tr>
+      <tr class="dim"><td>&nbsp;&nbsp;EBITDA Margin %</td><td>42.0%</td><td>41.9%</td><td>43.9%</td></tr>
+      <tr><td>EBIT</td><td>186</td><td>198</td><td>226</td></tr>
+      <tr><td>Net Income</td><td>150</td><td>165</td><td>180</td></tr>
+      <tr class="dim"><td>&nbsp;&nbsp;Net Margin %</td><td>30.6%</td><td>31.7%</td><td>32.1%</td></tr>
+      <tr><td>Diluted Shares (M)</td><td>260</td><td>260</td><td>260</td></tr>
+      <tr><td>$EPS</td><td>$0.58</td><td>$0.63</td><td>$0.69</td></tr>
+      <tr class="valuation-row"><td>Exit P/E Multiple</td><td>18x</td><td>18x</td><td>18x</td></tr>
+      <tr class="valuation-row"><td>Implied Stock Price</td><td>$10.44</td><td>$11.34</td><td>$12.42</td></tr>
+    </tbody>
+  </table>
+  <div class="exit-metrics">
+    <div>2028E Exit: $0.69 × 18x = <span class="exit-price">$12.42</span></div>
+    <div class="exit-upside">Implied Market Cap: $3.23B &nbsp;|&nbsp; Implied EV: $2.58B (ex. $650M est. net cash)</div>
+    <div class="exit-upside" style="color:#721c24;">Upside / (Downside) from $31.50: <strong>(60.6%)</strong></div>
+  </div>
+</div>
+
+<!-- CASE 2 -->
+<div class="case-block">
+  <div class="case-name">🐻 Case 2: First Lien Delay + DART Friction — Slower Execution</div>
+  <div class="case-desc">Core HELOC business continues growing modestly but first-lien adoption proves slower than expected as conventional mortgage channel partners take 12-18 additional months to integrate. GSE/DART acceptance is delayed beyond 2028. Democratized Prime and YLDS remain niche products. Figure grows but misses the platform inflection story.</div>
+  <div class="prose" style="font-size:10px;margin-bottom:6px;"><strong>2026</strong> — Solid HELOC momentum; first lien grows from 19% toward 22% of mix. New partners ramp but more slowly than expected. Volume reaches $12B. <strong>2027</strong> — First-lien integration challenges become apparent; some partners route first-lien back to conventional channels. Volume $14.5B. Democratized Prime/YLDS fail to generate material fees. <strong>2028</strong> — Steady but consensus-missing execution: margins improve, EPS grows, but the platform narrative doesn't fully materialize by year-end. Multiple re-rates lower.</div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Consumer Loan Marketplace Volume</span><span>$14B</span></div>
+  <div class="driver-row"><span>Blended Revenue Yield</span><span>3.7%</span></div>
+  <div class="driver-row"><span>Figure Connect Penetration</span><span>65%</span></div>
+  <div class="driver-row"><span>Adj. EBITDA Margin</span><span>53.0%</span></div>
+  <table class="scenario-mini">
+    <thead>
+      <tr><th>Metric</th><th>2026E</th><th>2027E</th><th>2028E</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>$Revenue</td><td>$600</td><td>$730</td><td>$855</td></tr>
+      <tr class="dim"><td>&nbsp;&nbsp;Revenue Growth %</td><td>+18.3%</td><td>+21.7%</td><td>+17.1%</td></tr>
+      <tr><td>Gross Income</td><td>528</td><td>642</td><td>757</td></tr>
+      <tr class="dim"><td>&nbsp;&nbsp;Gross Margin %</td><td>88.0%</td><td>87.9%</td><td>88.5%</td></tr>
+      <tr><td>Adj. EBITDA</td><td>288</td><td>365</td><td>453</td></tr>
+      <tr class="dim"><td>&nbsp;&nbsp;EBITDA Margin %</td><td>48.0%</td><td>50.0%</td><td>53.0%</td></tr>
+      <tr><td>EBIT</td><td>268</td><td>345</td><td>433</td></tr>
+      <tr><td>Net Income</td><td>190</td><td>250</td><td>330</td></tr>
+      <tr class="dim"><td>&nbsp;&nbsp;Net Margin %</td><td>31.7%</td><td>34.2%</td><td>38.6%</td></tr>
+      <tr><td>Diluted Shares (M)</td><td>260</td><td>258</td><td>256</td></tr>
+      <tr><td>$EPS</td><td>$0.73</td><td>$0.97</td><td>$1.29</td></tr>
+      <tr class="valuation-row"><td>Exit P/E Multiple</td><td>27x</td><td>27x</td><td>27x</td></tr>
+      <tr class="valuation-row"><td>Implied Stock Price</td><td>$19.71</td><td>$26.19</td><td>$34.83</td></tr>
+    </tbody>
+  </table>
+  <div class="exit-metrics">
+    <div>2028E Exit: $1.29 × 27x = <span class="exit-price">$34.83</span></div>
+    <div class="exit-upside">Implied Market Cap: $8.92B &nbsp;|&nbsp; Implied EV: $8.07B (ex. $850M est. net cash)</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside / (Downside) from $31.50: <strong>+10.6%</strong></div>
+  </div>
+</div>
+
+<!-- CASE 3 -->
+<div class="case-block">
+  <div class="case-name">📊 Case 3: Consensus — Steady Execution</div>
+  <div class="case-desc">Management executes on stated priorities: first-lien reaches 25-30% of mix, Figure Connect scales toward 65%+ penetration, Agora/auto onboarding proceeds as planned, and operating leverage drives Adj. EBITDA margins toward management's 60%+ target. Follows FactSet consensus estimates.</div>
+  <div class="prose" style="font-size:10px;margin-bottom:6px;"><strong>2026</strong> — "Year of the First Lien" delivers; volume grows ~40% to ~$12B; new partner adds maintain pace. Q4 2025 run-rate of $158M/qtr scales with spring-summer seasonality. <strong>2027</strong> — Agora auto partnership adds $300M+ to volume; Democratized Prime crosses $500M in matched balance; YLDS circulation exceeds $1B. <strong>2028</strong> — Platform model fully demonstrated; 60%+ EBITDA margin achieved; EPS reaches $1.44; multiple re-rates toward growth-fintech peers.</div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Consumer Loan Marketplace Volume</span><span>$20B</span></div>
+  <div class="driver-row"><span>Blended Revenue Yield</span><span>4.0%</span></div>
+  <div class="driver-row"><span>Figure Connect Penetration</span><span>70%</span></div>
+  <div class="driver-row"><span>Adj. EBITDA Margin</span><span>51.8%</span></div>
+  <table class="scenario-mini">
+    <thead>
+      <tr><th>Metric</th><th>2026E</th><th>2027E</th><th>2028E</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>$Revenue</td><td>$703</td><td>$854</td><td>$998</td></tr>
+      <tr class="dim"><td>&nbsp;&nbsp;Revenue Growth %</td><td>+38.7%</td><td>+21.5%</td><td>+16.9%</td></tr>
+      <tr><td>Gross Income</td><td>618</td><td>760</td><td>898</td></tr>
+      <tr class="dim"><td>&nbsp;&nbsp;Gross Margin %</td><td>87.9%</td><td>89.0%</td><td>90.0%</td></tr>
+      <tr><td>Adj. EBITDA</td><td>382</td><td>498</td><td>517</td></tr>
+      <tr class="dim"><td>&nbsp;&nbsp;EBITDA Margin %</td><td>54.3%</td><td>58.3%</td><td>51.8%</td></tr>
+      <tr><td>EBIT</td><td>261</td><td>373</td><td>498</td></tr>
+      <tr><td>Net Income</td><td>234</td><td>306</td><td>396</td></tr>
+      <tr class="dim"><td>&nbsp;&nbsp;Net Margin %</td><td>33.3%</td><td>35.8%</td><td>39.7%</td></tr>
+      <tr><td>Diluted Shares (M)</td><td>259</td><td>249</td><td>275</td></tr>
+      <tr><td>$EPS</td><td>$0.91</td><td>$1.23</td><td>$1.44</td></tr>
+      <tr class="valuation-row"><td>Exit P/E Multiple</td><td>35x</td><td>35x</td><td>35x</td></tr>
+      <tr class="valuation-row"><td>Implied Stock Price</td><td>$31.85</td><td>$43.05</td><td>$50.40</td></tr>
+    </tbody>
+  </table>
+  <div class="exit-metrics">
+    <div>2028E Exit: $1.44 × 35x = <span class="exit-price">$50.40</span></div>
+    <div class="exit-upside">Implied Market Cap: $13.0B &nbsp;|&nbsp; Implied EV: $11.9B (ex. $1.1B est. net cash)</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside / (Downside) from $31.50: <strong>+60.0%</strong></div>
+  </div>
+</div>
+
+<!-- CASE 4 -->
+<div class="case-block">
+  <div class="case-name">🚀 Case 4: Platform Momentum — First Lien Year + Auto Scale</div>
+  <div class="case-desc">"Year of the First Lien" significantly exceeds expectations: first-lien reaches 35% of mix. Agora/auto partnership delivers $300M+ in 2026 and accelerates to $1B+ by 2027. Democratized Prime crosses $1B matched balance. YLDS grows to $2B+ circulation as Newtek and others fund loans via YLDS. Operating leverage surpasses 60% EBITDA margin.</div>
+  <div class="prose" style="font-size:10px;margin-bottom:6px;"><strong>2026</strong> — First-lien momentum surprises; partners divert conventional-channel volume to Figure at scale. Volume reaches $16B+. Revenue $810M. Multiple inflects higher as platform narrative gains traction. <strong>2027</strong> — Auto partnership accelerates to $1B+ on Democratized Prime; Newtek YLDS-funded loans go live; volume $21B. EBITDA margin crosses 60%. <strong>2028</strong> — Figure firmly established as the leading non-bank mortgage infrastructure platform. EPS $2.38; buybacks accelerate on $200M authorized program.</div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Consumer Loan Marketplace Volume</span><span>$26B</span></div>
+  <div class="driver-row"><span>Blended Revenue Yield</span><span>4.2%</span></div>
+  <div class="driver-row"><span>Figure Connect Penetration</span><span>75%</span></div>
+  <div class="driver-row"><span>Adj. EBITDA Margin</span><span>63.0%</span></div>
+  <table class="scenario-mini">
+    <thead>
+      <tr><th>Metric</th><th>2026E</th><th>2027E</th><th>2028E</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>$Revenue</td><td>$810</td><td>$1,050</td><td>$1,300</td></tr>
+      <tr class="dim"><td>&nbsp;&nbsp;Revenue Growth %</td><td>+59.8%</td><td>+29.6%</td><td>+23.8%</td></tr>
+      <tr><td>Gross Income</td><td>729</td><td>956</td><td>1,196</td></tr>
+      <tr class="dim"><td>&nbsp;&nbsp;Gross Margin %</td><td>90.0%</td><td>91.0%</td><td>92.0%</td></tr>
+      <tr><td>Adj. EBITDA</td><td>454</td><td>630</td><td>819</td></tr>
+      <tr class="dim"><td>&nbsp;&nbsp;EBITDA Margin %</td><td>56.0%</td><td>60.0%</td><td>63.0%</td></tr>
+      <tr><td>EBIT</td><td>434</td><td>610</td><td>799</td></tr>
+      <tr><td>Net Income</td><td>302</td><td>430</td><td>600</td></tr>
+      <tr class="dim"><td>&nbsp;&nbsp;Net Margin %</td><td>37.3%</td><td>41.0%</td><td>46.2%</td></tr>
+      <tr><td>Diluted Shares (M)</td><td>258</td><td>255</td><td>252</td></tr>
+      <tr><td>$EPS</td><td>$1.17</td><td>$1.69</td><td>$2.38</td></tr>
+      <tr class="valuation-row"><td>Exit P/E Multiple</td><td>42x</td><td>42x</td><td>42x</td></tr>
+      <tr class="valuation-row"><td>Implied Stock Price</td><td>$49.14</td><td>$70.98</td><td>$99.96</td></tr>
+    </tbody>
+  </table>
+  <div class="exit-metrics">
+    <div>2028E Exit: $2.38 × 42x = <span class="exit-price">$99.96</span></div>
+    <div class="exit-upside">Implied Market Cap: $25.2B &nbsp;|&nbsp; Implied EV: $23.8B (ex. $1.4B est. net cash)</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside / (Downside) from $31.50: <strong>+217.3%</strong></div>
+  </div>
+</div>
+
+<!-- CASE 5 -->
+<div class="case-block">
+  <div class="case-name">🚀 Case 5: Blockchain Infrastructure Leader — GSE Acceptance + OPEN Scale</div>
+  <div class="case-desc">GSEs announce formal DART equivalency testing in 2026, opening the conforming agency mortgage market to Figure; OPEN attracts 3-5 major IPO candidates as blockchain-native equity issuance gains traction; Democratized Prime becomes a mainstream warehouse alternative displacing traditional bilateral warehouse lines; YLDS reaches $5B+ circulation. Figure rerates from a mortgage company to a financial infrastructure platform.</div>
+  <div class="prose" style="font-size:10px;margin-bottom:6px;"><strong>2026</strong> — GSE pilot announced; agency-capable origination partners immediately scale allocations. OPEN announces 2 IPO mandates. Volume $18B+. Revenue approaches $1B. Multiple expands sharply on TAM re-rating. <strong>2027</strong> — First GSE-eligible loans originate via DART; Democratized Prime becomes mainstream warehouse alternative with $3B+ matched balance. Volume $28B. <strong>2028</strong> — Figure establishes a category-defining position across HELOC, first-lien agency, auto, SMB, and on-chain equity. EPS $3.79; market prices Figure as a financial market infrastructure company.</div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Consumer Loan Marketplace Volume</span><span>$35B</span></div>
+  <div class="driver-row"><span>Blended Revenue Yield</span><span>4.5%</span></div>
+  <div class="driver-row"><span>Figure Connect Penetration</span><span>80%</span></div>
+  <div class="driver-row"><span>Adj. EBITDA Margin</span><span>68.0%</span></div>
+  <table class="scenario-mini">
+    <thead>
+      <tr><th>Metric</th><th>2026E</th><th>2027E</th><th>2028E</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>$Revenue</td><td>$950</td><td>$1,400</td><td>$1,870</td></tr>
+      <tr class="dim"><td>&nbsp;&nbsp;Revenue Growth %</td><td>+87.4%</td><td>+47.4%</td><td>+33.6%</td></tr>
+      <tr><td>Gross Income</td><td>855</td><td>1,274</td><td>1,711</td></tr>
+      <tr class="dim"><td>&nbsp;&nbsp;Gross Margin %</td><td>90.0%</td><td>91.0%</td><td>91.5%</td></tr>
+      <tr><td>Adj. EBITDA</td><td>551</td><td>882</td><td>1,272</td></tr>
+      <tr class="dim"><td>&nbsp;&nbsp;EBITDA Margin %</td><td>58.0%</td><td>63.0%</td><td>68.0%</td></tr>
+      <tr><td>EBIT</td><td>531</td><td>862</td><td>1,252</td></tr>
+      <tr><td>Net Income</td><td>378</td><td>622</td><td>925</td></tr>
+      <tr class="dim"><td>&nbsp;&nbsp;Net Margin %</td><td>39.8%</td><td>44.4%</td><td>49.5%</td></tr>
+      <tr><td>Diluted Shares (M)</td><td>258</td><td>252</td><td>244</td></tr>
+      <tr><td>$EPS</td><td>$1.47</td><td>$2.47</td><td>$3.79</td></tr>
+      <tr class="valuation-row"><td>Exit P/E Multiple</td><td>55x</td><td>55x</td><td>55x</td></tr>
+      <tr class="valuation-row"><td>Implied Stock Price</td><td>$80.85</td><td>$135.85</td><td>$208.45</td></tr>
+    </tbody>
+  </table>
+  <div class="exit-metrics">
+    <div>2028E Exit: $3.79 × 55x = <span class="exit-price">$208.45</span></div>
+    <div class="exit-upside">Implied Market Cap: $50.9B &nbsp;|&nbsp; Implied EV: $48.9B (ex. $2.0B est. net cash)</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside / (Downside) from $31.50: <strong>+561.7%</strong></div>
+  </div>
+</div>
+
+<!-- BAR CHART -->
+<div class="case-chart">
+  <p style="font-size:10px;font-weight:600;margin-bottom:6px;">Implied 2028E Share Price by Scenario</p>
+  <svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+    <!-- Y-axis labels -->
+    <text x="35" y="20" font-size="9" fill="#888" text-anchor="end">$220</text>
+    <text x="35" y="58" font-size="9" fill="#888" text-anchor="end">$165</text>
+    <text x="35" y="96" font-size="9" fill="#888" text-anchor="end">$110</text>
+    <text x="35" y="134" font-size="9" fill="#888" text-anchor="end">$55</text>
+    <text x="35" y="172" font-size="9" fill="#888" text-anchor="end">$0</text>
+    <!-- Grid lines -->
+    <line x1="40" y1="18" x2="680" y2="18" stroke="#eee" stroke-width="0.5"/>
+    <line x1="40" y1="56" x2="680" y2="56" stroke="#eee" stroke-width="0.5"/>
+    <line x1="40" y1="94" x2="680" y2="94" stroke="#eee" stroke-width="0.5"/>
+    <line x1="40" y1="132" x2="680" y2="132" stroke="#eee" stroke-width="0.5"/>
+    <line x1="40" y1="170" x2="680" y2="170" stroke="#eee" stroke-width="0.5"/>
+    <!-- Bars (height = price / 220 * 152) -->
+    <!-- Case 1: $12.42 → h=8.6, y=170-8.6=161.4 -->
+    <rect x="75" y="161" width="80" height="9" fill="#2563eb" rx="2"/>
+    <text x="115" y="157" font-size="9" fill="#1a1a2e" text-anchor="middle">$12.42</text>
+    <!-- Case 2: $34.83 → h=24.1, y=170-24.1=145.9 -->
+    <rect x="195" y="146" width="80" height="24" fill="#2563eb" rx="2"/>
+    <text x="235" y="142" font-size="9" fill="#1a1a2e" text-anchor="middle">$34.83</text>
+    <!-- Case 3: $50.40 → h=34.8, y=170-34.8=135.2 -->
+    <rect x="315" y="135" width="80" height="35" fill="#2563eb" rx="2"/>
+    <text x="355" y="131" font-size="9" fill="#1a1a2e" text-anchor="middle">$50.40</text>
+    <!-- Case 4: $99.96 → h=69.1, y=170-69.1=100.9 -->
+    <rect x="435" y="101" width="80" height="69" fill="#2563eb" rx="2"/>
+    <text x="475" y="97" font-size="9" fill="#1a1a2e" text-anchor="middle">$99.96</text>
+    <!-- Case 5: $208.45 → h=144.3, y=170-144.3=25.7 -->
+    <rect x="555" y="26" width="80" height="144" fill="#2563eb" rx="2"/>
+    <text x="595" y="22" font-size="9" fill="#1a1a2e" text-anchor="middle">$208.45</text>
+    <!-- Current price line: $31.50 / 220 * 152 = 21.8, y = 170 - 21.8 = 148.2 -->
+    <line x1="40" y1="148" x2="680" y2="148" stroke="#1a1a2e" stroke-width="1.5" stroke-dasharray="5,4"/>
+    <text x="682" y="151" font-size="8.5" fill="#1a1a2e">Current $31.50</text>
+    <!-- Prob-weighted PV line: $55.05 / 220 * 152 = 38.0, y = 170 - 38.0 = 132.0 -->
+    <line x1="40" y1="132" x2="680" y2="132" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <text x="682" y="135" font-size="8.5" fill="#2563eb">PW PV $55.05</text>
+    <!-- X-axis labels -->
+    <text x="115" y="185" font-size="9" fill="#555" text-anchor="middle">Bear (Severe)</text>
+    <text x="235" y="185" font-size="9" fill="#555" text-anchor="middle">Bear (Mild)</text>
+    <text x="355" y="185" font-size="9" fill="#555" text-anchor="middle">Base</text>
+    <text x="475" y="185" font-size="9" fill="#555" text-anchor="middle">Bull (Mild)</text>
+    <text x="595" y="185" font-size="9" fill="#555" text-anchor="middle">Bull (Severe)</text>
+    <!-- Legend -->
+    <text x="40" y="205" font-size="8" fill="#888">Probability weights: 5% / 20% / 50% / 20% / 5%</text>
+    <text x="40" y="216" font-size="8" fill="#888">Prob-Weighted PV: (5%×$12.42 + 20%×$34.83 + 50%×$50.40 + 20%×$99.96 + 5%×$208.45) ÷ 1.1483 = $55.05 @ 14.83% WACC</text>
+  </svg>
+</div>
+
+<!-- ===================== SECTION 10: COMPS ===================== -->
+<div class="memo-section">10. Comps</div>
+<p class="prose" style="font-size:9.5px;color:#555;margin-bottom:8px;">FactSet Peer Group: Mortgage Finance. Note: Figure's EV/EBITDA of 20.1x (NTM) commands a significant premium to traditional mortgage peers (8.8x–17.6x median) — fully justified by its technology platform economics, 54%+ Adj. EBITDA margins, and capital-light marketplace model, vs. peers that carry large balance sheets and generate mid-teens EBITDA margins. The closest comparable may be fintech infrastructure companies (Blend, PennyMac Financial) rather than traditional servicers.</p>
+
+<div class="section-title">Selected Financials</div>
+<table class="data" style="font-size:9px;" class="comps">
+  <thead>
+    <tr>
+      <th>Company</th><th>Ticker</th>
+      <th class="est">Rev FY1 ($M)</th><th class="est">Rev FY2 ($M)</th>
+      <th class="est">EBITDA FY1</th><th class="est">EBITDA FY2</th>
+      <th>Mkt Cap ($M)</th><th>EV ($M)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="font-weight:700;background:#f0f0f0;">
+      <td>Figure Technology Solutions</td><td>FIGR-US</td>
+      <td class="est">$703</td><td class="est">$854</td>
+      <td class="est">$382</td><td class="est">$498</td>
+      <td>$6,792</td><td>$7,665</td>
+    </tr>
+    <tr><td>UWM Holdings Corp. Cl. A</td><td>UWMC</td><td class="est">—</td><td class="est">—</td><td class="est">$1,906</td><td class="est">—</td><td>$1,188</td><td>$22,335</td></tr>
+    <tr><td>PennyMac Financial Services</td><td>PFSI</td><td class="est">—</td><td class="est">—</td><td class="est">$1,511</td><td class="est">—</td><td>$4,618</td><td>$22,116</td></tr>
+    <tr><td>Walker &amp; Dunlop, Inc.</td><td>WD</td><td class="est">—</td><td class="est">—</td><td class="est">$473</td><td class="est">—</td><td>$1,720</td><td>$4,164</td></tr>
+    <tr><td>Ladder Capital Corp. Cl. A</td><td>LADR</td><td class="est">—</td><td class="est">—</td><td class="est">$277</td><td class="est">—</td><td>$1,319</td><td>$4,871</td></tr>
+    <tr><td>Velocity Financial, Inc.</td><td>VEL</td><td class="est">—</td><td class="est">—</td><td class="est">$371</td><td class="est">—</td><td>$709</td><td>$5,494</td></tr>
+    <tr><td>loanDepot, Inc. Cl. A</td><td>LDI</td><td class="est">—</td><td class="est">—</td><td class="est">$135</td><td class="est">—</td><td>$400</td><td>$4,523</td></tr>
+    <tr><td>Better Home &amp; Finance Cl. A</td><td>BETR</td><td class="est">—</td><td class="est">—</td><td class="est">—</td><td class="est">—</td><td>$524</td><td>$613</td></tr>
+    <tr><td>Finance of America Cos. Cl. A</td><td>FOA</td><td class="est">—</td><td class="est">—</td><td class="est">$1,714</td><td class="est">—</td><td>$365</td><td>$29,136</td></tr>
+    <tr><td>Onity Group Inc.</td><td>ONIT</td><td class="est">—</td><td class="est">—</td><td class="est">$428</td><td class="est">—</td><td>$352</td><td>$14,882</td></tr>
+    <tr style="font-weight:600;background:#fafbfc;font-style:italic;"><td>Peer Average (ex-FIGR)</td><td>—</td><td class="est">—</td><td class="est">—</td><td class="est">$852</td><td class="est">—</td><td>$1,244</td><td>$13,517</td></tr>
+    <tr style="font-weight:600;background:#fafbfc;font-style:italic;"><td>Peer Median (ex-FIGR)</td><td>—</td><td class="est">—</td><td class="est">—</td><td class="est">$473</td><td class="est">—</td><td>$709</td><td>$5,494</td></tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:10px;">Valuation Multiples</div>
+<table class="data" style="font-size:9px;" class="comps">
+  <thead>
+    <tr>
+      <th>Company</th><th>Ticker</th><th>Price</th>
+      <th class="est">EV/EBITDA FY1</th><th class="est">EV/EBITDA FY2</th>
+      <th>EV ($M)</th><th>Mkt Cap ($M)</th><th>Rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="font-weight:700;background:#f0f0f0;">
+      <td>Figure Technology Solutions</td><td>FIGR-US</td><td>$31.50</td>
+      <td class="est">20.1x</td><td class="est">15.4x</td>
+      <td>$7,665</td><td>$6,792</td><td>OW</td>
+    </tr>
+    <tr><td>UWM Holdings Corp. Cl. A</td><td>UWMC</td><td>—</td><td class="est">11.7x</td><td class="est">—</td><td>$22,335</td><td>$1,188</td><td>—</td></tr>
+    <tr><td>PennyMac Financial Services</td><td>PFSI</td><td>—</td><td class="est">14.6x</td><td class="est">—</td><td>$22,116</td><td>$4,618</td><td>—</td></tr>
+    <tr><td>Walker &amp; Dunlop, Inc.</td><td>WD</td><td>—</td><td class="est">8.8x</td><td class="est">—</td><td>$4,164</td><td>$1,720</td><td>—</td></tr>
+    <tr><td>Ladder Capital Corp. Cl. A</td><td>LADR</td><td>—</td><td class="est">17.6x</td><td class="est">—</td><td>$4,871</td><td>$1,319</td><td>—</td></tr>
+    <tr><td>Velocity Financial, Inc.</td><td>VEL</td><td>—</td><td class="est">14.8x</td><td class="est">—</td><td>$5,494</td><td>$709</td><td>—</td></tr>
+    <tr><td>loanDepot, Inc. Cl. A</td><td>LDI</td><td>—</td><td class="est">33.6x</td><td class="est">—</td><td>$4,523</td><td>$400</td><td>—</td></tr>
+    <tr><td>Better Home &amp; Finance Cl. A</td><td>BETR</td><td>—</td><td class="est">—</td><td class="est">—</td><td>$613</td><td>$524</td><td>—</td></tr>
+    <tr><td>Finance of America Cos. Cl. A</td><td>FOA</td><td>—</td><td class="est">17.0x</td><td class="est">—</td><td>$29,136</td><td>$365</td><td>—</td></tr>
+    <tr><td>Onity Group Inc.</td><td>ONIT</td><td>—</td><td class="est">34.8x</td><td class="est">—</td><td>$14,882</td><td>$352</td><td>—</td></tr>
+    <tr style="font-weight:600;background:#fafbfc;font-style:italic;"><td>Peer Average (ex-FIGR)</td><td>—</td><td>—</td><td class="est">19.1x</td><td class="est">—</td><td>$13,517</td><td>$1,244</td><td>—</td></tr>
+    <tr style="font-weight:600;background:#fafbfc;font-style:italic;"><td>Peer Median (ex-FIGR)</td><td>—</td><td>—</td><td class="est">15.7x</td><td class="est">—</td><td>$5,494</td><td>$709</td><td>—</td></tr>
+  </tbody>
+</table>
+<p class="source-note">Source: FactSet. Peer group: FactSet Revere Hierarchy Mortgage Finance. EBITDA for peers derived from EV ÷ TEV/EBITDA multiple provided by FactSet. — indicates data not available in FactSet snapshot.</p>
+
+<p class="prose" style="margin-top:8px;">Figure trades at 20.1x NTM EV/EBITDA vs. the peer median of 15.7x — a 28% premium that is appropriate, and likely understated, given the structural differences: FIGR generates 54%+ Adj. EBITDA margins vs. mid-single-digit to low-teens for most mortgage company peers, grows revenue at 40%+ annually vs. mid-single-digit growth for traditional servicers, and operates a capital-light marketplace model that does not require massive balance sheet leverage (note most peers carry EV/Market Cap ratios of 10x+ due to mortgage loan portfolios, vs. FIGR's EV/Market Cap of 1.1x). The market comp group is inadequate — Figure is better analyzed alongside high-margin fintech platforms (COIN, SQ, UPST) than traditional mortgage servicers.</p>
+
+<!-- ===================== SECTION 11: IS THIS A THEIA INVESTMENT? ===================== -->
+<div class="memo-section">11. Is This a Theia Investment?</div>
+<p class="prose" style="font-size:9.5px;color:#666;margin-bottom:10px;"><em>Theia seeks small-cap companies that aren't well covered, are strongly aligned on the core internet finance thesis, and exhibit wide outcome dispersion.</em></p>
+
+<div class="verdict">
+  <strong>(i) Market Cap Bucket: $6.8B Mid-Cap</strong> <span class="fw-rating moderate">Moderate</span><br>
+  Mid-Cap ($5B–$10B) — acceptable but outside the sweet spot. The $6.8B market cap means a typical Theia-sized position (~1-2% of assets) is manageable without liquidity concerns (5.3M shares/day average volume), but the company no longer qualifies for small-cap discovery alpha where institutional coverage is genuinely sparse. The stock is covered by 9 analysts at major banks; Theia's edge here is not discovery but analytical differentiation (e.g., recognizing the market is mispricing FIGR as a crypto proxy rather than a mortgage tech platform).
+</div>
+
+<div class="verdict">
+  <strong>(ii) Analyst Coverage: 9 Brokers — Moderately Covered</strong> <span class="fw-rating moderate">Moderate</span><br>
+  9 broker contributors puts FIGR squarely in the "moderately covered" (5–15) bucket. Given the company IPO'd only in August 2025, institutional coverage is still building — Q4 2025 earnings saw analysts from Mizuho, Piper Sandler, KBW, Autonomous Research (Bernstein), Goldman Sachs, Texas Capital, and Needham on the call. The coverage universe is likely to expand to 12-15 analysts by year-end 2026, reducing the window for informational edge. However, the company's business model is genuinely complex (blockchain + fintech + mortgage + DeFi) and may be systematically misunderstood by sell-side analysts who cover it as a mortgage company rather than a technology platform — which creates persistent analytical alpha even within a moderately covered universe.
+</div>
+
+<div class="verdict">
+  <strong>(iii) Blockchain / Internet Finance Thesis Alignment: Core Thesis</strong> <span class="fw-rating strong">Strong</span><br>
+  This is as close to a "core thesis" company as Theia is likely to find. Figure is literally tokenizing mortgages on blockchain, running a DeFi warehouse facility for consumer lending, issuing a yield-bearing regulated stablecoin (YLDS), and building an on-chain public equity marketplace (OPEN). Every major initiative (Figure Connect, Democratized Prime, YLDS, OPEN) is a direct implementation of the Theia internet finance thesis: the digitization, tokenization, and disintermediation of financial services using blockchain infrastructure. The company is also directly relevant to Theia's blockchain ecosystem theme — Provenance Blockchain underpins Figure's entire stack, and DART is Figure's bet on replacing MERS as the standard US mortgage registry.
+</div>
+
+<div class="verdict">
+  <strong>(iv) Outcome Dispersion: Wide — Significant Bear/Bull Spread</strong> <span class="fw-rating strong">Strong</span><br>
+  The scenario analysis in Section 9 shows a 2028E implied price range of <strong>$12.42 (Severe Bear) to $208.45 (Severe Bull)</strong> — a 17x spread between the bear and bull cases. The base case of $50.40 represents 60% upside from the current $31.50 price. The probability-weighted present value of $55.05 (discounted at 14.83% WACC) implies meaningful mispricing at current levels. The key variable driving dispersion is whether Figure captures even a fraction of the agency mortgage market via DART acceptance — a binary regulatory outcome that the market is currently pricing at near-zero probability. If this materializes, the stock could be worth $100-$200+; if it doesn't materialize by 2028, the stock is a solid but unspectacular 60% compounder to $50 base case.
+</div>
+
+<div class="verdict" style="border-left-color:#155724; background:#f0fff4;">
+  <strong>Verdict: YES — Core thesis company with wide dispersion and persistent market mispricing</strong><br>
+  Figure Technology Solutions is a direct expression of the Theia internet finance thesis: blockchain-native financial infrastructure replacing legacy capital markets plumbing in the $2T+ mortgage market. The company is profitable, growing at 40%+ revenue CAGR, and demonstrating 130% volume growth while keeping OpEx growth to 13% — the signature of a platform business achieving operating leverage. The stock has been violently de-rated (from $78 to $31.50) as the market treats it like a crypto proxy rather than a profitable mortgage technology platform. At 34.7x forward P/E on 33-40% net margin with 40%+ revenue growth and 54%+ EBITDA margins, the stock is significantly cheap relative to comparable-quality software and fintech businesses. The primary risk is rate sensitivity (HELOC demand drops if rates fall significantly) and competitive pricing pressure — but these risks are partially offset by Figure's strategic expansion into first-lien, auto, and SMB lending. <strong>Recommend further diligence on the DART/GSE acceptance timeline, the Agora Data partnership ramp rate, and Democratized Prime balance growth.</strong>
+</div>
+
+<!-- ===================== SECTION 12: ALPHASENSE INSIGHTS ===================== -->
+<div class="memo-section">12. AlphaSense Insights</div>
+<div class="alphasense-box">
+  <strong>AlphaSense GenSearch Report</strong> | Query: "Figure Technology Solutions: Deep-Dive Analysis" | Created: March 6, 2026 | Sources: Earnings transcripts, expert calls (VP at NFM Lending, VP at CMG Financial, VP at Guaranteed Rate, Senior Loan Officer at CrossCountry, Executive VP at New American Funding, Former Director at Figure), SEC filings (S-1/A, 424B4, 10-Q), investor presentations
+</div>
+
+<div class="section-title">The Moat Debate: Infrastructure vs. User Experience</div>
+<p class="prose">The most critical finding from AlphaSense expert interviews is a distinction that sell-side research largely misses: <em>Figure's moat is in the back end, not the front end.</em> Management frequently highlights the speed (5 days) and cost efficiency (&lt;$1,000 origination) of its technology, which is visible and marketable. But experts unanimously argue that this front-end user experience — the automated AVM, digital data collection, e-sign workflow — is the most replicable part of Figure's business. Large legacy players or well-funded competitors could build comparable point-of-sale experiences within 12-18 months, as Better has demonstrated. The genuine moat is Figure's back-end capital markets infrastructure: standardized, blockchain-registered loan assets with transparent, immutable performance history that allows securitization at attractive spreads, a liquid two-sided marketplace (Figure Connect) providing price certainty to originators, and the institutional relationships with ABS investors who trust the underwriting standardization. As one expert bluntly noted, smaller brokers and non-bank lenders "lack the capital markets capability to sell loans effectively on the back end" — making Figure's integrated liquidity pool "incredibly difficult to displace." This distinction has significant investment implications: the correct question is not "can competitors build a faster HELOC app?" (yes, they can) but "can competitors build institutional-grade, standardized capital markets infrastructure for non-conforming consumer loans?" (no, not within a 3-5 year timeframe).</p>
+
+<div class="section-title">The "Convenience Store" Premium and Its Sustainability</div>
+<p class="prose">Multiple expert calls independently converge on the same metaphor: Figure is the "convenience store" of mortgage origination — borrowers and loan officers pay a premium for exceptional speed and frictionlessness. Historically, Figure has commanded a pricing premium of 40-75 basis points over alternative products, and has maintained that premium because no comparable alternative existed at the same speed/cost combination. This pricing power is now actively being contested. NFTYDoor has captured approximately 38% of HELOC volume at one major partner (CMG Financial's VP directly confirmed this) by offering a 40-50bps cheaper rate — approaching the breakeven point where loan officers find it economically rational to absorb switching friction. Better currently operates 30bps cheaper than Figure with a Tinman platform described by industry experts as "highly comparable" in user experience quality. The strategic risk here is not binary (lose all partners) but gradual: sustained pricing pressure could force Figure to lower its ecosystem fee from ~3.0% toward 2.5%, permanently compressing net take rates below the 3.5% management guidance floor. This scenario is most acute in the second-lien HELOC product specifically — and is exactly why management's "Year of the First Lien" pivot is strategically rational.</p>
+
+<div class="section-title">AI: Enhancer, Not Disruptor</div>
+<p class="prose">A key debate in FIGR's investor community is whether AI represents a threat or a tailwind for Figure's model. AlphaSense expert calls, combined with management's own commentary, suggest a nuanced answer: AI makes Figure's process faster and cheaper (tailwind for market share), but cannot replicate the institutional trust, liquidity relationships, and standardized asset history that constitute Figure's marketplace moat (AI is not a threat to the back-end moat). Specifically, Figure has deployed an AI customer service agent achieving 75% chat volume containment, AI-assisted property title review as a parallel validation step against underwriting guidelines, and AI tools for certifying third-party originated assets under the "Figure Certified" program. The most strategically significant AI development is the emergence of partner-led AI sales agents that walk consumers through the white-labeled Figure HELOC product — partners are actively choosing to divert AI workflow volume to Figure over Fannie/Freddie channels because Figure's fully digitized process is "perfectly optimized for AI workflows." This creates an unexpected AI-driven adoption flywheel: as AI sales agents proliferate across the mortgage ecosystem, Figure's product becomes relatively more competitive against legacy origination workflows. Management's "you can't AI your way into AAA" formulation elegantly captures why AI doesn't threaten Figure's institutional capital markets infrastructure: rating agencies require years of origination history, and no AI can manufacture a credible 7-year performance track record overnight.</p>
+
+<div class="section-title">Misunderstood Economics: Who Actually Benefits from Figure's Cost Savings</div>
+<p class="prose">A frequently misunderstood aspect of Figure's platform economics — documented across multiple expert calls — is the distribution of value captured from Figure's origination cost efficiency. While Figure's marketing emphasizes its ability to slash borrower costs through superior technology, expert calls reveal that the $10,000+ in cost savings per origination do not necessarily flow to borrowers in the form of lower interest rates, nor do they meaningfully increase the commission of the referring loan officer. Instead, the reduced operational costs primarily benefit the lending partner's corporate bottom line, allowing them to remain profitable on smaller loan balances ($50K-$60K) that would be economically unviable under traditional cost structures. This is an important insight for modeling Figure's competitive durability: the value proposition is primarily B2B (enabling lenders to serve a previously unprofitable market segment), not B2C (giving consumers cheaper loans). This B2B orientation means customer loyalty is determined by lender economics (net margin on originations through Figure) rather than consumer preference — which creates both stickiness (lenders are addicted to the profitability unlock) and vulnerability (if a cheaper competitor can deliver similar margins to the lender, the consumer end-user won't resist the switch).</p>
+
+<div class="section-title">Regulatory Risk: The DART/MERS Battle Is Figure's Biggest Long-Term Bet</div>
+<p class="prose">The most important long-term regulatory risk identified across AlphaSense sources is Figure's dependence on resolving the DART vs. MERS question in its favor. MERS (Mortgage Electronic Registration Systems), owned by MERSCORP Holdings (a Fannie/Freddie-backed consortium), is effectively a government-sanctioned monopoly over the lien registry infrastructure for conforming US mortgages. Figure's DART technology provides a demonstrably superior, blockchain-native alternative: real-time lien updates (vs. MERS periodic reconciliation), fraud prevention via immutable chain of title, and ~$50/loan in cost savings on assignments. Despite these advantages, DART faces severe structural headwinds. Its legal standing under E-Sign requirements and eNote standardization for conforming loans has not been tested in court. GSE acceptance requires lobbying a "notoriously change-resistant" institution (Fannie Mae's technology infrastructure predates the internet). Until DART achieves MERS equivalency for GSE-backed loans, Figure cannot originate or sell conforming mortgages — limiting it to the non-conforming/private credit market and foreclosing the multi-trillion dollar agency TAM. Experts estimate this barrier will require "five to ten years" to overcome through the industry's own inertia. For investors, this creates the most important scenario binary: either DART wins agency acceptance (massive upside, $100-$200+ stock) or it doesn't by 2028 (Figure remains a high-quality but TAM-constrained fintech, $50-$60 stock). The current market appears to be pricing this at near-zero probability.</p>
+
+<div class="section-title">Leadership and Culture: The Cagney Factor</div>
+<p class="prose">Industry professionals and origination partners consistently identify Figure's leadership as a meaningful competitive advantage — specifically the combination of Mike Cagney's institutional credibility and the executive team's "dual fluency" in mortgage operations and decentralized finance. Cagney's SoFi track record — building a fintech from scratch to $10B+ market cap — creates trust with both traditional IMB lending partners (who respect his understanding of mortgage mechanics) and blockchain-native institutions (who respect his DeFi vision). This credibility has been crucial in maintaining partner loyalty during periods of competitive pricing pressure, as partners attribute strategic value to Cagney's long-term vision beyond immediate economics. Expert calls characterize Figure's corporate culture as "relentlessly disruptive" — praised for its pragmatic, outcome-focused approach to blockchain adoption (prioritizing actual liquidity creation and asset distribution over "buzzy technology" for its own sake). One area of concern noted across expert calls: the Q4 2025 phishing breach (approximately 12,400 SSNs exposed) exposes a potential cultural blind spot where the pace of growth may be outrunning information security investment. Any second major security incident would be disproportionately damaging to the institutional relationships that constitute Figure's back-end moat.</p>
+
+<div class="section-title">Consensus Mispricing: "AI Bitcoin Stock" Thesis Creates Entry Point</div>
+<p class="prose">The single most actionable insight from the AlphaSense report is the explicit observation from multiple financial industry experts that the market is fundamentally misclassifying FIGR's equity. Following the August 2025 IPO, the stock dropped from highs of ~$78 to current levels of ~$31.50 — a period during which Figure's business fundamentals were uniformly strong (Q4 2025: 131% volume growth, 426% EBITDA growth, $1.2B cash balance). The market appears to be trading Figure as a "crypto proxy" — correlating its valuation to Bitcoin price volatility and broader digital asset market sentiment rather than to its mortgage origination volume, take rate trajectory, and operating leverage. Experts argue this consensus is "deeply flawed": Figure's core revenue is derived from home equity loans, DSCR products, and capital-light marketplace fees that are entirely insulated from Bitcoin price movements. The practical implication is that FIGR shares offer equity investors a rare situation: genuine fundamental mispricing driven by market classification error (crypto proxy vs. mortgage tech platform), validated by expert practitioners who interact with the product and understand its actual economics. The 9-analyst consensus target of $52.90 (+67.9% from current price) suggests that even sell-side coverage recognizes the current price as deeply discounted — and that this discount is more persistent than warranted.</p>
+
+<!-- ===================== APPENDIX ===================== -->
+<div class="appendix">
+<div class="memo-section">Appendix: Python Code — Sensitivity &amp; Scenario Models</div>
+<div class="code-block">"""
+Figure Technology Solutions (FIGR) — Theia Memo Sensitivity & Scenario Model
+Generated: March 6, 2026 | Analyst: Claude via Theia Underwriting Engine
+"""
+
+import numpy as np
+import pandas as pd
+
+# ─────────────────────────────────────────────
+# SENSITIVITY TABLE 1: Volume × Blended Yield → Revenue
+# ─────────────────────────────────────────────
+RECURRING_REVENUE = 200  # $M fixed recurring (servicing + interest income)
+
+volumes = [14, 17, 20, 23, 26]  # $B marketplace volume
+yields  = [3.5, 4.0, 4.5, 5.0, 5.5]  # % blended revenue yield
+
+print("=== SENSITIVITY 1: 2028E Revenue ($M) ===")
+print("Volume \\ Yield |", " | ".join(f"{y:.1f}%" for y in yields))
+for v in volumes:
+    row = [round(v * y / 100 * 1000 + RECURRING_REVENUE) for y in yields]
+    print(f"  ${v}B         |", " | ".join(f" ${r:>5}" for r in row))
+
+# ─────────────────────────────────────────────
+# SENSITIVITY TABLE 2: Revenue × EBITDA Margin → EPS
+# ─────────────────────────────────────────────
+DA_EXPENSE   = 20   # D&A $M
+NET_INTEREST = 20   # Net interest income $M (net cash position)
+TAX_RATE     = 0.15
+SHARES_M     = 275  # Diluted shares
+
+revenues       = [700, 850, 1000, 1200, 1500]  # $M
+ebitda_margins = [0.45, 0.50, 0.55, 0.60, 0.65]
+
+print("\n=== SENSITIVITY 2: 2028E EPS ($) ===")
+print("Revenue \\ Margin |", " | ".join(f"{m*100:.0f}%" for m in ebitda_margins))
+for rev in revenues:
+    row = []
+    for margin in ebitda_margins:
+        ebitda = rev * margin
+        ebit   = ebitda - DA_EXPENSE
+        pretax = ebit + NET_INTEREST
+        ni     = pretax * (1 - TAX_RATE)
+        eps    = ni / SHARES_M
+        row.append(f"${eps:.2f}")
+    print(f"  ${rev}M          |", " | ".join(f" {v:>6}" for v in row))
+
+# ─────────────────────────────────────────────
+# SENSITIVITY TABLE 3: EPS × Exit P/E → Implied Price
+# ─────────────────────────────────────────────
+eps_values = [0.70, 1.00, 1.44, 2.00, 3.00]
+pe_multiples = [15, 22, 30, 35, 42]
+
+print("\n=== SENSITIVITY 3: 2028E Implied Share Price ($) ===")
+print("EPS \\ P/E |", " | ".join(f"{pe}x" for pe in pe_multiples))
+for eps in eps_values:
+    row = [f"${eps*pe:.2f}" for pe in pe_multiples]
+    print(f"  ${eps:.2f}    |", " | ".join(f" {v:>7}" for v in row))
+
+# ─────────────────────────────────────────────
+# 5-CASE SCENARIO MODEL
+# ─────────────────────────────────────────────
+CURRENT_PRICE = 31.50
+WACC          = 0.1483
+
+scenarios = {
+    "Bear Severe":  {"rev": [490, 520, 560],  "ni": [150, 165, 180],  "shares": 260, "exit_pe": 18,  "net_cash_2028": 650},
+    "Bear Mild":    {"rev": [600, 730, 855],  "ni": [190, 250, 330],  "shares": 256, "exit_pe": 27,  "net_cash_2028": 850},
+    "Base":         {"rev": [703, 854, 998],  "ni": [234, 306, 396],  "shares": 275, "exit_pe": 35,  "net_cash_2028": 1100},
+    "Bull Mild":    {"rev": [810, 1050, 1300],"ni": [302, 430, 600],  "shares": 252, "exit_pe": 42,  "net_cash_2028": 1400},
+    "Bull Severe":  {"rev": [950, 1400, 1870],"ni": [378, 622, 925],  "shares": 244, "exit_pe": 55,  "net_cash_2028": 2000},
+}
+probs = [0.05, 0.20, 0.50, 0.20, 0.05]
+
+print("\n=== 5-CASE SCENARIO MODEL ===")
+implied_prices_2028 = []
+for (name, s), prob in zip(scenarios.items(), probs):
+    eps_2028 = s["ni"][2] / s["shares"]
+    implied  = eps_2028 * s["exit_pe"]
+    implied_mc = implied * s["shares"]
+    implied_ev = implied_mc - s["net_cash_2028"]
+    updown = (implied - CURRENT_PRICE) / CURRENT_PRICE * 100
+    print(f"{name:<14} | 2028E EPS: ${eps_2028:.2f} | Exit P/E: {s['exit_pe']}x | "
+          f"Implied: ${implied:.2f} | MC: ${implied_mc/1000:.1f}B | {updown:+.1f}%")
+    implied_prices_2028.append(implied)
+
+# Probability-weighted price and PV
+weighted_avg = sum(p * ip for p, ip in zip(probs, implied_prices_2028))
+pv_today = weighted_avg / (1 + WACC)
+print(f"\nProbability-Weighted 2028E Price: ${weighted_avg:.2f}")
+print(f"PV @ {WACC*100:.2f}% WACC (1-yr discount): ${pv_today:.2f}")
+print(f"Current Price: ${CURRENT_PRICE}")
+print(f"Implied Upside to PW PV: {(pv_today/CURRENT_PRICE - 1)*100:+.1f}%")
+</div>
+</div>
+
+<p class="source-note" style="margin-top:16px;">Memo prepared by Claude (Sonnet 4.6) via Theia Underwriting Engine · March 6, 2026 · Sources: FactSet Fundamentals &amp; Estimates, Q4 2025 Earnings Call Transcript (Feb 26, 2026), AlphaSense GenSearch Deep-Dive Report (Mar 6, 2026), Q3 2025 Earnings Call Transcript (Nov 14, 2025). This is a preliminary investment memo for internal Theia use only. Not investment advice.</p>
+
+</body>
+</html>
