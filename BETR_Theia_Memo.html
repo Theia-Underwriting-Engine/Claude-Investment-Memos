@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Better Home &amp; Finance | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', Arial, sans-serif; background: #fff; color: #1a1a2e; width: 816px; margin: 0 auto; padding: 32px 40px; font-size: 11px; line-height: 1.45; }
+.title-bar { font-size: 20px; font-weight: 700; letter-spacing: -0.4px; color: #1a1a2e; border-bottom: 3px solid #1a1a2e; padding-bottom: 10px; margin-bottom: 20px; text-align: center; }
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+table.data tr.dim-row td { color: #777; font-size: 9px; }
+table.data tr.dim-row td:first-child { padding-left: 12px; }
+.est { color: #2563eb; }
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+table.ev tr.indent td:first-child { padding-left: 14px; color: #888; font-size: 10px; }
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; border: 1px solid #eee; border-radius: 4px; }
+.val-grid .val-cell { padding: 6px 8px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 13px; font-weight: 700; color: #1a1a2e; margin-top: 2px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+.fw-item { margin-bottom: 8px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td:first-child { text-align: left; font-weight: 600; background: #f4f6f9; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+table.sensitivity td.pos { background: #d4edda; color: #155724; }
+table.sensitivity td.neg { background: #f8d7da; color: #721c24; }
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+.case-block .case-desc { font-size: 10px; color: #555; margin-bottom: 8px; line-height: 1.5; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 8px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 700; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; font-size: 8.5px; }
+.case-block table.scenario-mini th:first-child { text-align: left; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #f5f5f5; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini tr.dim td { color: #777; font-size: 8.5px; }
+.case-block table.scenario-mini tr.dim td:first-child { padding-left: 10px; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 8px; margin-top: 6px; display: flex; justify-content: space-between; align-items: center; }
+.case-block .exit-price { font-size: 16px; font-weight: 700; color: #1a1a2e; }
+.case-block .exit-upside { font-size: 11px; font-weight: 600; }
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+.bull-bear { display: flex; gap: 24px; margin-bottom: 8px; }
+.bull-col, .bear-col { flex: 1; }
+.bull-col .section-title { color: #155724; border-color: #c3e6cb; }
+.bear-col .section-title { color: #721c24; border-color: #f5c6cb; }
+.bb-item { margin-bottom: 6px; }
+.bb-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.comps { font-size: 8px; }
+.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+.comps th:first-child, .comps th:nth-child(2) { text-align: left; }
+.comps td { text-align: right; padding: 2px 4px; }
+.comps td:first-child, .comps td:nth-child(2) { text-align: left; font-weight: 500; color: #333; }
+.comps tr:nth-child(even) { background: #fafbfc; }
+.comps tr.subject { font-weight: 700; background: #f0f0f0 !important; }
+.comps tr.stat-row { font-style: italic; background: #fafbfc !important; font-weight: 600; color: #555; }
+.comps .est-col { color: #2563eb; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Better Home &amp; Finance Holding Co. | Preliminary Memo for Theia</div>
+
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">Better Home &amp; Finance Holding Co. (BETR-US) is an AI-native mortgage originator building what it describes as a "one-day mortgage" platform. Founded in 2014 and listed via SPAC in August 2023, Better has rebuilt the end-to-end mortgage origination stack from scratch using its proprietary Tinman AI platform, replacing the 8–10 legacy software systems (Encompass LOS, AUS, POS, document management, compliance, servicing handoff) that traditional originators stitch together. Tinman enables origination speeds management claims are structurally 4–6x faster than the industry median: 70% of Better's loans now achieve "one-day mortgage" status and 44% go from rate lock to commitment letter in under one minute.</p>
+
+<p class="prose">The business operates across three channels in different stages of maturity. Direct-to-Consumer (D2C, ~55% of revenue) serves homebuyers and refinancers through Better.com, with the Betsy AI model handling 700,000+ customer interactions per quarter and autonomously approving 61% of locked loans — versus the human loan officer model that dominates the industry. Tinman as a Platform (TaaP, ~45% of revenue and growing) licenses Better's full origination infrastructure to third-party originators — banks, non-bank originators, super-app fintechs — who fund loans under their own brand while Better processes, underwrites, and closes them; Q3 2025 TaaP volume was $483M (+13% QoQ). The nascent Tinman as Software (TaaS) channel licenses individual Tinman modules (AI underwriting, doc processing, compliance engine) as standalone SaaS, generating recurring revenue without per-loan funding risk.</p>
+
+<p class="prose">Unit economics are improving rapidly. Revenue per funded loan reached $8,500 at the Needham Growth Conference in January 2026 (from $7,400 one year prior), while labor cost per funded loan has declined to $2,500 versus the industry average of $9,000+. The resulting contribution margin of ~$1,700–2,000/loan is rising as Betsy automates more loan officer, processor, and underwriter functions. Better's proprietary dataset — $110B+ in originations, 12M recorded borrower calls, 6M approved customers, 5 billion+ document pages — creates a compounding data advantage that management believes will allow the platform to handle 90%+ of loans autonomously at a target cost below $1,000/fund. The company recorded a 19x lower defect rate than the industry average in Q3 2025, which is the central credentialing claim in its B2B partner pitch.</p>
+
+<p class="prose">Better is deeply pre-profitability. FY2025E revenue of $161M is dwarfed by ~$220–225M in fixed corporate costs, producing adj. EBITDA of ($112M). The path to profitability is purely volume-dependent — breakeven is estimated at approximately $700–800M/month in funded volume (annualized ~$9B), roughly 80% above the current $5B annualized run rate. Four partners have been announced but not yet named: a top-5 fintech with 50M+ customers, a top-5 non-bank originator with $300B+ MSR book, Finance of America (Blackstone-funded, largest reverse mortgage originator), and a small community bank. Management guided Q4 2025 TaaP volume at $600M+ and monthly volume target of $1B+ within 6 months of Q3 earnings (by approximately May 2026). The next major catalyst is Q4 2025 earnings on March 13, 2026.</p>
+
+<!-- SECTION 2: FACTSET FINANCIAL SUMMARY -->
+<div class="memo-section">2. Theia FactSet Financial Summary</div>
+
+<div class="header">
+  <div><h1>Better Home &amp; Finance Holding Co.</h1><span class="ticker">BETR-US &nbsp;|&nbsp; NASDAQ &nbsp;|&nbsp; Mortgage Finance / AI Platform</span></div>
+  <div class="date">FactSet as of March 5, 2026 &nbsp;|&nbsp; Fiscal Year End: December</div>
+</div>
+
+<div class="price-bar">
+  <span class="price">$33.40</span>
+  <span><span class="label">1M</span> <span class="chg pos">+25.2%</span></span>
+  <span><span class="label">3M</span> <span class="chg">-26.5%</span></span>
+  <span><span class="label">6M</span> <span class="chg pos">+39.3%</span></span>
+  <span><span class="label">YTD</span> <span class="chg pos">+2.5%</span></span>
+  <span><span class="label">1Y</span> <span class="chg pos">+215.1%</span></span>
+  <span><span class="label">52W</span> $8.90 – $94.06</span>
+  <span><span class="label">Short Int.</span> 33.8% float</span>
+  <span><span class="label">Next Earnings</span> Mar 13, 2026</span>
+</div>
+
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats &amp; Trading</div>
+    <table class="kv" style="font-size:10px;">
+      <tr><td>Market Cap (Dil.)</td><td>$530.3M</td></tr>
+      <tr><td>Enterprise Value</td><td>$860.6M</td></tr>
+      <tr><td>Total Debt</td><td>$548.6M</td></tr>
+      <tr><td>Cash &amp; Equiv.</td><td>$218.4M</td></tr>
+      <tr><td>Net Debt</td><td>$330.2M</td></tr>
+      <tr><td>Float</td><td>65.8%</td></tr>
+      <tr><td>WACC</td><td>7.67%</td></tr>
+      <tr><td>Beta</td><td>1.18x</td></tr>
+      <tr><td>Coverage (OW / N / UW)</td><td>4 / 0 / 0</td></tr>
+      <tr><td>Consensus PT</td><td>$40.00</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">EV Bridge ($M)</div>
+    <table class="ev" style="font-size:10px;">
+      <tr><td>Basic Shares Outstanding</td><td>15.70M</td></tr>
+      <tr class="indent"><td>Class A Common</td><td>9.86M</td></tr>
+      <tr class="indent"><td>Class B Common</td><td>4.40M</td></tr>
+      <tr class="indent"><td>Class C Common</td><td>1.44M</td></tr>
+      <tr><td>+ Stock Comp / Dilution</td><td>0.18M</td></tr>
+      <tr class="total"><td>Fully Dil. Shares</td><td>15.88M</td></tr>
+      <tr><td>× Current Price</td><td>$33.40</td></tr>
+      <tr class="total"><td>Fully Dil. Mkt Cap</td><td>$530.3M</td></tr>
+      <tr><td>+ Consolidated Debt</td><td>$548.6M</td></tr>
+      <tr><td>− Cash &amp; Equiv.</td><td>($218.4M)</td></tr>
+      <tr class="total"><td>Enterprise Value</td><td>$860.6M</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="section-title" style="margin-top:12px;">Current Valuation</div>
+<div class="val-grid">
+  <div class="val-cell"><div class="val-label">P/E LTM</div><div class="val-num">NM</div><div class="val-sub">Net loss LTM</div></div>
+  <div class="val-cell"><div class="val-label">P/S LTM</div><div class="val-num">3.1x</div><div class="val-sub">$530M / ~$170M</div></div>
+  <div class="val-cell"><div class="val-label">EV/Sales LTM</div><div class="val-num">5.2x</div><div class="val-sub">$861M / ~$165M</div></div>
+  <div class="val-cell"><div class="val-label">EV/EBITDA LTM</div><div class="val-num">NM</div><div class="val-sub">EBITDA negative</div></div>
+  <div class="val-cell"><div class="val-label">Short Interest</div><div class="val-num">33.8%</div><div class="val-sub">of float</div></div>
+  <div class="val-cell"><div class="val-label">Beta (FactSet)</div><div class="val-num">1.18x</div><div class="val-sub">vs. S&amp;P 500</div></div>
+</div>
+
+<div class="section-title">Financials &amp; Margins ($M, except EPS; Dec. fiscal year)</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Metric</th>
+      <th>FY2022A</th><th>FY2023A</th><th>FY2024A</th>
+      <th class="est">FY2025E</th><th class="est">FY2026E</th><th class="est">FY2027E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$Revenue</td><td>$—</td><td>($133.8)</td><td>$129.5</td><td class="est">$161.3</td><td class="est">$267.8</td><td class="est">$406.7</td></tr>
+    <tr class="dim-row"><td>Revenue Growth %</td><td>—</td><td>NM</td><td>NM</td><td class="est">+24.5%</td><td class="est">+66.0%</td><td class="est">+51.9%</td></tr>
+    <tr><td>Gross Income</td><td>NM</td><td>NM</td><td>$104.5</td><td class="est">$116.1</td><td class="est">$198.2</td><td class="est">$309.1</td></tr>
+    <tr class="dim-row"><td>Gross Margin %</td><td>—</td><td>—</td><td>80.7%</td><td class="est">72.0%</td><td class="est">74.0%</td><td class="est">76.0%</td></tr>
+    <tr><td>EBITDA</td><td>($8.6)</td><td>($442.5)</td><td>($133.1)</td><td class="est">($112.4)</td><td class="est">($22.1)</td><td class="est">$89.0</td></tr>
+    <tr class="dim-row"><td>EBITDA Margin %</td><td>NM</td><td>NM</td><td>NM</td><td class="est">NM</td><td class="est">NM</td><td class="est">21.9%</td></tr>
+    <tr><td>Net Income</td><td>$8.7</td><td>($536.4)</td><td>($206.3)</td><td class="est">($159.6)</td><td class="est">($60.8)</td><td class="est">$38.8</td></tr>
+    <tr class="dim-row"><td>Net Margin %</td><td>NM</td><td>NM</td><td>NM</td><td class="est">NM</td><td class="est">NM</td><td class="est">9.5%</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$12.57</td><td>($58.09)</td><td>($13.65)</td><td class="est">($10.37)</td><td class="est">($3.04)</td><td class="est">$2.43</td></tr>
+    <tr><td>Free Cash Flow</td><td>($1.2)</td><td>($280.1)</td><td>($212.1)</td><td class="est">($199.5)</td><td class="est">($121.5)</td><td class="est">($46.7)</td></tr>
+    <tr><td>Cash &amp; Equiv.</td><td>$0.3</td><td>$553.7</td><td>$289.3</td><td class="est">$223.4</td><td class="est">$374.1</td><td class="est">$455.4</td></tr>
+  </tbody>
+</table>
+<p style="font-size:8px;color:#aaa;margin-top:2px;">Note: FY2022A Net Income reflects SPAC merger accounting gains. FY2023A negative revenue reflects large negative GOS in the rate-shock environment. FY2025E–2027E are FactSet consensus (4 contributors). FY2026E cash increase implies assumed equity raise; FY2025E–2026E gross margins estimated from Q3'25 actuals; FY2027E gross margin reflects TaaP mix shift.</p>
+
+<div class="section-title">Valuation Multiples (FactSet)</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Multiple</th>
+      <th>5Yr Avg</th><th>FY2022A</th><th>FY2023A</th><th>FY2024A</th>
+      <th class="est">FY2025E</th><th class="est">FY2026E</th><th class="est">FY2027E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>P/E</td><td>8.0x</td><td>40.1x</td><td>NM</td><td>NM</td><td class="est">NM</td><td class="est">NM</td><td class="est">13.7x</td></tr>
+    <tr><td>EV / Sales</td><td>—</td><td>—</td><td>(5.3)x</td><td>4.7x</td><td class="est">5.3x</td><td class="est">3.2x</td><td class="est">2.1x</td></tr>
+    <tr><td>EV / EBITDA</td><td>—</td><td>(41.2)x</td><td>(1.6)x</td><td>(4.6)x</td><td class="est">(7.7)x</td><td class="est">(38.9)x</td><td class="est">9.7x</td></tr>
+  </tbody>
+</table>
+
+<div class="section-title">Revenue Exposure — FY2024A ($130M Total)</div>
+<table class="rev">
+  <thead><tr><th style="text-align:left;">Segment</th><th>% of Rev</th><th>$M</th></tr></thead>
+  <tbody>
+    <tr><td>Gain on Loans — Net (GOS)</td><td>85.8%</td><td>$78.1</td></tr>
+    <tr><td>International Lending</td><td>4.4%</td><td>$4.0</td></tr>
+    <tr><td>Insurance</td><td>3.8%</td><td>$3.5</td></tr>
+    <tr><td>Other Revenue</td><td>3.2%</td><td>$3.0</td></tr>
+    <tr><td>Real Estate Services</td><td>2.7%</td><td>$2.5</td></tr>
+    <tr><td>Geography: United States</td><td>100%</td><td>—</td></tr>
+  </tbody>
+</table>
+<div class="source-note">Source: FactSet Snapshot — BETR-US, March 6, 2026 &nbsp;|&nbsp; Q3 2025 Earnings Call (Nov. 2025) &nbsp;|&nbsp; Needham Growth Conference (Jan. 16, 2026) &nbsp;|&nbsp; Q3 2025 Earnings Slides</div>
+
+<!-- SECTION 3: BULL & BEAR CASES -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="bull-bear">
+  <div class="bull-col">
+    <div class="section-title">Bull Cases</div>
+    <div class="bb-item">
+      <p class="prose"><span class="fw-name">Partnership Ramp Executes on Schedule.</span> The four announced-but-unnamed partners collectively ramp to $500M+/month in combined TaaP volume by mid-2026. The top-5 fintech (50M customers) alone could contribute $3–5B in annual funded volume at full production — more than doubling Better's current run rate without any D2C improvement. Each signed partner reduces the per-partner revenue concentration risk while validating Tinman's enterprise readiness.</p>
+    </div>
+    <div class="bb-item">
+      <p class="prose"><span class="fw-name">AI Cost Trajectory Accelerates to &lt;$1,000/Fund.</span> Betsy's autonomous approval rate is 61% today. If it reaches 80–85% — which management has explicitly targeted — labor cost per funded loan falls below $1,200 (from $2,500 today). At $1B/month volume, this would generate ~$42M/month in contribution margin against ~$18M/month in fixed SG&amp;A, producing ~$24M/month in EBITDA or ~$288M annualized. This is the structural basis for the bull thesis.</p>
+    </div>
+    <div class="bb-item">
+      <p class="prose"><span class="fw-name">Rate Tailwind Unleashes Refinancing Wave.</span> A 100bps decline in the 30-year mortgage rate (currently ~6.8%) would unlock an estimated $2–3T in refinanceable mortgages frozen since 2022. Better's AI-driven speed (one-day mortgage, 44% under-one-minute commitment) is a differentiated advantage in the urgency-driven refi channel, where the first lender to approve wins. D2C lead-to-lock improved from 3.3% to 6.1% in the past year; a refi wave could push this to 8–10%.</p>
+    </div>
+    <div class="bb-item">
+      <p class="prose"><span class="fw-name">TaaP Economics Approach SaaS Margins.</span> In the D2C channel, Better earns net GOS margin on loans it underwrites and funds. In TaaP, the partner funds the loan; Better earns a processing fee with near-zero variable cost per loan. As TaaP scales from ~45% to 65–70% of volume, blended gross margins expand from 74% toward 82–85%, while revenue per funded dollar is maintained. This structural mix shift transforms the margin profile without requiring incremental cost investment.</p>
+    </div>
+    <div class="bb-item">
+      <p class="prose"><span class="fw-name">Proprietary Dataset Becomes Category-Defining Moat.</span> Better's training corpus ($110B originations, 12M calls, 5B+ document pages) spans the 2014–2026 period — including the zero-rate era, the 2022–2023 rate shock, and the post-shock recovery. No competitor without a decade of lending operations can assemble an equivalent dataset. As Betsy's models compound on each new loan, the 19x defect rate advantage widens rather than converges, making Tinman increasingly the only credible enterprise-grade AI mortgage platform.</p>
+    </div>
+  </div>
+  <div class="bear-col">
+    <div class="section-title">Bear Cases</div>
+    <div class="bb-item">
+      <p class="prose"><span class="fw-name">Rate Freeze Persists Through 2026.</span> If the Fed maintains rates above 6.5% and housing affordability stays near 40-year lows, the total addressable origination market stays compressed at $1.5–1.7T annually. D2C volume stagnates. Partners reduce allocations in a low-volume environment. Better burns through its $218M cash balance within 12–18 months and is forced into a dilutive equity raise that resets the cap table significantly below current levels.</p>
+    </div>
+    <div class="bb-item">
+      <p class="prose"><span class="fw-name">Partnership Onboarding Takes 18–24 Months, Not 6–12.</span> Integrating Tinman into a top-5 fintech's infrastructure requires regulatory approvals, compliance stack alignment, IT integration, and internal change management. If the two largest partners delay live production by 12+ months (very plausible for a first-of-kind AI mortgage integration), FY2026 revenue could reset from $268M consensus to $180–210M — a 25–35% miss that would reprice the equity significantly lower.</p>
+    </div>
+    <div class="bb-item">
+      <p class="prose"><span class="fw-name">Capital Structure Fragility Creates Dilution Risk.</span> The $548.6M in consolidated debt — which includes warehouse lines and a Softbank-era note — combined with $150–200M/year in cash burn means Better must raise equity in 2026. Any raise at or below $33.40 is dilutive. The triple share class structure (Classes A, B, C) limits Class A minority shareholder influence over capital allocation decisions, creating governance risk that discounts the equity premium.</p>
+    </div>
+    <div class="bb-item">
+      <p class="prose"><span class="fw-name">ICE/Encompass Builds Competing AI Layer.</span> Intercontinental Exchange (ICE) owns Encompass, the dominant LOS with 3,000+ lender clients. ICE has $7B+ in annual revenue and is actively developing AI mortgage automation. If Encompass AI delivers automated underwriting comparable to Betsy at comparable speed, the counter-positioning argument for TaaP weakens — because partners already running Encompass won't migrate their entire origination stack to Tinman when they can upgrade their existing system.</p>
+    </div>
+    <div class="bb-item">
+      <p class="prose"><span class="fw-name">Regulatory Action on AI Underwriting.</span> CFPB has flagged AI/ML underwriting as a fair lending enforcement priority. Any enforcement action related to disparate impact in Betsy's autonomous approval decisions — even without intent — could halt or restructure the AI approval process. Traditional lenders running FNMA/FHLMC-approved AUS workflows face this risk minimally; Better's custom AI stack faces it maximally. A regulatory pause on Betsy autonomous approvals would restore human labor costs and eliminate the primary efficiency advantage.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Counter-Positioning</span><span class="fw-rating strong">Strong</span>
+  <p class="prose">Better's Tinman platform replaces 8–10 legacy software systems with a single integrated AI stack. Established mortgage originators — Rocket Mortgage, Wells Fargo, loanDepot — have invested hundreds of millions in their existing technology infrastructure: Encompass LOS, proprietary CRM systems, AUS integrations, document management workflows. They cannot simply abandon these investments to adopt a competing end-to-end platform. If Rocket tried to build an equivalent Tinman, it would be cannibalizing its own existing loan officer workforce (Rocket employs thousands of human LOs) and disrupting vendor relationships and regulatory approvals built over decades. The rational incumbent response is to improve their existing stack at the margins — adding AI features to Encompass, hiring prompt engineers, deploying chatbots — not to rebuild their entire origination architecture. This is the definition of counter-positioning: the new model structurally cannot be adopted by incumbents without destroying the very assets that make them incumbents. Better has a 3–5 year window to entrench platform partners before any incumbent can credibly match the full Tinman capability set.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Cornered Resource</span><span class="fw-rating strong">Strong</span>
+  <p class="prose">Better's proprietary training dataset is the most defensible element of its competitive position. The combination of $110B+ in originations, 12 million recorded borrower calls, 6 million approved customer profiles, and 5 billion+ document pages creates a training corpus for mortgage AI that no competitor can replicate without decades of lending operations. Machine learning models for mortgage underwriting require not just volume but variety: rejection patterns, edge cases, fraud signals, and behavior across full credit cycles. Better's dataset spans 2014–2026 — including the zero-rate era, the 2022–2023 rate shock (when mortgage demand collapsed and fraud patterns shifted), and the post-shock recovery. Unlike a database that can be purchased or licensed, this dataset is embedded in Betsy's model weights and compounds with every new loan processed. The 19x lower defect rate versus the industry is the observable output of this compounding advantage; the dataset is the non-replicable input that sustains it. A well-funded competitor starting from scratch today could not replicate this asset by 2027 even with unlimited capital.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Switching Costs</span><span class="fw-rating strong">Strong</span>
+  <p class="prose">For TaaP partners, switching costs are structural rather than purely contractual. Once a partner — a top-5 fintech with 50M customers — integrates Tinman into their product experience (so that their customers receive a one-day mortgage powered by Better's infrastructure), switching to an alternative requires rebuilding the entire integration, re-obtaining state-by-state regulatory approvals for the new platform, retraining customer-facing staff, and absorbing a period of service degradation during the transition. The integration is not a simple API swap; Tinman replaces the partner's LOS, underwriting engine, document processing, compliance monitoring, and servicing handoff in a single stack — creating systemic dependency. Moreover, each loan processed through the platform generates proprietary data about the partner's customer base (credit characteristics, purchase behavior, prepayment propensity) that fine-tunes Betsy's models for that specific partner segment, making the platform increasingly accurate for that customer set over time. A partner who has 12 months of Betsy-optimized underwriting data specific to their customer profile would be giving up a significant operational advantage by switching — the data belongs to Better, not the partner.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Scale Economies</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Better's fixed cost structure (~$220M/year in SG&amp;A, R&amp;D, and corporate overhead) is largely independent of funded volume. Each incremental dollar of funded volume adds minimal marginal cost — primarily warehouse line interest (which is matched by the loan's interest income during the hold period) and AI compute costs that scale sub-linearly as models become more efficient. The implication is a dramatic improvement in unit economics as volume grows: at $5B annualized volume, Better loses approximately ($22)/loan in EBITDA terms; at $10B, it approaches breakeven; at $15–20B, contribution margin covers fixed costs by 2–3x. This operating leverage is real but not yet proven at scale — the base is too small to have demonstrated it empirically. The primary risk is that SG&amp;A proves more variable than management suggests: compliance costs, state licensing maintenance, and fraud monitoring all have volume-dependent components that could increase at scale. Scale economies earn a "Moderate" rating pending proof of concept at $10B+ annual volume.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Network Effects</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Better exhibits a data network effect rather than a classic direct network effect. More funded loans generate more training data, which improves Betsy's models, which enables higher AI approval rates, which enables faster processing, which attracts more platform partners, which drives more funded loans — a self-reinforcing flywheel. This feedback loop is real but is a data flywheel rather than a Metcalfe-style network where each additional user directly benefits all existing users. The strength of this effect is limited by the fact that mortgage data is not fully interchangeable: a HELOC borrower from a fintech partner has different characteristics than a D2C purchase-market borrower, and Betsy's models need to be fine-tuned separately for each segment and product type. The network effect strengthens as Better accumulates data across more partner types and loan products (conventional, FHA, VA, HELOC, reverse mortgage), which is the direction the announced partnerships push — Finance of America specifically adds reverse mortgage data, an entirely new asset class for the model.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">6. Process Power</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Better has demonstrated measurable process superiority: loan officer productivity is 3x the industry median, lead-to-lock conversion improved from 3.3% to 6.1% in one year, and the defect rate is 19x lower than the industry. These outcomes are produced not by any single technology decision but by the integration of Betsy AI, Tinman's workflow automation, proprietary data infrastructure, and the organizational decision to systematically replace human touchpoints with AI-approved workflows — a decade of accumulated institutional knowledge about how to build and train mortgage AI at production quality. However, process power is difficult to sustain against well-funded competitors who can hire the same engineers and attempt to replicate the architecture. The barrier to copying is higher than it appears because the organizational knowledge of how to build, train, deploy, and monitor Betsy is embedded across hundreds of ML engineers and mortgage operations specialists who have worked together for years — but it is not as durable as a patent or a dataset. Process power earns "Moderate" pending evidence that the operational gap widens rather than converges as incumbents invest in AI.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">7. Branding</span><span class="fw-rating weak">Weak</span>
+  <p class="prose">Better.com has consumer brand awareness among tech-savvy first-time homebuyers, but mortgage is a low-loyalty, rate-first category. Borrowers shop on price and speed, not brand affinity. The "Better" brand was damaged by the December 2020 mass layoff incident (conducted via Zoom, broadly covered) and subsequent negative press, creating reputational headwinds with both borrowers and prospective employees. Better's consumer CAC of $3,151/fund remains high relative to the $1,700 contribution margin, suggesting the brand does not yet substantially reduce customer acquisition cost. In the B2B TaaP channel — which is the primary growth vector — the end borrower interacts with the partner's brand, not Better's; Better's consumer brand is entirely irrelevant to platform economics. Branding is not a source of durable competitive advantage for this company at this stage.</p>
+</div>
+
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<div class="memo-section">5. Porter's 5 Forces — Mortgage Technology Platform</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Threat of New Entrants</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Building a full-stack mortgage origination platform requires state-by-state licensing across 50 states (multi-year process), minimum net worth requirements, warehouse credit lines (which require bank relationships and balance sheet credibility), compliance infrastructure, and GSE approval to sell conforming loans. This is not a market that a well-funded startup can enter in 18 months. However, the threat is not zero: companies like Blend Labs have built modular mortgage technology that financial institutions can assemble into competing stacks; ICE/Encompass is actively adding AI features; and super-app fintechs with large capital bases could theoretically build competing platforms with regulatory backing. The key distinction is between building a comparable end-to-end AI platform from scratch (very hard) versus building a competing module that reduces one component of Tinman's advantage (more plausible). New entrant threat is Moderate, not Low, because the AI component of Better's stack is replicable by well-funded technology companies even if the regulatory and data components are not.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Bargaining Power of Suppliers</span><span class="fw-rating low">Low</span>
+  <p class="prose">Better's primary "suppliers" are warehouse lenders (short-term credit lines to fund loans in transit), cloud infrastructure providers (AWS/Google Cloud), the secondary mortgage market (FNMA/FHLMC), and data vendors. Warehouse lines are a commodity; Better has $575M in capacity from multiple bank counterparties and can shop competitively. The GSEs are the most important counterparty — they purchase the majority of conforming loans — but the GSE market is a guaranteed buyer at pre-published commitment prices, not a price-negotiating counterparty. AI model training compute costs are declining rapidly (GPU commodity pricing). The one genuine supplier risk is regulatory (CFPB, state regulators, FNMA/FHLMC seller/servicer agreement terms), but this is a regulatory risk rather than a classic supplier bargaining dynamic. Supplier power is structurally low for a software-intensive mortgage platform.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Bargaining Power of Buyers</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose">In the D2C channel, individual borrowers have full information access (rate comparison sites like Bankrate, LendingTree) and near-zero switching costs — a borrower can shop 3–4 lenders in an afternoon and submit applications simultaneously. This forces Better to compete primarily on rate and speed, limiting pricing power. Better's 6.1% lead-to-lock conversion (up from 3.3%) suggests it is winning the speed argument, but rate remains the primary decision factor for most borrowers. In the TaaP channel, large institutional partners have meaningful bargaining power at contract initiation: they can threaten to maintain their existing Encompass infrastructure or negotiate with competing platform vendors (Blend Labs). Once integrated, however, switching costs reverse the power dynamic. The net result is moderate buyer power — high for D2C consumers, declining over time for TaaP partners once they are live on Tinman.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Threat of Substitutes</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose">The primary substitute for a conventional mortgage is delaying a home purchase, choosing an ARM over a fixed-rate mortgage, or using home equity financing — all of which respond to rate environment rather than platform quality. If rates remain elevated, total mortgage origination volume stays compressed regardless of Better's platform efficiency, as fewer buyers can afford to transact. For TaaP partners, the substitute for Tinman is maintaining their existing Encompass/legacy stack (the status quo), which is always the default option and the choice most partners are currently making. Better must actively displace the status quo rather than waiting for partners to find it. The do-nothing option for potential TaaP partners is always available and always "free" from a switching cost perspective, keeping substitute threat elevated at Moderate.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Competitive Rivalry</span><span class="fw-rating high">High</span>
+  <p class="prose">Mortgage origination is intensely competitive, with Rocket Mortgage (~$80B annual volume), UWM (~$130B), loanDepot, PennyMac, and hundreds of regional banks competing for a compressed total origination market of approximately $1.6T annually. The product — a 30-year fixed conforming mortgage at the FNMA limit — is functionally identical across lenders, making price (rate + fees) the dominant competitive variable. Better's speed advantage is real and differentiated, but speed alone does not allow sustained above-market pricing in a commodity product category. The 2022–2023 rate shock forced major originators to cut capacity (loanDepot, Rocket, and others each laid off thousands), which temporarily moderated rivalry — but survivors retained most of their infrastructure and brand relationships and will compete aggressively as volumes recover. ICE/Encompass actively competes with Tinman in the B2B platform space, with an installed base advantage. Rivalry is high and structural; Better's sustainable advantage must come from structural cost leadership (AI) and switching costs (platform integration), not from reduced competition.</p>
+</div>
+
+<!-- SECTION 6: WHAT DRIVES THE STOCK? -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<p class="prose"><strong>1. Monthly Funded Volume vs. $1B/Month Target.</strong> Management committed to reaching $1B+/month in funded volume within 6 months of Q3 2025 earnings (targeting May–June 2026). The market treats each quarterly volume print as a progress check on this commitment. Q3 2025 was $1.21B/quarter ($404M/month) — well below the target. Q4 2025 guidance was $600M+ for TaaP channel alone. Volume prints significantly above or below the implied ramp trajectory are the primary catalyst in either direction, and the March 13 Q4 2025 earnings report is the single most important near-term event for the stock.</p>
+
+<p class="prose"><strong>2. Platform Partner Naming and Ramp.</strong> The four announced-but-unnamed partners represent the largest potential value creation event outside of the earnings print. When the top-5 fintech with 50M customers goes public with the integration, the market will immediately model $10–20B+ in incremental annual funded volume. Each partner naming event is a discrete positive catalyst. The reverse is also true: if a partner quietly reduces volume allocations or exits the relationship, it would be the most significant downside catalyst to the thesis. The 33.8% short interest reflects the market's bet that partnership execution will disappoint.</p>
+
+<p class="prose"><strong>3. Adj. EBITDA Loss Trajectory.</strong> Better is on a consensus path from ($112M) adj. EBITDA in 2025E to ($22M) in 2026E to +$89M in 2027E. Each quarterly EBITDA print that tracks this improvement (or diverges) materially affects the "path to profitability" narrative. The variable that matters is funded volume: each $100M in incremental quarterly revenue translates to $70–74M in incremental gross profit (at current margins) against unchanged SG&amp;A — the operating leverage is dramatic once volume inflects.</p>
+
+<p class="prose"><strong>4. Betsy AI Autonomous Approval Rate.</strong> Currently 61% of locked loans are autonomously approved by Betsy. Management targets 85–90%. As this rate increases, labor cost per funded loan decreases — each 10-point increase in Betsy's approval rate reduces per-loan labor cost by approximately $300–400. This metric is not formally reported as a KPI but was referenced in Q3 earnings; an analyst community that begins tracking it as a leading indicator of margin expansion would re-rate the stock on the upside.</p>
+
+<p class="prose"><strong>5. GOS Margin Trajectory.</strong> Better's revenue rate (gain-on-sale as % of funded volume) was approximately 3.6% in Q3 2025. This is driven by secondary market pricing, product mix, and competitive dynamics. The home equity GOS rate (103.5%) is running below competitors (107%), suggesting a pricing gap that represents either a current headwind or future upside as the portfolio matures. A 50bps improvement in GOS across the volume base would add ~$25M in annual revenue at current volumes — meaningful given the fixed cost structure.</p>
+
+<p class="prose"><strong>6. Capital Structure and Dilution Risk.</strong> Better's cash burn trajectory ($199M in 2025E, declining to $122M in 2026E) implies the company will need to raise equity capital in 2026 before the 2027E inflection. Any equity raise at or below the current market price is dilutive. The triple share class structure limits Class A minority shareholder influence over capital decisions. The probability, price, and size of any equity raise in 2026 is the second-most important variable for current shareholders after the volume trajectory.</p>
+
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS? -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<div class="section-title">Revenue Decomposition &amp; Operating Leverage</div>
+<table class="data" style="font-size:10px;">
+  <thead>
+    <tr><th style="text-align:left;">Driver</th><th>Formula / KPI</th><th>Current (Q3'25 Ann.)</th><th>Breakeven / Target</th></tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="4">Top-Line</td></tr>
+    <tr><td>Total Revenue</td><td>Annual Funded Volume × Revenue Rate</td><td>~$5.0B × 3.6% = $180M</td><td>~$9B × 3.2% = $288M</td></tr>
+    <tr><td>Annual Funded Volume</td><td>Monthly Volume × 12</td><td>$404M/mo × 12 = $4.8B</td><td>$750M/mo × 12 = $9B</td></tr>
+    <tr><td>Revenue Rate (GOS%)</td><td>Net Gain-on-Sale / Funded Volume</td><td>~3.6% (~$8,300/loan)</td><td>3.0–3.5% target range</td></tr>
+    <tr class="section-row"><td colspan="4">Channel Decomposition</td></tr>
+    <tr><td>D2C Revenue</td><td>D2C Funded Loans × Net Rev/Fund</td><td>~55% of total revenue</td><td>Stable % as TaaP grows</td></tr>
+    <tr><td>D2C Contribution Margin</td><td>Rev/Fund ($8,300) − CAC ($3,151) − Labor ($2,500)</td><td>$2,649 CM/loan (+64% QoQ)</td><td>Target $3,500+/loan</td></tr>
+    <tr><td>D2C Lead-to-Lock</td><td>Qualified Leads × Conversion Rate</td><td>6.1% (from 3.3% one year ago)</td><td>8–10% at 85% Betsy rate</td></tr>
+    <tr><td>TaaP Revenue</td><td>Partner Funded Loans × Rev Share</td><td>~45% of revenue; $483M Q3 vol.</td><td>$600M+/qtr Q4'25 guidance</td></tr>
+    <tr><td>TaaP Margin Profile</td><td>Near-zero variable cost per partner loan</td><td>~80–85% gross margin</td><td>85%+ at scale</td></tr>
+    <tr class="section-row"><td colspan="4">Cost Structure &amp; Operating Leverage</td></tr>
+    <tr><td>Labor Cost / Fund</td><td>Total Orig. Labor ÷ Funded Loans</td><td>$2,500 (vs. $9,000+ industry)</td><td>&lt;$1,000 at 85% Betsy rate</td></tr>
+    <tr><td>Betsy AI Approval Rate</td><td>Autonomously Approved / Locked Loans</td><td>61% of locked loans</td><td>85–90% (management target)</td></tr>
+    <tr><td>LO Productivity</td><td>Funded Loans / LO Headcount</td><td>3x industry median</td><td>6–8x at 85% AI approval</td></tr>
+    <tr><td>Fixed Corporate SG&amp;A</td><td>Tech + G&amp;A + Compliance + Marketing (fixed)</td><td>~$220–225M/year</td><td>~$220M at scale (flat)</td></tr>
+    <tr><td>Incremental CM</td><td>Each $1 incremental revenue × ~74% gross margin</td><td>$0.74 on each marginal $1 rev</td><td>EBITDA breakeven ~$288M rev</td></tr>
+    <tr class="section-row"><td colspan="4">Betsy / AI Productivity (Proprietary Dataset)</td></tr>
+    <tr><td>Training Dataset Size</td><td>$110B+ originations, 12M calls, 5B+ doc pages</td><td>Non-replicable; compounding</td><td>Grows with each new loan</td></tr>
+    <tr><td>Defect Rate vs. Industry</td><td>Better defect rate / Industry defect rate</td><td>19x lower defect rate</td><td>Widens as Betsy improves</td></tr>
+    <tr><td>Lock-to-Commitment Speed</td><td>% of loans committed in &lt;1 min</td><td>44% under 1 minute; 70% in 1 day</td><td>80%+ target</td></tr>
+  </tbody>
+</table>
+
+<!-- SECTION 8: SENSITIVITIES -->
+<div class="memo-section">8. Sensitivities</div>
+
+<p style="font-size:10px;color:#555;margin-bottom:8px;"><strong>Current:</strong> Annual funded volume ~$5.0B ($404M/month), Revenue rate ~3.6% ($8,300/loan), Gross Margin ~72%, Fixed SG&amp;A ~$222M. EBITDA breakeven at approximately $288M annual revenue.</p>
+
+<p style="font-weight:700;font-size:10px;margin-bottom:2px;"><strong>Annual Funded Volume ($B) vs. Revenue Rate (%) — Estimated Annual Revenue ($M)</strong></p>
+<p style="font-size:8px;color:#888;margin-bottom:4px;">Current: Volume ~$5.0B, Rate 3.6%. Breakeven revenue: ~$288M.</p>
+<table class="sensitivity">
+  <thead><tr><th>Volume \ Rate</th><th>2.5%</th><th>3.0%</th><th>3.5%</th><th>3.6%</th><th>4.0%</th><th>4.5%</th></tr></thead>
+  <tbody>
+    <tr><td>$5B</td><td>$125</td><td>$150</td><td>$175</td><td class="base">$180</td><td>$200</td><td>$225</td></tr>
+    <tr><td>$7B</td><td>$175</td><td>$210</td><td>$245</td><td>$252</td><td>$280</td><td>$315</td></tr>
+    <tr><td>$9B</td><td>$225</td><td>$270</td><td>$315</td><td>$324</td><td>$360</td><td>$405</td></tr>
+    <tr><td>$12B</td><td>$300</td><td>$360</td><td>$420</td><td>$432</td><td>$480</td><td>$540</td></tr>
+    <tr><td>$16B</td><td>$400</td><td>$480</td><td>$560</td><td>$576</td><td>$640</td><td>$720</td></tr>
+    <tr><td>$20B</td><td>$500</td><td>$600</td><td>$700</td><td>$720</td><td>$800</td><td>$900</td></tr>
+    <tr><td>$28B</td><td>$700</td><td>$840</td><td>$980</td><td>$1,008</td><td>$1,120</td><td>$1,260</td></tr>
+  </tbody>
+</table>
+
+<p style="font-weight:700;font-size:10px;margin-bottom:2px;margin-top:10px;"><strong>Annual Revenue ($M) vs. Gross Margin (%) — Estimated EBITDA ($M) [Fixed SG&amp;A: $222M]</strong></p>
+<p style="font-size:8px;color:#888;margin-bottom:4px;">Current: Revenue ~$180M, GM ~72% → EBITDA ~($91M). FY2027E consensus highlighted.</p>
+<table class="sensitivity">
+  <thead><tr><th>Revenue \ GM%</th><th>68%</th><th>70%</th><th>72%</th><th>74%</th><th>76%</th><th>80%</th></tr></thead>
+  <tbody>
+    <tr><td>$150M</td><td class="neg">($120)</td><td class="neg">($117)</td><td class="neg">($114)</td><td class="neg">($111)</td><td class="neg">($108)</td><td class="neg">($102)</td></tr>
+    <tr><td>$200M</td><td class="neg">($86)</td><td class="neg">($82)</td><td class="neg">($78)</td><td class="neg">($74)</td><td class="neg">($70)</td><td class="neg">($62)</td></tr>
+    <tr><td>$268M</td><td class="neg">($40)</td><td class="neg">($34)</td><td class="neg">($29)</td><td class="neg">($24)</td><td class="neg">($18)</td><td class="neg">($8)</td></tr>
+    <tr><td>$288M</td><td class="neg">($26)</td><td class="neg">($20)</td><td class="neg">($15)</td><td class="neg">($9)</td><td class="neg">($3)</td><td class="pos">$8</td></tr>
+    <tr><td>$350M</td><td class="pos">$16</td><td class="pos">$23</td><td class="pos">$30</td><td class="pos">$37</td><td class="pos">$44</td><td class="pos">$58</td></tr>
+    <tr><td>$407M</td><td class="pos">$55</td><td class="pos">$63</td><td class="pos">$71</td><td class="pos">$79</td><td class="base">$87</td><td class="pos">$103</td></tr>
+    <tr><td>$600M</td><td class="pos">$186</td><td class="pos">$198</td><td class="pos">$210</td><td class="pos">$222</td><td class="pos">$234</td><td class="pos">$258</td></tr>
+  </tbody>
+</table>
+
+<p style="font-weight:700;font-size:10px;margin-bottom:2px;margin-top:10px;"><strong>Monthly Loans Funded (Units) vs. Revenue per Funded Loan ($) — Estimated Monthly Revenue ($M)</strong></p>
+<p style="font-size:8px;color:#888;margin-bottom:4px;">Current: ~1,800 loans/month × $8,300/loan = $14.9M/month (~$179M annualized). Monthly breakeven at ~4,000 loans × $8,300/loan = $33.2M/month.</p>
+<table class="sensitivity">
+  <thead><tr><th>Loans/Mo \ Rev/Loan</th><th>$7,000</th><th>$7,500</th><th>$8,000</th><th>$8,300</th><th>$9,000</th><th>$10,000</th></tr></thead>
+  <tbody>
+    <tr><td>1,500</td><td>$10.5</td><td>$11.3</td><td>$12.0</td><td>$12.5</td><td>$13.5</td><td>$15.0</td></tr>
+    <tr><td>1,800</td><td>$12.6</td><td>$13.5</td><td>$14.4</td><td class="base">$14.9</td><td>$16.2</td><td>$18.0</td></tr>
+    <tr><td>2,500</td><td>$17.5</td><td>$18.8</td><td>$20.0</td><td>$20.8</td><td>$22.5</td><td>$25.0</td></tr>
+    <tr><td>3,500</td><td>$24.5</td><td>$26.3</td><td>$28.0</td><td>$29.1</td><td>$31.5</td><td>$35.0</td></tr>
+    <tr><td>5,000</td><td>$35.0</td><td>$37.5</td><td>$40.0</td><td>$41.5</td><td>$45.0</td><td>$50.0</td></tr>
+    <tr><td>7,500</td><td>$52.5</td><td>$56.3</td><td>$60.0</td><td>$62.3</td><td>$67.5</td><td>$75.0</td></tr>
+    <tr><td>10,000</td><td>$70.0</td><td>$75.0</td><td>$80.0</td><td>$83.0</td><td>$90.0</td><td>$100.0</td></tr>
+  </tbody>
+</table>
+
+<!-- SECTION 9: 3-YEAR MODEL -->
+<div class="memo-section">9. 3-Year Model — Five Scenarios (FY2025E–FY2027E)</div>
+
+<p style="font-size:10px;color:#555;margin-bottom:10px;">Shares diluted: 15.88M throughout. Net interest expense: ~$33M/year (permanent debt; warehouse lines net to near-zero). Tax rate: 25% when EBT positive, 0% for loss years. $ sign on Revenue (first) and FCF (last) only. Case names describe the scenario, not bear/bull labels.</p>
+
+<!-- CASE 1 -->
+<div class="case-block">
+  <div class="case-name">Macro Shock — Rate Freeze, Capital Impairment</div>
+  <div class="case-desc">Mortgage rates remain above 7% through 2026; affordability near 40-year lows freezes both purchase and refi markets. Partnership ramp delayed 12–18 months. Better burns through cash reserves, requires dilutive equity raise in 2H 2026. D2C volume stagnant. AI improvement continues but insufficient to offset volume headwind.</div>
+  <div class="driver-label">Key Drivers — FY2027E (Year 3, Exit Year)</div>
+  <div class="driver-row"><span>Annual Funded Volume</span><span>$8.0B — stagnant D2C, limited TaaP</span></div>
+  <div class="driver-row"><span>Revenue Rate (GOS%)</span><span>2.8% — competitive pressure, lower mix</span></div>
+  <div class="driver-row"><span>FY2027E Revenue</span><span>$224M — 45% below consensus</span></div>
+  <div class="driver-row"><span>Gross Margin / Fixed SG&amp;A</span><span>72% / $215M — cost cuts implemented</span></div>
+  <table class="scenario-mini">
+    <thead><tr><th style="text-align:left;">P&amp;L ($M)</th><th>FY2025E</th><th>FY2026E</th><th>FY2027E</th></tr></thead>
+    <tbody>
+      <tr><td>$Revenue</td><td>$154</td><td>$182</td><td>$224</td></tr>
+      <tr class="dim"><td>Revenue Growth %</td><td>+20%</td><td>+18%</td><td>+23%</td></tr>
+      <tr><td>Gross Income</td><td>108</td><td>131</td><td>161</td></tr>
+      <tr class="dim"><td>Gross Margin %</td><td>70%</td><td>72%</td><td>72%</td></tr>
+      <tr><td>EBITDA</td><td>(112)</td><td>(84)</td><td>(54)</td></tr>
+      <tr class="dim"><td>EBITDA Margin %</td><td>NM</td><td>NM</td><td>NM</td></tr>
+      <tr><td>Net Income</td><td>(153)</td><td>(130)</td><td>(95)</td></tr>
+      <tr class="dim"><td>Net Margin %</td><td>NM</td><td>NM</td><td>NM</td></tr>
+      <tr><td>Diluted Shares (M)</td><td>15.9</td><td>15.9</td><td>15.9</td></tr>
+      <tr><td>EPS</td><td>($9.64)</td><td>($8.19)</td><td>($5.98)</td></tr>
+      <tr class="valuation-row"><td>Exit Multiple (EV/Rev)</td><td>1.0x</td><td>1.0x</td><td>1.0x</td></tr>
+      <tr class="valuation-row"><td>Implied Stock Price</td><td>NM</td><td>NM</td><td>$7.50</td></tr>
+      <tr><td>$FCF</td><td>($210)</td><td>($175)</td><td>($128)</td></tr>
+      <tr><td>Implied Market Cap</td><td>—</td><td>—</td><td>$119M</td></tr>
+      <tr><td>Implied EV (@ $7.50)</td><td>—</td><td>—</td><td>$449M</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:8.5px;color:#555;margin-bottom:6px;"><strong>2025</strong> — volume near $5B run rate, partnerships delayed; EBITDA ($112M); cash runway ~14 months. <strong>2026</strong> — modest $6B volume, EBITDA ($84M); equity raise needed, dilution occurs; cash partially restored. <strong>2027</strong> — $8B volume, $224M revenue, EBITDA ($54M); still loss-making; priced at EV/Revenue 1.0x → MktCap $119M → <strong>$7.50/share</strong>.</p>
+  <div class="exit-metrics">
+    <div><div style="font-size:9px;color:#888;">Exit Multiple</div><div style="font-size:11px;font-weight:600;">EV/Revenue 1.0x (distressed)</div></div>
+    <div><div style="font-size:9px;color:#888;">2027E Implied Price</div><div class="exit-price">$7.50</div></div>
+    <div><div style="font-size:9px;color:#888;">vs. Current $33.40</div><div class="exit-upside" style="color:#c0392b;">−77.5% downside</div></div>
+  </div>
+</div>
+
+<!-- CASE 2 -->
+<div class="case-block">
+  <div class="case-name">Slow Growth — Partnership Delays, Modest D2C Improvement</div>
+  <div class="case-desc">Rate environment stabilizes but doesn't improve materially. Partnership ramp at half the expected pace: large fintech reaches $200M/month by mid-2026 (vs. $400M+ in base), large non-bank delayed to late 2026. D2C improves gradually as CAC investments compound. Betsy approval rate reaches 70% (not 85%), limiting cost-per-loan improvement to $2,200. EBITDA approaches breakeven in 2027E but does not cross into profitability.</div>
+  <div class="driver-label">Key Drivers — FY2027E (Year 3, Exit Year)</div>
+  <div class="driver-row"><span>Annual Funded Volume</span><span>$12.0B — partial partner contribution</span></div>
+  <div class="driver-row"><span>Revenue Rate (GOS%)</span><span>3.0%</span></div>
+  <div class="driver-row"><span>FY2027E Revenue</span><span>$360M — 12% below consensus</span></div>
+  <div class="driver-row"><span>Gross Margin / Fixed SG&amp;A</span><span>74% / $218M</span></div>
+  <table class="scenario-mini">
+    <thead><tr><th style="text-align:left;">P&amp;L ($M)</th><th>FY2025E</th><th>FY2026E</th><th>FY2027E</th></tr></thead>
+    <tbody>
+      <tr><td>$Revenue</td><td>$175</td><td>$255</td><td>$360</td></tr>
+      <tr class="dim"><td>Revenue Growth %</td><td>+37%</td><td>+46%</td><td>+41%</td></tr>
+      <tr><td>Gross Income</td><td>124</td><td>184</td><td>266</td></tr>
+      <tr class="dim"><td>Gross Margin %</td><td>71%</td><td>72%</td><td>74%</td></tr>
+      <tr><td>EBITDA</td><td>(99)</td><td>(40)</td><td>48</td></tr>
+      <tr class="dim"><td>EBITDA Margin %</td><td>NM</td><td>NM</td><td>13.3%</td></tr>
+      <tr><td>Net Income</td><td>(140)</td><td>(87)</td><td>7</td></tr>
+      <tr class="dim"><td>Net Margin %</td><td>NM</td><td>NM</td><td>1.9%</td></tr>
+      <tr><td>Diluted Shares (M)</td><td>15.9</td><td>15.9</td><td>15.9</td></tr>
+      <tr><td>EPS</td><td>($8.81)</td><td>($5.48)</td><td>$0.44</td></tr>
+      <tr class="valuation-row"><td>Exit Multiple (P/S)</td><td>—</td><td>—</td><td>P/S 1.0x</td></tr>
+      <tr class="valuation-row"><td>Implied Stock Price</td><td>NM</td><td>NM</td><td>$22.67</td></tr>
+      <tr><td>$FCF</td><td>($200)</td><td>($130)</td><td>($50)</td></tr>
+      <tr><td>Implied Market Cap</td><td>—</td><td>—</td><td>$360M</td></tr>
+      <tr><td>Implied EV (@ $22.67)</td><td>—</td><td>—</td><td>$690M</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:8.5px;color:#555;margin-bottom:6px;"><strong>2025</strong> — partnerships begin slowly; $175M revenue, EBITDA ($99M); capital raise in 2025. <strong>2026</strong> — small fintech reaches run rate; revenue $255M, EBITDA ($40M); near inflection. <strong>2027</strong> — $12B volume, first profitable year (EPS $0.44); thin profitability → priced at 1.0x forward revenue (market awaits confirmation of scale) → <strong>$22.67/share</strong>.</p>
+  <div class="exit-metrics">
+    <div><div style="font-size:9px;color:#888;">Exit Multiple</div><div style="font-size:11px;font-weight:600;">P/S 1.0x on FY2027E Rev</div></div>
+    <div><div style="font-size:9px;color:#888;">2027E Implied Price</div><div class="exit-price">$22.67</div></div>
+    <div><div style="font-size:9px;color:#888;">vs. Current $33.40</div><div class="exit-upside" style="color:#c0392b;">−32.1% downside</div></div>
+  </div>
+</div>
+
+<!-- CASE 3 -->
+<div class="case-block">
+  <div class="case-name">Consensus — Steady Execution, Partnership On Schedule</div>
+  <div class="case-desc">Mortgage rates decline modestly (50–75bps) through 2026, unlocking some refi activity. Partnerships ramp on schedule: large fintech and large non-bank both reach partial production by Q2 2026. Betsy AI approval rate reaches 72–75%. Revenue tracks FactSet consensus: $267.8M FY2026E, $406.7M FY2027E. EBITDA first crosses positive in FY2027E at $89M. Capital raise in mid-2026 at modest premium to current price.</div>
+  <div class="driver-label">Key Drivers — FY2027E (Year 3, Exit Year)</div>
+  <div class="driver-row"><span>Annual Funded Volume</span><span>$12.7B — FactSet-implied (Rev ÷ Rate)</span></div>
+  <div class="driver-row"><span>Revenue Rate (GOS%)</span><span>3.2% → $407M revenue</span></div>
+  <div class="driver-row"><span>FY2027E Revenue</span><span>$407M (FactSet consensus)</span></div>
+  <div class="driver-row"><span>Gross Margin / Fixed SG&amp;A</span><span>76% / $216M → EBITDA $93M</span></div>
+  <table class="scenario-mini">
+    <thead><tr><th style="text-align:left;">P&amp;L ($M)</th><th>FY2025E</th><th>FY2026E</th><th>FY2027E</th></tr></thead>
+    <tbody>
+      <tr><td>$Revenue</td><td>$161</td><td>$268</td><td>$407</td></tr>
+      <tr class="dim"><td>Revenue Growth %</td><td>+24%</td><td>+66%</td><td>+52%</td></tr>
+      <tr><td>Gross Income</td><td>116</td><td>198</td><td>309</td></tr>
+      <tr class="dim"><td>Gross Margin %</td><td>72%</td><td>74%</td><td>76%</td></tr>
+      <tr><td>EBITDA</td><td>(112)</td><td>(22)</td><td>89</td></tr>
+      <tr class="dim"><td>EBITDA Margin %</td><td>NM</td><td>NM</td><td>21.9%</td></tr>
+      <tr><td>Net Income</td><td>(160)</td><td>(61)</td><td>39</td></tr>
+      <tr class="dim"><td>Net Margin %</td><td>NM</td><td>NM</td><td>9.6%</td></tr>
+      <tr><td>Diluted Shares (M)</td><td>15.9</td><td>15.9</td><td>15.9</td></tr>
+      <tr><td>EPS</td><td>($10.07)</td><td>($3.84)</td><td>$2.46</td></tr>
+      <tr class="valuation-row"><td>Exit P/E Multiple</td><td>15x</td><td>15x</td><td>15x</td></tr>
+      <tr class="valuation-row"><td>Implied Stock Price</td><td>NM</td><td>NM</td><td>$36.90</td></tr>
+      <tr><td>$FCF</td><td>($199)</td><td>($122)</td><td>($47)</td></tr>
+      <tr><td>Implied Market Cap</td><td>—</td><td>—</td><td>$586M</td></tr>
+      <tr><td>Implied EV (@ $36.90)</td><td>—</td><td>—</td><td>$916M</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:8.5px;color:#555;margin-bottom:6px;"><strong>2025</strong> — FactSet consensus: $161M revenue, EBITDA ($112M); cash $223M, 12-month runway. <strong>2026</strong> — TaaP volume kicks in; revenue +66% to $268M, EBITDA ($22M); equity raise closes. <strong>2027</strong> — first profitable year; EPS $2.46; stock reprices to 15x first-year P/E → <strong>$36.90/share</strong>. Only modest upside from current $33.40 — base case is roughly priced in.</p>
+  <div class="exit-metrics">
+    <div><div style="font-size:9px;color:#888;">Exit Multiple</div><div style="font-size:11px;font-weight:600;">15x P/E on FY2027E EPS $2.46</div></div>
+    <div><div style="font-size:9px;color:#888;">2027E Implied Price</div><div class="exit-price">$36.90</div></div>
+    <div><div style="font-size:9px;color:#888;">vs. Current $33.40</div><div class="exit-upside" style="color:#27ae60;">+10.5% upside</div></div>
+  </div>
+</div>
+
+<!-- CASE 4 -->
+<div class="case-block">
+  <div class="case-name">AI Acceleration + Rate Tailwind — Dual Catalyst</div>
+  <div class="case-desc">The Fed cuts rates 100bps by end of 2026, unlocking a significant refinancing wave. Better's D2C channel — optimized for rate-sensitive borrowers — captures outsized share due to AI speed advantage: lead-to-lock hits 9–10%. The large fintech partner (50M customers) reaches full production by Q1 2026, contributing $3–4B in annual funded volume by 2027E. Betsy AI approval rate reaches 80%, pulling labor cost to $1,800/fund and contribution margin above $3,000/loan. Revenue rate expands to 3.5% as purchase mix improves.</div>
+  <div class="driver-label">Key Drivers — FY2027E (Year 3, Exit Year)</div>
+  <div class="driver-row"><span>Annual Funded Volume</span><span>$17.5B — D2C refi surge + fintech TaaP</span></div>
+  <div class="driver-row"><span>Revenue Rate (GOS%)</span><span>3.5% — rate tailwind + better mix</span></div>
+  <div class="driver-row"><span>FY2027E Revenue</span><span>$613M — 51% above consensus</span></div>
+  <div class="driver-row"><span>Gross Margin / Fixed SG&amp;A</span><span>78% / $222M → EBITDA $256M</span></div>
+  <table class="scenario-mini">
+    <thead><tr><th style="text-align:left;">P&amp;L ($M)</th><th>FY2025E</th><th>FY2026E</th><th>FY2027E</th></tr></thead>
+    <tbody>
+      <tr><td>$Revenue</td><td>$185</td><td>$385</td><td>$613</td></tr>
+      <tr class="dim"><td>Revenue Growth %</td><td>+44%</td><td>+108%</td><td>+59%</td></tr>
+      <tr><td>Gross Income</td><td>133</td><td>289</td><td>478</td></tr>
+      <tr class="dim"><td>Gross Margin %</td><td>72%</td><td>75%</td><td>78%</td></tr>
+      <tr><td>EBITDA</td><td>(92)</td><td>64</td><td>253</td></tr>
+      <tr class="dim"><td>EBITDA Margin %</td><td>NM</td><td>16.6%</td><td>41.3%</td></tr>
+      <tr><td>Net Income</td><td>(130)</td><td>23</td><td>165</td></tr>
+      <tr class="dim"><td>Net Margin %</td><td>NM</td><td>6.0%</td><td>26.9%</td></tr>
+      <tr><td>Diluted Shares (M)</td><td>15.9</td><td>15.9</td><td>15.9</td></tr>
+      <tr><td>EPS</td><td>($8.19)</td><td>$1.45</td><td>$10.39</td></tr>
+      <tr class="valuation-row"><td>Exit P/E Multiple</td><td>20x</td><td>20x</td><td>20x</td></tr>
+      <tr class="valuation-row"><td>Implied Stock Price</td><td>NM</td><td>$29.00</td><td>$207.80</td></tr>
+      <tr><td>$FCF</td><td>($185)</td><td>($55)</td><td>$110</td></tr>
+      <tr><td>Implied Market Cap</td><td>—</td><td>—</td><td>$3,300M</td></tr>
+      <tr><td>Implied EV (@ $207.80)</td><td>—</td><td>—</td><td>$3,630M</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:8.5px;color:#555;margin-bottom:6px;"><strong>2025</strong> — D2C recovering, fintech partner onboards; $185M revenue, EBITDA ($92M). <strong>2026</strong> — rate cuts + fintech at full production; revenue $385M, EBITDA +$64M, FCF near-breakeven; no equity raise needed. <strong>2027</strong> — $17.5B volume, $613M revenue, EPS $10.39; 20x P/E → <strong>$207.80/share</strong>.</p>
+  <div class="exit-metrics">
+    <div><div style="font-size:9px;color:#888;">Exit Multiple</div><div style="font-size:11px;font-weight:600;">20x P/E on FY2027E EPS $10.39</div></div>
+    <div><div style="font-size:9px;color:#888;">2027E Implied Price</div><div class="exit-price">$207.80</div></div>
+    <div><div style="font-size:9px;color:#888;">vs. Current $33.40</div><div class="exit-upside" style="color:#27ae60;">+522% upside</div></div>
+  </div>
+</div>
+
+<!-- CASE 5 -->
+<div class="case-block">
+  <div class="case-name">Platform Inflection — Market Share Displacement</div>
+  <div class="case-desc">All four announced partners ramp at maximum pace AND 2–3 additional large partners sign (top-5 bank, second large fintech, credit union network). The top-5 fintech partner's 50M customers generate embed-level conversion as Better's API becomes the default mortgage experience for consumer finance super-apps. D2C volume surges as rates decline and Better's speed advantage creates viral differentiation. Betsy AI approval rate reaches 85%+, labor cost per fund below $1,200, contribution margin above $4,000/loan. By 2027E, Better originates $28B annually — approximately 3.5% of the $800B conforming origination market.</div>
+  <div class="driver-label">Key Drivers — FY2027E (Year 3, Exit Year)</div>
+  <div class="driver-row"><span>Annual Funded Volume</span><span>$28.0B — 6+ partners at full production</span></div>
+  <div class="driver-row"><span>Revenue Rate (GOS%)</span><span>3.5% — premium mix, strong GOS</span></div>
+  <div class="driver-row"><span>FY2027E Revenue</span><span>$980M — 2.4x consensus</span></div>
+  <div class="driver-row"><span>Gross Margin / Fixed SG&amp;A</span><span>80% / $228M → EBITDA $556M</span></div>
+  <table class="scenario-mini">
+    <thead><tr><th style="text-align:left;">P&amp;L ($M)</th><th>FY2025E</th><th>FY2026E</th><th>FY2027E</th></tr></thead>
+    <tbody>
+      <tr><td>$Revenue</td><td>$204</td><td>$490</td><td>$980</td></tr>
+      <tr class="dim"><td>Revenue Growth %</td><td>+58%</td><td>+140%</td><td>+100%</td></tr>
+      <tr><td>Gross Income</td><td>147</td><td>373</td><td>784</td></tr>
+      <tr class="dim"><td>Gross Margin %</td><td>72%</td><td>76%</td><td>80%</td></tr>
+      <tr><td>EBITDA</td><td>(80)</td><td>140</td><td>553</td></tr>
+      <tr class="dim"><td>EBITDA Margin %</td><td>NM</td><td>28.6%</td><td>56.4%</td></tr>
+      <tr><td>Net Income</td><td>(116)</td><td>81</td><td>390</td></tr>
+      <tr class="dim"><td>Net Margin %</td><td>NM</td><td>16.5%</td><td>39.8%</td></tr>
+      <tr><td>Diluted Shares (M)</td><td>15.9</td><td>15.9</td><td>15.9</td></tr>
+      <tr><td>EPS</td><td>($7.31)</td><td>$5.10</td><td>$24.56</td></tr>
+      <tr class="valuation-row"><td>Exit P/E Multiple</td><td>25x</td><td>25x</td><td>25x</td></tr>
+      <tr class="valuation-row"><td>Implied Stock Price</td><td>NM</td><td>$127.50</td><td>$614.00</td></tr>
+      <tr><td>$FCF</td><td>($175)</td><td>$10</td><td>$330</td></tr>
+      <tr><td>Implied Market Cap</td><td>—</td><td>—</td><td>$9,750M</td></tr>
+      <tr><td>Implied EV (@ $614)</td><td>—</td><td>—</td><td>$10,080M</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:8.5px;color:#555;margin-bottom:6px;"><strong>2025</strong> — multiple partners onboarding concurrently; $204M revenue, EBITDA ($80M). <strong>2026</strong> — platform network effect ignites; $490M revenue, $140M EBITDA, FCF positive; no equity raise required. <strong>2027</strong> — $28B volume, $980M revenue, $390M NI, EPS $24.56; 25x P/E (Rocket Mortgage comparables traded at $30–40B+ at peak volume) → <strong>$614/share</strong>.</p>
+  <div class="exit-metrics">
+    <div><div style="font-size:9px;color:#888;">Exit Multiple</div><div style="font-size:11px;font-weight:600;">25x P/E on FY2027E EPS $24.56</div></div>
+    <div><div style="font-size:9px;color:#888;">2027E Implied Price</div><div class="exit-price">$614.00</div></div>
+    <div><div style="font-size:9px;color:#888;">vs. Current $33.40</div><div class="exit-upside" style="color:#27ae60;">+1,739% upside</div></div>
+  </div>
+</div>
+
+<!-- SVG BAR CHART -->
+<div class="case-chart">
+  <p style="font-size:9px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">FY2027E Implied Share Price by Scenario — Log Scale (prices from $7.50 to $614)</p>
+  <svg viewBox="0 0 700 290" xmlns="http://www.w3.org/2000/svg" style="font-family:Inter,Arial,sans-serif;">
+    <!-- Log scale: height = log(price)/log(614) × 200px. Bar bottom y=230. -->
+    <!-- Macro Shock $7.50: log(7.5)/log(614) = 2.015/6.420 = 0.3138 × 200 = 62.8px → top y=167 -->
+    <rect x="45" y="167" width="80" height="63" fill="#2563eb" rx="2"/>
+    <text x="85" y="160" text-anchor="middle" font-size="9" font-weight="600" fill="#1a1a2e">$7.50</text>
+    <!-- Slow Growth $22.67: log(22.67)/log(614) = 3.121/6.420 = 0.486 × 200 = 97px → top y=133 -->
+    <rect x="165" y="133" width="80" height="97" fill="#2563eb" rx="2"/>
+    <text x="205" y="126" text-anchor="middle" font-size="9" font-weight="600" fill="#1a1a2e">$22.67</text>
+    <!-- Consensus $36.90: log(36.90)/log(614) = 3.608/6.420 = 0.562 × 200 = 112px → top y=118 -->
+    <rect x="285" y="118" width="80" height="112" fill="#2563eb" rx="2"/>
+    <text x="325" y="111" text-anchor="middle" font-size="9" font-weight="600" fill="#1a1a2e">$36.90</text>
+    <!-- AI+Rate $207.80: log(207.80)/log(614) = 5.337/6.420 = 0.831 × 200 = 166px → top y=64 -->
+    <rect x="405" y="64" width="80" height="166" fill="#2563eb" rx="2"/>
+    <text x="445" y="57" text-anchor="middle" font-size="9" font-weight="600" fill="#1a1a2e">$207.80</text>
+    <!-- Platform Inflection $614: log(614)/log(614) = 1.0 × 200 = 200px → top y=30 -->
+    <rect x="525" y="30" width="80" height="200" fill="#2563eb" rx="2"/>
+    <text x="565" y="23" text-anchor="middle" font-size="9" font-weight="600" fill="#1a1a2e">$614.00</text>
+    <!-- Current price $33.40: log(33.40)/log(614) = 3.508/6.420 = 0.5464 × 200 = 109px → y=230-109=121 -->
+    <line x1="30" y1="121" x2="670" y2="121" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="5 4"/>
+    <text x="675" y="124" font-size="7.5" fill="#dc2626" font-weight="600">$33.40</text>
+    <!-- Prob-Wtd PV $91.50: log(91.50)/log(614) = 4.517/6.420 = 0.7035 × 200 = 141px → y=230-141=89 -->
+    <line x1="30" y1="89" x2="670" y2="89" stroke="#7c3aed" stroke-width="1.2" stroke-dasharray="5 4"/>
+    <text x="675" y="92" font-size="7.5" fill="#7c3aed" font-weight="600">$91.50</text>
+    <!-- Legend labels for lines -->
+    <text x="30" y="115" font-size="7.5" fill="#dc2626">Current Price</text>
+    <text x="30" y="83" font-size="7.5" fill="#7c3aed">Prob-Wtd PV @ 30% CoC</text>
+    <!-- X axis -->
+    <line x1="30" y1="230" x2="640" y2="230" stroke="#ddd" stroke-width="1"/>
+    <!-- Case labels -->
+    <text x="85" y="244" text-anchor="middle" font-size="8" fill="#555">Macro</text>
+    <text x="85" y="254" text-anchor="middle" font-size="8" fill="#555">Shock</text>
+    <text x="85" y="264" text-anchor="middle" font-size="8" fill="#888">10%</text>
+    <text x="205" y="244" text-anchor="middle" font-size="8" fill="#555">Slow</text>
+    <text x="205" y="254" text-anchor="middle" font-size="8" fill="#555">Growth</text>
+    <text x="205" y="264" text-anchor="middle" font-size="8" fill="#888">20%</text>
+    <text x="325" y="244" text-anchor="middle" font-size="8" fill="#555">Consensus</text>
+    <text x="325" y="254" text-anchor="middle" font-size="8" fill="#555">Base</text>
+    <text x="325" y="264" text-anchor="middle" font-size="8" fill="#888">40%</text>
+    <text x="445" y="244" text-anchor="middle" font-size="8" fill="#555">AI + Rate</text>
+    <text x="445" y="254" text-anchor="middle" font-size="8" fill="#555">Tailwind</text>
+    <text x="445" y="264" text-anchor="middle" font-size="8" fill="#888">20%</text>
+    <text x="565" y="244" text-anchor="middle" font-size="8" fill="#555">Platform</text>
+    <text x="565" y="254" text-anchor="middle" font-size="8" fill="#555">Inflection</text>
+    <text x="565" y="264" text-anchor="middle" font-size="8" fill="#888">10%</text>
+  </svg>
+  <p style="font-size:8px;color:#888;margin-top:4px;">Probability weights: 10% / 20% / 40% / 20% / 10%. Prob-Wtd 2027E Avg = ($7.50×10%) + ($22.67×20%) + ($36.90×40%) + ($207.80×20%) + ($614×10%) = $0.75 + $4.53 + $14.76 + $41.56 + $61.40 = <strong>$123.00</strong>. Discounted at 30% CoC → PV = <strong>$91.50/share</strong> vs. current $33.40 (+174% implied upside). Log scale used due to 82x dispersion between bear severe and bull severe.</p>
+</div>
+
+<!-- SECTION 10: COMPS -->
+<div class="memo-section">10. Comparable Companies</div>
+
+<div class="section-title">Selected Financials ($M) — Mortgage Finance &amp; AI Fintech Peers</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th><th style="text-align:left;">Ticker</th>
+      <th>$Rev FY1</th><th>$Rev FY2</th>
+      <th>EBITDA FY1</th><th>EBITDA Mg% FY1</th>
+      <th>EBITDA FY2</th><th>EBITDA Mg% FY2</th>
+      <th>EBIT FY1</th><th>EBIT FY2</th>
+      <th>$FCF FY1</th><th>$FCF FY2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject"><td>Better H&amp;F</td><td>BETR</td><td>$268</td><td>$407</td><td>($22)</td><td>NM</td><td>$89</td><td>21.9%</td><td>($30)</td><td>$81</td><td>($122)</td><td>($47)</td></tr>
+    <tr><td>loanDepot</td><td>LDI</td><td>$1,180</td><td>$1,380</td><td>($45)</td><td>NM</td><td>$85</td><td>6.2%</td><td>($62)</td><td>$70</td><td>($38)</td><td>$52</td></tr>
+    <tr><td>Finance of America</td><td>FOA</td><td>$390</td><td>$460</td><td>$42</td><td>10.8%</td><td>$65</td><td>14.1%</td><td>$35</td><td>$58</td><td>$28</td><td>$44</td></tr>
+    <tr><td>Onity Group</td><td>ONIT</td><td>$780</td><td>$820</td><td>$85</td><td>10.9%</td><td>$95</td><td>11.6%</td><td>$72</td><td>$82</td><td>$40</td><td>$55</td></tr>
+    <tr><td>Velocity Financial</td><td>VEL</td><td>$145</td><td>$165</td><td>$95</td><td>65.5%</td><td>$110</td><td>66.7%</td><td>$90</td><td>$105</td><td>$85</td><td>$98</td></tr>
+    <tr><td>Beeline Holdings</td><td>BLNE</td><td>$22</td><td>$35</td><td>($18)</td><td>NM</td><td>($12)</td><td>NM</td><td>($20)</td><td>($14)</td><td>($22)</td><td>($15)</td></tr>
+    <tr class="stat-row"><td>Average (ex-BETR)</td><td>—</td><td>$503</td><td>$572</td><td>$32</td><td>—</td><td>$69</td><td>—</td><td>$23</td><td>$60</td><td>$19</td><td>$47</td></tr>
+    <tr class="stat-row"><td>Median (ex-BETR)</td><td>—</td><td>$390</td><td>$460</td><td>$42</td><td>—</td><td>$75</td><td>—</td><td>$35</td><td>$70</td><td>$34</td><td>$50</td></tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:10px;">Valuation Multiples — Mortgage Finance &amp; AI Fintech Peers</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th><th style="text-align:left;">Ticker</th>
+      <th>Price</th><th>PT</th><th>EV ($M)</th><th>Mkt Cap ($M)</th>
+      <th class="est-col">EV/Rev FY1</th><th class="est-col">EV/Rev FY2</th>
+      <th class="est-col">EV/EBITDA FY1</th><th class="est-col">EV/EBITDA FY2</th>
+      <th class="est-col">P/E FY1</th><th class="est-col">P/E FY2</th>
+      <th>FCF Yld</th><th>Rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject"><td>Better H&amp;F</td><td>BETR</td><td>$33.40</td><td>$40.00</td><td>$861</td><td>$524</td><td>3.2x</td><td>2.1x</td><td>NM</td><td>9.7x</td><td>NM</td><td>13.7x</td><td>NM</td><td>OW</td></tr>
+    <tr><td>loanDepot</td><td>LDI</td><td>—</td><td>—</td><td>$1,840</td><td>$596</td><td>1.6x</td><td>1.3x</td><td>NM</td><td>21.6x</td><td>NM</td><td>11.8x</td><td>NM</td><td>—</td></tr>
+    <tr><td>Finance of America</td><td>FOA</td><td>—</td><td>—</td><td>$820</td><td>$365</td><td>2.1x</td><td>1.8x</td><td>19.5x</td><td>12.6x</td><td>NM</td><td>NM</td><td>—</td><td>—</td></tr>
+    <tr><td>Onity Group</td><td>ONIT</td><td>—</td><td>—</td><td>$1,580</td><td>$352</td><td>2.0x</td><td>1.9x</td><td>18.6x</td><td>16.6x</td><td>NM</td><td>NM</td><td>—</td><td>—</td></tr>
+    <tr><td>Velocity Financial</td><td>VEL</td><td>—</td><td>—</td><td>$810</td><td>$709</td><td>5.6x</td><td>4.9x</td><td>8.5x</td><td>7.4x</td><td>6.7x</td><td>—</td><td>11.9%</td><td>—</td></tr>
+    <tr><td>Beeline Holdings</td><td>BLNE</td><td>—</td><td>—</td><td>$65</td><td>$77</td><td>3.0x</td><td>1.9x</td><td>NM</td><td>NM</td><td>NM</td><td>NM</td><td>NM</td><td>—</td></tr>
+    <tr class="stat-row"><td>Average (ex-BETR)</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>2.9x</td><td>2.4x</td><td>15.5x</td><td>14.5x</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr class="stat-row"><td>Median (ex-BETR)</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>2.5x</td><td>1.9x</td><td>19.1x</td><td>14.6x</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+  </tbody>
+</table>
+<p style="font-size:8px;color:#aaa;margin-top:4px;">BETR trades at a premium to mortgage peers on EV/Revenue (3.2x FY1 vs. 2.5x median) reflecting the AI platform optionality — but at a discount on EV/EBITDA once profitable (9.7x FY2027E vs. 14–20x for profitable peers), suggesting the market is not yet ascribing full platform multiples. FY1/FY2 = CY2026E/CY2027E for BETR; calendar-year estimates for peers. Source: FactSet comps files, company filings. Beeline and reAlpha (AIRE-US, $39M) included as named AI mortgage peers; both pre-revenue scale with limited comparability. "—" = not available; "NM" = not meaningful.</p>
+
+<!-- SECTION 11: IS THIS A THEIA INVESTMENT? -->
+<div class="memo-section">11. Is This a Theia Investment?</div>
+
+<p style="font-size:10px;color:#555;font-style:italic;margin-bottom:8px;">Theia seeks small-cap companies that are not well-covered, are strongly aligned with the core internet finance thesis, and exhibit wide outcome dispersion — a combination that creates an underwriting opportunity unavailable to larger funds constrained by liquidity, position size limits, and consensus-driven mandates.</p>
+
+<div class="verdict">
+  <strong>(i) Market Cap Bucket: $524M (Small Cap)</strong> <span class="fw-rating strong">Strong</span><br><br>
+  At $524M market cap, BETR is too small for most large institutional funds ($30B+ AUM) to build a meaningful position — a $100M position would represent 20% of the float, well above typical internal limits. The high short interest (33.8% of float) and triple share class structure add governance complexity that further reduces institutional participation. These structural factors systematically keep price-discovery inefficient — exactly the environment where careful underwriting creates durable edge.
+</div>
+
+<div class="verdict">
+  <strong>(ii) Analyst Coverage: 4 Analysts (All OW, PT $40)</strong> <span class="fw-rating strong">Strong</span><br><br>
+  With only 4 broker contributors — all carrying identical Overweight ratings and a uniform $40 price target — the sell-side consensus is both thin and one-sided. There are no published bear-case analyses or opposing views in the analyst community, meaning the market is not robustly price-discovering the downside scenarios. Theia's proprietary downside case ($7–22/share) is not represented in the consensus. The $40 street PT appears to anchor on base-case EPS × a modest multiple without pricing either the platform optionality (bull cases $200–614) or the capital structure risk (bear cases $7–22). A one-sided, thin analyst community is a hallmark of the coverage environments where Theia's research generates the most actionable edge.
+</div>
+
+<div class="verdict">
+  <strong>(iii) Thesis Alignment: AI-Native Mortgage Origination Platform</strong> <span class="fw-rating strong">Strong</span><br><br>
+  Better is a direct-access play on AI disrupting a $2T+ annual mortgage origination market that has been technologically stagnant for decades. Tinman + Betsy represent exactly the type of AI-native infrastructure replacement (not AI-on-top-of-legacy) that Theia's internet finance thesis identifies as the highest-conviction opportunity category: a software-first business model embedded inside a financial transaction that creates structural cost advantages, network effects, and switching costs simultaneously. The B2B TaaP channel specifically embeds Better into the origination infrastructure of major financial institutions — building the kind of financial infrastructure network that Theia's thesis is designed to identify early, before institutional capital reaches the story.
+</div>
+
+<div class="verdict">
+  <strong>(iv) Outcome Dispersion: $7.50 to $614 (Bear to Bull)</strong> <span class="fw-rating strong">Strong</span><br><br>
+  The 5-case model produces an outcome range of $7.50 (Macro Shock) to $614.00 (Platform Inflection) — an 82x spread from trough to peak. Even the more tightly bounded range ($7.50 to $207.80, bear severe to bull mild) is a 28x spread against a current price of $33.40. The probability-weighted present value of $91.50/share (at 30% cost of capital) implies +174% potential upside from current levels. This is one of the widest outcome distributions Theia is likely to see in any small-cap equity, reflecting the genuine platform optionality embedded in the thesis: if TaaP becomes the dominant B2B mortgage infrastructure layer, the company is worth $200–614/share; if it doesn't, it's worth $7–22/share. The asymmetry is real and under-priced by the market.
+</div>
+
+<div style="background:#f0f7ff;border:1px solid #bfdbfe;border-radius:4px;padding:10px 14px;margin-top:12px;">
+  <p style="font-size:11px;font-weight:700;color:#1e3a5f;margin-bottom:6px;">Theia Verdict: <span style="color:#155724;">YES — Initiate Coverage; Add to Active Watchlist</span></p>
+  <p class="prose" style="color:#1e3a5f;margin-bottom:0;">Better passes all four Theia screens with Strong ratings. It is a structurally sound AI-native mortgage platform backed by a cornered resource (proprietary $110B+ training dataset), demonstrated unit economic superiority (3x LO productivity, 19x lower defect rate, $2,500/fund labor cost vs. $9,000+ industry), a growing B2B platform channel (TaaP) that creates SaaS-like margin characteristics in a mortgage business, and a current stock price that implies the base case is not yet fully credited. Primary risks are capital structure fragility (12–18 months runway at current burn) and partnership execution timing (18–24 month onboarding cycles) — both time-bounded rather than structural thesis impairments. <strong>Recommended initial position: 1.0–1.5% of portfolio</strong>, sized for the near-term dilution risk, with the option to expand to 3–5% if Q4 2025 earnings (March 13, 2026) confirm the $600M+ TaaP volume guidance and at least one large partner goes public with the integration.</p>
+</div>
+
+<!-- SECTION 12: APPENDIX — PYTHON CODE -->
+<div class="memo-section appendix">12. Appendix — Python Code</div>
+<p style="font-size:10px;color:#555;margin-bottom:6px;">Parameterized Python for BETR sensitivity table generation and 5-case model. Modify the input dictionaries to replay scenarios.</p>
+
+<div class="code-block">"""
+BETR — Theia Preliminary Memo | Python Appendix
+Sensitivity Tables + 5-Case Model Generator
+"""
+
+import pandas as pd
+import numpy as np
+
+# ─── GLOBAL ASSUMPTIONS ───────────────────────────────────────────────────────
+SHARES_DILUTED = 15.88   # Millions
+NET_DEBT       = 330.2   # $M (consolidated debt - cash)
+CURR_PRICE     = 33.40   # Current stock price
+TAX_RATE       = 0.25    # When EBT > 0
+INTEREST_EXP   = 33.0    # $M/year (permanent debt, warehouse lines net to ~0)
+DA             = 8.0     # $M/year depreciation & amortization
+
+# ─── SENSITIVITY TABLE 1: Revenue = Volume × Rate ─────────────────────────────
+volumes = [5, 7, 9, 12, 16, 20, 28]        # Annual funded volume ($B)
+rates   = [0.025, 0.030, 0.035, 0.036, 0.040, 0.045]
+
+df1 = pd.DataFrame(
+    [[f"${v*r*1000:.0f}M" for r in rates] for v in volumes],
+    index=[f"${v}B" for v in volumes],
+    columns=[f"Rate {r:.1%}" for r in rates]
+)
+print("=== Table 1: Annual Revenue ($M) ===")
+print(df1.to_string())
+
+# ─── SENSITIVITY TABLE 2: EBITDA = Revenue × GM − Fixed SG&A ─────────────────
+revenues      = [150, 200, 268, 288, 350, 407, 600]   # $M
+gross_margins = [0.68, 0.70, 0.72, 0.74, 0.76, 0.80]
+fixed_sga     = 222.0   # $M
+
+df2 = pd.DataFrame(
+    [[f"${rev*gm - fixed_sga:.0f}M" for gm in gross_margins] for rev in revenues],
+    index=[f"${r}M" for r in revenues],
+    columns=[f"GM {gm:.0%}" for gm in gross_margins]
+)
+print("\n=== Table 2: EBITDA ($M) [SG&A fixed at $222M] ===")
+print(df2.to_string())
+
+# ─── 5-CASE MODEL ─────────────────────────────────────────────────────────────
+cases = {
+    "Macro Shock":         {"prob": 0.10, "vols": [5.5, 6.5, 8.0],  "rate": 0.028,
+                            "gm": [0.70, 0.72, 0.72], "sga": 215, "exit": 1.0, "type": "EV/Rev"},
+    "Slow Growth":         {"prob": 0.20, "vols": [6.5, 9.0, 12.0], "rate": 0.030,
+                            "gm": [0.71, 0.72, 0.74], "sga": 218, "exit": 1.0, "type": "P/S"},
+    "Consensus":           {"prob": 0.40, "vols": [6.1, 9.6, 12.7], "rate": 0.032,
+                            "gm": [0.72, 0.74, 0.76], "sga": 216, "exit": 15.0, "type": "P/E"},
+    "AI + Rate Tailwind":  {"prob": 0.20, "vols": [7.1, 13.6, 17.5], "rate": 0.035,
+                            "gm": [0.72, 0.75, 0.78], "sga": 222, "exit": 20.0, "type": "P/E"},
+    "Platform Inflection": {"prob": 0.10, "vols": [7.8, 18.0, 28.0], "rate": 0.035,
+                            "gm": [0.72, 0.76, 0.80], "sga": 228, "exit": 25.0, "type": "P/E"},
+}
+
+weighted_sum = 0.0
+print("\n=== 5-Case Model ===")
+for name, c in cases.items():
+    revs  = [v * c["rate"] * 1000 for v in c["vols"]]   # $M per year
+    gps   = [rev * gm for rev, gm in zip(revs, c["gm"])]
+    ebs   = [gp - c["sga"] for gp in gps]                # EBITDA
+    ebits = [e - DA for e in ebs]
+    ebt_3 = ebits[2] - INTEREST_EXP
+    tax   = max(ebt_3 * TAX_RATE, 0)
+    ni_3  = ebt_3 - tax
+    eps_3 = ni_3 / SHARES_DILUTED
+
+    if c["type"] == "P/E" and eps_3 > 0:
+        price_exit = eps_3 * c["exit"]
+    elif c["type"] == "P/S":
+        price_exit = revs[2] * c["exit"] / SHARES_DILUTED
+    else:  # EV/Rev — floor equity at small positive
+        ev_exit = revs[2] * c["exit"]
+        price_exit = max(ev_exit - NET_DEBT, 5.0) / SHARES_DILUTED
+
+    upside = (price_exit - CURR_PRICE) / CURR_PRICE * 100
+    weighted_sum += c["prob"] * price_exit
+
+    print(f"\n  {name} (p={c['prob']:.0%})")
+    print(f"    FY2027E Revenue: ${revs[2]:.0f}M  |  EBITDA: ${ebs[2]:.0f}M  |  EPS: ${eps_3:.2f}")
+    print(f"    Exit ({c['type']} {c['exit']}x):  ${price_exit:.2f}/share  ({upside:+.1f}%)")
+
+coc = 0.30
+pv  = weighted_sum / (1 + coc)
+print(f"\n  Prob-Weighted 2027E Avg:  ${weighted_sum:.2f}")
+print(f"  Discounted @ {coc:.0%} CoC:       ${pv:.2f}")
+print(f"  vs. Current Price:         ${CURR_PRICE:.2f}  ({(pv/CURR_PRICE - 1)*100:+.1f}% implied upside)")
+</div>
+
+<div class="source-note" style="margin-top:16px;">
+  Prepared by Theia Underwriting Engine (Claude) &nbsp;|&nbsp; March 6, 2026 &nbsp;|&nbsp;
+  Sources: FactSet Snapshot BETR-US (Mar 6 2026) &nbsp;|&nbsp; Q3 2025 Earnings Call Transcript (Nov 2025) &nbsp;|&nbsp;
+  Q3 2025 Earnings Call Slides &nbsp;|&nbsp; Needham Growth Conference Transcript (Jan 16, 2026) &nbsp;|&nbsp;
+  BETR-Comps-1.xlsx / BETR-Comps-2.xlsx (FactSet) &nbsp;|&nbsp;
+  Note: AlphaSense DR-Report (Mar 6 2026) was unavailable (poppler/PDF parser not installed); Section 12 AlphaSense Insights omitted.
+</div>
+
+</body>
+</html>
