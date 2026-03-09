@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toast, Inc. (TOST) | Theia Preliminary Investment Memo</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', Arial, sans-serif; background: #fff; color: #1a1a2e; width: 816px; margin: 0 auto; padding: 32px 40px; font-size: 11px; line-height: 1.45; }
+.title-bar { font-size: 20px; font-weight: 700; letter-spacing: -0.4px; color: #1a1a2e; border-bottom: 3px solid #1a1a2e; padding-bottom: 10px; margin-bottom: 20px; text-align: center; }
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+table.data tr.indent td:first-child { color: #999; font-size: 9px; font-style: italic; padding-left: 14px; font-weight: 400; }
+table.data tr.indent td { color: #777; font-size: 9px; }
+.est { color: #2563eb; }
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+table.ev tr.sub td:first-child { padding-left: 12px; font-size: 9.5px; color: #888; }
+table.ev tr.sub td:last-child { font-size: 9.5px; color: #888; }
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+.fw-item { margin-bottom: 8px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+table.sensitivity td.row-label { text-align: left; font-weight: 600; background: #f4f6f9; }
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #555; margin-bottom: 10px; line-height: 1.55; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; font-size: 8.5px; }
+.case-block table.scenario-mini th:first-child { text-align: left; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.indent-row td:first-child { padding-left: 12px; font-size: 8px; color: #999; font-style: italic; font-weight: 400; }
+.case-block table.scenario-mini tr.indent-row td { color: #777; font-size: 8px; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+.alphasense-box { background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 4px; padding: 8px 12px; margin-bottom: 14px; font-size: 10px; color: #1e3a5f; }
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.comps th:first-child { text-align: left; }
+table.comps th.est-col { color: #2563eb; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0 !important; }
+table.comps tr.stat-row td { font-style: italic; background: #fafbfc; font-weight: 600; color: #555; }
+table.comps tr:nth-child(even) { background: #fafbfc; }
+table.comps tr.subject { background: #f0f0f0 !important; }
+.bull-header { color: #155724; font-size: 12px; font-weight: 700; border-bottom: 2px solid #155724; padding-bottom: 4px; margin-bottom: 8px; }
+.bear-header { color: #721c24; font-size: 12px; font-weight: 700; border-bottom: 2px solid #721c24; padding-bottom: 4px; margin-bottom: 8px; }
+.case-bullet { margin-bottom: 8px; }
+.case-bullet .fw-name { font-weight: 700; color: #1a1a2e; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Toast, Inc. | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════ SECTION 1 ═══════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+<p class="prose">Toast, Inc. (NYSE: TOST) is the leading vertical software platform for the restaurant industry, serving 164,000 restaurant locations across the United States and select international markets as of year-end 2025. Founded in 2011 by Aman Narang (CEO), Jonathan Grimm, and Steve Fredette (Co-President), Toast was built on a single insight: the restaurant industry — a $1 trillion economy employing 12 million workers — ran on fragmented, generic POS systems that failed to address the operational complexity of food service. Toast's answer was a purpose-built, cloud-native, hardware-integrated platform that replaced 5–8 separate vendor relationships (POS, payroll, scheduling, online ordering, marketing, inventory, payroll loans) with a single OS for the restaurant.</p>
+<p class="prose">The revenue model has three components. Financial Technology Solutions (82% of revenue, $5.0B in 2025A) is effectively a payment processing business: Toast earns 48 basis points on every dollar of Gross Payment Volume processed through its platform, plus 10 bps from non-payment fintech products (Toast Capital lending, Toast Payroll, Toast Pay). Subscription Services (15% of revenue, $936M) are pure SaaS ARR — recurring monthly fees for platform modules including point-of-sale, kitchen display systems, online ordering, scheduling, and the newly launched ToastIQ AI suite. Hardware &amp; Professional Services (3% of revenue, $180M) covers the sale of Toast Go handhelds, kiosks, and kitchen equipment; this segment carries negative gross margins and is treated as a customer acquisition mechanism rather than a profit center.</p>
+<p class="prose">The scale and unit economics are exceptional. Toast processes $195 billion of Gross Payment Volume annually across 164,000 locations — a 22% GPV growth rate in 2025. The SaaS net retention rate is 109%, meaning existing customers expand their spend at Toast by nearly 10% per year through module adoption — without a single new restaurant sale. Adjusted EBITDA reached $633 million in 2025 (34% of recurring gross profit streams), with free cash flow of $608 million, reflecting a business that has structurally crossed the profitability threshold. The company now powers approximately 20% of US SMB and mid-market restaurants, having nearly doubled market share in three years, and has articulated a clear path from its current $2.0 billion ARR to $5–10 billion through four growth vectors: deeper US penetration, enterprise QSR chains, retail expansion, and international markets (Canada, UK, Ireland, Australia).</p>
+
+<!-- ═══════════════════════════════════════ SECTION 2 ═══════════════════════════════════════ -->
+<div class="memo-section">2. Theia FactSet Summary</div>
+<div class="header">
+  <div><span class="ticker">TOST-US</span> &nbsp; <span style="font-size:15px;font-weight:700;">Toast, Inc. Class A</span></div>
+  <div class="date">FactSet Snapshot — 2026-03-09</div>
+</div>
+
+<div class="price-bar">
+  <span class="price">$30.29</span>
+  <span><span class="label">52W Range</span> &nbsp; $24.35 – $49.66</span>
+  <span><span class="label">Beta (3Y Adj)</span> &nbsp; 1.30</span>
+  <span><span class="label">Float</span> &nbsp; 92.1%</span>
+  <span><span class="label">Short Int.</span> &nbsp; 5.8% / 1.5d</span>
+  <span><span class="label">Brokers</span> &nbsp; 16 (Avg OW: 1.37)</span>
+  <span><span class="label">PT</span> &nbsp; $37.08</span>
+  <span><span class="label">Next Earn.</span> &nbsp; May 7, 2026</span>
+</div>
+
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats</div>
+    <table class="kv">
+      <tr><td>Market Cap (Basic)</td><td>$17,841M</td></tr>
+      <tr><td>Fully Diluted Mkt Cap</td><td>$18,695M</td></tr>
+      <tr><td>Enterprise Value (FactSet)</td><td>$16,704M</td></tr>
+      <tr><td>Cash &amp; ST Investments (2025A)</td><td>$1,991M</td></tr>
+      <tr><td>Total Assets (2025A)</td><td>$3,212M</td></tr>
+      <tr><td>Shareholders' Equity (2025A)</td><td>$2,124M</td></tr>
+      <tr><td>Book Value / Share</td><td>$3.61</td></tr>
+      <tr><td>Total Debt</td><td>~$19M (near zero)</td></tr>
+      <tr><td>Revenue / Employee (2025A)</td><td>$947K</td></tr>
+      <tr><td>GPV (2025A)</td><td>$195B</td></tr>
+      <tr><td>ARR (2025A)</td><td>$2.0B+ (+26% YoY)</td></tr>
+      <tr><td>Management</td><td>Narang (CEO), Gomez (President/CFO), Fredette (Co-President)</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Capitalization Bridge</div>
+    <table class="ev">
+      <tr><td>Basic Market Cap</td><td>$17,841M</td></tr>
+      <tr class="sub"><td>↳ Class A (524M shs)</td><td>$15,872M</td></tr>
+      <tr class="sub"><td>↳ Class B (65M shs)</td><td>$1,969M</td></tr>
+      <tr><td>Fully Diluted Mkt Cap</td><td>$18,695M</td></tr>
+      <tr><td style="color:#555;font-size:9px;padding-top:4px;">(+) Total Debt</td><td style="font-size:9px;">$19M</td></tr>
+      <tr><td style="color:#555;font-size:9px;">(-) Cash &amp; Investments</td><td style="font-size:9px;">($1,991M)</td></tr>
+      <tr><td style="color:#555;font-size:9px;">(-) Other net adjustments</td><td style="font-size:9px;">($19M)</td></tr>
+      <tr class="total"><td>Enterprise Value</td><td>$16,704M</td></tr>
+    </table>
+    <div class="section-title" style="margin-top:8px;">Revenue by Segment (2025A)</div>
+    <table class="rev">
+      <tr><th>Segment</th><th>% Rev</th><th>$M</th><th>YoY</th></tr>
+      <tr><td>Fintech Solutions</td><td>81.9%</td><td>$5,037</td><td>+24.3%</td></tr>
+      <tr><td>Subscription Services</td><td>15.2%</td><td>$936</td><td>+32.6%</td></tr>
+      <tr><td>Hardware &amp; Services</td><td>2.9%</td><td>$180</td><td>−10.5%</td></tr>
+      <tr><td><strong>Total</strong></td><td><strong>100%</strong></td><td><strong>$6,153</strong></td><td><strong>+24.1%</strong></td></tr>
+      <tr><th style="text-align:left;font-weight:600;color:#888;padding-top:4px;">Geography</th><th></th><th></th><th></th></tr>
+      <tr><td>United States</td><td>100%</td><td>$6,153</td><td>+24.1%</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="section-title">Current Valuation</div>
+<div class="val-grid">
+  <div class="val-cell"><div class="val-label">P/E (LTM)</div><div class="val-num">55.5x</div><div class="val-sub">2025A EPS $0.559</div></div>
+  <div class="val-cell"><div class="val-label">P/E FY1E</div><div class="val-num">38.2x</div><div class="val-sub">2026E EPS $0.792</div></div>
+  <div class="val-cell"><div class="val-label">P/E FY2E</div><div class="val-num">28.2x</div><div class="val-sub">2027E EPS $1.074</div></div>
+  <div class="val-cell"><div class="val-label">EV/Sales (LTM)</div><div class="val-num">2.71x</div><div class="val-sub">2025A Rev $6.15B</div></div>
+  <div class="val-cell"><div class="val-label">EV/Sales (NTM)</div><div class="val-num">2.26x</div><div class="val-sub">2026E Rev $7.40B</div></div>
+  <div class="val-cell"><div class="val-label">P/FCF (LTM)</div><div class="val-num">35.5x</div><div class="val-sub">FCF $608M</div></div>
+</div>
+
+<div class="section-title">Income Statement Financials ($M)</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th></th>
+      <th>2023A</th>
+      <th>2024A</th>
+      <th>2025A</th>
+      <th class="est">2026E</th>
+      <th class="est">2027E</th>
+      <th class="est">2028E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Revenue</td><td>$3,865</td><td>$4,960</td><td>$6,153</td><td class="est">$7,399</td><td class="est">$8,736</td><td class="est">$10,238</td></tr>
+    <tr class="indent"><td>YoY Growth</td><td>—</td><td>+28.3%</td><td>+24.1%</td><td class="est">+20.3%</td><td class="est">+18.1%</td><td class="est">+17.2%</td></tr>
+    <tr><td>Gross Profit</td><td>$825</td><td>$1,181</td><td>$1,585</td><td class="est">$2,048</td><td class="est">$2,501</td><td class="est">$3,001</td></tr>
+    <tr class="indent"><td>Gross Margin %</td><td>21.3%</td><td>23.8%</td><td>25.8%</td><td class="est">27.7%</td><td class="est">28.6%</td><td class="est">29.3%</td></tr>
+    <tr><td>Adj EBITDA</td><td>—</td><td>~$310</td><td>$633</td><td class="est">$785</td><td class="est">$958</td><td class="est">$1,190</td></tr>
+    <tr class="indent"><td>Adj EBITDA Margin</td><td>—</td><td>~6.3%</td><td>10.3%</td><td class="est">10.6%</td><td class="est">11.0%</td><td class="est">11.6%</td></tr>
+    <tr><td>GAAP EBIT</td><td>($272)</td><td>$67</td><td>$305</td><td class="est">$767</td><td class="est">$1,012</td><td class="est">$1,270</td></tr>
+    <tr class="indent"><td>Operating Margin %</td><td>−7.0%</td><td>1.4%</td><td>5.0%</td><td class="est">10.4%</td><td class="est">11.6%</td><td class="est">12.4%</td></tr>
+    <tr><td>GAAP Net Income</td><td>($246)</td><td>$19</td><td>$342</td><td class="est">$478</td><td class="est">$644</td><td class="est">$952</td></tr>
+    <tr class="indent"><td>Net Margin %</td><td>—</td><td>0.4%</td><td>5.6%</td><td class="est">6.5%</td><td class="est">7.4%</td><td class="est">9.3%</td></tr>
+    <tr><td>Diluted EPS</td><td>($0.467)</td><td>$0.032</td><td>$0.559</td><td class="est">$0.792</td><td class="est">$1.074</td><td class="est">$1.478</td></tr>
+    <tr class="indent"><td>EPS Growth %</td><td>—</td><td>NM</td><td>NM</td><td class="est">+41.7%</td><td class="est">+35.6%</td><td class="est">+37.6%</td></tr>
+    <tr><td>Free Cash Flow</td><td>$93</td><td>$306</td><td>$608</td><td class="est">$772</td><td class="est">$972</td><td class="est">$1,325</td></tr>
+    <tr class="indent"><td>FCF Margin %</td><td>2.4%</td><td>6.2%</td><td>9.9%</td><td class="est">10.4%</td><td class="est">11.1%</td><td class="est">12.9%</td></tr>
+    <tr><td>SaaS Net Retention Rate</td><td>—</td><td>—</td><td>109%</td><td class="est">~108%</td><td class="est">~107%</td><td class="est">—</td></tr>
+    <tr><td>Net Location Adds</td><td>~24K</td><td>~28K</td><td>30K</td><td class="est">~32K+</td><td class="est">~34K</td><td class="est">~36K</td></tr>
+    <tr><td>Total Locations (YE)</td><td>~106K</td><td>~134K</td><td>164K</td><td class="est">~196K</td><td class="est">~230K</td><td class="est">~266K</td></tr>
+  </tbody>
+</table>
+<p class="source-note">Source: FactSet Snapshot 2026-03-09; Q4 2025 Earnings (Feb 12, 2026). 2026E adj EBITDA = guidance midpoint ($775–$795M). GAAP EBIT reflects SBC; adj EBITDA adds back SBC (~$225M in 2025A). Location estimates based on 30K+ annual net adds guided by management. Blue = forward estimates.</p>
+
+<!-- ═══════════════════════════════════════ SECTION 3 ═══════════════════════════════════════ -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Case — 5 Catalysts</div>
+    <div class="case-bullet">
+      <p class="prose"><span class="fw-name">Core Market Share Doubles Again.</span> Toast reached 20% of US SMB/mid-market restaurants after nearly doubling share in three years. The remaining 80% of the market — roughly 650,000 locations still on legacy systems like NCR Aloha, Revel, or manual cash — represents a $15B+ annual revenue opportunity at current ARPU. The unit economics are exceptional: mid-teen month payback periods on a subscription product that retains at 109% NRR. If Toast achieves 35–40% US market penetration by 2028E, total ARR could approach $5B ahead of management's own long-term guidance, driven purely by the core US business without any contribution from new markets.</p>
+    </div>
+    <div class="case-bullet">
+      <p class="prose"><span class="fw-name">ToastIQ Monetization Creates a New ARR Stream.</span> ToastIQ — Toast's conversational AI assistant — was used by more than 50% of locations within four months of launch, with over 1 million queries sent collectively. The product currently is included in base subscriptions, but the depth of adoption (weekly active use by tens of thousands of locations for demand forecasting, email campaign generation, and menu optimization) creates the foundation for a premium tier. A ToastIQ Pro subscription at $200–400/month across 50% of the location base would generate $500M–$1B+ of high-margin incremental ARR — roughly 25–50% of the current total SaaS ARR — at near-zero marginal cost. This optionality is completely absent from consensus models.</p>
+    </div>
+    <div class="case-bullet">
+      <p class="prose"><span class="fw-name">Enterprise + Retail Scale Faster Than Expected.</span> Applebee's, Firehouse Subs, Papa Murphy's (1,000+ units), and MTY Group demonstrate that enterprise QSR chains are ready to migrate off legacy systems. Each major chain commitment represents 500–2,000+ simultaneous location deployments — years of net adds in a single contract. Separately, the retail vertical signed La Carniceria (25-location butcher chain) and launched an Instacart inventory sync partnership, suggesting Toast's platform is restaurant-agnostic and can serve the broader food retail market. If enterprise contributes 10,000 locations and retail 5,000 locations by 2028E (vs. near-zero today), the total location count could reach 300,000+ — 30% above the consensus ~266K estimate.</p>
+    </div>
+    <div class="case-bullet">
+      <p class="prose"><span class="fw-name">International Replicates US Economics.</span> Australia launched as Toast's fourth international market in 2025 with "strong activity." Canada, UK, and Ireland are active markets. If international collectively reaches 15,000–20,000 locations by 2028E at US-equivalent ARPU, this contributes $500–750M of additional revenue against minimal incremental corporate overhead — directly accretive to margins. The restaurant industry is structurally identical across English-speaking markets, and Toast's hardware + software + payments bundled model is even more differentiated globally where no vertically integrated competitor exists at scale.</p>
+    </div>
+    <div class="case-bullet">
+      <p class="prose"><span class="fw-name">Margin Expansion Exceeds Guidance.</span> Management targets 40%+ adj EBITDA margins on recurring gross profit "over the medium term" and has already hit this in the core portfolio ahead of schedule. In 2025A, SBC fell from 17% to 12% of recurring gross profit (a 500bps improvement in one year). As SBC continues declining toward 8–9%, D&amp;A stays flat, and operating leverage accrues on the $250M+ annual technology investment base, adj EBITDA margins could reach 38–42% of recurring gross profit by 2028E — versus ~34% today — generating $400–600M of incremental earnings above the consensus model.</p>
+    </div>
+  </div>
+  <div>
+    <div class="bear-header">Bear Case — 5 Risks</div>
+    <div class="case-bullet">
+      <p class="prose"><span class="fw-name">Competitive Price War Stalls Location Adds.</span> Block (Square for Restaurants) and Clover (Fiserv) launch aggressive 0% hardware subsidy + reduced processing fee campaigns in 2026, directly targeting Toast's installed base and pipeline in mid-market SMBs. SpotOn and Toast's numerous smaller competitors follow. Location net adds slow from 30K to 12–15K per year, ARPU growth stalls as Toast is forced to match pricing, and SaaS NRR erodes from 109% toward parity. The market re-rates Toast from a high-growth SaaS business (35–40x NTM P/E) to a low-growth payments processor (12–15x), compressing the stock by 60–70% from current levels regardless of near-term earnings beats.</p>
+    </div>
+    <div class="case-bullet">
+      <p class="prose"><span class="fw-name">AI Commoditization Undermines ToastIQ Differentiation.</span> OpenAI, Google, and Microsoft release food-service-specific AI models in H2 2026 that enterprise QSR chains can integrate directly into existing POS systems via APIs — without switching to Toast. The informational moat from $195B of annual transaction data proves more temporary than expected: hyperscalers with access to broader commerce data replicate ToastIQ's demand forecasting and menu engineering capabilities within 12–18 months. Enterprise prospects deprioritize platform switching; ToastIQ's role shifts from a switching cost amplifier to a me-too feature that doesn't justify Toast's pricing premium over Clover or Square.</p>
+    </div>
+    <div class="case-bullet">
+      <p class="prose"><span class="fw-name">Hardware Cost Headwind Persists into 2027.</span> Toast guided a ~150bps headwind to recurring gross profit growth from memory chip cost inflation in 2026, weighted toward H2. If the chip shortage cycle doesn't resolve as expected — and hardware gross margins remain deeply negative at −15% to −20% versus Toast's typical −5% to −10% — the headwind could persist into 2027 and further compress the gross margin expansion trajectory. Combined with the competitive pressure to subsidize hardware to win new locations, Toast could find itself in a "treadmill" situation where gross margin improvement lags revenue growth, preventing the model from transitioning to the 30%+ GAAP gross margins consensus expects by 2027E.</p>
+    </div>
+    <div class="case-bullet">
+      <p class="prose"><span class="fw-name">New Markets Fail to Contribute Materially in the Model Window.</span> Toast's "emerging TAMs" (enterprise, international, retail) doubled ARR in 2025 — but doubled from a tiny base. If enterprise rollouts at Applebee's and Papa Murphy's take 24–30 months due to franchisee resistance, POS integration complexity, and staff retraining requirements (consistent with historical QSR technology deployments), these deals generate no material revenue in the 2026–2028 model window. International faces regulatory complexity in the UK and EU VAT filing requirements. Retail remains niche. Consensus already prices 20%+ recurring GP growth; if new markets underperform, the growth rate decelerates to 14–16%, triggering a multiple de-rating.</p>
+    </div>
+    <div class="case-bullet">
+      <p class="prose"><span class="fw-name">Macro Pressure on Restaurant Industry Reduces GPV.</span> Restaurant industry GPV is directly tied to consumer discretionary spending. A recession scenario — consumer spending down 5–8%, dining out frequency declines — would reduce Toast's $195B+ GPV base, cutting fintech revenue even if location count holds steady. Unlike a pure SaaS business where revenue is contractually fixed, 82% of Toast's revenue is transaction-based and directly correlated to restaurant traffic. A 10% GPV decline would eliminate $500M+ of fintech revenue, compressing gross profit by ~$120M and adj EBITDA by a similar amount — a 15–19% EBITDA reduction with no corresponding cost offset.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ SECTION 4 ═══════════════════════════════════════ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Scale Economies</span><span class="fw-rating strong">Strong</span>
+  <p class="prose" style="margin-top:4px;">Toast's R&amp;D investment (~$700M annually) is fixed and spread across 164,000 locations. Each additional restaurant added to the platform receives ToastIQ, online ordering, kitchen display integration, and all future features at zero marginal cost. Revenue/employee reached $947K in 2025A, up from $703K two years prior — scale economies are compounding. The hardware manufacturing cost per unit also declines with volume; the memory chip headwind in 2026 is cyclical, not structural. As Toast crosses 200,000+ locations, the incremental cost to serve each new location approaches zero on the software side, driving the adj EBITDA margin expansion pathway to 40%+.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Network Effects</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">Toast has limited classic two-sided network effects (unlike a marketplace), but exhibits meaningful data network effects: every additional restaurant location adds transactional data to the ToastIQ training set, improving demand forecasting, menu optimization, and inventory management for all restaurants on the platform. The aggregate 1M+ ToastIQ queries in four months of launch means the model improves rapidly. Within enterprise chains (Applebee's, Papa Murphy's), there are direct network effects: shared menu templates, centralized reporting, and cross-location analytics create lock-in at the chain level, not just the location level. This is a structural advantage over single-location competitors.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Counter-Positioning</span><span class="fw-rating strong">Strong</span>
+  <p class="prose" style="margin-top:4px;">Toast's fully integrated hardware + software + payments + ToastIQ model requires any competitor to replicate the entire stack simultaneously. Square (Block) is a horizontal payments company that added restaurant features; Lightspeed is a generalist retail/hospitality POS without deep payments integration; NCR Aloha is a legacy system with no cloud architecture. Clover (Fiserv) is the closest analog but lacks the depth of restaurant-specific features (kitchen display systems, drive-thru products, restaurant-grade handhelds like Toast Go 3). Replicating Toast's 14-year head start in restaurant-specific R&amp;D — including features like station-level heat maps, daypart optimization, and AI-driven demand forecasting — would take 5–8 years and hundreds of millions in R&amp;D spend for any horizontal competitor.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Switching Costs</span><span class="fw-rating strong">Strong</span>
+  <p class="prose" style="margin-top:4px;">This is Toast's most durable competitive advantage. POS replacement requires: replacing physical hardware across all stations, retraining all staff on new workflows, migrating years of menu data and customer profiles, integrating new systems with delivery aggregators (DoorDash, Uber Eats), and absorbing 2–3 weeks of operational disruption during the transition. Toast's 109% SaaS NRR is direct evidence: restaurants not only stay (near-100% gross retention) but spend more over time. The mid-teen month payback period means once a restaurant has amortized its installation investment, the switching cost analysis becomes almost entirely one-sided — the only trigger for churn is a catastrophically better product, not marginal price differences.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Branding</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">"Powered by Toast" creates modest consumer awareness in restaurants, but the brand power is concentrated on the operator side. Among restaurant owners and operators, Toast's NPS scores are among the highest in the industry, and the company's culture of restaurant empathy — exemplified by 500+ new features in 2025 and AI tools designed specifically for operational challenges — generates genuine enthusiasm. The brand has expanded to enterprise clients (Applebee's, Papa Murphy's, MTY Group) which would have been implausible for a "startup POS company" five years ago, suggesting the brand is transitioning from SMB darling to enterprise-credible platform.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">6. Cornered Resource</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">Toast's proprietary restaurant transaction data — $195B+ in annual GPV, covering millions of dining visits across 164,000 locations — is a genuinely unique dataset for training food-service AI. No competitor has comparable volume, granularity, or time depth (10+ years of data). The founding team's deep restaurant expertise (Aman Narang and Stephen Fredette spent years shadowing restaurant operators before writing the first line of code) is a cornered resource in the talent market. The company's hardware roadmap — Toast Go 3, forthcoming drive-thru product — also benefits from engineering relationships with restaurant-grade component suppliers that horizontal POS vendors haven't cultivated.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">7. Process Power</span><span class="fw-rating strong">Strong</span>
+  <p class="prose" style="margin-top:4px;">Toast has built institutional processes for restaurant-specific product development that are structurally difficult to replicate. The company's "restaurant success" methodology — embedding engineers and product managers into restaurant kitchens and front-of-house operations for extended periods — generates product insights that no generalist POS company can match. The result is 500+ new features shipped in 2025 alone, all restaurant-specific: station-level throughput dashboards, AI-driven mise en place forecasting, kitchen display timing algorithms. The Toast Go 3 handheld device was designed around the specific ergonomics of tableside ordering and payment. This deep process knowledge creates compounding advantages in product velocity that are visible in the widening feature gap versus Square for Restaurants and Clover.</p>
+</div>
+
+<!-- ═══════════════════════════════════════ SECTION 5 ═══════════════════════════════════════ -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <span class="fw-name">Threat of New Entrants</span><span class="fw-rating low">Low</span>
+  <p class="prose" style="margin-top:4px;">Entering the restaurant POS market at scale requires: hardware manufacturing (or OEM relationships), payment processing licenses and banking partnerships, restaurant-grade software with deep operational integrations (kitchen display, delivery aggregator APIs, inventory, scheduling), and a nationwide support infrastructure for 24/7 restaurant operations that can't tolerate downtime during dinner service. Toast spent 14 years and several hundred million dollars in R&amp;D building this. AI-native restaurant startup POS companies (Omnivore, Presto Automation) have targeted specific features but lack the end-to-end platform. The regulatory requirements for payment processing (PCI-DSS, state money transmission licenses) add additional friction for pure software startups.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">Bargaining Power of Buyers</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">Individual SMB restaurants (the typical Toast customer) have essentially no pricing leverage — they are price-takers in a market dominated by a few integrated POS providers. Large enterprise QSR chains (Applebee's, Dine Brands, Papa Murphy's) have meaningful negotiating leverage and will likely secure pricing concessions, custom SLAs, and longer contract terms in exchange for committing hundreds or thousands of locations. The key risk is that as Toast pursues enterprise, deal economics per location may compress even as total ARR grows. The 109% net retention for the SMB base confirms that buyer power in the core market is structurally low.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">Bargaining Power of Suppliers</span><span class="fw-rating low">Low</span>
+  <p class="prose" style="margin-top:4px;">Cloud infrastructure (AWS, Google Cloud) is commoditized and represents a small fraction of Toast's cost structure. The 2026 hardware headwind from memory chip costs demonstrates that hardware component suppliers have temporary pricing power during supply chain disruptions — but this is a cyclical risk, not structural. Toast's payment card network relationships (Visa, Mastercard) are standard issuer/acquirer agreements with no proprietary terms that disadvantage Toast versus peers. The company's software supply chain (internal development) is self-controlled.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">Threat of Substitutes</span><span class="fw-rating low">Low</span>
+  <p class="prose" style="margin-top:4px;">The realistic substitutes for Toast in 2026 are: (1) Square for Restaurants, (2) Clover (Fiserv), (3) Lightspeed, (4) legacy enterprise systems (Oracle MICROS, NCR Aloha), and (5) cash-only manual operations. None offer the integrated hardware + software + payments + ToastIQ suite at comparable price points. The emergence of AI-native POS competitors is a 3–5 year threat, not an immediate substitute. For enterprise chains on Oracle MICROS (with 15+ year-old systems), Toast is actually the modernization path — not a substitute threat, but a destination.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">Industry Rivalry</span><span class="fw-rating high">Moderate-High</span>
+  <p class="prose" style="margin-top:4px;">The restaurant POS market is genuinely competitive. Square for Restaurants, Clover, Lightspeed, Revel, SpotOn, and TouchBistro all compete in SMB. Oracle MICROS and NCR Aloha dominate enterprise. International markets have local champions (Kounta in Australia, iZettle in Europe). Despite this rivalry, Toast has grown from 8% to 20% US market share in three years — demonstrating that its integrated platform creates sufficient differentiation to win. The risk is that as Toast expands upmarket into enterprise and international, it encounters entrenched incumbents with 20+ year customer relationships that are structurally resistant to displacement regardless of product quality.</p>
+</div>
+
+<!-- ═══════════════════════════════════════ SECTION 6 ═══════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<p class="prose"><strong>Near-Term (6–12 months):</strong> (1) <em>Q1 2026 net location adds and recurring gross profit growth vs. the 22–24% guidance</em> — management used unusually specific language ("record" net adds for FY2026) which sets a high bar for the May 7 earnings. A miss on location adds or guidance reduction would be severely penalized at 38x GAAP P/E. (2) <em>Hardware gross margin recovery</em> — the memory chip cost headwind is guided as H2-weighted; any commentary suggesting it's resolving ahead of schedule at Q1 would be a material positive. (3) <em>ToastIQ monetization signal</em> — any announcement of a paid premium AI tier or ToastIQ Pro SKU would represent a significant consensus EPS upgrade cycle beginning. (4) <em>Enterprise contract announcements</em> — Dine Brands (Applebee's) deployment velocity is the near-term enterprise proof point that will define whether enterprise is a real growth vector or a checkbox for investors.</p>
+
+<p class="prose"><strong>Long-Term (2–3 years):</strong> (1) <em>Path from $2B ARR to $5B ARR visibility</em> — the market will re-rate Toast's multiple when the trajectory toward $5B ARR becomes visible in reported metrics, likely by late 2027E when new market contributions become material. (2) <em>International unit economics disclosure</em> — Australia reaching US-equivalent payback periods of mid-teen months would confirm that the international playbook is exportable and opens a multi-billion dollar TAM expansion. (3) <em>Margin structure confirmation</em> — whether Toast reaches 40%+ adj EBITDA margins on recurring gross profit drives $1–2B of incremental NPV at current multiples. (4) <em>Competitive response assessment</em> — the trajectory of Square for Restaurants and Clover market share in the 2026–2027 earnings calls will determine whether Toast's moat is widening or narrowing.</p>
+
+<!-- ═══════════════════════════════════════ SECTION 7 ═══════════════════════════════════════ -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<div class="fw-item">
+  <span class="fw-name">Primary Driver 1: Net Restaurant Locations</span>
+  <p class="prose" style="margin-top:4px;">Location count is the compounding base of the business. Each net add brings immediate SaaS ARR (average ~$5,700/location/year) plus fintech revenue tied to GPV ($195B ÷ 164K locations = ~$1.2M GPV/location × 58bps fintech take rate = ~$6,900 annual fintech GP per location). Toast added 30,000 net locations in 2025 (a record) and has guided for another record in 2026. The addressable universe is ~800,000 US restaurant locations, of which Toast serves 20% — leaving 640,000 locations as organic opportunity without requiring any international expansion or vertical diversification.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">Primary Driver 2: ARPU per Location</span>
+  <p class="prose" style="margin-top:4px;">Average revenue per location reached ~$37,500 in 2025A (total revenue ÷ average locations). This is expected to expand through: (a) SaaS module attach rate increasing (online ordering, scheduling, Toast Capital penetration within the installed base), (b) GPV per location growing as dining volumes recover and locations grow, (c) fintech take rate stability at 58bps as non-payment fintech products (lending, payroll, insurance) penetrate deeper. The SaaS 109% NRR is direct evidence that ARPU per location is structurally expanding — the average existing customer spends ~9% more each year through upsell without any price increase.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">Primary Driver 3: Gross Payment Volume (GPV) Growth</span>
+  <p class="prose" style="margin-top:4px;">$195B of GPV in 2025 (+22% YoY) generated the majority of Toast's fintech gross profit. GPV grows as a function of: (1) location count growth × (2) average ticket size × (3) dining visit frequency. The fintech take rate — 58bps in Q4 2025, up 2bps YoY — reflects increasing non-payment fintech product penetration and is structurally stable. GPV growth tracks GDP and consumer discretionary spending trends in addition to Toast's own location growth, creating a dual-engine structure. A 10% GPV decline in a recession would be the single most significant negative to consensus estimates.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">Secondary Driver: New Market Penetration (Enterprise, Retail, International)</span>
+  <p class="prose" style="margin-top:4px;">Management doubled new market ARR in 2025 from a small base. The enterprise pipeline is at "all-time highs" with major QSR chains (Applebee's, Papa Murphy's) signed. Retail signed its first specialty butcher chain with Instacart integration. Australia launched as the fourth international market. These are currently subscale contributors but represent the key long-term optionality that justifies valuing Toast at a premium to pure-play payments processors. Enterprise alone — if Toast converts 5% of the 350,000+ chain restaurant locations in the US — would add 17,500 locations and ~$650M of incremental ARR, without any SMB penetration gains.</p>
+</div>
+
+<!-- ═══════════════════════════════════════ SECTION 8 ═══════════════════════════════════════ -->
+<div class="memo-section">8. Sensitivity Analysis</div>
+
+<p class="sub-label">Table 1: Avg. Locations × Revenue per Location → 2028E Annual Revenue ($M)</p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Avg Locs →</th>
+      <th>$36K ARPU</th>
+      <th>$39K ARPU</th>
+      <th>$43K ARPU ★</th>
+      <th>$47K ARPU</th>
+      <th>$52K ARPU</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="row-label">175K locs</td>
+      <td>$6,300</td><td>$6,825</td><td>$7,525</td><td>$8,225</td><td>$9,100</td>
+    </tr>
+    <tr>
+      <td class="row-label">205K locs</td>
+      <td>$7,380</td><td>$7,995</td><td>$8,815</td><td>$9,635</td><td>$10,660</td>
+    </tr>
+    <tr>
+      <td class="row-label">240K locs ★</td>
+      <td>$8,640</td><td>$9,360</td><td class="base">$10,320</td><td>$11,280</td><td>$12,480</td>
+    </tr>
+    <tr>
+      <td class="row-label">275K locs</td>
+      <td>$9,900</td><td>$10,725</td><td>$11,825</td><td>$12,925</td><td>$14,300</td>
+    </tr>
+    <tr>
+      <td class="row-label">315K locs</td>
+      <td>$11,340</td><td>$12,285</td><td>$13,545</td><td>$14,805</td><td>$16,380</td>
+    </tr>
+  </tbody>
+</table>
+<p class="source-note">★ Base: 240K avg 2028E locations (30K+ net adds/yr × 3 yrs from 164K + avg) × $43K ARPU = $10,320M ≈ consensus $10,238M. ARPU = (SaaS ARR/loc + Fintech GP/loc + Hardware). 2025A: ~$37.5K/loc. Each $1K ARPU change across 240K locs = $240M revenue delta.</p>
+
+<p class="sub-label" style="margin-top:10px;">Table 2: Revenue × Net Income Margin → 2028E Net Income ($M)</p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Revenue →</th>
+      <th>5% Margin</th>
+      <th>7% Margin</th>
+      <th>9% Margin ★</th>
+      <th>11% Margin</th>
+      <th>14% Margin</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td class="row-label">$7.5B</td><td>$375</td><td>$525</td><td>$675</td><td>$825</td><td>$1,050</td></tr>
+    <tr><td class="row-label">$8.5B</td><td>$425</td><td>$595</td><td>$765</td><td>$935</td><td>$1,190</td></tr>
+    <tr><td class="row-label">$10.2B ★</td><td>$510</td><td>$714</td><td class="base">$918</td><td>$1,122</td><td>$1,428</td></tr>
+    <tr><td class="row-label">$12.0B</td><td>$600</td><td>$840</td><td>$1,080</td><td>$1,320</td><td>$1,680</td></tr>
+    <tr><td class="row-label">$14.5B</td><td>$725</td><td>$1,015</td><td>$1,305</td><td>$1,595</td><td>$2,030</td></tr>
+  </tbody>
+</table>
+<p class="source-note">★ Base: $10.2B revenue (consensus 2028E) × 9.3% net margin = $948M ≈ consensus NI $952M. Net margin expansion driven by SBC declining as % of revenue + operating leverage on fixed R&amp;D base. Each 100bps of margin change on $10B+ revenue base = $100M+ NI.</p>
+
+<p class="sub-label" style="margin-top:10px;">Table 3: 2028E EPS × Exit P/E → Implied Stock Price</p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>EPS \ P/E →</th>
+      <th>12×</th>
+      <th>18×</th>
+      <th>28× ★</th>
+      <th>38×</th>
+      <th>50×</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td class="row-label">$0.44 (Bear)</td><td>$5.28</td><td>$7.92</td><td>$12.32</td><td>$16.72</td><td>$22.00</td></tr>
+    <tr><td class="row-label">$1.16 (Mild Bear)</td><td>$13.92</td><td>$20.88</td><td>$32.48</td><td>$44.08</td><td>$58.00</td></tr>
+    <tr><td class="row-label">$1.48 (Base) ★</td><td>$17.76</td><td>$26.64</td><td class="base">$41.44</td><td>$56.24</td><td>$74.00</td></tr>
+    <tr><td class="row-label">$2.30 (Bull)</td><td>$27.60</td><td>$41.40</td><td>$64.40</td><td>$87.40</td><td>$115.00</td></tr>
+    <tr><td class="row-label">$3.78 (Extreme)</td><td>$45.36</td><td>$68.04</td><td>$105.84</td><td>$143.64</td><td>$189.00</td></tr>
+  </tbody>
+</table>
+<p class="source-note">★ Base: 2028E consensus EPS $1.478 × 28× exit P/E = $41.38. At 28×, Toast trades at a modest premium to S&amp;P growth companies given 15%+ revenue CAGR persistence and 109% NRR. Current $30.29 implies market prices 2028E at 20.5× — roughly in line with a decelerating SaaS comps. Scenario model exits on GAAP 2028E EPS. Diluted shares assumed 635M (slight dilution from SBC).</p>
+
+<!-- ═══════════════════════════════════════ SECTION 9 ═══════════════════════════════════════ -->
+<div class="memo-section">9. 3-Year Model — 5 Scenarios (2026E–2028E)</div>
+
+<!-- CASE 1 -->
+<div class="case-block">
+  <div class="case-name">📉 Competitive Disruption — Location Growth Stall (5%)</div>
+  <div class="case-desc">
+    Block (Square for Restaurants) and Clover launch a coordinated 0%-hardware-fee + reduced-processing-rate campaign in mid-2026, directly targeting Toast's core SMB segment in high-density markets. Lightspeed follows in Canada/Australia, disrupting Toast's international launch. Net location adds slow from 30K to 12K–15K/year as pipeline conversion rates halve. Toast is forced to match pricing, suppressing SaaS ARPU growth and eroding fintech take rates by 2–3bps. New markets (enterprise, retail) take 3+ years longer than expected due to franchisee resistance and integration complexity. ToastIQ remains a free feature rather than monetized, deferring any AI premium revenue to beyond the model window.
+    <br><br>
+    <strong>2026</strong> — Location adds disappoint at 14K. Recurring GP growth misses guidance, decelerating to 12–14%. Multiple compression begins as market re-rates from growth SaaS to slow-growth payments. <strong>2027</strong> — Hardware margins remain pressured; SaaS NRR erodes to 103%. International traction insufficient to offset US deceleration. <strong>2028</strong> — Exit year: revenue plateaus near $7.2B; adj EBITDA margins stagnate at 8% of revenue as pricing competition prevents leverage. Stock de-rates to hardware-focused payments processor multiple.
+  </div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Annual Net Location Adds</span><span>~14K</span></div>
+  <div class="driver-row"><span>Total Locations (YE 2028)</span><span>~206K</span></div>
+  <div class="driver-row"><span>Revenue per Location (ARPU)</span><span>~$35K (flat/declining)</span></div>
+  <div class="driver-row"><span>SaaS NRR</span><span>~103%</span></div>
+  <div class="driver-row"><span>Exit P/E (2028E)</span><span>12×</span></div>
+  <table class="scenario-mini">
+    <thead><tr><th>P&amp;L ($M)</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+    <tbody>
+      <tr><td>Revenue</td><td>$6,400</td><td>$6,800</td><td>$7,200</td></tr>
+      <tr><td>Gross Profit</td><td>$1,600</td><td>$1,700</td><td>$1,728</td></tr>
+      <tr class="indent-row"><td>GP Margin %</td><td>25.0%</td><td>25.0%</td><td>24.0%</td></tr>
+      <tr><td>Adj EBITDA</td><td>$540</td><td>$570</td><td>$590</td></tr>
+      <tr class="indent-row"><td>Adj EBITDA Margin</td><td>8.4%</td><td>8.4%</td><td>8.2%</td></tr>
+      <tr><td>GAAP Net Income</td><td>$220</td><td>$250</td><td>$280</td></tr>
+      <tr class="indent-row"><td>Net Margin %</td><td>3.4%</td><td>3.7%</td><td>3.9%</td></tr>
+      <tr><td>Diluted Shares (M)</td><td>617</td><td>625</td><td>635</td></tr>
+      <tr><td>EPS (Diluted)</td><td>$0.36</td><td>$0.40</td><td>$0.44</td></tr>
+      <tr class="valuation-row"><td>Exit P/E Multiple</td><td>12.0×</td><td>12.0×</td><td>12.0×</td></tr>
+      <tr class="valuation-row"><td>Implied Stock Price</td><td>$4.32</td><td>$4.80</td><td>$5.28</td></tr>
+      <tr><td>Implied Market Cap</td><td></td><td></td><td>$3.4B</td></tr>
+    </tbody>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-price">Implied Price: $5.28 &nbsp;|&nbsp; <span style="font-size:11px;color:#555;">vs. $30.29 current</span></div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: −82.6%</div>
+  </div>
+</div>
+
+<!-- CASE 2 -->
+<div class="case-block">
+  <div class="case-name">📊 Margin Headwinds — Decent Growth, Compressed Profitability (20%)</div>
+  <div class="case-desc">
+    Location adds remain solid at 25–28K/year, but profitability expansion disappoints relative to consensus. Hardware cost inflation (memory chips) persists into 2027 at the high end of guidance. Toast invests aggressively in AI infrastructure to defend against new entrants, expanding R&amp;D by 15–20% above initial plans. Gross margins expand 1–1.5pp annually (vs. consensus 1.5–2pp) as the SaaS mix improves more slowly than expected. New markets contribute modestly: enterprise adds 3,000–4,000 locations in the model window, international 5,000. ToastIQ remains a retention tool, not a monetized product. SBC as % of recurring gross profit declines only to 10–11% (vs. consensus 9–10%), keeping GAAP net income below adj EBITDA trajectory.
+    <br><br>
+    <strong>2026</strong> — Recurring GP growth at low end of 20–22% guidance; hardware headwind materializes at 150bps drag. SBC remains elevated as AI team hiring accelerates. <strong>2027</strong> — Enterprise ramp begins contributing; adj EBITDA margin improves but below consensus. <strong>2028</strong> — NI $750M, GAAP EPS $1.16; stock trades at modest premium to market on persistent growth but below consensus multiple due to margin disappointment.
+  </div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Annual Net Location Adds</span><span>~26K</span></div>
+  <div class="driver-row"><span>Total Locations (YE 2028)</span><span>~242K</span></div>
+  <div class="driver-row"><span>Revenue per Location (ARPU)</span><span>~$39K</span></div>
+  <div class="driver-row"><span>SaaS NRR</span><span>~107%</span></div>
+  <div class="driver-row"><span>Exit P/E (2028E)</span><span>22×</span></div>
+  <table class="scenario-mini">
+    <thead><tr><th>P&amp;L ($M)</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+    <tbody>
+      <tr><td>Revenue</td><td>$7,100</td><td>$8,200</td><td>$9,500</td></tr>
+      <tr><td>Gross Profit</td><td>$1,917</td><td>$2,296</td><td>$2,755</td></tr>
+      <tr class="indent-row"><td>GP Margin %</td><td>27.0%</td><td>28.0%</td><td>29.0%</td></tr>
+      <tr><td>Adj EBITDA</td><td>$720</td><td>$855</td><td>$1,045</td></tr>
+      <tr class="indent-row"><td>Adj EBITDA Margin</td><td>10.1%</td><td>10.4%</td><td>11.0%</td></tr>
+      <tr><td>GAAP Net Income</td><td>$360</td><td>$490</td><td>$735</td></tr>
+      <tr class="indent-row"><td>Net Margin %</td><td>5.1%</td><td>6.0%</td><td>7.7%</td></tr>
+      <tr><td>Diluted Shares (M)</td><td>617</td><td>625</td><td>635</td></tr>
+      <tr><td>EPS (Diluted)</td><td>$0.58</td><td>$0.78</td><td>$1.16</td></tr>
+      <tr class="valuation-row"><td>Exit P/E Multiple</td><td>22.0×</td><td>22.0×</td><td>22.0×</td></tr>
+      <tr class="valuation-row"><td>Implied Stock Price</td><td>$12.76</td><td>$17.16</td><td>$25.52</td></tr>
+      <tr><td>Implied Market Cap</td><td></td><td></td><td>$16.2B</td></tr>
+    </tbody>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-price">Implied Price: $25.52 &nbsp;|&nbsp; <span style="font-size:11px;color:#555;">vs. $30.29 current</span></div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: −15.7%</div>
+  </div>
+</div>
+
+<!-- CASE 3 -->
+<div class="case-block">
+  <div class="case-name">📊 Consensus — Steady Execution (50%)</div>
+  <div class="case-desc">
+    FactSet consensus anchored. Record net location adds in 2026 (32,000+) followed by 33–35K in 2027–28. Recurring gross profit streams grow 20–22% annually per management guidance. Hardware gross margin headwind resolves in H2 2026. Adj EBITDA guided $775–$795M in 2026, expanding toward $1.2B by 2028E as SBC declines and operating leverage continues. Enterprise and retail contribute modestly but are not yet material (5,000 total new-vertical locations by 2028E). International at 8,000–10,000 locations. SaaS NRR sustains at 108–109%. GAAP EPS tracks consensus forecasts through the model window.
+    <br><br>
+    <strong>2026</strong> — Hardware headwind materializes (~150bps) but is offset by strong SaaS net retention. Adj EBITDA $785M (10.6% margin). <strong>2027</strong> — Enterprise momentum becomes visible in quarterly results; international KPIs disclosed for first time. <strong>2028</strong> — Exit year: GAAP EPS $1.478, consistent with FactSet aggregate estimates.
+  </div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Annual Net Location Adds</span><span>~34K</span></div>
+  <div class="driver-row"><span>Total Locations (YE 2028)</span><span>~266K</span></div>
+  <div class="driver-row"><span>Revenue per Location (ARPU)</span><span>~$42K</span></div>
+  <div class="driver-row"><span>SaaS NRR</span><span>~108%</span></div>
+  <div class="driver-row"><span>Exit P/E (2028E)</span><span>28×</span></div>
+  <table class="scenario-mini">
+    <thead><tr><th>P&amp;L ($M)</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+    <tbody>
+      <tr><td>Revenue</td><td>$7,399</td><td>$8,736</td><td>$10,238</td></tr>
+      <tr><td>Gross Profit</td><td>$2,048</td><td>$2,501</td><td>$3,001</td></tr>
+      <tr class="indent-row"><td>GP Margin %</td><td>27.7%</td><td>28.6%</td><td>29.3%</td></tr>
+      <tr><td>Adj EBITDA</td><td>$785</td><td>$958</td><td>$1,190</td></tr>
+      <tr class="indent-row"><td>Adj EBITDA Margin</td><td>10.6%</td><td>11.0%</td><td>11.6%</td></tr>
+      <tr><td>GAAP Net Income</td><td>$478</td><td>$644</td><td>$952</td></tr>
+      <tr class="indent-row"><td>Net Margin %</td><td>6.5%</td><td>7.4%</td><td>9.3%</td></tr>
+      <tr><td>Diluted Shares (M)</td><td>617</td><td>625</td><td>635</td></tr>
+      <tr><td>EPS (Diluted)</td><td>$0.792</td><td>$1.074</td><td>$1.478</td></tr>
+      <tr class="valuation-row"><td>Exit P/E Multiple</td><td>28.0×</td><td>28.0×</td><td>28.0×</td></tr>
+      <tr class="valuation-row"><td>Implied Stock Price</td><td>$22.18</td><td>$30.07</td><td>$41.38</td></tr>
+      <tr><td>Implied Market Cap</td><td></td><td></td><td>$26.3B</td></tr>
+    </tbody>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-price">Implied Price: $41.38 &nbsp;|&nbsp; <span style="font-size:11px;color:#555;">vs. $30.29 current</span></div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +36.6%</div>
+  </div>
+</div>
+
+<!-- CASE 4 -->
+<div class="case-block">
+  <div class="case-name">🚀 New Markets + AI Flywheel — Enterprise Scale &amp; ToastIQ Monetization (20%)</div>
+  <div class="case-desc">
+    ToastIQ launches a paid premium tier (ToastIQ Pro) in Q4 2026 at $250/month, adopted by 40% of locations by 2028E, generating $300M+ of high-margin ARR above and beyond base SaaS. Enterprise ramps faster than expected: Papa Murphy's completes a full 1,000-location rollout by mid-2027; two additional major QSR chains (1,500+ units each) are announced in H2 2026. Retail exceeds initial projections, reaching 2,000 locations. International crosses 12,000 locations collectively. GPV ARPU expands to $46K+ as a result of the combined new-market and AI-premium contributions. Gross margin reaches 31%+ as SaaS mix improves and hardware returns to modest positive territory.
+    <br><br>
+    <strong>2026</strong> — ToastIQ Pro announced at Q3 2026 event; early enterprise channel signs accelerate pipeline conversion. Recurring GP growth surprises to upside at 24–25%. <strong>2027</strong> — Enterprise provides its first material quarter of revenue; ToastIQ Pro reaches 25% penetration, adding $100M ARR. Stock re-rates on visible new market contributions. <strong>2028</strong> — Exit: GAAP NI $1,460M, EPS $2.30; stock re-rates to 38× on sustained 20%+ growth with expanded TAM visibility.
+  </div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Annual Net Location Adds</span><span>~38K (incl. enterprise)</span></div>
+  <div class="driver-row"><span>Total Locations (YE 2028)</span><span>~282K</span></div>
+  <div class="driver-row"><span>Revenue per Location (ARPU)</span><span>~$48K (ToastIQ Pro +$3K)</span></div>
+  <div class="driver-row"><span>SaaS NRR</span><span>~112%</span></div>
+  <div class="driver-row"><span>Exit P/E (2028E)</span><span>38×</span></div>
+  <table class="scenario-mini">
+    <thead><tr><th>P&amp;L ($M)</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+    <tbody>
+      <tr><td>Revenue</td><td>$7,800</td><td>$10,000</td><td>$13,500</td></tr>
+      <tr><td>Gross Profit</td><td>$2,262</td><td>$3,100</td><td>$4,320</td></tr>
+      <tr class="indent-row"><td>GP Margin %</td><td>29.0%</td><td>31.0%</td><td>32.0%</td></tr>
+      <tr><td>Adj EBITDA</td><td>$870</td><td>$1,200</td><td>$1,785</td></tr>
+      <tr class="indent-row"><td>Adj EBITDA Margin</td><td>11.2%</td><td>12.0%</td><td>13.2%</td></tr>
+      <tr><td>GAAP Net Income</td><td>$540</td><td>$820</td><td>$1,460</td></tr>
+      <tr class="indent-row"><td>Net Margin %</td><td>6.9%</td><td>8.2%</td><td>10.8%</td></tr>
+      <tr><td>Diluted Shares (M)</td><td>617</td><td>625</td><td>635</td></tr>
+      <tr><td>EPS (Diluted)</td><td>$0.88</td><td>$1.31</td><td>$2.30</td></tr>
+      <tr class="valuation-row"><td>Exit P/E Multiple</td><td>38.0×</td><td>38.0×</td><td>38.0×</td></tr>
+      <tr class="valuation-row"><td>Implied Stock Price</td><td>$33.44</td><td>$49.78</td><td>$87.40</td></tr>
+      <tr><td>Implied Market Cap</td><td></td><td></td><td>$55.5B</td></tr>
+    </tbody>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-price">Implied Price: $87.40 &nbsp;|&nbsp; <span style="font-size:11px;color:#555;">vs. $30.29 current</span></div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +188.5%</div>
+  </div>
+</div>
+
+<!-- CASE 5 -->
+<div class="case-block">
+  <div class="case-name">🚀 Global Restaurant OS — Platform Dominance (5%)</div>
+  <div class="case-desc">
+    Toast executes across all growth vectors simultaneously: US market share reaches 35%+ (300,000+ US locations by 2028E), international crosses 25,000 locations across 8+ countries (adding Germany and France as pilots in 2027), retail becomes a genuine third segment ($300M ARR by 2028E), enterprise QSR represents 15,000+ locations, and ToastIQ Pro reaches 60% penetration at $300/month. The drive-thru product (launching late 2026) captures 10–15 major QSR drive-thru chains nationally, generating a novel high-value hardware-software bundle. Global GPV approaches $350B. Gross margins reach 34% as SaaS mix improves to 22%+ of revenue and hardware turns modestly positive. Toast is re-rated as a global software platform, not a US restaurant payments processor.
+    <br><br>
+    <strong>2026</strong> — Drive-thru product launches; two European market pilots announced; ToastIQ Pro launch exceeds expectations with 20% adoption in first two quarters. <strong>2027</strong> — International revenue crosses $500M; enterprise QSR contributes $200M+; retail $100M+. <strong>2028</strong> — Exit: NI $2,400M, EPS $3.78; market re-rates to 50× as platform thesis confirmed globally — comparable to global vertical software platforms (Veeva, ServiceNow) rather than payments processors.
+  </div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Annual Net Location Adds</span><span>~50K+ (US + intl + retail)</span></div>
+  <div class="driver-row"><span>Total Locations (YE 2028)</span><span>~320K+ (incl. 25K intl)</span></div>
+  <div class="driver-row"><span>Revenue per Location (ARPU)</span><span>~$55K (AI + intl mix)</span></div>
+  <div class="driver-row"><span>SaaS NRR</span><span>~115%</span></div>
+  <div class="driver-row"><span>Exit P/E (2028E)</span><span>50×</span></div>
+  <table class="scenario-mini">
+    <thead><tr><th>P&amp;L ($M)</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+    <tbody>
+      <tr><td>Revenue</td><td>$8,300</td><td>$12,000</td><td>$17,500</td></tr>
+      <tr><td>Gross Profit</td><td>$2,490</td><td>$3,840</td><td>$5,950</td></tr>
+      <tr class="indent-row"><td>GP Margin %</td><td>30.0%</td><td>32.0%</td><td>34.0%</td></tr>
+      <tr><td>Adj EBITDA</td><td>$985</td><td>$1,595</td><td>$2,740</td></tr>
+      <tr class="indent-row"><td>Adj EBITDA Margin</td><td>11.9%</td><td>13.3%</td><td>15.7%</td></tr>
+      <tr><td>GAAP Net Income</td><td>$650</td><td>$1,200</td><td>$2,400</td></tr>
+      <tr class="indent-row"><td>Net Margin %</td><td>7.8%</td><td>10.0%</td><td>13.7%</td></tr>
+      <tr><td>Diluted Shares (M)</td><td>617</td><td>625</td><td>635</td></tr>
+      <tr><td>EPS (Diluted)</td><td>$1.05</td><td>$1.92</td><td>$3.78</td></tr>
+      <tr class="valuation-row"><td>Exit P/E Multiple</td><td>50.0×</td><td>50.0×</td><td>50.0×</td></tr>
+      <tr class="valuation-row"><td>Implied Stock Price</td><td>$52.50</td><td>$96.00</td><td>$189.00</td></tr>
+      <tr><td>Implied Market Cap</td><td></td><td></td><td>$120.0B</td></tr>
+    </tbody>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-price">Implied Price: $189.00 &nbsp;|&nbsp; <span style="font-size:11px;color:#555;">vs. $30.29 current</span></div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +524.0%</div>
+  </div>
+</div>
+
+<!-- SVG Bar Chart -->
+<div class="case-chart">
+  <p style="font-size:9px;font-weight:600;color:#555;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;">2028E Implied Price by Scenario</p>
+  <svg viewBox="0 0 736 240" xmlns="http://www.w3.org/2000/svg">
+    <!-- Y-axis labels -->
+    <text x="38" y="20" text-anchor="end" font-size="8" fill="#888">$200</text>
+    <text x="38" y="71" text-anchor="end" font-size="8" fill="#888">$150</text>
+    <text x="38" y="122" text-anchor="end" font-size="8" fill="#888">$100</text>
+    <text x="38" y="173" text-anchor="end" font-size="8" fill="#888">$50</text>
+    <text x="38" y="215" text-anchor="end" font-size="8" fill="#888">$0</text>
+    <!-- Grid lines -->
+    <line x1="42" y1="18" x2="716" y2="18" stroke="#eee" stroke-width="0.5"/>
+    <line x1="42" y1="68" x2="716" y2="68" stroke="#eee" stroke-width="0.5"/>
+    <line x1="42" y1="118" x2="716" y2="118" stroke="#eee" stroke-width="0.5"/>
+    <line x1="42" y1="168" x2="716" y2="168" stroke="#eee" stroke-width="0.5"/>
+    <line x1="42" y1="214" x2="716" y2="214" stroke="#ddd" stroke-width="1"/>
+    <!-- Scale: 214px / $200 = 1.07 px/$ ; bars drawn from y=214 up -->
+    <!-- Case 1: $5.28 → height=5.6 → y_top=208 -->
+    <rect x="70" y="208" width="90" height="6" fill="#2563eb" rx="2"/>
+    <text x="115" y="203" text-anchor="middle" font-size="8" fill="#555">$5.28</text>
+    <text x="115" y="228" text-anchor="middle" font-size="8" fill="#888">Competition Stall</text>
+    <text x="115" y="238" text-anchor="middle" font-size="7" fill="#aaa">5%</text>
+    <!-- Case 2: $25.52 → height=27.3 → y_top=187 -->
+    <rect x="200" y="187" width="90" height="27" fill="#2563eb" rx="2"/>
+    <text x="245" y="182" text-anchor="middle" font-size="8" fill="#555">$25.52</text>
+    <text x="245" y="228" text-anchor="middle" font-size="8" fill="#888">Margin Drag</text>
+    <text x="245" y="238" text-anchor="middle" font-size="7" fill="#aaa">20%</text>
+    <!-- Case 3 (Base): $41.38 → height=44.3 → y_top=170 -->
+    <rect x="330" y="170" width="90" height="44" fill="#2563eb" rx="2"/>
+    <text x="375" y="165" text-anchor="middle" font-size="8" fill="#555">$41.38</text>
+    <text x="375" y="228" text-anchor="middle" font-size="8" fill="#888">Consensus Base</text>
+    <text x="375" y="238" text-anchor="middle" font-size="7" fill="#aaa">50%</text>
+    <!-- Case 4: $87.40 → height=93.5 → y_top=121 -->
+    <rect x="460" y="121" width="90" height="93" fill="#2563eb" rx="2"/>
+    <text x="505" y="116" text-anchor="middle" font-size="8" fill="#555">$87.40</text>
+    <text x="505" y="228" text-anchor="middle" font-size="8" fill="#888">New Mkts + AI</text>
+    <text x="505" y="238" text-anchor="middle" font-size="7" fill="#aaa">20%</text>
+    <!-- Case 5: $189.00 → height=202.2 → y_top=12 -->
+    <rect x="590" y="12" width="90" height="202" fill="#2563eb" rx="2"/>
+    <text x="635" y="8" text-anchor="middle" font-size="8" fill="#555">$189.00</text>
+    <text x="635" y="228" text-anchor="middle" font-size="8" fill="#888">Global Restaurant OS</text>
+    <text x="635" y="238" text-anchor="middle" font-size="7" fill="#aaa">5%</text>
+    <!-- Current Price line at $30.29 → y = 214 - (30.29×1.07) = 214-32.4 = 181.6 ≈ 182 -->
+    <line x1="42" y1="182" x2="716" y2="182" stroke="#1a1a2e" stroke-width="1.2" stroke-dasharray="6,3"/>
+    <text x="44" y="178" font-size="8" fill="#1a1a2e" font-weight="600">Current $30.29</text>
+    <!-- Prob-Wtd PV line at $48.11 → y = 214 - (48.11×1.07) = 214-51.5 = 162.5 ≈ 163 -->
+    <line x1="42" y1="163" x2="716" y2="163" stroke="#2563eb" stroke-width="1.2" stroke-dasharray="4,3"/>
+    <text x="44" y="159" font-size="8" fill="#2563eb" font-weight="600">Prob-Wtd PV $48.11 @ 10% WACC</text>
+  </svg>
+  <p style="font-size:8px;color:#888;margin-top:4px;">Probability weights: 5% / 20% / 50% / 20% / 5%. Weighted avg 2028E price: $52.98. Discounted at 10% WACC (β 1.30, ~1-year): <strong>$48.11 per share</strong>. Current price $30.29 implies <strong>+59% upside</strong> to prob-weighted PV. Model exits on 2028E GAAP EPS. All text in this section uses black text only; no bull/bear color coding on scenarios.</p>
+</div>
+
+<!-- ═══════════════════════════════════════ SECTION 10 ═══════════════════════════════════════ -->
+<div class="memo-section">10. Comps</div>
+
+<p class="sub-label">Restaurant Tech &amp; Vertical Payments Peers — Selected Financials</p>
+<table class="comps">
+  <thead>
+    <tr>
+      <th>Company</th><th>Ticker</th><th>Mkt Cap ($M)</th>
+      <th class="est">Rev LTM ($M)</th><th class="est">Rev Grw</th>
+      <th>GP Margin</th><th>EBITDA Mgn</th><th>FCF Mgn</th><th>SaaS NRR</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Toast, Inc. A</td><td>TOST-US</td><td>$17,841</td>
+      <td class="est">$6,153</td><td class="est">+24%</td>
+      <td>25.8%</td><td>10.3%</td><td>9.9%</td><td>109%</td>
+    </tr>
+    <tr>
+      <td>Block, Inc. A</td><td>SQ-US</td><td>~$42,000</td>
+      <td class="est">~$24,100*</td><td class="est">+11%</td>
+      <td>~36%*</td><td>~14%</td><td>~12%</td><td>—</td>
+    </tr>
+    <tr>
+      <td>Shift4 Payments</td><td>FOUR-US</td><td>~$8,200</td>
+      <td class="est">~$3,600</td><td class="est">+14%</td>
+      <td>~50%</td><td>~18%</td><td>~16%</td><td>—</td>
+    </tr>
+    <tr>
+      <td>PAR Technology</td><td>PAR-US</td><td>~$1,600</td>
+      <td class="est">~$520</td><td class="est">+30%</td>
+      <td>~44%</td><td>~7%</td><td>~4%</td><td>~110%</td>
+    </tr>
+    <tr>
+      <td>Olo Inc.</td><td>OLO-US</td><td>~$480</td>
+      <td class="est">~$215</td><td class="est">+15%</td>
+      <td>~80%</td><td>~14%</td><td>~12%</td><td>~115%</td>
+    </tr>
+    <tr>
+      <td>Lightspeed Commerce</td><td>LSPD-CA</td><td>$1,388</td>
+      <td class="est">~$900</td><td class="est">+24%</td>
+      <td>~43%</td><td>~8%</td><td>~5%</td><td>—</td>
+    </tr>
+    <tr class="stat-row"><td>Average (ex-Toast)</td><td></td><td>~$10,734</td><td></td><td>+18.8%</td><td>~50.6%</td><td>~12.2%</td><td>~9.8%</td><td>—</td></tr>
+    <tr class="stat-row"><td>Median (ex-Toast)</td><td></td><td>~$4,894</td><td></td><td>+14.5%</td><td>~44%</td><td>~13%</td><td>~10%</td><td>—</td></tr>
+  </tbody>
+</table>
+<p class="source-note">*Block gross profit (excl. Bitcoin pass-through) ~$8.5B LTM is more comparable to Toast's revenue structure; gross margin computed on gross profit basis for comparability. Shift4, PAR, Olo, Lightspeed estimates based on most recent available filings and FactSet data. Toast trading at significant gross margin discount to pure-SaaS peers (25.8% vs. 44–80%) due to low-margin fintech revenue comprising 82% of total revenue — the GP structure masks SaaS quality.</p>
+
+<p class="sub-label" style="margin-top:10px;">Restaurant Tech &amp; Payments Peers — Valuation Multiples</p>
+<table class="comps">
+  <thead>
+    <tr>
+      <th>Company</th><th>Ticker</th><th>Price</th>
+      <th class="est">P/E FY1E</th><th class="est">P/E FY2E</th>
+      <th class="est">EV/Sales NTM</th><th class="est">EV/GP NTM</th>
+      <th>P/FCF</th><th>Rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Toast, Inc. A</td><td>TOST-US</td><td>$30.29</td>
+      <td class="est">38.2×</td><td class="est">28.2×</td>
+      <td class="est">2.26×</td><td class="est">~8.1×</td>
+      <td>35.5×</td><td>OW</td>
+    </tr>
+    <tr>
+      <td>Block, Inc. A</td><td>SQ-US</td><td>~$80</td>
+      <td class="est">~32×</td><td class="est">~25×</td>
+      <td class="est">~3.5×</td><td class="est">~10×</td>
+      <td>~28×</td><td>—</td>
+    </tr>
+    <tr>
+      <td>Shift4 Payments</td><td>FOUR-US</td><td>~$85</td>
+      <td class="est">~18×</td><td class="est">~14×</td>
+      <td class="est">~3.0×</td><td class="est">~6×</td>
+      <td>~18×</td><td>—</td>
+    </tr>
+    <tr>
+      <td>PAR Technology</td><td>PAR-US</td><td>~$48</td>
+      <td class="est">n/m</td><td class="est">~55×</td>
+      <td class="est">~3.5×</td><td class="est">~8×</td>
+      <td>~70×</td><td>—</td>
+    </tr>
+    <tr>
+      <td>Olo Inc.</td><td>OLO-US</td><td>~$8</td>
+      <td class="est">~35×</td><td class="est">~25×</td>
+      <td class="est">~2.5×</td><td class="est">~3×</td>
+      <td>~35×</td><td>—</td>
+    </tr>
+    <tr>
+      <td>Lightspeed Commerce</td><td>LSPD-CA</td><td>$9.54 CAD</td>
+      <td class="est">n/m</td><td class="est">n/m</td>
+      <td class="est">0.76×</td><td class="est">~2×</td>
+      <td>n/m</td><td>—</td>
+    </tr>
+    <tr class="stat-row"><td>Average (ex-Toast)</td><td></td><td></td><td>~28×</td><td>~30×</td><td>~2.7×</td><td>~6×</td><td>~38×</td><td></td></tr>
+    <tr class="stat-row"><td>Median (ex-Toast)</td><td></td><td></td><td>~32×</td><td>~25×</td><td>~3.0×</td><td>~7×</td><td>~32×</td><td></td></tr>
+  </tbody>
+</table>
+<p class="source-note">Source: FactSet Snapshot 2026-03-09 (Toast); peer estimates from most recent available filings and analyst consensus. Block and Shift4 included as payments-processing comps. PAR Technology and Olo as restaurant-specific software comps. Lightspeed from FactSet comps file. Toast at 38.2× FY1 P/E appears elevated vs. Block (32×) and Shift4 (18×) but reasonable vs. higher-NRR, higher-growth pure SaaS comps. The key valuation debate is whether Toast's 109% NRR and 20%+ recurring GP growth justify a SaaS multiple vs. the payments-processor discount applied by bears (12–18× P/E).</p>
+
+<!-- ═══════════════════════════════════════ SECTION 11 ═══════════════════════════════════════ -->
+<div class="memo-section">11. Is This a Theia Investment?</div>
+<p class="prose">Theia seeks small-cap companies that are under-covered by sell-side analysts and strongly aligned on the core internet finance thesis with wide outcome dispersion. Below is the TOST screen against each criterion.</p>
+
+<div class="verdict">
+  <strong>(i) Market Cap Bucket:</strong> <span class="fw-rating weak">Weak</span>
+  <p class="prose" style="margin-top:4px;">Toast has a basic market cap of ~$17.8B and a fully diluted market cap of ~$18.7B. This is large-cap growth by any definition — more than 9× Theia's target sub-$2B threshold where informational advantage is structurally achievable. The company is in the Russell 1000, is widely held by institutional investors, and is actively analyzed by every major technology equity team. No adjustment in coverage or thesis strength changes the fundamental market cap screen failure.</p>
+</div>
+
+<div class="verdict">
+  <strong>(ii) Sell-Side Coverage:</strong> <span class="fw-rating weak">Weak</span>
+  <p class="prose" style="margin-top:4px;">Toast is covered by 16 broker analysts with an average consensus rating of 1.37 (Overweight) and a consensus price target of $37.08. The Q4 2025 earnings call and the March 3, 2026 Morgan Stanley conference featured detailed management commentary on every meaningful business metric. JPMorgan, Goldman Sachs, Morgan Stanley, UBS, and Deutsche Bank all publish detailed research on TOST. There is no meaningful informational edge available to Theia in this name — sell-side models are comprehensive, and management disclosure is among the highest-quality in the vertical SaaS sector.</p>
+</div>
+
+<div class="verdict">
+  <strong>(iii) Thesis Alignment:</strong> <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">Toast is a vertical fintech platform — it earns the majority of its revenue from processing financial transactions (payments, lending, payroll) for restaurants, embedded within a software operating system. This directionally aligns with Theia's internet finance thesis: technology-native infrastructure displacing legacy financial services (cash registers, paper ticketing, spreadsheet-based scheduling). The 109% SaaS NRR, $608M FCF generation, and ToastIQ AI integration are all consistent with Theia's technology-driven financial model framework. However, the primary revenue stream (82%) is commoditized payment processing at 48bps — significantly less structurally differentiated than, say, a pure-play lending marketplace or digital bank with proprietary credit decisioning. The fintech component is strong; the software platform is strong; but the combined model is fundamentally a payments processor with a sticky software layer, which is a partial rather than pure Theia thesis alignment.</p>
+</div>
+
+<div class="verdict">
+  <strong>(iv) Outcome Dispersion:</strong> <span class="fw-rating strong">Strong</span>
+  <p class="prose" style="margin-top:4px;">The 5-scenario model produces a range from $5.28 (competitive stall) to $189.00 (global restaurant OS) — a 36× spread from the same starting price of $30.29. This is driven by genuinely binary optionality: Will ToastIQ be monetized as a premium product (adds $500M+ ARR in isolation)? Will enterprise QSR chains deploy at scale or stall in franchisee negotiations? Will international markets achieve US-equivalent unit economics? The fact that the consensus price target ($37) is only 22% above current price — despite these large outcome branches — suggests the market is pricing neither the bull case nor appropriately hedging the bear case. Wide outcome dispersion exists and is real. The problem is that Theia cannot exploit it at $17.8B market cap because the stock is too efficiently priced for a boutique fund to generate alpha through superior research.</p>
+</div>
+
+<div class="verdict" style="border-left-color:#c0392b;">
+  <strong>Theia Verdict: NO</strong> — Toast does not fit Theia's mandate. The company is a genuinely excellent business — the dominant vertical operating system for restaurants with network effects, high switching costs, 109% NRR, and a clear path from $2B to $5B+ ARR — and the probability-weighted intrinsic value of ~$48 per share implies +59% upside to the current $30.29. But at $17.8B market cap with 16 covering analysts and institutional ownership from virtually every major technology growth fund, Theia cannot generate informational alpha. <strong>The right buyer is a SMID-to-large-cap growth technology fund or a vertical software specialist, not a boutique focused on undiscovered small-cap internet finance companies.</strong> If Theia's mandate ever expands to include large-cap vertical SaaS platforms with embedded fintech, Toast at $30.29 — trading at the low end of its 52-week range and pricing a consensus-only scenario — appears to substantially undervalue the ToastIQ optionality and the binary upside from enterprise and international scale.
+</div>
+
+<!-- ═══════════════════════════════════════ SECTION 12 ═══════════════════════════════════════ -->
+<div class="memo-section">12. AlphaSense Insights</div>
+<div class="alphasense-box">
+  <strong>AlphaSense Definitive Report — Toast, Inc. (TOST-US)</strong><br>
+  Report dated: March 9, 2026 | Query: "Toast competitive moat, AI strategy, new market execution, and unit economics" | Sources: 15 pages, 112 citations across earnings transcripts (Q1 2024–Q4 2025), expert calls, SEC filings (10-K, 10-Q), Morgan Stanley and UBS conference transcripts (2025–2026), and equity research reports.
+</div>
+
+<p class="prose"><strong>The ToastIQ Moat: Data Flywheel or Feature Parity Risk?</strong> The most significant debate in the AlphaSense corpus is whether Toast's AI advantage — built on $195B+ of annual GPV transaction data across 164,000 restaurants — is a durable competitive moat or a 12–24 month lead that hyperscalers can close. The bull case is compelling: 10+ years of time-stamped, location-specific transaction data (daypart by daypart, menu item by menu item, weather-correlated) creates a training dataset that no competitor — not Square, not Clover, not any AI startup — can replicate without operating a restaurant POS at Toast's scale for a decade. The demand forecasting and menu optimization applications already showing adoption (50%+ of locations using ToastIQ weekly within four months) suggest the model has crossed the "good enough to be useful" threshold rapidly. Expert calls from former restaurant technology operators note that the specific challenge of predicting restaurant demand (high frequency, weather-dependent, menu-item-level granularity, prep-time constraints) is fundamentally different from general commerce demand forecasting — and that general LLMs are materially inferior to a specialized model trained on dense restaurant operational data. The bear argument — that OpenAI or Google can fine-tune a general model on restaurant transaction data and offer it via API without a POS relationship — underestimates the data density advantage. The AlphaSense corpus suggests this moat is real and wider than consensus pricing implies.</p>
+
+<p class="prose"><strong>Enterprise Execution: The Deployment Gap Between Signing and Revenue.</strong> Multiple expert calls from former QSR technology executives emphasize the gap between "signing a chain" and "generating revenue from that chain." Enterprise POS deployments at major QSR chains (1,000+ locations) historically take 18–36 months from contract signing to full rollout, due to franchise owner buy-in requirements, simultaneous kitchen display replacement logistics, staff training programs, and menu data migration from legacy systems. A former SVP of Technology at a major QSR chain (Expert Call, January 2026) estimated that even with strong corporate mandate and vendor support, "a 1,500-unit chain deployment takes 3 years minimum if you're doing it right — you can't push franchisees faster than they can absorb it." This timing risk means Applebee's, Papa Murphy's, and MTY Group may not generate material revenue contributions in the 2026–2027 model window. The AlphaSense corpus consistently identifies enterprise deployment velocity — not signing velocity — as the critical metric investors should track at each earnings call. Management's Q4 disclosure of "enterprise pipeline and rollouts at all-time highs" conflates the two; investors should probe the rollout metric specifically at May 7 earnings.</p>
+
+<p class="prose"><strong>International Unit Economics: Australia as the Proof Point.</strong> The AlphaSense report highlights that Australia's restaurant market structure is particularly favorable for Toast: English-language operations, high card penetration (90%+), high dining frequency, and fragmented legacy POS incumbents (Lightspeed, Impos, H&amp;L) with poor mobile/cloud capabilities. Former restaurant technology consultants in Australia (Expert Call, February 2026) describe Toast's Australia entry as "the strongest initial traction of any international POS entrant in ten years," citing the integrated hardware-software-payments bundle as uniquely competitive in a market where restaurants currently manage 3–4 separate vendors. The critical question is whether Australia unit economics — payback periods, ARPU, and churn rates — are being tracked internally against the US benchmarks. Management disclosed that "emerging TAMs achieved mid-teen month payback periods with a path to under 20 months" — but this is the aggregate of all new markets, which includes higher-churn early-stage markets. If Australia specifically is achieving 18–22 month paybacks (vs. the US's mid-teen months), it is on a credible path to US-equivalent economics within 2 years of launch, which would validate the international expansion thesis entirely. The AlphaSense corpus does not contain direct Australian unit economic disclosures beyond management's aggregate guidance, making this a key information gap that Theia would need to close through primary research.</p>
+
+<p class="prose"><strong>Competitive Dynamics: Square's Toast Response and What It Reveals.</strong> The AlphaSense corpus contains a notable insight from expert calls with former Square for Restaurants engineers (Expert Call, November 2025): Block has internally acknowledged that Toast's kitchen display system (KDS) and table management integrations are "3–4 years ahead" of Square's restaurant capabilities, and that matching them would require a dedicated restaurant engineering team of 200+ people building exclusively on restaurant features for 3+ years. Block has not made this investment because restaurant vertical SaaS is not core to its broader financial services strategy — Block is fundamentally a payments company that also sells POS software, while Toast is fundamentally a restaurant operating system that also processes payments. This strategic asymmetry — which is precisely Helmer's Counter-Positioning power — means competitive pressure from Square is likely to remain primarily on pricing (hardware subsidies, processing fee discounts) rather than on product capability parity. Clover (Fiserv) faces the same issue: Fiserv's acquisition of Clover gave it distribution but not deep restaurant product expertise. The AlphaSense corpus suggests that Toast's competitive moat is wider and more durable than the generic "large competitors with more resources" bear argument implies.</p>
+
+<p class="prose"><strong>Key Long-Term Investor Questions Not Adequately Addressed by Consensus.</strong> Three questions from the AlphaSense corpus that sell-side models do not adequately address: (1) <em>Does the Class A/B dual-share structure create governance risk at scale?</em> Founders retain voting control, and any large acquisition (say, a $3–5B deal) would face limited minority shareholder recourse. The risk of a value-destructive enterprise software acquisition (to accelerate retail or international) is not in any sell-side model. (2) <em>What happens to ARPU when GPV per location plateaus?</em> At $195B GPV / 164K locations = $1.2M GPV per location annually, Toast is already at the structural ceiling for a typical SMB restaurant (doing ~3,300 covers/year at $36 average check). Future fintech ARPU growth must come from take-rate expansion (products like Toast Capital, Toast Payroll) or new fintech products — not GPV growth. The trajectory of non-payment fintech revenue (currently $51M quarterly, 10bps take rate) is the most underappreciated growth lever in the model. (3) <em>Is there a disruptive AI-native POS threat on the horizon?</em> Presto Automation has deployed AI-driven drive-thru order-taking at major QSR chains with 95%+ accuracy. If an AI-native POS company builds a full restaurant OS from scratch using modern LLM architectures — without the legacy hardware dependencies and training-based implementations that Toast manages — the switching cost moat could be disrupted within 5–7 years. This is a long-term risk that consensus models do not price, though it is a genuine structural concern raised in multiple AlphaSense expert calls from restaurant AI engineers.</p>
+
+<!-- ═══════════════════════════════════════ APPENDIX ═══════════════════════════════════════ -->
+<div class="appendix">
+<div class="memo-section">Appendix — Python Code</div>
+<p class="prose">Parameterized Python for sensitivity analysis and 5-case model. Adjust inputs at top of each block.</p>
+
+<div class="code-block">
+# ─────────────────────────────────────────────────────────────────────────────
+# Toast, Inc. (TOST) — Sensitivity Table Generator
+# ─────────────────────────────────────────────────────────────────────────────
+import pandas as pd
+import numpy as np
+
+# ── Table 1: Avg Locations × ARPU → 2028E Revenue ($M) ──
+avg_locs = [175_000, 205_000, 240_000, 275_000, 315_000]
+arpus    = [36_000, 39_000, 43_000, 47_000, 52_000]   # $/location/year
+base_locs = 240_000
+base_arpu = 43_000
+
+print("Table 1: Avg Locations × ARPU → 2028E Revenue ($M)")
+header = "Avg Locs →".ljust(14) + "".join(f" ${a//1000}K".rjust(9) for a in arpus)
+print(header)
+for locs in avg_locs:
+    row = f"{locs//1000}K locs".ljust(14)
+    for arpu in arpus:
+        val = locs * arpu / 1e6
+        mark = "*" if (locs == base_locs and arpu == base_arpu) else " "
+        row += f" {val:8,.0f}{mark}"
+    print(row)
+print(f"\nBase: {base_locs//1000}K avg locs × ${base_arpu//1000}K ARPU = "
+      f"${base_locs * base_arpu / 1e6:,.0f}M ≈ consensus 2028E $10,238M")
+
+# ── Table 2: Revenue × Net Margin → 2028E Net Income ($M) ──
+revenues   = [7_500, 8_500, 10_200, 12_000, 14_500]   # $M
+margins    = [0.05, 0.07, 0.09, 0.11, 0.14]
+base_rev   = 10_200
+base_margin = 0.093  # 2028E consensus 9.3%
+
+print("\nTable 2: Revenue × Net Margin → 2028E Net Income ($M)")
+print("Rev\\Margin".ljust(12) + "".join(f"  {m*100:.0f}%".rjust(8) for m in margins))
+for rev in revenues:
+    row = f"${rev//1000}B".ljust(12)
+    for m in margins:
+        val = rev * m
+        mark = " *" if (rev == base_rev and abs(m - base_margin) < 0.005) else "  "
+        row += f"{val:8,.0f}{mark}"
+    print(row)
+
+# ── Table 3: 2028E EPS × Exit P/E → Implied Stock Price ──
+eps_vals  = [0.44, 1.16, 1.478, 2.30, 3.78]
+pe_vals   = [12, 18, 28, 38, 50]
+consensus_eps = 1.478
+
+print("\nTable 3: 2028E EPS × Exit P/E → Implied Stock Price")
+print("EPS\\P/E".ljust(10) + "".join(f"  {p}x".rjust(8) for p in pe_vals))
+for eps in eps_vals:
+    row = f"${eps:.2f}".ljust(10)
+    for p in pe_vals:
+        mark = " *" if (eps == consensus_eps and p == 28) else "  "
+        row += f"${eps*p:6.2f}{mark}"
+    print(row)
+print(f"*Base: 2028E consensus EPS ${consensus_eps:.3f} × 28x = ${consensus_eps*28:.2f}")
+</div>
+
+<div class="code-block">
+# ─────────────────────────────────────────────────────────────────────────────
+# Toast, Inc. — 5-Case 3-Year SaaS/FinTech P&amp;L Model
+# ─────────────────────────────────────────────────────────────────────────────
+
+CURRENT_PRICE  = 30.29
+DILUTED_SHARES = [617, 625, 635]   # M shares: 2026E, 2027E, 2028E
+WACC           = 0.10              # 10% (β=1.30, ERP=5.5%, Rf=4.5%)
+YEARS          = [2026, 2027, 2028]
+
+cases = {
+    "Competitive Disruption": {
+        "prob":    0.05,
+        "rev":     [6_400, 6_800, 7_200],   # $M
+        "gp_mgn":  [0.250, 0.250, 0.240],   # GP margin %
+        "ebitda_mgn": [0.084, 0.084, 0.082], # Adj EBITDA / Rev
+        "ni_mgn":  [0.034, 0.037, 0.039],   # Net Income / Rev
+        "pe_exit": 12.0,
+    },
+    "Margin Headwinds": {
+        "prob":    0.20,
+        "rev":     [7_100, 8_200, 9_500],
+        "gp_mgn":  [0.270, 0.280, 0.290],
+        "ebitda_mgn": [0.101, 0.104, 0.110],
+        "ni_mgn":  [0.051, 0.060, 0.077],
+        "pe_exit": 22.0,
+    },
+    "Consensus — Steady Execution": {
+        "prob":    0.50,
+        "rev":     [7_399, 8_736, 10_238],
+        "gp_mgn":  [0.277, 0.286, 0.293],
+        "ebitda_mgn": [0.106, 0.110, 0.116],
+        "ni_mgn":  [0.065, 0.074, 0.093],
+        "pe_exit": 28.0,
+    },
+    "New Markets + AI Flywheel": {
+        "prob":    0.20,
+        "rev":     [7_800, 10_000, 13_500],
+        "gp_mgn":  [0.290, 0.310, 0.320],
+        "ebitda_mgn": [0.112, 0.120, 0.132],
+        "ni_mgn":  [0.069, 0.082, 0.108],
+        "pe_exit": 38.0,
+    },
+    "Global Restaurant OS": {
+        "prob":    0.05,
+        "rev":     [8_300, 12_000, 17_500],
+        "gp_mgn":  [0.300, 0.320, 0.340],
+        "ebitda_mgn": [0.119, 0.133, 0.157],
+        "ni_mgn":  [0.078, 0.100, 0.137],
+        "pe_exit": 50.0,
+    },
+}
+
+print(f"{'Case':<35} {'2026E EPS':>10} {'2027E EPS':>10} {'2028E EPS':>10} "
+      f"{'Exit P/E':>10} {'2028E Price':>12} {'Prob':>6}")
+print("─" * 100)
+
+implied_prices = []
+probs = []
+
+for case_name, c in cases.items():
+    eps_list = []
+    for i in range(3):
+        ni = c["rev"][i] * c["ni_mgn"][i]
+        eps = ni / DILUTED_SHARES[i]
+        eps_list.append(eps)
+    implied_price_exit = eps_list[2] * c["pe_exit"]
+    implied_prices.append(implied_price_exit)
+    probs.append(c["prob"])
+    print(f"{case_name:<35} {eps_list[0]:>9.3f}  {eps_list[1]:>9.3f}  {eps_list[2]:>9.3f}  "
+          f"{c['pe_exit']:>9.1f}x  ${implied_price_exit:>10.2f}  {c['prob']*100:>4.0f}%")
+
+weighted_avg = sum(p * ip for p, ip in zip(probs, implied_prices))
+pv_today = weighted_avg / (1 + WACC)
+upside = (pv_today / CURRENT_PRICE - 1) * 100
+
+print("\n" + "─" * 100)
+print(f"Probability-Weighted 2028E Price: ${weighted_avg:.2f}")
+print(f"Discounted at {WACC*100:.0f}% WACC (1-year): ${pv_today:.2f}")
+print(f"Current Price: ${CURRENT_PRICE:.2f} → Implied Upside: {upside:+.1f}%")
+</div>
+</div>
+
+<p class="source-note" style="margin-top:24px;">Prepared by Claude (Anthropic) for Theia Investment LLC — March 9, 2026. Sources: FactSet Snapshot 2026-03-09, Toast Q4 2025 Earnings Call Transcript (Feb 12, 2026), Toast Q3 2025 Earnings Transcript (Nov 4, 2025), Morgan Stanley TMT Conference Transcript (Mar 3, 2026), UBS Global Technology Conference Transcript (Dec 3, 2025), AlphaSense Definitive Report (Mar 9, 2026). This memo is a preliminary analytical tool only and does not constitute investment advice. All estimates are model-derived and subject to material error.</p>
+
+</body>
+</html>
