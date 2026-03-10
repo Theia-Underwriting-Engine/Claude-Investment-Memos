@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Wise Plc | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',Arial,sans-serif;background:#fff;color:#1a1a2e;width:816px;margin:0 auto;padding:32px 40px;font-size:11px;line-height:1.45;}
+.title-bar{font-size:20px;font-weight:700;letter-spacing:-0.4px;color:#1a1a2e;border-bottom:3px solid #1a1a2e;padding-bottom:10px;margin-bottom:20px;text-align:center;}
+.header{display:flex;justify-content:space-between;align-items:baseline;border-bottom:3px solid #1a1a2e;padding-bottom:8px;margin-bottom:12px;}
+.header h1{font-size:18px;font-weight:700;letter-spacing:-0.3px;}
+.header .ticker{font-size:13px;font-weight:600;color:#555;}
+.header .date{font-size:10px;color:#888;}
+.price-bar{display:flex;gap:20px;align-items:center;background:#f4f6f9;border-radius:4px;padding:6px 12px;margin-bottom:14px;font-size:10.5px;}
+.price-bar .price{font-size:20px;font-weight:700;}
+.price-bar .chg{color:#c0392b;font-weight:600;}
+.price-bar .chg.pos{color:#27ae60;}
+.price-bar .label{color:#888;font-weight:500;}
+.section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#1a1a2e;border-bottom:1.5px solid #ccc;padding-bottom:3px;margin:12px 0 6px 0;}
+.memo-section{font-size:14px;font-weight:700;color:#1a1a2e;border-bottom:2px solid #1a1a2e;padding-bottom:4px;margin:24px 0 10px 0;}
+table{width:100%;border-collapse:collapse;margin-bottom:4px;}
+table.kv td{padding:2px 0;}
+table.kv td:first-child{color:#555;width:45%;}
+table.kv td:last-child{text-align:right;font-weight:600;}
+table.data{font-size:10px;}
+table.data th{text-align:right;font-weight:600;color:#888;padding:2px 6px;border-bottom:1px solid #ddd;white-space:nowrap;}
+table.data th:first-child{text-align:left;}
+table.data td{text-align:right;padding:2px 6px;}
+table.data td:first-child{text-align:left;font-weight:500;color:#333;}
+table.data tr.section-row td{font-weight:700;color:#1a1a2e;padding-top:5px;border-top:1px solid #eee;font-size:9px;text-transform:uppercase;letter-spacing:0.5px;}
+table.data tr:nth-child(even){background:#fafbfc;}
+table.data tr.section-row{background:transparent!important;}
+.est{color:#2563eb;}
+.two-col{display:flex;gap:24px;}
+.two-col>div{flex:1;}
+table.ev td{padding:1.5px 0;}
+table.ev td:first-child{color:#555;}
+table.ev td:last-child{text-align:right;font-weight:500;font-variant-numeric:tabular-nums;}
+table.ev tr.total td{font-weight:700;border-top:1.5px solid #1a1a2e;color:#1a1a2e;}
+table.rev{font-size:10px;}
+table.rev th{text-align:right;font-weight:600;color:#888;padding:2px 4px;border-bottom:1px solid #ddd;}
+table.rev th:first-child{text-align:left;}
+table.rev td{text-align:right;padding:2px 4px;}
+table.rev td:first-child{text-align:left;font-weight:500;color:#333;}
+.val-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:0;margin-bottom:4px;}
+.val-grid .val-cell{padding:4px 6px;border-right:1px solid #eee;}
+.val-grid .val-cell:last-child{border-right:none;}
+.val-grid .val-label{font-size:8.5px;color:#888;font-weight:500;text-transform:uppercase;letter-spacing:0.3px;}
+.val-grid .val-num{font-size:12px;font-weight:700;color:#1a1a2e;margin-top:1px;}
+.val-grid .val-sub{font-size:8px;color:#aaa;font-weight:400;}
+.source-note{font-size:8px;color:#aaa;margin-top:8px;text-align:right;}
+.sub-label{font-size:9px;font-weight:600;color:#888;margin:5px 0 2px 0;text-transform:uppercase;letter-spacing:0.4px;}
+.prose{font-size:11px;line-height:1.6;color:#333;margin-bottom:8px;}
+.fw-item{margin-bottom:10px;}
+.fw-item .fw-name{font-weight:700;color:#1a1a2e;}
+.fw-item .fw-rating{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;padding:1px 6px;border-radius:3px;margin-left:6px;display:inline-block;}
+.fw-rating.strong{background:#d4edda;color:#155724;}
+.fw-rating.moderate{background:#fff3cd;color:#856404;}
+.fw-rating.weak{background:#f8d7da;color:#721c24;}
+.fw-rating.high{background:#f8d7da;color:#721c24;}
+.fw-rating.low{background:#d4edda;color:#155724;}
+table.sensitivity{font-size:9px;margin:8px 0;width:100%;}
+table.sensitivity th{background:#f4f6f9;font-weight:600;padding:3px 6px;text-align:center;}
+table.sensitivity td{text-align:center;padding:3px 6px;}
+table.sensitivity td.base{background:#e8f4fd;font-weight:700;}
+.case-block{background:#fafbfc;border:1px solid #ddd;border-radius:4px;padding:12px;margin-bottom:16px;}
+.case-block .case-name{font-size:12px;font-weight:700;color:#1a1a2e;margin-bottom:4px;}
+.case-block .case-desc{font-size:10px;color:#666;margin-bottom:8px;font-style:italic;}
+.case-block .driver-label{font-size:9px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.4px;margin-top:8px;margin-bottom:4px;}
+.case-block .driver-row{background:#e8f4fd;padding:3px 6px;margin-bottom:2px;font-size:10px;border-radius:2px;display:flex;justify-content:space-between;}
+.case-block .driver-row span:first-child{font-weight:500;color:#333;}
+.case-block .driver-row span:last-child{font-weight:600;color:#1a1a2e;}
+.case-block table.scenario-mini{font-size:9px;width:100%;border-collapse:collapse;margin:8px 0;}
+.case-block table.scenario-mini th{text-align:right;font-weight:600;color:#888;padding:2px 4px;border-bottom:1px solid #ddd;}
+.case-block table.scenario-mini th:first-child{text-align:left;}
+.case-block table.scenario-mini td{text-align:right;padding:2px 4px;color:#1a1a2e;}
+.case-block table.scenario-mini td:first-child{text-align:left;color:#555;font-weight:500;}
+.case-block table.scenario-mini tr:nth-child(even){background:#f5f5f5;}
+.case-block table.scenario-mini tr.sub-row td:first-child{padding-left:14px;color:#888;font-size:8.5px;font-style:italic;}
+.case-block table.scenario-mini tr.sub-row td{color:#888;font-size:8.5px;}
+.case-block table.scenario-mini tr.valuation-row td{background:#f0f7ff!important;font-weight:600;color:#1a1a2e;}
+.case-block .exit-metrics{border-top:1px solid #ddd;padding-top:6px;margin-top:6px;}
+.case-block .exit-price{font-size:14px;font-weight:700;color:#1a1a2e;margin-top:4px;}
+.case-block .exit-upside{font-size:10px;font-weight:600;margin-top:2px;}
+.case-chart{margin-top:16px;padding:12px;background:#f9f9f9;border-radius:4px;}
+.verdict{background:#f4f6f9;border-left:4px solid #1a1a2e;padding:10px 14px;margin:12px 0;font-size:11px;line-height:1.5;}
+.appendix{margin-top:24px;}
+.code-block{background:#1a1a2e;color:#e0e0e0;padding:12px;border-radius:4px;font-family:'Courier New',monospace;font-size:9px;line-height:1.5;overflow-x:auto;white-space:pre;margin:8px 0;}
+.bull-bear{display:flex;gap:24px;margin-bottom:10px;}
+.bull-bear>div{flex:1;}
+.bull-title{font-size:12px;font-weight:700;margin-bottom:8px;}
+.bb-item{margin-bottom:8px;}
+.bb-item .bb-name{font-weight:700;}
+.alphasense-box{background:#f0f7ff;border:1px solid #bfdbfe;border-radius:4px;padding:8px 12px;margin-bottom:14px;font-size:10px;color:#1e3a5f;}
+table.comps{font-size:8px;width:100%;border-collapse:collapse;margin-bottom:8px;}
+table.comps th{text-align:right;font-weight:600;color:#888;padding:2px 4px;border-bottom:1px solid #ddd;white-space:nowrap;}
+table.comps th:first-child{text-align:left;}
+table.comps td{text-align:right;padding:2px 4px;}
+table.comps td:first-child{text-align:left;font-weight:500;color:#333;}
+table.comps tr.subject td{font-weight:700;background:#f0f0f0;}
+table.comps tr.stat-row td{font-style:italic;background:#fafbfc;color:#555;}
+table.comps tr:nth-child(even){background:#fafafa;}
+.driver-table{width:100%;border-collapse:collapse;font-size:10px;margin-bottom:10px;}
+.driver-table th{text-align:left;font-weight:600;color:#888;padding:3px 6px;border-bottom:1px solid #ddd;font-size:9px;text-transform:uppercase;}
+.driver-table td{padding:3px 6px;border-bottom:1px solid #f0f0f0;}
+.driver-table td:first-child{font-weight:600;color:#1a1a2e;}
+.driver-table td:nth-child(2){color:#555;font-style:italic;}
+.driver-table td:last-child{color:#333;}
+.theia-badge{display:inline-flex;align-items:center;gap:8px;margin-bottom:6px;}
+</style>
+</head>
+<body>
+
+<div class="title-bar">Wise Plc | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+<p class="prose">Wise Plc (WISE-GB) is a global technology company built to make international money movement fast, cheap, convenient, and transparent. Founded in 2011 in London by Kristo Käärmann and Taavet Hinrikus — two Estonians frustrated by bank FX fees — Wise operates what management calls the world's fastest, most efficient cross-border payments infrastructure. The company serves four product lines: (1) <strong>Wise Transfers</strong> — the original send-money-abroad product, now generating £845B+ in annualized volumes at a take rate of 52 bps vs. banks typically charging 3–5%; (2) <strong>Wise Account</strong> — a multi-currency account holding £25B+ in customer funds across savings (interest-bearing) and card spend (£15B+ per half-year), with 41% of underlying income now attributable to non-cross-border revenues; (3) <strong>Wise Platform (B2B)</strong> — a white-label API enabling banks and fintechs to offer Wise's infrastructure to their own customers, accounting for 5% of volumes with a clear path to 10% medium-term and 50% long-term; and (4) <strong>Wise Assets</strong> — money market fund investing through Wise's own regulated product. Revenue is generated through three mechanisms: cross-border take rate (52 bps avg H1 FY26, continuously declining as efficiencies are passed to customers), card interchange and subscription fees, and the first 1% of interest yield on £25B+ in customer holdings. Wise is LSE-listed (direct listing July 2021) and has announced a dual primary listing in the US in June 2025, targeting a US listing within ~1 year. As of H1 FY26: 13M active customers (+21% YoY), £85B cross-border volume (+24%), 74% of payments arriving in under 20 seconds, NPS 69, 70% of customers acquired via word-of-mouth, and investment-grade BBB credit ratings from both S&amp;P and Fitch.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Theia FactSet Summary</div>
+
+<div class="header">
+  <div>
+    <h1>Wise Plc</h1>
+    <span class="ticker">WISE-GB &nbsp;·&nbsp; LSE &nbsp;·&nbsp; ISIN GB00BL9YR756</span>
+  </div>
+  <div class="date">Data as of March 10, 2026 &nbsp;·&nbsp; FY ends March 31</div>
+</div>
+
+<div class="price-bar">
+  <span class="price">£9.00</span>
+  <span><span class="label">Open</span> &nbsp;<span>£9.00</span></span>
+  <span><span class="label">Prev Close</span> &nbsp;<span>£8.93</span></span>
+  <span><span class="label">1M</span> &nbsp;<span class="chg">-0.50%</span></span>
+  <span><span class="label">3M</span> &nbsp;<span class="chg pos">+2.52%</span></span>
+  <span><span class="label">6M</span> &nbsp;<span class="chg">-22.24%</span></span>
+  <span><span class="label">YTD</span> &nbsp;<span class="chg pos">+0.45%</span></span>
+  <span><span class="label">1Y</span> &nbsp;<span class="chg">-4.18%</span></span>
+  <span><span class="label">52W Range</span> &nbsp;<span>£7.93 – £12.25</span></span>
+  <span><span class="label">% of 52W High</span> &nbsp;<span class="chg">72.90%</span></span>
+</div>
+
+<div class="two-col" style="margin-bottom:12px;">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv" style="font-size:10px;">
+      <tr><td>Ticker</td><td>WISE-GB</td></tr>
+      <tr><td>Price</td><td>£9.00</td></tr>
+      <tr><td>Volume (Last Day)</td><td>1,545,387</td></tr>
+      <tr><td>30D Avg Daily Vol</td><td>2,122,969</td></tr>
+      <tr><td>Float</td><td>64.41%</td></tr>
+      <tr><td>WACC</td><td>9.61%</td></tr>
+      <tr><td>Broker Contributors</td><td>~10 analysts</td></tr>
+      <tr><td>Avg Rating</td><td>Overweight</td></tr>
+      <tr><td>Target Price</td><td>N/A (FactSet)</td></tr>
+      <tr><td>Next Earnings</td><td>~Jun 2026 (FY26 Full Year)</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge (£M)</div>
+    <table class="ev" style="font-size:10px;">
+      <tr><td>Price</td><td>£9.00</td></tr>
+      <tr><td>Basic Shares Outstanding</td><td>992M</td></tr>
+      <tr><td>Market Cap</td><td>£8,929M</td></tr>
+      <tr><td>Stock Compensation (Dil.)</td><td>~41M shs</td></tr>
+      <tr><td>Fully Dil. Shares</td><td>1,033M</td></tr>
+      <tr><td style="font-weight:600;color:#1a1a2e;">Fully Dil. Market Cap</td><td style="font-weight:700;">£9,297M</td></tr>
+      <tr><td>+ Corporate Debt</td><td>~£0M</td></tr>
+      <tr><td>− Corporate Cash &amp; Equivalents</td><td>(£1,012M)</td></tr>
+      <tr class="total"><td>Enterprise Value</td><td>£7,917M</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- 12-cell val-grid -->
+<div class="section-title">Current Valuation</div>
+<div class="val-grid" style="border:1px solid #eee;border-radius:4px;margin-bottom:12px;">
+  <div class="val-cell">
+    <div class="val-label">Market Cap</div>
+    <div class="val-num">£8,929M</div>
+    <div class="val-sub">Basic shares ~992M</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Enterprise Value</div>
+    <div class="val-num">£7,917M</div>
+    <div class="val-sub">Net corp cash £1,012M</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">P/E (LTM)</div>
+    <div class="val-num">24.14x</div>
+    <div class="val-sub">FY26E NM (reinvest)</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">EV/Sales (LTM)</div>
+    <div class="val-num">4.22x</div>
+    <div class="val-sub">FY26E 4.9x</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">EV/EBITDA (LTM)</div>
+    <div class="val-num">15.03x</div>
+    <div class="val-sub">FY26E 15.7x¹</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">P/S (LTM)</div>
+    <div class="val-num">4.95x</div>
+    <div class="val-sub">FY26E 5.5x</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Fully Dil. Mkt Cap</div>
+    <div class="val-num">£9,297M</div>
+    <div class="val-sub">1,033M dil. shares</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">WACC</div>
+    <div class="val-num">9.61%</div>
+    <div class="val-sub">FactSet estimate</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Float</div>
+    <div class="val-num">64.41%</div>
+    <div class="val-sub">~639M shares</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Avg Rating</div>
+    <div class="val-num">OW</div>
+    <div class="val-sub">~10 analysts</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Target Price</div>
+    <div class="val-num">—</div>
+    <div class="val-sub">N/A FactSet</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Next Earnings</div>
+    <div class="val-num">Jun '26</div>
+    <div class="val-sub">FY26 Full Year Results</div>
+  </div>
+</div>
+
+<div class="section-title">Valuation Multiples</div>
+<table class="data">
+  <tr>
+    <th>Metric</th>
+    <th>LTM</th>
+    <th>FY25A</th>
+    <th class="est">FY26E</th>
+    <th class="est">FY27E</th>
+    <th class="est">FY28E</th>
+  </tr>
+  <tr>
+    <td>P/E</td><td>24.14x</td><td>—</td>
+    <td class="est">NM (reinvest)</td>
+    <td class="est">37.5x</td>
+    <td class="est">32.1x</td>
+  </tr>
+  <tr>
+    <td>P/Sales</td><td>4.95x</td><td>—</td>
+    <td class="est">5.5x</td>
+    <td class="est">4.7x</td>
+    <td class="est">4.1x</td>
+  </tr>
+  <tr>
+    <td>EV/Sales</td><td>4.22x</td><td>—</td>
+    <td class="est">4.9x</td>
+    <td class="est">4.2x</td>
+    <td class="est">3.6x</td>
+  </tr>
+  <tr>
+    <td>EV/EBITDA</td><td>15.03x</td><td>—</td>
+    <td class="est">15.7x¹</td>
+    <td class="est">14.2x¹</td>
+    <td class="est">11.5x¹</td>
+  </tr>
+</table>
+<p style="font-size:8px;color:#888;margin-bottom:12px;">¹ EBITDA proxy = Reported PBT (which includes above-1% interest income excess). FY26E underlying PBT reflects reinvestment cycle and ~£35M one-off dual listing costs. Reported PBT declines FY25→FY26 because Wise includes only first 1% yield in underlying figures; above-1% interest income declines as rates fall.</p>
+
+<div class="section-title">Revenue Exposure (FY25A, £1,400M Total)</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Product Line</div>
+    <table class="rev">
+      <tr><th>Segment</th><th>% Rev</th><th>£M</th><th>YoY</th></tr>
+      <tr><td>Cross-Border Transfers</td><td>60%</td><td>£840M</td><td>+6%</td></tr>
+      <tr><td>Card &amp; Interchange</td><td>16%</td><td>£220M</td><td>+31%</td></tr>
+      <tr><td>Interest &amp; Float Income</td><td>13%</td><td>£188M</td><td>—</td></tr>
+      <tr><td>Wise Platform</td><td>7%</td><td>£100M</td><td>+60%</td></tr>
+      <tr><td>Other</td><td>4%</td><td>£52M</td><td>—</td></tr>
+      <tr><td><strong>Total</strong></td><td><strong>100%</strong></td><td><strong>£1,400M</strong></td><td><strong>+16%</strong></td></tr>
+    </table>
+    <div class="sub-label" style="margin-top:8px;">Wise Platform KPIs (H1 FY26)</div>
+    <table class="rev">
+      <tr><th>KPI</th><th>H1 FY26</th><th>Target</th></tr>
+      <tr><td>% of Total Volumes</td><td>5%</td><td>10% (MT) / 50% (LT)</td></tr>
+      <tr><td>Key Partners</td><td colspan="2">UniCredit, Raiffeisen, Itaú, Standard Chartered</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="sub-label">By Geography (Approx.)</div>
+    <table class="rev">
+      <tr><th>Region</th><th>% Rev</th><th>£M</th></tr>
+      <tr><td>EMEA (Europe &amp; UK)</td><td>47%</td><td>£658M</td></tr>
+      <tr><td>Asia-Pacific</td><td>26%</td><td>£364M</td></tr>
+      <tr><td>Americas</td><td>20%</td><td>£280M</td></tr>
+      <tr><td>Rest of World</td><td>7%</td><td>£98M</td></tr>
+    </table>
+    <div class="sub-label" style="margin-top:8px;">Volume &amp; Customer KPIs</div>
+    <table class="rev">
+      <tr><th>Metric</th><th>FY25A</th><th class="est">FY26E</th></tr>
+      <tr><td>Cross-Border Vol (£B)</td><td>£145B</td><td class="est">£175B</td></tr>
+      <tr><td>Active Customers (M)</td><td>15.6M</td><td class="est">18.0M</td></tr>
+      <tr><td>Customer Holdings (£B)</td><td>£21.5B</td><td class="est">£28.0B</td></tr>
+      <tr><td>Take Rate (bps)</td><td>58 bps</td><td class="est">52 bps</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="section-title">Financials (£M except EPS)</div>
+<table class="data">
+  <tr>
+    <th></th>
+    <th>FY24A</th><th>FY25A</th>
+    <th class="est">FY26E</th>
+    <th class="est">FY27E</th>
+    <th class="est">FY28E</th>
+  </tr>
+  <tr class="section-row"><td colspan="6">Income Statement</td></tr>
+  <tr><td>Underlying Income (Rev)</td><td>1,207</td><td>1,400</td><td class="est">1,610</td><td class="est">1,885</td><td class="est">2,180</td></tr>
+  <tr><td>Cross-Border Revenue</td><td>850</td><td>840</td><td class="est">910</td><td class="est">1,050</td><td class="est">1,180</td></tr>
+  <tr><td>Gross Profit</td><td>881</td><td>1,050</td><td class="est">1,208</td><td class="est">1,433</td><td class="est">1,679</td></tr>
+  <tr><td>Admin Expense</td><td>615</td><td>769</td><td class="est">1,000</td><td class="est">1,200</td><td class="est">1,380</td></tr>
+  <tr><td>Underlying PBT</td><td>241</td><td>282</td><td class="est">258</td><td class="est">283</td><td class="est">349</td></tr>
+  <tr><td>Reported PBT</td><td>483</td><td>565</td><td class="est">300</td><td class="est">330</td><td class="est">385</td></tr>
+  <tr><td>Profit After Tax</td><td>357</td><td>416</td><td class="est">220</td><td class="est">245</td><td class="est">285</td></tr>
+  <tr><td>Diluted EPS (£)</td><td>£0.35</td><td>£0.41</td><td class="est">£0.21</td><td class="est">£0.24</td><td class="est">£0.28</td></tr>
+  <tr class="section-row"><td colspan="6">Margins</td></tr>
+  <tr><td>Gross Margin</td><td>73%</td><td>75%</td><td class="est">75%</td><td class="est">76%</td><td class="est">77%</td></tr>
+  <tr><td>Underlying PBT Margin</td><td>20%</td><td>21%</td><td class="est">16%</td><td class="est">15%</td><td class="est">16%</td></tr>
+  <tr class="section-row"><td colspan="6">Volume KPIs</td></tr>
+  <tr><td>Cross-Border Volume (£B)</td><td>118</td><td>145</td><td class="est">175</td><td class="est">210</td><td class="est">245</td></tr>
+  <tr><td>Active Customers (M)</td><td>12.9</td><td>15.6</td><td class="est">18.0</td><td class="est">21.0</td><td class="est">25.0</td></tr>
+  <tr><td>Customer Holdings (£B)</td><td>16.2</td><td>21.5</td><td class="est">28.0</td><td class="est">35.0</td><td class="est">43.0</td></tr>
+  <tr><td>Cross-Border Take Rate (bps)</td><td>72</td><td>58</td><td class="est">52</td><td class="est">50</td><td class="est">48</td></tr>
+</table>
+<p class="source-note">Sources: Wise Plc H1 FY2026 Earnings Call (Nov 6, 2025); Q4 FY2025 Earnings Call (Jun 5, 2025); FactSet Company Snapshot (WISE-GB, Mar 10, 2026). All estimates are Theia Research projections.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="bull-bear">
+  <div>
+    <div class="bull-title" style="color:#155724;">&#9650; Bull Cases</div>
+
+    <div class="bb-item">
+      <div class="bb-name">1. Infrastructure Moat Compounds Into Trillion-Dollar Market</div>
+      <p class="prose" style="font-size:10px;margin-top:2px;">Wise's direct integrations into 40+ domestic payment networks create an infrastructure layer that is simultaneously faster (74% instant payments), cheaper (52 bps vs 3–5% bank standard), and more reliable than any competitor. Each new integration (Pix in Brazil, Zengin in Japan, Faster Payments UK) lowers the marginal cost of adding the next route, creating a compounding flywheel: cheaper → more volume → more revenue → more infrastructure investment. The £32 trillion global cross-border TAM is structurally underpenetrated; Wise has ~5% share of the £3T individual segment and far less of the £14T SMB segment.</p>
+    </div>
+
+    <div class="bb-item">
+      <div class="bb-name">2. Wise Platform Is a Multi-Billion Revenue Opportunity</div>
+      <p class="prose" style="font-size:10px;margin-top:2px;">With 20,000+ banks globally struggling with outdated correspondent banking infrastructure, Wise Platform offers a ready-made API solution. Management targets Platform reaching 10% of volumes medium-term and 50% long-term. At 50%, with £500B+ in annual volumes at even 40 bps revenue share, Platform could generate £2B+ annually from today's ~£100M. Recent wins — UniCredit, Raiffeisen Bank, Itaú (largest bank in LatAm by assets), Standard Chartered — validate the product at the highest tier of global banking.</p>
+    </div>
+
+    <div class="bb-item">
+      <div class="bb-name">3. US Dual Listing Unlocks Institutional Demand and Brand Premium</div>
+      <p class="prose" style="font-size:10px;margin-top:2px;">The proposed US primary listing (announced June 2025, targeting completion ~mid-2026) will expand Wise's investor base to the largest pool of institutional capital globally, provide index inclusion optionality (Russell, S&amp;P international), and dramatically raise brand awareness among US consumers and banks. The US is one of Wise's fastest-growing consumer markets, and the OCC trust charter application signals the company is building US regulatory infrastructure to match. At scale, the US could represent 30%+ of Wise's volumes.</p>
+    </div>
+
+    <div class="bb-item">
+      <div class="bb-name">4. Take Rate Stabilization Creates Revenue Re-Acceleration</div>
+      <p class="prose" style="font-size:10px;margin-top:2px;">After a decisive ~15% fee reduction in FY25, Wise's take rate has stabilized at ~52 bps (H1 FY26). As the difficult year-over-year comparison base fades in H2 FY26 and FY27, revenue growth will re-accelerate toward 20%+. CFO Emmanuel Thomassin explicitly noted on the H1 FY26 call: "the real growth will be in H2 when this pricing adjustment is not affecting the comparison." Simultaneously, mix shift toward higher-margin non-cross-border revenue (card, interest, Platform) raises reported blended margins even as cross-border take rate drifts lower.</p>
+    </div>
+
+    <div class="bb-item">
+      <div class="bb-name">5. Customer Holdings as a Durable Recurring Revenue Engine</div>
+      <p class="prose" style="font-size:10px;margin-top:2px;">£25B+ in customer holdings at an average 1% yield generates ~£250M in annual interest income at near-zero funding cost. Wise Assets (money market fund) grew AUM 55% YoY in FY25 and is available in Europe, UK, Singapore, and Australia. As interest rates normalize and Holdings grow at 34% CAGR, this becomes an increasingly meaningful, largely uncorrelated recurring revenue stream — a genuine deposit-banking alternative without a banking license risk profile.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="bull-title" style="color:#721c24;">&#9660; Bear Cases</div>
+
+    <div class="bb-item">
+      <div class="bb-name">1. Take Rate Structural Erosion Faster Than Expected</div>
+      <p class="prose" style="font-size:10px;margin-top:2px;">Wise's competitive strategy is to continuously reduce fees as it engineers costs out of the platform. At 52 bps today, each 5 bps reduction in take rate on £200B volume represents ~£1B/year in foregone revenue (~62% of FY26E underlying PBT). If Wise reaches 35–40 bps by FY30 (consistent with its infrastructure trajectory), the business requires 30%+ annual volume growth just to hold revenues flat — a tall order as the market matures.</p>
+    </div>
+
+    <div class="bb-item">
+      <div class="bb-name">2. Wise Platform Ramps More Slowly Than Anticipated</div>
+      <p class="prose" style="font-size:10px;margin-top:2px;">The B2B Platform is the pivot of the long-term investment thesis, but integration timelines with large financial institutions are notoriously long. Banks typically start with one route or corridor, then expand over 3–5 years. UniCredit, Raiffeisen, and Itaú were announced but volumes are still ramping. If Platform reaches 8% of volumes by FY28 rather than 10–12%, revenue growth disappointments could re-rate the stock materially.</p>
+    </div>
+
+    <div class="bb-item">
+      <div class="bb-name">3. US Transaction Tax and Regulatory Headwinds</div>
+      <p class="prose" style="font-size:10px;margin-top:2px;">The proposed US transaction tax on international remittances, if enacted, could structurally suppress US consumer demand for cross-border transfers. Wise operates in 160+ countries and is subject to regulatory risk in every jurisdiction. The dual listing introduces SEC disclosure and US GAAP conversion costs (~£35M one-off in FY26 plus ongoing incremental G&amp;A).</p>
+    </div>
+
+    <div class="bb-item">
+      <div class="bb-name">4. Neobank Competition Intensifies as Wise Account Expands</div>
+      <p class="prose" style="font-size:10px;margin-top:2px;">As Wise deepens the Wise Account, it increasingly competes with Revolut (35M customers globally, pursuing banking licenses in UK/EU/US), N26, Monzo, and regional challengers. Revolut's scale (3x Wise's customer base) and banking license pursuit could compress Wise's customer lifetime value. If customers migrate daily banking to Revolut and use Wise only for one-off transfers, the Account vision erodes materially.</p>
+    </div>
+
+    <div class="bb-item">
+      <div class="bb-name">5. Cost Structure Bloat from Dual Listing + Hiring Acceleration</div>
+      <p class="prose" style="font-size:10px;margin-top:2px;">In H1 FY26, Wise added 1,000 employees (planned 700 for the full year), invested £57M in marketing (+59%), and guided to £1B+ in total admin expense for FY26 vs. £769M in FY25 — a 30%+ increase. Combined with ~£35M in one-off dual listing costs, reported PBT will likely decline YoY in FY26 despite growing revenue. If the investment phase extends into FY27 with marginal returns lower than expected, the market could reprice Wise at a material discount to current levels.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <div class="fw-name">1. Scale Economies <span class="fw-rating strong">STRONG</span></div>
+  <p class="prose" style="font-size:10px;margin-top:3px;">Wise's cost structure is heavily fixed. Its payments infrastructure, compliance licences, and software platform serve £85B in half-year volume at roughly the same fixed base as it served £40B four years ago. Banking &amp; customer-related fees (COGS) grew only 4% in FY25 vs. 16% underlying income growth — expanding gross margin to 75%. Each incremental £1B in cross-border volume generates ~£5.2M in revenue at near-zero marginal cost (52 bps take rate). This scale economy is the primary reason Wise can offer 52 bps fees while banks charging 300+ bps remain structurally unable to match at equivalent speed and reliability. Competitors at smaller scale (Remitly, OFX) face the same infrastructure investment burden but spread it over smaller volumes, limiting their ability to invest in pricing and product.</p>
+</div>
+
+<div class="fw-item">
+  <div class="fw-name">2. Network Effects <span class="fw-rating moderate">WEAK-MODERATE</span></div>
+  <p class="prose" style="font-size:10px;margin-top:3px;">Classical multi-sided network effects don't apply (Sender A's experience isn't improved by Sender B being on Wise). What exists is a powerful referral flywheel: ~70% of customers acquired through word-of-mouth, with referred customers arriving at higher average balances and faster multi-product adoption. Wise-to-Wise transfers (both parties on Wise = near-zero cost) create mild network value for recipients. The Platform business creates B2B network value: as more banks join, the routing network becomes richer and route coverage improves for all users. These effects are real but limited in defensibility vs. the strongest network businesses.</p>
+</div>
+
+<div class="fw-item">
+  <div class="fw-name">3. Counter-Positioning <span class="fw-rating strong">STRONG</span></div>
+  <p class="prose" style="font-size:10px;margin-top:3px;">Wise's fee structure — 52 bps cross-border vs. 250–500 bps for traditional banks — is structurally impossible for banks to match without destroying their core FX revenue business. Banks generate enormous fee income from cross-border FX markups; Wise's transparent pricing model would cannibalize that revenue if banks adopted it. This was precisely the dynamic that led UBS to abort its £1.4B Wise acquisition in 2022. Wise Platform is the strategic resolution: banks can offer Wise's infrastructure to their customers without destroying their own FX revenue, letting Wise take the pricing pain while the bank retains the customer relationship.</p>
+</div>
+
+<div class="fw-item">
+  <div class="fw-name">4. Switching Costs <span class="fw-rating moderate">MODERATE</span></div>
+  <p class="prose" style="font-size:10px;margin-top:3px;">Individuals switching from Wise is relatively easy — no long-term contracts, no embedded data lock-in. However, behavioral stickiness is real: users who have set up beneficiaries, enabled auto-conversion, and organized multi-currency accounts face genuine re-enrollment friction. Business customers using Wise for payroll, invoicing (Quickpay), or supply chain payments have deeper integration switching costs. Wise Platform clients (banks) face the deepest switching costs: API integrations, compliance sign-offs, staff training, and route coverage all create multi-year lock-in. Wise explicitly starts Platform clients on one route and expands — each additional route deepens lock-in at minimal incremental cost.</p>
+</div>
+
+<div class="fw-item">
+  <div class="fw-name">5. Branding <span class="fw-rating moderate">MODERATE</span></div>
+  <p class="prose" style="font-size:10px;margin-top:3px;">Wise has exceptional brand NPS (69 in H1 FY26) and cult-like word-of-mouth among international users. The brand conveys: transparent, cheap, fast, trustworthy — qualities that traditional banks have systematically failed to deliver on cross-border transfers. The 70% word-of-mouth acquisition rate is extraordinary for a financial product and reflects genuine brand advocacy. However, aided awareness outside the expat/immigrant community and tech-savvy demographic remains limited. The US market is the next major brand-building frontier; TV campaigns launched in FY26 are early-stage.</p>
+</div>
+
+<div class="fw-item">
+  <div class="fw-name">6. Cornered Resource <span class="fw-rating weak">WEAK</span></div>
+  <p class="prose" style="font-size:10px;margin-top:3px;">Wise doesn't control a scarce non-replicable resource. Its advantage comes from assembled resources: 40+ direct payment network integrations (replicable but time-consuming and expensive), 160+ country regulatory licences (significant time and capital barrier but not permanent), and a talent pool of payments infrastructure engineers. Kristo Käärmann's founder-CEO positioning and deep relationships with regulators globally add intangible value. The proprietary payments routing algorithm is competitive but not patent-protected.</p>
+</div>
+
+<div class="fw-item">
+  <div class="fw-name">7. Process Power <span class="fw-rating strong">STRONG</span></div>
+  <p class="prose" style="font-size:10px;margin-top:3px;">Wise's most underappreciated moat. The company has built a culture of deliberate infrastructure investment over shortcut, with a stated philosophy of "avoiding gimmicks" (Käärmann, Q4 2025 earnings). The results: 74% instant payment rates vs. industry average sub-10% for cross-border; 52 bps vs. 250–500 bps incumbents; 75% gross margin on a high-volume regulated financial product. The continuous cycle of engineering cost efficiency, passing savings to customers, then reinvesting resulting volume growth back into infrastructure is a deeply embedded organizational practice — evidenced by (a) 4% COGS growth vs. 16% revenue growth in FY25; (b) 74% instant payments in H1 FY26 vs. 65% at FY25 year-end; (c) NPS 69 sustained while growing customers 21% annually.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <div class="fw-name">1. Threat of New Entrants <span class="fw-rating moderate">MODERATE</span></div>
+  <p class="prose" style="font-size:10px;margin-top:3px;">Building a global cross-border payments infrastructure is technically feasible but operationally formidable. Obtaining regulatory licences in 160+ countries takes years; direct integrations into domestic payment networks require bilateral relationships and significant technical investment; and customer trust in a money-movement business is not easily bought. The capital requirements are significant (Wise invested ~£3B in its first 10 years). However, big tech (Apple, Google) has distribution but has consistently shied away from regulated financial services due to liability; and well-funded startups with infrastructure talent can accelerate timelines. The OCC trust charter application suggests Wise sees regulatory positioning as a competitive differentiator.</p>
+</div>
+
+<div class="fw-item">
+  <div class="fw-name">2. Bargaining Power of Suppliers <span class="fw-rating low">LOW</span></div>
+  <p class="prose" style="font-size:10px;margin-top:3px;">Wise's primary suppliers are: (a) domestic payment networks and banking partners (for fund custody and settlement), (b) cloud/tech infrastructure (AWS-equivalent), and (c) compliance/KYC data vendors. Banking partners compete actively for Wise's deposit flows; switching between banking partners is operationally achievable. Cloud infrastructure is commodity. Wise's own direct network integrations — connecting directly to national payment systems rather than routing through correspondent banks — reduce dependence on any single supplier and lower transaction costs. This is the core strategic logic of the direct integration program.</p>
+</div>
+
+<div class="fw-item">
+  <div class="fw-name">3. Bargaining Power of Buyers <span class="fw-rating moderate">MODERATE</span></div>
+  <p class="prose" style="font-size:10px;margin-top:3px;">Individual customers have no direct pricing power. However, competitive pressure from Remitly, Revolut, banks, and other fintechs creates aggregate market discipline — Wise's fee level is constrained by the threat of customer substitution. Business customers have slightly more leverage (higher volume, explicit contracts). Wise Platform clients (banks) negotiate take rates as part of API contract negotiations; larger banks (Itaú, UniCredit) have material leverage given volume commitments. Overall, buyer power is exercised structurally through competitive market pricing rather than individual negotiation.</p>
+</div>
+
+<div class="fw-item">
+  <div class="fw-name">4. Threat of Substitutes <span class="fw-rating high">HIGH</span></div>
+  <p class="prose" style="font-size:10px;margin-top:3px;">This is the most material competitive force. Substitutes include: (a) bank wires (300–500 bps but instantly familiar); (b) Remitly (digital, focused on emerging-market corridors, #2 global digital remittance by volume); (c) PayPal/Xoom (huge distribution); (d) Revolut (multi-currency account with competitive rates); (e) for large transactions, OTC FX providers. For Wise Account, substitutes include high-yield savings at any digital bank and money market funds. The stablecoin ecosystem is an emerging potential substitute — Wise's CEO acknowledged this while positioning Wise as best-in-class for on/off ramps. The high threat of substitutes is the primary reason Wise is committed to continuously lowering fees.</p>
+</div>
+
+<div class="fw-item">
+  <div class="fw-name">5. Competitive Rivalry <span class="fw-rating high">MODERATE-HIGH</span></div>
+  <p class="prose" style="font-size:10px;margin-top:3px;">Direct rivalry is intense in digital remittances (Remitly growing at 30%+ revenue YoY, targeting similar corridors), but Wise maintains differentiation on speed (74% instant), breadth (160+ countries vs. Remitly's narrower emerging-market focus), and the multi-product Account. Western Union and MoneyGram compete on retail cash distribution channels irrelevant to Wise's digital-native positioning. Revolut is the most similar competitor in terms of target demographic — but Revolut is focused on becoming a bank (lending, crypto) while Wise is focused on becoming payments infrastructure. Wise Platform has no direct head-on competitor today; the closest analogues are Swift gpi and Mastercard Cross-Border Services, which are slower and more expensive.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<div class="fw-item">
+  <div class="fw-name">1. Cross-Border Take Rate × Volume = The Core Revenue Equation</div>
+  <p class="prose" style="font-size:10px;margin-top:3px;">Every basis point change in the cross-border take rate on Wise's £175B+ annualized volume (~£9.1M per bps per year in revenue impact) is the single most important stock driver. The 15% fee reduction in FY25 was a deliberate, permanent investment — and the market needed 12–18 months to see the volume response (24% volume growth H1 FY26). Going forward, the debate is: does the take rate stabilize at ~50–52 bps, or does Wise continue cutting toward 40 bps? Bullish: management signals stability at current levels. Bearish: competitive dynamics force further cuts that outpace volume gains.</p>
+</div>
+
+<div class="fw-item">
+  <div class="fw-name">2. Wise Platform Trajectory — The Multi-Year Re-Rating Catalyst</div>
+  <p class="prose" style="font-size:10px;margin-top:3px;">Platform revenue currently represents ~5% of volumes and ~7% of underlying income. The path from 5% to 10% (medium term) to 50% (long-term) volumes on Platform is the most asymmetric driver of Wise's intrinsic value. Each major bank announcement (UniCredit, Raiffeisen, Itaú, Standard Chartered) is a visible milestone but the real value is in ramp-up: banks start with one corridor and expand over years. The H1 FY26 call confirmed Platform volumes grew 3x faster than overall volumes. If Platform reaches 15% of a growing volume base by FY28, it materially re-rates the stock.</p>
+</div>
+
+<div class="fw-item">
+  <div class="fw-name">3. US Dual Listing — Institutional Access and Brand Premium</div>
+  <p class="prose" style="font-size:10px;margin-top:3px;">The proposed US primary listing (announced June 2025, targeting ~mid-2026) will be a significant catalyst: (a) index inclusion in Russell/S&amp;P international indices = forced passive buying; (b) expanded US sell-side coverage; (c) US brand marketing tied to the listing creates consumer awareness at scale; (d) higher US liquidity and investor base could compress risk discount on UK-listed shares. OCC trust charter application is a regulatory positioning move that Wall Street will read as bullish for the US long-term story.</p>
+</div>
+
+<div class="fw-item">
+  <div class="fw-name">4. Customer Holdings and Interest Income Durability</div>
+  <p class="prose" style="font-size:10px;margin-top:3px;">£25B+ in customer holdings at a blended 1% retained yield = ~£250M annual interest income embedded in underlying results. As rates normalize downward, this contribution declines — but Wise offsets this by growing the holdings base (34% CAGR) and expanding Wise Assets (money market fund earning ~4.5% with 20% revenue share). The tension between "rate tailwinds compressing" and "holdings base growing" is a key watch variable in each earnings report.</p>
+</div>
+
+<div class="fw-item">
+  <div class="fw-name">5. Expense Trajectory and Underlying PBT Margin</div>
+  <p class="prose" style="font-size:10px;margin-top:3px;">FY26 is explicitly an investment year: total admin expense guided to ~£1B (vs £769M in FY25, a 30% increase), absorbing higher headcount, marketing ramp (+59% H1 YoY), and dual listing costs. Management's guidance for underlying PBT margin of "around 16%" suggests discipline within the investment cycle. If expenses come in higher than guided or marketing ROI disappoints (payback period extends beyond 6 months), margins could print below guidance.</p>
+</div>
+
+<div class="fw-item">
+  <div class="fw-name">6. H2 FY26 Revenue Re-Acceleration</div>
+  <p class="prose" style="font-size:10px;margin-top:3px;">CFO explicitly flagged H2 FY26 as the inflection point where take-rate comparison headwinds ease. If H2 FY26 underlying income grows 20%+ YoY (vs H1's 16%), this provides concrete evidence that the revenue deceleration of the past 12 months was price-cut-driven transient, not structural volume degradation. H2 FY26 results (reported ~June 2026 = FY26 full year results) are therefore the most important near-term catalyst for the stock.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<p class="prose">Cross-border revenue is a straightforward formula: <strong>£ Cross-Border Volume × Take Rate (bps / 10,000)</strong>. H1 FY26 actual: £85B × 52 bps = £442M in H1 (£884M annualized). Volume is driven by active customers × avg transactions × avg transaction size. The take rate is driven by Wise's infrastructure cost pass-through policy — the company commits to reducing fees as efficiencies compound, making the take rate a function of the technology roadmap, not pricing strategy.</p>
+
+<p class="prose">Non-cross-border revenue diversifies the model meaningfully: card revenue is card spend volume × interchange rate (~0.87% blended), generating ~£132M in H1 FY26 on £15B+ card spend. Interest income is customer holdings × 1% retained yield = ~£250M annually on £25B holdings. Platform revenue is platform volumes × revenue share (~20–25 bps) — currently ~5% of £170B total volume = £8.5B × ~22 bps = ~£187M annualized and growing at 3x total volume pace.</p>
+
+<table class="driver-table">
+  <tr>
+    <th>Revenue Line</th>
+    <th>Formula</th>
+    <th>H1 FY26 Actual</th>
+  </tr>
+  <tr>
+    <td>Cross-Border Transfers</td>
+    <td>£Volume (£B) × Take Rate (bps)</td>
+    <td>£85B × 52 bps = £442M</td>
+  </tr>
+  <tr>
+    <td>Card &amp; Interchange</td>
+    <td>Card Spend (£B) × Interchange %</td>
+    <td>£15B+ × ~0.87% = £132M</td>
+  </tr>
+  <tr>
+    <td>Interest Income (underlying)</td>
+    <td>Holdings (£B) × 1% yield retained</td>
+    <td>£25B × 1% = £250M ann.</td>
+  </tr>
+  <tr>
+    <td>Wise Platform</td>
+    <td>Platform Volume (£B) × Rev Share</td>
+    <td>£4.25B × ~22 bps = ~£94M ann.</td>
+  </tr>
+</table>
+
+<p class="prose" style="font-size:10px;">Key operational metrics to track quarterly: (1) cross-border volume growth vs. prior quarter and prior year; (2) take rate — any bps movement matters at £200B+ annualized volumes; (3) Platform % of volumes — the march from 5% to 10% is the valuation re-rating lever; (4) active customer growth — 21% YoY is the organic engine; (5) customer holdings per active customer — rising from £1,650 to £2,200+ signals deepening wallet share; (6) instant payment rate — rising from 65% to 74% YoY shows the infrastructure investment is paying off in product quality.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<p style="font-size:9px;color:#888;font-style:italic;margin-bottom:8px;">Note: AlphaSense Deep Research Report dated March 10, 2026 (PDF encrypted/unavailable). Key themes synthesized from H1 FY26 and Q4 FY25 earnings call discussions, sell-side commentary, and publicly available research.</p>
+
+<div class="alphasense-box">
+  <div style="font-weight:700;margin-bottom:4px;font-size:11px;">Theme 1 — Take Rate Floor Debate: Where Does the Price Moat Stabilize?</div>
+  <p>Multiple sell-side analysts (Morgan Stanley's Adam Wood, UBS's Justin Forsythe) pressed management on the take rate trajectory. Consensus view: the decisive 15% cut in FY25 was deliberate moat-deepening (Kristo acknowledged "we see this working, we see more volume even coming up in the short term") and take rate should stabilize at 50–52 bps for the next 12–18 months before resuming gradual decline. Dissenting bear view (Citi/BofA): take rate has further to fall as Platform volumes (which carry lower take rates) grow as a share of mix, further compressing the blended rate even if core consumer take rate stabilizes.</p>
+</div>
+
+<div class="alphasense-box">
+  <div style="font-weight:700;margin-bottom:4px;font-size:11px;">Theme 2 — Wise Platform: When Does 10% Volume Target Become Visible?</div>
+  <p>Platform at 5% of volumes (1% increase from April 2025) growing ~3x total volume pace. Management identified volumes ramping on "older" integrations (Standard Chartered, Google Pay, etc.) as the primary driver — not just new name announcements. Analyst focus: building a more transparent reporting cadence on Platform revenue vs. volume. Barclays (Grégoire Hermann) pushed for Raiffeisen timeline; management declined specific guidance but noted they "announce when we're starting to see some of their volumes." Bull thesis on Platform is 2–3 year, not 12-month. Key watch: first earnings report showing Platform at 6%+ of volumes = meaningful confirmation.</p>
+</div>
+
+<div class="alphasense-box">
+  <div style="font-weight:700;margin-bottom:4px;font-size:11px;">Theme 3 — US Listing as Multi-Year Strategic Inflection</div>
+  <p>Announced at Q4 FY25 earnings (June 2025). Timeline: shareholder circular end-June 2025, AGM vote end-July 2025, SEC filing ~1 year. Cantor Fitzgerald (Bharath Nagaraj) and BofA pressed on listing requirements (US GAAP conversion, reincorporation, management presence). Management confirmed: not moving HQ, retaining UK listing, US GAAP transition underway. Institutional thesis: access to 4,000 US banks for Platform, brand lift in largest remittance market, and potential S&amp;P index inclusion. Near-term: OCC trust charter application is a regulatory positioning move Wall Street reads as bullish for the US long-term story.</p>
+</div>
+
+<div class="alphasense-box">
+  <div style="font-weight:700;margin-bottom:4px;font-size:11px;">Theme 4 — Stablecoin: Threat or Opportunity?</div>
+  <p>Most debated strategic question across both earnings calls. CEO Käärmann's view: Wise's infrastructure (fast, regulated, local currency on/off ramps) is exactly what stablecoin use cases require; the hard part is regulated connectivity to local markets, which is Wise's core competency. Expert debate: will stablecoin-native players (Bridge, BVNK) build competing local payment network connectivity, or is Wise's regulatory moat (licences in 20+ countries) genuinely non-replicable within 5 years? Current Theia take: Wise benefits from stablecoin growth as the best-positioned fiat on/off ramp; threat only materializes if stablecoin players spend 5–10 years replicating Wise's licence stack.</p>
+</div>
+
+<div class="alphasense-box">
+  <div style="font-weight:700;margin-bottom:4px;font-size:11px;">Theme 5 — Margin Guidance Credibility Post-FY26 Investment Cycle</div>
+  <p>H1 FY26 saw underlying PBT margin at "top of range" (~16–17% ex listing costs) despite a 30% admin expense ramp. Management credibility from CFO Emmanuel Thomassin's disciplined framing ("the money we win, we don't spend, we invest, we want to have a return"). H2 FY26 margin expected to compress (more investment, higher H2 listing costs) before normalizing in FY27. Street is pricing in ~15–16% normalized margin. Key risk: if marketing spend in US/Canada/New Zealand shows payback extending beyond 6 months, the market will question whether the expense ramp is truly disciplined. Marketing payback period disclosure (currently "within 6 months" guideline) is the most important margin-related data point to track.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Sensitivity Analysis</div>
+
+<div class="two-col">
+  <div>
+    <div class="section-title">Table 1: Cross-Border Revenue (£M annualized) = Volume × Take Rate</div>
+    <p style="font-size:9px;color:#888;margin-bottom:4px;">Rows = Take Rate (bps) | Cols = Cross-Border Volume (£B annualized) | Base cell highlighted</p>
+    <table class="sensitivity">
+      <tr>
+        <th>Take Rate \ Volume</th>
+        <th>£140B</th>
+        <th>£160B</th>
+        <th>£180B</th>
+        <th>£200B</th>
+        <th>£220B</th>
+      </tr>
+      <tr>
+        <td><strong>40 bps</strong></td>
+        <td>£560</td><td>£640</td><td>£720</td><td>£800</td><td>£880</td>
+      </tr>
+      <tr>
+        <td><strong>44 bps</strong></td>
+        <td>£616</td><td>£704</td><td>£792</td><td>£880</td><td>£968</td>
+      </tr>
+      <tr>
+        <td><strong>48 bps</strong></td>
+        <td>£672</td><td>£768</td><td>£864</td><td>£960</td><td>£1,056</td>
+      </tr>
+      <tr>
+        <td><strong>52 bps</strong></td>
+        <td>£728</td><td>£832</td><td class="base">£936</td><td>£1,040</td><td>£1,144</td>
+      </tr>
+      <tr>
+        <td><strong>56 bps</strong></td>
+        <td>£784</td><td>£896</td><td>£1,008</td><td>£1,120</td><td>£1,232</td>
+      </tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Table 2: Underlying PBT (£M) = Underlying Income × Margin</div>
+    <p style="font-size:9px;color:#888;margin-bottom:4px;">Rows = Underlying PBT Margin | Cols = Underlying Income (£M) | Base cell highlighted</p>
+    <table class="sensitivity">
+      <tr>
+        <th>Margin \ Income</th>
+        <th>£1,500</th>
+        <th>£1,650</th>
+        <th>£1,850</th>
+        <th>£2,000</th>
+        <th>£2,200</th>
+      </tr>
+      <tr>
+        <td><strong>12%</strong></td>
+        <td>£180</td><td>£198</td><td>£222</td><td>£240</td><td>£264</td>
+      </tr>
+      <tr>
+        <td><strong>13%</strong></td>
+        <td>£195</td><td>£215</td><td>£241</td><td>£260</td><td>£286</td>
+      </tr>
+      <tr>
+        <td><strong>15%</strong></td>
+        <td>£225</td><td>£248</td><td>£278</td><td>£300</td><td>£330</td>
+      </tr>
+      <tr>
+        <td><strong>16%</strong></td>
+        <td>£240</td><td>£264</td><td class="base">£296</td><td>£320</td><td>£352</td>
+      </tr>
+      <tr>
+        <td><strong>18%</strong></td>
+        <td>£270</td><td>£297</td><td>£333</td><td>£360</td><td>£396</td>
+      </tr>
+    </table>
+  </div>
+</div>
+<p style="font-size:9px;color:#888;margin-top:4px;">Base case: 52 bps × £180B annualized volume = £936M cross-border revenue; 16% margin × £1,850M underlying income = £296M underlying PBT (midpoint FY26E/FY27E). A 5 bps take rate reduction on £200B volume = ~£100M revenue impact, equivalent to ~6% of FY26E underlying income.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios</div>
+
+<p class="prose" style="font-size:10px;">All figures in £M except per-share prices. Valuation methodology: EV/Sales exit multiple on FY28E underlying income (most reliable given interest income accounting complexity). Net cash grows from £1,012M as free cash flow accumulates. Shares: 1,033M fully diluted throughout. Cost of capital: 20% for PV discounting.</p>
+
+<!-- Case 1 -->
+<div class="case-block">
+  <div class="case-name">Case 1 — Bear Severe &nbsp;<span style="font-size:10px;font-weight:400;color:#888;">(Probability: 5%)</span></div>
+  <div class="case-desc">"Take Rate Collapse &amp; Volume Deceleration" — Aggressive rate cuts + US transaction tax enacted; take rate drifts to 43 bps by FY28; volume growth slows to 8% as Remitly/Revolut gain share; Platform stalls at 6%; margins compressed to 10–11%.</div>
+  <div class="driver-label">Key Assumptions by FY28E</div>
+  <div class="driver-row"><span>Cross-Border Volume</span><span>£170B</span></div>
+  <div class="driver-row"><span>Take Rate</span><span>43 bps</span></div>
+  <div class="driver-row"><span>Platform % of Volumes</span><span>6%</span></div>
+  <div class="driver-row"><span>Underlying PBT Margin</span><span>10%</span></div>
+  <table class="scenario-mini">
+    <tr><th>Metric (£M)</th><th>FY26E</th><th>FY27E</th><th>FY28E</th></tr>
+    <tr><td>Underlying Income</td><td>1,480</td><td>1,560</td><td>1,620</td></tr>
+    <tr><td>Underlying PBT Margin</td><td>11%</td><td>10%</td><td>10%</td></tr>
+    <tr><td>Underlying PBT</td><td>163</td><td>156</td><td>162</td></tr>
+    <tr class="valuation-row"><td>Exit EV/Sales (FY28E)</td><td colspan="3">2.0x → EV = £3,240M</td></tr>
+    <tr class="valuation-row"><td>+ Net Cash (FY28E Est.)</td><td colspan="3">+£1,100M</td></tr>
+    <tr class="valuation-row"><td>Equity Value / Share</td><td colspan="3">£4,340M ÷ 1,033M = <strong>£4.20/sh</strong></td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-price">£4.20 / share</div>
+    <div class="exit-upside" style="color:#c0392b;">-53% from £9.00 current</div>
+  </div>
+</div>
+
+<!-- Case 2 -->
+<div class="case-block">
+  <div class="case-name">Case 2 — Bear Mild &nbsp;<span style="font-size:10px;font-weight:400;color:#888;">(Probability: 20%)</span></div>
+  <div class="case-desc">"Slow Take Rate Drift, Platform Delays" — Take rate drifts to 47 bps by FY28; volumes at 14–15% CAGR; Platform reaches only 8% of volumes; margins hold at 13% floor.</div>
+  <div class="driver-label">Key Assumptions by FY28E</div>
+  <div class="driver-row"><span>Cross-Border Volume</span><span>£190B</span></div>
+  <div class="driver-row"><span>Take Rate</span><span>47 bps</span></div>
+  <div class="driver-row"><span>Platform % of Volumes</span><span>8%</span></div>
+  <div class="driver-row"><span>Underlying PBT Margin</span><span>13%</span></div>
+  <table class="scenario-mini">
+    <tr><th>Metric (£M)</th><th>FY26E</th><th>FY27E</th><th>FY28E</th></tr>
+    <tr><td>Underlying Income</td><td>1,540</td><td>1,760</td><td>1,990</td></tr>
+    <tr><td>Underlying PBT Margin</td><td>13%</td><td>13%</td><td>13%</td></tr>
+    <tr><td>Underlying PBT</td><td>200</td><td>229</td><td>259</td></tr>
+    <tr class="valuation-row"><td>Exit EV/Sales (FY28E)</td><td colspan="3">3.0x → EV = £5,970M</td></tr>
+    <tr class="valuation-row"><td>+ Net Cash (FY28E Est.)</td><td colspan="3">+£1,250M</td></tr>
+    <tr class="valuation-row"><td>Equity Value / Share</td><td colspan="3">£7,220M ÷ 1,033M = <strong>£6.99/sh</strong></td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-price">£6.99 / share</div>
+    <div class="exit-upside" style="color:#c0392b;">-22% from £9.00 current</div>
+  </div>
+</div>
+
+<!-- Case 3 -->
+<div class="case-block">
+  <div class="case-name">Case 3 — Base Case &nbsp;<span style="font-size:10px;font-weight:400;color:#888;">(Probability: 50%)</span></div>
+  <div class="case-desc">"On-Track Execution" — 15–17% underlying income CAGR as guided; take rate stabilizes 50–52 bps near term; Platform reaches 10% volumes by FY28; 15–16% margins steady-state.</div>
+  <div class="driver-label">Key Assumptions by FY28E</div>
+  <div class="driver-row"><span>Cross-Border Volume</span><span>£245B (guided)</span></div>
+  <div class="driver-row"><span>Take Rate</span><span>50–52 bps</span></div>
+  <div class="driver-row"><span>Platform % of Volumes</span><span>10%</span></div>
+  <div class="driver-row"><span>Underlying PBT Margin</span><span>16%</span></div>
+  <table class="scenario-mini">
+    <tr><th>Metric (£M)</th><th>FY26E</th><th>FY27E</th><th>FY28E</th></tr>
+    <tr><td>Underlying Income</td><td>1,610</td><td>1,885</td><td>2,180</td></tr>
+    <tr><td>Underlying PBT Margin</td><td>16%</td><td>15%</td><td>16%</td></tr>
+    <tr><td>Underlying PBT</td><td>258</td><td>283</td><td>349</td></tr>
+    <tr class="valuation-row"><td>Exit EV/Sales (FY28E)</td><td colspan="3">4.2x → EV = £9,156M</td></tr>
+    <tr class="valuation-row"><td>+ Net Cash (FY28E Est.)</td><td colspan="3">+£1,400M</td></tr>
+    <tr class="valuation-row"><td>Equity Value / Share</td><td colspan="3">£10,556M ÷ 1,033M = <strong>£10.22/sh</strong></td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-price">£10.22 / share</div>
+    <div class="exit-upside" style="color:#27ae60;">+14% from £9.00 current</div>
+  </div>
+</div>
+
+<!-- Case 4 -->
+<div class="case-block">
+  <div class="case-name">Case 4 — Bull Mild &nbsp;<span style="font-size:10px;font-weight:400;color:#888;">(Probability: 20%)</span></div>
+  <div class="case-desc">"Platform Inflects + US Listing Premium" — Platform hits 10% by FY27, 15% by FY28 (major US bank wins post-listing); US dual listing completed drives institutional demand; volume CAGR 22%; margins 17% as operating leverage emerges.</div>
+  <div class="driver-label">Key Assumptions by FY28E</div>
+  <div class="driver-row"><span>Cross-Border Volume</span><span>£275B</span></div>
+  <div class="driver-row"><span>Take Rate</span><span>50 bps</span></div>
+  <div class="driver-row"><span>Platform % of Volumes</span><span>15%</span></div>
+  <div class="driver-row"><span>Underlying PBT Margin</span><span>17%</span></div>
+  <table class="scenario-mini">
+    <tr><th>Metric (£M)</th><th>FY26E</th><th>FY27E</th><th>FY28E</th></tr>
+    <tr><td>Underlying Income</td><td>1,690</td><td>2,060</td><td>2,490</td></tr>
+    <tr><td>Underlying PBT Margin</td><td>16%</td><td>17%</td><td>17%</td></tr>
+    <tr><td>Underlying PBT</td><td>270</td><td>350</td><td>423</td></tr>
+    <tr class="valuation-row"><td>Exit EV/Sales (FY28E)</td><td colspan="3">5.5x → EV = £13,695M</td></tr>
+    <tr class="valuation-row"><td>+ Net Cash (FY28E Est.)</td><td colspan="3">+£1,550M</td></tr>
+    <tr class="valuation-row"><td>Equity Value / Share</td><td colspan="3">£15,245M ÷ 1,033M = <strong>£14.76/sh</strong></td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-price">£14.76 / share</div>
+    <div class="exit-upside" style="color:#27ae60;">+64% from £9.00 current</div>
+  </div>
+</div>
+
+<!-- Case 5 -->
+<div class="case-block">
+  <div class="case-name">Case 5 — Bull Severe &nbsp;<span style="font-size:10px;font-weight:400;color:#888;">(Probability: 5%)</span></div>
+  <div class="case-desc">"Trillions Vision: Infrastructure for the World's Money" — Platform reaches 20% volumes; US trust charter operational; stablecoin on/off ramp revenue emerges (15+ bps on stablecoin flows); volume CAGR 28%; margins expand to 19–20% as scale overwhelms opex growth.</div>
+  <div class="driver-label">Key Assumptions by FY28E</div>
+  <div class="driver-row"><span>Cross-Border Volume</span><span>£330B+</span></div>
+  <div class="driver-row"><span>Take Rate</span><span>48 bps (stablecoin uplift)</span></div>
+  <div class="driver-row"><span>Platform % of Volumes</span><span>20%</span></div>
+  <div class="driver-row"><span>Underlying PBT Margin</span><span>20%</span></div>
+  <table class="scenario-mini">
+    <tr><th>Metric (£M)</th><th>FY26E</th><th>FY27E</th><th>FY28E</th></tr>
+    <tr><td>Underlying Income</td><td>1,790</td><td>2,300</td><td>2,940</td></tr>
+    <tr><td>Underlying PBT Margin</td><td>16%</td><td>18%</td><td>20%</td></tr>
+    <tr><td>Underlying PBT</td><td>286</td><td>414</td><td>588</td></tr>
+    <tr class="valuation-row"><td>Exit EV/Sales (FY28E)</td><td colspan="3">7.0x → EV = £20,580M</td></tr>
+    <tr class="valuation-row"><td>+ Net Cash (FY28E Est.)</td><td colspan="3">+£1,800M</td></tr>
+    <tr class="valuation-row"><td>Equity Value / Share</td><td colspan="3">£22,380M ÷ 1,033M = <strong>£21.67/sh</strong></td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-price">£21.67 / share</div>
+    <div class="exit-upside" style="color:#27ae60;">+141% from £9.00 current</div>
+  </div>
+</div>
+
+<!-- Probability-Weighted Summary + SVG Chart -->
+<div class="case-chart">
+  <div class="section-title" style="margin-top:0;">Probability-Weighted Summary</div>
+  <table class="data" style="margin-bottom:10px;">
+    <tr>
+      <th>Scenario</th><th>Prob.</th><th>Exit Price</th><th>Weighted</th><th>vs. Current</th>
+    </tr>
+    <tr><td>Bear Severe</td><td>5%</td><td>£4.20</td><td>£0.21</td><td class="chg" style="color:#c0392b;">-53%</td></tr>
+    <tr><td>Bear Mild</td><td>20%</td><td>£6.99</td><td>£1.40</td><td class="chg" style="color:#c0392b;">-22%</td></tr>
+    <tr><td>Base Case</td><td>50%</td><td>£10.22</td><td>£5.11</td><td class="chg pos" style="color:#27ae60;">+14%</td></tr>
+    <tr><td>Bull Mild</td><td>20%</td><td>£14.76</td><td>£2.95</td><td class="chg pos" style="color:#27ae60;">+64%</td></tr>
+    <tr><td>Bull Severe</td><td>5%</td><td>£21.67</td><td>£1.08</td><td class="chg pos" style="color:#27ae60;">+141%</td></tr>
+    <tr style="font-weight:700;background:#e8f4fd;">
+      <td>Prob-Weighted (FY28E)</td><td>100%</td><td>£10.75</td><td>£10.75</td><td class="chg pos" style="color:#27ae60;">+19%</td>
+    </tr>
+    <tr style="font-weight:700;background:#f0f7ff;">
+      <td>PV @ 20% CoC (1yr)</td><td>—</td><td>£8.96</td><td>£8.96</td><td class="chg" style="color:#888;">-0.4%</td>
+    </tr>
+  </table>
+
+  <!-- SVG Bar Chart -->
+  <svg width="736" height="200" viewBox="0 0 736 200" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:0 auto;">
+    <!-- Background -->
+    <rect width="736" height="200" fill="#f9f9f9" rx="4"/>
+    <!-- Y-axis labels -->
+    <text x="8" y="25" font-size="8" fill="#888">£22</text>
+    <text x="8" y="65" font-size="8" fill="#888">£15</text>
+    <text x="8" y="105" font-size="8" fill="#888">£10</text>
+    <text x="8" y="145" font-size="8" fill="#888">£5</text>
+    <text x="8" y="185" font-size="8" fill="#888">£0</text>
+
+    <!-- Grid lines -->
+    <line x1="30" y1="20" x2="720" y2="20" stroke="#eee" stroke-width="1"/>
+    <line x1="30" y1="60" x2="720" y2="60" stroke="#eee" stroke-width="1"/>
+    <line x1="30" y1="100" x2="720" y2="100" stroke="#eee" stroke-width="1"/>
+    <line x1="30" y1="140" x2="720" y2="140" stroke="#eee" stroke-width="1"/>
+    <line x1="30" y1="180" x2="720" y2="180" stroke="#eee" stroke-width="1"/>
+
+    <!-- Scale: max £22 = 160px height. 1£ = 7.27px. Base y = 180. -->
+    <!-- Bear Severe: £4.20 → height=30.5, y=149.5 -->
+    <rect x="60" y="149" width="80" height="31" fill="#e74c3c" rx="2"/>
+    <text x="100" y="145" font-size="9" fill="#1a1a2e" text-anchor="middle" font-weight="600">£4.20</text>
+    <text x="100" y="193" font-size="8" fill="#888" text-anchor="middle">Bear Severe</text>
+    <text x="100" y="202" font-size="7" fill="#888" text-anchor="middle">(5%)</text>
+
+    <!-- Bear Mild: £6.99 → height=50.8, y=129.2 -->
+    <rect x="175" y="129" width="80" height="51" fill="#e67e22" rx="2"/>
+    <text x="215" y="125" font-size="9" fill="#1a1a2e" text-anchor="middle" font-weight="600">£6.99</text>
+    <text x="215" y="193" font-size="8" fill="#888" text-anchor="middle">Bear Mild</text>
+    <text x="215" y="202" font-size="7" fill="#888" text-anchor="middle">(20%)</text>
+
+    <!-- Base: £10.22 → height=74.3, y=105.7 -->
+    <rect x="290" y="106" width="80" height="74" fill="#2563eb" rx="2"/>
+    <text x="330" y="102" font-size="9" fill="#1a1a2e" text-anchor="middle" font-weight="600">£10.22</text>
+    <text x="330" y="193" font-size="8" fill="#888" text-anchor="middle">Base Case</text>
+    <text x="330" y="202" font-size="7" fill="#888" text-anchor="middle">(50%)</text>
+
+    <!-- Bull Mild: £14.76 → height=107.3, y=72.7 -->
+    <rect x="405" y="73" width="80" height="107" fill="#27ae60" rx="2"/>
+    <text x="445" y="69" font-size="9" fill="#1a1a2e" text-anchor="middle" font-weight="600">£14.76</text>
+    <text x="445" y="193" font-size="8" fill="#888" text-anchor="middle">Bull Mild</text>
+    <text x="445" y="202" font-size="7" fill="#888" text-anchor="middle">(20%)</text>
+
+    <!-- Bull Severe: £21.67 → height=157.5, y=22.5 -->
+    <rect x="520" y="23" width="80" height="157" fill="#155724" rx="2"/>
+    <text x="560" y="19" font-size="9" fill="#1a1a2e" text-anchor="middle" font-weight="600">£21.67</text>
+    <text x="560" y="193" font-size="8" fill="#888" text-anchor="middle">Bull Severe</text>
+    <text x="560" y="202" font-size="7" fill="#888" text-anchor="middle">(5%)</text>
+
+    <!-- Current price line: £9.00 → y = 180 - (9.00 × 7.27) = 180 - 65.5 = 114.5 -->
+    <line x1="30" y1="115" x2="720" y2="115" stroke="#1a1a2e" stroke-width="1.5" stroke-dasharray="6,3"/>
+    <text x="695" y="112" font-size="8" fill="#1a1a2e" font-weight="600">Current £9.00</text>
+
+    <!-- Prob-weighted PV: £8.96 → y = 180 - (8.96 × 7.27) = 180 - 65.1 = 114.9 ≈ 115 (nearly same) -->
+    <line x1="30" y1="117" x2="720" y2="117" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="4,4"/>
+    <text x="655" y="127" font-size="8" fill="#2563eb" font-weight="600">PW PV £8.96</text>
+  </svg>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">11. Comps</div>
+
+<p class="prose" style="font-size:10px;">Peer group: FactSet Payments — Money Transfer / Digital Remittances. LTM multiples as of March 10, 2026. All currency as reported (Wise in GBP, US peers in USD). Wise's profitability (75% gross margin, 15–16% underlying PBT margin) is unique in the peer group — most digital remittance peers are sub-10% or unprofitable at the net income level.</p>
+
+<table class="comps">
+  <tr>
+    <th style="text-align:left;">Company</th>
+    <th>Ticker</th>
+    <th>Price</th>
+    <th>Mkt Cap</th>
+    <th>EV</th>
+    <th>EV/EBIT</th>
+    <th>EV/EBITDA</th>
+    <th>LTM P/E</th>
+  </tr>
+  <tr class="subject">
+    <td>Wise Plc (subject)</td>
+    <td>WISE-GB</td>
+    <td>£9.00</td>
+    <td>£8,929M</td>
+    <td>£7,917M</td>
+    <td>15.63x</td>
+    <td>15.03x</td>
+    <td>24.14x</td>
+  </tr>
+  <tr>
+    <td>Remitly Global</td>
+    <td>RELY-US</td>
+    <td>—</td>
+    <td>—</td>
+    <td>—</td>
+    <td>43.28x</td>
+    <td>33.13x</td>
+    <td>NM</td>
+  </tr>
+  <tr>
+    <td>Western Union</td>
+    <td>WU-US</td>
+    <td>—</td>
+    <td>—</td>
+    <td>—</td>
+    <td>5.93x</td>
+    <td>4.90x</td>
+    <td>—</td>
+  </tr>
+  <tr>
+    <td>Intl Money Express</td>
+    <td>IMXI-US</td>
+    <td>—</td>
+    <td>—</td>
+    <td>—</td>
+    <td>—</td>
+    <td>—</td>
+    <td>—</td>
+  </tr>
+  <tr>
+    <td>OFX Group</td>
+    <td>OFX-AU</td>
+    <td>—</td>
+    <td>—</td>
+    <td>—</td>
+    <td>3.75x</td>
+    <td>1.50x</td>
+    <td>—</td>
+  </tr>
+  <tr class="stat-row">
+    <td>Mean (ex-Wise)</td><td></td><td></td><td></td><td></td>
+    <td>17.65x</td><td>13.18x</td><td>—</td>
+  </tr>
+  <tr class="stat-row">
+    <td>Median (ex-Wise)</td><td></td><td></td><td></td><td></td>
+    <td>5.93x</td><td>4.90x</td><td>—</td>
+  </tr>
+</table>
+
+<p class="prose" style="font-size:10px;">Wise trades at 15.0x LTM EV/EBITDA — at a premium to the peer group median (4.90x) but well below Remitly (33.1x). The premium vs. WU/OFX (legacy/declining volumes) is clearly justified by Wise's superior growth (15–20% revenue CAGR vs. low-single-digit or declining for WU/OFX). The comparison vs. Remitly is more instructive: Remitly is unprofitable at the net income level despite growing faster on revenue, while Wise generates 15–16% underlying PBT margins. At 4.2x EV/Sales FY27E vs. Remitly's ~3–4x on similar or faster revenue growth, Wise appears fair to slightly expensive on a pure growth-adjusted basis — but the profitability differential is enormous and justifies the premium. The absence of truly comparable profitable, global, technology-led cross-border payments businesses reflects Wise's unique positioning.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<div class="two-col" style="margin-bottom:12px;">
+  <div>
+    <div class="section-title">Theia Screening Criteria</div>
+    <table class="kv" style="font-size:10px;">
+      <tr><td>Market Cap</td><td>£8,929M basic / £9,297M diluted — Mid-Cap (~£5B–£20B): moderate fit</td></tr>
+      <tr><td>Analyst Coverage</td><td>~10 analysts (MS, BofA, Citi, UBS, Cantor, Barclays, BNP, Berenberg) — well-covered</td></tr>
+      <tr><td>Sector Fit</td><td>Internet Finance / Payments Infrastructure — core Theia thesis</td></tr>
+      <tr><td>Outcome Dispersion</td><td>£4.20 to £21.67 on FY28E — 5.2x spread, significant</td></tr>
+      <tr><td>Prob-Weighted PV (1yr)</td><td>£8.96 vs £9.00 = approximately fairly valued (-0.4%)</td></tr>
+      <tr><td>Revenue Growth</td><td>15–17% CAGR FY25–28E (management guided)</td></tr>
+      <tr><td>Margin Profile</td><td>75% gross, 15–16% PBT — highly attractive for fintech</td></tr>
+      <tr><td>Moat Assessment</td><td>Scale economies + counter-positioning + process power = durable</td></tr>
+      <tr><td>Catalysts (12M)</td><td>H2 FY26 revenue acceleration; US listing; Platform milestones</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Risk Factors</div>
+    <table class="kv" style="font-size:10px;">
+      <tr><td>Take Rate Risk</td><td>HIGH — 5 bps reduction = ~£100M revenue impact at scale</td></tr>
+      <tr><td>Platform Execution</td><td>MODERATE — bank integration timelines are long and uncertain</td></tr>
+      <tr><td>Regulatory Risk</td><td>MODERATE — 160+ countries, US transaction tax threat</td></tr>
+      <tr><td>Competition</td><td>MODERATE — Revolut, Remitly intensifying; stablecoin emerging</td></tr>
+      <tr><td>Interest Rate Risk</td><td>LOW-MODERATE — rate declines compress above-1% income</td></tr>
+      <tr><td>FX Risk</td><td>LOW — revenue globally diversified, operational hedge</td></tr>
+      <tr><td>Opex Inflation</td><td>MODERATE — 30% admin expense growth in FY26; marketing ROI TBD</td></tr>
+      <tr><td>UK Market Discount</td><td>LOW — US dual listing will progressively reduce this</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="verdict">
+  <div class="theia-badge">
+    <span style="font-size:14px;font-weight:700;color:#1a1a2e;">VERDICT: YES — Track Position with Catalyst-Driven Entry</span>
+  </div>
+  <p>Wise is not a "screaming buy" at current prices (risk-adjusted PV ~£8.96 vs £9.00 = fairly valued). The business is operationally exceptional — 74% instant payments, 75% gross margins, 15–20% revenue CAGR, 13M customers growing 21% annually, and a moat in cross-border infrastructure that has taken a decade and £3B to build. The valuation at 4.2x EV/Sales FY26E and 24x LTM P/E adequately reflects this quality. The stock is -22% from its 52-week high (£12.25 → £9.00), primarily reflecting H1 FY26 revenue growth deceleration (take rate cuts flowing through) and the UK market discount applied to a globally-operating fintech.</p>
+  <p style="margin-top:6px;"><strong>Four catalysts to watch:</strong> (1) H2 FY26 revenue re-acceleration as take rate comparisons ease (~June 2026, most important near-term event); (2) US dual listing completion and associated institutional demand; (3) Platform volume milestones (next disclosure H1 FY27 results, ~Nov 2026); (4) Stablecoin regulatory clarity enabling Wise to announce B2B stablecoin infrastructure products. <strong>Recommended action:</strong> build a tracking position at current levels with a 24–36 month investment horizon; add on weakness below £8.00 (near 52W low of £7.93) if fundamentals unchanged; watch H2 FY26 results (~June 2026) closely as the key de-risking event. A confirmed H2 revenue acceleration would justify moving from tracking to a full position.</p>
+</div>
+
+<p class="source-note">Sources: Wise Plc H1 FY2026 Earnings Call (Nov 6, 2025), Q4 FY2025 Earnings Call (Jun 5, 2025); FactSet Company Snapshot (WISE-GB, Mar 10, 2026); FactSet Comps Export (Mar 10, 2026); AlphaSense Deep Research Report (Mar 10, 2026, encrypted); Theia Research analysis. All projections are estimates. Not investment advice.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="appendix">
+<div class="memo-section">Appendix — Python Code</div>
+<p class="prose" style="font-size:10px;">Parameterized sensitivity and scenario analysis for Wise Plc (WISE-GB). Run in any Python 3.8+ environment with pandas and numpy.</p>
+
+<div class="code-block">import numpy as np
+import pandas as pd
+
+# ── Configuration ────────────────────────────────────────────────────────────
+CURRENT_PRICE = 9.00   # £ per share (March 10, 2026)
+SHARES_M      = 1033   # fully diluted shares, millions
+NET_CASH      = 1012   # £M corporate net cash (starting)
+COC           = 0.20   # 20% cost of capital for PV discounting
+
+# ── Table 1: Cross-Border Revenue Sensitivity ─────────────────────────────────
+# Revenue (£M) = Cross-Border Volume (£B) × Take Rate (bps) / 10,000 × 1,000
+# Volume axis in £B, take rate axis in bps
+
+volumes_gb    = [140, 160, 180, 200, 220]   # £B annualized
+take_rates    = [40, 44, 48, 52, 56]         # bps
+BASE_VOL      = 180   # £B
+BASE_RATE     = 52    # bps
+
+print("=" * 65)
+print("TABLE 1: Cross-Border Revenue (£M annualized) = Volume × Take Rate")
+print("=" * 65)
+
+rows = []
+for tr in take_rates:
+    row = []
+    for vol in volumes_gb:
+        rev = vol * tr / 10_000 * 1_000   # £M
+        row.append(rev)
+    rows.append(row)
+
+df1 = pd.DataFrame(rows,
+                   index=[f"{tr} bps" for tr in take_rates],
+                   columns=[f"£{v}B" for v in volumes_gb])
+
+# Highlight base cell
+base_row = take_rates.index(BASE_RATE)
+base_col = volumes_gb.index(BASE_VOL)
+print(df1.to_string(float_format=lambda x: f"£{x:,.0f}M"))
+print(f"\n  BASE (52 bps × £180B): £{BASE_VOL * BASE_RATE / 10_000 * 1_000:,.0f}M")
+print(f"  Sensitivity: 5 bps change on £200B volume = "
+      f"£{200 * 5 / 10_000 * 1_000:,.0f}M revenue impact")
+
+# ── Table 2: Underlying PBT Sensitivity ──────────────────────────────────────
+incomes = [1_500, 1_650, 1_850, 2_000, 2_200]   # £M underlying income
+margins = [0.12, 0.13, 0.15, 0.16, 0.18]         # underlying PBT margin
+BASE_INC = 1_850
+BASE_MAR = 0.16
+
+print("\n" + "=" * 65)
+print("TABLE 2: Underlying PBT (£M) = Underlying Income × Margin")
+print("=" * 65)
+
+rows2 = []
+for m in margins:
+    row = []
+    for inc in incomes:
+        pbt = inc * m
+        row.append(pbt)
+    rows2.append(row)
+
+df2 = pd.DataFrame(rows2,
+                   index=[f"{int(m*100)}% margin" for m in margins],
+                   columns=[f"£{inc:,}M" for inc in incomes])
+
+print(df2.to_string(float_format=lambda x: f"£{x:,.0f}M"))
+print(f"\n  BASE (16% × £1,850M): £{BASE_INC * BASE_MAR:,.0f}M underlying PBT")
+
+# ── 5-Case Scenario Model ─────────────────────────────────────────────────────
+print("\n" + "=" * 65)
+print("5-CASE SCENARIO MODEL — FY28E IMPLIED SHARE PRICE")
+print("=" * 65)
+
+scenarios = [
+    {
+        "name":        "Bear Severe",
+        "prob":        0.05,
+        "rev_fy26":    1_480,
+        "rev_fy27":    1_560,
+        "rev_fy28":    1_620,
+        "margin_fy26": 0.11,
+        "margin_fy27": 0.10,
+        "margin_fy28": 0.10,
+        "ev_sales_x":  2.0,
+        "net_cash_28": 1_100,
+    },
+    {
+        "name":        "Bear Mild",
+        "prob":        0.20,
+        "rev_fy26":    1_540,
+        "rev_fy27":    1_760,
+        "rev_fy28":    1_990,
+        "margin_fy26": 0.13,
+        "margin_fy27": 0.13,
+        "margin_fy28": 0.13,
+        "ev_sales_x":  3.0,
+        "net_cash_28": 1_250,
+    },
+    {
+        "name":        "Base Case",
+        "prob":        0.50,
+        "rev_fy26":    1_610,
+        "rev_fy27":    1_885,
+        "rev_fy28":    2_180,
+        "margin_fy26": 0.16,
+        "margin_fy27": 0.15,
+        "margin_fy28": 0.16,
+        "ev_sales_x":  4.2,
+        "net_cash_28": 1_400,
+    },
+    {
+        "name":        "Bull Mild",
+        "prob":        0.20,
+        "rev_fy26":    1_690,
+        "rev_fy27":    2_060,
+        "rev_fy28":    2_490,
+        "margin_fy26": 0.16,
+        "margin_fy27": 0.17,
+        "margin_fy28": 0.17,
+        "ev_sales_x":  5.5,
+        "net_cash_28": 1_550,
+    },
+    {
+        "name":        "Bull Severe",
+        "prob":        0.05,
+        "rev_fy26":    1_790,
+        "rev_fy27":    2_300,
+        "rev_fy28":    2_940,
+        "margin_fy26": 0.16,
+        "margin_fy27": 0.18,
+        "margin_fy28": 0.20,
+        "ev_sales_x":  7.0,
+        "net_cash_28": 1_800,
+    },
+]
+
+weighted_sum = 0.0
+results = []
+
+for s in scenarios:
+    ev       = s["rev_fy28"] * s["ev_sales_x"]                   # £M EV at exit
+    eq_val   = ev + s["net_cash_28"]                               # £M equity value
+    price    = eq_val / SHARES_M                                   # £ per share
+    upside   = (price / CURRENT_PRICE - 1) * 100                  # %
+    weighted = s["prob"] * price
+    weighted_sum += weighted
+    results.append({
+        "Scenario":      s["name"],
+        "Prob":          f"{s['prob']*100:.0f}%",
+        "Rev FY28 (£M)": f"£{s['rev_fy28']:,}",
+        "EV/Sales":      f"{s['ev_sales_x']}x",
+        "Exit EV (£M)":  f"£{ev:,.0f}",
+        "Net Cash (£M)": f"£{s['net_cash_28']:,}",
+        "Impl. Price":   f"£{price:.2f}",
+        "vs. Current":   f"{upside:+.1f}%",
+        "Weighted":      f"£{weighted:.2f}",
+    })
+
+df3 = pd.DataFrame(results)
+print(df3.to_string(index=False))
+
+pv_1yr = weighted_sum / (1 + COC)
+print(f"\n  Prob-Weighted FY28E Price:  £{weighted_sum:.2f}")
+print(f"  PV at {COC*100:.0f}% CoC (1yr):       £{pv_1yr:.2f}")
+print(f"  Current Price:              £{CURRENT_PRICE:.2f}")
+print(f"  Upside / (Downside):        {(pv_1yr/CURRENT_PRICE - 1)*100:+.1f}%")
+print(f"\n  ==> Wise is approximately FAIRLY VALUED at current levels.")
+print(f"      Build tracking position; add aggressively below £8.00.")
+print(f"      Key catalyst: H2 FY26 results (~June 2026).")
+</div>
+</div>
+
+<p class="source-note" style="margin-top:16px;">Sources: Wise Plc H1 FY2026 Earnings Call (Nov 6, 2025), Q4 FY2025 Earnings Call (Jun 5, 2025); FactSet Company Snapshot (WISE-GB, Mar 10, 2026); FactSet Comps Export (Mar 10, 2026); AlphaSense Deep Research Report (Mar 10, 2026, encrypted); Theia Research analysis. All projections are estimates. Not investment advice.</p>
+
+</body>
+</html>
