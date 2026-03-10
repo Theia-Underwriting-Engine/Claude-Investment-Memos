@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rocket Companies | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', Arial, sans-serif; background: #fff; color: #1a1a2e; width: 816px; margin: 0 auto; padding: 32px 40px; font-size: 11px; line-height: 1.45; }
+.title-bar { font-size: 20px; font-weight: 700; letter-spacing: -0.4px; color: #1a1a2e; border-bottom: 3px solid #1a1a2e; padding-bottom: 10px; margin-bottom: 20px; text-align: center; }
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+table.ev tr.sub td:first-child { padding-left: 14px; font-size: 9.5px; color: #777; }
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+.fw-item { margin-bottom: 10px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+table.sensitivity td.row-label { text-align: right; font-weight: 600; background: #f4f6f9; }
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 8px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; font-size: 8.5px; }
+.case-block table.scenario-mini th:first-child { text-align: left; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #f5f5f5; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini tr.dim td { color: #888; font-size: 8.5px; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+.alphasense-box { background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 4px; padding: 8px 12px; margin-bottom: 14px; font-size: 10px; color: #1e3a5f; }
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.comps th:first-child { text-align: left; }
+table.comps td { text-align: right; padding: 2px 4px; white-space: nowrap; }
+table.comps td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-style: italic; background: #fafbfc; color: #555; }
+table.comps tr:nth-child(even) { background: #fafbfc; }
+table.comps tr.subject { background: #f0f0f0 !important; }
+.bull-title { color: #155724; border-bottom: 1.5px solid #155724; }
+.bear-title { color: #721c24; border-bottom: 1.5px solid #721c24; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Rocket Companies | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<p class="prose">Rocket Companies (NYSE: RKT) is America's largest residential mortgage originator and servicer, founded in Detroit in 1985 by Dan Gilbert as Rock Financial and rebranded as Quicken Loans in 1998 — the firm that pioneered online mortgage applications and went fully digital years before competitors. Today, under CEO Varun Krishna (appointed 2023), Rocket has evolved beyond its mortgage roots into an integrated homeownership platform spanning origination (Rocket Mortgage), real estate brokerage (Redfin, acquired July 2025 for $1.75B in stock), mortgage servicing (Mr. Cooper, acquired October 2025 for $9.4B in stock — the largest mortgage transaction in history), title & settlement (Amrock), personal finance (Rocket Money, 4.6M subscribers), and a distribution alliance with Compass (340K agents). The company employs approximately 26,000 people and processed $132B in net rate locks in 2025.</p>
+
+<p class="prose">The core thesis: Rocket is assembling a vertically integrated homeownership flywheel — Redfin generates buyer leads → Rocket Mortgage originates the loan → Mr. Cooper services the loan indefinitely → the 83% recapture rate (vs. ~20% industry) converts every refinance event back into an origination → Rocket Money deepens wallet share across the 9.5M-client servicing base. The $2.1T UPB servicing portfolio (owned + subserviced) is the strategic crown jewel: it generates ~$5B of annualized cash flow, acts as a perpetual lead generation engine, and insulates revenue from origination market cycles in a way no pure-play originator can replicate. The key risk is that Rocket's stock trades at 18.3x FY1 P/E against UWMC at 8.8x and PFSI at 7.1x — a steep premium to peers that requires the ecosystem thesis to materialize faster than bears expect, in a market that has been structurally suppressed by the rate lock-in effect since 2022.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Financial Summary — Theia FactSet Summary</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="header">
+  <div>
+    <h1>Rocket Companies, Inc.</h1>
+    <span class="ticker">RKT-US &nbsp;|&nbsp; NYSE &nbsp;|&nbsp; Class A Common</span>
+  </div>
+  <div class="date">FactSet Export: Mar 9, 2026 &nbsp;|&nbsp; Memo Date: Mar 10, 2026</div>
+</div>
+
+<div class="price-bar">
+  <span class="price">$14.95</span>
+  <span class="label">Current Price</span>
+  <span>&nbsp;|&nbsp;</span>
+  <span class="label">1M:</span><span class="chg">−20.5%</span>
+  <span class="label">3M:</span><span class="chg">−17.9%</span>
+  <span class="label">6M:</span><span class="chg">−23.8%</span>
+  <span class="label">YTD:</span><span class="chg">−19.5%</span>
+  <span class="label">1Y:</span><span class="chg">−1.1%</span>
+  <span>&nbsp;|&nbsp;</span>
+  <span class="label">52W Range:</span><span style="font-weight:600">$10.94 – $24.36</span>
+</div>
+
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv">
+      <tr><td>Ticker / Exchange</td><td>RKT / NYSE</td></tr>
+      <tr><td>Price (Mar 6, 2026)</td><td>$14.95</td></tr>
+      <tr><td>Volume (Last Session)</td><td>49.8M</td></tr>
+      <tr><td>30D Avg Volume</td><td>32.3M</td></tr>
+      <tr><td>Float %</td><td>96.97%</td></tr>
+      <tr><td>Short Interest (Days)</td><td>1.6 days</td></tr>
+      <tr><td>Short Interest (% Float)</td><td>5.83%</td></tr>
+      <tr><td>Broker Contributors</td><td>11</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev">
+      <tr><td>Price</td><td>$14.95</td></tr>
+      <tr><td>Basic Shares Outstanding</td><td>2,819.82M</td></tr>
+      <tr class="sub"><td>&nbsp;Class A Common</td><td>970.94M</td></tr>
+      <tr class="sub"><td>&nbsp;Class L Convertible</td><td>1,848.88M</td></tr>
+      <tr><td>Market Cap</td><td>$42,156M</td></tr>
+      <tr><td>+ Stock Comp / Options</td><td>53.44M</td></tr>
+      <tr><td>Fully Dil. Market Cap</td><td>$42,955M</td></tr>
+      <tr><td>+ Total Debt</td><td>$28,359M</td></tr>
+      <tr><td>− Cash &amp; Equivalents</td><td>($2,696M)</td></tr>
+      <tr><td>− Investments</td><td>($225M)</td></tr>
+      <tr class="total"><td>Enterprise Value</td><td>$68,393M</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="section-title">Current Valuation</div>
+<div class="val-grid">
+  <div class="val-cell"><div class="val-label">Market Cap</div><div class="val-num">$42.2B</div><div class="val-sub">Basic shares</div></div>
+  <div class="val-cell"><div class="val-label">Enterprise Value</div><div class="val-num">$68.4B</div><div class="val-sub">Incl. warehouse lines</div></div>
+  <div class="val-cell"><div class="val-label">P/E (FY1)</div><div class="val-num">18.3x</div><div class="val-sub">FY1 EPS $0.60E</div></div>
+  <div class="val-cell"><div class="val-label">EV/EBITDA (FY1)</div><div class="val-num">17.8x</div><div class="val-sub">FY1 EBITDA $3,833E</div></div>
+  <div class="val-cell"><div class="val-label">EV/Sales (FY1)</div><div class="val-num">5.9x</div><div class="val-sub">FY1 Rev $11,690E</div></div>
+  <div class="val-cell"><div class="val-label">P/Sales (FY1)</div><div class="val-num">3.6x</div><div class="val-sub">FY1 Rev $11,690E</div></div>
+</div>
+<div class="val-grid" style="border-top: 1px solid #eee;">
+  <div class="val-cell"><div class="val-label">Fully Dil. Mkt Cap</div><div class="val-num">$43.0B</div><div class="val-sub">Incl. stock comp</div></div>
+  <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">5.67%</div><div class="val-sub">FactSet estimate</div></div>
+  <div class="val-cell"><div class="val-label">Beta</div><div class="val-num">1.0</div><div class="val-sub">vs. market</div></div>
+  <div class="val-cell"><div class="val-label">Avg Rating</div><div class="val-num">OW 1.62</div><div class="val-sub">11 analysts</div></div>
+  <div class="val-cell"><div class="val-label">Consensus PT</div><div class="val-num">$22.82</div><div class="val-sub">+52.6% upside</div></div>
+  <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">Apr 30</div><div class="val-sub">Q1 2026E</div></div>
+</div>
+
+<div class="section-title" style="margin-top:10px">Valuation Multiples</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th style="text-align:left">Metric</th>
+      <th>5Yr Avg</th>
+      <th>Dec '23</th>
+      <th>Dec '24</th>
+      <th>Dec '25</th>
+      <th class="est">Dec '26E</th>
+      <th class="est">Dec '27E</th>
+      <th class="est">Dec '28E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="8">Per Share Multiples</td></tr>
+    <tr><td>P/E</td><td>—</td><td>NM</td><td>71.2x</td><td>NM</td><td class="est">18.3x</td><td class="est">11.5x</td><td class="est">9.0x</td></tr>
+    <tr><td>P/Sales</td><td>5.0x</td><td>11.7x</td><td>9.0x</td><td>6.1x</td><td class="est">3.6x</td><td class="est">3.3x</td><td class="est">3.0x</td></tr>
+    <tr><td>P/BV</td><td>—</td><td>—</td><td>60.0x</td><td>1.8x</td><td class="est">1.8x</td><td class="est">1.6x</td><td class="est">1.4x</td></tr>
+    <tr><td>P/FCF</td><td>—</td><td>—</td><td>NM</td><td>NM</td><td class="est">17.9x</td><td class="est">12.9x</td><td class="est">53.0x</td></tr>
+    <tr class="section-row"><td colspan="8">Enterprise Value Multiples</td></tr>
+    <tr><td>EV/Sales</td><td>8.7x</td><td>18.9x</td><td>14.7x</td><td>9.9x</td><td class="est">5.9x</td><td class="est">5.4x</td><td class="est">4.9x</td></tr>
+    <tr><td>EV/EBITDA</td><td>—</td><td>—</td><td>55.1x</td><td>55.1x</td><td class="est">17.8x</td><td class="est">14.3x</td><td class="est">18.5x</td></tr>
+    <tr><td>EV/EBIT</td><td>—</td><td>NM</td><td>60.2x</td><td>71.9x</td><td class="est">26.2x</td><td class="est">18.2x</td><td class="est">81.6x</td></tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:10px">Revenue Exposure (FY2025)</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Segment</div>
+    <table class="data">
+      <thead><tr><th style="text-align:left">Segment</th><th>FY2025 ($M)</th><th>% Total</th><th>YoY</th></tr></thead>
+      <tbody>
+        <tr><td>Direct to Consumer (DTC)</td><td>$4,791</td><td>71.6%</td><td>+23.1%</td></tr>
+        <tr><td>Partner Network</td><td>$668</td><td>10.0%</td><td>−0.3%</td></tr>
+        <tr><td>All Other (Svcing, Redfin, etc.)</td><td>$1,236</td><td>18.5%</td><td>+129.6%</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ddd;"><td>Total Revenue</td><td>$6,695</td><td>100%</td><td>+47.5%</td></tr>
+      </tbody>
+    </table>
+    <div style="font-size:8.5px; color:#888; margin-top:3px;">Note: FactSet reports FY2025 GAAP revenue $6,880M; segment data per Q4 2025 earnings transcript.</div>
+  </div>
+  <div>
+    <div class="sub-label">By Geography</div>
+    <table class="data">
+      <thead><tr><th style="text-align:left">Region</th><th>%</th></tr></thead>
+      <tbody>
+        <tr><td>United States &amp; Canada</td><td>100%</td></tr>
+        <tr><td>International</td><td>—</td></tr>
+      </tbody>
+    </table>
+    <div class="sub-label" style="margin-top:8px">Key Operating KPIs (FY2025)</div>
+    <table class="kv">
+      <tr><td>Net Rate Lock Volume</td><td>$132B</td></tr>
+      <tr><td>Q4 GOS Margin</td><td>320 bps</td></tr>
+      <tr><td>Serviced UPB (owned)</td><td>$1.29T</td></tr>
+      <tr><td>Total Servicing UPB</td><td>$2.1T</td></tr>
+      <tr><td>Servicing Clients</td><td>9.5M</td></tr>
+      <tr><td>Recapture Rate</td><td>83%</td></tr>
+      <tr><td>Rocket Money Subscribers</td><td>4.6M</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="section-title" style="margin-top:10px">Financials</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th style="text-align:left">($M except per share)</th>
+      <th>Dec '23</th>
+      <th>Dec '24</th>
+      <th>Dec '25</th>
+      <th class="est">Dec '26E</th>
+      <th class="est">Dec '27E</th>
+      <th class="est">Dec '28E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">Income Statement</td></tr>
+    <tr><td>Revenue</td><td>$3,615</td><td>$4,665</td><td>$6,880</td><td class="est">$11,690</td><td class="est">$12,684</td><td class="est">$14,088</td></tr>
+    <tr><td>Gross Income</td><td>$3,502</td><td>$4,553</td><td>$6,594</td><td class="est">$11,120</td><td class="est">$12,063</td><td class="est">$13,386</td></tr>
+    <tr><td>EBITDA</td><td>$67</td><td>$1,250</td><td>$1,241</td><td class="est">$3,833</td><td class="est">$4,776</td><td class="est">$3,698</td></tr>
+    <tr><td>EBIT</td><td>($43)</td><td>$1,137</td><td>$951</td><td class="est">$2,613</td><td class="est">$3,748</td><td class="est">$838</td></tr>
+    <tr><td>Net Income</td><td>($16)</td><td>$29</td><td>($68)</td><td class="est">$1,632</td><td class="est">$2,681</td><td class="est">$3,260</td></tr>
+    <tr><td>Diluted EPS</td><td>($0.15)</td><td>$0.21</td><td>($0.05)</td><td class="est">$0.60</td><td class="est">$0.97</td><td class="est">$1.22</td></tr>
+    <tr class="section-row"><td colspan="7">Margins</td></tr>
+    <tr><td>Gross Margin %</td><td>96.9%</td><td>97.6%</td><td>95.8%</td><td class="est">95.1%</td><td class="est">95.1%</td><td class="est">95.0%</td></tr>
+    <tr><td>EBITDA Margin %</td><td>1.9%</td><td>26.8%</td><td>18.0%</td><td class="est">32.8%</td><td class="est">37.7%</td><td class="est">26.3%</td></tr>
+    <tr><td>Net Income Margin %</td><td>NM</td><td>0.6%</td><td>NM</td><td class="est">14.0%</td><td class="est">21.1%</td><td class="est">23.1%</td></tr>
+    <tr class="section-row"><td colspan="7">Cash Flow</td></tr>
+    <tr><td>Operating Cash Flow</td><td>$110</td><td>($2,629)</td><td>($3,927)</td><td class="est">$2,621</td><td class="est">$3,441</td><td class="est">$855</td></tr>
+    <tr><td>CapEx</td><td>($60)</td><td>($68)</td><td>($91)</td><td class="est">($265)</td><td class="est">($162)</td><td class="est">($59)</td></tr>
+    <tr><td>Free Cash Flow</td><td>$50</td><td>($2,697)</td><td>($4,018)</td><td class="est">$2,356</td><td class="est">$3,279</td><td class="est">$796</td></tr>
+    <tr class="section-row"><td colspan="7">Balance Sheet &amp; Returns</td></tr>
+    <tr><td>Cash &amp; Equivalents</td><td>$893</td><td>$1,063</td><td>$2,696</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Total Assets</td><td>$23,455</td><td>$25,327</td><td>$61,826</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Total SH Equity</td><td>$1,070</td><td>$703</td><td>$22,898</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Total Debt</td><td>$14,266</td><td>$13,988</td><td>$28,359</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Debt / Equity</td><td>1,333%</td><td>1,989%</td><td>148%</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>ROE</td><td>NM</td><td>3.3%</td><td>NM</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:10px">Valuation Summary</div>
+<p class="prose">Rocket currently trades at 18.3x FY1 EV/EBITDA and 18.3x FY1 P/E — a substantial 57% premium to the mortgage finance peer median of ~8-10x P/E (UWMC 8.8x, PFSI 7.1x, WD implied ~9x). The premium reflects the market assigning option value to Rocket's ecosystem thesis: the Redfin + Mr. Cooper + Compass stack is unlike anything a traditional mortgage company has built, and the 83% recapture rate is a structural advantage that is genuinely difficult to replicate. That said, the valuation requires confidence in a step-change in purchase market penetration (from 4.3% to 7-8%+ share) and meaningful synergy realization from two massive acquisitions closed back-to-back, in an origination market that remains suppressed by the 6-7% mortgage rate environment. At $14.95 — down ~23% from its 52-week high — the stock looks more interesting than it did six months ago, but still demands execution that peers are not being priced for.</p>
+
+<div class="source-note">Source: FactSet Snapshot Export (Mar 9, 2026), Q4 2025 Earnings Transcript (Feb 26, 2026), AlphaSense DR-Report (Mar 10, 2026)</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="two-col">
+  <div>
+    <div class="section-title bull-title">Bull Cases</div>
+    <div class="fw-item">
+      <span class="fw-name">Rate Tailwind Unleashes Pent-Up Demand.</span>
+      <p class="prose">The 30-year mortgage rate has suppressed $4T+ of latent refinance demand among the ~9.5M Rocket-serviced borrowers locked above 6%. A 75–100 bps rate decline would trigger a refi wave that Rocket captures at 83% recapture — flooding the origination pipeline with low-CAC volume that flows directly to EBITDA. Management has called the refi market "a coiled spring."</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name">Mr. Cooper Recapture Flywheel Compounds.</span>
+      <p class="prose">The October 2025 Mr. Cooper acquisition added ~$1T of subserviced UPB and 4.5M new clients at near-zero marginal cost of acquisition. As Rocket migrates these clients onto its digital platform and achieves even 50% of its native 83% recapture rate on them, the incremental origination volume could generate $2–3B of additional annual revenue at near-100% incremental margin on the lead generation side.</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name">Compass + Redfin Purchase Market Share.</span>
+      <p class="prose">The exclusive listings partnership with Compass (340K agents, $230B+ annual transaction volume) gives Rocket a first-look at millions of purchase transactions annually. If purchase market share grows from 4.3% (FY2025) to 6–7% by FY2027, the incremental volume at prevailing GOS margins would add $500–900M in annual revenue and prove the ecosystem thesis.</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name">AI-Driven Operating Leverage.</span>
+      <p class="prose">Rocket has invested aggressively in AI automation of the mortgage lifecycle — underwriting, document processing, appraisal coordination. Management disclosed that AI productivity gains have reduced cost-per-loan materially. If EBITDA margins approach 40–45% on a larger revenue base, the EPS power of the business would substantially exceed current consensus ($0.97 FY2027E).</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name">Rocket Money Monetization Inflection.</span>
+      <p class="prose">With 4.6M subscribers and $2.1T in servicing UPB, Rocket Money is an underappreciated asset. Deeper cross-sell into mortgage refinancing, personal loans, and insurance via the app could generate $500M+ of incremental annual revenue at high margins — none of which is priced into current consensus estimates.</p>
+    </div>
+  </div>
+  <div>
+    <div class="section-title bear-title">Bear Cases</div>
+    <div class="fw-item">
+      <span class="fw-name">Rates Stay Elevated — Origination Market Stays Frozen.</span>
+      <p class="prose">If the 30-year rate remains above 6.5% through 2027, the refinance and purchase markets stay suppressed. Rocket's origination revenue is highly convex to rate movements — the company lost money in 2023 when rates surged. With the ecosystem still in integration mode, investors waiting for rate relief may be waiting much longer than the current price implies.</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name">Purchase Market Share Gain Is Harder Than It Looks.</span>
+      <p class="prose">Rocket's DTC model excels at refinance, where borrowers already know their servicer. In purchase, the agent relationship dominates — and Redfin has consistently lost share to Compass, Zillow, and local brokerages. Rocket's 4.3% purchase share (vs. 40% refi share) has barely moved despite years of investment, suggesting structural limits to digital-led purchase origination.</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name">Execution Risk on Back-to-Back Mega-Mergers.</span>
+      <p class="prose">Integrating Redfin ($1.75B) and Mr. Cooper ($9.4B) simultaneously — two completely different businesses (tech real estate platform + traditional servicer) — while also running an AI transformation is extraordinarily complex. Integration failures, culture clashes, or technology migration delays could create multi-year earnings drag that current consensus does not fully price.</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name">Valuation Premium Requires Flawless Execution.</span>
+      <p class="prose">At 18x FY1 P/E vs. peers at 7-9x, there is almost no margin of safety. If Q1 2026 GOS margins come in below the 320 bps reported in Q4 (guidance implies flat to slightly down), or if mortgage rate lock volumes disappoint, the stock could re-rate sharply toward peer multiples — implying 40-50% downside to ~$8-9.</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name">CFPB and GSE Risk.</span>
+      <p class="prose">Rocket's servicing portfolio is heavily concentrated in conforming (Fannie/Freddie-backed) loans. Any changes to GSE conservatorship, MSR valuation rules, or CFPB servicing regulations could impair the $6.7B fair value of Rocket's MSR book. The political environment around housing finance reform remains highly uncertain under the new administration.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="fw-item">
+  <span class="fw-name">1. Scale Economies</span><span class="fw-rating strong">Strong</span>
+  <p class="prose">Rocket processes more mortgage applications than any other lender in America — approximately 1 in 6 of all US mortgages. This scale advantage manifests in multiple ways: Rocket's cost per loan has declined significantly as AI and automation eliminate manual underwriting steps that smaller lenders must still staff for; the company's technology platform cost is spread over 400,000+ loans per year rather than a regional lender's 10,000; and Rocket's wholesale funding relationships (warehouse lines, securitization conduits) are priced at tighter spreads than competitors can access at lower volumes. The $2.1T servicing UPB also creates structural cost advantages in servicer-required advances, vendor relationships, and regulatory compliance infrastructure — a fixed cost that, on a per-loan basis, is a fraction of what UWMC or a mid-size servicer pays. Critically, scale economies in mortgage are non-linear: a servicer with $2T UPB doesn't just pay 2x what a $1T servicer pays — the fixed technology and regulatory overhead is largely shared, so the marginal cost of servicing an additional $100B of UPB is far below average. This is why Rocket's servicing margins structurally exceed peers.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Network Effects</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Rocket's network effects are emergent rather than structural in the classic sense. The company is explicitly building toward a marketplace model where more homebuyers on Redfin attract more agents (Compass alliance), which generates more purchase transactions, which increases Rocket Mortgage's addressable volume, which builds a larger servicing base, which creates more refinance recapture opportunities. This is a data network effect: with 9.5M serviced clients, Rocket has vastly more behavioral data on mortgage borrowers than any competitor — enabling better pricing, better retention interventions, and better cross-sell targeting. However, these network effects are soft and one-sided; they don't prevent a borrower from using a different lender, and Redfin's marketplace (unlike Zillow's) has not demonstrated the ability to command premium economics from agents or consumers. The network effect thesis is real but requires ecosystem integration to deliver, making it conditional on execution.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Counter-Positioning</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Rocket's fully digital, DTC model was genuinely counter-positioned against the traditional broker/bank origination channel when it launched its online platform in the 2000s. Traditional banks were unwilling to disintermediate their branch networks and loan officer relationships to replicate a direct digital channel; doing so would have cannibalized their existing business model and antagonized their branch employees and broker partners. This allowed Rocket to capture 40%+ of the refinance market with almost no incumbent response. However, the counter-positioning has eroded somewhat: United Wholesale Mortgage (UWMC) has built a highly efficient broker channel that competes effectively on purchase, and major banks have invested in digital origination capabilities that are now good enough. The counter-positioning moat is strongest in DTC refinance and weakest in purchase, where agent relationships remain the dominant distribution channel. Rocket's acquisition of Redfin is a direct attempt to establish counter-positioning in purchase — if successful, it would be genuinely difficult for a traditional servicer to replicate (building or buying an MLS-integrated real estate platform is expensive and takes years).</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Switching Costs</span><span class="fw-rating strong">Strong</span>
+  <p class="prose">Once Rocket services a borrower's mortgage, switching costs are substantial and structural. A borrower cannot unilaterally transfer their mortgage to a different servicer — servicers are assigned by the owner of the mortgage (typically Fannie Mae, Freddie Mac, or a private investor). This means Rocket's 9.5M serviced clients are, in a very real sense, captive: they pay Rocket a servicing fee regardless of whether they want to. The switching cost for the borrower only arises at refinance — at which point Rocket's 83% recapture rate (vs. ~20% industry average) demonstrates that it successfully converts this captive relationship into a new origination. Rocket Money deepens this stickiness further: a borrower who uses Rocket Money for budgeting and debt tracking is more likely to see Rocket's mortgage refinance offers and act on them. The switching cost for Rocket's institutional servicing clients (subservicing relationships like the legacy Mr. Cooper subservicing) is also high: transitioning a servicing portfolio requires regulatory approval, technology migration, and operational risk — all of which create 12–24 month switching timelines even if a client wants to leave.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Branding</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose">The Rocket Mortgage brand is the most recognized consumer mortgage brand in America, built through aggressive Super Bowl advertising campaigns and a decade of digital-first marketing. This brand recognition reduces Rocket's cost of customer acquisition for DTC refinance, as borrowers who receive a rate quote from an unfamiliar servicer will often cross-check with Rocket first. However, mortgage branding has limits: unlike a consumer product where brand affinity can sustain 20–30% price premiums indefinitely, mortgage is fundamentally a commodity rate product — a borrower will take a 25 bps lower rate from an unknown lender. Rocket's brand advantage is primarily in conversion rate (turning a rate inquiry into a closed loan) and in customer trust for complex transactions, not in pricing power. The Redfin brand adds a different dimension: Redfin is known as a tech-forward, consumer-aligned brokerage that rebates part of the commission to buyers — a brand promise that resonates with cost-conscious buyers who may also be interested in Rocket's competitive mortgage rates.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">6. Cornered Resource</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Rocket's most distinctive cornered resource is its MSR book — $1.29T of owned mortgage servicing rights with a fair value of $6.7B. Mortgage servicing rights are the legal right to collect monthly payments (and the associated fees) from a pool of borrowers, in exchange for performing servicing obligations (payment processing, escrow management, loss mitigation). This asset took Rocket 20+ years to build and cannot be replicated quickly: acquiring $1T of MSRs organically requires originating hundreds of thousands of loans over many years, while buying them in bulk (as Mr. Cooper acquisition illustrates) requires enormous capital. The MSR book is a perpetual lead generation machine that generates ~$5B annualized servicing cash flow while simultaneously holding 9.5M borrowers in Rocket's ecosystem for eventual recapture. Redfin's MLS data access and Compass's exclusive listings inventory are secondary cornered resources that will take time to fully monetize.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">7. Process Power</span><span class="fw-rating strong">Strong</span>
+  <p class="prose">Rocket's embedded organizational capability is in mortgage operations at scale — the combination of technology infrastructure, underwriting expertise, and operational processes that allow it to close loans faster, more reliably, and at lower cost than competitors. The company has spent 20 years building proprietary decisioning algorithms, automated document verification, appraisal management workflows, and secondary market trading systems. These processes don't exist in a single system or person — they're embedded in thousands of trained employees, workflow protocols, and custom technology integrations with GSEs, title companies, and warehouse lenders. Rocket Close (its accelerated closing program) closed 294 loans in 2025 — a differentiator in a purchase market where closing certainty is often worth more to a seller than the highest bid. The AI layer management is now deploying sits on top of this process foundation, making existing processes faster rather than replacing them, which means the organizational muscle built over two decades continues to compound rather than being disrupted by the new technology.</p>
+</div>
+
+<p class="prose" style="margin-top:8px;"><strong>Summary:</strong> Rocket's strongest structural moats are Switching Costs (driven by the non-transferable servicing portfolio and 83% recapture rate), Scale Economies (at $2T UPB the cost curve is materially lower than peers), and Process Power (20 years of embedded mortgage ops capability). Network Effects and Counter-Positioning are real but conditional on successful ecosystem integration — making them future moats, not present ones. The stock is partly a bet on these conditional moats materializing.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="fw-item">
+  <span class="fw-name">1. Threat of New Entrants</span><span class="fw-rating low">Low</span>
+  <p class="prose">The barriers to entering residential mortgage origination at scale are formidable. To operate as a mortgage lender, a company must obtain state licensing in all 50 states (typically 1–2 years), establish warehouse credit facilities (requires demonstrated origination capacity and financial strength), register with GSEs (Fannie Mae, Freddie Mac) as an approved seller/servicer (multiyear process), build or buy servicing infrastructure (or outsource at margin cost), and then fund customer acquisition marketing against incumbents with decades of brand recognition. The capital requirements are enormous: Rocket carries $28B of debt, primarily warehouse lines that fund in-process loans. A new entrant starting from zero could not access $10B+ of warehouse credit without years of operating history. Tech-enabled fintech entrants (Better.com, Blend, Morty) have largely failed to achieve meaningful scale, and several have retreated to B2B models or restructured. The actual moat against new entrants is not just capital — it's the combination of servicing infrastructure, GSE relationships, and operational expertise that takes a decade+ to build. No plausible new entrant threatens Rocket at scale within a 5-year horizon.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Bargaining Power of Suppliers</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Rocket's primary "supplier" inputs are: warehouse credit lines (funding originated loans before securitization), GSE access (Fannie/Freddie purchase commitments that convert loans to cash), technology vendors, and human capital (mortgage loan officers, underwriters). Warehouse credit is provided by a consortium of large banks, and while concentration is a risk, Rocket's scale and creditworthiness give it good negotiating leverage — it was able to maintain $10.1B of total liquidity as of Q4 2025. GSE access is a bigger potential supplier power risk: Fannie and Freddie set the conforming loan standards and guarantee fees that underpin 70%+ of Rocket's origination volume. Any change to guarantee fees, loan limits, or underwriting standards by the FHFA represents a supplier-side change that Rocket cannot easily negotiate around. Technology vendor power is low — Rocket has largely internalized its core technology stack. Human capital is moderate: experienced mortgage underwriters and loan officers are scarce in a tight market, though Rocket's AI investments are reducing its dependence on headcount at the margin.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Bargaining Power of Buyers</span><span class="fw-rating high">High</span>
+  <p class="prose">Individual mortgage borrowers have high bargaining power in the sense that they comparison-shop aggressively — mortgage aggregators (Lending Tree, Bankrate, Zillow) put Rocket's rates side-by-side with 10+ competitors in real time. A 12.5 bps rate difference on a $400,000 loan is $7,500 over 10 years — highly material to a consumer. This competitive pricing pressure is why GOS margins (gain-on-sale, the spread between what Rocket sells the loan for and the loan's funded cost) have ranged from 180 bps in distressed periods to 400+ bps in refi booms — the buyer bargaining dynamic determines the margin band. Rocket partially offsets this through its servicing portfolio (existing clients who trust the brand) and Rocket Money engagement (which makes switching more psychologically costly), but the fundamental dynamic of mortgage as a commodity rate product gives buyers significant leverage on price. This is the core structural challenge of the mortgage business and why operating leverage is critical — Rocket must be the lowest-cost originator to survive the high buyer bargaining pressure.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Threat of Substitutes</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose">The primary substitute for a traditional mortgage is simple: renting instead of buying. Rising home prices and elevated mortgage rates have materially increased the rent-vs.-buy calculation in favor of renting for millions of households, which directly suppresses origination volume. Secondary substitutes include: (1) assumable mortgages — FHA and VA loans can be assumed at the original rate, bypassing a new origination; this has become more relevant at 6-7% rates. (2) Seller financing arrangements, more common in commercial real estate than residential but growing. (3) Home equity lines of credit (HELOCs) as a substitute for cash-out refinancing — a borrower who wants to access home equity at a 7% rate will prefer a HELOC to giving up their existing 3% first mortgage. The HELOC trend has been a meaningful headwind to Rocket's cash-out refi volume. (4) Rent-to-own models (Divvy, Landis) as a substitute for traditional mortgage for credit-constrained buyers. None of these substitutes are existential, but collectively they are why origination volume in 2023-2025 is 60% below its 2021 peak despite strong home price appreciation.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Competitive Rivalry</span><span class="fw-rating high">High</span>
+  <p class="prose">Competitive rivalry in residential mortgage origination is intense and structural. The mortgage market has dozens of significant players across three channels: retail (banks and credit unions with branch networks — JPMorgan, Wells Fargo, Bank of America), wholesale (Rocket's largest direct competitor, UWMC, which routes business through independent mortgage brokers), and correspondent (PFSI, which buys closed loans from smaller lenders). In the DTC refinance channel where Rocket is dominant, rivalry with UWMC is particularly acute: UWMC has been aggressively pricing to gain broker market share and has publicly committed to a low-price strategy even at the cost of near-term profitability. In purchase, rivalry extends to Zillow (which drives enormous purchase intent), Redfin (now owned by Rocket, creating complexity), local and regional banks, and credit unions. Industry-wide, mortgage lenders compete primarily on rate, speed, and service — all of which are copyable to varying degrees. The competitive environment is structurally unfavorable for the weakest players (leading to industry consolidation) but creates a reasonable equilibrium for the top 3-4 players with technology and servicing scale.</p>
+</div>
+
+<p class="prose" style="margin-top:8px;"><strong>Summary:</strong> The competitive environment for Rocket is <strong>challenging on the origination side</strong> (high buyer bargaining power, high competitive rivalry) but <strong>favorable on the servicing side</strong> (high switching costs, low new entrant threat into servicing at scale). The investment thesis hinges on the proposition that Rocket's servicing and ecosystem advantages can overcome the structurally difficult origination market dynamics — a thesis that is directionally correct but unproven at the scale Rocket is attempting.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Stock?</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<ol style="padding-left: 18px; margin-bottom: 8px;">
+  <li class="fw-item" style="margin-bottom:8px">
+    <span class="fw-name">Mortgage Rate Trajectory (30-Year Fixed).</span>
+    <p class="prose">The single most important exogenous driver. Every 25 bps decline in the 30-year rate unlocks an estimated $15–25B of incremental refinanceable volume within Rocket's servicing book. The stock responded to the Sept 2024 Fed cut with a +50% rally to $24, then retraced as rates rebound — demonstrating the near-perfect correlation. The market prices RKT largely as a rate-leveraged option, and the multiple expansion/contraction from rate moves typically happens faster than earnings revisions.</p>
+  </li>
+  <li class="fw-item" style="margin-bottom:8px">
+    <span class="fw-name">GOS Margin and Net Rate Lock Volume (Quarterly Earnings Beats/Misses).</span>
+    <p class="prose">Gain-on-sale margin is the profit per dollar of mortgage originated. Q4 2025 GOS of 320 bps beat consensus by ~40 bps — driving 24% EBITDA margin on $2.44B of adjusted revenue. Q1 2026 guidance of $2.6–2.8B implies modest sequential improvement. Analysts track this obsessively; any GOS beat >20 bps is bullish, miss <20 bps below consensus is bearish, as the operating leverage means margin moves flow almost 1:1 to EPS.</p>
+  </li>
+  <li class="fw-item" style="margin-bottom:8px">
+    <span class="fw-name">Purchase Market Share.</span>
+    <p class="prose">Rocket's purchase share was 4.3% in FY2025, up from 4.0% in 2024 — modest progress. Consensus expects acceleration from the Compass alliance and Redfin integration. Every 1% of purchase share equals ~$15–20B of volume at current market size (~$1.5T annual purchase originations). If Rocket demonstrates 5%+ share in Q1-Q2 2026, the ecosystem thesis gains credibility and could drive multiple expansion.</p>
+  </li>
+  <li class="fw-item" style="margin-bottom:8px">
+    <span class="fw-name">Mr. Cooper Recapture Rate and Integration Progress.</span>
+    <p class="prose">The market will watch whether Rocket can achieve near its 83% recapture rate on the 4.5M Mr. Cooper-inherited clients versus the legacy servicer's far lower rate. Disclosure of servicing recapture metrics, platform migration milestones, or synergy guidance updates at Q1 earnings will move the stock. A confirmed $1B+ synergy target would be meaningfully bullish.</p>
+  </li>
+  <li class="fw-item" style="margin-bottom:8px">
+    <span class="fw-name">Redfin Traffic and Lead Conversion Metrics.</span>
+    <p class="prose">Redfin.com is one of the top 3 real estate platforms by traffic. Quarterly updates on Rocket Mortgage attach rate to Redfin transactions (currently disclosed as a focus area but not yet broken out) will validate or disprove the distribution thesis. If Rocket discloses a meaningful attach rate (>20% of Redfin purchase transactions getting a Rocket mortgage), it would justify a higher multiple for the ecosystem as a whole.</p>
+  </li>
+  <li class="fw-item" style="margin-bottom:8px">
+    <span class="fw-name">MSR Fair Value and Balance Sheet Stability.</span>
+    <p class="prose">Rocket's $6.7B MSR book is marked to fair value at a 5.19x multiple on annualized servicing cash flows. In a rising rate environment, MSR values increase (prepayments slow, extending the asset's life); in a falling rate environment they decrease rapidly (a refinance boom burns through the MSR book). This creates a natural hedge in Rocket's P&amp;L but also means the balance sheet is volatile — MSR fair value changes can swing quarterly earnings by hundreds of millions. Large negative MSR marks in any quarter will headline risk the stock even if operating performance is strong.</p>
+  </li>
+</ol>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">7. What Drives the Business?</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<table class="data" style="font-size:10px;">
+  <thead>
+    <tr>
+      <th style="text-align:left; width:28%">Revenue Line</th>
+      <th style="text-align:left; width:42%">Driver Formula</th>
+      <th style="text-align:left">Est. FY2025 ($M)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="3">Origination Revenue (~70-75% of Total)</td></tr>
+    <tr><td>DTC Origination</td><td>Net Rate Lock Vol ($B) × GOS Margin (bps) × DTC Mix %</td><td>~$3,900</td></tr>
+    <tr><td>Partner Network Origination</td><td>Net Rate Lock Vol ($B) × GOS Margin (bps) × Partner Mix %</td><td>~$668</td></tr>
+    <tr class="section-row"><td colspan="3">Servicing Revenue (~18-22% of Total)</td></tr>
+    <tr><td>Servicing Fee Income</td><td>Owned UPB ($T) × Avg Servicing Fee Rate (bps) × 12 months</td><td>~$900</td></tr>
+    <tr><td>Subservicing Fees</td><td>Subserviced UPB ($T) × Subservicing Fee Rate (bps)</td><td>~$200</td></tr>
+    <tr><td>MSR Fair Value Change</td><td>±(Rate Δ) × Prepayment Speed × MSR Book Value</td><td>Variable</td></tr>
+    <tr class="section-row"><td colspan="3">All Other (~8-10% of Total)</td></tr>
+    <tr><td>Redfin Revenue</td><td>Real Estate Transactions × Avg Commission Rate × Redfin Take</td><td>~$440</td></tr>
+    <tr><td>Title &amp; Appraisal (Amrock)</td><td># Closings × Revenue per Closing</td><td>~$300</td></tr>
+    <tr><td>Rocket Money / Personal Finance</td><td>Subscribers × ARPU</td><td>~$120</td></tr>
+    <tr><td>Rocket Loans</td><td>Origination Volume × Net Revenue Yield</td><td>~$80</td></tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:8px;">The three highest-leverage drivers on total revenue are: <strong>(1) Net Rate Lock Volume</strong> — this is the master dial; a 10% increase in lock volume at constant margins flows almost entirely to incremental profit given the fixed-cost nature of Rocket's platform. FY2025 total net rate locks of $132B represent a 47% increase YoY, driven by market recovery and Mr. Cooper contribution. <strong>(2) GOS Margin</strong> — at 320 bps in Q4 2025, this is near the high end of the post-2022 range. Each 10 bps move = approximately $130–150M in annual origination revenue at current lock volumes. <strong>(3) Owned UPB Servicing Fee</strong> — the $1.29T owned book generates roughly $900M of annualized servicing fee income that is largely rate-agnostic (fees are fixed as a % of UPB). This recurring, predictable revenue stream is growing through acquisition (Mr. Cooper added ~$500B of owned UPB) and provides ballast in low-origination environments.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="alphasense-box">
+  <strong>AlphaSense DR-Report</strong> — Query: Rocket Companies (RKT-US) | Report Generated: March 10, 2026 | Source types: Earnings transcripts, expert calls, sell-side research, press releases, regulatory filings
+</div>
+
+<p class="prose"><strong>The Ecosystem Bet: Evidence From Expert Calls and Sell-Side.</strong> AlphaSense expert interviews and institutional research converge on a nuanced view of Rocket's ecosystem strategy: the thesis is structurally sound but the timeline is debated. Multiple former mortgage executives interviewed through the AlphaSense platform noted that the Compass alliance is the most strategically important piece — Compass agents transact in the $1M+ price range with buyers who have complex financial profiles and value advice over price, making them more likely to choose a lender based on trust and speed rather than rate alone. This is precisely the purchase market segment where Rocket can charge premium GOS margins and where the DTC brand resonates. One expert described Rocket's challenge as "a tale of two markets: in refi, they're dominant and the ecosystem amplifies dominance; in purchase entry-level, they're fighting for scraps against Wells Fargo, local credit unions, and UWMC brokers who have the agent relationships."</p>
+
+<p class="prose"><strong>Mr. Cooper Integration: Faster-Than-Expected Early Signs.</strong> Both sell-side research published post-Q4 2025 and expert call commentary indicate that the Mr. Cooper technology migration is proceeding ahead of schedule. Rocket's proprietary servicing platform (internally called "Nova") was designed for this scale, and early indications suggest that Mr. Cooper's former clients are engaging with Rocket Money and the digital refinance platform at rates above initial expectations. Analysts at two banks raised synergy estimates from $500M to $700M+ annually by Q3 2027, primarily driven by faster-than-expected recapture rate migration. The critical metric to watch is the "legacy Mr. Cooper recapture rate" — if it reaches 50%+ within 18 months (vs. the legacy ~25% pre-acquisition), the NPV of the deal materially exceeds the $9.4B acquisition price.</p>
+
+<p class="prose"><strong>GOS Margin Sustainability: A Structural Debate.</strong> AlphaSense earnings transcript analysis reveals significant sell-side debate about the 320 bps Q4 GOS margin. The bull case is that Rocket's servicing book generates a "captive pipeline" of rate-and-term refinance volume that it can execute at lower CAC, supporting above-peer margins permanently. The bear case, articulated by two analysts downgrading the stock post-2025 highs, is that GOS margins are inherently mean-reverting — in a competitive market, margin is competed away as lenders price aggressively for market share. Historical evidence: GOS averaged ~350–380 bps in 2020–2021 (ZIRP boom), collapsed to 180–220 bps in 2022–2023, and has recovered to 280–320 bps in 2024–2025 as market participants rationalized capacity. At 320 bps, Rocket is near the structural high; the question is whether the ecosystem (lower CAC from Redfin/Compass) creates a sustainable advantage or whether it reverts to 250–270 bps as competition normalizes.</p>
+
+<p class="prose"><strong>AI Productivity: Real but Not Transformative Yet.</strong> Expert calls with former Rocket technology employees suggest the AI investments are generating measurable efficiency gains — primarily in document processing (OCR and extraction), fraud detection, and automated income verification. These are real cost reductions (~15–20% improvement in time-to-close) but not the step-function productivity change that would fundamentally alter the cost structure. The more transformative AI application — predictive lead scoring and personalized rate lock timing recommendations from Rocket Money data — is still in early deployment. Multiple experts flagged that mortgage underwriting remains resistant to full AI automation due to regulatory requirements (Fair Housing Act, HMDA compliance) that mandate explainability and human-in-the-loop review. True AI underwriting autonomy, which would be transformative for cost, is likely 3–5 years away for conforming loans and longer for non-QM.</p>
+
+<p class="prose"><strong>Redfin: The Uncertain Piece.</strong> AlphaSense expert commentary on Redfin is the most cautious of all the ecosystem components. Former Redfin agents and a real estate technology executive noted that Redfin's model — charging a flat fee + lower commission — has struggled in the current environment where buyers value agent services more in a competitive market. Redfin's market share was declining pre-acquisition (~1.1% of US transactions), and simply integrating Rocket Mortgage pre-approval into the Redfin app may not reverse this trend without also improving agent quality and coverage. One expert called Redfin "a distraction for Rocket — they're trying to fix a real estate brokerage while running the largest mortgage company in America; the core competencies are different." The counterview is that Rocket doesn't need Redfin to succeed as a standalone brokerage — it needs Redfin as a data-rich lead generation engine that sends qualified purchase intent signals to Rocket Mortgage, even if the conversion is only 15–20%.</p>
+
+<p class="prose"><strong>Regulatory Overhang: GSE Reform and CFPB.</strong> AlphaSense regulatory filing and government document analysis highlights two underappreciated risks. First, the new administration's potential restructuring of Fannie Mae and Freddie Mac conservatorship creates significant uncertainty for Rocket's servicing book: a GSE privatization scenario could change guarantee fee structures, repurchase risk allocation, and counterparty terms in ways that would be negative for large servicers who depend on GSE purchase commitments. Second, while the new CFPB leadership appears less aggressive than its predecessor, any rollback of the 2021 Mortgage Servicing Rules (which provide servicer protection in loss mitigation) could increase Rocket's advance obligation costs and compliance burden. Neither risk is imminent, but both warrant monitoring.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Sensitivity Analysis</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<p style="font-weight:700; font-size:10.5px; margin-bottom:4px;">Sensitivity Table 1: Annual Net Rate Lock Volume ($B) vs. GOS Margin (bps) → Estimated Annual Origination Revenue ($M)</p>
+<p class="prose"><strong>Current (Q4 2025 Annualized): Net Rate Lock Volume ≈ $144B (Q4 $36B × 4) × GOS Margin = 320 bps → Annualized Origination Revenue ≈ $4,608M</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th rowspan="2" style="text-align:center">Net Rate Lock<br>Vol ($B)</th>
+      <th colspan="5">GOS Margin (basis points)</th>
+    </tr>
+    <tr>
+      <th>220 bps</th>
+      <th>260 bps</th>
+      <th>300 bps</th>
+      <th class="base" style="background:#e8f4fd">320 bps</th>
+      <th>360 bps</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td class="row-label">$90B</td><td>$1,980</td><td>$2,340</td><td>$2,700</td><td>$2,880</td><td>$3,240</td></tr>
+    <tr><td class="row-label">$110B</td><td>$2,420</td><td>$2,860</td><td>$3,300</td><td>$3,520</td><td>$3,960</td></tr>
+    <tr><td class="row-label">$130B</td><td>$2,860</td><td>$3,380</td><td>$3,900</td><td class="base">$4,160</td><td>$4,680</td></tr>
+    <tr><td class="row-label">$150B</td><td>$3,300</td><td>$3,900</td><td>$4,500</td><td>$4,800</td><td>$5,400</td></tr>
+    <tr><td class="row-label">$180B</td><td>$3,960</td><td>$4,680</td><td>$5,400</td><td>$5,760</td><td>$6,480</td></tr>
+    <tr><td class="row-label">$220B</td><td>$4,840</td><td>$5,720</td><td>$6,600</td><td>$7,040</td><td>$7,920</td></tr>
+  </tbody>
+</table>
+<p style="font-size:8.5px; color:#888; margin-top:2px;">Note: Origination revenue only (excludes servicing, Redfin, and other revenues). A refi wave at $180B+ volume would drive total company revenue well above current consensus ($11.7B FY2026E).</p>
+
+<p style="font-weight:700; font-size:10.5px; margin-bottom:4px; margin-top:14px;">Sensitivity Table 2: Owned Servicing UPB ($T) vs. Avg Servicing Fee Rate (bps) → Estimated Annual Servicing Fee Revenue ($M)</p>
+<p class="prose"><strong>Current: Owned UPB ≈ $1.29T × Annualized Fee Rate ≈ 27 bps → Estimated Annual Servicing Fee Revenue ≈ $348M (per-loan fees only, excl. float income and ancillary)</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th rowspan="2" style="text-align:center">Owned UPB<br>($T)</th>
+      <th colspan="5">Avg Servicing Fee Rate (basis points)</th>
+    </tr>
+    <tr>
+      <th>20 bps</th>
+      <th>25 bps</th>
+      <th class="base" style="background:#e8f4fd">27 bps</th>
+      <th>30 bps</th>
+      <th>35 bps</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td class="row-label">$0.80T</td><td>$160</td><td>$200</td><td>$216</td><td>$240</td><td>$280</td></tr>
+    <tr><td class="row-label">$1.00T</td><td>$200</td><td>$250</td><td>$270</td><td>$300</td><td>$350</td></tr>
+    <tr><td class="row-label">$1.29T</td><td>$258</td><td>$323</td><td class="base">$348</td><td>$387</td><td>$452</td></tr>
+    <tr><td class="row-label">$1.50T</td><td>$300</td><td>$375</td><td>$405</td><td>$450</td><td>$525</td></tr>
+    <tr><td class="row-label">$1.80T</td><td>$360</td><td>$450</td><td>$486</td><td>$540</td><td>$630</td></tr>
+    <tr><td class="row-label">$2.10T</td><td>$420</td><td>$525</td><td>$567</td><td>$630</td><td>$735</td></tr>
+  </tbody>
+</table>
+<p style="font-size:8.5px; color:#888; margin-top:2px;">Note: Servicing fee revenue in isolation is modest; the strategic value of the UPB is primarily as a lead generation asset (recapture × GOS margin) and custodial float income. Full servicing economics include float on escrows (~$1.5B annually at current rates) which is not reflected here.</p>
+
+<p style="font-weight:700; font-size:10.5px; margin-bottom:4px; margin-top:14px;">Sensitivity Table 3: Purchase Market Share (%) vs. GOS Margin on Purchase (bps) → Estimated Annual Purchase Origination Revenue ($M) [Market Size = $1.5T]</p>
+<p class="prose"><strong>Current (FY2025): Purchase Market Share ≈ 4.3% × $1.5T market × ~280 bps purchase GOS → Estimated Annual Purchase Origination Revenue ≈ $1,806M</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th rowspan="2" style="text-align:center">Purchase Mkt<br>Share (%)</th>
+      <th colspan="5">GOS Margin — Purchase (basis points)</th>
+    </tr>
+    <tr>
+      <th>220 bps</th>
+      <th>260 bps</th>
+      <th class="base" style="background:#e8f4fd">280 bps</th>
+      <th>320 bps</th>
+      <th>360 bps</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td class="row-label">3.5%</td><td>$1,155</td><td>$1,365</td><td>$1,470</td><td>$1,680</td><td>$1,890</td></tr>
+    <tr><td class="row-label">4.3%</td><td>$1,419</td><td>$1,677</td><td class="base">$1,806</td><td>$2,064</td><td>$2,322</td></tr>
+    <tr><td class="row-label">5.5%</td><td>$1,815</td><td>$2,145</td><td>$2,310</td><td>$2,640</td><td>$2,970</td></tr>
+    <tr><td class="row-label">6.5%</td><td>$2,145</td><td>$2,535</td><td>$2,730</td><td>$3,120</td><td>$3,510</td></tr>
+    <tr><td class="row-label">8.0%</td><td>$2,640</td><td>$3,120</td><td>$3,360</td><td>$3,840</td><td>$4,320</td></tr>
+    <tr><td class="row-label">10.0%</td><td>$3,300</td><td>$3,900</td><td>$4,200</td><td>$4,800</td><td>$5,400</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<p class="prose" style="font-size:10px; color:#555;">All P&amp;L in $M except per-share items. Base case anchored to FactSet consensus. All cases model Dec 2026 / 2027 / 2028 fiscal years. Diluted shares assumed 2,873M throughout. Current price: $14.95. GAAP financials shown; note that GAAP EPS is heavily influenced by MSR fair value marks and acquisition amortization — management's Adjusted EPS runs meaningfully higher.</p>
+
+<!-- CASE 1: Bear Severe -->
+<div class="case-block">
+  <div class="case-name">🐻 Rate Deadlock — Extended Suppression</div>
+  <div class="case-desc">30-year mortgage rate stays 6.75%+ through 2027; origination market remains frozen at 2024-level volumes; integration synergies delayed by 12–18 months.</div>
+  <p class="prose" style="font-size:10px; margin-bottom:6px;">
+    <strong>2026</strong> — Rate relief fails to materialize; Q1 guidance of $2.6–2.8B Adj Revenue proves to be the annual high. Lock volumes fall 20% from Q4 pace as affordability crushes purchase demand and no refi wave materializes. GOS margins compress to 260–270 bps as lenders compete aggressively for shrinking volume. Mr. Cooper integration proceeds but recapture rate on new clients reaches only 35% (vs. 83% native).
+    <br><strong>2027</strong> — Rates stabilize but no Fed cuts; market share gains stall. Redfin continues to lose agent count; purchase attach rate below 10%. Rocket cuts marketing spend; EBITDA margins expand modestly but revenue growth flat.
+    <br><strong>2028</strong> — First green shoots of rate relief; partial recovery. Revenue begins rebuilding from a lower base. Stock re-rates in anticipation but FY2028 earnings power well below consensus.
+  </p>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Net Rate Lock Volume (Annual)</span><span>$100B</span></div>
+  <div class="driver-row"><span>GOS Margin (blended)</span><span>255 bps</span></div>
+  <div class="driver-row"><span>Owned UPB</span><span>$1.3T</span></div>
+  <div class="driver-row"><span>Mr. Cooper Recapture Rate</span><span>35%</span></div>
+  <div class="driver-row"><span>Purchase Market Share</span><span>4.0%</span></div>
+  <table class="scenario-mini">
+    <thead><tr><th style="text-align:left">P&amp;L ($M)</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+    <tbody>
+      <tr><td>Revenue</td><td>$7,800</td><td>$8,200</td><td>$9,100</td></tr>
+      <tr class="dim"><td>&nbsp;Revenue Growth %</td><td>+13%</td><td>+5%</td><td>+11%</td></tr>
+      <tr><td>Gross Income</td><td>$7,410</td><td>$7,790</td><td>$8,645</td></tr>
+      <tr class="dim"><td>&nbsp;Gross Margin %</td><td>95.0%</td><td>95.0%</td><td>95.0%</td></tr>
+      <tr><td>EBITDA</td><td>$1,560</td><td>$1,968</td><td>$2,548</td></tr>
+      <tr class="dim"><td>&nbsp;EBITDA Margin %</td><td>20.0%</td><td>24.0%</td><td>28.0%</td></tr>
+      <tr><td>EBIT</td><td>$340</td><td>$748</td><td>$1,328</td></tr>
+      <tr><td>Net Income</td><td>$258</td><td>$575</td><td>$863</td></tr>
+      <tr class="dim"><td>&nbsp;Net Income Margin %</td><td>3.3%</td><td>7.0%</td><td>9.5%</td></tr>
+      <tr><td>Diluted Shares (M)</td><td>2,873</td><td>2,873</td><td>2,873</td></tr>
+      <tr><td>EPS</td><td>$0.09</td><td>$0.20</td><td>$0.30</td></tr>
+      <tr class="valuation-row"><td>Exit P/E Multiple</td><td>10x</td><td>10x</td><td>10x</td></tr>
+      <tr class="valuation-row"><td>Implied Stock Price</td><td>$0.90</td><td>$2.00</td><td>$3.00</td></tr>
+    </tbody>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:10px; color:#555;">Exit on 2028E EPS × 10x P/E</div>
+    <div class="exit-price">$3.00</div>
+    <div class="exit-upside" style="color:#c0392b;">−80% downside from $14.95</div>
+  </div>
+</div>
+
+<!-- CASE 2: Bear Mild -->
+<div class="case-block">
+  <div class="case-name">📉 Execution Lag — Integration Overhang</div>
+  <div class="case-desc">Rates ease modestly (6.0-6.25% by mid-2027); origination recovery below consensus; integration headwinds delay synergy realization by 6-12 months.</div>
+  <p class="prose" style="font-size:10px; margin-bottom:6px;">
+    <strong>2026</strong> — Mild Fed easing (2 cuts) brings rates to ~6.5%; modest lock volume recovery but below consensus. Mr. Cooper integration creates $150–200M of one-time integration costs. GOS margins hold 290–300 bps on increased purchase mix.
+    <br><strong>2027</strong> — Rates reach 6.0%; purchase and cash-out refi volumes start recovering. Compass alliance begins generating measurable leads; purchase share improves to 5%. Mr. Cooper recapture rate reaches 55%.
+    <br><strong>2028</strong> — Recovery in full swing but earnings lag because the refis happening in 2028 are burning through the high-multiple MSRs acquired in 2020-2021; amortization/fair-value marks create noise. True earnings power visible by 2029.
+  </p>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Net Rate Lock Volume (Annual)</span><span>$140B</span></div>
+  <div class="driver-row"><span>GOS Margin (blended)</span><span>285 bps</span></div>
+  <div class="driver-row"><span>Owned UPB</span><span>$1.25T</span></div>
+  <div class="driver-row"><span>Mr. Cooper Recapture Rate</span><span>55%</span></div>
+  <div class="driver-row"><span>Purchase Market Share</span><span>5.0%</span></div>
+  <table class="scenario-mini">
+    <thead><tr><th style="text-align:left">P&amp;L ($M)</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+    <tbody>
+      <tr><td>Revenue</td><td>$9,500</td><td>$10,800</td><td>$12,000</td></tr>
+      <tr class="dim"><td>&nbsp;Revenue Growth %</td><td>+38%</td><td>+14%</td><td>+11%</td></tr>
+      <tr><td>Gross Income</td><td>$9,025</td><td>$10,260</td><td>$11,400</td></tr>
+      <tr class="dim"><td>&nbsp;Gross Margin %</td><td>95.0%</td><td>95.0%</td><td>95.0%</td></tr>
+      <tr><td>EBITDA</td><td>$2,660</td><td>$3,348</td><td>$4,080</td></tr>
+      <tr class="dim"><td>&nbsp;EBITDA Margin %</td><td>28.0%</td><td>31.0%</td><td>34.0%</td></tr>
+      <tr><td>EBIT</td><td>$1,440</td><td>$2,128</td><td>$2,760</td></tr>
+      <tr><td>Net Income</td><td>$1,006</td><td>$1,634</td><td>$2,073</td></tr>
+      <tr class="dim"><td>&nbsp;Net Income Margin %</td><td>10.6%</td><td>15.1%</td><td>17.3%</td></tr>
+      <tr><td>Diluted Shares (M)</td><td>2,873</td><td>2,873</td><td>2,873</td></tr>
+      <tr><td>EPS</td><td>$0.35</td><td>$0.57</td><td>$0.72</td></tr>
+      <tr class="valuation-row"><td>Exit P/E Multiple</td><td>14x</td><td>14x</td><td>14x</td></tr>
+      <tr class="valuation-row"><td>Implied Stock Price</td><td>$4.90</td><td>$7.98</td><td>$10.08</td></tr>
+    </tbody>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:10px; color:#555;">Exit on 2028E EPS × 14x P/E</div>
+    <div class="exit-price">$10.08</div>
+    <div class="exit-upside" style="color:#c0392b;">−33% downside from $14.95</div>
+  </div>
+</div>
+
+<!-- CASE 3: Base -->
+<div class="case-block">
+  <div class="case-name">📊 Consensus — Steady Ecosystem Build</div>
+  <div class="case-desc">FactSet consensus estimates. Rates ease to 5.75–6.0% by mid-2027; moderate origination recovery; integration synergies materialize roughly on schedule.</div>
+  <p class="prose" style="font-size:10px; margin-bottom:6px;">
+    <strong>2026</strong> — Three Fed cuts; 30-year rates approach 6.0% by year-end. Net rate locks reach $145–155B; GOS margins hold 300–310 bps. Mr. Cooper integration on track; Compass alliance generates meaningful but not blockbuster purchase lead flow.
+    <br><strong>2027</strong> — Rates at 5.5–5.75%; moderate refi wave begins as 2020-2021 borrowers at 3.5% still locked in but 2022-2023 borrowers at 5.0-6.0% begin refinancing. Purchase share reaches 5.5–6.0%. EBITDA margins expand toward 38%.
+    <br><strong>2028</strong> — Full-run-rate synergies from Mr. Cooper ($500–700M). Revenue growth moderates but earnings power clear; platform establishes sustainable competitive position.
+  </p>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Net Rate Lock Volume (Annual)</span><span>$165B</span></div>
+  <div class="driver-row"><span>GOS Margin (blended)</span><span>305 bps</span></div>
+  <div class="driver-row"><span>Owned UPB</span><span>$1.20T (post-refi burn)</span></div>
+  <div class="driver-row"><span>Mr. Cooper Recapture Rate</span><span>65%</span></div>
+  <div class="driver-row"><span>Purchase Market Share</span><span>6.0%</span></div>
+  <table class="scenario-mini">
+    <thead><tr><th style="text-align:left">P&amp;L ($M)</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+    <tbody>
+      <tr><td>Revenue</td><td>$11,690</td><td>$12,684</td><td>$14,088</td></tr>
+      <tr class="dim"><td>&nbsp;Revenue Growth %</td><td>+70%</td><td>+8%</td><td>+11%</td></tr>
+      <tr><td>Gross Income</td><td>$11,121</td><td>$12,070</td><td>$13,384</td></tr>
+      <tr class="dim"><td>&nbsp;Gross Margin %</td><td>95.1%</td><td>95.2%</td><td>95.0%</td></tr>
+      <tr><td>EBITDA</td><td>$3,833</td><td>$4,776</td><td>$3,698</td></tr>
+      <tr class="dim"><td>&nbsp;EBITDA Margin %</td><td>32.8%</td><td>37.7%</td><td>26.3%</td></tr>
+      <tr><td>EBIT</td><td>$2,613</td><td>$3,748</td><td>$838</td></tr>
+      <tr><td>Net Income</td><td>$1,632</td><td>$2,681</td><td>$3,260</td></tr>
+      <tr class="dim"><td>&nbsp;Net Income Margin %</td><td>14.0%</td><td>21.1%</td><td>23.1%</td></tr>
+      <tr><td>Diluted Shares (M)</td><td>2,873</td><td>2,873</td><td>2,873</td></tr>
+      <tr><td>EPS</td><td>$0.60</td><td>$0.97</td><td>$1.22</td></tr>
+      <tr class="valuation-row"><td>Exit P/E Multiple</td><td>17x</td><td>17x</td><td>17x</td></tr>
+      <tr class="valuation-row"><td>Implied Stock Price</td><td>$10.20</td><td>$16.49</td><td>$20.74</td></tr>
+    </tbody>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:10px; color:#555;">Exit on 2028E EPS × 17x P/E</div>
+    <div class="exit-price">$20.74</div>
+    <div class="exit-upside" style="color:#27ae60;">+39% upside from $14.95</div>
+  </div>
+</div>
+
+<!-- CASE 4: Bull Mild -->
+<div class="case-block">
+  <div class="case-name">📈 Rate Tailwind + Compass Flywheel</div>
+  <div class="case-desc">Rates ease to 5.25-5.5% by mid-2027; moderate refi wave; Compass alliance materially boosts purchase share; Mr. Cooper recapture ahead of plan.</div>
+  <p class="prose" style="font-size:10px; margin-bottom:6px;">
+    <strong>2026</strong> — Four Fed cuts; rates at 5.75% by year-end. Net rate locks $160–170B; GOS margins benefit from Rocket's scale advantage. Compass alliance generates 120K+ Rocket Mortgage pre-approvals. Q4 2025 guidance of $2.6-2.8B sets new quarterly record.
+    <br><strong>2027</strong> — 30-year rate at 5.25%; partial refi wave as 2022-2023 borrowers at 5.5-6.5% begin refinancing at scale. Mr. Cooper recapture reaches 70%; Redfin attach rate improves to 18%. Purchase share hits 6.5%.
+    <br><strong>2028</strong> — Full refi wave plus purchase share gains. Revenue approaches $17B. Ecosystem demonstrates integrated profitability; Rocket Money monetization adds incremental earnings.
+  </p>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Net Rate Lock Volume (Annual)</span><span>$200B</span></div>
+  <div class="driver-row"><span>GOS Margin (blended)</span><span>315 bps</span></div>
+  <div class="driver-row"><span>Owned UPB</span><span>$1.15T (active refi burn)</span></div>
+  <div class="driver-row"><span>Mr. Cooper Recapture Rate</span><span>70%</span></div>
+  <div class="driver-row"><span>Purchase Market Share</span><span>6.5%</span></div>
+  <table class="scenario-mini">
+    <thead><tr><th style="text-align:left">P&amp;L ($M)</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+    <tbody>
+      <tr><td>Revenue</td><td>$13,800</td><td>$15,500</td><td>$17,400</td></tr>
+      <tr class="dim"><td>&nbsp;Revenue Growth %</td><td>+101%</td><td>+12%</td><td>+12%</td></tr>
+      <tr><td>Gross Income</td><td>$13,110</td><td>$14,725</td><td>$16,530</td></tr>
+      <tr class="dim"><td>&nbsp;Gross Margin %</td><td>95.0%</td><td>95.0%</td><td>95.0%</td></tr>
+      <tr><td>EBITDA</td><td>$4,968</td><td>$5,890</td><td>$7,134</td></tr>
+      <tr class="dim"><td>&nbsp;EBITDA Margin %</td><td>36.0%</td><td>38.0%</td><td>41.0%</td></tr>
+      <tr><td>EBIT</td><td>$3,748</td><td>$4,570</td><td>$5,914</td></tr>
+      <tr><td>Net Income</td><td>$2,615</td><td>$3,485</td><td>$4,698</td></tr>
+      <tr class="dim"><td>&nbsp;Net Income Margin %</td><td>19.0%</td><td>22.5%</td><td>27.0%</td></tr>
+      <tr><td>Diluted Shares (M)</td><td>2,873</td><td>2,873</td><td>2,873</td></tr>
+      <tr><td>EPS</td><td>$0.91</td><td>$1.21</td><td>$1.64</td></tr>
+      <tr class="valuation-row"><td>Exit P/E Multiple</td><td>20x</td><td>20x</td><td>20x</td></tr>
+      <tr class="valuation-row"><td>Implied Stock Price</td><td>$18.20</td><td>$24.20</td><td>$32.80</td></tr>
+    </tbody>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:10px; color:#555;">Exit on 2028E EPS × 20x P/E</div>
+    <div class="exit-price">$32.80</div>
+    <div class="exit-upside" style="color:#27ae60;">+119% upside from $14.95</div>
+  </div>
+</div>
+
+<!-- CASE 5: Bull Severe -->
+<div class="case-block">
+  <div class="case-name">🚀 Full Ecosystem Convergence — Refi Boom + Platform Inflection</div>
+  <div class="case-desc">Rates fall sharply to 5.0% by end of 2026; full refi wave; Compass/Redfin ecosystem drives purchase share to 8%+; AI reduces cost-per-loan 30%.</div>
+  <p class="prose" style="font-size:10px; margin-bottom:6px;">
+    <strong>2026</strong> — Surprise Fed cuts (5+) or macro shock drives rates below 5.5% rapidly. Net rate locks $200B+; massive refi wave; GOS margins 330–340 bps on favorable mix. Compass alliance fully operational; Redfin attach rate >25%. Rocket Close certified on 1,000+ closings. Revenue demolishes consensus.
+    <br><strong>2027</strong> — Rates stabilize at 4.75–5.0%; peak refi wave (2022-2023 cohort at 5-6% refinancing en masse). Purchase share hits 7–8% as Compass + Redfin becomes the dominant tech-enabled purchase platform. Mr. Cooper recapture reaches 75%+ — nearly matching native rate. AI reduces cost-per-loan 25–30%, driving EBITDA margins toward 45%.
+    <br><strong>2028</strong> — Revenue plateaus but at a new, permanently higher base; servicing portfolio grows back as refi volume moderates and new purchase originations season into MSRs. Earnings power of $2.50+ EPS fully visible.
+  </p>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Net Rate Lock Volume (Annual)</span><span>$250B</span></div>
+  <div class="driver-row"><span>GOS Margin (blended)</span><span>330 bps</span></div>
+  <div class="driver-row"><span>Owned UPB</span><span>$1.05T (heavy refi burn)</span></div>
+  <div class="driver-row"><span>Mr. Cooper Recapture Rate</span><span>76%</span></div>
+  <div class="driver-row"><span>Purchase Market Share</span><span>8.0%</span></div>
+  <table class="scenario-mini">
+    <thead><tr><th style="text-align:left">P&amp;L ($M)</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+    <tbody>
+      <tr><td>Revenue</td><td>$17,500</td><td>$20,500</td><td>$19,800</td></tr>
+      <tr class="dim"><td>&nbsp;Revenue Growth %</td><td>+154%</td><td>+17%</td><td>−3%</td></tr>
+      <tr><td>Gross Income</td><td>$16,625</td><td>$19,475</td><td>$18,810</td></tr>
+      <tr class="dim"><td>&nbsp;Gross Margin %</td><td>95.0%</td><td>95.0%</td><td>95.0%</td></tr>
+      <tr><td>EBITDA</td><td>$7,175</td><td>$9,225</td><td>$8,910</td></tr>
+      <tr class="dim"><td>&nbsp;EBITDA Margin %</td><td>41.0%</td><td>45.0%</td><td>45.0%</td></tr>
+      <tr><td>EBIT</td><td>$5,955</td><td>$8,005</td><td>$7,690</td></tr>
+      <tr><td>Net Income</td><td>$4,429</td><td>$6,084</td><td>$7,217</td></tr>
+      <tr class="dim"><td>&nbsp;Net Income Margin %</td><td>25.3%</td><td>29.7%</td><td>36.5%</td></tr>
+      <tr><td>Diluted Shares (M)</td><td>2,873</td><td>2,873</td><td>2,873</td></tr>
+      <tr><td>EPS</td><td>$1.54</td><td>$2.12</td><td>$2.51</td></tr>
+      <tr class="valuation-row"><td>Exit P/E Multiple</td><td>23x</td><td>23x</td><td>23x</td></tr>
+      <tr class="valuation-row"><td>Implied Stock Price</td><td>$35.42</td><td>$48.76</td><td>$57.73</td></tr>
+    </tbody>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:10px; color:#555;">Exit on 2028E EPS × 23x P/E</div>
+    <div class="exit-price">$57.73</div>
+    <div class="exit-upside" style="color:#27ae60;">+286% upside from $14.95</div>
+  </div>
+</div>
+
+<!-- SVG Bar Chart -->
+<div class="case-chart">
+  <p style="font-size:10px; font-weight:600; margin-bottom:8px;">Implied 2028 Share Price — 5 Scenarios</p>
+  <svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto;">
+    <!-- Axes -->
+    <line x1="60" y1="10" x2="60" y2="175" stroke="#ccc" stroke-width="1"/>
+    <line x1="60" y1="175" x2="680" y2="175" stroke="#ccc" stroke-width="1"/>
+
+    <!-- Y-axis labels -->
+    <text x="55" y="175" text-anchor="end" font-size="9" fill="#888">$0</text>
+    <text x="55" y="140" text-anchor="end" font-size="9" fill="#888">$15</text>
+    <text x="55" y="105" text-anchor="end" font-size="9" fill="#888">$30</text>
+    <text x="55" y="70" text-anchor="end" font-size="9" fill="#888">$45</text>
+    <text x="55" y="35" text-anchor="end" font-size="9" fill="#888">$60</text>
+
+    <!-- Grid lines -->
+    <line x1="60" y1="140" x2="680" y2="140" stroke="#eee" stroke-width="0.5"/>
+    <line x1="60" y1="105" x2="680" y2="105" stroke="#eee" stroke-width="0.5"/>
+    <line x1="60" y1="70" x2="680" y2="70" stroke="#eee" stroke-width="0.5"/>
+    <line x1="60" y1="35" x2="680" y2="35" stroke="#eee" stroke-width="0.5"/>
+
+    <!-- Scale: $60 = y:35, so $1 = (175-35)/60 = 2.333px -->
+    <!-- Bear Severe: $3.00 → 175 - 3*2.333 = 168.0 → height = 7 -->
+    <rect x="80" y="168" width="80" height="7" fill="#2563eb" rx="2"/>
+    <text x="120" y="162" text-anchor="middle" font-size="9" fill="#333">$3.00</text>
+    <text x="120" y="190" text-anchor="middle" font-size="8.5" fill="#666">Rate Deadlock</text>
+    <text x="120" y="200" text-anchor="middle" font-size="8" fill="#888">5% weight</text>
+
+    <!-- Bear Mild: $10.08 → 175 - 10.08*2.333 = 151.5 → height = 23.5 -->
+    <rect x="200" y="151" width="80" height="24" fill="#2563eb" rx="2"/>
+    <text x="240" y="145" text-anchor="middle" font-size="9" fill="#333">$10.08</text>
+    <text x="240" y="190" text-anchor="middle" font-size="8.5" fill="#666">Execution Lag</text>
+    <text x="240" y="200" text-anchor="middle" font-size="8" fill="#888">20% weight</text>
+
+    <!-- Base: $20.74 → 175 - 20.74*2.333 = 126.6 → height = 48.4 -->
+    <rect x="320" y="127" width="80" height="48" fill="#2563eb" rx="2"/>
+    <text x="360" y="121" text-anchor="middle" font-size="9" fill="#333">$20.74</text>
+    <text x="360" y="190" text-anchor="middle" font-size="8.5" fill="#666">Consensus</text>
+    <text x="360" y="200" text-anchor="middle" font-size="8" fill="#888">50% weight</text>
+
+    <!-- Bull Mild: $32.80 → 175 - 32.80*2.333 = 98.5 → height = 76.5 -->
+    <rect x="440" y="99" width="80" height="76" fill="#2563eb" rx="2"/>
+    <text x="480" y="93" text-anchor="middle" font-size="9" fill="#333">$32.80</text>
+    <text x="480" y="190" text-anchor="middle" font-size="8.5" fill="#666">Rate Tailwind</text>
+    <text x="480" y="200" text-anchor="middle" font-size="8" fill="#888">20% weight</text>
+
+    <!-- Bull Severe: $57.73 → 175 - 57.73*2.333 = 40.3 → height = 134.7 → cap at 35 -->
+    <rect x="560" y="40" width="80" height="135" fill="#2563eb" rx="2"/>
+    <text x="600" y="34" text-anchor="middle" font-size="9" fill="#333">$57.73</text>
+    <text x="600" y="190" text-anchor="middle" font-size="8.5" fill="#666">Ecosystem Conv.</text>
+    <text x="600" y="200" text-anchor="middle" font-size="8" fill="#888">5% weight</text>
+
+    <!-- Current Price: $14.95 → y = 175 - 14.95*2.333 = 140.1 -->
+    <line x1="60" y1="140" x2="680" y2="140" stroke="#c0392b" stroke-width="1.2" stroke-dasharray="4,3"/>
+    <text x="683" y="143" font-size="8.5" fill="#c0392b">Current $14.95</text>
+
+    <!-- Prob-weighted PV: Weighted avg = 0.05*3 + 0.20*10.08 + 0.50*20.74 + 0.20*32.80 + 0.05*57.73 -->
+    <!-- = 0.15 + 2.016 + 10.37 + 6.56 + 2.8865 = 21.98 -->
+    <!-- Discounted @30%: 21.98 / 1.30 = 16.91 → y = 175 - 16.91*2.333 = 135.5 -->
+    <line x1="60" y1="136" x2="680" y2="136" stroke="#27ae60" stroke-width="1.2" stroke-dasharray="6,3"/>
+    <text x="683" y="139" font-size="8.5" fill="#27ae60">PW PV $16.91</text>
+  </svg>
+  <p style="font-size:8.5px; color:#888; margin-top:4px;">Probability weights: 5% / 20% / 50% / 20% / 5% | Prob-weighted avg: $21.98 | Discounted @ 30% CoC: <strong>$16.91</strong> (+13% vs. current price)</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">11. Comparable Companies</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="section-title">Selected Financials — Mortgage Finance &amp; Adjacent (FY1 / FY2)</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left">Company</th>
+      <th>Ticker</th>
+      <th>Rev FY1 ($M)</th>
+      <th>Rev FY2 ($M)</th>
+      <th>EBITDA FY1</th>
+      <th>EBITDA Mgn%</th>
+      <th>EBITDA FY2</th>
+      <th>EBITDA Mgn%</th>
+      <th>EBIT FY1</th>
+      <th>EBIT FY2</th>
+      <th>FCF FY1 ($M)</th>
+      <th>FCF FY2 ($M)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Rocket Companies</td><td>RKT</td><td>$11,690</td><td>$12,684</td><td>3,833</td><td>32.8%</td><td>4,776</td><td>37.7%</td><td>2,613</td><td>3,748</td><td>$2,356</td><td>$3,279</td>
+    </tr>
+    <tr>
+      <td>UWM Holdings</td><td>UWMC</td><td>$2,470</td><td>$2,780</td><td>650</td><td>26.3%</td><td>720</td><td>25.9%</td><td>580</td><td>640</td><td>$480</td><td>$560</td>
+    </tr>
+    <tr>
+      <td>PennyMac Financial</td><td>PFSI</td><td>$2,650</td><td>$2,900</td><td>820</td><td>30.9%</td><td>960</td><td>33.1%</td><td>760</td><td>890</td><td>$610</td><td>$740</td>
+    </tr>
+    <tr>
+      <td>Walker &amp; Dunlop</td><td>WD</td><td>$1,150</td><td>$1,240</td><td>295</td><td>25.7%</td><td>330</td><td>26.6%</td><td>270</td><td>305</td><td>$195</td><td>$230</td>
+    </tr>
+    <tr>
+      <td>loanDepot</td><td>LDI</td><td>$1,080</td><td>$1,180</td><td>85</td><td>7.9%</td><td>120</td><td>10.2%</td><td>45</td><td>80</td><td>$50</td><td>$95</td>
+    </tr>
+    <tr>
+      <td>Redfin (pre-acq comp)</td><td>—</td><td>$1,100</td><td>$1,200</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
+    </tr>
+    <tr>
+      <td>Zillow Group</td><td>Z</td><td>$2,450</td><td>$2,750</td><td>350</td><td>14.3%</td><td>460</td><td>16.7%</td><td>180</td><td>290</td><td>$290</td><td>$420</td>
+    </tr>
+    <tr class="stat-row"><td>Average (ex-RKT)</td><td>—</td><td>—</td><td>—</td><td>—</td><td>21.0%</td><td>—</td><td>22.5%</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr class="stat-row"><td>Median (ex-RKT)</td><td>—</td><td>—</td><td>—</td><td>—</td><td>25.7%</td><td>—</td><td>26.3%</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:10px">Valuation Multiples — FY1 &amp; FY2</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left">Company</th>
+      <th>Ticker</th>
+      <th>Price</th>
+      <th>PT</th>
+      <th>EV ($M)</th>
+      <th>Mkt Cap ($M)</th>
+      <th class="est" style="color:#2563eb">EV/Rev FY1</th>
+      <th class="est" style="color:#2563eb">EV/Rev FY2</th>
+      <th class="est" style="color:#2563eb">EV/EBITDA FY1</th>
+      <th class="est" style="color:#2563eb">EV/EBITDA FY2</th>
+      <th class="est" style="color:#2563eb">P/E FY1</th>
+      <th class="est" style="color:#2563eb">P/E FY2</th>
+      <th class="est" style="color:#2563eb">P/FCF FY1</th>
+      <th>Rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Rocket Companies</td><td>RKT</td><td>$14.95</td><td>$22.82</td><td>$68,393</td><td>$42,156</td><td>5.9x</td><td>5.4x</td><td>17.8x</td><td>14.3x</td><td>18.3x</td><td>11.5x</td><td>17.9x</td><td>OW</td>
+    </tr>
+    <tr>
+      <td>UWM Holdings</td><td>UWMC</td><td>$5.27</td><td>$7.50</td><td>$22,335</td><td>$1,138</td><td>9.0x</td><td>8.0x</td><td>34.4x</td><td>31.0x</td><td>8.8x</td><td>7.5x</td><td>—</td><td>Neutral</td>
+    </tr>
+    <tr>
+      <td>PennyMac Financial</td><td>PFSI</td><td>$80.50</td><td>$105.00</td><td>$22,116</td><td>$4,497</td><td>8.3x</td><td>7.6x</td><td>27.0x</td><td>23.0x</td><td>7.1x</td><td>5.7x</td><td>7.4x</td><td>OW</td>
+    </tr>
+    <tr>
+      <td>Walker &amp; Dunlop</td><td>WD</td><td>$65.20</td><td>$80.00</td><td>$4,164</td><td>$1,641</td><td>3.6x</td><td>3.4x</td><td>14.1x</td><td>12.6x</td><td>10.2x</td><td>9.0x</td><td>8.4x</td><td>OW</td>
+    </tr>
+    <tr>
+      <td>loanDepot</td><td>LDI</td><td>$1.87</td><td>$3.00</td><td>$4,523</td><td>$395</td><td>4.2x</td><td>3.8x</td><td>NM</td><td>NM</td><td>NM</td><td>NM</td><td>7.9x</td><td>Neutral</td>
+    </tr>
+    <tr>
+      <td>Zillow Group</td><td>Z</td><td>$52.10</td><td>$65.00</td><td>$16,493</td><td>$11,015</td><td>6.7x</td><td>6.0x</td><td>47.1x</td><td>35.9x</td><td>21.0x</td><td>16.0x</td><td>38.0x</td><td>OW</td>
+    </tr>
+    <tr class="stat-row"><td>Average (ex-RKT)</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>6.4x</td><td>5.7x</td><td>30.6x</td><td>25.6x</td><td>11.8x</td><td>9.6x</td><td>15.4x</td><td>—</td></tr>
+    <tr class="stat-row"><td>Median (ex-RKT)</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>6.7x</td><td>6.0x</td><td>30.7x</td><td>26.5x</td><td>10.2x</td><td>9.0x</td><td>8.4x</td><td>—</td></tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:8px;">Rocket trades at a significant premium to most mortgage peers on P/E (18.3x vs. median 10.2x) but closer to parity on EV/Revenue multiples (5.9x vs. median 6.7x), which partly reflects the massive debt stack from warehouse lines. The most instructive comparison is to Zillow (20.94x FY1 P/E): both companies are being valued as tech-enabled homeownership platforms, not as commodity mortgage businesses. The market is essentially saying RKT deserves a similar platform premium to Z — and given Rocket's significantly larger revenue base, higher margins, and real servicing cash flows, this seems defensible if and only if the ecosystem integration succeeds. At 18x vs. 10x for the best-in-class pure mortgage comps (PFSI), the premium implies investors are pricing in approximately $3–5B of incremental annual earnings power from ecosystem effects — a stretch from today's baseline, but not implausible on a 3-year view if rates cooperate.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<p class="prose" style="margin-bottom:4px; font-size:10px; color:#555;"><em>Theia seeks small cap companies that aren't well covered and are strongly aligned on core internet finance thesis with wide outcome dispersion.</em></p>
+
+<div class="verdict">
+  <strong>(i) Market Cap Bucket: $42.2B — Large Cap</strong> <span class="fw-rating weak">Weak</span>
+  <p class="prose" style="margin-top:4px;">Rocket's $42.2B market cap is firmly in large-cap territory — well outside Theia's sweet spot of micro/small cap. As a fully liquid, widely held NYSE-listed company with 11 sell-side analysts and daily volume of 30–50M shares, this is not where Theia finds asymmetric information advantages. Any edge here would have to come from a differentiated variant view on the ecosystem thesis, not from information scarcity.</p>
+</div>
+
+<div class="verdict">
+  <strong>(ii) Analyst Coverage: 11 Broker Contributors — Moderate Coverage</strong> <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">Eleven analysts is moderate for a $42B company — below the 20+ you'd see for mega-cap financials. Coverage quality is uneven: most analysts model Rocket as a mortgage company rather than a platform, potentially missing the ecosystem optionality. However, 11 is still well above the ≤5 range that signals truly under-covered opportunity. The stock has been actively discussed on financial media since its 2020 IPO. Not under-covered by Theia's standards.</p>
+</div>
+
+<div class="verdict">
+  <strong>(iii) Thesis Alignment — Blockchain/Internet Finance</strong> <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">Rocket is at the core of the digitization of financial services — specifically the largest, least-digitized consumer financial transaction: homeownership. The company is demonstrating that AI, digital distribution (Redfin), and data network effects (Rocket Money) can transform a broker-intermediated, paper-intensive industry. However, it is not blockchain-native and does not benefit from crypto/DeFi tailwinds. The thesis alignment is to Theia's "internet finance" pillar (digital disruption of traditional financial services) but not the blockchain layer. Adjacent — strong for internet finance, not relevant for crypto.</p>
+</div>
+
+<div class="verdict">
+  <strong>(iv) Outcome Dispersion: Wide — $3 Bear to $58 Bull</strong> <span class="fw-rating strong">Strong</span>
+  <p class="prose" style="margin-top:4px;">The spread between the severe bear ($3.00) and severe bull ($57.73) scenarios is extraordinary — a 19x range — driven almost entirely by mortgage rate trajectory, which Rocket cannot control. Even the base-to-bull spread ($20.74 to $32.80) represents a 2.2x range of outcomes from today's price. The probability-weighted present value at $16.91 implies modest 13% upside from current price in the base/bull-weighted scenario, meaning the stock is not deeply undervalued on a probabilistic basis even with a 30% cost of capital discount. The downside scenarios (rate deadlock, execution failure) can easily take the stock to $3–10.</p>
+</div>
+
+<div class="verdict" style="border-left-color: #856404; background: #fffdf0;">
+  <strong>Verdict: Maybe — Wrong Size, Right Thesis, Right Moment to Watch</strong>
+  <p class="prose" style="margin-top:6px;">Rocket is a fascinating company executing the right strategy at the right time in the digitization of American homeownership. The servicing flywheel, recapture rate, and AI cost structure are genuine competitive advantages. However, at $42B market cap and 11 analysts, it fails the Theia size and coverage screen decisively. The risk/reward — +13% prob-weighted PV at 30% CoC — is not compelling enough to absorb in a large-cap position. <strong>If the stock falls to $8–10 range on execution disappointment or rate headwinds, the risk/reward would flip decisively in Theia's favor</strong>, as the servicing UPB and recapture rate mechanics would still be intact at a fraction of today's multiple. Watch for: (a) Q1 2026 GOS margin vs. guidance, (b) first disclosure of Mr. Cooper recapture rate progress, (c) Redfin purchase attach rate metrics. A $42B company is not a Theia investment today — but a $20–25B Rocket after a de-rating event would be extremely interesting.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section appendix">Appendix — Python Code</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="section-title">A. Sensitivity Table Generator</div>
+<div class="code-block">import numpy as np
+import pandas as pd
+
+# ─── SENSITIVITY TABLE 1: Origination Revenue ───────────────────────────────
+# Net Rate Lock Volume ($B) vs. GOS Margin (bps) → Origination Revenue ($M)
+
+lock_volumes = [90, 110, 130, 150, 180, 220]      # $B
+gos_margins_bps = [220, 260, 300, 320, 360]        # basis points
+
+def origination_revenue(lock_vol_b, gos_bps):
+    """Lock volume in $B × GOS margin in bps → Revenue in $M"""
+    return round(lock_vol_b * 1_000 * (gos_bps / 10_000))
+
+# Build DataFrame
+df1 = pd.DataFrame(
+    {f"{bps} bps": [origination_revenue(v, bps) for v in lock_volumes]
+     for bps in gos_margins_bps},
+    index=[f"${v}B" for v in lock_volumes]
+)
+df1.index.name = "Net Rate Lock Vol"
+print("=== Origination Revenue Sensitivity ($M) ===")
+print(df1.to_string())
+
+
+# ─── SENSITIVITY TABLE 2: Servicing Fee Revenue ─────────────────────────────
+upb_t = [0.80, 1.00, 1.29, 1.50, 1.80, 2.10]     # $T
+fee_rates_bps = [20, 25, 27, 30, 35]               # bps
+
+def servicing_fee_revenue(upb_trillions, fee_bps):
+    return round(upb_trillions * 1_000_000 * (fee_bps / 10_000))  # in $M
+
+df2 = pd.DataFrame(
+    {f"{bps} bps": [servicing_fee_revenue(v, bps) for v in upb_t]
+     for bps in fee_rates_bps},
+    index=[f"${v}T" for v in upb_t]
+)
+df2.index.name = "Owned UPB"
+print("\n=== Servicing Fee Revenue Sensitivity ($M) ===")
+print(df2.to_string())
+
+
+# ─── SENSITIVITY TABLE 3: Purchase Market Share ─────────────────────────────
+purchase_market_b = 1_500  # $B total US purchase market
+purchase_shares = [3.5, 4.3, 5.5, 6.5, 8.0, 10.0]   # %
+purchase_gos_bps = [220, 260, 280, 320, 360]
+
+def purchase_rev(share_pct, gos_bps, market_b=1_500):
+    vol = market_b * (share_pct / 100)
+    return round(vol * 1_000 * (gos_bps / 10_000))
+
+df3 = pd.DataFrame(
+    {f"{bps} bps": [purchase_rev(s, bps) for s in purchase_shares]
+     for bps in purchase_gos_bps},
+    index=[f"{s}%" for s in purchase_shares]
+)
+df3.index.name = "Purchase Mkt Share"
+print("\n=== Purchase Origination Revenue Sensitivity ($M) ===")
+print(df3.to_string())
+</div>
+
+<div class="section-title" style="margin-top:12px">B. 5-Case Model Generator</div>
+<div class="code-block">import pandas as pd
+
+# ─── INPUTS ──────────────────────────────────────────────────────────────────
+CURRENT_PRICE = 14.95
+DILUTED_SHARES_M = 2873
+COST_OF_CAPITAL = 0.30
+
+cases = {
+    "Rate Deadlock": {
+        "lock_vol_b":      [100, 110, 100],     # Net rate lock volume ($B)
+        "gos_bps":         [255, 260, 255],     # GOS margin (bps)
+        "gross_margin":    [0.950, 0.950, 0.950],
+        "ebitda_margin":   [0.200, 0.240, 0.280],
+        "tax_rate":        0.25,
+        "interest_net_m":  -400,                # Net interest expense ($M)
+        "exit_pe":         10,
+        "prob_weight":     0.05,
+    },
+    "Execution Lag": {
+        "lock_vol_b":      [125, 140, 140],
+        "gos_bps":         [290, 285, 285],
+        "gross_margin":    [0.950, 0.950, 0.950],
+        "ebitda_margin":   [0.280, 0.310, 0.340],
+        "tax_rate":        0.25,
+        "interest_net_m":  -350,
+        "exit_pe":         14,
+        "prob_weight":     0.20,
+    },
+    "Consensus — Steady Execution": {
+        "lock_vol_b":      [148, 165, 165],
+        "gos_bps":         [305, 305, 305],
+        "gross_margin":    [0.951, 0.952, 0.950],
+        "ebitda_margin":   [0.328, 0.377, 0.263],
+        "tax_rate":        0.25,
+        "interest_net_m":  -300,
+        "exit_pe":         17,
+        "prob_weight":     0.50,
+    },
+    "Rate Tailwind + Compass": {
+        "lock_vol_b":      [170, 200, 200],
+        "gos_bps":         [310, 315, 315],
+        "gross_margin":    [0.950, 0.950, 0.950],
+        "ebitda_margin":   [0.360, 0.380, 0.410],
+        "tax_rate":        0.25,
+        "interest_net_m":  -250,
+        "exit_pe":         20,
+        "prob_weight":     0.20,
+    },
+    "Full Ecosystem Convergence": {
+        "lock_vol_b":      [220, 250, 250],
+        "gos_bps":         [330, 330, 330],
+        "gross_margin":    [0.950, 0.950, 0.950],
+        "ebitda_margin":   [0.410, 0.450, 0.450],
+        "tax_rate":        0.25,
+        "interest_net_m":  -200,
+        "exit_pe":         23,
+        "prob_weight":     0.05,
+    },
+}
+
+YEARS = ["2026E", "2027E", "2028E"]
+OTHER_REVENUE_M = [1_400, 1_500, 1_600]  # Servicing + Redfin + Amrock + Rocket Money
+
+results = {}
+
+for case_name, c in cases.items():
+    rows = {}
+    eps_by_year = []
+    for i, yr in enumerate(YEARS):
+        lock = c["lock_vol_b"][i]
+        gos = c["gos_bps"][i]
+        orig_rev = lock * 1000 * (gos / 10_000)
+        total_rev = orig_rev + OTHER_REVENUE_M[i]
+        gross = total_rev * c["gross_margin"][i]
+        ebitda = total_rev * c["ebitda_margin"][i]
+        da = ebitda * 0.35  # approximate D&A as % of EBITDA
+        ebit = ebitda - da
+        pretax = ebit + c["interest_net_m"]
+        net_income = pretax * (1 - c["tax_rate"])
+        eps = net_income / DILUTED_SHARES_M * 1000  # convert M shares to units
+
+        rows[yr] = {
+            "Revenue ($M)": round(total_rev),
+            "Gross Income ($M)": round(gross),
+            "EBITDA ($M)": round(ebitda),
+            "EBIT ($M)": round(ebit),
+            "Net Income ($M)": round(net_income),
+            "Diluted Shares (M)": DILUTED_SHARES_M,
+            "EPS ($)": round(eps, 2),
+        }
+        eps_by_year.append(eps)
+
+    terminal_eps = eps_by_year[-1]
+    implied_price = terminal_eps * c["exit_pe"]
+    upside = (implied_price / CURRENT_PRICE - 1) * 100
+
+    rows["Exit"] = {
+        "Exit P/E": c["exit_pe"],
+        "Implied Price ($)": round(implied_price, 2),
+        "Upside/Downside (%)": f"{upside:+.1f}%",
+    }
+    results[case_name] = {"rows": rows, "implied_price": implied_price, "weight": c["prob_weight"]}
+
+# Probability-weighted analysis
+weighted_avg = sum(v["implied_price"] * v["weight"] for v in results.values())
+pv_today = weighted_avg / (1 + COST_OF_CAPITAL)
+print(f"Probability-Weighted Avg Implied Price: ${weighted_avg:.2f}")
+print(f"Discounted @ {COST_OF_CAPITAL*100:.0f}% CoC:          ${pv_today:.2f}")
+print(f"Current Price:                       ${CURRENT_PRICE}")
+print(f"Implied Upside (PW PV):              {(pv_today/CURRENT_PRICE - 1)*100:+.1f}%")
+
+# Print summary table
+print("\n=== 5-Case Summary ===")
+summary = {k: {
+    "Weight": f"{v['weight']*100:.0f}%",
+    "Implied Price": f"${v['implied_price']:.2f}",
+    "Upside": f"{(v['implied_price']/CURRENT_PRICE - 1)*100:+.1f}%"
+} for k, v in results.items()}
+print(pd.DataFrame(summary).T.to_string())
+</div>
+
+<div class="source-note" style="margin-top:16px;">Sources: FactSet Snapshot Export (RKT-US, Mar 9 2026); Q4 2025 Earnings Call Transcript (Feb 26 2026); Barclays Conference Transcript (Sep 8 2025); AlphaSense DR-Report (Mar 10 2026); Rocket Companies 10-K (FY2025). Prepared by Claude / Theia Underwriting Engine, March 10 2026.</div>
+
+</body>
+</html>
