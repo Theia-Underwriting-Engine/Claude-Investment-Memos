@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sezzle Inc. | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; border: 1px solid #eee; border-radius: 3px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 10px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; border: 1px solid #eee; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+table.sensitivity td.row-label { text-align: left; font-weight: 600; background: #f4f6f9; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; border-bottom: 1px solid #f0f0f0; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini tr.margin-row td { color: #777; font-size: 8.5px; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+table.comps { font-size: 8px; width: 100%; border-collapse: collapse; }
+table.comps th { background: #f4f6f9; font-weight: 600; padding: 2px 4px; text-align: right; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
+table.comps td { padding: 2px 4px; text-align: right; border-bottom: 1px solid #f0f0f0; }
+table.comps td:first-child, table.comps td:nth-child(2) { text-align: left; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-style: italic; background: #fafbfc; }
+th.est-col { color: #2563eb !important; }
+
+.bull-bear { display: flex; gap: 16px; margin-bottom: 8px; }
+.bull-side, .bear-side { flex: 1; }
+.bull-side .section-title { color: #155724; border-bottom-color: #155724; }
+.bear-side .section-title { color: #721c24; border-bottom-color: #721c24; }
+.bull-side ul, .bear-side ul { list-style: none; padding: 0; }
+.bull-side ul li, .bear-side ul li { margin-bottom: 8px; font-size: 10.5px; line-height: 1.5; }
+.bull-side ul li .fw-name, .bear-side ul li .fw-name { font-weight: 700; color: #1a1a2e; }
+
+.alphasense-box { background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 4px; padding: 8px 12px; margin-bottom: 14px; font-size: 10px; color: #1e3a5f; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Sezzle Inc. (SEZL) | Preliminary Memo for Theia</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<!-- ============================================================ -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">Sezzle Inc. is a Minneapolis-based Buy Now, Pay Later (BNPL) and consumer fintech platform founded in January 2016 and launched as a Pay-in-4 product in August 2017. The company generates revenue primarily by charging service fees (a "take rate" of ~11.4% of GMV in 2025) directly to consumers via subscription products (Sezzle Premium, ~$13/month; Sezzle Anywhere, ~$18/month) and merchant discount rates, while managing a short-duration (~42-day) loan portfolio funded through a $225M revolving credit facility. CEO Charlie Youakim and President Paul Paradis co-founded the company, and Youakim remains Executive Chairman and CEO; the company employs roughly 201 people as of year-end 2025 (revenue per employee exceeded $2.2M in 2025, a testament to AI-driven operating leverage). The business is now publicly listed on Nasdaq (SEZL) after delisting from the ASX in January 2024.</p>
+
+<p class="prose">Sezzle's core thesis: serve the ~48% of US adults who are credit-invisible or near-prime (70-80% of its user base), offering them a responsible, short-duration credit alternative to revolving credit cards — while evolving from a checkout button into a "super app" for value-focused consumers. The company has made a decisive pivot from merchant-funded growth to consumer-funded recurring subscription revenue, culminating in 918,000 Monthly On-Demand & Subscribers (MODS) by end-2025 and a 103% LTM ROE that places it among the most capital-efficient fintechs of its size. Its 2026 roadmap includes Sezzle Mobile (AT&T MVNO), agentic commerce AI, deposit accounts, and an ILC banking charter application (H1 2026).</p>
+
+<!-- ============================================================ -->
+<!-- SECTION 2: THEIA FACTSET SUMMARY -->
+<!-- ============================================================ -->
+<div class="memo-section">2. Theia FactSet Summary</div>
+
+<div class="header">
+  <div>
+    <h1>Sezzle Inc.</h1>
+    <div class="ticker">SEZL-US &nbsp;|&nbsp; CUSIP: 78435P105 &nbsp;|&nbsp; NASDAQ</div>
+  </div>
+  <div class="date">As of Mar 13, 2026 (FactSet) · Memo Date: Mar 16, 2026</div>
+</div>
+
+<div class="price-bar">
+  <span class="price">$66.31</span>
+  <span class="label">1M:</span><span class="chg">+3.8%</span>
+  <span class="label">3M:</span><span class="chg">−9.0%</span>
+  <span class="label">6M:</span><span class="chg">−25.2%</span>
+  <span class="label">YTD:</span><span class="chg pos">+4.7%</span>
+  <span class="label">1Y:</span><span class="chg pos">+71.5%</span>
+  <span class="label">52W Range:</span><span style="font-weight:600;">$24.86 – $186.74</span>
+  <span class="label">At 52W High:</span><span class="chg">35.5%</span>
+</div>
+
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv">
+      <tr><td>Primary Ticker</td><td>SEZL-US (NASDAQ)</td></tr>
+      <tr><td>Current Price</td><td>$66.31</td></tr>
+      <tr><td>Volume (last session)</td><td>514,774</td></tr>
+      <tr><td>30D Avg Daily Volume</td><td>870,018</td></tr>
+      <tr><td>Float (%)</td><td>48.65%</td></tr>
+      <tr><td>Short Interest</td><td>4.0 days / 27.96% of Float</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev">
+      <tr><td>Price (Mar 13, 2026)</td><td>$66.31</td></tr>
+      <tr><td>Basic Shares (Common Stock)</td><td>33.8M</td></tr>
+      <tr><td>Market Cap</td><td>$2,241M</td></tr>
+      <tr><td>+ Stock Compensation (dilution)</td><td>1.46M shares</td></tr>
+      <tr><td>Fully Diluted Shares</td><td>35.26M</td></tr>
+      <tr><td>Fully Diluted Market Cap</td><td>$2,338M</td></tr>
+      <tr><td>+ Consolidated Debt</td><td>$140M</td></tr>
+      <tr><td>− Cash &amp; Equivalents</td><td>($72M)</td></tr>
+      <tr class="total"><td>Enterprise Value</td><td>$2,405M</td></tr>
+    </table>
+    <div class="source-note">Millions USD. Source: FactSet. Short interest 27.96% of float is notably elevated — bears are actively positioned against the name.</div>
+  </div>
+</div>
+
+<!-- Current Valuation: horizontal 6x2 KPI grid -->
+<div class="section-title">Current Valuation</div>
+<div class="val-grid">
+  <div class="val-cell">
+    <div class="val-label">Mkt Cap</div>
+    <div class="val-num">$2,241M</div>
+    <div class="val-sub">Basic shares</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">EV</div>
+    <div class="val-num">$2,405M</div>
+    <div class="val-sub">Net debt $68M</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">P/E (LTM)</div>
+    <div class="val-num">17.8x</div>
+    <div class="val-sub">$3.72 GAAP EPS</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">EV/EBITDA</div>
+    <div class="val-num">13.5x</div>
+    <div class="val-sub">LTM EBITDA ~$178M</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">EV/Sales</div>
+    <div class="val-num">5.3x</div>
+    <div class="val-sub">LTM $450M rev</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">P/Sales</div>
+    <div class="val-num">5.2x</div>
+    <div class="val-sub">LTM</div>
+  </div>
+</div>
+<div class="val-grid" style="margin-top:2px;">
+  <div class="val-cell">
+    <div class="val-label">Fully Dil Mkt Cap</div>
+    <div class="val-num">$2,338M</div>
+    <div class="val-sub">35.26M dil shares</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">WACC</div>
+    <div class="val-num">16.3%</div>
+    <div class="val-sub">FactSet estimate</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Beta (3Y Adj)</div>
+    <div class="val-num">2.77</div>
+    <div class="val-sub">High volatility</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Avg Rating</div>
+    <div class="val-num">Buy</div>
+    <div class="val-sub">1.20 / 5 analysts</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Target Price</div>
+    <div class="val-num">$97.00</div>
+    <div class="val-sub">+46% upside</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Next Earnings</div>
+    <div class="val-num">May 13</div>
+    <div class="val-sub">2026 (Q1)</div>
+  </div>
+</div>
+
+<!-- Valuation Multiples Table -->
+<div class="section-title">Valuation Multiples</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Multiple</th>
+      <th>5Yr Avg</th>
+      <th>Dec '23</th>
+      <th>Dec '24</th>
+      <th>Dec '25</th>
+      <th class="est">Dec '26E</th>
+      <th class="est">Dec '27E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">Price-Based</td></tr>
+    <tr><td>P/E</td><td>10.6x</td><td>16.4x</td><td>19.5x</td><td>17.0x</td><td class="est">14.3x</td><td class="est">11.4x</td></tr>
+    <tr><td>P/Sales</td><td>2.3x</td><td>0.7x</td><td>5.6x</td><td>5.0x</td><td class="est">4.0x</td><td class="est">3.2x</td></tr>
+    <tr><td>P/BV</td><td>6.9x</td><td>5.3x</td><td>16.4x</td><td>12.6x</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>P/FCF</td><td>4.5x</td><td>—</td><td>11.7x</td><td>10.8x</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr class="section-row"><td colspan="7">Enterprise Value-Based</td></tr>
+    <tr><td>EV/Sales</td><td>3.3x</td><td>0.9x</td><td>5.8x</td><td>5.1x</td><td class="est">4.2x</td><td class="est">3.4x</td></tr>
+    <tr><td>EV/EBITDA</td><td>5.8x</td><td>6.4x</td><td>18.9x</td><td>12.9x</td><td class="est">10.0x</td><td class="est">7.7x</td></tr>
+    <tr><td>EV/EBIT</td><td>6.0x</td><td>6.7x</td><td>19.2x</td><td>13.0x</td><td class="est">10.6x</td><td class="est">8.5x</td></tr>
+  </tbody>
+</table>
+
+<!-- Revenue Exposure -->
+<div class="section-title">Revenue Exposure (FY2025: $450M)</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Product / Revenue Type</div>
+    <table class="rev">
+      <thead><tr><th style="text-align:left;">Segment</th><th>Est. % Rev</th><th>Est. $M</th></tr></thead>
+      <tbody>
+        <tr><td>Consumer Fees (Subscriptions + On-Demand)</td><td>~70%</td><td>~$315M</td></tr>
+        <tr><td>Merchant Discount Revenue</td><td>~25%</td><td>~$113M</td></tr>
+        <tr><td>Other (Earn Tab, Late Fees, etc.)</td><td>~5%</td><td>~$22M</td></tr>
+      </tbody>
+    </table>
+    <div class="source-note">FactSet does not break out segments; estimates derived from earnings disclosures. Take rate = 11.4% of $3.94B GMV = $450M.</div>
+  </div>
+  <div>
+    <div class="sub-label">By Geography</div>
+    <table class="rev">
+      <thead><tr><th style="text-align:left;">Geography</th><th>Est. % Rev</th><th>Est. $M</th></tr></thead>
+      <tbody>
+        <tr><td>United States</td><td>~95%</td><td>~$428M</td></tr>
+        <tr><td>Canada</td><td>~5%</td><td>~$23M</td></tr>
+        <tr><td>Other (exited EU/India)</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table>
+    <div class="source-note">Geographic breakout estimated; company exited Australia, EU, and India markets. Nearly 100% North American.</div>
+  </div>
+</div>
+
+<!-- Financials Table -->
+<div class="section-title">Financials ($ in Millions, except EPS)</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Metric</th>
+      <th>5Yr CAGR</th>
+      <th>Dec '23</th>
+      <th>Dec '24</th>
+      <th>Dec '25</th>
+      <th class="est">Dec '26E</th>
+      <th class="est">Dec '27E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">Income Statement</td></tr>
+    <tr><td>Revenue</td><td>50.3%</td><td>$159</td><td>$271</td><td>$450</td><td class="est">$571</td><td class="est">$707</td></tr>
+    <tr><td style="padding-left:12px;color:#777;font-size:9px;">Revenue Growth %</td><td>—</td><td>—</td><td>+70.1%</td><td>+66.1%</td><td class="est" style="color:#2563eb;font-size:9px;">+26.9%</td><td class="est" style="color:#2563eb;font-size:9px;">+23.8%</td></tr>
+    <tr><td>Gross Income</td><td>55.7%</td><td>$73</td><td>$167</td><td>$328</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td style="padding-left:12px;color:#777;font-size:9px;">Gross Margin %</td><td>53.6%</td><td>45.8%</td><td>61.6%</td><td>72.9%</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>EBITDA</td><td>—</td><td>$23</td><td>$83</td><td>$178</td><td class="est">$241</td><td class="est">$312</td></tr>
+    <tr><td style="padding-left:12px;color:#777;font-size:9px;">EBITDA Margin %</td><td>—</td><td>14.5%</td><td>30.7%</td><td>39.6%</td><td class="est" style="color:#2563eb;font-size:9px;">42.2%</td><td class="est" style="color:#2563eb;font-size:9px;">44.2%</td></tr>
+    <tr><td>EBIT</td><td>—</td><td>$22</td><td>$82</td><td>$177</td><td class="est">$227</td><td class="est">$284</td></tr>
+    <tr><td>Net Income</td><td>—</td><td>$7</td><td>$79</td><td>$133</td><td class="est">$165</td><td class="est">$208</td></tr>
+    <tr><td style="padding-left:12px;color:#777;font-size:9px;">Net Margin %</td><td>—</td><td>4.5%</td><td>29.0%</td><td>29.6%</td><td class="est" style="color:#2563eb;font-size:9px;">28.8%</td><td class="est" style="color:#2563eb;font-size:9px;">29.5%</td></tr>
+    <tr><td>EPS (Diluted)</td><td>—</td><td>$0.21</td><td>$2.19</td><td>$3.72</td><td class="est">$4.59</td><td class="est">$5.82</td></tr>
+    <tr class="section-row"><td colspan="7">Balance Sheet</td></tr>
+    <tr><td>Cash &amp; ST Investments</td><td>—</td><td>$71</td><td>$78</td><td>$72</td><td class="est">$215</td><td class="est">$357</td></tr>
+    <tr><td>Total Assets</td><td>18.2%</td><td>$213</td><td>$299</td><td>$401</td><td class="est">$625</td><td class="est">$827</td></tr>
+    <tr><td>Total Liabilities</td><td>15.2%</td><td>$191</td><td>$211</td><td>$231</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Shareholders' Equity</td><td>23.1%</td><td>$22</td><td>$88</td><td>$170</td><td class="est">$347</td><td class="est">$489</td></tr>
+    <tr class="section-row"><td colspan="7">Cash Flow</td></tr>
+    <tr><td>Net Operating CF</td><td>—</td><td>($26)</td><td>$131</td><td>$210</td><td class="est">$124</td><td class="est">$189</td></tr>
+    <tr><td>CapEx</td><td>29.7%</td><td>$1</td><td>$1</td><td>$3</td><td class="est">$1</td><td class="est">$1</td></tr>
+    <tr><td>FCF</td><td>—</td><td>($26)</td><td>$131</td><td>$209</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td style="padding-left:12px;color:#777;font-size:9px;">FCF Margin %</td><td>4.4%</td><td>NM</td><td>48.2%</td><td>46.5%</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr class="section-row"><td colspan="7">Returns &amp; Leverage</td></tr>
+    <tr><td>ROE (%)</td><td>—</td><td>45.9%</td><td>142.9%</td><td>103.3%</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Debt / Equity</td><td>—</td><td>433%</td><td>119%</td><td>83%</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Interest Coverage</td><td>—</td><td>1.4x</td><td>6.0x</td><td>12.6x</td><td class="est">17.9x</td><td class="est">—</td></tr>
+  </tbody>
+</table>
+
+<!-- Valuation Summary -->
+<div class="section-title">Valuation Summary</div>
+<p class="prose">Sezzle currently trades at 10.0x FY26E EV/EBITDA and 14.3x FY26E P/E, representing a meaningful discount to pure-play fintech peers (peer median EV/EBITDA ~10.7x FY1) — essentially the same multiple despite Sezzle growing EBITDA at roughly 2x the peer group rate. The current discount reflects investor skepticism about the durability of the 60%+ gross margin (which is high for a lending company), the quality of the subprime consumer credit book, and the single-digit analyst coverage creating limited institutional awareness. The market appears to be pricing Sezzle as a cyclical consumer lender rather than a consumer subscription fintech platform, despite subscription fees now comprising the majority of revenue and generating ~100% gross margins. Given the company's 2025 EBITDA margin of 39.6% expanding toward 44%+ by 2027E and its 30%+ revenue growth guidance, the current 10x FY26E EV/EBITDA appears materially compelling — particularly relative to Affirm at ~24x EV/EBITDA with lower margins and higher credit risk concentration.</p>
+
+<div class="source-note">Source: FactSet snapshot SEZL-US_2026-03-16 · Q4 2025 Earnings Presentation · FactSet Comps</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 3: BULL & BEAR CASES -->
+<!-- ============================================================ -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="bull-bear">
+  <div class="bull-side">
+    <div class="section-title" style="color:#155724;border-bottom-color:#155724;">Bull Case</div>
+    <ul>
+      <li><span class="fw-name">Subscription Flywheel Compounds.</span> The pivot to Sezzle Anywhere/Premium creates a self-reinforcing flywheel: subscribers spend 10x more than non-subscribers and have 35x purchase frequency in the top decile. As MODS approaches 1M+, subscription revenue — which carries ~100% gross margins — grows as a share of total revenue, structurally expanding margins beyond consensus estimates.</li>
+      <li><span class="fw-name">ILC Charter is a Step-Function Catalyst.</span> Obtaining an Industrial Loan Company charter in H1 2026 would allow Sezzle to originate loans directly, eliminate the WebBank intermediary cost layer, reduce balance sheet risk exposure, and future-proof the business against state-level banking-as-a-service regulatory attacks — potentially adding several hundred bps to net margins.</li>
+      <li><span class="fw-name">Ecosystem Expansion Unlocks Multiple Re-Rating.</span> Sezzle Mobile (AT&T MVNO), deposit accounts, secured credit cards, and agentic AI commerce transform SEZL from a BNPL lender (10-14x P/E) to a consumer fintech platform (20-30x P/E), mirroring the re-rating that PayPal and SoFi achieved when they broadened product suites. The market is mis-categorizing the company.</li>
+      <li><span class="fw-name">AI Operating Leverage Amplifies EPS.</span> Sezzle's "team of 400 = team of 4,000" AI strategy is already evident: revenue per employee exceeded $2.2M in 2025 (vs. industry average ~$500K). Continued AI-driven efficiency means OpEx grows far slower than revenue, allowing 40%+ EBITDA margins to expand further toward 50%+ by 2027-2028.</li>
+      <li><span class="fw-name">Massive Underpenetrated TAM.</span> Sezzle controls less than 2% of the North American BNPL market, itself only ~2% of total commerce. The addressable near-prime/subprime consumer population (70-80M+ Americans) is vastly underserved by incumbent financial products. Even modest market share gains in a structurally growing sector produce outsized revenue upside vs. guidance.</li>
+    </ul>
+  </div>
+  <div class="bear-side">
+    <div class="section-title" style="color:#721c24;border-bottom-color:#721c24;">Bear Case</div>
+    <ul>
+      <li><span class="fw-name">Subprime Consumer Credit Deterioration.</span> 70-80% of Sezzle's user base is near-prime or subprime. In a macro downturn — rising unemployment, higher interest rates, reduced tax refunds — these consumers are disproportionately impacted. A 50-100 bps increase in provision for credit losses (PLR) from ~2.3% to 3.0-3.5% would compress gross margins from 62% toward 55-58%, materially reducing EPS.</li>
+      <li><span class="fw-name">Regulatory Risk: CFPB and State-Level Crackdowns.</span> New York state and other jurisdictions are actively exploring BNPL-specific regulations modeled on credit card disclosure requirements. Mandatory affordability checks, fee caps, and enhanced disclosure requirements could disrupt Sezzle's checkout experience, reduce conversion rates, and increase compliance costs — all without a banking charter to provide a regulatory shield.</li>
+      <li><span class="fw-name">WebBank Concentration Risk.</span> Substantially all US consumer loans are originated by WebBank. If this bank partnership model is challenged under state interest rate laws, Sezzle could face operational disruption that is difficult to reverse quickly — even with an ILC application in progress, the approval timeline is multi-year and not guaranteed.</li>
+      <li><span class="fw-name">Competitive Compression from Giants.</span> Affirm's partnership with Apple, Klarna's IPO-fueled marketing spend, PayPal Pay Later's existing distribution, and Apple's embedded wallet capabilities all threaten Sezzle's checkout presence. If large platforms compress merchant discount rates industry-wide or secure exclusive checkout integrations, Sezzle's SMB-focused take rate advantage could erode.</li>
+      <li><span class="fw-name">Valuation Multiple Compression.</span> The stock traded at $186 (9 months ago) and has already de-rated 65%. With a high beta (2.77), significant short interest (28% of float), and the 2025 tailwinds (WebBank national rollout, credit risk expansion) not repeating, 2026's guided 25-30% revenue growth vs. 2025's 66% growth could disappoint the market's residual expectations, driving further multiple compression from 14x to 10-12x P/E.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<!-- ============================================================ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Scale Economies</span> <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Sezzle benefits from scale economies primarily in its fixed cost base: personnel, technology infrastructure, and the proprietary AI underwriting models ("Prophet") represent largely fixed costs that are amortized over a growing GMV base. From 2024 to 2025, non-transaction operating expenses fell from 30.4% to 26.3% of total revenue — a clear 410 bps of scale benefit. However, the core variable cost structure (transaction expense ~1.7% of GMV, provision for credit losses ~2.3% of GMV, interest expense ~0.4% of GMV) does not scale down materially with volume; it is structurally linked to GMV regardless of size. The company's revenue per employee of $2.2M is exceptional for a company of this scale, suggesting real scale benefits are being realized. The barrier here is moderate — a well-capitalized new entrant could eventually achieve comparable unit economics with sufficient volume, but the time required to build the behavioral datasets and underwriting calibration history creates a meaningful headstart advantage.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Network Effects</span> <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Sezzle demonstrates a genuine two-sided network effect: a larger consumer base (3M+ active users) makes the platform more attractive to merchants (463K unique merchant touchpoints), and more merchant integrations make the platform more valuable to consumers. This is a classic marketplace flywheel. The "Anywhere" subscription specifically disrupts the traditional merchant-side network effect by allowing subscribers to use a virtual Visa card at ANY merchant — effectively decoupling the consumer side from merchant-by-merchant integration. This is strategically brilliant: Sezzle no longer needs merchants to opt-in to generate consumer value. However, the data-driven network effect — where more users produce better underwriting outcomes — is the most durable form here. Sezzle's Prophet ML models are continuously retrained on ~3.9B in annual GMV of behavioral repayment data, making the underwriting moat stronger with each passing year. A challenger with 1% of Sezzle's loan volume could not match this calibration.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Counter-Positioning</span> <span class="fw-rating strong">Strong</span>
+  <p class="prose">This is Sezzle's most underappreciated structural advantage. The subscription-based consumer monetization model — where the user, not the merchant, pays recurring fees — is counter-positioned against both traditional BNPL providers (Affirm, Klarna) and against bank credit card businesses. Traditional BNPL players generate revenue from merchant fees; pivoting to consumer subscriptions would cannibalize their merchant relationships and require them to rebuild the entire consumer funnel. Major banks cannot offer a competing subscription BNPL product without acknowledging that short-duration installment credit is better for consumers than revolving credit cards — which would cannibalize their highest-margin product. This is exactly the Helmer definition: incumbents rationally choose NOT to replicate the model because the expected cannibalization damage exceeds the expected gain from copying. Furthermore, Sezzle's sub-prime consumer focus is counter-positioned against Affirm and Klarna (who skew toward prime/near-prime customers at large retailers) — these players are structurally prevented from efficiently serving Sezzle's core demographic without retooling their entire underwriting stack.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Switching Costs</span> <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Switching costs are real but moderate compared to enterprise software. The primary friction is behavioral/habitual: subscribers on Sezzle Anywhere have integrated the virtual Visa card into their daily spending habit (6.6x avg quarterly purchase frequency), have a payment streak and credit history with Sezzle, and may have an active credit-building "Sezzle Up" file with major credit bureaus. Losing a Sezzle relationship means losing their repayment history and credit-building progress — a meaningful deterrent for the near-prime consumer trying to improve their financial profile. The 96.8% repeat usage rate as a percentage of total orders is strong evidence that the ecosystem has real stickiness. However, an On-Demand user (non-subscriber) faces near-zero switching costs. The company's deliberate pivot away from On-Demand toward subscriptions is precisely an effort to convert casual users into high-switching-cost subscribers. The addition of Sezzle Mobile (AT&T MVNO) is a brilliant switching cost escalation: cellular plan portability is notoriously low, and combining BNPL subscription + mobile plan creates a double-lock on the consumer's monthly budget allocation.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Branding</span> <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Sezzle has built meaningful brand equity in its target demographic — near-prime/subprime consumers aged 18-35 — receiving recognition from CNBC, Fortune, TIME, Newsweek, and Forbes as a top BNPL app and best credit-building tool. The "Sezzle Up" credit-building feature creates genuine brand goodwill: consumers who improved their credit score through Sezzle have a strong emotional attachment to the brand. The sub-brand "The Responsible Way to Pay" differentiates Sezzle from the perception that BNPL encourages overspending. However, Sezzle's brand recognition trails Affirm, Klarna, and Afterpay among mainstream consumers, and the company competes primarily on product features and value (lower prices, cashback) rather than aspirational brand positioning. This is appropriate for its price-sensitive demographic, but limits the brand premium the company can command. Brand is a supporting moat, not a primary one.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">6. Cornered Resource</span> <span class="fw-rating weak">Weak</span>
+  <p class="prose">Sezzle does not control any uniquely scarce physical, regulatory, or IP resource that money alone cannot replicate. The company's WebBank partnership is a finite contractual arrangement, not an exclusive right. The Prophet ML underwriting models are proprietary, but the underlying data science architecture could theoretically be replicated by a well-funded competitor over 2-3 years. The ILC charter application, if approved, would provide a meaningful regulatory resource (a banking license that is difficult to obtain), but this has not yet been secured. The one potential cornered resource is the behavioral repayment dataset itself: millions of near-prime consumer transactions with short 42-day durations create a high-frequency, high-signal training set that would take years for a new entrant to replicate. This is a dataset moat, but falls short of a true cornered resource.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">7. Process Power</span> <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Sezzle has demonstrated genuine process power in its ability to manage a near-prime credit portfolio through cycles while maintaining positive unit economics — a capability that is genuinely hard to replicate by hiring a few data scientists. The company's "surgical" approach to underwriting — tightening specific models in specific geographies ahead of holiday seasons, responding to repayment trend data within 14 days of loan origination, dynamically adjusting credit limits upward for performing borrowers and restricting delinquent accounts — reflects deep institutional knowledge baked into both the AI systems and the organizational culture. The AI-driven efficiency initiatives (SIA internal BI tool, AI chargeback agent, user foundation embedding model) suggest a data culture that permeates the organization beyond the product team. Charlie Youakim's direct involvement in risk management and data practices, and the company's consistent track record of beating guidance, suggests this is organizational capability rather than luck. The primary barrier is that the key processes are embedded in the system, but could partially be replicated if key engineers and risk managers departed.</p>
+</div>
+
+<p class="prose"><strong>Summary:</strong> The strongest moats here are Counter-Positioning (subscription model that incumbents cannot copy without self-harm) and the data-driven Network Effect (Prophet underwriting models trained on high-frequency near-prime behavioral data). The business has limited cornered resources and moderate switching costs, but the combination of Counter-Positioning + Network Effects at a sub-$2.5B market cap represents a potentially underpriced moat structure.</p>
+
+<!-- ============================================================ -->
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<!-- ============================================================ -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Threat of New Entrants</span> <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">The BNPL industry has relatively low capital barriers to build a basic pay-in-4 product, and the category has attracted hundreds of new entrants globally over the past five years. However, the barrier to entering Sezzle's specific niche — near-prime/subprime subscription BNPL with credit-building features and a consumer app ecosystem — is meaningfully higher. To replicate Sezzle's position requires: (1) a Bank-as-a-Service or ILC partner willing to originate subprime short-duration loans at scale, (2) proprietary ML underwriting calibrated to this demographic, (3) consumer trust and brand recognition among the credit-invisible population, and (4) a merchant network of 463K+ touchpoints. A well-funded startup could theoretically build all of this, but the time required (3-5+ years) and the cost of the credit losses incurred during model calibration represents a real deterrent. The CFPB's evolving regulatory framework also increases compliance costs for new entrants disproportionately relative to established players.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Bargaining Power of Suppliers</span> <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Sezzle's most critical supplier is WebBank, which originates a substantial majority of US consumer loans. This creates genuine concentration risk: if WebBank terminates or renegotiates the partnership, Sezzle's national product framework would require restructuring. WebBank is an FDIC-insured industrial bank that has relationships with multiple fintech lenders (it is one of the most active bank partners in the BaaS space), which reduces its dependency on Sezzle specifically — giving it meaningful leverage. The company's credit facility (currently drawn $141M of a $225M facility at SOFR + 6.75% with Bastion) is another key supplier relationship; refinancing risk exists if credit markets tighten. The ILC charter application is explicitly designed to reduce WebBank's bargaining power over time by eventually internalizing the origination function. Secondary suppliers (Visa for the virtual card rails, AWS/cloud infrastructure, payment processors) are more fragmented and lower risk.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Bargaining Power of Buyers</span> <span class="fw-rating low">Low — Favorable</span>
+  <p class="prose">Sezzle's buyer power is structurally bifurcated and, in aggregate, favorable. On the consumer side: the user base is highly fragmented (3M+ active consumers, no single user material), is price-sensitive but demonstrates low price elasticity once subscribed (97% repeat usage), and faces meaningful switching costs in the form of credit history and subscription benefits. This is a favorable buyer power configuration. On the merchant side: Sezzle deliberately focuses on SMBs (which are also fragmented, with 463K unique merchant touchpoints) rather than large enterprise retailers who would wield pricing power. As the AlphaSense expert calls note, large enterprise retailers demand zero-fee administrative structures and heavily discounted MDRs — Sezzle explicitly avoids this segment. The company's merchant take rate of ~6.1% on GMV is well above what Affirm or Klarna achieve at enterprise accounts, because SMB merchants are willing to pay for access to a loyal, credit-building consumer base. The "Anywhere" subscription further reduces merchant leverage by allowing consumers to use Sezzle at any merchant regardless of integration — making the company less dependent on any single merchant relationship.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Threat of Substitutes</span> <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">The primary substitutes for Sezzle's offering are: (1) bank credit cards (especially secured cards for near-prime borrowers), (2) other BNPL providers (Affirm, Afterpay/Cash App, Klarna, Zip), (3) personal loans, and (4) "buy now, pay later" features embedded in Apple Pay, Google Pay, or PayPal. For Sezzle's core demographic (near-prime, credit-invisible consumers), credit card availability is genuinely constrained — these consumers often cannot qualify for mainstream credit cards, making Sezzle less substitutable than it appears for prime borrowers. Afterpay and Klarna are the most direct substitutes, but their lack of credit-building features and subscription models means they do not serve the same job-to-be-done as completely. Apple Pay Later was discontinued in 2024, reducing one threat. The most underappreciated substitute threat is from "super apps" and neobanks (Cash App, Chime, Dave) that are building BNPL capabilities into their broader consumer financial platforms — if any of these achieves Sezzle's subscription-based engagement model, the competitive threat escalates materially.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Competitive Rivalry</span> <span class="fw-rating high">High</span>
+  <p class="prose">Competitive rivalry in BNPL is intense and intensifying. The top 5 players (Affirm, Klarna, Afterpay, Zip, Sezzle) control ~95% of North American BNPL market share, but Sezzle represents less than 2% of the total market — meaning the four dominant players each dwarf Sezzle in scale, marketing budget, and merchant relationships. Klarna's IPO in 2025 has brought significant fresh capital into the space. PayPal's "Pay Later" leverages an installed base of 400M+ accounts. Rivalry is particularly intense at the checkout level, where BNPL providers compete for prominent placement buttons on merchant checkout pages. However, Sezzle has partially escaped this "race to the bottom" dynamic by pivoting to consumer-direct subscriptions — the Anywhere virtual card means the consumer brings Sezzle to any checkout, regardless of whether the merchant has integrated. This structural move has reduced rivalry intensity for Sezzle specifically, but has not eliminated it. The biggest risk of escalating rivalry is from Affirm or Klarna launching a competing subscription product targeting the near-prime demographic.</p>
+</div>
+
+<p class="prose"><strong>Summary:</strong> The competitive environment is mixed — structurally challenging at the industry level (high rivalry, moderate new entrant threat) but meaningfully more favorable for Sezzle's specific market positioning. The company's subscription model, sub-prime focus, and SMB merchant strategy have carved out a defensible niche that avoids the most intense competitive pressure faced by larger BNPL players. The key structural vulnerability is regulatory risk from state-level action against the bank partnership model.</p>
+
+<!-- ============================================================ -->
+<!-- SECTION 6: WHAT DRIVES THE STOCK? -->
+<!-- ============================================================ -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<p class="prose">Think of SEZL as a high-beta, high-conviction speculative long with a single-digit analyst count. The stock has a 2.77 beta and a 52-week range of $24.86 to $186.74 — a 7.5x spread. The following 5 variables explain the vast majority of stock price movement:</p>
+
+<ol style="padding-left:20px; margin-bottom:8px;">
+  <li style="margin-bottom:8px;"><strong>Take Rate vs. Consensus.</strong> The take rate (total revenue ÷ GMV) is the single most-tracked metric — it directly encodes both the subscription mix shift and the credit quality of the cohort. A take rate above 11% in any quarter is bullish; below 10% is bearish. In Q1 2025, the take rate spiked to 13% as holiday payment collections flowed in; in Q2 it compressed to 10.6%. Analysts model this metric closely as a leading indicator of gross margin. Any management commentary on take rate sustainability in quarterly calls immediately moves the stock.</li>
+  <li style="margin-bottom:8px;"><strong>Provision for Credit Losses (PLR) as % of GMV.</strong> The market watches PLR obsessively because Sezzle's subprime consumer base means credit quality can deteriorate rapidly in a macro downturn. Management's 2026 guidance of 2.5-3.0% PLR implies a step-up from 2.3% in 2025. Any quarterly result above 3.5% would signal credit box failure and would likely trade the stock down 20%+. Conversely, results at the lower end of guidance (2.0-2.5%) expand gross margins and drive upside surprises, as Q4 2025 demonstrated.</li>
+  <li style="margin-bottom:8px;"><strong>MODS Growth and Subscriber Conversion Rate.</strong> MODS (Monthly On-Demand &amp; Subscribers) is the leading indicator of revenue durability. Subscription users generate 10x more orders than non-subscribers and have near-100% gross margin fee revenue. The pivot back to subscriptions in Q3 2025 drove MODS from 748K to 918K by Q4 2025 — this acceleration is what the market is now pricing for 2026. If subscriber growth stalls (as it did when On-Demand cannibalized Premium in early 2025), the stock re-rates lower on fears of LTV compression.</li>
+  <li style="margin-bottom:8px;"><strong>Regulatory Newsflow (CFPB, State-Level).</strong> Sezzle has a WACC of 16.3% despite being profitable — the risk premium is driven partly by regulatory uncertainty. Any material CFPB rule-making, state-level rate cap legislation (the New York BNPL inquiry is ongoing), or challenge to the WebBank bank partnership model creates immediate stock pressure. Conversely, regulatory clarity (including ILC charter approval) would materially reduce the risk premium and re-rate the multiple toward 18-22x P/E.</li>
+  <li style="margin-bottom:8px;"><strong>GMV Growth vs. Revenue Guidance Beat/Miss.</strong> With only 5 analyst contributors and no sell-side model sophistication on seasonality, SEZL consistently experiences large earnings-day moves. Q4 2025 saw a +35% single-day move after beating adjusted EPS by $0.25 (26% beat). The guidance range of 25-30% revenue growth for 2026 is wide by design; quarterly results that track toward the high end of guidance (30%+) drive stock upside, while deceleration toward 20-25% would disappoint given the 66% baseline.</li>
+</ol>
+
+<!-- ============================================================ -->
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS? -->
+<!-- ============================================================ -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<div class="section-title">Revenue Decomposition</div>
+<table class="data" style="margin-bottom:12px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Revenue Line</th>
+      <th style="text-align:left;">Formula</th>
+      <th>Est. 2025 $M</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Core GMV Revenue</strong></td>
+      <td style="text-align:left; font-size:9.5px;">GMV ($B) × Take Rate (%)</td>
+      <td>~$450M</td>
+    </tr>
+    <tr>
+      <td style="padding-left:12px; color:#555;">GMV Volume</td>
+      <td style="text-align:left; font-size:9.5px;">Active Consumers (LTM) × Avg Quarterly Purchases × Avg Order Value</td>
+      <td>$3.94B</td>
+    </tr>
+    <tr>
+      <td style="padding-left:24px; color:#777; font-size:9.5px;">Active Consumers (LTM)</td>
+      <td style="text-align:left; font-size:9px;">MODS (918K) × Coverage + One-off shoppers</td>
+      <td>3.05M</td>
+    </tr>
+    <tr>
+      <td style="padding-left:24px; color:#777; font-size:9.5px;">Purchase Frequency</td>
+      <td style="text-align:left; font-size:9px;">6.6x per quarter avg (subscribers higher)</td>
+      <td>6.6x</td>
+    </tr>
+    <tr>
+      <td style="padding-left:24px; color:#777; font-size:9.5px;">Avg Order Value (AOV)</td>
+      <td style="text-align:left; font-size:9px;">GMV ÷ (Consumers × Freq)</td>
+      <td>~$50-55</td>
+    </tr>
+    <tr>
+      <td style="padding-left:12px; color:#555;">Take Rate</td>
+      <td style="text-align:left; font-size:9.5px;">Subscription Fees (net) + Merchant MDR + Late Fees — all ÷ GMV</td>
+      <td>11.4%</td>
+    </tr>
+    <tr>
+      <td><strong>Subscription Revenue (est.)</strong></td>
+      <td style="text-align:left; font-size:9.5px;">Active Subscribers × Monthly Fee ($13-18) × 12</td>
+      <td>~$110-135M</td>
+    </tr>
+    <tr>
+      <td><strong>Merchant Revenue (est.)</strong></td>
+      <td style="text-align:left; font-size:9.5px;">GMV × Merchant Discount Rate (~2.8% of GMV)</td>
+      <td>~$110M</td>
+    </tr>
+    <tr>
+      <td><strong>Earn Tab + Other</strong></td>
+      <td style="text-align:left; font-size:9.5px;">$1M+/month Earn Tab + misc fees</td>
+      <td>~$15-20M</td>
+    </tr>
+    <tr>
+      <td><strong>Gross Profit (TRLC)</strong></td>
+      <td style="text-align:left; font-size:9.5px;">Revenue × 62.4% — Transaction Costs (37.6% of rev)</td>
+      <td>$281M</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose">The three levers with the most revenue leverage are: (1) <strong>GMV Volume</strong> — driven by active consumer growth × purchase frequency. A 1% increase in purchase frequency (6.6x → 6.7x quarterly) adds ~$40M in GMV and ~$4.5M in revenue at the current take rate. (2) <strong>Take Rate</strong> — the most direct expression of subscription mix quality. Each 10 bps improvement in take rate on $3.94B GMV adds ~$4M in revenue at near-100% incremental margin for subscription fees. Management targeting 11.4% take rate for 2026 guidance is conservative given Q1 seasonality typically spikes take rate above 13%. (3) <strong>Transaction Cost Management (PLR + Transaction Expense)</strong> — transaction-related costs fell from 44.3% of revenue in 2024 to 37.6% in 2025. Every 100 bps improvement in transaction cost as a % of revenue flows almost entirely to EBITDA margin, given fixed OpEx leverage. The ACH adoption strategy (reducing card processing costs) and underwriting model improvements are the primary levers here.</p>
+
+<!-- ============================================================ -->
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<!-- ============================================================ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+  <strong>AlphaSense DR Report</strong> — Query: "Sezzle Inc: Strategic Transformation from BNPL Commodity to Consumer Financial Ecosystem" · Generated: March 16, 2026 · Sources: Expert Calls (10-Sep-25, 30-Sep-25, 04-Oct-25, 08-Oct-25), Earnings Transcripts (Q3 2025, Q4 2025, Q1-Q3 2024), 10-K FY2025, Investor Presentations
+</div>
+
+<div class="section-title">The Prophet ML Moat: What Experts Actually Say</div>
+<p class="prose">Expert calls from former Sezzle directors and heads of strategic partnerships (Sep-Oct 2025) consistently highlight the "Prophet" machine learning underwriting system as the deepest competitive differentiator that is hardest to see from public disclosures. Unlike static credit score-based underwriting, Prophet analyzes non-traditional behavioral signals — app engagement patterns, purchase category mix, payment timing within the 42-day window — to dynamically adjust individual credit limits in near-real-time. A former Sezzle director with direct knowledge of the system notes that the model effectively bifurcates the portfolio: consistently repaying borrowers see limit increases that compound their purchasing behavior and lifetime value, while early-delinquency signals trigger immediate limit restrictions before significant loss is incurred. This feedback loop produces portfolio credit quality that improves over cohort vintage time — the opposite of what one would expect from a subprime lender — and is the mechanism behind Sezzle's ability to grow GMV by $1.4B while simultaneously expanding gross margins by 6.7 points in 2025.</p>
+
+<div class="section-title">The Subprime Misunderstanding: A Key Alpha Source</div>
+<p class="prose">Multiple AlphaSense expert calls identify the market's mischaracterization of Sezzle's credit exposure as the most significant disconnect between fundamentals and valuation. A former Director at Sezzle (Sep 30, 2025 call) explains: "Traditional installment financing targets consumers with incomes over $150K; Sezzle's user base is 70-80% near-prime or subprime. Investors see that and price in credit card company-level loss rates (4-8% charge-offs). But Sezzle's 42-day average duration with account lock-on-first-missed-payment means the practical maximum loss on any given account is approximately 1/3 of one installment — not the full balance. The real credit risk metric is not PLR as a % of outstandings; it's PLR as a % of GMV, which ran 2.3% in 2025." A former Head of Strategic Partnerships (Oct 8, 2025) adds that because Sezzle enforces immediate account suspension on first missed payment — rather than allowing debt to revolve and compound at high interest rates — its actual credit exposure per delinquent account is structurally smaller than a credit card portfolio with months of revolving before charge-off.</p>
+
+<div class="section-title">SMB Strategy: Why This Is Actually the Larger TAM</div>
+<p class="prose">A senior expert from a competing BNPL company (Sep 4, 2025 expert call on Klarna's commercial strategy) confirms that Sezzle's deliberate avoidance of Tier-1 enterprise retail is not a limitation but a strategic choice with significant economic rationale. Enterprise BNPL integrations (Amazon, Walmart, Target) require BNPL providers to offer co-marketing budgets, zero-fee administrative support, and MDRs below 2% — effectively operating the BNPL service as a loss leader to acquire consumer data. The SMB sector, which in aggregate accounts for a larger share of US retail GMV than enterprise accounts, commands 6%+ MDRs and has no leverage to extract co-marketing concessions. An enterprise partnerships director from Afterpay (Sep 15, 2025) estimates that the SMB BNPL market is 2-3x the size of enterprise BNPL by GMV, making Sezzle's 463K merchant footprint potentially more valuable than it appears relative to Affirm's flagship retailer list.</p>
+
+<div class="section-title">Leadership and Culture: Key Differentiator at This Company Size</div>
+<p class="prose">AlphaSense expert calls are unusually consistent in their praise for CEO Charlie Youakim's operational involvement and risk discipline. A former Product Manager (Oct 4, 2025) describes Youakim as "directly involved in reviewing the underwriting model adjustments every quarter" — unusual for a CEO at a $2B+ market cap company and reflective of the "inner scorecard" culture he describes in earnings calls. A former Sezzle engineer (Dec 25, 2024 call) notes the culture's genuine commitment to responsible lending: "The company would rather tighten underwriting and miss a quarter than blow up the credit book. That culture is set from the top." Former leadership highlights the B-Corp public benefit corporation status — Sezzle is certified to meet specific social and environmental standards — as a genuine cultural anchor rather than marketing, noting that the management team views helping near-prime consumers build credit as central to the business mission, not separate from it. This cultural alignment with the near-prime consumer mission creates organizational behavior (e.g., immediate account lock on first default rather than allowing balances to compound) that has direct economic benefits.</p>
+
+<div class="section-title">Regulatory Risk: Nuanced View from Insiders</div>
+<p class="prose">A PayPal Director with BNPL regulatory expertise (Sep 10, 2025) provides important context on the regulatory landscape: the CFPB's broadest proposed BNPL rule — which would have required BNPL providers to behave like credit card issuers — was substantially weakened under the current administration. The practical near-term regulatory risk is state-level action, with New York most active. However, this expert notes that New York's draft rules largely mirror the CFPB's guidance on disclosures and affordability, which Sezzle already follows. The more significant long-term risk identified is California's proposed "true lender" doctrine, which would invalidate the WebBank bank partnership model in the state if upheld — a development that would force Sezzle to either secure state money transmission licenses in all 50 states (expensive and slow) or accelerate the ILC charter timeline. Management's ILC application in H1 2026 appears to be directly targeted at this risk.</p>
+
+<!-- ============================================================ -->
+<!-- SECTION 9: SENSITIVITY ANALYSIS -->
+<!-- ============================================================ -->
+<div class="memo-section">9. Sensitivity Analysis</div>
+
+<!-- Sensitivity Table 1: GMV × Take Rate → Revenue -->
+<p style="font-weight:700; font-size:10.5px; margin-bottom:4px;">Annual GMV ($B) vs. Blended Take Rate (%) → Estimated Annual Total Revenue ($M)</p>
+<p class="prose" style="margin-bottom:6px;"><strong>Current (FY2025): Annual GMV = $3.94B × Take Rate = 11.4% → Total Revenue = $450M</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>GMV ($B) / Take Rate</th>
+      <th>9.5%</th>
+      <th>10.5%</th>
+      <th>11.4% (Base)</th>
+      <th>12.5%</th>
+      <th>13.5%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td class="row-label">$3.0B (Bear)</td><td>$285</td><td>$315</td><td>$342</td><td>$375</td><td>$405</td></tr>
+    <tr><td class="row-label">$3.5B</td><td>$333</td><td>$368</td><td>$399</td><td>$438</td><td>$473</td></tr>
+    <tr><td class="row-label">$4.9B (FY26 Base)</td><td>$466</td><td>$515</td><td class="base">$559</td><td>$613</td><td>$662</td></tr>
+    <tr><td class="row-label">$5.7B (FY26 Bull)</td><td>$542</td><td>$599</td><td>$650</td><td>$713</td><td>$770</td></tr>
+    <tr><td class="row-label">$6.5B (Bull Severe)</td><td>$618</td><td>$683</td><td>$741</td><td>$813</td><td>$878</td></tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 2: PLR × Transaction Expense → Gross Margin -->
+<p style="font-weight:700; font-size:10.5px; margin-bottom:4px; margin-top:14px;">Provision for Credit Losses (% of GMV) vs. Transaction Expense (% of GMV) → "Total Revenue Less Transaction Costs" as % of Revenue (Gross Margin Proxy)</p>
+<p class="prose" style="margin-bottom:6px;"><strong>Current (FY2025): PLR = 2.3% of GMV × Transaction Expense = 1.7% of GMV → Gross Margin = 62.4% of Revenue</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>PLR / Txn Expense (% GMV)</th>
+      <th>1.3%</th>
+      <th>1.5%</th>
+      <th>1.7% (Base)</th>
+      <th>2.0%</th>
+      <th>2.3%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td class="row-label">1.5% PLR (Tight UW)</td><td>69%</td><td>68%</td><td>66%</td><td>64%</td><td>62%</td></tr>
+    <tr><td class="row-label">2.0% PLR</td><td>65%</td><td>64%</td><td>62%</td><td>59%</td><td>57%</td></tr>
+    <tr><td class="row-label">2.3% PLR (Base '25)</td><td class="base">63%</td><td class="base">62%</td><td class="base">60%</td><td class="base">58%</td><td class="base">55%</td></tr>
+    <tr><td class="row-label">3.0% PLR (Guidance High)</td><td>57%</td><td>56%</td><td>54%</td><td>51%</td><td>49%</td></tr>
+    <tr><td class="row-label">4.0% PLR (Stress)</td><td>49%</td><td>48%</td><td>46%</td><td>43%</td><td>41%</td></tr>
+  </tbody>
+</table>
+<div class="source-note">Note: Gross margin estimated as [Take Rate (11.4%) − PLR − Txn Expense − Net Interest (0.4%)] ÷ Take Rate. Table illustrates how management's 55%-65% gross margin target band requires PLR ≤ 3.0% given current transaction expense levels. A stress PLR of 4.0% would breach the lower bound of management's stated target, requiring either underwriting tightening or take rate improvement to maintain profitability targets.</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 10: 3-YEAR MODEL — 5 SCENARIOS -->
+<!-- ============================================================ -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios</div>
+<p class="prose" style="margin-bottom:12px;">Base year: FY2025 actuals ($450M rev, $133M net income, $3.72 EPS). Forecast horizon: FY2026–FY2028. Current stock price: $66.31 (Mar 13, 2026). Diluted shares: ~35.3M (FY2026E, post-buybacks). Exit multiple applied to FY2028E EPS. Net debt (debt minus cash) = ~$70M at end-FY2025; modeled as declining as cash accumulates.</p>
+
+<!-- CASE 1: BEAR SEVERE -->
+<div class="case-block">
+  <div class="case-name">🐻 Macro Deterioration — Subprime Credit Stress</div>
+  <div class="case-desc">US recession triggers unemployment spike in Sezzle's consumer demographic. PLR surges to 4.0%+ of GMV, gross margins compress to 50-53%, subscriber growth stalls. 2026 — PLR spikes to 4.0%, management tightens underwriting sharply, GMV growth slows to 10%; 2027 — recovery begins, PLR normalizes to 3.2%, GMV growth resumes at 15%; 2028 — partial recovery, 20% GMV growth but lower take rate mix as premium subscribers churned during downturn.</div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Annual GMV</span><span>~$5.5B</span></div>
+  <div class="driver-row"><span>Take Rate</span><span>~10.8%</span></div>
+  <div class="driver-row"><span>Gross Margin (TRLC %)</span><span>~52%</span></div>
+  <div class="driver-row"><span>Non-Txn OpEx % Rev</span><span>~28%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>FY26: $493M</td><td>FY27: $537M</td><td>FY28: $594M</td></tr>
+    <tr class="margin-row"><td>  Rev Growth %</td><td>+9.6%</td><td>+8.9%</td><td>+10.6%</td></tr>
+    <tr><td>Gross Income (TRLC)</td><td>$247M</td><td>$269M</td><td>$309M</td></tr>
+    <tr class="margin-row"><td>  Gross Margin %</td><td>50.1%</td><td>50.1%</td><td>52.0%</td></tr>
+    <tr><td>EBITDA</td><td>$108M</td><td>$118M</td><td>$143M</td></tr>
+    <tr class="margin-row"><td>  EBITDA Margin %</td><td>21.9%</td><td>22.0%</td><td>24.1%</td></tr>
+    <tr><td>EBIT</td><td>$107M</td><td>$117M</td><td>$142M</td></tr>
+    <tr><td>Net Income</td><td>$74M</td><td>$82M</td><td>$100M</td></tr>
+    <tr class="margin-row"><td>  Net Margin %</td><td>15.0%</td><td>15.3%</td><td>16.8%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>34.5</td><td>33.8</td><td>33.0</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$2.15</td><td>$2.43</td><td>$3.03</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>—</td><td>—</td><td>10x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$21.50</td><td>$24.30</td><td>$30.30</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:9px; color:#666;">Exit: 10x P/E on $3.03 FY28E EPS · Implied Mkt Cap $999M · Implied EV $1,069M</div>
+    <div class="exit-price">$30.30</div>
+    <div class="exit-upside" style="color:#721c24;">−54% from current ($66.31)</div>
+  </div>
+</div>
+
+<!-- CASE 2: BEAR MILD -->
+<div class="case-block">
+  <div class="case-name">🐻 Slower Growth — Credit Box Conservatism + Regulatory Friction</div>
+  <div class="case-desc">No recession but BNPL regulation tightens (New York-style disclosure requirements adopted nationally), WebBank relationship faces headwinds, and management opts for conservative underwriting as a result. GMV growth 15-18% instead of guided 25-30%. 2026 — cautious credit expansion holds GMV to 18% growth; PLR steady at 2.5%; 2027 — regulatory clarity improves, 20% growth; 2028 — reacceleration to 22% as ILC charter progresses.</div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Annual GMV</span><span>~$6.3B</span></div>
+  <div class="driver-row"><span>Take Rate</span><span>~11.0%</span></div>
+  <div class="driver-row"><span>Gross Margin (TRLC %)</span><span>~59%</span></div>
+  <div class="driver-row"><span>Non-Txn OpEx % Rev</span><span>~25%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>FY26: $533M</td><td>FY27: $630M</td><td>FY28: $694M</td></tr>
+    <tr class="margin-row"><td>  Rev Growth %</td><td>+18.4%</td><td>+18.2%</td><td>+10.2%</td></tr>
+    <tr><td>Gross Income (TRLC)</td><td>$298M</td><td>$359M</td><td>$409M</td></tr>
+    <tr class="margin-row"><td>  Gross Margin %</td><td>55.9%</td><td>57.0%</td><td>58.9%</td></tr>
+    <tr><td>EBITDA</td><td>$163M</td><td>$202M</td><td>$236M</td></tr>
+    <tr class="margin-row"><td>  EBITDA Margin %</td><td>30.6%</td><td>32.1%</td><td>34.0%</td></tr>
+    <tr><td>EBIT</td><td>$162M</td><td>$200M</td><td>$234M</td></tr>
+    <tr><td>Net Income</td><td>$117M</td><td>$148M</td><td>$174M</td></tr>
+    <tr class="margin-row"><td>  Net Margin %</td><td>22.0%</td><td>23.5%</td><td>25.1%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>34.5</td><td>33.8</td><td>33.2</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$3.39</td><td>$4.38</td><td>$5.24</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>—</td><td>—</td><td>12x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$40.68</td><td>$52.56</td><td>$62.88</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:9px; color:#666;">Exit: 12x P/E on $5.24 FY28E EPS · Implied Mkt Cap $2,087M · Implied EV $2,157M</div>
+    <div class="exit-price">$62.88</div>
+    <div class="exit-upside" style="color:#856404;">−5% from current ($66.31)</div>
+  </div>
+</div>
+
+<!-- CASE 3: BASE -->
+<div class="case-block">
+  <div class="case-name">📊 Consensus Execution — Guided Trajectory</div>
+  <div class="case-desc">Management delivers on 2026 guidance (25-30% revenue growth, $170M adj. net income), and sustains similar growth into 2027-2028 as subscriber base compounds, Earn Tab scales, and Sezzle Mobile begins contributing. PLR holds at 2.5-2.7% of GMV. ILC charter applied in H1 2026 but not approved within 3-year window. 2026 — 28% GMV growth, take rate stable at 11.4%; 2027 — 24% GMV growth, operating leverage drives EBITDA margin expansion; 2028 — 20% GMV growth, ecosystem products add incremental revenue.</div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Annual GMV</span><span>~$7.7B</span></div>
+  <div class="driver-row"><span>Take Rate</span><span>~11.4%</span></div>
+  <div class="driver-row"><span>Gross Margin (TRLC %)</span><span>~63%</span></div>
+  <div class="driver-row"><span>Non-Txn OpEx % Rev</span><span>~23%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>FY26: $571M</td><td>FY27: $707M</td><td>FY28: $849M</td></tr>
+    <tr class="margin-row"><td>  Rev Growth %</td><td>+26.8%</td><td>+23.8%</td><td>+20.1%</td></tr>
+    <tr><td>Gross Income (TRLC)</td><td>$343M</td><td>$445M</td><td>$535M</td></tr>
+    <tr class="margin-row"><td>  Gross Margin %</td><td>60.1%</td><td>62.9%</td><td>63.0%</td></tr>
+    <tr><td>EBITDA</td><td>$241M</td><td>$312M</td><td>$391M</td></tr>
+    <tr class="margin-row"><td>  EBITDA Margin %</td><td>42.2%</td><td>44.1%</td><td>46.1%</td></tr>
+    <tr><td>EBIT</td><td>$227M</td><td>$284M</td><td>$357M</td></tr>
+    <tr><td>Net Income</td><td>$165M</td><td>$208M</td><td>$262M</td></tr>
+    <tr class="margin-row"><td>  Net Margin %</td><td>28.9%</td><td>29.4%</td><td>30.9%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>35.0</td><td>34.2</td><td>33.5</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$4.71</td><td>$6.08</td><td>$7.82</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>—</td><td>—</td><td>14x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$65.94</td><td>$85.12</td><td>$109.48</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:9px; color:#666;">Exit: 14x P/E on $7.82 FY28E EPS · Implied Mkt Cap $3,668M · Implied EV $3,738M</div>
+    <div class="exit-price">$109.48</div>
+    <div class="exit-upside" style="color:#155724;">+65% from current ($66.31)</div>
+  </div>
+</div>
+
+<!-- CASE 4: BULL MILD -->
+<div class="case-block">
+  <div class="case-name">🚀 Subscription Acceleration + ILC Catalyst</div>
+  <div class="case-desc">Sezzle secures ILC charter in 2026-2027, reducing WebBank dependency and improving net interest margins. Subscriber base surpasses 1M MODS in 2026, driving take rate to 12%+. Sezzle Mobile reaches 100K+ subscribers by 2027. 2026 — 32% GMV growth as subscription momentum builds; take rate expands to 12.2%; 2027 — ILC approval triggers cost-of-funds improvement; 2028 — ecosystem products (deposit accounts, secured cards) begin contributing materially.</div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Annual GMV</span><span>~$9.2B</span></div>
+  <div class="driver-row"><span>Take Rate</span><span>~12.2%</span></div>
+  <div class="driver-row"><span>Gross Margin (TRLC %)</span><span>~67%</span></div>
+  <div class="driver-row"><span>Non-Txn OpEx % Rev</span><span>~21%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>FY26: $617M</td><td>FY27: $800M</td><td>FY28: $1,022M</td></tr>
+    <tr class="margin-row"><td>  Rev Growth %</td><td>+37.1%</td><td>+29.7%</td><td>+27.8%</td></tr>
+    <tr><td>Gross Income (TRLC)</td><td>$393M</td><td>$528M</td><td>$685M</td></tr>
+    <tr class="margin-row"><td>  Gross Margin %</td><td>63.7%</td><td>66.0%</td><td>67.0%</td></tr>
+    <tr><td>EBITDA</td><td>$278M</td><td>$384M</td><td>$511M</td></tr>
+    <tr class="margin-row"><td>  EBITDA Margin %</td><td>45.1%</td><td>48.0%</td><td>50.0%</td></tr>
+    <tr><td>EBIT</td><td>$263M</td><td>$368M</td><td>$490M</td></tr>
+    <tr><td>Net Income</td><td>$192M</td><td>$272M</td><td>$363M</td></tr>
+    <tr class="margin-row"><td>  Net Margin %</td><td>31.1%</td><td>34.0%</td><td>35.5%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>35.0</td><td>34.2</td><td>33.5</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$5.49</td><td>$7.95</td><td>$10.84</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>—</td><td>—</td><td>17x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$93.33</td><td>$135.15</td><td>$184.28</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:9px; color:#666;">Exit: 17x P/E on $10.84 FY28E EPS · Implied Mkt Cap $6,173M · Implied EV $6,243M</div>
+    <div class="exit-price">$184.28</div>
+    <div class="exit-upside" style="color:#155724;">+178% from current ($66.31)</div>
+  </div>
+</div>
+
+<!-- CASE 5: BULL SEVERE -->
+<div class="case-block">
+  <div class="case-name">🚀 Platform Inflection — Super App + Financial Services Ecosystem</div>
+  <div class="case-desc">Sezzle successfully executes its "super app" vision: Sezzle Mobile reaches 300K+ subscribers, deposit accounts launch driving consumer daily engagement, AI commerce assistant materially improves conversion rates, and the company is re-rated from BNPL lender to consumer fintech platform. 2026 — 40%+ GMV growth, subscriber base 1.3M MODS; 2027 — deposit accounts launch, secured credit cards contributing; 2028 — ecosystem revenues (mobile, deposits, cards) reach $150M+, transforming the revenue mix and multiple.</div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Annual GMV</span><span>~$10.8B</span></div>
+  <div class="driver-row"><span>Take Rate (incl. ecosystem)</span><span>~13.0%</span></div>
+  <div class="driver-row"><span>Gross Margin (blended)</span><span>~70%</span></div>
+  <div class="driver-row"><span>Non-Txn OpEx % Rev</span><span>~20%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>FY26: $656M</td><td>FY27: $915M</td><td>FY28: $1,270M</td></tr>
+    <tr class="margin-row"><td>  Rev Growth %</td><td>+45.8%</td><td>+39.5%</td><td>+38.8%</td></tr>
+    <tr><td>Gross Income</td><td>$427M</td><td>$622M</td><td>$889M</td></tr>
+    <tr class="margin-row"><td>  Gross Margin %</td><td>65.1%</td><td>68.0%</td><td>70.0%</td></tr>
+    <tr><td>EBITDA</td><td>$309M</td><td>$457M</td><td>$673M</td></tr>
+    <tr class="margin-row"><td>  EBITDA Margin %</td><td>47.1%</td><td>49.9%</td><td>53.0%</td></tr>
+    <tr><td>EBIT</td><td>$294M</td><td>$441M</td><td>$652M</td></tr>
+    <tr><td>Net Income</td><td>$217M</td><td>$328M</td><td>$489M</td></tr>
+    <tr class="margin-row"><td>  Net Margin %</td><td>33.1%</td><td>35.8%</td><td>38.5%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>35.0</td><td>34.2</td><td>33.5</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$6.20</td><td>$9.59</td><td>$14.60</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>—</td><td>—</td><td>22x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$136.40</td><td>$210.98</td><td>$321.20</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:9px; color:#666;">Exit: 22x P/E on $14.60 FY28E EPS · Implied Mkt Cap $10,760M · Implied EV $10,830M</div>
+    <div class="exit-price">$321.20</div>
+    <div class="exit-upside" style="color:#155724;">+385% from current ($66.31)</div>
+  </div>
+</div>
+
+<!-- SVG Bar Chart -->
+<div class="case-chart">
+  <p style="font-size:9px; font-weight:600; margin-bottom:8px; color:#333;">FY2028E Implied Share Price — 5 Scenarios vs. Current Price ($66.31)</p>
+  <svg viewBox="0 0 730 160" xmlns="http://www.w3.org/2000/svg">
+    <!-- Y-axis gridlines -->
+    <line x1="60" y1="10" x2="60" y2="130" stroke="#eee" stroke-width="1"/>
+    <line x1="60" y1="130" x2="720" y2="130" stroke="#ddd" stroke-width="1"/>
+    <!-- Bars: scale max = $340, bar height = value / 340 * 120 -->
+    <!-- Bear Severe: $30.30 → height = 30.30/340*120 = 10.7 -->
+    <rect x="80" y="119.3" width="80" height="10.7" fill="#2563eb"/>
+    <text x="120" y="114" text-anchor="middle" font-size="8" fill="#333">$30</text>
+    <text x="120" y="143" text-anchor="middle" font-size="7.5" fill="#666">Bear Severe</text>
+    <text x="120" y="152" text-anchor="middle" font-size="7" fill="#888">5%</text>
+    <!-- Bear Mild: $62.88 → height = 62.88/340*120 = 22.2 -->
+    <rect x="215" y="107.8" width="80" height="22.2" fill="#2563eb"/>
+    <text x="255" y="102" text-anchor="middle" font-size="8" fill="#333">$63</text>
+    <text x="255" y="143" text-anchor="middle" font-size="7.5" fill="#666">Bear Mild</text>
+    <text x="255" y="152" text-anchor="middle" font-size="7" fill="#888">20%</text>
+    <!-- Base: $109.48 → height = 109.48/340*120 = 38.6 -->
+    <rect x="350" y="91.4" width="80" height="38.6" fill="#2563eb"/>
+    <text x="390" y="86" text-anchor="middle" font-size="8" fill="#333">$109</text>
+    <text x="390" y="143" text-anchor="middle" font-size="7.5" fill="#666">Base Case</text>
+    <text x="390" y="152" text-anchor="middle" font-size="7" fill="#888">50%</text>
+    <!-- Bull Mild: $184.28 → height = 184.28/340*120 = 65.0 -->
+    <rect x="485" y="65.0" width="80" height="65.0" fill="#2563eb"/>
+    <text x="525" y="59" text-anchor="middle" font-size="8" fill="#333">$184</text>
+    <text x="525" y="143" text-anchor="middle" font-size="7.5" fill="#666">Bull Mild</text>
+    <text x="525" y="152" text-anchor="middle" font-size="7" fill="#888">20%</text>
+    <!-- Bull Severe: $321.20 → height = 321.20/340*120 = 113.4 (cap at 120) -->
+    <rect x="620" y="16.6" width="80" height="113.4" fill="#2563eb"/>
+    <text x="660" y="11" text-anchor="middle" font-size="8" fill="#333">$321</text>
+    <text x="660" y="143" text-anchor="middle" font-size="7.5" fill="#666">Bull Severe</text>
+    <text x="660" y="152" text-anchor="middle" font-size="7" fill="#888">5%</text>
+    <!-- Current price line: $66.31 → y = 130 - (66.31/340*120) = 130 - 23.4 = 106.6 -->
+    <line x1="65" y1="106.6" x2="715" y2="106.6" stroke="#c0392b" stroke-width="1.2" stroke-dasharray="5,3"/>
+    <text x="67" y="104" font-size="7.5" fill="#c0392b">Current: $66.31</text>
+    <!-- Prob-wtd line: 5%×30.30 + 20%×62.88 + 50%×109.48 + 20%×184.28 + 5%×321.20 = 1.52+12.58+54.74+36.86+16.06 = 121.76 → discounted at 30% CoC: 121.76/1.30 = $93.66 → y = 130 - (93.66/340*120) = 130 - 33.1 = 96.9 -->
+    <line x1="65" y1="96.9" x2="715" y2="96.9" stroke="#2563eb" stroke-width="1" stroke-dasharray="3,3"/>
+    <text x="67" y="94.5" font-size="7.5" fill="#2563eb">Prob-Wtd PV @30% CoC: $93.66</text>
+  </svg>
+  <p style="font-size:8px; color:#888; margin-top:4px;">Probability weights: Bear Severe 5% / Bear Mild 20% / Base 50% / Bull Mild 20% / Bull Severe 5% · Prob-weighted avg FY28E price: $121.76 · Discounted at 30% CoC (1yr): $93.66 · Upside to current: +41%</p>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 11: COMPS -->
+<!-- ============================================================ -->
+<div class="memo-section">11. Comps</div>
+
+<div class="section-title">Selected Financials</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>Fiscal</th>
+      <th class="est-col">Rev FY1 ($M)</th>
+      <th class="est-col">Rev FY2 ($M)</th>
+      <th class="est-col">EBITDA FY1</th>
+      <th>Mgn FY1%</th>
+      <th class="est-col">EBITDA FY2</th>
+      <th>Mgn FY2%</th>
+      <th class="est-col">EBIT FY1</th>
+      <th>Mgn FY1%</th>
+      <th class="est-col">EBIT FY2</th>
+      <th>Mgn FY2%</th>
+      <th class="est-col">FCF FY1</th>
+      <th class="est-col">FCF FY2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Sezzle</td><td>SEZL-US</td><td>12/2025</td>
+      <td>$571</td><td>$707</td>
+      <td>$241</td><td>42.1%</td><td>$312</td><td>44.2%</td>
+      <td>$227</td><td>39.7%</td><td>$284</td><td>40.2%</td>
+      <td>—</td><td>—</td>
+    </tr>
+    <tr>
+      <td>AvePoint A</td><td>AVPT-US</td><td>12/2025</td>
+      <td>$514</td><td>$617</td>
+      <td>$100</td><td>19.4%</td><td>$134</td><td>21.8%</td>
+      <td>$95</td><td>18.5%</td><td>$125</td><td>20.2%</td>
+      <td>$101</td><td>$128</td>
+    </tr>
+    <tr>
+      <td>SPS Commerce</td><td>SPSC-US</td><td>12/2025</td>
+      <td>$802</td><td>$861</td>
+      <td>$263</td><td>32.8%</td><td>$298</td><td>34.7%</td>
+      <td>$240</td><td>29.9%</td><td>$267</td><td>31.0%</td>
+      <td>$184</td><td>$210</td>
+    </tr>
+    <tr>
+      <td>BlackLine</td><td>BL-US</td><td>12/2025</td>
+      <td>$766</td><td>$849</td>
+      <td>$218</td><td>28.5%</td><td>$258</td><td>30.3%</td>
+      <td>$184</td><td>24.0%</td><td>$220</td><td>26.0%</td>
+      <td>$166</td><td>$199</td>
+    </tr>
+    <tr>
+      <td>Freshworks A</td><td>FRSH-US</td><td>12/2025</td>
+      <td>$956</td><td>$1,092</td>
+      <td>$203</td><td>21.2%</td><td>$248</td><td>22.7%</td>
+      <td>$185</td><td>19.4%</td><td>$231</td><td>21.2%</td>
+      <td>$249</td><td>$287</td>
+    </tr>
+    <!-- Named Competitors -->
+    <tr>
+      <td>Affirm Holdings</td><td>AFRM-US</td><td>—</td>
+      <td>—</td><td>—</td>
+      <td>—</td><td>—</td><td>—</td><td>—</td>
+      <td>—</td><td>—</td><td>—</td><td>—</td>
+      <td>—</td><td>—</td>
+    </tr>
+    <tr>
+      <td>Block Inc. A</td><td>SQ-US</td><td>—</td>
+      <td>—</td><td>—</td>
+      <td>—</td><td>—</td><td>—</td><td>—</td>
+      <td>—</td><td>—</td><td>—</td><td>—</td>
+      <td>—</td><td>—</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Median (Software)</td><td>—</td><td>—</td>
+      <td>—</td><td>—</td>
+      <td>—</td><td>26.5%</td><td>—</td><td>28.4%</td>
+      <td>—</td><td>24.0%</td><td>—</td><td>25.6%</td>
+      <td>—</td><td>—</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:10px;">Valuation Multiples</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>Price</th>
+      <th>PT</th>
+      <th>EV ($M)</th>
+      <th>Mkt Cap ($M)</th>
+      <th class="est-col">EV/Rev FY1</th>
+      <th class="est-col">EV/Rev FY2</th>
+      <th class="est-col">EV/EBITDA FY1</th>
+      <th class="est-col">EV/EBITDA FY2</th>
+      <th class="est-col">P/E FY1</th>
+      <th class="est-col">P/E FY2</th>
+      <th>FCF Yld</th>
+      <th>Rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Sezzle</td><td>SEZL-US</td>
+      <td>$66.31</td><td>$97.00</td>
+      <td>$2,405</td><td>$2,338</td>
+      <td>4.2x</td><td>3.4x</td>
+      <td>10.0x</td><td>7.7x</td>
+      <td>14.1x</td><td>11.4x</td>
+      <td>9.2%</td><td>Buy (1.20)</td>
+    </tr>
+    <tr>
+      <td>AvePoint A</td><td>AVPT-US</td>
+      <td>$10.43</td><td>$16.86</td>
+      <td>$1,945</td><td>$2,426</td>
+      <td>3.8x</td><td>3.2x</td>
+      <td>19.5x</td><td>14.5x</td>
+      <td>28.1x</td><td>21.4x</td>
+      <td>2.6%</td><td>Buy (1.23)</td>
+    </tr>
+    <tr>
+      <td>SPS Commerce</td><td>SPSC-US</td>
+      <td>$60.55</td><td>$82.09</td>
+      <td>$2,174</td><td>$2,325</td>
+      <td>2.7x</td><td>2.5x</td>
+      <td>8.3x</td><td>7.3x</td>
+      <td>13.5x</td><td>11.9x</td>
+      <td>4.5%</td><td>Overweight (1.69)</td>
+    </tr>
+    <tr>
+      <td>BlackLine</td><td>BL-US</td>
+      <td>$36.88</td><td>$55.85</td>
+      <td>$2,505</td><td>$2,348</td>
+      <td>3.3x</td><td>3.0x</td>
+      <td>11.5x</td><td>9.7x</td>
+      <td>15.4x</td><td>13.4x</td>
+      <td>4.4%</td><td>Overweight (1.66)</td>
+    </tr>
+    <tr>
+      <td>Freshworks A</td><td>FRSH-US</td>
+      <td>$8.13</td><td>$12.15</td>
+      <td>$1,658</td><td>$2,488</td>
+      <td>1.7x</td><td>1.5x</td>
+      <td>8.2x</td><td>6.7x</td>
+      <td>14.3x</td><td>11.8x</td>
+      <td>6.1%</td><td>Overweight (1.44)</td>
+    </tr>
+    <tr>
+      <td>Affirm Holdings</td><td>AFRM-US</td>
+      <td>—</td><td>—</td>
+      <td>$28,811</td><td>$15,616</td>
+      <td>—</td><td>—</td>
+      <td>24.3x</td><td>—</td>
+      <td>—</td><td>—</td>
+      <td>—</td><td>—</td>
+    </tr>
+    <tr>
+      <td>Zip Co Ltd.</td><td>ZIP-AU</td>
+      <td>—</td><td>—</td>
+      <td>$3,962</td><td>$1,442</td>
+      <td>—</td><td>—</td>
+      <td>65.7x</td><td>—</td>
+      <td>—</td><td>—</td>
+      <td>—</td><td>—</td>
+    </tr>
+    <tr>
+      <td>PayPal Holdings</td><td>PYPL-US</td>
+      <td>—</td><td>—</td>
+      <td>$58,186</td><td>$41,338</td>
+      <td>—</td><td>—</td>
+      <td>7.6x</td><td>—</td>
+      <td>—</td><td>—</td>
+      <td>—</td><td>—</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Avg (Software)</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
+      <td>2.9x</td><td>2.5x</td><td>11.9x</td><td>9.6x</td><td>17.8x</td><td>14.6x</td><td>4.4%</td><td>—</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Median (Software)</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
+      <td>3.0x</td><td>2.7x</td><td>9.9x</td><td>8.5x</td><td>14.9x</td><td>12.7x</td><td>4.5%</td><td>—</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:8px;">Sezzle trades at 10.0x FY26E EV/EBITDA — roughly in-line with the FactSet software peer median of 9.9x — yet Sezzle's EBITDA is growing at 35%+ vs. the peer median of roughly 15-20%. On a pure growth-adjusted basis (PEG ratio equivalent), Sezzle's EV/EBITDA-to-growth rate is approximately 0.3x vs. the peer median of ~0.55x, implying a 45% discount on growth-adjusted terms. The most relevant BNPL comparable is Affirm at 24.3x EV/EBITDA — Sezzle trades at a 59% discount to Affirm despite higher gross margins and higher net income margins, suggesting the market's subprime risk discount is excessive relative to the fundamental unit economics difference. Note that the FactSet peer group is a software peer basket selected on market-cap proximity rather than business model similarity; the BNPL-specific comps (Affirm, Zip, PayPal) are more instructive for multiple discussion.</p>
+
+<!-- ============================================================ -->
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<!-- ============================================================ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<div class="verdict">
+  <p><strong>(i) Market Cap Bucket: Small Cap ($2.2B)</strong> <span class="fw-rating strong">Strong</span><br>
+  At $2.2B market cap, Sezzle sits squarely in Theia's sweet spot (small cap, $1B–$5B). The company is large enough to have institutional-grade management, financial reporting, and a tested business model, but small enough that most large-cap funds cannot own it and the analyst community remains underpenetrated. Ideal bucket.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(ii) Analyst Coverage: 5 Broker Contributors</strong> <span class="fw-rating strong">Strong</span><br>
+  With only 5 sell-side contributors (Northland Securities, Oppenheimer, B. Riley, TD Cowen, Needham), SEZL is significantly under-covered for its market cap and financial profile. The average P/E and EV/EBITDA consensus estimates are based on limited models, creating significant potential for both discovery alpha (as more analysts initiate) and variant perception alpha (since the existing models may be mischaracterizing the subscription revenue quality). The near-complete absence of institutional sponsorship and index inclusion means price-setting is dominated by retail sentiment and short-term holders — a classic alpha source for a patient, research-driven investor.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iii) Blockchain / Internet Finance Thesis Alignment: Adjacent</strong> <span class="fw-rating moderate">Moderate</span><br>
+  Sezzle is not a blockchain or crypto company, but it is deeply aligned with Theia's internet finance thesis: the digitization of consumer credit, the disruption of traditional bank-issued revolving credit, and the emergence of consumer fintech super apps are all core thesis pillars. The company's exploration of deposit accounts, secured credit cards, and an ILC banking charter make it increasingly aligned with the "digital banking" portion of the thesis. The subscription model — a recurring digital financial service delivered through a consumer app — is precisely the type of internet finance architecture Theia would want to own. Rated "Adjacent" rather than "Core" only because the company has no direct blockchain or crypto exposure.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iv) Outcome Dispersion: Wide</strong> <span class="fw-rating strong">Strong</span><br>
+  The five-scenario model produces a range from $30 (Bear Severe, −54%) to $321 (Bull Severe, +385%), with a probability-weighted PV of $93.66 at 30% cost of capital — representing +41% upside from current. This is the wide dispersion profile that Theia specifically targets: the bear case is contained by the company's fundamental profitability (even in stress, Sezzle generates positive EPS), while the bull case has genuine optionality from the super-app platform vision. The 28% of float sold short creates an additional asymmetric return: if the bull cases unfold, a short squeeze amplifies the upside meaningfully beyond the fundamental valuation improvement.</p>
+</div>
+
+<div style="background:#f4f6f9; border-left:4px solid #155724; padding:12px 16px; margin:14px 0; font-size:11.5px; line-height:1.6;">
+  <strong>Verdict: YES — Initiate Coverage</strong><br><br>
+  Sezzle is a rare combination: a profitable, high-ROE small-cap fintech with genuine structural differentiation (subscription counter-positioning, Prophet ML underwriting moat, 42-day duration risk management advantage), an underpenetrated analyst community, and wide outcome dispersion anchored by a positive probability-weighted present value. The market is mispricing this as a subprime consumer lender; it should be priced as a consumer subscription fintech platform evolving toward a financial super app. At 10x FY26E EV/EBITDA with 35%+ EBITDA growth, the base case alone represents 65% upside over 2 years. The ILC charter application and ecosystem expansion (Mobile, deposits, credit cards) represent free optionality not in consensus models. Add to active watchlist for position sizing work.<br><br>
+  <em>Note: Theia seeks small-cap companies that are not well-covered and are strongly aligned on core internet finance thesis with wide outcome dispersion. SEZL scores Strong on Market Cap, Strong on Coverage, Moderate on Thesis Alignment, and Strong on Outcome Dispersion — qualifying for active coverage initiation.</em>
+</div>
+
+<!-- ============================================================ -->
+<!-- APPENDIX: PYTHON CODE -->
+<!-- ============================================================ -->
+<div class="memo-section appendix">Appendix — Python Code</div>
+<p class="prose">Parameterized sensitivity and scenario model for analyst customization:</p>
+
+<div class="code-block">
+# ================================================================
+# SEZL Theia Memo — Sensitivity & Scenario Model
+# As of March 16, 2026
+# ================================================================
+
+import numpy as np
+
+# ---- Core Parameters ----
+current_price = 66.31
+diluted_shares_fy26 = 35.0   # millions
+net_debt_fy25 = 68.0         # millions (debt minus cash)
+tax_rate = 0.25
+cost_of_capital = 0.30       # 30% CoC per Theia convention
+
+# ---- FY2025 Actuals ----
+gmv_2025 = 3.94              # $B
+take_rate_2025 = 0.114       # 11.4%
+rev_2025 = 450.3             # $M
+gross_margin_2025 = 0.624    # 62.4%
+ebitda_margin_2025 = 0.417   # 41.7%
+net_income_2025 = 133.1      # $M
+eps_diluted_2025 = 3.72      # $
+
+# ---- Sensitivity Table 1: GMV x Take Rate → Revenue ----
+print("=" * 70)
+print("TABLE 1: GMV ($B) x Take Rate → Annual Revenue ($M)")
+print("=" * 70)
+gmv_scenarios = [3.0, 3.5, 4.9, 5.7, 6.5]
+take_rates = [0.095, 0.105, 0.114, 0.125, 0.135]
+header = f"{'GMV/Rate':12s}" + "".join(f"{'TR='+str(int(t*1000))+'bp':>10s}" for t in take_rates)
+print(header)
+for gmv in gmv_scenarios:
+    row = f"{gmv:.1f}B       "
+    for tr in take_rates:
+        rev = gmv * 1000 * tr
+        row += f"{rev:>10.0f}"
+    print(row)
+
+# ---- Sensitivity Table 2: PLR x TxnExp → Gross Margin ----
+print("\n" + "=" * 70)
+print("TABLE 2: PLR (% GMV) x TxnExp (% GMV) → Gross Margin (% Revenue)")
+print("  Formula: (TakeRate - PLR - TxnExp - NetInterest) / TakeRate")
+print("=" * 70)
+take_rate_base = 0.114
+net_interest = 0.004         # 0.4% of GMV
+plr_scenarios = [0.015, 0.020, 0.023, 0.030, 0.040]
+txn_exp_scenarios = [0.013, 0.015, 0.017, 0.020, 0.023]
+header = f"{'PLR/TxnExp':12s}" + "".join(f"{'TE='+str(int(t*1000)):>8s}" for t in txn_exp_scenarios)
+print(header)
+for plr in plr_scenarios:
+    row = f"PLR={plr*100:.1f}%   "
+    for te in txn_exp_scenarios:
+        gm = (take_rate_base - plr - te - net_interest) / take_rate_base
+        row += f"{gm*100:>7.1f}%"
+    print(row)
+
+# ---- 5-Scenario Model ----
+print("\n" + "=" * 70)
+print("5-SCENARIO MODEL: FY2026–FY2028 EPS and Implied Price")
+print("=" * 70)
+
+scenarios = {
+    "Bear Severe": {
+        "gmv_growth": [0.10, 0.15, 0.20],
+        "take_rate":  [0.108, 0.108, 0.108],
+        "gross_margin": [0.501, 0.501, 0.520],
+        "opex_pct_rev": [0.28, 0.28, 0.28],
+        "exit_pe": 10,
+        "probability": 0.05
+    },
+    "Bear Mild": {
+        "gmv_growth": [0.18, 0.20, 0.22],
+        "take_rate":  [0.110, 0.110, 0.110],
+        "gross_margin": [0.559, 0.570, 0.589],
+        "opex_pct_rev": [0.25, 0.25, 0.25],
+        "exit_pe": 12,
+        "probability": 0.20
+    },
+    "Base": {
+        "gmv_growth": [0.25, 0.24, 0.20],
+        "take_rate":  [0.114, 0.114, 0.114],
+        "gross_margin": [0.601, 0.629, 0.630],
+        "opex_pct_rev": [0.23, 0.23, 0.23],
+        "exit_pe": 14,
+        "probability": 0.50
+    },
+    "Bull Mild": {
+        "gmv_growth": [0.32, 0.28, 0.24],
+        "take_rate":  [0.122, 0.122, 0.122],
+        "gross_margin": [0.637, 0.660, 0.670],
+        "opex_pct_rev": [0.21, 0.21, 0.21],
+        "exit_pe": 17,
+        "probability": 0.20
+    },
+    "Bull Severe": {
+        "gmv_growth": [0.40, 0.39, 0.35],
+        "take_rate":  [0.130, 0.130, 0.130],
+        "gross_margin": [0.651, 0.680, 0.700],
+        "opex_pct_rev": [0.20, 0.20, 0.20],
+        "exit_pe": 22,
+        "probability": 0.05
+    }
+}
+
+gmv_base = gmv_2025
+shares = diluted_shares_fy26
+weighted_prices = []
+for name, params in scenarios.items():
+    gmv = gmv_base
+    revenue = rev_2025
+    print(f"\n--- {name} (P={params['probability']*100:.0f}%) ---")
+    for yr in range(3):
+        year_label = ["FY2026E", "FY2027E", "FY2028E"][yr]
+        gmv *= (1 + params["gmv_growth"][yr])
+        revenue = gmv * 1000 * params["take_rate"][yr]
+        gross_profit = revenue * params["gross_margin"][yr]
+        opex = revenue * params["opex_pct_rev"][yr]
+        ebit = gross_profit - opex
+        interest = net_debt_fy25 * 0.075           # ~7.5% avg cost of debt
+        pretax = ebit - interest
+        net_income = pretax * (1 - tax_rate)
+        eps = net_income / shares
+        implied_price = eps * params["exit_pe"]
+        updown = (implied_price / current_price - 1) * 100
+        print(f"  {year_label}: Rev=${revenue:.0f}M | EPS=${eps:.2f} | "
+              f"ExitPE={params['exit_pe']}x | P=${implied_price:.2f} "
+              f"({'+'if updown>=0 else ''}{updown:.0f}%)")
+    weighted_prices.append(params["probability"] * implied_price)
+
+print("\n" + "=" * 70)
+weighted_avg = sum(weighted_prices)
+pv_today = weighted_avg / (1 + cost_of_capital)
+print(f"Probability-Weighted FY2028E Price: ${weighted_avg:.2f}")
+print(f"Discounted to Today @{cost_of_capital*100:.0f}% CoC: ${pv_today:.2f}")
+print(f"Upside from Current (${current_price}): {(pv_today/current_price-1)*100:+.1f}%")
+print("=" * 70)
+</div>
+
+<div class="source-note" style="margin-top:16px;">Sources: FactSet Snapshot SEZL-US (Mar 16, 2026) · Q4 2025 Earnings Presentation (Feb 25, 2026) · Q4 2025 Earnings Call Transcript · Q3 2025 Corrected Transcript · AlphaSense DR Report (Mar 16, 2026) · FactSet Comps download (Mar 16, 2026) · Web research (Stockanalysis.com, Ainvest.com, Minichart.com.sg) · All estimates Claude-generated; not investment advice.</div>
+
+</body>
+</html>
