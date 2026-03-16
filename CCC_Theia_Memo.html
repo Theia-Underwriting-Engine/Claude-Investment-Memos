@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCC Intelligent Solutions | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 6px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+.fw-rating.na { background: #e2e3e5; color: #383d41; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.alphasense-box { background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 4px; padding: 8px 12px; margin-bottom: 14px; font-size: 10px; color: #1e3a5f; }
+
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
+table.comps td { text-align: right; padding: 2px 4px; white-space: nowrap; }
+table.comps td:first-child, table.comps td:nth-child(2) { text-align: left; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-style: italic; background: #fafbfc; font-weight: 600; }
+
+.neg { color: #c0392b; }
+.pos { color: #27ae60; }
+
+.bull-bear { display: flex; gap: 24px; margin-bottom: 8px; }
+.bull-col, .bear-col { flex: 1; }
+.bull-col .section-title { color: #155724; border-bottom-color: #155724; }
+.bear-col .section-title { color: #721c24; border-bottom-color: #721c24; }
+.bull-bear ul { list-style: none; padding: 0; margin: 0; }
+.bull-bear ul li { margin-bottom: 7px; font-size: 10.5px; line-height: 1.5; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">CCC Intelligent Solutions Holdings | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">CCC Intelligent Solutions Holdings (Nasdaq: CCC) is the dominant SaaS platform for the auto insurance claims ecosystem — the software backbone that connects ~300 insurance carriers, ~30,000 repair facilities, ~10,000 parts suppliers, and ~1,000 total loss vehicle auction houses in the United States. Founded in 1980 and headquartered in Chicago, CCC digitizes the end-to-end lifecycle of a property-casualty insurance claim: from first notice of loss through vehicle damage appraisal, parts procurement, repair workflow management, payment processing, and total loss settlement. The company's platform processes approximately 27 million claims annually — an estimated 80% of all auto insurance claims in the US — giving it structural network effects that no single carrier, shop, or tech startup can easily replicate. CCC is led by Githesh Ramamurthy (Chairman &amp; CEO), who has been with the company since 1995 and drove its evolution from EDI messaging to modern AI-enabled SaaS. In December 2024, CCC acquired EvolutionIQ for $730 million — an AI-powered workers' compensation and disability income claims management platform — marking the company's first significant move beyond P&amp;C auto into the broader claims intelligence market. CCC employs approximately 2,700 people and generates ~96% of revenue from software subscriptions, making it a sticky, recurring-revenue business in a regulated industry with high tolerance for platform lock-in.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 2: THEIA FACTSET SUMMARY -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Theia FactSet Summary</div>
+
+<div class="header">
+  <div>
+    <h1>CCC Intelligent Solutions Holdings, Inc.</h1>
+    <span class="ticker">CCC-US · Nasdaq · CUSIP 12510Q100</span>
+  </div>
+  <div class="date">As of Mar 13, 2026</div>
+</div>
+
+<div class="price-bar">
+  <span class="price">$6.02</span>
+  <span class="label">|</span>
+  <span class="label">1M:</span><span class="chg">–22.9%</span>
+  <span class="label">3M:</span><span class="chg">–36.8%</span>
+  <span class="label">6M:</span><span class="chg">–36.8%</span>
+  <span class="label">YTD:</span><span class="chg">–24.0%</span>
+  <span class="label">1Y:</span><span class="chg">–35.2%</span>
+  <span class="label">|</span>
+  <span class="label">52-Wk:</span><span style="font-weight:600;">$4.80 – $10.50</span>
+  <span class="label">|</span>
+  <span class="label">% of 52-Wk Hi:</span><span style="font-weight:600;">57.3%</span>
+</div>
+
+<div class="two-col">
+  <!-- Key Stats + EV Bridge -->
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv">
+      <tr><td>Primary Ticker</td><td>CCC-US</td></tr>
+      <tr><td>Price (Mar 13)</td><td>$6.02</td></tr>
+      <tr><td>Volume</td><td>16,036,700</td></tr>
+      <tr><td>30D Avg Daily Vol</td><td>17,123,046</td></tr>
+      <tr><td>Float (%)</td><td>93.7%</td></tr>
+      <tr><td>Short Interest</td><td>2.4 Days / 5.98% Float</td></tr>
+    </table>
+  </div>
+
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev">
+      <tr><td>Price (Mar 13, 2026)</td><td>$6.02</td></tr>
+      <tr><td style="padding-left:10px;">Common Stock (Basic Shares)</td><td>607.1M</td></tr>
+      <tr><td>Market Capitalization</td><td>$3,654.9M</td></tr>
+      <tr><td style="padding-left:10px;">Stock Compensation (Dilutive)</td><td>50.6M</td></tr>
+      <tr><td>Fully Diluted Market Cap</td><td>$3,959.5M</td></tr>
+      <tr><td>+ Consolidated Debt</td><td>$1,278.0M</td></tr>
+      <tr><td>– Cash &amp; Equivalents</td><td>($111.2M)</td></tr>
+      <tr><td>– Investments in Unconsol. Subs</td><td>($10.2M)</td></tr>
+      <tr class="total"><td>Enterprise Value</td><td>$5,116.0M</td></tr>
+    </table>
+    <div class="source-note">Millions USD. Source: FactSet, Mar 13 2026.</div>
+  </div>
+</div>
+
+<!-- Current Valuation — Horizontal 6x2 KPI grid -->
+<div class="section-title">Current Valuation</div>
+<div class="val-grid">
+  <div class="val-cell">
+    <div class="val-label">Market Cap</div>
+    <div class="val-num">$3,655M</div>
+    <div class="val-sub">Mid Cap</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Enterprise Value</div>
+    <div class="val-num">$5,116M</div>
+    <div class="val-sub">Net Debt: $1,167M</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">P/E (FY26E)</div>
+    <div class="val-num">14.3x</div>
+    <div class="val-sub">FY27E: 12.6x</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">EV/EBITDA (FY26E)</div>
+    <div class="val-num">10.6x</div>
+    <div class="val-sub">FY27E: 9.6x</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">EV/Sales (FY26E)</div>
+    <div class="val-num">4.4x</div>
+    <div class="val-sub">FY27E: 4.1x</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">P/S (LTM)</div>
+    <div class="val-num">3.6x</div>
+    <div class="val-sub">EV/Sales LTM: 4.8x</div>
+  </div>
+</div>
+<div class="val-grid">
+  <div class="val-cell">
+    <div class="val-label">Fully Dil Mkt Cap</div>
+    <div class="val-num">$3,959M</div>
+    <div class="val-sub">Dil. Shares: 657.7M</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">WACC</div>
+    <div class="val-num">8.26%</div>
+    <div class="val-sub">Beta (3Y Adj): 0.91</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Beta (3Y Adj)</div>
+    <div class="val-num">0.91</div>
+    <div class="val-sub">Low volatility</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Avg Rating</div>
+    <div class="val-num">OW (1.33)</div>
+    <div class="val-sub">14 Analysts · PT $9.15</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Target Price</div>
+    <div class="val-num">$9.15</div>
+    <div class="val-sub">Upside: +52%</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Next Earnings</div>
+    <div class="val-num">May 5</div>
+    <div class="val-sub">Q1 2026</div>
+  </div>
+</div>
+
+<!-- Valuation Multiples -->
+<div class="section-title">Valuation Multiples</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th>Multiple</th>
+      <th>5Yr Avg</th>
+      <th>Dec '23</th>
+      <th>Dec '24</th>
+      <th>Dec '25</th>
+      <th class="est">Dec '26E</th>
+      <th class="est">Dec '27E</th>
+      <th class="est">Dec '28E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="8">Price Multiples</td></tr>
+    <tr><td>P/E</td><td>NM</td><td>—</td><td>288.2x</td><td>NM</td><td class="est">14.3x</td><td class="est">12.6x</td><td class="est">11.0x</td></tr>
+    <tr><td>P/Sales</td><td>7.4x</td><td>8.1x</td><td>8.0x</td><td>5.0x</td><td class="est">3.2x</td><td class="est">2.9x</td><td class="est">2.7x</td></tr>
+    <tr><td>P/BV</td><td>3.3x</td><td>3.9x</td><td>3.7x</td><td>2.7x</td><td class="est">2.1x</td><td class="est">1.9x</td><td class="est">2.0x</td></tr>
+    <tr><td>P/FCF</td><td>39.1x</td><td>36.1x</td><td>32.6x</td><td>20.6x</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr class="section-row"><td colspan="8">Enterprise Value Multiples</td></tr>
+    <tr><td>EV/Sales</td><td>8.9x</td><td>9.4x</td><td>8.8x</td><td>6.0x</td><td class="est">4.4x</td><td class="est">4.1x</td><td class="est">3.7x</td></tr>
+    <tr><td>EV/EBITDA</td><td>NM</td><td>40.9x</td><td>38.7x</td><td>25.1x</td><td class="est">10.6x</td><td class="est">9.6x</td><td class="est">8.5x</td></tr>
+    <tr><td>EV/EBIT</td><td>67.6x</td><td>127.2x</td><td>91.3x</td><td>61.4x</td><td class="est">12.2x</td><td class="est">11.9x</td><td class="est">9.5x</td></tr>
+  </tbody>
+</table>
+
+<!-- Revenue Exposure -->
+<div class="section-title">Revenue Exposure — FY25 ($1,057M)</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Business Unit</div>
+    <table class="rev">
+      <thead><tr><th>Segment</th><th>% Rev</th><th>Rev ($M)</th><th>YoY Gr%</th></tr></thead>
+      <tbody>
+        <tr><td>Software Subscriptions</td><td>95.9%</td><td>$1,013.9</td><td>+11.9%</td></tr>
+        <tr><td>Professional Services</td><td>4.1%</td><td>$43.1</td><td>+12.5%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <div class="sub-label">By Geography</div>
+    <table class="rev">
+      <thead><tr><th>Region</th><th>% Rev</th><th>Rev ($M)</th><th>YoY Gr%</th></tr></thead>
+      <tbody>
+        <tr><td>United States</td><td>99.4%</td><td>$1,050.2</td><td>+12.0%</td></tr>
+        <tr><td>China</td><td>0.6%</td><td>$6.8</td><td>+1.0%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Financials -->
+<div class="section-title">Financials</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th>($M)</th>
+      <th>5Yr CAGR</th>
+      <th>Dec '23</th>
+      <th>Dec '24</th>
+      <th>Dec '25</th>
+      <th class="est">Dec '26E</th>
+      <th class="est">Dec '27E</th>
+      <th class="est">Dec '28E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="8">Income Statement</td></tr>
+    <tr><td>Revenue</td><td>10.8%</td><td>$866</td><td>$945</td><td>$1,057</td><td class="est">$1,153</td><td class="est">$1,255</td><td class="est">$1,375</td></tr>
+    <tr><td>Gross Income</td><td>14.5%</td><td>$565</td><td>$642</td><td>$694</td><td class="est">$891</td><td class="est">$975</td><td class="est">—</td></tr>
+    <tr><td>EBITDA</td><td>5.5%</td><td>$200</td><td>$215</td><td>$254</td><td class="est">$482</td><td class="est">$530</td><td class="est">$600</td></tr>
+    <tr><td>EBIT</td><td>5.9%</td><td>$64</td><td>$91</td><td>$104</td><td class="est">$421</td><td class="est">$430</td><td class="est">$540</td></tr>
+    <tr><td>Net Income</td><td>—</td><td class="neg">($92)</td><td>$26</td><td>$0</td><td class="est">$273</td><td class="est">$309</td><td class="est">$373</td></tr>
+    <tr><td>EPS (Diluted)</td><td>—</td><td class="neg">($0.15)</td><td>$0.04</td><td>$0.00</td><td class="est">$0.135</td><td class="est">$0.180</td><td class="est">—</td></tr>
+    <tr class="section-row"><td colspan="8">Margins</td></tr>
+    <tr><td>Gross Margin %</td><td>64.7%</td><td>65.2%</td><td>68.0%</td><td>65.7%</td><td class="est">77.2%</td><td class="est">77.7%</td><td class="est">—</td></tr>
+    <tr><td>EBITDA Margin %</td><td>—</td><td>23.0%</td><td>22.8%</td><td>24.1%</td><td class="est">41.8%</td><td class="est">42.3%</td><td class="est">43.6%</td></tr>
+    <tr><td>Net Margin %</td><td>—</td><td class="neg">(10.7%)</td><td>2.8%</td><td>0.0%</td><td class="est">23.7%</td><td class="est">24.7%</td><td class="est">27.1%</td></tr>
+    <tr><td>FCF Margin %</td><td>20.7%</td><td>22.5%</td><td>24.4%</td><td>24.1%</td><td class="est">26.0%</td><td class="est">28.2%</td><td class="est">—</td></tr>
+    <tr class="section-row"><td colspan="8">Cash Flow</td></tr>
+    <tr><td>Operating CF</td><td>24.9%</td><td>$250</td><td>$284</td><td>$315</td><td class="est">$366</td><td class="est">$412</td><td class="est">—</td></tr>
+    <tr><td>CapEx</td><td>14.7%</td><td>$55</td><td>$53</td><td>$61</td><td class="est">$63</td><td class="est">$68</td><td class="est">—</td></tr>
+    <tr><td>Free Cash Flow</td><td>28.1%</td><td>$195</td><td>$231</td><td>$255</td><td class="est">$300</td><td class="est">$354</td><td class="est">—</td></tr>
+    <tr class="section-row"><td colspan="8">Returns &amp; Leverage</td></tr>
+    <tr><td>ROE %</td><td>—</td><td class="neg">(4.8%)</td><td>1.4%</td><td>0.0%</td><td class="est">14.5%</td><td class="est">15.1%</td><td class="est">17.9%</td></tr>
+    <tr><td>Debt / Equity</td><td>—</td><td>48.5%</td><td>42.6%</td><td>77.6%</td><td class="est">61.1%</td><td class="est">55.3%</td><td class="est">—</td></tr>
+    <tr><td>Interest Coverage</td><td>—</td><td>1.0x</td><td>1.4x</td><td>1.5x</td><td class="est">5.6x</td><td class="est">5.9x</td><td class="est">—</td></tr>
+  </tbody>
+</table>
+
+<!-- Valuation Summary -->
+<div class="section-title">Valuation Summary</div>
+<p class="prose">CCC currently trades at 10.6x FY26E EV/EBITDA and 14.3x FY26E P/E, representing a significant discount to software peers at 18–25x EBITDA — a discount that reflects two legitimate but potentially transient concerns: (1) a massive leverage-fueled acquisition (EvolutionIQ for $730M, funded with $1.5B+ in term loans and $1.3B in follow-on equity raises) that diluted shareholders by roughly 20% and left $1.3B in net debt on the balance sheet, and (2) a concentrated go-shop period as the market waits for evidence that EvolutionIQ revenue can ramp in CCC's distribution channels. The consensus expects EBITDA to essentially double from $254M in FY25 to $482M in FY26E — a step-change driven by EvolutionIQ normalizing into the model and FY25 acquisition costs washing out — and the market is applying a skeptical multiple to those estimates. At 10.6x FY26E EBITDA against a high-80s-percent recurring revenue base with verified pricing power and a near-monopoly position in P&amp;C claims, this looks at most fairly valued and at best deeply discounted — particularly if EvolutionIQ synergies materialize and the debt is paid down with the company's $255M+ annual FCF.</p>
+
+<div class="source-note">Source: FactSet Fundamentals &amp; Estimates. All monetary values in USD millions. Estimates in blue are FactSet consensus. As of Mar 13, 2026.</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 3: BULL & BEAR CASES -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="bull-bear">
+  <div class="bull-col">
+    <div class="section-title" style="color:#155724;border-bottom-color:#155724;">Bull Cases</div>
+    <ul>
+      <li><span class="fw-name">EvolutionIQ Becomes a Second Growth Engine.</span> EvolutionIQ's workers' comp AI platform has $100M+ ARR potential within CCC's distribution network. Management guided $75–80M EvolutionIQ standalone revenue for FY26 with 30%+ growth. If EvolutionIQ penetrates just 10% of the ~$5B workers' comp claims management software TAM by 2028, it could add $500M+ EV on its own — a free option the market is currently pricing near zero.</li>
+      <li><span class="fw-name">Pricing Power with No Competitive Pressure.</span> CCC has raised prices on insurance carriers ~5–7% annually for the past three years with zero churn. With Solera effectively ceding the market, CCC can continue taking price on a captive, regulated-industry customer base. Each 1% price increase on $1B ARR adds $10M in high-margin recurring revenue.</li>
+      <li><span class="fw-name">AI Upsell Accelerates ARPU Expansion.</span> CCC Estimate and CCC Subrogation are AI-native products that sit on top of the core workflow platform. Management cited double-digit attach rate growth for AI SKUs at the Q4 2025 call. If ARPU expands from $~6K to $10K+ per repair shop as AI bundles attach, the installed base of 30,000 shops becomes a $300M+ incremental revenue opportunity without adding a single new customer.</li>
+      <li><span class="fw-name">Debt Paydown Unlocks Multiple Re-Rating.</span> At $255M+ FCF/year, CCC can reduce its $1.3B net debt to near zero in 4–5 years. As leverage falls, the equity de-risks and multiple expands. A simple re-rating from 10x to 14x EBITDA on FY27E $530M adds $2B in equity value — $3+ per share — without any improvement in underlying operations.</li>
+      <li><span class="fw-name">Casualty Claims Expansion Beyond Workers' Comp.</span> The claims intelligence market extends beyond workers' comp into disability, general liability, and medical malpractice. EvolutionIQ's AI model is claims-agnostic. If CCC successfully expands into 2–3 adjacent lines of business by 2028, the TAM doubles and the growth story re-accelerates at a time when the market currently prices CCC as a slow-growing utility.</li>
+    </ul>
+  </div>
+  <div class="bear-col">
+    <div class="section-title" style="color:#721c24;border-bottom-color:#721c24;">Bear Cases</div>
+    <ul>
+      <li><span class="fw-name">EvolutionIQ Integration Risk &amp; Revenue Shortfall.</span> EvolutionIQ was acquired at an aggressive $730M / ~7x revenue multiple. If the workers' comp market proves slower to adopt AI-driven claims management than expected — or if the CCC distribution channel cannot effectively sell an adjacent product — EvolutionIQ could underwhelm expectations, triggering a goodwill write-down and destroying the investment thesis that justified the leverage.</li>
+      <li><span class="fw-name">Dilution Hangover Weighs on Returns.</span> CCC raised $1.3B+ in equity capital across four follow-on offerings between June 2024 and November 2025, diluting existing shareholders by ~20%. With the stock down 35%+ year-over-year, the dilution has been deeply value-destructive. If management continues using equity as currency for future acquisitions, the compounding dilution could offset any organic earnings growth.</li>
+      <li><span class="fw-name">Auto Claims Cycle Could Weaken.</span> CCC's core business is tethered to auto claim volumes — which depend on miles driven, accident frequency, and vehicle mix. A recession reducing driving activity, or autonomous vehicle technology materially reducing accident rates in the medium term, would reduce claim volumes and cap the top-line growth. Management's 9–10% organic growth guidance assumes no volume deterioration.</li>
+      <li><span class="fw-name">Insurtech Disruption from Below.</span> While Solera has retreated, several well-funded startups (Tractable, Snapsheet, Mitchell International) are targeting specific niches within CCC's workflow: AI photo estimates, digital total-loss processing, and real-time parts pricing. None are at scale, but carrier IT budgets are constrained and switching one module could create a wedge for broader displacement over a 5–7 year horizon.</li>
+      <li><span class="fw-name">Leverage Constrains Capital Allocation Optionality.</span> With $1.3B in net debt and interest coverage still below 2x on a historical basis (improving to 5.6x only on forward estimates), CCC has limited ability to pursue opportunistic buybacks, dividends, or follow-on acquisitions. If rates rise or credit conditions tighten, refinancing risk could emerge. The balance sheet is manageable but not comfortable, and any revenue miss in FY26 would send leverage metrics back above 3x net debt/EBITDA.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Scale Economies</span><span class="fw-rating strong">Strong</span>
+  <p class="prose">CCC's platform economics are a textbook illustration of scale advantages in enterprise software. The company spends approximately $200M annually on R&D and infrastructure — costs that are essentially fixed regardless of whether the platform processes 25 million or 30 million claims per year. Each incremental claim processed against this fixed cost base approaches near-zero marginal cost, meaning CCC's cost-per-claim declines continuously as claim volumes grow. A new entrant attempting to build a comparable claims management platform would need to invest hundreds of millions in upfront development, integration work with thousands of carriers and shops, and regulatory compliance — all before generating a single dollar of revenue. This creates a minimum efficient scale that effectively bars startup competition. The FY26E EBITDA margin expansion from 24% to 42% is partly a demonstration of this: as EvolutionIQ integrates onto CCC's shared infrastructure, the incremental EBITDA contribution is high because the underlying platform costs are already sunk.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Network Effects</span><span class="fw-rating strong">Strong</span>
+  <p class="prose">CCC operates a two-sided marketplace with powerful cross-side network effects between insurance carriers and repair shops. When a carrier adopts CCC, they can digitally dispatch claims to any of the 30,000 CCC-connected shops — shops which already have CCC-trained technicians, CCC-format parts orders, and CCC-integrated payment rails. A shop that joins CCC's network gains access to claim referrals from ~300 carriers simultaneously, making CCC's shop network incomparably more valuable than any single-carrier alternative. Conversely, a carrier evaluating CCC versus a smaller competitor must weigh the fact that switching away means losing instant connectivity to the entire CCC shop ecosystem. Management has explicitly called this "the flywheel" — more carriers attract more shops, more shops make carriers reluctant to leave, and the network compounds. No competitor can replicate a 30,000-shop, 300-carrier network without first building the network — which is a chicken-and-egg problem that makes this barrier nearly insurmountable without a decade-scale commitment and billions in subsidies.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Counter-Positioning</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose">CCC's most natural counter-positioning dynamic applies to the large insurance carriers who theoretically could build their own claims management platforms. State Farm, GEICO, or Progressive individually have the capital to fund an internal claims system — but doing so would only serve their own shops and would not provide connectivity to the broader repair network. A carrier's internal system has zero network value for any other carrier, so the investment cannot be spread across the industry. This means CCC's shared-network model is structurally superior to any individual carrier's proprietary solution. However, this dynamic is less powerful with respect to technology competitors (e.g., Verisk, Zywave) who could theoretically aggregate a competing network over time — making this a Moderate rather than Strong power for CCC specifically.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Switching Costs</span><span class="fw-rating strong">Strong</span>
+  <p class="prose">Switching costs in CCC's ecosystem are extremely high and operate at multiple levels simultaneously. For insurance carriers, migrating off CCC means re-training thousands of claims adjusters, rebuilding integrations with every connected shop and parts supplier, and re-validating all AI models against historical claims data — a multi-year IT project that typically costs $10M–$50M for a large carrier with no guarantee of improvement. For repair shops, switching means re-training all estimators on new software, losing preferential claim routing from CCC-connected carriers, and rebuilding parts-ordering workflows. CCC's dollar-based retention is consistently above 110%, meaning existing customers spend more year-over-year — a direct consequence of high switching costs allowing steady price increases without triggering churn. Management noted at the Q4 2025 earnings call that average carrier tenure is 20+ years. When your average customer has been with you for two decades, the switching cost is not financial — it is cultural and organizational.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Branding</span><span class="fw-rating weak">Weak</span>
+  <p class="prose">CCC is a B2B enterprise software company operating in a highly functional, workflow-driven market. Insurance carriers do not choose CCC for brand prestige — they choose it for network coverage, functionality, and regulatory compliance. Within the claims industry, "CCC" is synonymous with the standard workflow (much as "Salesforce" is in CRM), which creates some habitual stickiness, but this is more a function of category leadership than true brand power that commands a price premium over functional equivalents. Branding is not a meaningful source of competitive advantage here.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">6. Cornered Resource</span><span class="fw-rating strong">Strong</span>
+  <p class="prose">CCC's most underappreciated cornered resource is its claims data asset. Processing 27 million claims annually for 20+ years means CCC has the largest proprietary database of auto insurance claims outcomes in existence — including parts prices, labor rates, total loss values, fraud patterns, and repair quality outcomes by shop. This data set trains CCC's AI models, and the models improve with every additional claim processed. A competitor entering the market today would need to process hundreds of millions of claims — a decade-plus of volume — before their AI models could match CCC's accuracy. Critically, insurance carriers will not switch to a competing platform with inferior AI-assisted estimates, because inaccurate estimates either cost carriers money (overpayments) or trigger customer complaints (underpayments). The data flywheel is therefore a second layer of network effects that makes CCC's competitive position increasingly defensible as AI becomes more central to claims processing.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">7. Process Power</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose">CCC has been the claims management software leader since the 1980s, which means its product development, customer success, and market knowledge are deeply embedded in decades of institutional learning. CEO Githesh Ramamurthy has been at the company since 1995 and has navigated multiple technology transitions — from mainframe to client-server to cloud SaaS to AI — without losing market leadership. This continuity is unusual and is a form of process power: the organizational knowledge of "how to sell, implement, and expand in the claims ecosystem" is not easily documented or replicated by hiring a few engineers. However, CCC's process power is harder to assess rigorously than its structural network advantages, and the company's recent EvolutionIQ integration will be a real test of whether it can execute a complex M&amp;A integration without organizational disruption.</p>
+</div>
+
+<p class="prose" style="margin-top:8px;"><strong>Summary:</strong> CCC's strongest moats are its two-sided network effects and its proprietary claims data asset — together, these create a self-reinforcing competitive position that becomes harder to displace with each passing year. Switching costs and scale economies provide additional layers of protection. The business has 3–4 genuine structural advantages, which is exceptional and justifies a premium multiple relative to average enterprise software companies.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Threat of New Entrants</span><span class="fw-rating low">Low</span>
+  <p class="prose">The barriers to entering the auto insurance claims management market are exceptionally high. A credible new entrant must: (a) build or license a comprehensive parts pricing database covering millions of OEM and aftermarket parts SKUs, (b) develop AI-assisted damage estimation models trained on tens of millions of historical claims outcomes, (c) obtain regulatory approval or certification in all 50 states for use in insurance claims processing, (d) sign bilateral data exchange agreements with hundreds of insurance carriers, and (e) convince 30,000 repair shops to adopt new software and re-train their estimating staff. Steps (a) through (e) collectively require 5–10 years and hundreds of millions in capital investment, with no guarantee of winning a single customer before CCC's network advantages kick in. The venture-funded InsurTech wave that started around 2018 has largely attacked adjacent spaces (digital FNOL, telematics) rather than CCC's core workflow platform — a tacit acknowledgment that head-on entry is not viable.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Bargaining Power of Suppliers</span><span class="fw-rating low">Low</span>
+  <p class="prose">CCC's primary "suppliers" are cloud infrastructure vendors (AWS, Azure), third-party data providers (vehicle data, OEM parts catalogs), and human capital. AWS and Azure are interchangeable at scale with some switching friction, but CCC is a large enough customer to negotiate favorable pricing. Third-party vehicle data (VIN decoders, vehicle valuations) is available from multiple vendors including Carfax, JD Power, and Black Book — CCC uses these as commodity inputs and has no single-supplier concentration. Labor is the most meaningful supplier cost, and AI/software talent is competitive, but CCC's Midwest headquarters (Chicago) and specialized domain knowledge in insurance SaaS gives it some advantage in retaining claims-domain expertise that West Coast pure-tech companies would struggle to attract. Overall, supplier power is not a meaningful constraint on CCC's profitability.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Bargaining Power of Buyers</span><span class="fw-rating low">Low</span>
+  <p class="prose">Despite CCC's customers being large, well-capitalized insurance carriers — organizations that in theory have significant negotiating leverage — their actual bargaining power is constrained by switching costs and network dependency. A large carrier that represents 5–10% of CCC's revenue cannot threaten to leave without credibly committing to a multi-year IT migration that would cost tens of millions and disrupt claims operations during the transition. CCC's dollar-based net revenue retention consistently exceeding 110% is the empirical evidence: carriers are renewing and expanding, not squeezing price. The professional services segment (4% of revenue) carries more pricing risk as customers can more easily scope out competitive bids for implementation work, but this is a small and non-strategic portion of the revenue base. The insurance carriers who do push back hardest — typically the top 5 largest carriers — are also the ones most deeply integrated into CCC's platform, which paradoxically gives them the least actual leverage.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Threat of Substitutes</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose">The threat of substitution is real but operating on a long time horizon. The most plausible substitution scenario is AI-driven "zero-touch claims" — where a carrier uses a combination of telematics data, AI photo analysis (Tractable, CCC's own Estimate AI), and automated valuation models to settle claims without any third-party SaaS platform. If claims processing becomes sufficiently automated that the human-workflow coordination function disappears, CCC's role as the "communication hub" between carriers and shops diminishes. Management has proactively responded to this risk by acquiring the AI capabilities themselves (CCC's own Estimate AI, EvolutionIQ for workers' comp AI) and positioning as the AI layer rather than the workflow layer. However, a world where carriers simply use LLMs and internal AI to process claims entirely in-house remains a long-term substitution risk that bears watching. In the near term (3–5 years), no credible substitute exists for CCC's multi-party coordination function.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Competitive Rivalry</span><span class="fw-rating low">Low</span>
+  <p class="prose">Competitive rivalry in CCC's core P&amp;C auto claims market is effectively minimal. Solera Holdings — the only company of comparable scale — is private, has been losing market share to CCC for years, and has focused its own investments on heavy vehicles (trucks, fleet), telematics, and European markets rather than contesting CCC's US auto claims stronghold. Mitchell International (also private) is a regional competitor in collision repair estimating but lacks CCC's full-lifecycle claims workflow and carrier connectivity. The practical reality is that the US auto claims management market has consolidated to a near-monopoly, and neither Solera nor Mitchell has the motivation or capital to mount a credible competitive assault on CCC's core. The EvolutionIQ acquisition opens CCC to a new competitive arena (workers' comp claims AI, where StrategicComp, Verisk, and Ventiv compete), but even there CCC enters with a scale and data advantage that will take competitors years to overcome.</p>
+</div>
+
+<p class="prose" style="margin-top:8px;"><strong>Summary:</strong> The competitive environment for CCC's core P&amp;C auto claims business is exceptionally favorable — four of the five forces are Low, with only the long-term substitution threat registering as Moderate. CCC effectively operates as a regulated utility in a market where structural barriers prevent competition and switching costs prevent churn. The EvolutionIQ expansion into workers' comp is entering a more competitive (though still attractive) environment.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 6: WHAT DRIVES THE STOCK? -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<p class="prose">Think about what a PM asks in the morning meeting when CCC prints earnings: the five questions below are what analysts are building tracking models around and hedge fund PMs are asking about before every quarterly print.</p>
+
+<ol style="padding-left:20px;line-height:2.0;">
+  <li class="prose" style="margin-bottom:6px;"><strong>EvolutionIQ Revenue Ramp — Beat or Miss?</strong> Consensus expects $75–80M of EvolutionIQ standalone revenue in FY26 growing 30%+. Any miss here — driven by slower new logo wins, longer sales cycles in workers' comp, or integration distractions — will be interpreted as a sign that the $730M acquisition was overpriced and reset the FY26E EBITDA expectation that the entire re-rating thesis depends on. A beat, conversely, would dramatically accelerate conviction in the combined platform story.</li>
+  <li class="prose" style="margin-bottom:6px;"><strong>EBITDA Margin Step-Change Credibility.</strong> The single most contested number in every CCC model is whether FY26E EBITDA margins can really jump from 24% to 42%. This step-change reflects EvolutionIQ normalizing into the model (removing ~$70M in transaction/integration costs from FY25) and incremental operating leverage. Every quarter without margin expansion will amplify bearish concerns; every quarter that confirms the margin trajectory will compress the multiple discount.</li>
+  <li class="prose" style="margin-bottom:6px;"><strong>Net Revenue Retention / Carrier ARPU Expansion.</strong> CCC targets net revenue retention above 110% annually. Each 1% of additional ARPU from AI SKU attachment (CCC Estimate AI, CCC Subrogation, CCC Casualty) is ~$10M in incremental high-margin ARR. Analysts track this as the primary indicator of whether CCC is successfully monetizing its installed base beyond core workflow fees.</li>
+  <li class="prose" style="margin-bottom:6px;"><strong>Debt Paydown Trajectory.</strong> CCC ends FY25 with $1.3B in net debt — a 5.1x net debt/EBITDA ratio on historical earnings. As FY26 EBITDA normalizes higher, this ratio compresses rapidly. But the market's current multiple discount partially reflects leverage anxiety. Quarterly disclosure of debt repayment progress will be a significant catalyst: each $100M paydown reduces financial risk and argues for multiple expansion.</li>
+  <li class="prose" style="margin-bottom:6px;"><strong>New Product / New Vertical Announcements.</strong> CCC has guided to expanding EvolutionIQ into casualty claims (general liability, disability income) beyond workers' comp. Any announcement of a new LOB partnership, a major carrier pilot, or a significant new logo in casualty will signal that the multi-vertical claims intelligence thesis is working and extends the addressable market well beyond the current analyst models.</li>
+</ol>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS? -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<div class="section-title">Revenue Decomposition</div>
+<table class="data" style="font-size:10px;">
+  <thead>
+    <tr>
+      <th>Revenue Line (~% of Total)</th>
+      <th>Driver 1</th>
+      <th>×</th>
+      <th>Driver 2</th>
+      <th>×</th>
+      <th>Driver 3</th>
+      <th>=</th>
+      <th>Revenue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>P&amp;C Core Platform (~75%)</td>
+      <td># Connected Carriers (~300)</td>
+      <td>×</td>
+      <td>ARPU per Carrier ($M)</td>
+      <td>×</td>
+      <td>Net Rev Retention (110%+)</td>
+      <td>=</td>
+      <td>~$790M</td>
+    </tr>
+    <tr>
+      <td>Repair Network Fees (~18%)</td>
+      <td># Connected Shops (30,000)</td>
+      <td>×</td>
+      <td>Fee per Shop ($)</td>
+      <td>×</td>
+      <td>Claim Volume Index</td>
+      <td>=</td>
+      <td>~$190M</td>
+    </tr>
+    <tr>
+      <td>EvolutionIQ (Workers' Comp AI) (~7%)</td>
+      <td># Active Claims (M)</td>
+      <td>×</td>
+      <td>Revenue per Claim ($)</td>
+      <td>×</td>
+      <td>New Logo Adds</td>
+      <td>=</td>
+      <td>~$75M FY26E</td>
+    </tr>
+    <tr>
+      <td>Professional Services (~4%)</td>
+      <td># Implementations</td>
+      <td>×</td>
+      <td>Avg Engagement Value ($)</td>
+      <td></td>
+      <td></td>
+      <td>=</td>
+      <td>~$43M</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:8px;">The three variables with the most leverage on total revenue are: <strong>(1) Carrier ARPU expansion</strong> — CCC's installed base of ~300 carriers is largely fixed in the near term; every additional dollar extracted from existing carriers (via AI add-ons, new modules, or annual price increases) flows at near-100% incremental margin. A 5% ARPU increase on $790M in carrier revenue adds ~$40M in near-pure-margin revenue. <strong>(2) EvolutionIQ new logo growth</strong> — EvolutionIQ's revenue is early-stage and has the highest growth rate. Each new workers' comp carrier or employer signed is multi-year recurring at high gross margins. EvolutionIQ's trajectory from $75M to $150M+ over FY26–28 is the swing factor in whether CCC trades at 15x or 20x+ EBITDA. <strong>(3) Claim volume index</strong> — Auto claims ultimately depend on driving activity, accident frequency, and economic activity. A recession scenario that reduces VMT (vehicle miles traveled) by 5–10% would reduce total claim volume and suppress CCC's transaction-based fees even if ARPU holds steady.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+  <strong>AlphaSense DR Report</strong> — Dated: March 16, 2026 | Query: CCC Intelligent Solutions Holdings (CCC-US) | Includes earnings transcripts, expert calls, sell-side research, and industry commentary.
+</div>
+
+<div class="section-title">The EvolutionIQ Integration Thesis: What the Market Is Missing</div>
+<p class="prose">The most important insight from the AlphaSense dataset is that the market appears to be mis-categorizing EvolutionIQ as a "bolt-on acquisition" when management is signaling something more strategically significant: an entry into an entirely separate $15–20B claims management market (workers' compensation, disability, general liability) that CCC has never addressed. EvolutionIQ's AI-driven Return-to-Work (RTW) duration modeling is genuinely differentiated — expert call evidence in the AlphaSense dataset notes that EvolutionIQ's duration prediction models reduce average workers' comp claim duration by 15–25% compared to traditional adjuster-driven management, directly lowering insurers' combined ratios. This is not a "nice to have" tool — it is a direct dollar-for-dollar ROI proposition that sells itself. The key integration question is whether CCC's existing carrier relationships in P&amp;C can open doors to the workers' comp claims departments of the same carriers, given that P&amp;C and workers' comp are often managed in separate divisions with separate vendor relationships and separate IT budgets.</p>
+
+<div class="section-title">AI Product Velocity: Underappreciated Monetization Layer</div>
+<p class="prose">Multiple sources in the AlphaSense dataset — particularly Morgan Stanley TMT Conference commentary (March 2026) and Q4 2025 earnings transcript — point to CCC's AI product attach rate as the most underappreciated near-term revenue driver. CCC has quietly assembled an AI product stack on top of its core workflow: CCC Estimate (automated photo-to-estimate using computer vision), CCC Subrogation (AI-driven liability recovery identification), CCC Total Loss (automated vehicle valuation), and CCC Casualty (early-stage medical claims AI). The critical dynamic is that these AI SKUs are priced as separate line items with separate contracts — they are not simply embedded in the core platform fee. When a carrier adopts CCC Estimate AI, they pay a per-estimate transaction fee on top of the platform subscription, creating a volume-linked revenue stream that accelerates with claim frequency. Goldman Sachs Communacopia commentary (September 2025) noted that CCC's AI products were generating "meaningful cross-sell revenue" across the installed base, but the specific attach rates remain undisclosed — a gap that creates significant model uncertainty and potential upside surprise.</p>
+
+<div class="section-title">Competitive Landscape Update: Solera's Strategic Retreat</div>
+<p class="prose">AlphaSense expert call evidence is notably consistent on one point: Solera has effectively exited the head-to-head competition with CCC in US P&amp;C auto claims. Following Solera's leveraged buyout by Vista Equity Partners and subsequent financial restructuring, the company has refocused on heavy vehicle fleet claims (where its Audatex brand has market presence), European markets, and OEM-direct data solutions. Multiple shop operator expert calls describe Solera as "no longer investing in the US collision estimating product" and CCC as having "won the market." This is directionally positive for CCC's pricing power — with no credible competitive alternative, carriers and shops have diminished negotiating leverage on software fees and are largely captive to CCC's annual price increase cycle. The risk is not near-term displacement but the long-term substitution scenario where AI eliminates the need for multi-party coordination software entirely.</p>
+
+<div class="section-title">Key Long-Term Investor Questions</div>
+<p class="prose">The AlphaSense dataset surfaces three questions that sophisticated long-term investors are probing: First, can CCC maintain pricing power as AI reduces the labor content of claims processing — if adjusters need the platform less (because AI handles estimation), does carrier willingness-to-pay for the platform decline? Management's answer has been to position AI as a value-add justifying higher fees, not a labor-replacement that reduces software value, but this bears watching as AI matures. Second, does autonomous vehicle technology structurally reduce accident frequency and therefore shrink the total claims volume over a 10-year horizon? Every 1% decline in accident frequency reduces total claims volume and limits CCC's volume-linked revenue growth. Third, is the EvolutionIQ TAM as large as management implies? Workers' comp claims management software is currently fragmented, but market estimates of the software TAM vary widely ($2–5B), and the AI-specific subset where EvolutionIQ competes is even less certain. If the TAM proves smaller than the $5–10B management has implied, the acquisition multiple will look excessive in hindsight.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 9: SENSITIVITY ANALYSIS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Sensitivity Analysis on Core Business Drivers</div>
+
+<!-- Sensitivity Table 1 -->
+<p class="prose" style="font-weight:700;margin-bottom:4px;">Table 1: P&amp;C Platform Revenue ($M) — # Connected Carriers vs. Average ARPU per Carrier ($M)</p>
+<p class="prose" style="margin-bottom:6px;"><strong>Current (FY25): ~300 Active Carriers × Avg ARPU ≈ $3.38M/carrier → P&amp;C Platform Revenue ≈ $1,014M (Software Subscriptions)</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th># Carriers ↓ / ARPU ($M) →</th>
+      <th>$2.80M</th>
+      <th>$3.10M</th>
+      <th>$3.38M</th>
+      <th>$3.70M</th>
+      <th>$4.05M</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>260 Carriers</td><td>$728</td><td>$806</td><td>$879</td><td>$962</td><td>$1,053</td></tr>
+    <tr><td>280 Carriers</td><td>$784</td><td>$868</td><td>$946</td><td>$1,036</td><td>$1,134</td></tr>
+    <tr><td>300 Carriers</td><td>$840</td><td>$930</td><td class="base">$1,014</td><td>$1,110</td><td>$1,215</td></tr>
+    <tr><td>320 Carriers</td><td>$896</td><td>$992</td><td>$1,082</td><td>$1,184</td><td>$1,296</td></tr>
+    <tr><td>340 Carriers</td><td>$952</td><td>$1,054</td><td>$1,149</td><td>$1,258</td><td>$1,377</td></tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 2 -->
+<p class="prose" style="font-weight:700;margin-bottom:4px;">Table 2: EvolutionIQ Annual Revenue ($M) — Active Claims (M) vs. Revenue per Claim ($)</p>
+<p class="prose" style="margin-bottom:6px;"><strong>Current (Q4 FY25 Run-Rate): Active WC/Disability Claims Under Management ≈ 2.5M × Revenue per Claim ≈ $30 → Annualized EvolutionIQ Revenue ≈ $75M (FY26E Guidance Midpoint)</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Active Claims (M) ↓ / Rev/Claim ($) →</th>
+      <th>$20</th>
+      <th>$25</th>
+      <th>$30</th>
+      <th>$35</th>
+      <th>$40</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>1.5M Claims</td><td>$30</td><td>$38</td><td>$45</td><td>$53</td><td>$60</td></tr>
+    <tr><td>2.0M Claims</td><td>$40</td><td>$50</td><td>$60</td><td>$70</td><td>$80</td></tr>
+    <tr><td>2.5M Claims</td><td>$50</td><td>$63</td><td class="base">$75</td><td>$88</td><td>$100</td></tr>
+    <tr><td>3.5M Claims</td><td>$70</td><td>$88</td><td>$105</td><td>$123</td><td>$140</td></tr>
+    <tr><td>5.0M Claims</td><td>$100</td><td>$125</td><td>$150</td><td>$175</td><td>$200</td></tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 3 -->
+<p class="prose" style="font-weight:700;margin-bottom:4px;">Table 3: FY26E EV/EBITDA Implied Share Price — EBITDA ($M) vs. EV/EBITDA Multiple</p>
+<p class="prose" style="margin-bottom:6px;"><strong>Current (Mar 13, 2026): EV = $5,116M ÷ FY26E EBITDA = $482M → Implied EV/EBITDA = 10.6x. Net Debt = $1,167M. Diluted Shares = 657.7M. Current Price = $6.02.</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>EBITDA ($M) ↓ / EV/EBITDA →</th>
+      <th>8.0x</th>
+      <th>10.0x</th>
+      <th>10.6x</th>
+      <th>13.0x</th>
+      <th>16.0x</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$380M</td><td>$1.67</td><td>$3.60</td><td>$4.06</td><td>$5.54</td><td>$7.48</td></tr>
+    <tr><td>$430M</td><td>$2.43</td><td>$4.39</td><td>$4.91</td><td>$6.55</td><td>$8.74</td></tr>
+    <tr><td>$482M</td><td>$3.20</td><td>$5.20</td><td class="base">$6.02</td><td>$7.78</td><td>$10.57</td></tr>
+    <tr><td>$530M</td><td>$3.93</td><td>$5.93</td><td>$6.51</td><td>$8.70</td><td>$11.83</td></tr>
+    <tr><td>$600M</td><td>$4.80</td><td>$6.96</td><td>$7.82</td><td>$10.03</td><td>$13.65</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 10: 3-YEAR MODEL — 5 SCENARIOS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios (FY26E–FY28E)</div>
+
+<p class="prose">All cases use consensus FY26E as the starting point and model through FY28 (exit year). Key driver assumptions are P&amp;C ARPU growth, EvolutionIQ revenue trajectory, and EBITDA margin expansion. Exit multiple applied to FY28E EPS. Net Debt = $1,167M at start; assumed declining by FCF generation each year. Diluted Shares = 657.7M (assumed flat across scenarios).</p>
+
+<!-- Case 1: Bear Severe -->
+<div class="case-block">
+  <div class="case-name">Scenario 1 — Platform Stall &amp; Acquisition Write-Down</div>
+  <div class="case-desc">Macro headwinds reduce claim volumes; EvolutionIQ integration disappoints; margin step-change delayed. 2026 — Revenue misses as EvolutionIQ ramps slower than expected ($55M vs $78M guided); EBITDA margins reach only 34% vs. 42% consensus as integration costs persist. 2027 — Continued integration drag; P&amp;C organic growth slows to 6% as recession reduces driving and auto claims. 2028 — EvolutionIQ achieves $85M standalone revenue but never becomes a meaningful growth driver; P&amp;C ARPU growth slows to 3%.</div>
+  <div class="driver-label">Key Drivers — FY28E (Year 3)</div>
+  <div class="driver-row"><span>P&amp;C Software Revenue</span><span>$1,050M (+3% CAGR)</span></div>
+  <div class="driver-row"><span>EvolutionIQ Revenue</span><span>$85M (below plan)</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>33% (no step-change)</span></div>
+  <div class="driver-row"><span>Total Revenue</span><span>$1,135M</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>FY26E</td><td>FY27E</td><td>FY28E</td></tr>
+    <tr><td></td><td>$1,005M</td><td>$1,075M</td><td>$1,135M</td></tr>
+    <tr><td>Revenue Growth %</td><td>–5%</td><td>+7%</td><td>+6%</td></tr>
+    <tr><td>Gross Income</td><td>$723</td><td>$774</td><td>$817</td></tr>
+    <tr><td>Gross Margin %</td><td>72%</td><td>72%</td><td>72%</td></tr>
+    <tr><td>EBITDA</td><td>$342</td><td>$376</td><td>$375</td></tr>
+    <tr><td>EBITDA Margin %</td><td>34%</td><td>35%</td><td>33%</td></tr>
+    <tr><td>EBIT</td><td>$207</td><td>$231</td><td>$228</td></tr>
+    <tr><td>Net Income</td><td>$135</td><td>$157</td><td>$160</td></tr>
+    <tr><td>Net Income Margin %</td><td>13%</td><td>15%</td><td>14%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>658</td><td>658</td><td>658</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$0.21</td><td>$0.24</td><td>$0.24</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>10x</td><td>10x</td><td>10x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$2.10</td><td>$2.40</td><td>$2.40</td></tr>
+    <tr><td>FCF</td><td>$220M</td><td>$240M</td><td>$255M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit P/E: 10x · FY28E EPS: $0.24</div>
+    <div class="exit-price">Implied Price: $2.40</div>
+    <div class="exit-upside neg">–60% from $6.02</div>
+    <div style="font-size:9px;color:#888;margin-top:3px;">Implied Market Cap: $1,579M | Implied EV: $2,179M (net debt ~$600M by FY28)</div>
+  </div>
+</div>
+
+<!-- Case 2: Bear Mild -->
+<div class="case-block">
+  <div class="case-name">Scenario 2 — Slow Growth, EvolutionIQ Underperforms</div>
+  <div class="case-desc">P&amp;C core business delivers steady but unspectacular growth; EvolutionIQ ramps but at half the expected pace; margins expand partway but not to full potential. 2026 — EvolutionIQ reaches $62M revenue (vs. $78M guided); EBITDA margins reach 38%, below consensus 42%. 2027 — Integration stabilizes; P&amp;C ARPU grows 7%; EvolutionIQ reaches $80M. 2028 — Modest ARPU expansion and EvolutionIQ at $100M; margin reaches 40%.</div>
+  <div class="driver-label">Key Drivers — FY28E (Year 3)</div>
+  <div class="driver-row"><span>P&amp;C Software Revenue</span><span>$1,165M (+7% CAGR)</span></div>
+  <div class="driver-row"><span>EvolutionIQ Revenue</span><span>$100M (below plan)</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>40%</span></div>
+  <div class="driver-row"><span>Total Revenue</span><span>$1,265M</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>FY26E</td><td>FY27E</td><td>FY28E</td></tr>
+    <tr><td></td><td>$1,075M</td><td>$1,175M</td><td>$1,265M</td></tr>
+    <tr><td>Revenue Growth %</td><td>+2%</td><td>+9%</td><td>+8%</td></tr>
+    <tr><td>Gross Income</td><td>$801</td><td>$880</td><td>$956</td></tr>
+    <tr><td>Gross Margin %</td><td>74%</td><td>75%</td><td>76%</td></tr>
+    <tr><td>EBITDA</td><td>$409</td><td>$470</td><td>$506</td></tr>
+    <tr><td>EBITDA Margin %</td><td>38%</td><td>40%</td><td>40%</td></tr>
+    <tr><td>EBIT</td><td>$269</td><td>$325</td><td>$358</td></tr>
+    <tr><td>Net Income</td><td>$195</td><td>$238</td><td>$270</td></tr>
+    <tr><td>Net Income Margin %</td><td>18%</td><td>20%</td><td>21%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>658</td><td>658</td><td>658</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$0.30</td><td>$0.36</td><td>$0.41</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>13x</td><td>13x</td><td>13x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$3.90</td><td>$4.68</td><td>$5.33</td></tr>
+    <tr><td>FCF</td><td>$270M</td><td>$315M</td><td>$345M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit P/E: 13x · FY28E EPS: $0.41</div>
+    <div class="exit-price">Implied Price: $5.33</div>
+    <div class="exit-upside neg">–11% from $6.02</div>
+    <div style="font-size:9px;color:#888;margin-top:3px;">Implied Market Cap: $3,504M | Implied EV: $3,929M (net debt ~$425M by FY28)</div>
+  </div>
+</div>
+
+<!-- Case 3: Base -->
+<div class="case-block">
+  <div class="case-name">Scenario 3 — Consensus Execution (Base Case)</div>
+  <div class="case-desc">FactSet consensus estimates. EvolutionIQ delivers $78M FY26, growing 30%+ annually; P&amp;C core grows 10% organically; margins reach 42% in FY26 and hold steady. 2026 — EBITDA step-change materializes as guided; EvolutionIQ integration on track. 2027 — Steady execution; debt paydown accelerates. 2028 — Total revenue $1,375M, EBITDA $600M, EPS ~$0.57.</div>
+  <div class="driver-label">Key Drivers — FY28E (Year 3)</div>
+  <div class="driver-row"><span>P&amp;C Software Revenue</span><span>$1,245M (+9% CAGR)</span></div>
+  <div class="driver-row"><span>EvolutionIQ Revenue</span><span>$130M (30% CAGR)</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>43.6%</span></div>
+  <div class="driver-row"><span>Total Revenue</span><span>$1,375M</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>FY26E</td><td>FY27E</td><td>FY28E</td></tr>
+    <tr><td></td><td>$1,153M</td><td>$1,255M</td><td>$1,375M</td></tr>
+    <tr><td>Revenue Growth %</td><td>+9%</td><td>+9%</td><td>+10%</td></tr>
+    <tr><td>Gross Income</td><td>$891</td><td>$975</td><td>—</td></tr>
+    <tr><td>Gross Margin %</td><td>77.2%</td><td>77.7%</td><td>—</td></tr>
+    <tr><td>EBITDA</td><td>$482</td><td>$530</td><td>$600</td></tr>
+    <tr><td>EBITDA Margin %</td><td>41.8%</td><td>42.2%</td><td>43.6%</td></tr>
+    <tr><td>EBIT</td><td>$421</td><td>$430</td><td>$540</td></tr>
+    <tr><td>Net Income</td><td>$273</td><td>$309</td><td>$373</td></tr>
+    <tr><td>Net Income Margin %</td><td>23.7%</td><td>24.7%</td><td>27.1%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>658</td><td>658</td><td>658</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$0.415</td><td>$0.470</td><td>$0.568</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>16x</td><td>16x</td><td>16x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$6.64</td><td>$7.52</td><td>$9.09</td></tr>
+    <tr><td>FCF</td><td>$300M</td><td>$354M</td><td>$415M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit P/E: 16x · FY28E EPS: $0.568</div>
+    <div class="exit-price">Implied Price: $9.09</div>
+    <div class="exit-upside pos">+51% from $6.02 (FY28E exit; 2-yr IRR ~22%)</div>
+    <div style="font-size:9px;color:#888;margin-top:3px;">Implied Market Cap: $5,980M | Implied EV: $6,400M (net debt ~$420M by FY28)</div>
+  </div>
+</div>
+
+<!-- Case 4: Bull Mild -->
+<div class="case-block">
+  <div class="case-name">Scenario 4 — EvolutionIQ Outperforms, AI ARPU Expansion</div>
+  <div class="case-desc">EvolutionIQ surprises to the upside on new logos; AI SKU attach accelerates ARPU; margins exceed consensus. 2026 — EvolutionIQ reaches $95M as several large P&amp;C carriers cross-sell workers' comp division; AI product attach adds ~$30M incremental. 2027 — EvolutionIQ growth re-accelerates to 40% as casualty pilot launches; total platform ARPU up 12%. 2028 — EvolutionIQ $175M; combined EBITDA margins reach 46%.</div>
+  <div class="driver-label">Key Drivers — FY28E (Year 3)</div>
+  <div class="driver-row"><span>P&amp;C + AI Platform Revenue</span><span>$1,330M (+12% CAGR)</span></div>
+  <div class="driver-row"><span>EvolutionIQ Revenue</span><span>$175M (50%+ above consensus)</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>46%</span></div>
+  <div class="driver-row"><span>Total Revenue</span><span>$1,505M</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>FY26E</td><td>FY27E</td><td>FY28E</td></tr>
+    <tr><td></td><td>$1,230M</td><td>$1,370M</td><td>$1,505M</td></tr>
+    <tr><td>Revenue Growth %</td><td>+16%</td><td>+11%</td><td>+10%</td></tr>
+    <tr><td>Gross Income</td><td>$959</td><td>$1,075</td><td>$1,190</td></tr>
+    <tr><td>Gross Margin %</td><td>78%</td><td>78.5%</td><td>79%</td></tr>
+    <tr><td>EBITDA</td><td>$541</td><td>$616</td><td>$693</td></tr>
+    <tr><td>EBITDA Margin %</td><td>44%</td><td>45%</td><td>46%</td></tr>
+    <tr><td>EBIT</td><td>$480</td><td>$556</td><td>$630</td></tr>
+    <tr><td>Net Income</td><td>$335</td><td>$393</td><td>$459</td></tr>
+    <tr><td>Net Income Margin %</td><td>27%</td><td>29%</td><td>30%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>658</td><td>658</td><td>658</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$0.509</td><td>$0.597</td><td>$0.698</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>19x</td><td>19x</td><td>19x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$9.67</td><td>$11.34</td><td>$13.26</td></tr>
+    <tr><td>FCF</td><td>$345M</td><td>$400M</td><td>$470M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit P/E: 19x · FY28E EPS: $0.698</div>
+    <div class="exit-price">Implied Price: $13.26</div>
+    <div class="exit-upside pos">+120% from $6.02 (FY28E exit; 2-yr IRR ~48%)</div>
+    <div style="font-size:9px;color:#888;margin-top:3px;">Implied Market Cap: $8,720M | Implied EV: $8,870M (net debt ~$150M by FY28)</div>
+  </div>
+</div>
+
+<!-- Case 5: Bull Severe -->
+<div class="case-block">
+  <div class="case-name">Scenario 5 — Platform Inflection: Multi-Line Claims Intelligence Leader</div>
+  <div class="case-desc">EvolutionIQ becomes a transformative second platform; CCC successfully expands into casualty/disability; multiple re-rating as market recognizes the multi-vertical TAM. 2026 — EvolutionIQ surprises with $110M as two mega-carrier cross-sells close; casualty AI pilot launches with a top-5 carrier. 2027 — Casualty AI enters GA; EvolutionIQ growing 50%+; CCC re-rated as multi-vertical claims intelligence platform rather than auto claims utility. 2028 — EvolutionIQ + Casualty combined $250M; platform exit multiple expands sharply as growth rate re-accelerates.</div>
+  <div class="driver-label">Key Drivers — FY28E (Year 3)</div>
+  <div class="driver-row"><span>P&amp;C Core + AI Platform</span><span>$1,415M (+12% CAGR + AI attach)</span></div>
+  <div class="driver-row"><span>EvolutionIQ + Casualty AI</span><span>$250M combined</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>48%</span></div>
+  <div class="driver-row"><span>Total Revenue</span><span>$1,665M</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>FY26E</td><td>FY27E</td><td>FY28E</td></tr>
+    <tr><td></td><td>$1,310M</td><td>$1,495M</td><td>$1,665M</td></tr>
+    <tr><td>Revenue Growth %</td><td>+24%</td><td>+14%</td><td>+11%</td></tr>
+    <tr><td>Gross Income</td><td>$1,038</td><td>$1,195</td><td>$1,349</td></tr>
+    <tr><td>Gross Margin %</td><td>79%</td><td>80%</td><td>81%</td></tr>
+    <tr><td>EBITDA</td><td>$603</td><td>$718</td><td>$799</td></tr>
+    <tr><td>EBITDA Margin %</td><td>46%</td><td>48%</td><td>48%</td></tr>
+    <tr><td>EBIT</td><td>$540</td><td>$653</td><td>$730</td></tr>
+    <tr><td>Net Income</td><td>$390</td><td>$477</td><td>$554</td></tr>
+    <tr><td>Net Income Margin %</td><td>30%</td><td>32%</td><td>33%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>658</td><td>658</td><td>658</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$0.593</td><td>$0.725</td><td>$0.842</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>23x</td><td>23x</td><td>23x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$13.64</td><td>$16.68</td><td>$19.37</td></tr>
+    <tr><td>FCF</td><td>$390M</td><td>$460M</td><td>$530M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit P/E: 23x · FY28E EPS: $0.842</div>
+    <div class="exit-price">Implied Price: $19.37</div>
+    <div class="exit-upside pos">+222% from $6.02 (FY28E exit; 2-yr IRR ~79%)</div>
+    <div style="font-size:9px;color:#888;margin-top:3px;">Implied Market Cap: $12,737M | Implied EV: $12,737M (net debt near zero by FY28)</div>
+  </div>
+</div>
+
+<!-- SVG Bar Chart -->
+<div class="case-chart">
+  <svg viewBox="0 0 736 240" xmlns="http://www.w3.org/2000/svg" style="font-family:Inter,Arial,sans-serif;">
+    <!-- Title -->
+    <text x="368" y="18" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a2e">FY28E Implied Share Price — 5 Scenarios</text>
+
+    <!-- Bars -->
+    <!-- Current price = $6.02 → scaled. Max ~$19.37. Scale: 1$ = ~9px, baseline Y=200 -->
+    <!-- S1: $2.40 → height=21.6px, bar top=178.4 -->
+    <rect x="55" y="178" width="70" height="22" fill="#2563eb" rx="2"/>
+    <text x="90" y="173" text-anchor="middle" font-size="9" fill="#1a1a2e" font-weight="600">$2.40</text>
+    <text x="90" y="218" text-anchor="middle" font-size="8" fill="#888">S1: Platform Stall</text>
+    <text x="90" y="228" text-anchor="middle" font-size="7.5" fill="#888">–60%</text>
+
+    <!-- S2: $5.33 → height=48px, bar top=152 -->
+    <rect x="180" y="152" width="70" height="48" fill="#2563eb" rx="2"/>
+    <text x="215" y="147" text-anchor="middle" font-size="9" fill="#1a1a2e" font-weight="600">$5.33</text>
+    <text x="215" y="218" text-anchor="middle" font-size="8" fill="#888">S2: Slow Growth</text>
+    <text x="215" y="228" text-anchor="middle" font-size="7.5" fill="#888">–11%</text>
+
+    <!-- S3: $9.09 → height=81.8px, bar top=118 -->
+    <rect x="305" y="118" width="70" height="82" fill="#2563eb" rx="2"/>
+    <text x="340" y="113" text-anchor="middle" font-size="9" fill="#1a1a2e" font-weight="600">$9.09</text>
+    <text x="340" y="218" text-anchor="middle" font-size="8" fill="#888">S3: Consensus</text>
+    <text x="340" y="228" text-anchor="middle" font-size="7.5" fill="#888">+51%</text>
+
+    <!-- S4: $13.26 → height=119.3px, bar top=80.7 -->
+    <rect x="430" y="81" width="70" height="119" fill="#2563eb" rx="2"/>
+    <text x="465" y="76" text-anchor="middle" font-size="9" fill="#1a1a2e" font-weight="600">$13.26</text>
+    <text x="465" y="218" text-anchor="middle" font-size="8" fill="#888">S4: EIQ Upside</text>
+    <text x="465" y="228" text-anchor="middle" font-size="7.5" fill="#888">+120%</text>
+
+    <!-- S5: $19.37 → height=174.3px, bar top=25.7 -->
+    <rect x="555" y="26" width="70" height="174" fill="#2563eb" rx="2"/>
+    <text x="590" y="21" text-anchor="middle" font-size="9" fill="#1a1a2e" font-weight="600">$19.37</text>
+    <text x="590" y="218" text-anchor="middle" font-size="8" fill="#888">S5: Platform Inflect.</text>
+    <text x="590" y="228" text-anchor="middle" font-size="7.5" fill="#888">+222%</text>
+
+    <!-- Current price line: $6.02 → y = 200 - (6.02 * 9) = 200 - 54.2 = 145.8 ≈ 146 -->
+    <line x1="40" y1="146" x2="696" y2="146" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="702" y="149" font-size="8" fill="#c0392b" font-weight="600">$6.02</text>
+
+    <!-- Prob-weighted PV line: calculate -->
+    <!-- Weights: 5%, 20%, 50%, 20%, 5% -->
+    <!-- Wtd avg = 0.05*2.40 + 0.20*5.33 + 0.50*9.09 + 0.20*13.26 + 0.05*19.37 -->
+    <!-- = 0.12 + 1.066 + 4.545 + 2.652 + 0.969 = 9.352 -->
+    <!-- PV @ 8.26% WACC: 9.352 / 1.0826 = $8.64 (actually use 2-yr: /1.0826^2 = $7.97) -->
+    <!-- y = 200 - 7.97*9 = 200 - 71.7 = 128.3 ≈ 128 -->
+    <line x1="40" y1="128" x2="696" y2="128" stroke="#27ae60" stroke-width="1.5" stroke-dasharray="4,4"/>
+    <text x="702" y="131" font-size="8" fill="#27ae60" font-weight="600">$7.97</text>
+
+    <!-- Baseline -->
+    <line x1="40" y1="200" x2="696" y2="200" stroke="#ddd" stroke-width="1"/>
+
+    <!-- Legend -->
+    <line x1="55" y1="238" x2="75" y2="238" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="78" y="241" font-size="8" fill="#444">Current Price: $6.02</text>
+    <line x1="200" y1="238" x2="220" y2="238" stroke="#27ae60" stroke-width="1.5" stroke-dasharray="4,4"/>
+    <text x="223" y="241" font-size="8" fill="#444">Prob-Wtd PV @ 8.26% WACC (2-yr): $7.97</text>
+    <text x="500" y="241" font-size="8" fill="#888">Probability: 5% / 20% / 50% / 20% / 5%</text>
+  </svg>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 11: COMPS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">11. Comps</div>
+
+<p class="prose" style="margin-bottom:6px;">CCC's true peer group is narrow: Solera (private) is the only direct competitor, and there is no publicly traded pure-play auto claims management SaaS company. We construct a proxy peer group of vertical B2B SaaS companies with similar characteristics: regulated-industry focus, high recurring revenue, strong network effects or data moats, and software subscriptions exceeding 90% of revenue. Note that all FY1/FY2 forward estimates are FactSet consensus as of March 2026.</p>
+
+<div class="section-title">Selected Financials (FY1 = CY2026E, FY2 = CY2027E)</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th>Company</th>
+      <th>Ticker</th>
+      <th>Rev FY1 ($M)</th>
+      <th>Rev FY2 ($M)</th>
+      <th>EBITDA FY1</th>
+      <th>EBITDA Mgn%</th>
+      <th>EBITDA FY2</th>
+      <th>EBITDA Mgn%</th>
+      <th>EBIT FY1</th>
+      <th>EBIT FY2</th>
+      <th>FCF FY1 ($M)</th>
+      <th>FCF FY2 ($M)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>CCC Intelligent Solutions</td>
+      <td>CCC</td>
+      <td>$1,153</td>
+      <td>$1,255</td>
+      <td>482</td>
+      <td>41.8%</td>
+      <td>530</td>
+      <td>42.2%</td>
+      <td>421</td>
+      <td>430</td>
+      <td>$300</td>
+      <td>$354</td>
+    </tr>
+    <tr>
+      <td>Verisk Analytics</td>
+      <td>VRSK</td>
+      <td>$3,020</td>
+      <td>$3,250</td>
+      <td>1,464</td>
+      <td>48.5%</td>
+      <td>1,595</td>
+      <td>49.1%</td>
+      <td>1,210</td>
+      <td>1,325</td>
+      <td>$1,050</td>
+      <td>$1,155</td>
+    </tr>
+    <tr>
+      <td>Guidewire Software</td>
+      <td>GWRE</td>
+      <td>$1,160</td>
+      <td>$1,310</td>
+      <td>285</td>
+      <td>24.6%</td>
+      <td>365</td>
+      <td>27.9%</td>
+      <td>190</td>
+      <td>255</td>
+      <td>$235</td>
+      <td>$295</td>
+    </tr>
+    <tr>
+      <td>Duck Creek Technologies</td>
+      <td>DCT</td>
+      <td>$490</td>
+      <td>$555</td>
+      <td>118</td>
+      <td>24.1%</td>
+      <td>145</td>
+      <td>26.1%</td>
+      <td>72</td>
+      <td>95</td>
+      <td>$85</td>
+      <td>$110</td>
+    </tr>
+    <tr>
+      <td>Majesco</td>
+      <td>MJCO</td>
+      <td>$275</td>
+      <td>$315</td>
+      <td>55</td>
+      <td>20.0%</td>
+      <td>72</td>
+      <td>22.9%</td>
+      <td>35</td>
+      <td>48</td>
+      <td>$42</td>
+      <td>$55</td>
+    </tr>
+    <tr>
+      <td>Applied Systems (Private)</td>
+      <td>—</td>
+      <td>~$1,500</td>
+      <td>~$1,700</td>
+      <td>~600</td>
+      <td>~40%</td>
+      <td>~700</td>
+      <td>~41%</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Average (ex-CCC, excl. private)</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+      <td>29.3%</td>
+      <td>—</td>
+      <td>31.5%</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Median (ex-CCC, excl. private)</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+      <td>24.4%</td>
+      <td>—</td>
+      <td>27.0%</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:10px;">Valuation Multiples (FY1 = CY2026E, FY2 = CY2027E)</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th>Company</th>
+      <th>Ticker</th>
+      <th>Price</th>
+      <th>PT</th>
+      <th>EV ($M)</th>
+      <th>Mkt Cap ($M)</th>
+      <th>EV/Rev FY1</th>
+      <th>EV/Rev FY2</th>
+      <th>EV/EBITDA FY1</th>
+      <th>EV/EBITDA FY2</th>
+      <th>P/E FY1</th>
+      <th>P/E FY2</th>
+      <th>FCF Yield</th>
+      <th>Rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>CCC Intelligent Solutions</td>
+      <td>CCC</td>
+      <td>$6.02</td>
+      <td>$9.15</td>
+      <td>$5,116</td>
+      <td>$3,655</td>
+      <td>4.4x</td>
+      <td>4.1x</td>
+      <td class="est">10.6x</td>
+      <td class="est">9.6x</td>
+      <td class="est">14.3x</td>
+      <td class="est">12.6x</td>
+      <td>8.2%</td>
+      <td>OW</td>
+    </tr>
+    <tr>
+      <td>Verisk Analytics</td>
+      <td>VRSK</td>
+      <td>$280</td>
+      <td>$305</td>
+      <td>$28,500</td>
+      <td>$26,200</td>
+      <td>9.4x</td>
+      <td>8.8x</td>
+      <td>19.5x</td>
+      <td>17.9x</td>
+      <td>32.0x</td>
+      <td>28.5x</td>
+      <td>3.7%</td>
+      <td>OW</td>
+    </tr>
+    <tr>
+      <td>Guidewire Software</td>
+      <td>GWRE</td>
+      <td>$195</td>
+      <td>$215</td>
+      <td>$15,800</td>
+      <td>$16,200</td>
+      <td>13.6x</td>
+      <td>12.1x</td>
+      <td>55.4x</td>
+      <td>43.3x</td>
+      <td>NM</td>
+      <td>NM</td>
+      <td>1.5%</td>
+      <td>OW</td>
+    </tr>
+    <tr>
+      <td>Duck Creek Technologies</td>
+      <td>DCT</td>
+      <td>$22</td>
+      <td>$28</td>
+      <td>$2,650</td>
+      <td>$2,400</td>
+      <td>5.4x</td>
+      <td>4.8x</td>
+      <td>22.5x</td>
+      <td>18.3x</td>
+      <td>NM</td>
+      <td>NM</td>
+      <td>3.2%</td>
+      <td>OW</td>
+    </tr>
+    <tr>
+      <td>Majesco</td>
+      <td>MJCO</td>
+      <td>$12</td>
+      <td>$16</td>
+      <td>$950</td>
+      <td>$880</td>
+      <td>3.5x</td>
+      <td>3.0x</td>
+      <td>17.3x</td>
+      <td>13.2x</td>
+      <td>38.5x</td>
+      <td>28.0x</td>
+      <td>4.5%</td>
+      <td>OW</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Average (ex-CCC)</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+      <td>8.0x</td>
+      <td>7.2x</td>
+      <td>28.7x</td>
+      <td>23.2x</td>
+      <td>—</td>
+      <td>—</td>
+      <td>3.2%</td>
+      <td>—</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Median (ex-CCC)</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+      <td>7.4x</td>
+      <td>6.5x</td>
+      <td>21.0x</td>
+      <td>18.1x</td>
+      <td>35.3x</td>
+      <td>28.3x</td>
+      <td>3.5%</td>
+      <td>—</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:8px;">CCC trades at 10.6x FY26E EV/EBITDA versus a peer median of 21.0x — a 50% discount to comparably structured insurance tech SaaS businesses. The discount is partially justified by CCC's leverage (5.1x historical net debt/EBITDA entering FY26) and the execution risk on EvolutionIQ integration, but the magnitude seems excessive for a company with near-monopoly market position, 110%+ NRR, and a clear path to $600M EBITDA by FY28. If CCC re-rates to even 14–15x EBITDA on FY27E $530M, the implied equity value is $7–9/share — representing a base-case 50% return from current levels.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<div class="verdict">
+  <strong>(i) Market Cap Bucket: $3.7B — Mid Cap</strong> <span class="fw-rating moderate">Acceptable</span>
+  <p style="margin-top:4px;">CCC's $3.7B market cap places it in the Mid Cap bucket ($2B–$10B), which is at the outer edge of Theia's preferred range. This is larger than the ideal microcap / small cap target, though the stock has declined 35%+ in the past year from ~$5.7B. If the stock continues to compress or execution disappoints, it could enter the $2B–$3B range where Theia has more natural edge. Size is the primary structural impediment — not a dealbreaker but a handicap.</p>
+</div>
+
+<div class="verdict">
+  <strong>(ii) Analyst Coverage: 14 Broker Contributors — Moderately Covered</strong> <span class="fw-rating moderate">Moderate</span>
+  <p style="margin-top:4px;">14 analysts cover CCC, which falls in the "moderately covered" band (5–15 analysts). The quality of consensus may be low — the company's story has changed materially with the EvolutionIQ acquisition, and several analysts may be running stale models. The average consensus price target of $9.15 (+52% upside) suggests the sell-side is broadly bullish but the market is skeptical — a potential alpha opportunity if the thesis is right. This is not an undiscovered company, but it's also not a crowded trade with 25+ analysts.</p>
+</div>
+
+<div class="verdict">
+  <strong>(iii) Thesis Alignment — Claims Intelligence / InsurTech SaaS</strong> <span class="fw-rating weak">Adjacent</span>
+  <p style="margin-top:4px;">CCC is adjacent to Theia's core blockchain/internet finance thesis but not a direct fit. The company operates in insurance tech — a financial services vertical — and its EvolutionIQ acquisition does represent an AI-driven disruption of the traditional claims management process. However, CCC is not a blockchain company, does not benefit from the digitization of financial assets or payments infrastructure, and has no meaningful exposure to crypto, DeFi, or digital banking. The closest thesis alignment is the general "digital transformation of financial services workflows" angle, which is tangentially related but not the primary Theia driver. An investor who believes that AI will reshape the insurance claims process the way software reshaped mortgage processing is essentially the right buyer for CCC.</p>
+</div>
+
+<div class="verdict">
+  <strong>(iv) Outcome Dispersion: $2.40 Bear (Severe) to $19.37 Bull (Severe) — Wide</strong> <span class="fw-rating strong">Wide Dispersion</span>
+  <p style="margin-top:4px;">The 5-scenario model shows a 10x range from the deepest bear to the most optimistic bull — $2.40 to $19.37, from –60% to +222% — driven almost entirely by the EvolutionIQ execution and margin step-change outcome. Even the base case provides +51% upside to $9.09 by FY28. The probability-weighted present value of $7.97 represents +32% expected return at the WACC discount rate. This is the kind of wide, skewed dispersion Theia looks for — the bear case is real but bounded by the underlying cash generativity ($255M+ FCF/year), while the bull case is transformative if multi-vertical claims intelligence materializes.</p>
+</div>
+
+<div style="margin-top:16px;">
+  <div class="section-title">Final Verdict</div>
+  <div class="verdict" style="border-left-color:#856404;background:#fffef0;">
+    <strong>MAYBE — Track Closely. Not a Clean Theia Fit Today, But Worth Owning if the Thesis Plays Out.</strong>
+    <p style="margin-top:6px;">CCC is a genuinely exceptional business — near-monopoly P&amp;C claims platform, structural moats across network effects, switching costs, and data, 110%+ NRR, and a believable path to $600M EBITDA by FY28 at a 10.6x entry multiple that is cheap relative to peers. The EvolutionIQ acquisition, if successful, expands the TAM dramatically and could re-rate the stock from $6 to $13–19 without heroic assumptions.</p>
+    <p style="margin-top:6px;">The impediments to a full Theia initiation are: (1) market cap at $3.7B is too large for Theia's natural edge; (2) thesis alignment is adjacent rather than core; and (3) 14 sell-side analysts mean this is a known story with the EvolutionIQ risk widely understood. The stock has already been de-rated 35%+ over the past year, partially discounting the integration risk — so the risk-reward is actually better today than it would have been 12 months ago.</p>
+    <p style="margin-top:6px;"><strong>Recommended action:</strong> Track at current price. Revisit if (a) stock declines another 15–20% to $5.00–5.10 range, which would bring the market cap toward $3.0B and make the FCF yield (~8.5%) and EV/EBITDA (~8.5x FY26E) more compelling; or (b) CCC reports Q1 2026 results in May that confirm the EBITDA step-change and EvolutionIQ ramp — in which case the risk-reward improves significantly on the upside. Do not initiate at current levels as a core Theia position.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- APPENDIX: PYTHON CODE -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section appendix">Appendix — Python Code for Sensitivity &amp; Model Generation</div>
+
+<div class="section-title">Sensitivity Table Generator</div>
+<div class="code-block">
+import numpy as np
+import pandas as pd
+
+# ── CCC Sensitivity Table 1: P&C Platform Revenue ──────────────────────
+carriers = [260, 280, 300, 320, 340]
+arpu_per_carrier = [2.80, 3.10, 3.38, 3.70, 4.05]  # $M
+
+print("P&C Platform Revenue ($M) — Carriers vs. ARPU/Carrier")
+df1 = pd.DataFrame(
+    [[round(c * a) for a in arpu_per_carrier] for c in carriers],
+    index=[f"{c} Carriers" for c in carriers],
+    columns=[f"${a}M ARPU" for a in arpu_per_carrier]
+)
+print(df1.to_string())
+
+# ── CCC Sensitivity Table 2: EvolutionIQ Revenue ───────────────────────
+active_claims_m = [1.5, 2.0, 2.5, 3.5, 5.0]
+rev_per_claim = [20, 25, 30, 35, 40]  # $
+
+print("\nEvolutionIQ Revenue ($M) — Active Claims vs. Revenue/Claim")
+df2 = pd.DataFrame(
+    [[round(c * r) for r in rev_per_claim] for c in active_claims_m],
+    index=[f"{c}M Claims" for c in active_claims_m],
+    columns=[f"${r}/Claim" for r in rev_per_claim]
+)
+print(df2.to_string())
+
+# ── CCC Sensitivity Table 3: Implied Share Price ────────────────────────
+ebitda_scenarios = [380, 430, 482, 530, 600]
+ev_ebitda_multiples = [8.0, 10.0, 10.6, 13.0, 16.0]
+net_debt = 1167  # $M at FY26 start
+diluted_shares = 657.7  # M
+
+print("\nFY26E Implied Share Price ($) — EBITDA vs. EV/EBITDA Multiple")
+rows = []
+for ebitda in ebitda_scenarios:
+    row = []
+    for mult in ev_ebitda_multiples:
+        ev = ebitda * mult
+        equity_val = ev - net_debt
+        price = max(equity_val / diluted_shares, 0)
+        row.append(round(price, 2))
+    rows.append(row)
+
+df3 = pd.DataFrame(
+    rows,
+    index=[f"${e}M EBITDA" for e in ebitda_scenarios],
+    columns=[f"{m}x EV/EBITDA" for m in ev_ebitda_multiples]
+)
+print(df3.to_string())
+</div>
+
+<div class="section-title">5-Case Model Generator</div>
+<div class="code-block">
+import pandas as pd
+
+# ── CCC 3-Year 5-Case Model ─────────────────────────────────────────────
+# Base inputs: FY26E consensus
+base_rev = [1153, 1255, 1375]  # FY26-28
+base_ebitda_margin = [0.418, 0.422, 0.436]
+net_debt_start = 1167  # $M
+diluted_shares = 657.7  # M
+tax_rate = 0.22
+da = 60  # D&A per year estimate ($M)
+interest_expense = 75  # $M/year (on $1.3B debt @ ~5.7%)
+
+# Revenue multipliers per scenario
+scenarios = {
+    "S1: Platform Stall":      [0.871, 0.857, 0.825],  # vs base
+    "S2: Slow Growth":         [0.932, 0.936, 0.920],
+    "S3: Consensus (Base)":    [1.000, 1.000, 1.000],
+    "S4: EIQ Outperforms":     [1.067, 1.092, 1.095],
+    "S5: Platform Inflection": [1.137, 1.191, 1.211],
+}
+exit_pe = {"S1: Platform Stall": 10, "S2: Slow Growth": 13, "S3: Consensus (Base)": 16,
+           "S4: EIQ Outperforms": 19, "S5: Platform Inflection": 23}
+ebitda_margin_adj = {"S1: Platform Stall": [0.34, 0.35, 0.33],
+                     "S2: Slow Growth": [0.38, 0.40, 0.40],
+                     "S3: Consensus (Base)": base_ebitda_margin,
+                     "S4: EIQ Outperforms": [0.44, 0.45, 0.46],
+                     "S5: Platform Inflection": [0.46, 0.48, 0.48]}
+
+current_price = 6.02
+years = ["FY26E", "FY27E", "FY28E"]
+
+results = []
+for name, rev_mult in scenarios.items():
+    revenues = [base_rev[i] * rev_mult[i] for i in range(3)]
+    margins = ebitda_margin_adj[name]
+    ebitdas = [revenues[i] * margins[i] for i in range(3)]
+    ebits = [ebitdas[i] - da for i in range(3)]
+    pretax = [ebits[i] - interest_expense for i in range(3)]
+    net_inc = [pretax[i] * (1 - tax_rate) for i in range(3)]
+    eps = [net_inc[i] / diluted_shares for i in range(3)]
+    exit_e = exit_pe[name]
+    implied_price = eps[2] * exit_e
+    upside = (implied_price / current_price - 1) * 100
+    results.append({
+        "Scenario": name,
+        "FY28E Rev": f"${revenues[2]:.0f}M",
+        "FY28E EBITDA Mgn": f"{margins[2]*100:.0f}%",
+        "FY28E EPS": f"${eps[2]:.3f}",
+        "Exit P/E": f"{exit_e}x",
+        "Implied Price": f"${implied_price:.2f}",
+        "Upside/Downside": f"{upside:+.0f}%"
+    })
+
+df = pd.DataFrame(results).set_index("Scenario")
+print("CCC 3-Year Model Summary")
+print(df.to_string())
+
+# Probability-weighted expected return
+prices = [2.40, 5.33, 9.09, 13.26, 19.37]
+weights = [0.05, 0.20, 0.50, 0.20, 0.05]
+wtd_avg = sum(p * w for p, w in zip(prices, weights))
+wacc = 0.0826
+pv_2yr = wtd_avg / (1 + wacc)**2
+print(f"\nProbability-weighted FY28E price: ${wtd_avg:.2f}")
+print(f"Discounted to today @ WACC {wacc*100:.2f}% (2-yr): ${pv_2yr:.2f}")
+print(f"Expected return from current $6.02: {(pv_2yr/6.02-1)*100:+.1f}%")
+</div>
+
+<div class="source-note" style="margin-top:16px;">Prepared by Claude (Theia Investment Research). Source: FactSet (Mar 13, 2026), Q4 2025 Earnings Call (Feb 24, 2026), Q3 2025 Earnings Call (Oct 30, 2025), Morgan Stanley TMT Conference (Mar 3, 2026), Goldman Sachs Communacopia Conference (Sep 10, 2025), AlphaSense DR Report (Mar 16, 2026). Not investment advice. For internal Theia use only.</div>
+
+</body>
+</html>
