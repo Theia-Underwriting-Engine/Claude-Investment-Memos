@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JPMorgan Chase & Co. | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 10px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; }
+.case-block .driver-row span:first-child { display: inline-block; width: 65%; font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.alphasense-box { background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 4px; padding: 8px 12px; margin-bottom: 14px; font-size: 10px; color: #1e3a5f; }
+
+.bull-col .section-title { color: #155724; border-color: #155724; }
+.bear-col .section-title { color: #721c24; border-color: #721c24; }
+
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.comps td:nth-child(2) { text-align: left; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-style: italic; background: #fafbfc; font-weight: 600; }
+table.comps tr:nth-child(even):not(.subject):not(.stat-row) { background: #fafbfc; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">JPMorgan Chase &amp; Co. | Preliminary Memo for Theia</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<!-- ============================================================ -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">JPMorgan Chase &amp; Co. (NYSE: JPM) is the largest bank in the United States and one of the largest financial institutions in the world by total assets ($4.4 trillion), founded in its current form through the 2004 merger of J.P. Morgan &amp; Co. and Bank One. Headquartered in New York City, JPM employs approximately 317,000 people globally and is led by Chairman &amp; CEO Jamie Dimon, who has held the role since 2005. The firm operates three primary segments: Consumer &amp; Community Banking (CCB, ~41% of revenue), the Commercial &amp; Investment Bank (CIB, ~42%), and Asset &amp; Wealth Management (AWM, ~13%), with a small Corporate segment. JPM earns money through net interest income on its $1.7 trillion loan book and $2.6 trillion deposit base, investment banking and advisory fees, trading revenues, payments processing (handling $10+ trillion in daily payments), and asset management fees on $7.1 trillion in client assets.</p>
+
+<p class="prose">The one-line thesis: JPMorgan is a structurally advantaged financial conglomerate whose unmatched scale, deposit franchise, technology investment ($19.8B in 2026), and multi-decade investment in people and infrastructure have produced 20% ROTCE — far above the cost of equity — and should sustain superior through-the-cycle returns. The firm reported full-year 2025 net income of ~$57.5B and EPS of $20.02, while growing tangible book value per share by 11% and maintaining a CET1 ratio of 14.5%. Estimated total 2025 revenue (gross) was ~$279B on a managed basis.</p>
+
+<!-- ============================================================ -->
+<!-- SECTION 2: THEIA FACTSET SUMMARY -->
+<!-- ============================================================ -->
+<div class="memo-section">2. Theia FactSet Summary</div>
+
+<div class="header">
+  <div>
+    <h1>JPMorgan Chase &amp; Co.</h1>
+    <div class="ticker">JPM-US &nbsp;·&nbsp; NYSE &nbsp;·&nbsp; CUSIP: 46625H100</div>
+  </div>
+  <div class="date">As of Mar 13, 2026 &nbsp;·&nbsp; Source: FactSet</div>
+</div>
+
+<div class="price-bar">
+  <span class="price">$283.44</span>
+  <span class="label">1M:</span><span class="chg">−5.7%</span>
+  <span class="label">3M:</span><span class="chg">−9.6%</span>
+  <span class="label">6M:</span><span class="chg">−7.7%</span>
+  <span class="label">YTD:</span><span class="chg">−11.4%</span>
+  <span class="label">1Y:</span><span class="chg pos">+22.8%</span>
+  <span class="label">52wk:</span><span>$202.16 – $337.25</span>
+  <span class="label">84% of 52wk High</span>
+</div>
+
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv">
+      <tr><td>Primary Ticker</td><td>JPM-US</td></tr>
+      <tr><td>Price (Mar 13, 2026)</td><td>$283.44</td></tr>
+      <tr><td>Volume (last session)</td><td>9,091,183</td></tr>
+      <tr><td>30D Avg Daily Volume</td><td>10,724,690</td></tr>
+      <tr><td>Float (%)</td><td>99.61%</td></tr>
+      <tr><td>Short Interest</td><td>2.3 Days / 0.85% of Float</td></tr>
+      <tr><td>Annual Dividend</td><td>$6.00 (Yield: 2.12%)</td></tr>
+      <tr><td>Avg Analyst Rating</td><td>Overweight (1.47)</td></tr>
+      <tr><td>Broker Contributors</td><td>29</td></tr>
+      <tr><td>Consensus Target Price</td><td>$352.17</td></tr>
+      <tr><td>Next Earnings</td><td>Apr 14, 2026</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value / Balance Sheet Bridge</div>
+    <table class="ev">
+      <tr><td>Price (Mar 13, 2026)</td><td>$283.44</td></tr>
+      <tr><td>Basic Shares (Common)</td><td>2,697.0M</td></tr>
+      <tr><td>Market Cap</td><td>$764,447M</td></tr>
+      <tr><td>&nbsp;&nbsp;+ Stock Compensation (Diluted Add)</td><td>43.6M shs</td></tr>
+      <tr><td>Fully Diluted Market Cap</td><td>$776,805M</td></tr>
+      <tr><td>Shareholders' Equity</td><td>$362,438M</td></tr>
+      <tr><td>Total Deposits</td><td>$2,559,320M</td></tr>
+      <tr><td>Net Loans</td><td>$1,698,924M</td></tr>
+      <tr><td>Total Assets</td><td>$4,435,143M</td></tr>
+      <tr><td>Risk-Weighted Assets (RWA)</td><td>$2,045,249M</td></tr>
+      <tr class="total"><td>CET1 / Tier 1 Ratio</td><td>14.1% / 15.0%</td></tr>
+    </table>
+    <div style="font-size:8px; color:#aaa; margin-top:4px;">Note: Banks typically valued on P/E, P/BV, ROTCE — not EV/EBITDA.</div>
+  </div>
+</div>
+
+<!-- Current Valuation Grid — 6x2 horizontal -->
+<div class="section-title">Current Valuation</div>
+<div style="border: 1px solid #eee; border-radius: 4px; margin-bottom: 10px;">
+  <div class="val-grid">
+    <div class="val-cell">
+      <div class="val-label">Market Cap</div>
+      <div class="val-num">$764B</div>
+      <div class="val-sub">Basic shares × $283.44</div>
+    </div>
+    <div class="val-cell">
+      <div class="val-label">P/E (LTM)</div>
+      <div class="val-num">14.2x</div>
+      <div class="val-sub">5yr avg: 12.0x</div>
+    </div>
+    <div class="val-cell">
+      <div class="val-label">P/BV</div>
+      <div class="val-num">2.23x</div>
+      <div class="val-sub">5yr avg: 1.90x</div>
+    </div>
+    <div class="val-cell">
+      <div class="val-label">P/TBV</div>
+      <div class="val-num">2.66x</div>
+      <div class="val-sub">5yr avg: 2.32x</div>
+    </div>
+    <div class="val-cell">
+      <div class="val-label">ROTCE (2025A)</div>
+      <div class="val-num">19.8%</div>
+      <div class="val-sub">Target: 17%</div>
+    </div>
+    <div class="val-cell">
+      <div class="val-label">Beta (3Y Adj)</div>
+      <div class="val-num">1.11</div>
+      <div class="val-sub">Vs. S&amp;P 500</div>
+    </div>
+  </div>
+  <div style="border-top: 1px solid #eee;">
+  <div class="val-grid">
+    <div class="val-cell">
+      <div class="val-label">Fully Dil Mkt Cap</div>
+      <div class="val-num">$777B</div>
+      <div class="val-sub">2,740.6M dil. shares</div>
+    </div>
+    <div class="val-cell">
+      <div class="val-label">P/E FY1 (2026E)</div>
+      <div class="val-num">13.2x</div>
+      <div class="val-sub">EPS: $21.54E</div>
+    </div>
+    <div class="val-cell">
+      <div class="val-label">P/E FY2 (2027E)</div>
+      <div class="val-num">12.3x</div>
+      <div class="val-sub">EPS: $23.30E</div>
+    </div>
+    <div class="val-cell">
+      <div class="val-label">Div Yield</div>
+      <div class="val-num">2.12%</div>
+      <div class="val-sub">$6.00 annual</div>
+    </div>
+    <div class="val-cell">
+      <div class="val-label">Target Price</div>
+      <div class="val-num">$352.17</div>
+      <div class="val-sub">Consensus (29 analysts)</div>
+    </div>
+    <div class="val-cell">
+      <div class="val-label">Next Earnings</div>
+      <div class="val-num">Apr 14</div>
+      <div class="val-sub">Q1 2026 EPS: $5.38E</div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<!-- Valuation Multiples Table -->
+<div class="section-title">Valuation Multiples</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Metric</th>
+      <th>5Yr Avg</th>
+      <th>Dec '23</th>
+      <th>Dec '24</th>
+      <th>Dec '25</th>
+      <th class="est">Dec '26E</th>
+      <th class="est">Dec '27E</th>
+      <th class="est">Dec '28E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Book Value Per Share</td><td>$105.17</td><td>$104.45</td><td>$116.07</td><td>$126.99</td><td class="est">$134.60</td><td class="est">$143.28</td><td class="est">$153.24</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$16.69</td><td>$16.23</td><td>$19.75</td><td>$20.02</td><td class="est">$21.54</td><td class="est">$23.30</td><td class="est">$25.64</td></tr>
+    <tr><td>Price to Earnings</td><td>12.0x</td><td>10.5x</td><td>12.1x</td><td>16.1x</td><td class="est">13.3x</td><td class="est">12.3x</td><td class="est">11.2x</td></tr>
+    <tr><td>Price to Book Value</td><td>1.90x</td><td>1.63x</td><td>2.07x</td><td>2.54x</td><td class="est">2.12x</td><td class="est">2.00x</td><td class="est">1.87x</td></tr>
+    <tr><td>Price to Tangible BV</td><td>2.32x</td><td>2.00x</td><td>2.49x</td><td>3.03x</td><td class="est">2.48x</td><td class="est">2.31x</td><td class="est">2.15x</td></tr>
+    <tr><td>Dividend Yield</td><td>2.32%</td><td>2.41%</td><td>2.00%</td><td>1.80%</td><td class="est">2.21%</td><td class="est">2.39%</td><td class="est">2.66%</td></tr>
+    <tr><td>ROTE (%)</td><td>19.8%</td><td>20.1%</td><td>21.5%</td><td>19.8%</td><td class="est">18.7%</td><td class="est">18.8%</td><td class="est">19.3%</td></tr>
+    <tr><td>PEG Ratio</td><td>2.49</td><td>0.31</td><td>0.56</td><td>11.97</td><td class="est">1.68</td><td class="est">1.55</td><td class="est">1.41</td></tr>
+  </tbody>
+</table>
+
+<!-- Revenue Exposure -->
+<div class="section-title">Revenue Exposure (FY 2025 — Total Revenue: $279B Managed)</div>
+<div class="two-col">
+  <div>
+    <table class="rev">
+      <thead><tr><th style="text-align:left;">Business Unit</th><th>% Rev</th><th>Rev ($M)</th><th>YoY Gr</th></tr></thead>
+      <tbody>
+        <tr><td>Commercial &amp; Investment Bank</td><td>42.3%</td><td>$78,454</td><td>+11.9%</td></tr>
+        <tr><td>Consumer &amp; Community Banking</td><td>41.0%</td><td>$76,029</td><td>+6.3%</td></tr>
+        <tr><td>Asset &amp; Wealth Management</td><td>13.0%</td><td>$24,073</td><td>+11.6%</td></tr>
+        <tr><td>Corporate Segment</td><td>3.8%</td><td>$7,025</td><td>−59.6%</td></tr>
+        <tr style="font-weight:700; border-top:1px solid #ddd;"><td>Total Managed Revenue</td><td>100%</td><td>$185,581</td><td>+6.0%</td></tr>
+      </tbody>
+    </table>
+    <div style="font-size:8px; color:#aaa; margin-top:2px;">Net revenue basis (NII + Non-Interest Inc). Note: $279B figure is gross interest income basis.</div>
+  </div>
+  <div>
+    <table class="rev">
+      <thead><tr><th style="text-align:left;">Geography</th><th>% Rev</th><th>Rev ($M)</th><th>YoY Gr</th></tr></thead>
+      <tbody>
+        <tr><td>North America</td><td>76.6%</td><td>$139,689</td><td>+0.3%</td></tr>
+        <tr><td>Europe / Middle East / Africa</td><td>13.4%</td><td>$24,478</td><td>+9.5%</td></tr>
+        <tr><td>Asia-Pacific</td><td>7.7%</td><td>$14,065</td><td>+17.3%</td></tr>
+        <tr><td>Latin America / Caribbean</td><td>2.3%</td><td>$4,215</td><td>+8.5%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Financial Summary Table -->
+<div class="section-title">Financial Summary (Income Statement)</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Metric ($M unless noted)</th>
+      <th>5Yr CAGR</th>
+      <th>Dec '23</th>
+      <th>Dec '24</th>
+      <th>Dec '25</th>
+      <th class="est">Dec '26E</th>
+      <th class="est">Dec '27E</th>
+      <th class="est">Dec '28E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="8">Income Statement</td></tr>
+    <tr><td>Net Interest Income</td><td>+11.8%</td><td>89,267</td><td>92,583</td><td>95,443</td><td class="est">103,687</td><td class="est">108,423</td><td class="est">109,845</td></tr>
+    <tr><td>Loan Loss Provision</td><td>−4.1%</td><td>9,320</td><td>10,678</td><td>14,212</td><td class="est">12,399</td><td class="est">12,987</td><td class="est">13,791</td></tr>
+    <tr><td>Non-Interest Income</td><td>+6.9%</td><td>68,659</td><td>84,750</td><td>85,728</td><td class="est">91,671</td><td class="est">96,007</td><td class="est">104,056</td></tr>
+    <tr><td>Operating Income (PPNR)</td><td>+14.6%</td><td>63,048</td><td>75,821</td><td>72,956</td><td class="est">87,622</td><td class="est">91,986</td><td class="est">95,892</td></tr>
+    <tr><td>Net Income</td><td>+14.4%</td><td>49,261</td><td>58,127</td><td>56,780</td><td class="est">58,259</td><td class="est">60,766</td><td class="est">63,853</td></tr>
+    <tr><td>EPS (Diluted)</td><td>+17.7%</td><td>$16.23</td><td>$19.75</td><td>$20.02</td><td class="est">$21.54</td><td class="est">$23.30</td><td class="est">$25.64</td></tr>
+    <tr><td>DPS</td><td>+10.0%</td><td>$4.10</td><td>$4.80</td><td>$5.80</td><td class="est">$6.33</td><td class="est">$6.86</td><td class="est">$7.63</td></tr>
+    <tr class="section-row"><td colspan="8">Balance Sheet</td></tr>
+    <tr><td>Total Assets</td><td>+5.6%</td><td>3,883,155</td><td>4,008,239</td><td>4,435,143</td><td class="est">4,573,292</td><td class="est">4,748,873</td><td class="est">5,160,464</td></tr>
+    <tr><td>Net Loans</td><td>+11.7%</td><td>1,388,501</td><td>1,410,595</td><td>1,698,924</td><td class="est">1,576,220</td><td class="est">1,686,643</td><td class="est">1,869,338</td></tr>
+    <tr><td>Deposits</td><td>+3.6%</td><td>2,400,688</td><td>2,406,032</td><td>2,559,320</td><td class="est">2,659,707</td><td class="est">2,797,509</td><td class="est">2,878,394</td></tr>
+    <tr><td>Total Equity</td><td>+5.3%</td><td>327,878</td><td>344,758</td><td>362,438</td><td class="est">350,246</td><td class="est">360,930</td><td class="est">435,868</td></tr>
+    <tr><td>BVPS</td><td>+9.2%</td><td>$104.45</td><td>$116.07</td><td>$126.99</td><td class="est">$134.60</td><td class="est">$143.28</td><td class="est">$153.24</td></tr>
+    <tr class="section-row"><td colspan="8">Key Ratios</td></tr>
+    <tr><td>ROTCE (%)</td><td>—</td><td>20.1%</td><td>21.5%</td><td>19.8%</td><td class="est">18.7%</td><td class="est">18.8%</td><td class="est">19.3%</td></tr>
+    <tr><td>ROE (%)</td><td>—</td><td>16.0%</td><td>17.4%</td><td>16.2%</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>ROA (%)</td><td>—</td><td>1.30%</td><td>1.43%</td><td>1.29%</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Efficiency Ratio</td><td>—</td><td>52.5%</td><td>52.6%</td><td>51.7%</td><td class="est">~54%</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>CET1 Ratio</td><td>—</td><td>—</td><td>—</td><td>14.1%</td><td class="est">15.2%</td><td class="est">14.8%</td><td class="est">14.6%</td></tr>
+    <tr><td>Tier 1 Capital Ratio</td><td>—</td><td>16.5%</td><td>16.9%</td><td>15.0%</td><td class="est">15.2%</td><td class="est">14.8%</td><td class="est">14.6%</td></tr>
+    <tr><td>Loans / Deposits (%)</td><td>—</td><td>58.8%</td><td>59.6%</td><td>67.4%</td><td class="est">59.3%</td><td class="est">60.3%</td><td class="est">64.9%</td></tr>
+  </tbody>
+</table>
+
+<div class="section-title">Valuation Summary</div>
+<p class="prose">JPMorgan currently trades at 13.3x FY1 P/E and 2.12x FY1 P/BV, representing approximately an 8% premium to the bulge-bracket peer median on P/E (peer median ~11.2x) and a 53% premium on P/BV (peer median ~1.39x). The premium reflects investor recognition of JPM's structural competitive advantages: its 20% ROTCE (vs. 11–12% peer average), $95B NII outlook for 2026, 29-analyst consensus of Overweight with a $352 target, and consistent tangible book value compounding at ~10% annually over a decade. The current YTD pullback of 11% from the all-time high of $337 presents a more interesting entry relative to January 2026 levels. However, management openly acknowledges the firm is "over-earning" relative to its 17% through-the-cycle ROTCE target — driven by elevated NII from higher rates — and that rate normalization will create earnings headwinds. At 13.3x forward earnings for one of the world's best-managed large banks, this valuation appears fair-to-modest, with meaningful upside if the firm sustains superior capital deployment through the cycle.</p>
+
+<div class="source-note">Source: FactSet Fundamentals, FactSet Estimates, JPMorgan Chase Q4 2025 Earnings Call (Jan 13, 2026), 2026 Business Update Call (Feb 23, 2026). All values in USD millions unless stated.</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 3: BULL & BEAR CASES -->
+<!-- ============================================================ -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="two-col">
+  <div class="bull-col">
+    <div class="section-title" style="color:#155724; border-color:#155724;">Bull Case</div>
+    <div class="fw-item">
+      <span class="fw-name">NII Beats on Rate Stickiness</span>
+      <p class="prose">The Fed cuts less than 2x in 2026, keeping funding costs lower for longer. JPM's $95B NII ex-Markets guidance proves conservative and the firm tracks toward $100B+, driving 10%+ EPS upside versus consensus.</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name">IB + Markets Supercycle Continues</span>
+      <p class="prose">The post-deregulation M&A boom extends into 2026–2027 with IB fees up mid-to-high teens and equities revenues sustaining at record levels (40% growth in Q4 2025), making CIB revenue materially above plan.</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name">AI-Driven Operating Leverage</span>
+      <p class="prose">JPM's $19.8B tech investment begins generating measurable productivity gains — 40–50% per-operator efficiency improvement over 5 years — allowing expense growth to decelerate while revenue scales, inflecting toward operating leverage by 2027–2028.</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name">Apple Card Integration Accretion</span>
+      <p class="prose">The Apple Card portfolio (acquired from Goldman Sachs) ramps successfully over 2 years, adding 15M+ new accounts, deepening Chase's already formidable credit card franchise and accelerating card NII growth beyond the guided 6–7%.</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name">Capital Return Acceleration</span>
+      <p class="prose">GSIB surcharge and Basel III Endgame resolve favorably, freeing JPM's excess $30B+ in CET1 buffer for buybacks at 2.5–3x P/TBV. Share count declines faster than modeled, driving per-share EPS and TBVPS compounding.</p>
+    </div>
+  </div>
+  <div class="bear-col">
+    <div class="section-title" style="color:#721c24; border-color:#721c24;">Bear Case</div>
+    <div class="fw-item">
+      <span class="fw-name">NII Compression From Deposit Repricing</span>
+      <p class="prose">Consumer deposit growth stalls or reverses as yield-seeking behavior intensifies amid stablecoin competition and high-yield money market alternatives; combined with rate cuts of 3x+, NII falls short of $95B guidance by $4–6B.</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name">Credit Normalization Accelerates</span>
+      <p class="prose">The card NCO rate climbs from the guided 3.4% toward 4.5%+ if the labor market weakens; credit losses in CRE (office, multifamily) and NBFI/private credit portfolios materialize simultaneously, driving $5–8B of incremental provisioning.</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name">Tariff-Driven Recession</span>
+      <p class="prose">The full impact of Trump-era tariffs transmits to consumer spending and business investment in 2026; GDP contracts modestly and corporate M&A freezes, cutting IB fees 20–30% and depressing trading revenue, while sharply increasing PCL.</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name">GSIB / Regulatory Capital Increase</span>
+      <p class="prose">A revised GSIB surcharge or Basel III reproposal increases JPM's required capital buffers by 50–100bps, reducing buyback capacity significantly and capping ROTCE below 17% structurally; multiple compression follows.</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name">Stablecoin / Fintech Deposit Disruption</span>
+      <p class="prose">GENIUS Act passage enables interest-bearing stablecoins to credibly compete with bank deposits at scale; JPM loses 3–5% of its retail deposit base, raising blended funding costs and eroding the NIM advantage that underpins the earnings premium.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<!-- ============================================================ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Scale Economies</span>
+  <span class="fw-rating strong">Strong</span>
+  <p class="prose">JPMorgan's $4.4 trillion balance sheet and $185B in annual revenues allow the firm to spread fixed costs — technology infrastructure ($19.8B annually), regulatory compliance ($multi-billion annually), branch networks (~5,000 branches) — over a vastly larger volume than any competitor. The practical effect is stark: JPM's technology spend-to-revenue ratio (~10%) is comparable to large technology companies, yet the absolute amount is so large that no regional bank or pure-play investment bank can match it. A competitor serving 10% of JPM's client volumes would need to spend approximately the same fixed-cost base to maintain equivalent capabilities, making the per-unit cost prohibitive. The firm demonstrates this concretely in its unit economics: since 2019, cost per rates trade fell 42% and cost per cash equities trade fell 23%, improvements only achievable because rising trade volumes amortize the fixed investment in trading infrastructure.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Network Effects</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">JPMorgan has meaningful network effects in its payments and CIB businesses, though they are indirect (two-sided) rather than direct. In Payments, being the primary operating bank for more corporate clients creates more data on payment flows, which enables better cash management products, which attracts more corporates in a reinforcing cycle. The firm processes $10+ trillion in daily payments — a scale that means even well-capitalized fintech competitors cannot replicate the cross-border payment data density that underpins JPM's treasury solutions. In investment banking, the "deal tombstone" network effect is well-established: top-tier deal mandates attract the best talent, which produces better deal execution, which attracts more mandates. However, these network effects are weaker at the consumer level — a retail checking customer gains little incremental benefit from JPM having 90 million other retail customers (unlike, say, a social network). The network effect moat is real but concentrated in wholesale/institutional segments.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Counter-Positioning</span>
+  <span class="fw-rating weak">Weak</span>
+  <p class="prose">Counter-positioning typically applies when a disruptive challenger does something that incumbents cannot copy without cannibalizing their existing business. JPMorgan is itself the incumbent — it is not counter-positioned against competitors. One could argue that JPM's aggressive physical branch expansion (while pure-digital neobanks go branchless) is a form of counter-positioning against fintechs who lack the capital or regulatory standing to build physical networks. But traditional bank competitors can and do copy this strategy. More importantly, fintech challengers like Chime and Revolut are attempting counter-positioning against JPM (no physical branches = lower costs = higher APYs), but this has not yet proven existentially threatening to JPM's deposit franchise. This power is therefore not a meaningful source of competitive advantage for JPMorgan.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Switching Costs</span>
+  <span class="fw-rating strong">Strong</span>
+  <p class="prose">Switching costs are exceptionally high across JPM's most profitable business lines and explain much of the firm's ability to sustain 20% ROTCE through competitive cycles. In wholesale banking, the switching cost for a Fortune 500 company to change its primary operating bank is enormous: a typical treasury relationship involves automated payroll processing, cross-currency sweeping, credit facilities, FX hedging, letter-of-credit programs, and often securities services — all deeply integrated into ERP systems. JPM executives described this concisely: "Being the primary operating bank for a client earns you stable operating deposits. That is the prize." Once earned, these relationships persist for decades because the cost of migration (in both dollars and operational disruption) exceeds any potential savings from switching. In consumer banking, switching costs are lower in isolation but JPM mitigates churn through relationship deepening — the average multi-product Chase household holds a checking account, credit card, mortgage, and investment account, making switching materially more painful than for a single-product customer. In AWM, the switching cost is both financial (tax consequences of reallocating managed accounts) and relational (trust built over years with advisors).</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Branding</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">The JPMorgan Chase brand commands real premium in institutional finance — the J.P. Morgan name carries prestige in investment banking mandates and private banking that tangibly attracts deal flow and high-net-worth clients who value association with a marquee institution. The AlphaSense expert calls note the firm trades on a "first-class business in a first-class way" culture that resonates with large corporate clients seeking reliable, trustworthy partners. However, branding is less powerful in commoditized consumer products. Research shows that many retail banking customers chose Chase primarily for branch convenience, not brand premium — they would just as easily bank with Wells Fargo if it had more branches in their neighborhood. The brand is therefore a moderate moat: strong in institutional/wholesale, weaker in mass-market retail.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">6. Cornered Resource</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">JPMorgan possesses several resources that are genuinely difficult for competitors to replicate. Most important is its proprietary data asset: transaction-level data across 90 million consumers, millions of business clients, and $10T in daily payment flows. This data set, built over decades of operating at scale, feeds machine learning models for fraud detection (maintaining flat fraud costs despite 12% CAGR in attack rates), credit underwriting, marketing optimization, and payments analytics. No competitor — not even Goldman Sachs or Bank of America — can buy this data set in the market. Second, the Kinexys blockchain team represents years of institutional knowledge in distributed ledger technology that has already moved $2 trillion and is advancing into public-chain capabilities. Third, the Jamie Dimon leadership premium is a temporarily cornered resource — his risk management track record (surviving the 2008 crisis largely intact, the only major U.S. bank to do so), political access, and strategic clarity are not easily replicated. That premium is noted explicitly by AlphaSense experts as a risk upon his eventual departure.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">7. Process Power</span>
+  <span class="fw-rating strong">Strong</span>
+  <p class="prose">Process power is arguably JPM's most underappreciated moat — and the hardest for competitors to copy. The firm has built an organizational system that consistently executes better than peers across every major financial cycle, not because of any single product, person, or technology, but because of embedded routines: the "fortress balance sheet" discipline that maintains $1.5 trillion in cash and marketable securities even at the cost of short-term NII, the strict headcount-vs-volume discipline that forced accounts-per-operations-employee up 6% last year while a competitor's headcount grew, the risk management culture that permeates all levels (employees are explicitly encouraged to surface mistakes rather than hide them), and the capital allocation hierarchy (organic growth → dividend → buyback) applied consistently regardless of market pressure. The evidence is in the 10-year compounding: TBVPS up ~10% CAGR, ROE consistently above peers, and survival of every major crisis better than competitors. This cannot be replicated by hiring a few good bankers or buying the right software.</p>
+</div>
+
+<p class="prose" style="border-top: 1px solid #eee; padding-top: 8px; margin-top: 8px;"><strong>Summary:</strong> JPMorgan's deepest competitive moats are <strong>Scale Economies, Switching Costs, and Process Power</strong> — a combination that creates durable above-average returns and makes it extraordinarily difficult for any single competitor to attack the full franchise. Network effects and data-driven Cornered Resources add meaningful supplementary protection, particularly in wholesale segments.</p>
+
+<!-- ============================================================ -->
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<!-- ============================================================ -->
+<div class="memo-section">5. Porter's Five Forces</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Threat of New Entrants</span>
+  <span class="fw-rating low">Low</span>
+  <p class="prose">The barriers to entering full-service banking at JPMorgan's scale are, practically speaking, insurmountable. To compete directly with JPM, an entrant would need: (a) a federal banking charter, which requires Fed and OCC approval and years of regulatory scrutiny; (b) a deposit base of sufficient scale to fund a loan book — JPM's $2.6 trillion in deposits took a century to accumulate and creates a structural funding cost advantage that cannot be bought; (c) a technology infrastructure costing $15–20B annually to maintain; and (d) the trust and brand equity of institutional clients who have used JPM for decades. Fintech entrants have attempted to attack specific product slices (Stripe in payments, Chime in consumer deposits, Robinhood in brokerage), but even the most successful of these have not attempted a full-service banking entry — because the capital requirements, regulatory burden, and customer acquisition costs make it economically irrational. The most relevant new entrant threat is from non-bank financial institutions (NBFIs) in specific wholesale lending markets, but as JPM itself notes, these entities often rely on JPM as their ultimate sponsor for payment rails and compliance infrastructure, effectively turning them from competitors into customers.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Bargaining Power of Suppliers</span>
+  <span class="fw-rating low">Low</span>
+  <p class="prose">JPMorgan's primary "suppliers" are depositors (who supply low-cost funding capital), technology vendors, human capital (bankers and traders), and regulators. On deposits, while individual depositors can withdraw funds, the aggregate deposit base is extremely stable — JPM has grown checking account balances per account 1% YoY even as yield-seeking flows increased, reflecting strong customer relationships. Major tech suppliers like Amazon (AWS), Microsoft (Azure), and Oracle have bargaining power as concentrated vendors, but JPM's scale means it is among the largest customers of every major cloud provider, giving it favorable pricing and strategic priority. On human capital, JPM competes intensely for top bankers and traders — this is one area where suppliers have real leverage, as talented individuals can move to Goldman, Morgan Stanley, or hedge funds. The firm mitigates this through compensation banding and culture, but talent retention costs (particularly in IB and tech) remain a real expense driver.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Bargaining Power of Buyers</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Buyer power varies enormously by segment. Large corporate clients (Fortune 500 treasury operations, sovereign wealth funds, major financial sponsors) have significant bargaining power — they can credibly threaten to distribute mandates across Goldman, Morgan Stanley, Citi, and others, or to take certain lending needs directly to private credit markets. JPM acknowledged competition from private credit is intensifying, with the firm deploying its own ~$14B direct lending book partly to remain competitive for holistic sponsor relationships. By contrast, retail consumers have very low bargaining power — a consumer who wants to switch banks faces the procedural friction of migrating direct deposits, autopay relationships, and connected apps, and typically has no single relationship large enough to command individual pricing concessions. The blended picture across all customer types is moderate: large institutional clients maintain meaningful leverage in specific product negotiations, but the average customer relationship is highly sticky.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Threat of Substitutes</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Several meaningful substitutes are gaining relevance. In consumer deposits, high-yield savings accounts (at online banks like Marcus), money market funds, and potentially interest-bearing stablecoins represent deposit substitutes that have already caused deposit outflows during the rate-hiking cycle — JPM acknowledged total consumer deposits were approximately flat in 2025 partly because of yield-seeking flows. In investment banking advisory, boutique M&A advisors (Lazard, Evercore, Centerview) increasingly capture bulge-bracket mandates for pure advisory work, even if execution finance remains with JPM. In payments, Stripe, Adyen, and Alipay-type systems offer substitute merchant processing and cross-border payment solutions that are meaningfully cheaper for e-commerce contexts. In consumer lending, fintech lenders with AI-driven underwriting (Upstart, LendingClub) and Buy-Now-Pay-Later providers (Affirm) offer substitute credit access. None of these substitutes threatens JPM's total franchise, but each gradually erodes revenue in specific product pools — a "death by a thousand cuts" risk that management takes seriously (hence the Apple Card acquisition, Kinexys investment, and digital wealth management buildout).</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Competitive Rivalry</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Competitive rivalry within banking is intense but manageable for JPM because the market is structurally oligopolistic at the top. In the U.S., JPM competes primarily with Bank of America, Goldman Sachs, Morgan Stanley, Citigroup, and Wells Fargo — each massive institutions with rational management teams who understand that price competition (cutting lending rates below cost, paying above-market deposit rates) destroys value for all players. JPM's CFO Jeremy Barnum explicitly acknowledged at the Feb 2026 Company Update that competitors are "back" and meaningfully stronger than during the 2018–2022 period when regulatory capital constraints limited their investment — but framed this as healthy competition that JPM is well-positioned to win. In specific high-growth niches (wealth management, private credit, payments infrastructure), rivalry is more intense and from a more diverse set of players including fintechs and asset managers. The overall rivalry dynamic is: intense but rational in core banking, more cutthroat in digital/fintech niches.</p>
+</div>
+
+<p class="prose" style="border-top: 1px solid #eee; padding-top: 8px; margin-top: 8px;"><strong>Summary:</strong> The competitive environment is <strong>generally favorable</strong> for JPMorgan — massive structural barriers prevent new entrants from threatening the core franchise, switching costs constrain buyer power for most customer segments, and rivalry at the top of the industry is rational. The moderate threats from substitutes (stablecoins, fintechs, private credit) and increasingly competitive rivals are real but manageable risks that management is actively investing to address. For a business of JPM's size and structural position, this is an unusually favorable competitive environment.</p>
+
+<!-- ============================================================ -->
+<!-- SECTION 6: WHAT DRIVES THE STOCK? -->
+<!-- ============================================================ -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<p class="prose">For a company of JPMorgan's size and complexity, the stock responds primarily to 5–6 macro and franchise-level drivers:</p>
+
+<div class="fw-item">
+  <p><span class="fw-name">1. Net Interest Income (NII) vs. Guidance</span> — JPM's 2026 NII guidance of $95B ex-Markets ($104.5B total) is the most-watched earnings metric, representing ~52% of net revenues. Any indication that deposit growth is tracking above or below plan, that card loan growth is accelerating, or that the Fed is cutting more/less than the 2x assumed in guidance will move the stock materially. Analysts track weekly/monthly deposit balance estimates and card loan metrics as leading indicators. Every $1B of NII variance at ~21% tax rate and 2,740M shares = ~$0.29 EPS impact.</p>
+</div>
+<div class="fw-item">
+  <p><span class="fw-name">2. Credit Quality / PCL Trajectory</span> — Card NCO rates (guided at 3.4% for 2026, up from ~3.1% normalized) and commercial loan deterioration (particularly CRE office, NBFI/private credit exposures) are the primary downside risk. A labor market shock that pushes unemployment to 5%+ would send JPM's stock down 15–25% in a single session, as credit provisioning requirements would overwhelm NII tailwinds. The market prices JPM at ~13x because credit risk is considered manageable; an acceleration in NCOs toward 4%+ would collapse the multiple.</p>
+</div>
+<div class="fw-item">
+  <p><span class="fw-name">3. Markets &amp; IB Revenue Versus High Watermarks</span> — Q4 2025 equities revenues of $2.9B (up 40%) and record markets revenue set a high bar. The CIB Co-CEO guided Q1 2026 IB fees up mid-teens and markets up mid-teens at the Feb 2026 Update — any miss on this vs. Goldman/MS/Citi comps would spark relative performance questions. Conversely, outperformance vs. peers sustains the premium multiple.</p>
+</div>
+<div class="fw-item">
+  <p><span class="fw-name">4. Capital Return / Buyback Capacity</span> — JPM sits on ~$30B+ of CET1 excess relative to operating targets. The pace of buyback deployment and any signal on GSIB surcharge reform or Basel III Endgame directly affects shareholder return modeling. Each 1% reduction in share count at current prices = ~$0.22 EPS accretion. Incremental clarity that JPM can accelerate buybacks would drive multiple expansion.</p>
+</div>
+<div class="fw-item">
+  <p><span class="fw-name">5. Stablecoin / Digital Asset Regulatory Developments</span> — The GENIUS Act and potential interest-bearing stablecoin legislation is an underappreciated binary risk to JPM's deposit franchise. The ABA estimated $6.6 trillion of bank deposits could be at risk if stablecoins can pay interest without banking regulations. JPM has Kinexys as a hedge, but passage of permissive stablecoin legislation would compress JPM's P/BV multiple as analysts model structural deposit attrition.</p>
+</div>
+<div class="fw-item">
+  <p><span class="fw-name">6. Jamie Dimon Succession</span> — The "Dimon Premium" is real and measurable. Expert calls estimate JPM trades 0.2–0.3x P/BV above intrinsic value purely due to confidence in Dimon's leadership. Any credible succession announcement (or health scare) would trigger a 3–7% stock reaction. The longer this remains unresolved, the more it creates an overhang on the multiple.</p>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS? -->
+<!-- ============================================================ -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<p class="prose">JPMorgan's revenue can be decomposed into segment-level unit economics. Below is the Fermi-style decomposition for each major revenue line:</p>
+
+<table class="data">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Revenue Line (2025A)</th>
+      <th style="text-align:left;">Driver Formula</th>
+      <th style="text-align:right;">~$Rev</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="3">Consumer &amp; Community Banking — $76B Net Revenue</td></tr>
+    <tr><td>Card Services NII &amp; Fees</td><td>Revolving Loan Balances × Net Yield + Interchange × Spend Volume</td><td>~$22B</td></tr>
+    <tr><td>Banking &amp; Wealth Mgmt NII</td><td>Avg Deposit Balances × Deposit Margin (NIM on deposits)</td><td>~$29B</td></tr>
+    <tr><td>Home Lending</td><td>Mortgage Origination Volume × Gain-on-Sale Margin + Servicing</td><td>~$6B</td></tr>
+    <tr><td>Auto / Other CCB</td><td>Auto Loan Book × Net Yield + Lease Income</td><td>~$4B</td></tr>
+    <tr><td>CCB Wealth Management</td><td>Client Investment Assets × Fee Rate + Advisory Fees</td><td>~$15B</td></tr>
+    <tr class="section-row"><td colspan="3">Commercial &amp; Investment Bank — $78B Net Revenue</td></tr>
+    <tr><td>Markets — Fixed Income (FICC)</td><td>Market Volatility × Client Flow Volume × Bid-Ask Spread / Risk</td><td>~$20B</td></tr>
+    <tr><td>Markets — Equities</td><td>Prime Brokerage Balances × Margin Rate + Flow Trading × Spread</td><td>~$10B</td></tr>
+    <tr><td>Investment Banking Fees</td><td>M&amp;A Deal Volume × Advisory Fee Rate + ECM/DCM Fees</td><td>~$9B</td></tr>
+    <tr><td>Payments</td><td>Client Daily Payment Flows × Fee Rate + Operating Deposits × Margin</td><td>~$18B</td></tr>
+    <tr><td>Securities Services / Lending</td><td>Assets Under Custody × Custody Fee + Securities Financing Balance × Rate</td><td>~$6B</td></tr>
+    <tr class="section-row"><td colspan="3">Asset &amp; Wealth Management — $24B Net Revenue</td></tr>
+    <tr><td>Investment Management Fees</td><td>Avg AUM ($3.5T) × Blended Fee Rate (~40bps avg)</td><td>~$14B</td></tr>
+    <tr><td>Private Bank / Wealth Mgmt</td><td>Client Assets × Advisory Fee Rate + Private Bank NIM</td><td>~$8B</td></tr>
+    <tr><td>AWM Deposits / Performance</td><td>Deposit Balances × NIM + Performance Fees on AUM flows</td><td>~$2B</td></tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top: 8px;"><strong>Key leverage points:</strong> The three highest-leverage drivers on total revenue are (1) <strong>Deposit Balances &amp; Deposit Margin</strong> — roughly $2.6T in deposits at a NIM that management guides to normalize at ~2.5% through-the-cycle generates ~$65B in deposit-driven NII, making this the single largest value driver; (2) <strong>Card Revolving Balances &amp; Net Yield</strong> — card balances of ~$220B growing at 6–7% annually at ~12% net yield account for nearly $26B in annual revenues, with the Apple Card acquisition adding another $15–17B in net loan balances over time; and (3) <strong>Markets Franchise Revenue</strong> — a $30B+ revenue engine where +/− 20% swings in client activity and volatility translate into $5–6B of earnings variance. Every 1% change in card NCO rates impacts net income by approximately $1.5–2B pre-tax.</p>
+
+<!-- ============================================================ -->
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<!-- ============================================================ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+  <strong>AlphaSense GenSearch Report</strong> · Created: Mar 16, 2026 · Query: "JPMorgan Chase: Fortress Balance Sheet Meets AI-Powered Transformation" · Sources: Expert Calls, Earnings Transcripts, Investor Presentations, 10-K, ARS · 16 pages synthesized.
+</div>
+
+<div class="section-title">The AI Moat: Scale Creates Asymmetric Productivity Returns</div>
+<p class="prose">The most forward-looking insight from AlphaSense expert calls is not about JPM's near-term earnings but about the structural AI advantage it is building at a pace that smaller institutions cannot match. The $19.8B 2026 technology budget — of which $9.2B is allocated strictly to strategic AI and ML initiatives — is creating a moat through asymmetric returns to scale: when you have 200,000+ employees to roll out LLM Suite to, 40,000+ software engineers who can adopt AI coding assistants (driving 10–20% SDLC productivity improvement), and a fraud detection AI model running over $10T/day in transactions, the marginal value of each incremental AI investment is far higher than for a competitor running a fraction of the volume.</p>
+
+<p class="prose">The most concrete metric: servicing calls per account have dropped 30% over five years — not because JPM has become a digital-only bank (it hasn't — it is aggressively expanding physical branches), but because AI-assisted call routing, sentiment analysis, and automated resolution handle an increasing share of customer interactions before they require human intervention. Management's forecast of 40–50% per-operator productivity improvement over the next five years, with corresponding 10% absolute headcount reduction in operations functions, implies $2–3B in annualized savings that are not yet fully reflected in consensus models. AlphaSense notes the AI investment "pays for itself" at approximately $2B direct benefit on $2B investment — but experts see this as the floor, not the ceiling.</p>
+
+<div class="section-title">Private Credit Dislocation: Risk or Opportunity?</div>
+<p class="prose">The February 2026 Business Update saw extensive Q&amp;A on private credit market disruption, with CIB Co-CEO Troy Rohrbaugh stating bluntly "I'm shocked that people are shocked" — suggesting JPM has been stress-testing private credit scenarios for some time. The firm's direct lending book is at ~$14B deployed with $25B+ of partner capital available, and JPM views private credit not as an existential competitor but as an ecosystem in which it wants to be embedded as a holistic relationship bank (offering financing, advisory, hedging, AND custody) rather than as a pure asset accumulator. AlphaSense expert calls note the key distinction: non-bank private credit lenders are accumulating assets to build AUM; JPM is participating to create "halo effects" with sponsor clients and generate velocity in trading and advisory products. This means JPM's private credit exposure has different risk characteristics than pure-play CLO managers — but also means a liquidity crisis in private credit (which multiple experts flagged as emerging) could generate significant advisory and distressed-asset fees for JPM's CIB.</p>
+
+<div class="section-title">The "Over-Earning" Debate: What Consensus May Be Getting Wrong</div>
+<p class="prose">AlphaSense identifies the most misunderstood aspect of JPMorgan's financials as the market's binary thinking about "over-earning." Management openly acknowledges 20% ROTCE is above the 17% through-the-cycle target — driven partly by elevated NII from post-2022 rate hikes. But the consensus assumption that JPM will "revert to mean" on returns misses two structural improvements: (1) the fee businesses (AWM with $7.1T in AUA, Payments processing $10T/day, record IB wallet) have grown significantly as a share of revenue and are not interest-rate-sensitive; (2) operational efficiency improvements from AI and process re-engineering are structurally lowering the cost base. The bear case assumes that as rates normalize, NII compresses while expenses stay elevated — but management's own PPNR CAGR analysis shows that PPNR growth has consistently outpaced both revenue and expense growth, demonstrating that the franchise's earning power is expanding, not just benefiting from a rate cycle.</p>
+
+<div class="section-title">Culture, Succession, and the Dimon Premium</div>
+<p class="prose">Expert calls universally validate a "Dimon Premium" on the stock — and flag it as both a strength and a risk. JPM's culture under Dimon is described as "first-class business in a first-class way" with genuinely differentiated ethical standards: employees are explicitly trained to surface mistakes rather than hide them, creating risk management visibility that competitors lack. The compensation philosophy (tightly banded — JPM doesn't drastically overpay in boom years) creates lower churn among middle-management, even as competition for senior talent intensifies from hedge funds and tech companies. The succession overhang is real: AlphaSense experts estimate a 3–5% stock discount would apply if Dimon retired tomorrow, and the challenge of retaining top talent who didn't get the CEO role (Marianne Lake, Jennifer Piepszak, Troy Rohrbaugh — all potential successors) could trigger departures that affect franchise quality. Management has not publicly announced a succession timeline, creating the ironic dynamic that JPM's most important competitive asset (exceptional leadership) is also its most opaque risk factor.</p>
+
+<div class="section-title">Blockchain / Kinexys: Foothold, Not Conviction</div>
+<p class="prose">One of the more candid expert call insights: insiders describe JPM's approach to blockchain as motivated by "fear of being left behind" rather than genuine strategic conviction. The Kinexys platform (formerly Onyx) has moved $2T+ on its permissioned private blockchain and is piloting public blockchain with a JPMorgan Deposit Token on Ethereum — but as of early 2026, this is "experimental." The GENIUS Act creates the regulatory framework that could make tokenized deposits and stablecoins commercially viable, and JPM acknowledges this directly. The important investment implication: JPM has the right capex already deployed to be competitive in whatever blockchain settlement infrastructure emerges, without having committed to a specific technology bet. This is the correct strategy for an institution managing systemic risk — but it means JPM will not be a first-mover winner in blockchain; it will be a fast-follower who uses its distribution scale to capture market share once the category proves out.</p>
+
+<!-- ============================================================ -->
+<!-- SECTION 9: SENSITIVITY ANALYSIS -->
+<!-- ============================================================ -->
+<div class="memo-section">9. Sensitivity Analysis</div>
+
+<p class="prose">Three key sensitivity tables for the variables with the highest earnings impact on JPM's 2026 forecast.</p>
+
+<!-- Table 1: NII Sensitivity -->
+<p class="prose"><strong>Table 1: Net Interest Income vs. Deposit Growth and Average Deposit Margin (NIM on Deposits)</strong></p>
+<p class="prose" style="font-style:italic; color:#333;"><strong>Current (2025A): Total Deposits ≈ $2,559B × Blended Deposit NIM ≈ 3.73% → Deposit-Driven NII ≈ $95.4B. 2026 guidance of $95B NII ex-Markets assumes low-to-mid-single-digit deposit growth and modest margin compression.</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>NIM \ Deposit Growth</th>
+      <th>−2% ($2,508B)</th>
+      <th>0% ($2,559B)</th>
+      <th>+2% ($2,610B)</th>
+      <th>+4% ($2,661B)</th>
+      <th>+6% ($2,712B)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3.40% (rate cut −100bps)</td>
+      <td>$85.3B</td><td>$87.0B</td><td>$88.7B</td><td>$90.5B</td><td>$92.2B</td>
+    </tr>
+    <tr>
+      <td>3.55% (rate cut −50bps)</td>
+      <td>$89.0B</td><td>$90.8B</td><td>$92.6B</td><td>$94.5B</td><td>$96.3B</td>
+    </tr>
+    <tr>
+      <td><strong>3.73% (base — flat rates)</strong></td>
+      <td>$93.4B</td><td class="base"><strong>$95.4B</strong></td><td>$97.4B</td><td>$99.3B</td><td>$101.3B</td>
+    </tr>
+    <tr>
+      <td>3.90% (curve steepen)</td>
+      <td>$97.8B</td><td>$99.8B</td><td>$101.8B</td><td>$103.8B</td><td>$105.8B</td>
+    </tr>
+    <tr>
+      <td>4.10% (rate hike +50bps)</td>
+      <td>$102.8B</td><td>$104.9B</td><td>$107.0B</td><td>$109.1B</td><td>$111.2B</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Table 2: Card NCO vs. Loan Growth -->
+<p class="prose" style="margin-top:12px;"><strong>Table 2: Card Net Charge-Off Rate vs. Card Loan Balance → Annual Card Credit Loss ($B)</strong></p>
+<p class="prose" style="font-style:italic; color:#333;"><strong>Current (2025A): Card Net Loans ≈ $220B × NCO Rate ≈ 3.1% → Annual Card Credit Losses ≈ $6.8B. 2026 guidance: NCO ~3.4% on growing balances.</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>NCO Rate \ Card Loans</th>
+      <th>$200B (flat)</th>
+      <th>$215B (+3%)</th>
+      <th>$234B (+6%)</th>
+      <th>$248B (+9%)</th>
+      <th>$260B (+12%)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2.50% (bull — tight credit)</td>
+      <td>$5.0B</td><td>$5.4B</td><td>$5.9B</td><td>$6.2B</td><td>$6.5B</td>
+    </tr>
+    <tr>
+      <td>3.00% (mild improvement)</td>
+      <td>$6.0B</td><td>$6.5B</td><td>$7.0B</td><td>$7.4B</td><td>$7.8B</td>
+    </tr>
+    <tr>
+      <td><strong>3.40% (base — mgmt guide)</strong></td>
+      <td>$6.8B</td><td>$7.3B</td><td class="base"><strong>$8.0B</strong></td><td>$8.4B</td><td>$8.8B</td>
+    </tr>
+    <tr>
+      <td>4.00% (mild recession)</td>
+      <td>$8.0B</td><td>$8.6B</td><td>$9.4B</td><td>$9.9B</td><td>$10.4B</td>
+    </tr>
+    <tr>
+      <td>5.00% (severe credit stress)</td>
+      <td>$10.0B</td><td>$10.8B</td><td>$11.7B</td><td>$12.4B</td><td>$13.0B</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Table 3: Markets Revenue vs. IB Activity -->
+<p class="prose" style="margin-top:12px;"><strong>Table 3: CIB Markets Revenue vs. Investment Banking Fees → Total CIB Revenue ($B)</strong></p>
+<p class="prose" style="font-style:italic; color:#333;"><strong>Current (2025A): Markets Revenue ≈ $36B + IB Fees ≈ $9B + Payments/SS ≈ $33B = CIB $78B. 2026 guidance: IB fees up mid-teens, markets up mid-teens vs. Q1 2025.</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>IB Fees \ Markets Rev</th>
+      <th>$28B (−22%)</th>
+      <th>$32B (−11%)</th>
+      <th>$36B (flat)</th>
+      <th>$40B (+11%)</th>
+      <th>$44B (+22%)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>$7.0B (−22% IB)</td>
+      <td>$68B</td><td>$72B</td><td>$76B</td><td>$80B</td><td>$84B</td>
+    </tr>
+    <tr>
+      <td>$8.0B (−11% IB)</td>
+      <td>$69B</td><td>$73B</td><td>$77B</td><td>$81B</td><td>$85B</td>
+    </tr>
+    <tr>
+      <td><strong>$9.0B (flat IB)</strong></td>
+      <td>$70B</td><td>$74B</td><td class="base"><strong>$78B</strong></td><td>$82B</td><td>$86B</td>
+    </tr>
+    <tr>
+      <td>$10.5B (+17% IB)</td>
+      <td>$71B</td><td>$75B</td><td>$80B</td><td>$84B</td><td>$88B</td>
+    </tr>
+    <tr>
+      <td>$12.0B (+33% IB)</td>
+      <td>$73B</td><td>$77B</td><td>$81B</td><td>$85B</td><td>$89B</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ============================================================ -->
+<!-- SECTION 10: 3-YEAR MODEL — 5 SCENARIOS -->
+<!-- ============================================================ -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios</div>
+
+<p class="prose">Current price: <strong>$283.44</strong> · Diluted shares: <strong>2,741M</strong> (assumed declining ~1.5%/yr via buybacks in base/bull) · Historical avg P/E: 12.0x. Each scenario shows 2026E / 2027E / 2028E with key Year 3 drivers.</p>
+
+<!-- CASE 1: BEAR SEVERE -->
+<div class="case-block">
+  <div class="case-name">🐻 Case 1 — Recession + Credit Shock</div>
+  <div class="case-desc">Macro deterioration: tariff-driven recession hits in H2 2026, unemployment rises to 5.5%+. Card NCOs spike to 4.5–5.0%, CRE and NBFI credit losses surface, IB activity freezes, and NII falls below guidance as deposits reprice faster than loans reset.</div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>NII ex-Markets</span><span>$85B (vs. $95B base)</span></div>
+  <div class="driver-row"><span>Card NCO Rate</span><span>4.50%</span></div>
+  <div class="driver-row"><span>Total Provisions</span><span>$22B</span></div>
+  <div class="driver-row"><span>Markets + IB Revenue</span><span>$40B (−18% from base)</span></div>
+  <div class="driver-row"><span>Expense (adjusted)</span><span>$108B (minor pullback)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue (NII + NonInt)</td><td>$169B</td><td>$162B</td><td>$158B</td></tr>
+    <tr><td style="padding-left:12px; color:#777; font-size:8.5px;">Revenue Growth %</td><td style="color:#777; font-size:8.5px;">−8.9%</td><td style="color:#777; font-size:8.5px;">−4.1%</td><td style="color:#777; font-size:8.5px;">−2.5%</td></tr>
+    <tr><td>Loan Loss Provision</td><td>17,500</td><td>20,000</td><td>22,000</td></tr>
+    <tr><td>PPNR (pre-provision NR)</td><td>58,000</td><td>51,000</td><td>46,000</td></tr>
+    <tr><td>Net Income</td><td>35,800</td><td>27,900</td><td>23,000</td></tr>
+    <tr><td style="padding-left:12px; color:#777; font-size:8.5px;">Net Margin %</td><td style="color:#777; font-size:8.5px;">21.2%</td><td style="color:#777; font-size:8.5px;">17.2%</td><td style="color:#777; font-size:8.5px;">14.6%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>2,700</td><td>2,660</td><td>2,620</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$13.26</td><td>$10.49</td><td>$8.78</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>9.0x</td><td>9.0x</td><td>9.0x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$119</td><td>$94</td><td>$79</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit Multiple: 9.0x P/E (severe recession; peers at 7–11x) · 2028E EPS: $8.78</div>
+    <div class="exit-price">Implied Price: $79</div>
+    <div class="exit-upside" style="color:#721c24;">−72% vs. current $283.44</div>
+    <div style="font-size:8.5px; margin-top:4px;">Implied Mkt Cap: $207B · P/TBV: ~0.55x (trading below tangible book, implying balance sheet impairment risk)</div>
+  </div>
+</div>
+
+<!-- CASE 2: BEAR MILD -->
+<div class="case-block">
+  <div class="case-name">📉 Case 2 — Soft Landing with NII Headwinds</div>
+  <div class="case-desc">Fed cuts 3–4x by end of 2026, deposit growth stalls at 0–1%, card NCOs normalize to 3.6–4.0%, and stablecoin competition begins taking 1–2% of consumer deposits. IB activity continues moderately; markets revenue flat to modestly up. Expenses hold at $105B in 2026, then grow 3% annually.</div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>NII ex-Markets</span><span>$91B</span></div>
+  <div class="driver-row"><span>Card NCO Rate</span><span>3.80%</span></div>
+  <div class="driver-row"><span>Total Provisions</span><span>$16B</span></div>
+  <div class="driver-row"><span>Markets + IB Revenue</span><span>$46B (flat vs. 2025)</span></div>
+  <div class="driver-row"><span>Expense (adjusted)</span><span>$111B</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue (NII + NonInt)</td><td>$181B</td><td>$183B</td><td>$185B</td></tr>
+    <tr><td style="padding-left:12px; color:#777; font-size:8.5px;">Revenue Growth %</td><td style="color:#777; font-size:8.5px;">−2.4%</td><td style="color:#777; font-size:8.5px;">+1.1%</td><td style="color:#777; font-size:8.5px;">+1.1%</td></tr>
+    <tr><td>Loan Loss Provision</td><td>14,000</td><td>15,000</td><td>16,000</td></tr>
+    <tr><td>PPNR</td><td>70,000</td><td>72,000</td><td>74,000</td></tr>
+    <tr><td>Net Income</td><td>51,200</td><td>52,500</td><td>54,000</td></tr>
+    <tr><td style="padding-left:12px; color:#777; font-size:8.5px;">Net Margin %</td><td style="color:#777; font-size:8.5px;">28.3%</td><td style="color:#777; font-size:8.5px;">28.7%</td><td style="color:#777; font-size:8.5px;">29.2%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>2,720</td><td>2,695</td><td>2,670</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$18.82</td><td>$19.48</td><td>$20.22</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>11.0x</td><td>11.0x</td><td>11.0x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$207</td><td>$214</td><td>$222</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit Multiple: 11.0x P/E (NII compression; below 5yr avg 12.0x) · 2028E EPS: $20.22</div>
+    <div class="exit-price">Implied Price: $222</div>
+    <div class="exit-upside" style="color:#c0392b;">−22% vs. current $283.44</div>
+    <div style="font-size:8.5px; margin-top:4px;">Implied Mkt Cap: $592B · P/TBV: ~1.8x</div>
+  </div>
+</div>
+
+<!-- CASE 3: BASE -->
+<div class="case-block">
+  <div class="case-name">📊 Case 3 — Consensus: Steady Execution</div>
+  <div class="case-desc">Fed cuts 2x as expected; NII tracks $95B in 2026, grows modestly to $103B by 2028. Card NCOs hold at 3.4% guidance, rising modestly to 3.6% in 2027–2028 as Apple Card seasons. IB fees up mid-teens in Q1 2026; markets revenue flat-to-up low single digits annually. Expense at $105B in 2026, growing 4–5% annually. Consistent buyback of ~$10–12B/yr.</div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>NII ex-Markets</span><span>$103B (FactSet estimate)</span></div>
+  <div class="driver-row"><span>Card NCO Rate</span><span>3.60%</span></div>
+  <div class="driver-row"><span>Total Provisions</span><span>$13.8B</span></div>
+  <div class="driver-row"><span>Markets + IB Revenue</span><span>$50B (+9% from 2025)</span></div>
+  <div class="driver-row"><span>Expense (adjusted)</span><span>$114B</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue (NII + NonInt)</td><td>$195B</td><td>$204B</td><td>$214B</td></tr>
+    <tr><td style="padding-left:12px; color:#777; font-size:8.5px;">Revenue Growth %</td><td style="color:#777; font-size:8.5px;">+5.1%</td><td style="color:#777; font-size:8.5px;">+4.6%</td><td style="color:#777; font-size:8.5px;">+4.9%</td></tr>
+    <tr><td>Loan Loss Provision</td><td>12,399</td><td>12,987</td><td>13,791</td></tr>
+    <tr><td>PPNR</td><td>87,622</td><td>91,986</td><td>95,892</td></tr>
+    <tr><td>Net Income</td><td>58,259</td><td>60,766</td><td>63,853</td></tr>
+    <tr><td style="padding-left:12px; color:#777; font-size:8.5px;">Net Margin %</td><td style="color:#777; font-size:8.5px;">29.9%</td><td style="color:#777; font-size:8.5px;">29.8%</td><td style="color:#777; font-size:8.5px;">29.8%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>2,705</td><td>2,667</td><td>2,630</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$21.54</td><td>$22.78</td><td>$24.28</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>12.0x</td><td>12.0x</td><td>12.0x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$258</td><td>$273</td><td>$291</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit Multiple: 12.0x P/E (5yr historical avg) · 2028E EPS: $24.28</div>
+    <div class="exit-price">Implied Price: $291</div>
+    <div class="exit-upside" style="color:#27ae60;">+2.7% vs. current $283.44</div>
+    <div style="font-size:8.5px; margin-top:4px;">Implied Mkt Cap: $766B · P/TBV: ~2.0x</div>
+  </div>
+</div>
+
+<!-- CASE 4: BULL MILD -->
+<div class="case-block">
+  <div class="case-name">🚀 Case 4 — Rate Tailwind + IB Supercycle</div>
+  <div class="case-desc">Fed stays on hold longer than expected (1 cut in 2026 vs. 2x guided); M&amp;A and equity markets remain hot through 2026–2027 with IB fees up 20%+ and equities revenue at record levels. Deposit growth resumes at 5%+ driven by wholesale payments expansion. Apple Card integration proceeds ahead of schedule. AI-driven efficiency begins materializing in 2027.</div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>NII ex-Markets</span><span>$110B</span></div>
+  <div class="driver-row"><span>Card NCO Rate</span><span>3.20%</span></div>
+  <div class="driver-row"><span>Total Provisions</span><span>$11.5B</span></div>
+  <div class="driver-row"><span>Markets + IB Revenue</span><span>$56B (+22% from 2025)</span></div>
+  <div class="driver-row"><span>Expense (adjusted)</span><span>$113B (AI drives efficiency)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue (NII + NonInt)</td><td>$204B</td><td>$214B</td><td>$226B</td></tr>
+    <tr><td style="padding-left:12px; color:#777; font-size:8.5px;">Revenue Growth %</td><td style="color:#777; font-size:8.5px;">+9.9%</td><td style="color:#777; font-size:8.5px;">+4.9%</td><td style="color:#777; font-size:8.5px;">+5.6%</td></tr>
+    <tr><td>Loan Loss Provision</td><td>10,800</td><td>11,000</td><td>11,500</td></tr>
+    <tr><td>PPNR</td><td>96,000</td><td>102,000</td><td>113,000</td></tr>
+    <tr><td>Net Income</td><td>65,200</td><td>70,200</td><td>76,000</td></tr>
+    <tr><td style="padding-left:12px; color:#777; font-size:8.5px;">Net Margin %</td><td style="color:#777; font-size:8.5px;">32.0%</td><td style="color:#777; font-size:8.5px;">32.8%</td><td style="color:#777; font-size:8.5px;">33.6%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>2,700</td><td>2,655</td><td>2,610</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$24.15</td><td>$26.44</td><td>$29.12</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>13.5x</td><td>13.5x</td><td>13.5x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$326</td><td>$357</td><td>$393</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit Multiple: 13.5x P/E (above 5yr avg; above-cycle ROTCE justifies premium) · 2028E EPS: $29.12</div>
+    <div class="exit-price">Implied Price: $393</div>
+    <div class="exit-upside" style="color:#27ae60;">+38.7% vs. current $283.44</div>
+    <div style="font-size:8.5px; margin-top:4px;">Implied Mkt Cap: $1.03T · P/TBV: ~2.7x</div>
+  </div>
+</div>
+
+<!-- CASE 5: BULL SEVERE -->
+<div class="case-block">
+  <div class="case-name">🚀🚀 Case 5 — Platform Inflection + AI Operating Leverage</div>
+  <div class="case-desc">All bull drivers materialize simultaneously: rate cuts fewer than expected, IB/markets at record levels for 3 consecutive years, Apple Card fully integrated and accretive by 2027, AI-driven headcount reduction of 10% in ops generates $3B+ savings, Kinexys becomes a material revenue contributor in blockchain settlement, and JPM captures outsized private credit dislocations as advisor and counterparty.</div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>NII ex-Markets</span><span>$115B</span></div>
+  <div class="driver-row"><span>Card NCO Rate</span><span>3.00%</span></div>
+  <div class="driver-row"><span>Total Provisions</span><span>$10.0B</span></div>
+  <div class="driver-row"><span>Markets + IB Revenue</span><span>$62B (+35% from 2025)</span></div>
+  <div class="driver-row"><span>Expense (adjusted)</span><span>$111B (AI delivers 3%+ savings)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue (NII + NonInt)</td><td>$211B</td><td>$226B</td><td>$242B</td></tr>
+    <tr><td style="padding-left:12px; color:#777; font-size:8.5px;">Revenue Growth %</td><td style="color:#777; font-size:8.5px;">+13.7%</td><td style="color:#777; font-size:8.5px;">+7.1%</td><td style="color:#777; font-size:8.5px;">+7.1%</td></tr>
+    <tr><td>Loan Loss Provision</td><td>9,500</td><td>9,800</td><td>10,000</td></tr>
+    <tr><td>PPNR</td><td>102,000</td><td>114,000</td><td>131,000</td></tr>
+    <tr><td>Net Income</td><td>72,500</td><td>80,600</td><td>91,000</td></tr>
+    <tr><td style="padding-left:12px; color:#777; font-size:8.5px;">Net Margin %</td><td style="color:#777; font-size:8.5px;">34.4%</td><td style="color:#777; font-size:8.5px;">35.7%</td><td style="color:#777; font-size:8.5px;">37.6%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>2,690</td><td>2,640</td><td>2,590</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$26.95</td><td>$30.53</td><td>$35.14</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>14.5x</td><td>14.5x</td><td>14.5x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$391</td><td>$443</td><td>$510</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit Multiple: 14.5x P/E (re-rating toward platform/fintech-quality multiple) · 2028E EPS: $35.14</div>
+    <div class="exit-price">Implied Price: $510</div>
+    <div class="exit-upside" style="color:#27ae60;">+79.9% vs. current $283.44</div>
+    <div style="font-size:8.5px; margin-top:4px;">Implied Mkt Cap: $1.32T · P/TBV: ~3.4x</div>
+  </div>
+</div>
+
+<!-- Bar Chart -->
+<div class="case-chart">
+  <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:200px;">
+    <!-- Title -->
+    <text x="350" y="16" text-anchor="middle" font-size="11" font-weight="600" fill="#1a1a2e">Implied 2028E Share Price by Scenario</text>
+    <!-- Bars -->
+    <!-- Case 1: $79 — Bear Severe -->
+    <rect x="50" y="175" width="70" height="0" fill="#2563eb"/>
+    <rect x="50" y="137" width="70" height="38" fill="#2563eb"/>
+    <text x="85" y="133" text-anchor="middle" font-size="9" fill="#1a1a2e" font-weight="600">$79</text>
+    <text x="85" y="192" text-anchor="middle" font-size="8" fill="#555">Recession</text>
+    <!-- Case 2: $222 — Bear Mild -->
+    <rect x="155" y="69" width="70" height="106" fill="#2563eb"/>
+    <text x="190" y="65" text-anchor="middle" font-size="9" fill="#1a1a2e" font-weight="600">$222</text>
+    <text x="190" y="192" text-anchor="middle" font-size="8" fill="#555">Soft Landing</text>
+    <!-- Case 3: $291 — Base -->
+    <rect x="260" y="35" width="70" height="140" fill="#2563eb"/>
+    <text x="295" y="31" text-anchor="middle" font-size="9" fill="#1a1a2e" font-weight="600">$291</text>
+    <text x="295" y="192" text-anchor="middle" font-size="8" fill="#555">Consensus</text>
+    <!-- Case 4: $393 — Bull Mild -->
+    <rect x="365" y="26" width="70" height="149" fill="#2563eb" opacity="0.8"/>
+    <text x="400" y="22" text-anchor="middle" font-size="9" fill="#1a1a2e" font-weight="600">$393</text>
+    <text x="400" y="192" text-anchor="middle" font-size="8" fill="#555">IB Supercycle</text>
+    <!-- Case 5: $510 — Bull Severe -->
+    <rect x="470" y="26" width="70" height="149" fill="#2563eb" opacity="0.6"/>
+    <text x="505" y="22" text-anchor="middle" font-size="9" fill="#1a1a2e" font-weight="600">$510</text>
+    <text x="505" y="192" text-anchor="middle" font-size="8" fill="#555">AI Inflection</text>
+    <!-- Current price dashed line: $283.44, scaled to chart -->
+    <!-- $510 maps to y=26, $79 maps to y=175. Range: $431 over 149px = 0.346 px/$
+         $283 from bottom (y=175): (283-79)/(510-79)*149 = 204/431*149 = 70.5 → y = 175-70.5 = 104.5 -->
+    <line x1="30" y1="105" x2="570" y2="105" stroke="#c0392b" stroke-width="1.2" stroke-dasharray="5,3"/>
+    <text x="575" y="108" font-size="8" fill="#c0392b" font-weight="600">$283 (current)</text>
+    <!-- Probability-weighted line -->
+    <!-- Weights: 5% × $79 + 20% × $222 + 50% × $291 + 20% × $393 + 5% × $510 -->
+    <!-- = 3.95 + 44.4 + 145.5 + 78.6 + 25.5 = 297.95, discounted at 10% CoC → $271 -->
+    <!-- y for $271: (271-79)/(510-79)*149 = 192/431*149 = 66.4 → y = 175-66.4 = 109 -->
+    <line x1="30" y1="109" x2="570" y2="109" stroke="#1a73e8" stroke-width="1.2" stroke-dasharray="3,3"/>
+    <text x="575" y="113" font-size="8" fill="#1a73e8" font-weight="600">$271 (prob-wtd)</text>
+  </svg>
+  <div style="font-size:8px; color:#888; margin-top:4px; text-align:center;">Probability weights: 5% / 20% / 50% / 20% / 5% | Prob-wtd avg = $298 → discounted at 10% CoC = $271 | Current: $283.44</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 11: COMPS -->
+<!-- ============================================================ -->
+<div class="memo-section">11. Comps</div>
+
+<div class="section-title">Selected Financials — Bulge Bracket &amp; U.S. Large Banks (FY 2025A)</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>Mkt Cap ($M)</th>
+      <th>EPS (Dil)</th>
+      <th>EPS Gr 1Y</th>
+      <th>Efficiency</th>
+      <th>ROE %</th>
+      <th>ROA %</th>
+      <th>CET1 %</th>
+      <th>NCO %</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>JPMorgan Chase</td><td>JPM</td><td>$764,447</td><td>$20.02</td><td>+1.3%</td><td>52.0%</td><td>16.1%</td><td>1.34%</td><td>14.1%</td><td>0.57%</td>
+    </tr>
+    <tr><td>Bank of America</td><td>BAC</td><td>$335,295</td><td>$3.81</td><td>+18.6%</td><td>61.7%</td><td>10.2%</td><td>0.91%</td><td>11.4%</td><td>0.47%</td></tr>
+    <tr><td>Morgan Stanley</td><td>MS</td><td>$245,912</td><td>$10.21</td><td>+28.5%</td><td>68.0%</td><td>15.6%</td><td>1.28%</td><td>16.2%</td><td>0.07%</td></tr>
+    <tr><td>Goldman Sachs</td><td>GS</td><td>$232,123</td><td>$51.32</td><td>+26.6%</td><td>64.4%</td><td>13.9%</td><td>0.99%</td><td>15.1%</td><td>0.57%</td></tr>
+    <tr><td>Citigroup</td><td>C</td><td>$184,886</td><td>$6.99</td><td>+17.6%</td><td>64.7%</td><td>6.7%</td><td>0.56%</td><td>11.9%</td><td>1.21%</td></tr>
+    <tr><td>Wells Fargo</td><td>WFC</td><td>$228,646</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td>HSBC Holdings</td><td>HSBA</td><td>$268,393</td><td>$1.20</td><td>−3.0%</td><td>53.4%</td><td>12.1%</td><td>0.67%</td><td>14.9%</td><td>0.30%</td></tr>
+    <tr class="stat-row"><td>Average (ex-JPM)</td><td></td><td>$249,209</td><td>—</td><td>+17.6%</td><td>62.4%</td><td>11.7%</td><td>0.88%</td><td>13.9%</td><td>0.52%</td></tr>
+    <tr class="stat-row"><td>Median (ex-JPM)</td><td></td><td>$237,258</td><td>—</td><td>+18.6%</td><td>64.4%</td><td>12.1%</td><td>0.91%</td><td>14.9%</td><td>0.47%</td></tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:10px;">Valuation Multiples — P/E and P/BV (Actual + FY1 / FY2 Forward)</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>Price</th>
+      <th>Deposits ($M)</th>
+      <th>Div Yield</th>
+      <th>P/E Act</th>
+      <th>P/E FY1</th>
+      <th>P/E FY2</th>
+      <th>P/BV Act</th>
+      <th>P/BV FY1</th>
+      <th>P/TBV Act</th>
+      <th>P/TBV FY1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>JPMorgan Chase</td><td>JPM</td><td>$283.44</td><td>$2,559,320</td><td>2.12%</td><td>14.2x</td><td>13.2x</td><td>12.2x</td><td>2.23x</td><td>2.11x</td><td>2.66x</td><td>2.47x</td>
+    </tr>
+    <tr><td>Bank of America</td><td>BAC</td><td>$46.72</td><td>$2,018,729</td><td>2.40%</td><td>12.3x</td><td>10.8x</td><td>9.4x</td><td>1.22x</td><td>1.15x</td><td>1.63x</td><td>1.52x</td></tr>
+    <tr><td>Morgan Stanley</td><td>MS</td><td>$154.87</td><td>$415,523</td><td>2.58%</td><td>15.2x</td><td>13.7x</td><td>12.6x</td><td>2.41x</td><td>2.24x</td><td>3.10x</td><td>2.85x</td></tr>
+    <tr><td>Goldman Sachs</td><td>GS</td><td>$782.21</td><td>$501,422</td><td>2.30%</td><td>15.2x</td><td>13.4x</td><td>12.0x</td><td>2.11x</td><td>2.09x</td><td>2.25x</td><td>2.22x</td></tr>
+    <tr><td>Citigroup</td><td>C</td><td>$105.69</td><td>$1,403,573</td><td>2.27%</td><td>15.1x</td><td>10.2x</td><td>8.7x</td><td>0.96x</td><td>0.90x</td><td>1.09x</td><td>1.01x</td></tr>
+    <tr><td>HSBC Holdings</td><td>HSBA</td><td>$15.63</td><td>$1,786,828</td><td>4.78%</td><td>12.9x</td><td>9.6x</td><td>8.8x</td><td>1.51x</td><td>1.40x</td><td>1.63x</td><td>1.60x</td></tr>
+    <tr><td>BNP Paribas</td><td>BNP</td><td>$97.15</td><td>$1,200,147</td><td>6.08%</td><td>9.5x</td><td>7.2x</td><td>6.5x</td><td>0.81x</td><td>0.78x</td><td>0.89x</td><td>0.87x</td></tr>
+    <tr class="stat-row"><td>Average (ex-JPM)</td><td></td><td>—</td><td>—</td><td>3.40%</td><td>13.4x</td><td>10.8x</td><td>9.7x</td><td>1.52x</td><td>1.43x</td><td>1.77x</td><td>1.68x</td></tr>
+    <tr class="stat-row"><td>Median (ex-JPM)</td><td></td><td>—</td><td>—</td><td>2.58%</td><td>14.2x</td><td>10.8x</td><td>9.4x</td><td>1.51x</td><td>1.40x</td><td>1.63x</td><td>1.60x</td></tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:8px;">JPMorgan trades at a significant premium across every valuation metric — 13.2x FY1 P/E vs. 10.8x peer median, 2.11x FY1 P/BV vs. 1.40x peer median, and 2.47x FY1 P/TBV vs. 1.60x peer median. This premium is justified in part: JPM's 16.1% ROE is the highest in the group, its efficiency ratio (52%) is among the best, its NCO rate (0.57%) is low, and its CET1 capital position is industry-leading. The closest pure-play comp is Goldman Sachs (GS), which trades at similar P/E and P/BV but has meaningfully lower deposit leverage and consumer credit exposure. The premium over Morgan Stanley on P/TBV (2.47x vs. 2.85x at MS) is minimal given JPM's superior scale and diversification. The main risk to the premium is that JPM's ROTCE "over-earning" normalizes toward 17% while Morgan Stanley's wealth management transformation sustains or improves its own returns — which would narrow the relative valuation gap.</p>
+
+<!-- ============================================================ -->
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<!-- ============================================================ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<p class="prose" style="font-style: italic; color: #555;">Theia seeks small-cap companies that aren't well covered and are strongly aligned on the core internet finance thesis with wide outcome dispersion.</p>
+
+<div class="verdict">
+  <strong>(i) Market Cap Bucket: ~$764B (Mega Cap)</strong> <span class="fw-rating weak">Weak</span>
+  <br>JPMorgan Chase is the largest U.S. bank by assets and market capitalization. At $764B, it is 76–764x larger than Theia's ideal $1B–$10B sweet spot. This is firmly outside every definition of the fund's target universe.
+</div>
+
+<div class="verdict">
+  <strong>(ii) Analyst Coverage: 29 Broker Contributors</strong> <span class="fw-rating weak">Weak</span>
+  <br>JPM is among the most heavily analyzed stocks in the world. 29 formal broker contributors, plus hundreds of independent research providers, academic studies, and Federal Reserve analysts tracking every balance sheet metric. Theia's information edge is effectively zero here. This is not a mispricing opportunity — it is an efficiently priced mega-cap.
+</div>
+
+<div class="verdict">
+  <strong>(iii) Blockchain / Internet Finance Thesis Alignment: Tangential</strong> <span class="fw-rating moderate">Moderate</span>
+  <br>JPM has meaningful blockchain exposure through Kinexys (tokenized deposits, Ethereum proof-of-concept, $2T+ moved on permissioned blockchain), a Coinbase partnership for consumer crypto access, and a $9.2B annual strategic tech investment that includes AI/ML moats. However, blockchain is a small and experimental portion of JPM's overall business — it is not the thesis; it is a hedge. The core business remains deposit-funded lending, capital markets, and asset management. Rating: Tangential — directionally aligned but not core.
+</div>
+
+<div class="verdict">
+  <strong>(iv) Outcome Dispersion: Narrow-to-Moderate</strong> <span class="fw-rating moderate">Moderate</span>
+  <br>The 3-year model scenarios range from $79 (severe recession) to $510 (AI inflection + supercycle). While the absolute dollar range is wide, the probability-weighted present value ($271) is only 4% below the current price ($283) — meaning the consensus is likely fairly correct, and meaningful alpha would require calling the macro correctly. The downside case ($79) represents genuine catastrophic loss potential (72%), but this requires a GFC-scale credit event, which management explicitly excludes from its scenario range. For a fund focused on information asymmetry and mispricing, JPM offers limited alpha potential — it is correctly priced at ~13x P/E for a well-understood mega-cap.
+</div>
+
+<div class="verdict" style="border-left-color: #721c24;">
+  <strong>Verdict: NO — Not a Theia Investment</strong>
+  <br><br>
+  JPMorgan Chase is an exceptional business — arguably the best-managed large financial institution in the world — but it is precisely the wrong type of investment for Theia. At $764B market cap with 29 sell-side analysts, 20% ROTCE, and a fortress balance sheet, JPM is efficiently priced with no information asymmetry available. The probability-weighted 3-year return of ~−4% at the current price offers no risk-adjusted premium over the risk-free rate. Theia should track JPM as a benchmark and competitive context for portfolio companies, but allocating capital here would not be consistent with the fund's thesis of seeking mispricings in under-covered, small-cap internet finance companies with wide outcome dispersion.
+  <br><br>
+  <em>That said, JPM is a valuable research object: understanding how the best global bank allocates capital, deploys AI, and manages credit risk provides a benchmark against which smaller fintech/internet finance investments can be assessed.</em>
+</div>
+
+<!-- ============================================================ -->
+<!-- APPENDIX: PYTHON CODE -->
+<!-- ============================================================ -->
+<div class="memo-section appendix">Appendix — Python Code</div>
+
+<div class="section-title">Sensitivity Table Generator</div>
+<div class="code-block">
+import numpy as np
+import pandas as pd
+
+# ============================================================
+# JPM SENSITIVITY TABLE GENERATOR
+# ============================================================
+
+# --- TABLE 1: NII Sensitivity ---
+deposit_growth_rates = [-0.02, 0.00, 0.02, 0.04, 0.06]
+deposit_nims = [0.0340, 0.0355, 0.0373, 0.0390, 0.0410]
+base_deposits = 2559.3  # $B
+
+print("\n=== JPM NII Sensitivity (Deposit NIM vs Deposit Growth) ===")
+print(f"{'NIM \\ Growth':>14}", end="")
+for g in deposit_growth_rates:
+    print(f"  {g*100:+.0f}%", end="")
+print()
+
+for nim in deposit_nims:
+    print(f"{nim*100:>12.2f}%", end="")
+    for g in deposit_growth_rates:
+        deposits = base_deposits * (1 + g)
+        nii = deposits * nim
+        print(f"  ${nii:.1f}B", end="")
+    print()
+
+# --- TABLE 2: Card Credit Loss Sensitivity ---
+nco_rates = [0.0250, 0.0300, 0.0340, 0.0400, 0.0500]
+card_balances = [200, 215, 234, 248, 260]  # $B
+
+print("\n=== Card Annual Credit Loss (NCO Rate vs Card Loan Balance) ===")
+print(f"{'NCO \\ Loans':>12}", end="")
+for b in card_balances:
+    print(f"  ${b}B", end="")
+print()
+
+for nco in nco_rates:
+    print(f"{nco*100:>10.2f}%", end="")
+    for b in card_balances:
+        loss = b * nco
+        print(f"  ${loss:.1f}B", end="")
+    print()
+
+# --- 5-SCENARIO MODEL ---
+scenarios = {
+    "Recession": {
+        "nii_ex_mkt": [85, 84, 83], "nonint": [84, 78, 75],
+        "provision": [17.5, 20.0, 22.0], "expense": [108, 109, 110],
+        "tax_rate": 0.22, "shares": [2700, 2660, 2620], "exit_pe": 9.0
+    },
+    "Soft Landing": {
+        "nii_ex_mkt": [91, 90, 91], "nonint": [90, 93, 94],
+        "provision": [14.0, 15.0, 16.0], "expense": [107, 110, 111],
+        "tax_rate": 0.22, "shares": [2720, 2695, 2670], "exit_pe": 11.0
+    },
+    "Consensus": {
+        "nii_ex_mkt": [95, 99, 103], "nonint": [100, 105, 111],
+        "provision": [12.4, 13.0, 13.8], "expense": [105, 109, 114],
+        "tax_rate": 0.21, "shares": [2705, 2667, 2630], "exit_pe": 12.0
+    },
+    "Bull - IB Supercycle": {
+        "nii_ex_mkt": [100, 107, 110], "nonint": [104, 107, 116],
+        "provision": [10.8, 11.0, 11.5], "expense": [105, 108, 113],
+        "tax_rate": 0.21, "shares": [2700, 2655, 2610], "exit_pe": 13.5
+    },
+    "Bull - AI Inflection": {
+        "nii_ex_mkt": [103, 110, 115], "nonint": [108, 116, 127],
+        "provision": [9.5, 9.8, 10.0], "expense": [104, 107, 111],
+        "tax_rate": 0.20, "shares": [2690, 2640, 2590], "exit_pe": 14.5
+    }
+}
+
+current_price = 283.44
+probs = [0.05, 0.20, 0.50, 0.20, 0.05]
+years = ["2026E", "2027E", "2028E"]
+
+print("\n=== 5-SCENARIO 3-YEAR MODEL ===")
+prob_wtd_prices = []
+for (name, s), prob in zip(scenarios.items(), probs):
+    eps_list = []
+    for i in range(3):
+        rev = s["nii_ex_mkt"][i] + s["nonint"][i]
+        pretax = rev - s["provision"][i] - s["expense"][i]
+        net_income = pretax * (1 - s["tax_rate"]) * 1000  # $M
+        eps = net_income / s["shares"][i]
+        eps_list.append(eps)
+    implied_price = eps_list[2] * s["exit_pe"]
+    prob_wtd_prices.append(prob * implied_price)
+    updown = (implied_price / current_price - 1) * 100
+    print(f"\n{name}")
+    for i, (yr, eps) in enumerate(zip(years, eps_list)):
+        print(f"  {yr} EPS: ${eps:.2f}", end="")
+    print(f"\n  2028E Implied Price: ${implied_price:.0f} ({updown:+.1f}%)")
+
+wtd_avg = sum(prob_wtd_prices)
+coc = 0.10
+pv = wtd_avg / (1 + coc)
+print(f"\nProbability-Weighted Average: ${wtd_avg:.2f}")
+print(f"PV at 10% CoC: ${pv:.2f}")
+print(f"Current Price: ${current_price:.2f}")
+print(f"Implied Return: {(pv/current_price - 1)*100:.1f}%")
+</div>
+
+<div class="source-note" style="margin-top: 16px;">Sources: FactSet Fundamentals &amp; Estimates (Mar 13, 2026) · JPMorgan Chase Q4 2025 Earnings Call (Jan 13, 2026) · JPMorgan Chase 2026 Business Update Call (Feb 23, 2026) · JPMorgan Barclays Conference (Sep 9, 2025) · AlphaSense GenSearch Report (Mar 16, 2026) · Web Research (Mar 16, 2026). Prepared by Claude (Anthropic) for Theia internal use only. Not investment advice.</div>
+
+</body>
+</html>
