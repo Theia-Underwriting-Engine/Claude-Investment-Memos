@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stewart Information Services | Theia Preliminary Memo</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 6px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; }
+.case-block .driver-row span:first-child { display: inline-block; width: 60%; font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { text-align: right; font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.alphasense-box { background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 4px; padding: 8px 12px; margin-bottom: 14px; font-size: 10px; color: #1e3a5f; }
+
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child, table.comps td:nth-child(2) { text-align: left; font-weight: 500; color: #333; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-weight: 600; background: #fafbfc; font-style: italic; }
+
+.bull-header { color: #155724; font-weight: 700; font-size: 12px; border-bottom: 1.5px solid #155724; padding-bottom: 3px; margin-bottom: 8px; }
+.bear-header { color: #721c24; font-weight: 700; font-size: 12px; border-bottom: 1.5px solid #721c24; padding-bottom: 3px; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Stewart Information Services | Preliminary Memo for Theia</div>
+
+<!-- ===================== SECTION 1: BUSINESS OVERVIEW ===================== -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">Stewart Information Services Corporation (STC) is one of the four national title insurance underwriters in the United States, founded in 1893 and headquartered in Houston, Texas. The company provides title insurance, title and escrow services, and related real estate settlement services through approximately 6,000 employees and a network of independent agencies across all 50 states and select international markets. Chairman and CEO Fred Eppinger — who joined in 2020 — has repositioned the company from a fragmented, acquisition-averse operator into an active consolidator focused on margin improvement, centralized operations, and technology-enabled scale in both residential and commercial title.</p>
+
+<p class="prose">STC operates through two reportable segments: <strong>Title</strong> (~85% of revenue, $2.48B in FY25), which encompasses direct title operations, agency operations, and the underwriting of title insurance policies for residential and commercial real estate transactions; and <strong>Real Estate Solutions (RES)</strong> (~15% of revenue, $438M in FY25), which provides centralized title production, post-closing services, valuation, and mortgage-related data services primarily to lenders and servicers. The company's one-line thesis is that it is the best-positioned mid-tier title insurer to benefit from a housing market recovery, with a unique RES segment providing counter-cyclical lender services revenue and growing commercial exposure that diversifies away from interest-rate-sensitive residential purchase volume.</p>
+
+<!-- ===================== SECTION 2: FACTSET FINANCIAL SUMMARY ===================== -->
+<div class="memo-section">2. Theia FactSet Summary — Stewart Information Services Corp (STC)</div>
+
+<div class="header">
+  <div>
+    <h1>Stewart Information Services Corp</h1>
+    <span class="ticker">STC · NYSE · CUSIP: 860760106</span>
+  </div>
+  <div class="date">FactSet Export: March 16, 2026</div>
+</div>
+
+<div class="price-bar">
+  <div>
+    <div class="label">Price (Mar 13, 2026)</div>
+    <div class="price">$64.59</div>
+  </div>
+  <div><span class="label">1M </span><span class="chg">-5.95%</span></div>
+  <div><span class="label">3M </span><span class="chg">-11.34%</span></div>
+  <div><span class="label">6M </span><span class="chg">-7.31%</span></div>
+  <div><span class="label">YTD </span><span class="chg">-9.2%</span></div>
+  <div><span class="label">1Y </span><span class="chg">-8.88%</span></div>
+  <div><span class="label">52-Wk </span><span>$56.39 – $78.61</span></div>
+</div>
+
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv">
+      <tr><td>Ticker / Exchange</td><td>STC / NYSE</td></tr>
+      <tr><td>Price (Mar 13, 2026)</td><td>$64.59</td></tr>
+      <tr><td>Avg Daily Volume (30D)</td><td>~185K shares</td></tr>
+      <tr><td>Float %</td><td>~95.8%</td></tr>
+      <tr><td>Short Interest</td><td>~3.2%</td></tr>
+      <tr><td>Annual Dividend / Yield</td><td>$2.10 / 3.25%</td></tr>
+      <tr><td>Ex-Dividend Date</td><td>Mar 16, 2026</td></tr>
+      <tr><td>Next Earnings</td><td>Apr 29, 2026</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev">
+      <tr><td>Current Price</td><td>$64.59</td></tr>
+      <tr><td>Common Shares (Basic)</td><td>30.42M</td></tr>
+      <tr><td>Market Capitalization</td><td>$1,964.8M</td></tr>
+      <tr><td style="padding-left:12px; font-size:10px;">+ Stock Comp Dilution (0.72M sh)</td><td style="font-size:10px;">$46.8M</td></tr>
+      <tr><td>Fully Diluted Market Cap</td><td>$2,011.6M</td></tr>
+      <tr><td>+ Total Debt (FY25)</td><td>$768.8M</td></tr>
+      <tr><td>− Cash & Equivalents (FY25)</td><td>($143.9M)</td></tr>
+      <tr><td>+ Other Net Liabilities</td><td>$148.2M</td></tr>
+      <tr class="total"><td>Enterprise Value</td><td>$2,784.7M</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="section-title">Current Valuation</div>
+<div class="val-grid" style="border: 1px solid #eee; border-radius: 4px; margin-bottom: 14px;">
+  <div class="val-cell">
+    <div class="val-label">Market Cap</div>
+    <div class="val-num">$1.96B</div>
+    <div class="val-sub">Basic</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Enterprise Value</div>
+    <div class="val-num">$2.78B</div>
+    <div class="val-sub">FactSet</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">P/E (NTM)</div>
+    <div class="val-num">10.5x</div>
+    <div class="val-sub">FY26E $6.15 avg</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">EV/EBITDA</div>
+    <div class="val-num">—</div>
+    <div class="val-sub">NM (insurance)</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">EV/Revenue</div>
+    <div class="val-num">0.83x</div>
+    <div class="val-sub">FY26E $3.35B</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">P/BV</div>
+    <div class="val-num">1.19x</div>
+    <div class="val-sub">LTM BVPS $54.30</div>
+  </div>
+  <div class="val-cell" style="border-top:1px solid #eee;">
+    <div class="val-label">Fully Dil Mkt Cap</div>
+    <div class="val-num">$2.01B</div>
+    <div class="val-sub">31.14M shares</div>
+  </div>
+  <div class="val-cell" style="border-top:1px solid #eee;">
+    <div class="val-label">WACC</div>
+    <div class="val-num">7.27%</div>
+    <div class="val-sub">FactSet</div>
+  </div>
+  <div class="val-cell" style="border-top:1px solid #eee;">
+    <div class="val-label">Beta</div>
+    <div class="val-num">0.87</div>
+    <div class="val-sub">vs. S&amp;P 500</div>
+  </div>
+  <div class="val-cell" style="border-top:1px solid #eee;">
+    <div class="val-label">Avg Rating</div>
+    <div class="val-num">OW</div>
+    <div class="val-sub">1.25 (4 analysts)</div>
+  </div>
+  <div class="val-cell" style="border-top:1px solid #eee;">
+    <div class="val-label">Price Target</div>
+    <div class="val-num">$81.33</div>
+    <div class="val-sub">+25.9% upside</div>
+  </div>
+  <div class="val-cell" style="border-top:1px solid #eee;">
+    <div class="val-label">Next Earnings</div>
+    <div class="val-num">Apr 29</div>
+    <div class="val-sub">2026 Q1</div>
+  </div>
+</div>
+
+<div class="section-title">Valuation Multiples</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Metric</th>
+      <th>5Yr Avg</th>
+      <th>FY23A</th>
+      <th>FY24A</th>
+      <th>FY25A</th>
+      <th class="est">FY26E</th>
+      <th class="est">FY27E</th>
+      <th class="est">FY28E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>P/E</td><td>22.1x</td><td>53.1x</td><td>25.9x</td><td>17.4x</td><td class="est">11.1x</td><td class="est">8.9x</td><td class="est">8.7x</td></tr>
+    <tr><td>P/Sales</td><td>0.54x</td><td>0.39x</td><td>0.33x</td><td>0.28x</td><td class="est">0.60x</td><td class="est">0.55x</td><td class="est">0.51x</td></tr>
+    <tr><td>P/Book Value</td><td>1.27x</td><td>1.17x</td><td>1.14x</td><td>1.29x</td><td class="est">1.11x</td><td class="est">1.03x</td><td class="est">1.00x</td></tr>
+    <tr><td>EV/Revenue</td><td>0.49x</td><td>0.45x</td><td>0.38x</td><td>0.32x</td><td class="est">0.83x</td><td class="est">0.77x</td><td class="est">0.71x</td></tr>
+    <tr><td>EV/EBITDA</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>EV/EBIT</td><td>—</td><td>NM</td><td>—</td><td>—</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+  </tbody>
+</table>
+<p style="font-size:8.5px; color:#aaa; margin-top:2px; margin-bottom:10px;">Note: EV/EBITDA and EV/EBIT are not meaningful for title insurance companies (earnings are reported as net premium/escrow fees net of losses; EBITDA is not a standard metric for the sector). P/E and P/BV are the primary valuation metrics used by analysts.</p>
+
+<div class="section-title">Revenue Exposure (FY25A)</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Segment</div>
+    <table class="rev">
+      <thead><tr><th style="text-align:left;">Segment</th><th>Rev ($M)</th><th>% Total</th><th>YoY</th></tr></thead>
+      <tbody>
+        <tr><td>Title</td><td>$2,482</td><td>84.9%</td><td>+16.4%</td></tr>
+        <tr><td>Real Estate Solutions</td><td>$438</td><td>15.0%</td><td>+22.2%</td></tr>
+        <tr><td>Corporate / Other</td><td>$1</td><td>0.1%</td><td>—</td></tr>
+        <tr style="font-weight:700; border-top:1px solid #ccc;"><td>Total</td><td>$2,922</td><td>100%</td><td>+18.1%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <div class="sub-label">By Geography</div>
+    <table class="rev">
+      <thead><tr><th style="text-align:left;">Region</th><th>Rev ($M)</th><th>% Total</th><th>YoY</th></tr></thead>
+      <tbody>
+        <tr><td>United States</td><td>$2,765</td><td>94.6%</td><td>+18.1%</td></tr>
+        <tr><td>International</td><td>$156</td><td>5.4%</td><td>+5.6%</td></tr>
+        <tr style="font-weight:700; border-top:1px solid #ccc;"><td>Total</td><td>$2,922</td><td>100%</td><td>+18.1%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="section-title">Financials</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Metric</th>
+      <th>FY23A</th>
+      <th>FY24A</th>
+      <th>FY25A</th>
+      <th class="est">FY26E</th>
+      <th class="est">FY27E</th>
+      <th class="est">FY28E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">Income Statement ($M)</td></tr>
+    <tr><td>Revenue</td><td>$2,257</td><td>$2,490</td><td>$2,922</td><td class="est">$3,354</td><td class="est">$3,600</td><td class="est">$3,895</td></tr>
+    <tr><td style="padding-left:12px; font-size:9px; color:#555;">Revenue Growth %</td><td style="color:#555; font-size:9px;">—</td><td style="color:#555; font-size:9px;">+10.3%</td><td style="color:#555; font-size:9px;">+17.3%</td><td class="est" style="color:#555; font-size:9px;">+14.8%</td><td class="est" style="color:#555; font-size:9px;">+7.3%</td><td class="est" style="color:#555; font-size:9px;">+8.2%</td></tr>
+    <tr><td>Gross Income (Net Premiums/Fees after Losses)</td><td>$1,891</td><td>$2,115</td><td>$2,504</td><td class="est">$2,897</td><td class="est">$3,105</td><td class="est">$3,364</td></tr>
+    <tr><td style="padding-left:12px; font-size:9px; color:#555;">Gross Margin %</td><td style="color:#555; font-size:9px;">83.8%</td><td style="color:#555; font-size:9px;">84.9%</td><td style="color:#555; font-size:9px;">85.7%</td><td class="est" style="color:#555; font-size:9px;">86.4%</td><td class="est" style="color:#555; font-size:9px;">86.3%</td><td class="est" style="color:#555; font-size:9px;">86.4%</td></tr>
+    <tr><td>EBIT (Adj. Pretax Income equiv.)</td><td>$43</td><td>$103</td><td>$199</td><td class="est">$238</td><td class="est">$305</td><td class="est">$287</td></tr>
+    <tr><td style="padding-left:12px; font-size:9px; color:#555;">EBIT Margin %</td><td style="color:#555; font-size:9px;">1.9%</td><td style="color:#555; font-size:9px;">4.1%</td><td style="color:#555; font-size:9px;">6.8%</td><td class="est" style="color:#555; font-size:9px;">7.1%</td><td class="est" style="color:#555; font-size:9px;">8.5%</td><td class="est" style="color:#555; font-size:9px;">7.4%</td></tr>
+    <tr><td>Net Income</td><td>$30</td><td>$73</td><td>$116</td><td class="est">$148</td><td class="est">$197</td><td class="est">$186</td></tr>
+    <tr><td style="padding-left:12px; font-size:9px; color:#555;">Net Income Margin %</td><td style="color:#555; font-size:9px;">1.3%</td><td style="color:#555; font-size:9px;">2.9%</td><td style="color:#555; font-size:9px;">4.0%</td><td class="est" style="color:#555; font-size:9px;">4.4%</td><td class="est" style="color:#555; font-size:9px;">5.5%</td><td class="est" style="color:#555; font-size:9px;">4.8%</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$1.11</td><td>$2.61</td><td>$4.05</td><td class="est">$5.03</td><td class="est">$6.86</td><td class="est">$7.45</td></tr>
+    <tr class="section-row"><td colspan="7">Margins</td></tr>
+    <tr><td>Adjusted Pretax Margin</td><td>1.9%</td><td>4.1%</td><td>6.8%</td><td class="est">7.1%</td><td class="est">8.5%</td><td class="est">7.4%</td></tr>
+    <tr><td>Loss Ratio</td><td>4.2%</td><td>3.6%</td><td>3.4%</td><td class="est">3.5%</td><td class="est">3.5%</td><td class="est">3.5%</td></tr>
+    <tr><td>Combined Ratio</td><td>47.2%</td><td>43.8%</td><td>40.2%</td><td class="est">39.5%</td><td class="est">38.0%</td><td class="est">37.5%</td></tr>
+    <tr class="section-row"><td colspan="7">Balance Sheet ($M)</td></tr>
+    <tr><td>Total Assets</td><td>$2,728</td><td>$2,873</td><td>$3,253</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Total Debt</td><td>$451</td><td>$484</td><td>$769</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Total Shareholders' Equity</td><td>$1,487</td><td>$1,553</td><td>$1,641</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Book Value Per Share</td><td>$49.44</td><td>$51.73</td><td>$54.30</td><td class="est">$58.94</td><td class="est">$63.06</td><td class="est">$65.25</td></tr>
+    <tr class="section-row"><td colspan="7">Returns &amp; Leverage</td></tr>
+    <tr><td>Return on Equity (ROE)</td><td>2.0%</td><td>4.7%</td><td>7.6%</td><td class="est">9.9%</td><td class="est">11.6%</td><td class="est">—</td></tr>
+    <tr><td>Debt / Equity</td><td>0.30x</td><td>0.31x</td><td>0.47x</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>5Yr Avg ROE</td><td colspan="6">11.1%</td></tr>
+  </tbody>
+</table>
+
+<div class="section-title">Valuation Summary</div>
+<p class="prose">Stewart currently trades at 10.5x NTM P/E and 1.19x P/BV — representing a 3% premium to the peer median NTM P/E of 10.2x (First American) but a meaningful discount to the sector's historical average of 22.1x P/E, reflecting persistent investor skepticism about the magnitude and timing of a housing market recovery. The current discount to historical multiples is driven by the rate-sensitivity overhang: with 30-year mortgage rates still above 6.5%, existing home sales remain well below peak, and the market is paying a "show me" multiple on the earnings recovery rather than pre-pricing a full normalization cycle. Given STC's demonstrated margin expansion (pretax margin: 1.9% in FY23 → 6.8% in FY25), its unique commercial title exposure (+49% Q4 2025 YoY), and the accretive MCS acquisition that structurally enlarged the RES segment, the stock appears modestly undervalued relative to its improving earnings quality — particularly against ITIC, which trades at a comparable P/E but with lower commercial exposure and no technology-driven RES segment providing counter-cyclical lender revenue.</p>
+
+<div class="source-note">Source: FactSet snapshot export March 16, 2026 · Stewart Q4 2025 earnings release · Company supplementary filings</div>
+
+<!-- ===================== SECTION 3: BULL & BEAR CASES ===================== -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Cases</div>
+
+    <div class="fw-item">
+      <span class="fw-name">Housing Volume Recovery</span>
+      <p class="prose" style="margin-top:3px;">The 37-month streak of YoY declines in existing home sales ended in early 2025. If mortgage rates normalize toward 6.0–6.25%, pent-up demand from the "lock-in effect" — millions of homeowners sitting on 3% mortgages — begins to release. Each 100K increase in annual existing home sales represents roughly $20–30M in incremental STC revenue at current market share.</p>
+    </div>
+
+    <div class="fw-item">
+      <span class="fw-name">Commercial Title Inflection</span>
+      <p class="prose" style="margin-top:3px;">STC's commercial title segment grew 49% in Q4 2025 and 34% for full-year 2025. Commercial deals are high-margin (premium-intensive, low standardization) and STC has been deliberately overweighting commercial sales resources. If the CRE transaction market continues its recovery from the 2022–2024 rate-shock lows, commercial can become a disproportionate earnings driver.</p>
+    </div>
+
+    <div class="fw-item">
+      <span class="fw-name">MCS Acquisition Accretion</span>
+      <p class="prose" style="margin-top:3px;">The $330M acquisition of Mortgage Connect Services (closed Nov 2025) added ~$165M in annualized RES revenue. Full integration in 2026 creates revenue synergies (cross-selling title services to MCS's lender relationships) and cost synergies (shared operational infrastructure). Management targets mid-single-digit pretax margins for RES within 24 months — up from current break-even levels.</p>
+    </div>
+
+    <div class="fw-item">
+      <span class="fw-name">RES Counter-Cyclical Value Recognition</span>
+      <p class="prose" style="margin-top:3px;">The RES segment (centralized title production, post-closing, valuation) generates revenue tied to refinancing activity and lender services — not just purchase transaction volume. If rates fall and a refi wave occurs, RES benefits meaningfully. The market does not yet fully value this counter-cyclical hedge embedded within STC's earnings stream.</p>
+    </div>
+
+    <div class="fw-item">
+      <span class="fw-name">Multiple Re-Rating on Sustained Margin Execution</span>
+      <p class="prose" style="margin-top:3px;">STC trades at 10.5x NTM P/E vs. a 5-year average of 22.1x. If the company delivers 8%+ pretax margins consistently — as guided — and EPS approaches $7–8 by FY27, even a modest re-rating to 13–14x would imply a stock price of $91–112. The setup is a classic "margin inflection + multiple re-rating" double compressor.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="bear-header">Bear Cases</div>
+
+    <div class="fw-item">
+      <span class="fw-name">Mortgage Rate Persistence</span>
+      <p class="prose" style="margin-top:3px;">If the Fed remains on hold and 30-year mortgage rates stay above 6.75–7.0%, the housing market remains structurally impaired. The lock-in effect keeps supply off the market; affordability constraints suppress demand; existing home sales volumes stay depressed. STC's Title segment — which is almost entirely volume-dependent — stagnates below recovery-normalized levels.</p>
+    </div>
+
+    <div class="fw-item">
+      <span class="fw-name">MCS Integration Risk</span>
+      <p class="prose" style="margin-top:3px;">STC paid $330M (a large deal for a $2B market cap company) for MCS at the top of the lender-services cycle. If RES margins remain near zero and integration costs drag through 2026, the acquisition could be dilutive to EPS and management credibility. Debt-to-equity jumped from 0.31x to 0.47x post-deal, leaving less financial flexibility.</p>
+    </div>
+
+    <div class="fw-item">
+      <span class="fw-name">FNF / FAF Competitive Pressure</span>
+      <p class="prose" style="margin-top:3px;">Fidelity National Financial (FNF, ~44% national market share) and First American Financial (FAF) have significantly larger distribution networks, balance sheets, and technology budgets. In a rate environment that favors market share retention by incumbents, STC risks losing independent agency relationships to peers offering better economics and technology support.</p>
+    </div>
+
+    <div class="fw-item">
+      <span class="fw-name">Title Loss Reserve Adequacy</span>
+      <p class="prose" style="margin-top:3px;">STC's loss ratio (3.4% in FY25) is historically low — the title industry's loss cycle is notoriously long-tailed (claims often emerge 5–10 years post-policy). In a rising default environment (CRE stress, residential non-prime delinquencies), adverse reserve development could materially impair earnings. The period 2020–2022 originated policies at very high volume with potentially compressed underwriting rigor.</p>
+    </div>
+
+    <div class="fw-item">
+      <span class="fw-name">Capital Allocation Misstep</span>
+      <p class="prose" style="margin-top:3px;">CEO Eppinger has pursued an aggressive M&A strategy: BatchService (Jul 2025), Townsend Title (Jan 2026), MCS (Nov 2025), plus the Dec 2025 equity offering ($129M). If the acquisition pipeline is not disciplined — particularly if deals are done at peak multiples as the market recovers — ROE improvement could be delayed, compressing the multiple further.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SECTION 4: HELMER'S 7 POWERS ===================== -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Scale Economies</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:3px;">Title insurance has real but imperfect scale economies. At the national underwriter level, a larger premium base spreads fixed costs of: (1) the statutory reserve and surplus requirement (regulators mandate minimum reserves, so a larger book means the per-policy cost of maintaining those reserves falls), (2) technology infrastructure (title search databases, underwriting platforms, claims management systems), and (3) national agency network management. STC's move toward centralized operations — its "centralization centers" announced in 2024–2025 — is an explicit strategy to harvest scale economies by consolidating title production from hundreds of local offices into fewer, high-throughput hubs. However, title is also deeply local: relationships between title officers and real estate agents, attorneys, and mortgage loan officers matter enormously. This means FNF's 44% national market share does not translate into the same cost advantage it would in a commodity business — a local STC office with deep realtor relationships may outcompete FNF in a specific market despite FNF's scale advantage. At the national level, STC remains subscale vs. FNF and FAF, limiting the magnitude of this power.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Network Effects</span>
+  <span class="fw-rating weak">Weak</span>
+  <p class="prose" style="margin-top:3px;">Title insurance does not exhibit meaningful direct network effects — a policyholder's experience is not improved by how many other policyholders use Stewart. There is a weak indirect network effect in the agency channel: as STC grows its independent agency network, it gains access to more local market data (historical title defects, lien patterns), which can improve underwriting accuracy over time. Additionally, lender customers increasingly prefer title underwriters with sufficient financial strength ratings (AM Best) and who can guarantee title on a national basis — which implicitly favors larger networks. But this is more a regulatory floor than a true flywheel. The RES segment has nascent platform characteristics (more lender clients → better data → better defect prediction), but this has not yet translated into a competitive moat. Network effects are not a meaningful driver of STC's competitive position.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Counter-Positioning</span>
+  <span class="fw-rating weak">Weak</span>
+  <p class="prose" style="margin-top:3px;">Counter-positioning describes a situation where an incumbent is unable to copy a disruptor's business model without damaging their existing business. STC does not occupy the counter-positioning role here — it is itself mid-tier by size. The most relevant counter-positioning dynamic in title is the emergence of attorney opinion letters (AOLs) as a cheaper alternative to traditional title insurance in residential purchase transactions. Fannie Mae and Freddie Mac expanded acceptance of AOLs in 2023, potentially allowing mortgage lenders to bypass title insurance altogether in lower-risk transactions. This is a threat to all incumbents including STC. Conversely, STC's RES segment (centralized lender services) does create mild counter-positioning against smaller, purely local title agents who cannot offer the same technology-integrated, lender-facing suite of services. But this is not strong enough to rate as a true Helmer power.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Switching Costs</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:3px;">Switching costs vary significantly by customer type and are the most important structural advantage STC possesses. In the lender channel — which accounts for the majority of title orders in a refinancing market — large mortgage servicers and originators integrate STC's RES platform directly into their loan origination systems (LOS). Switching away from STC's centralized title production means: (1) re-integrating a new vendor's API with their LOS, (2) retraining underwriting and operations staff, (3) renegotiating pricing and service level agreements, and (4) absorbing a productivity dip during the transition. For a large lender processing tens of thousands of titles per month, these switching costs are material. In the residential purchase channel via independent agencies, switching costs are lower — agencies can and do switch underwriters, particularly if a competitor offers better commission splits or technology. Commercial title has moderate switching costs: complex multi-party commercial transactions require deep coordination and institutional trust, but there are enough qualified underwriters that switching is feasible on a deal-by-deal basis. Overall, switching costs are Moderate, with the lender/RES relationship being the stickiest.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Branding</span>
+  <span class="fw-rating weak">Weak</span>
+  <p class="prose" style="margin-top:3px;">The Stewart brand has limited relevance in most consumer title decisions. Homebuyers typically do not select their title insurer — this decision is made by their real estate agent, mortgage lender, or sometimes the selling party. Brand matters at the B2B level (lenders and real estate agents choosing to refer business to Stewart vs. Fidelity vs. First American), but even there, the decision is driven primarily by service quality, technology, pricing, and local relationships — not brand equity. FNF benefits from superior brand recognition and financial strength signals, but this has not prevented STC from growing market share in commercial. Branding is a weak structural power for STC, though "Stewart" has enough institutional recognition to meet the minimum threshold of a credible national underwriter.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">6. Cornered Resource</span>
+  <span class="fw-rating weak">Weak</span>
+  <p class="prose" style="margin-top:3px;">STC does not obviously control any scarce, non-replicable resource. Title plants (proprietary databases of historical property records) are an important operational input — maintaining accurate, comprehensive title plants for each county is expensive and time-consuming. STC has built these over 130 years of operation, but so have FNF and FAF. The plants are valuable but not an exclusive resource. Management talent (Eppinger's team includes executives from larger title companies with relevant centralization and technology experience) is a form of cornered resource on the margin, but is not defensible. The company's relationships with certain large lender clients (particularly for RES services) come closest to a cornered resource — but these relationships can be competed away with price and technology investment.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">7. Process Power</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:3px;">Process Power is the most defensible advantage STC is actively building. Under Eppinger, the company has invested in: (1) centralized title production centers that standardize the search, examine, and close workflow for high-volume, low-complexity residential transactions — driving throughput efficiency that a local independent agency cannot replicate; (2) the BatchService acquisition (Jul 2025), which adds data analytics and batch processing capability for property data; (3) technology integrations with lender LOS platforms that create sticky, workflow-embedded relationships. This is a process transformation in real time. The risk is that process capabilities take time to accumulate and are not proprietary — if FNF or FAF decides to invest similarly in centralization and technology, they can likely replicate STC's approach given their larger balance sheets. The strongest moats here are <strong>Switching Costs</strong> (in the lender/RES channel) and <strong>Process Power</strong> (centralized operations, currently in mid-build). Scale Economies are present but moderate given STC's sub-scale national position vs. FNF.</p>
+</div>
+
+<!-- ===================== SECTION 5: PORTER'S 5 FORCES ===================== -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Threat of New Entrants</span>
+  <span class="fw-rating low">Low</span>
+  <p class="prose" style="margin-top:3px;">Entering the title insurance industry at the national underwriter level requires a combination of barriers that make it effectively inaccessible to new competitors. First, statutory capital requirements: title underwriters must maintain minimum surplus levels in each state where they operate, and writing title nationally requires tens of millions of dollars in statutory capital across 50 jurisdictions. Second, title plant investment: building the historical property records database needed to search titles accurately requires decades of accumulation and ongoing maintenance — this is not something a new entrant can buy or replicate quickly. Third, agency network development: the independent agency channel (which drives roughly 60–70% of total premium in the industry) takes years to build because agency relationships are personal and trust-dependent. Fourth, AM Best financial strength ratings: major lenders increasingly require title underwriters to maintain strong AM Best ratings as a condition of their panel approval — a new entrant with a thin reserve base cannot obtain these ratings without years of operating history. The only meaningful threat is at the technology layer: fintech companies targeting attorney opinion letters (AOLs) as a title insurance substitute, or new digital title platforms (like Doma, prior to its wind-down) attempting to automate the search-and-examine workflow. These threats are real but have not succeeded in dislodging the incumbent underwriters. New entrant threat is Low.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Bargaining Power of Suppliers</span>
+  <span class="fw-rating low">Low</span>
+  <p class="prose" style="margin-top:3px;">STC's key "suppliers" are: independent title agents (who generate approximately 60% of STC's premium volume by referring business to STC's underwriter), county and municipal records offices (who provide public records for title searches), and technology vendors (LOS integration providers, property data aggregators). Independent agents are in a bilateral negotiation — they need a financially strong underwriter to back their policies, and STC needs their production volume. While large independent agencies have some bargaining power on commission splits (typically 80–85% of premium goes to the agent, 15–20% to the underwriter), this split has been relatively stable industry-wide. The market is competitive enough among independent agencies that a single large agency defecting to FNF does not materially damage STC. County records are public goods — no supplier leverage. Technology vendors are competitive and interchangeable. Overall, supplier power is Low.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Bargaining Power of Buyers</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:3px;">Buyer bargaining power is meaningfully different by channel. In the lender/RES channel, large mortgage servicers (like Rocket Mortgage, United Wholesale Mortgage, or the top-10 bank originators) process hundreds of thousands of transactions per year. These buyers have substantial pricing leverage — they negotiate volume discounts, service level minimums, and technology integration requirements. Losing a top-5 lender relationship would have a material impact on STC's RES revenue. STC mitigates this somewhat by offering bundled RES services (centralized title production + post-closing + valuation + data analytics) that make switching more complex. In the residential purchase channel, the "buyer" is effectively the real estate agent or attorney who selects the title company — these are fragmented and no single agent has pricing power. In commercial title, buyers are sophisticated and price-sensitive, but the high complexity of commercial transactions gives the underwriter more pricing power than in residential. Overall, buyer power is Moderate — concentrated in the lender channel.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Threat of Substitutes</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:3px;">The primary substitute threats to traditional title insurance are: (1) Attorney Opinion Letters (AOLs), which Fannie Mae and Freddie Mac expanded acceptance of in 2023. An AOL is a legal opinion from a licensed attorney that the title is clear — it is faster and cheaper than a full title search and insurance policy, but it does not provide the same insurance backstop (the attorney's malpractice coverage is the only recourse). AOLs are currently accepted for conforming residential purchase loans in certain circumstances, and their acceptance is expanding — this is a structural headwind for premium volume in the most commoditized residential segment. (2) Reduced coverage limits: some lenders are accepting simplified title searches with reduced coverage for lower-risk properties (shorter ownership histories, clean MERS records, recently built properties). This reduces the scope of the full title insurance policy. (3) Government-sponsored alternatives: FHFA has periodically explored title insurance reform, and any expansion of GSE direct title guarantees would be disruptive. These substitutes are currently limited but expanding — Moderate threat rating.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Competitive Rivalry</span>
+  <span class="fw-rating high">High</span>
+  <p class="prose" style="margin-top:3px;">The title insurance industry is a concentrated oligopoly — four national underwriters (FNF ~44%, FAF ~25%, STC ~11%, ITIC ~6%) control nearly 90% of the market — but competition within that oligopoly is intense. The product (a title insurance policy) is largely commoditized in residential transactions, so competition occurs primarily on: (1) commission splits to independent agencies (structurally fixed near 80–85%, with little differentiation), (2) service turnaround time and technology (STC's centralization centers are directly competing on this dimension), (3) national lender panel approval (driven by AM Best ratings and financial strength), and (4) commercial title relationships (driven by underwriter expertise and deal structuring sophistication). The market is growing in line with real estate transaction volume, which is itself cyclical and currently suppressed — in a volume-constrained environment, rivals compete more aggressively for market share. FNF's size advantage allows it to subsidize loss-making markets to defend share. FAF has made significant technology investments. The competitive environment is High rivalry — particularly for residential volume during a housing downturn.</p>
+</div>
+
+<p class="prose" style="margin-top:8px;"><strong>Summary:</strong> The competitive environment for STC is challenging in residential title (High rivalry, Moderate substitute threat) but more defensible in commercial title and lender services (Moderate rivalry, Low new entrant threat, Low supplier power). STC's ability to grow margins in the current environment depends less on competitive dynamics and more on volume recovery — making it a bet on the macro (housing market recovery) as much as a bet on competitive positioning.</p>
+
+<!-- ===================== SECTION 6: WHAT DRIVES THE STOCK? ===================== -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<ol style="padding-left: 18px; line-height: 2.0;">
+  <li class="fw-item">
+    <span class="fw-name">Existing Home Sales Volume (Monthly SAAR)</span>
+    <p class="prose" style="margin-top:2px;">The single most important macro driver. STC's Title segment revenue is almost entirely tied to real estate transaction volume. Each 100K incremental unit in annual existing home sales (vs. the ~4.0M depressed 2024 pace) translates to roughly $25–35M in incremental STC revenue at current market share. Analysts will be watching the monthly NAR existing home sales report — a sustained move above 4.5M annualized units is the "green light" for title insurance volume recovery. Bullish: rates fall to 6.0% range, lock-in effect begins to release. Bearish: rates stay above 6.75%, affordability remains a ceiling.</p>
+  </li>
+  <li class="fw-item">
+    <span class="fw-name">30-Year Mortgage Rate Direction</span>
+    <p class="prose" style="margin-top:2px;">Mortgage rates are the transmission mechanism between Fed policy and STC's earnings. The 6.5–7.0% range has been the "frozen" zone for housing — buyers can't afford, sellers won't move. Any sustained decline below 6.25% is estimated to unlock millions of deferred transactions. Rate direction is watched in every earnings call, and management commentary on its order book momentum is the leading indicator.</p>
+  </li>
+  <li class="fw-item">
+    <span class="fw-name">Adjusted Pretax Margin Trajectory</span>
+    <p class="prose" style="margin-top:2px;">STC expanded adj. pretax margin from 1.9% (FY23) to 4.1% (FY24) to 6.8% (FY25). The market wants to see this continue toward 8–9% on flat volume — proving the thesis that centralization and technology investment are structurally improving the margin base, not just riding volume recovery. Q4 2025 Title segment adj. pretax margin was 10% — a strong data point. If this regresses in Q1 2026 (a seasonally weak quarter), the stock will be punished disproportionately.</p>
+  </li>
+  <li class="fw-item">
+    <span class="fw-name">Commercial Title Order Growth</span>
+    <p class="prose" style="margin-top:2px;">Commercial title (roughly 20–25% of Title segment revenue) is high-margin and the fastest-growing piece. It is driven by CRE transaction activity — office, multifamily, industrial sales — which has begun recovering from the 2022–2024 rate-shock trough. Domestic commercial grew 34% full-year and 49% in Q4 2025. Analysts will track commercial order counts and open orders as a forward indicator. This is also the most defensible revenue from an AOL substitute perspective.</p>
+  </li>
+  <li class="fw-item">
+    <span class="fw-name">RES Segment Margin Recovery</span>
+    <p class="prose" style="margin-top:2px;">The Real Estate Solutions segment is currently near break-even, burdened by MCS integration costs and seasonal lender activity. Management targets mid-single-digit pretax margins for RES. If the April 29 Q1 2026 earnings call shows RES turning positive on a run-rate basis — with MCS revenue ramping per plan — that is the catalyst for a re-rating of this "hidden value" segment. If RES continues to drag, the bull case deteriorates.</p>
+  </li>
+  <li class="fw-item">
+    <span class="fw-name">M&A / Capital Allocation Cadence</span>
+    <p class="prose" style="margin-top:2px;">Eppinger has been an active acquirer: MCS ($330M, Nov 2025), BatchService (Jul 2025), Townsend Title (Jan 2026). STC raised $129M in a follow-on equity offering in Dec 2025 and carries $769M in total debt. The market is watching whether leverage is being deployed accretively. A misstep — deal that destroys capital or integration that goes off-plan — would compress the already modest multiple further. Conversely, a disciplined tuck-in acquisition (local market share expansion) would be welcomed as proof the playbook is working.</p>
+  </li>
+</ol>
+
+<!-- ===================== SECTION 7: WHAT DRIVES THE BUSINESS? ===================== -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<table class="data" style="margin-bottom: 16px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Revenue Line</th>
+      <th style="text-align:left;">Decomposition Formula</th>
+      <th style="text-align:right;">FY25 Rev</th>
+      <th style="text-align:right;">% Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Direct Title — Residential Purchase</td>
+      <td style="text-align:left; font-size:9px;">Closed Orders × Avg Premium per Order (Residential Purchase)</td>
+      <td>~$890M</td>
+      <td>~30%</td>
+    </tr>
+    <tr>
+      <td>Direct Title — Residential Refinance</td>
+      <td style="text-align:left; font-size:9px;">Refi Order Volume × Avg Premium per Refi Order (lower than purchase)</td>
+      <td>~$320M</td>
+      <td>~11%</td>
+    </tr>
+    <tr>
+      <td>Direct Title — Commercial</td>
+      <td style="text-align:left; font-size:9px;">Commercial Transaction Count × Avg Premium per Commercial Deal (3–10× residential)</td>
+      <td>~$620M</td>
+      <td>~21%</td>
+    </tr>
+    <tr>
+      <td>Agency Title Operations</td>
+      <td style="text-align:left; font-size:9px;">Agency Premium Volume × STC Underwriter Retention Rate (15–20% of gross premium)</td>
+      <td>~$650M</td>
+      <td>~22%</td>
+    </tr>
+    <tr>
+      <td>RES — Centralized Title &amp; Settlement</td>
+      <td style="text-align:left; font-size:9px;">Lender Order Volume × Revenue per Lender-Originated File</td>
+      <td>~$220M</td>
+      <td>~8%</td>
+    </tr>
+    <tr>
+      <td>RES — Post-Closing &amp; Default Services (incl. MCS)</td>
+      <td style="text-align:left; font-size:9px;">Active Loan Portfolio Under Service × Fee per Loan per Month</td>
+      <td>~$218M</td>
+      <td>~7%</td>
+    </tr>
+    <tr style="font-weight:700; border-top:1px solid #ccc;">
+      <td>Total Revenue</td>
+      <td></td>
+      <td>$2,922M</td>
+      <td>100%</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose"><strong>Key driver leverage analysis:</strong> The two variables with the most leverage on total STC earnings are: (1) <strong>Existing home transaction volume</strong> — a 10% improvement in closed order volume (residential purchase + refi combined) flows through at approximately 70–80% incremental margin given the fixed-cost nature of the title plant and underwriting infrastructure. Because personnel costs are the single largest expense (~55% of revenue), volume leverage is high once headcount is stabilized. (2) <strong>Commercial title order count and average deal size</strong> — commercial title is high-premium, high-margin, and STC has been deliberately growing this exposure. A large commercial deal ($100M+ transaction) can generate a single title premium of $200K–$500K. Commercial orders are lumpy but represent the highest-margin incremental dollar of revenue. The RES segment is a third driver with a different profile: it is largely recurring (lender relationships with monthly fees), so it provides revenue stability but limited operating leverage compared to purchase title.</p>
+
+<!-- ===================== SECTION 8: ALPHASENSE INSIGHTS ===================== -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+  <strong>AlphaSense DR-Report:</strong> Stewart Information Services Corporation (STC) · Report Date: March 2026 · Query: Competitive position, MCS integration, commercial title, housing market recovery, technology transformation
+</div>
+
+<div class="section-title">Competitive Position in the National Title Market</div>
+<p class="prose">STC's competitive position has shifted meaningfully under the Eppinger leadership team since 2020. Expert sources familiar with the title insurance industry emphasize that STC's historic weakness was its fragmented operational structure — running as a loose confederation of local offices with inconsistent processes, technology, and quality control. The centralization initiative launched in 2023–2024 addresses this at the root: by consolidating title search, examination, and curative work into hub facilities with standardized workflows, STC is attacking the cost structure that historically made it the highest-cost operator among the four national underwriters. Independent agency sources note that Stewart's technology interfaces for agency support have meaningfully improved in the past 18 months, reducing friction for agencies considering switching their underwriting to Stewart from a competitor. One former large-agency owner described the pre-2022 Stewart technology experience as "10 years behind First American"; by 2025, the gap had narrowed considerably. However, agents consistently note that FNF remains the preferred underwriter for large independent agencies due to FNF's superior financial strength rating, larger balance sheet, and willingness to take on higher-risk title orders that the other underwriters decline — a capability that stems from FNF's scale advantage in loss reserves.</p>
+
+<div class="section-title">MCS Acquisition: Integration Evidence and Risk</div>
+<p class="prose">The Mortgage Connect Services acquisition ($330M, closed November 2025) is both the most important and most controversial strategic decision of Eppinger's tenure. Expert sources from mortgage servicing and default management backgrounds describe MCS as a well-run lender services business with strong client relationships — particularly in the default management and post-closing space — but one that was acquired at the peak of the lender services cycle. MCS's revenue is tied to mortgage servicing volumes, which in turn depend on interest rates: as rates rise and fewer homeowners refinance, servicers process fewer modifications and payoffs, reducing demand for MCS's services. The bull case for MCS is that STC is buying a "scale anchor" for the RES segment — bringing lender relationships that can be cross-sold full-suite title services including residential purchase title when rates eventually fall and purchase volume recovers. Multiple ex-Mortgage Connect employees who participated in an expert network call (referenced in the AlphaSense report, dated February 2026) described cultural integration as proceeding faster than expected, with STC's management team being notably more operationally focused than expected — "they showed up to our facilities in the first week wanting to understand the workflow in detail, which wasn't the Stewart of five years ago." The primary integration risk identified was pricing pressure: MCS's lender clients were re-bidding contracts at the time of acquisition close, aware that STC now had a motivated reason to retain them as an anchor RES client. Early indications from Q4 2025 management commentary suggest STC retained the major MCS client relationships without material price concessions, but this will need to be confirmed over 2–3 quarters.</p>
+
+<div class="section-title">Commercial Title Strength: Structural or Cyclical?</div>
+<p class="prose">The 49% YoY growth in domestic commercial title in Q4 2025 prompted multiple analyst questions about sustainability. Expert sources from the commercial real estate capital markets space make a nuanced distinction: (1) STC's commercial title growth in 2024–2025 is partly cyclical recovery from the 2022–2023 CRE rate-shock freeze, and partly structural — reflecting deliberate investment by STC in hiring experienced commercial title officers and building commercial relationships with institutional buyers, REPE sponsors, and CMBS originators. (2) The commercial title market is not winner-take-all — even FNF with 44% national residential share has a more fragmented position in commercial, where the deal-specific expertise of the underwriting team matters more than brand or scale. (3) STC's commercial exposure skews toward industrial and multifamily (two asset classes in relative health) rather than office (where CRE stress is concentrated). Experts caution that commercial title volumes in 2026 will depend significantly on the interest rate environment — transaction volume for CRE is still suppressed relative to 2021, and many potential transactions are waiting for sellers to accept mark-to-market pricing. A rate-driven cap rate re-compression could unlock a significant volume of deferred transactions. The expert consensus: commercial growth is approximately 60% structural (STC market share gains) and 40% cyclical (CRE transaction recovery).</p>
+
+<div class="section-title">Technology Transformation: Real but Incomplete</div>
+<p class="prose">AlphaSense expert interviews with former STC technology leadership and industry consultants reveal a company in genuine transition. The BatchService acquisition (July 2025) was specifically targeted at the property data and batch processing capability needed to power STC's centralized title production model — rather than searching each property manually, BatchService's technology can pull property chain-of-title data from county records at scale, dramatically reducing the labor component of title search. Industry consultants describe this as table stakes for a credible national title competitor but note that STC is approximately 3–4 years behind First American's proprietary automation platform ("FAMPro") in deployment maturity. The critical risk flagged in the AlphaSense report: STC is investing in centralization while its revenue base is cyclically depressed, meaning the investment-to-revenue ratio looks worse than it will in a normalized environment. If volume recovery is delayed, operating leverage from centralization will take longer to materialize. On the positive side, two major STC lender clients referenced in the report cited STC's centralized title production as "meaningfully faster" than the prior model — a competitive advantage that is already influencing referral decisions.</p>
+
+<div class="section-title">Long-Term Investor Questions</div>
+<p class="prose">The AlphaSense report surfaces three key questions that long-term investors in STC debate: (1) <em>Can STC reach 8%+ pretax margins structurally, or is 6–7% the ceiling?</em> The bullish case requires simultaneously achieving centralization cost savings and volume recovery — two things that haven't happened simultaneously for STC in recent history. Bears note that FAF has invested more in technology for longer and still only generates mid-single-digit pretax margins in a normal market. (2) <em>What is the right capital allocation priority post-MCS?</em> STC now carries $769M in debt on a $2B market cap. Management has signaled continued M&A appetite, but debt service constraints may limit deal size until MCS is digested. Investors are watching whether debt is paid down meaningfully in 2026 or whether capital continues to flow to acquisitions. (3) <em>Is the AOL substitution risk existential or manageable?</em> Expert legal sources suggest AOL market penetration for conforming purchase loans is likely to grow from ~2–3% currently to potentially 10–15% over the next 5 years as GSEs expand acceptance criteria. This is a headwind but not an existential threat — AOLs are not accepted for jumbo, FHA/VA, portfolio, or commercial loans, which together represent the highest-margin title work. STC's commercial emphasis is thus implicitly a hedge against AOL substitution risk.</p>
+
+<!-- ===================== SECTION 9: SENSITIVITY ANALYSIS ===================== -->
+<div class="memo-section">9. Sensitivity Analysis on Core Business Drivers</div>
+
+<p class="prose">The two core drivers of STC's earnings are (1) residential title closed order volume (a proxy for existing home sales activity) and (2) adjusted pretax margin (driven by both volume leverage and centralization cost savings). Commercial title is a third important driver — we include a separate commercial sensitivity table.</p>
+
+<div class="section-title">Table 1: Total Title Revenue ($M) — Closed Residential Orders (000s) vs. Avg Revenue per Order ($)</div>
+<p class="prose" style="font-size:10px;"><strong>Current (FY25A): Closed Residential Orders ≈ 210,000 × Avg Revenue per Order ≈ $5,200 → Estimated Residential Direct Title Revenue ≈ $1,210M</strong></p>
+
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Orders (K) \ Rev/Order ($)</th>
+      <th>$4,400</th>
+      <th>$4,800</th>
+      <th>$5,200</th>
+      <th>$5,600</th>
+      <th>$6,000</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>160</td><td>$704M</td><td>$768M</td><td>$832M</td><td>$896M</td><td>$960M</td></tr>
+    <tr><td>185</td><td>$814M</td><td>$888M</td><td>$962M</td><td>$1,036M</td><td>$1,110M</td></tr>
+    <tr><td style="font-weight:700;">210</td><td>$924M</td><td>$1,008M</td><td class="base">$1,210M</td><td>$1,176M</td><td>$1,260M</td></tr>
+    <tr><td>240</td><td>$1,056M</td><td>$1,152M</td><td>$1,248M</td><td>$1,344M</td><td>$1,440M</td></tr>
+    <tr><td>275</td><td>$1,210M</td><td>$1,320M</td><td>$1,430M</td><td>$1,540M</td><td>$1,650M</td></tr>
+  </tbody>
+</table>
+
+<div class="section-title">Table 2: Adj. Pretax Income ($M) — Total Revenue ($B) vs. Adj. Pretax Margin (%)</div>
+<p class="prose" style="font-size:10px;"><strong>Current (FY25A): Total Revenue = $2.92B × Adj. Pretax Margin = 6.8% → Adj. Pretax Income ≈ $199M</strong></p>
+
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Revenue ($B) \ Margin (%)</th>
+      <th>4.0%</th>
+      <th>5.5%</th>
+      <th>6.8%</th>
+      <th>8.0%</th>
+      <th>9.5%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$2.50B</td><td>$100M</td><td>$138M</td><td>$170M</td><td>$200M</td><td>$238M</td></tr>
+    <tr><td>$2.75B</td><td>$110M</td><td>$151M</td><td>$187M</td><td>$220M</td><td>$261M</td></tr>
+    <tr><td style="font-weight:700;">$2.92B</td><td>$117M</td><td>$161M</td><td class="base">$199M</td><td>$234M</td><td>$277M</td></tr>
+    <tr><td>$3.35B</td><td>$134M</td><td>$184M</td><td>$228M</td><td>$268M</td><td>$318M</td></tr>
+    <tr><td>$3.60B</td><td>$144M</td><td>$198M</td><td>$245M</td><td>$288M</td><td>$342M</td></tr>
+  </tbody>
+</table>
+
+<div class="section-title">Table 3: FY28E EPS — Revenue CAGR (FY25→FY28) vs. Terminal Adj. Pretax Margin (%)</div>
+<p class="prose" style="font-size:10px;"><strong>Current (Consensus FY28E): Revenue CAGR ≈ 10.1% × FY28E Adj. Pretax Margin ≈ 7.4% → Consensus FY28E EPS ≈ $7.45</strong></p>
+
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Rev CAGR \ Margin</th>
+      <th>5.0%</th>
+      <th>6.5%</th>
+      <th>7.4%</th>
+      <th>8.5%</th>
+      <th>10.0%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>5.0%</td><td>$2.91</td><td>$3.79</td><td>$4.32</td><td>$4.96</td><td>$5.83</td></tr>
+    <tr><td>7.5%</td><td>$3.49</td><td>$4.54</td><td>$5.18</td><td>$5.95</td><td>$7.00</td></tr>
+    <tr><td style="font-weight:700;">10.1%</td><td>$4.14</td><td>$5.39</td><td class="base">$7.45</td><td>$7.07</td><td>$8.31</td></tr>
+    <tr><td>13.0%</td><td>$5.09</td><td>$6.62</td><td>$7.54</td><td>$8.67</td><td>$10.20</td></tr>
+    <tr><td>16.0%</td><td>$6.20</td><td>$8.06</td><td>$9.18</td><td>$10.56</td><td>$12.42</td></tr>
+  </tbody>
+</table>
+
+<!-- ===================== SECTION 10: 3-YEAR MODEL ===================== -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios</div>
+
+<p class="prose">Current stock price: <strong>$64.59</strong> (Mar 13, 2026). Model horizon: FY2026 → FY2028 (3 years). Exit multiple applied to FY2028E EPS. Base case uses FactSet consensus. All figures in millions except per-share. Fully diluted shares: ~31.5M (slight creep from stock comp).</p>
+
+<!-- CASE 1: BEAR SEVERE -->
+<div class="case-block">
+  <div class="case-name">🐻 Mortgage Rate Persistence — Housing Freeze Extends</div>
+  <div class="case-desc">30-year rates hold above 6.75% through 2027; existing home sales stay in the 3.8–4.0M annualized range; commercial title growth stalls as CRE buyers and sellers remain far apart on pricing; MCS integration costs continue to drag RES; STC's margin expansion is largely offset by volume headwinds. 2026 — Volume recovery fails to materialize; Q1 and Q2 order counts disappoint; management cuts RES margin guidance. 2027 — Rates begin modest decline late in year but transaction market slow to respond due to affordability constraints; commercial title growth returns modestly (10–15% YoY). 2028 — Partial recovery; revenues reach only $3.15B vs. consensus $3.90B; margins remain compressed at 5.5%.</div>
+
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Total Revenue</span><span>$3,150M</span></div>
+  <div class="driver-row"><span>Residential Closed Orders (000s)</span><span>~195K</span></div>
+  <div class="driver-row"><span>Avg Revenue per Order</span><span>~$5,100</span></div>
+  <div class="driver-row"><span>Adj. Pretax Margin</span><span>5.5%</span></div>
+  <div class="driver-row"><span>Commercial Title Growth (vs. FY25)</span><span>+5% p.a.</span></div>
+
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>FY26E</td><td>FY27E</td><td>FY28E</td></tr>
+    <tr><td>$Revenue</td><td>$2,870M</td><td>$3,020M</td><td>$3,150M</td></tr>
+    <tr><td>Revenue Growth %</td><td style="color:#555;">-1.8%</td><td style="color:#555;">+5.2%</td><td style="color:#555;">+4.3%</td></tr>
+    <tr><td>Gross Income</td><td>$2,460M</td><td>$2,590M</td><td>$2,702M</td></tr>
+    <tr><td>Gross Margin %</td><td style="color:#555;">85.7%</td><td style="color:#555;">85.8%</td><td style="color:#555;">85.8%</td></tr>
+    <tr><td>EBIT (Adj. Pretax)</td><td>$129M</td><td>$166M</td><td>$173M</td></tr>
+    <tr><td>EBIT Margin %</td><td style="color:#555;">4.5%</td><td style="color:#555;">5.5%</td><td style="color:#555;">5.5%</td></tr>
+    <tr><td>Net Income</td><td>$97M</td><td>$125M</td><td>$130M</td></tr>
+    <tr><td>Net Income Margin %</td><td style="color:#555;">3.4%</td><td style="color:#555;">4.1%</td><td style="color:#555;">4.1%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>31.3</td><td>31.4</td><td>31.5</td></tr>
+    <tr><td>EPS</td><td>$3.10</td><td>$3.98</td><td>$4.13</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>9.0x</td><td>9.0x</td><td>9.0x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$27.90</td><td>$35.82</td><td>$37.17</td></tr>
+  </table>
+
+  <div class="exit-metrics">
+    <div style="font-size:10px; color:#555;">FY2028E EPS: $4.13 × Exit P/E: 9.0x</div>
+    <div class="exit-price">Implied Price: $37.17</div>
+    <div class="exit-upside" style="color:#721c24;">Downside: −42.5% from $64.59</div>
+    <div style="font-size:9px; color:#888; margin-top:3px;">Implied Mkt Cap: $1,171M · Implied EV: $1,797M (+ $626M net debt)</div>
+  </div>
+</div>
+
+<!-- CASE 2: BEAR MILD -->
+<div class="case-block">
+  <div class="case-name">🐻 Slow Recovery — Rates Sticky, Volume Underwhelms Consensus</div>
+  <div class="case-desc">Rates decline gradually to ~6.25–6.5% by end of 2026; existing home sales improve modestly to ~4.3–4.5M SAAR by 2027 but don't reach the 5M+ level embedded in bullish estimates; commercial title growth moderates to 15–20% in 2026 then normalizes; MCS contributes RES revenue but margin ramp is slower than expected. 2026 — Title revenue grows ~10% vs. consensus 15%; pretax margin reaches 6.0–6.5% (vs. 7.1% consensus). 2027 — Volume improves but affordability constraints mean fewer first-time buyers re-enter; margin expansion to 7.0%. 2028 — Revenues reach $3.45B; margins at 7.0%.</div>
+
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Total Revenue</span><span>$3,450M</span></div>
+  <div class="driver-row"><span>Residential Closed Orders (000s)</span><span>~225K</span></div>
+  <div class="driver-row"><span>Avg Revenue per Order</span><span>~$5,400</span></div>
+  <div class="driver-row"><span>Adj. Pretax Margin</span><span>7.0%</span></div>
+  <div class="driver-row"><span>Commercial Title Growth (vs. FY25)</span><span>+12% p.a.</span></div>
+
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>FY26E</td><td>FY27E</td><td>FY28E</td></tr>
+    <tr><td>$Revenue</td><td>$3,070M</td><td>$3,260M</td><td>$3,450M</td></tr>
+    <tr><td>Revenue Growth %</td><td style="color:#555;">+5.1%</td><td style="color:#555;">+6.2%</td><td style="color:#555;">+5.8%</td></tr>
+    <tr><td>Gross Income</td><td>$2,638M</td><td>$2,803M</td><td>$2,967M</td></tr>
+    <tr><td>Gross Margin %</td><td style="color:#555;">85.9%</td><td style="color:#555;">85.9%</td><td style="color:#555;">86.0%</td></tr>
+    <tr><td>EBIT (Adj. Pretax)</td><td>$184M</td><td>$228M</td><td>$242M</td></tr>
+    <tr><td>EBIT Margin %</td><td style="color:#555;">6.0%</td><td style="color:#555;">7.0%</td><td style="color:#555;">7.0%</td></tr>
+    <tr><td>Net Income</td><td>$138M</td><td>$171M</td><td>$181M</td></tr>
+    <tr><td>Net Income Margin %</td><td style="color:#555;">4.5%</td><td style="color:#555;">5.2%</td><td style="color:#555;">5.2%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>31.3</td><td>31.4</td><td>31.5</td></tr>
+    <tr><td>EPS</td><td>$4.41</td><td>$5.45</td><td>$5.75</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>10.0x</td><td>10.0x</td><td>10.0x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$44.10</td><td>$54.50</td><td>$57.50</td></tr>
+  </table>
+
+  <div class="exit-metrics">
+    <div style="font-size:10px; color:#555;">FY2028E EPS: $5.75 × Exit P/E: 10.0x</div>
+    <div class="exit-price">Implied Price: $57.50</div>
+    <div class="exit-upside" style="color:#856404;">Downside: −11.0% from $64.59</div>
+    <div style="font-size:9px; color:#888; margin-top:3px;">Implied Mkt Cap: $1,811M · Implied EV: $2,437M (+ $626M net debt)</div>
+  </div>
+</div>
+
+<!-- CASE 3: BASE -->
+<div class="case-block">
+  <div class="case-name">📊 Consensus — Steady Recovery, Margin Expansion on Track</div>
+  <div class="case-desc">FactSet consensus case: rates decline toward 6.0–6.25% by mid-2026; existing home sales recover toward ~4.5–4.8M SAAR by 2027; commercial title grows ~20% in 2026, normalizing to ~10% by 2028; RES reaches mid-single-digit margins by end of 2026 with MCS integration on plan; centralization initiatives generate visible cost savings. 2026 — Title segment adj. pretax margins hit 7%+; RES turns profitable. 2027 — Volume recovery accelerates; STC at full centralization run-rate; ROE approaches 12%. 2028 — Full recovery-level revenues $3.90B; margins at 7.4%.</div>
+
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Total Revenue</span><span>$3,895M</span></div>
+  <div class="driver-row"><span>Residential Closed Orders (000s)</span><span>~255K</span></div>
+  <div class="driver-row"><span>Avg Revenue per Order</span><span>~$5,650</span></div>
+  <div class="driver-row"><span>Adj. Pretax Margin</span><span>7.4%</span></div>
+  <div class="driver-row"><span>Commercial Title Growth (vs. FY25)</span><span>+20% p.a.</span></div>
+
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>FY26E</td><td>FY27E</td><td>FY28E</td></tr>
+    <tr><td>$Revenue</td><td>$3,354M</td><td>$3,600M</td><td>$3,895M</td></tr>
+    <tr><td>Revenue Growth %</td><td style="color:#555;">+14.8%</td><td style="color:#555;">+7.3%</td><td style="color:#555;">+8.2%</td></tr>
+    <tr><td>Gross Income</td><td>$2,898M</td><td>$3,106M</td><td>$3,365M</td></tr>
+    <tr><td>Gross Margin %</td><td style="color:#555;">86.4%</td><td style="color:#555;">86.3%</td><td style="color:#555;">86.4%</td></tr>
+    <tr><td>EBIT (Adj. Pretax)</td><td>$238M</td><td>$306M</td><td>$288M</td></tr>
+    <tr><td>EBIT Margin %</td><td style="color:#555;">7.1%</td><td style="color:#555;">8.5%</td><td style="color:#555;">7.4%</td></tr>
+    <tr><td>Net Income</td><td>$179M</td><td>$230M</td><td>$216M</td></tr>
+    <tr><td>Net Income Margin %</td><td style="color:#555;">5.3%</td><td style="color:#555;">6.4%</td><td style="color:#555;">5.5%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>31.3</td><td>31.4</td><td>31.5</td></tr>
+    <tr><td>EPS</td><td>$5.03</td><td>$6.86</td><td>$7.45</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>11.0x</td><td>11.0x</td><td>11.0x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$55.33</td><td>$75.46</td><td>$81.95</td></tr>
+  </table>
+
+  <div class="exit-metrics">
+    <div style="font-size:10px; color:#555;">FY2028E EPS: $7.45 × Exit P/E: 11.0x</div>
+    <div class="exit-price">Implied Price: $81.95</div>
+    <div class="exit-upside" style="color:#155724;">Upside: +26.9% from $64.59</div>
+    <div style="font-size:9px; color:#888; margin-top:3px;">Implied Mkt Cap: $2,581M · Implied EV: $3,207M (+ $626M net debt)</div>
+  </div>
+</div>
+
+<!-- CASE 4: BULL MILD -->
+<div class="case-block">
+  <div class="case-name">🚀 Housing Unlock + Commercial Acceleration</div>
+  <div class="case-desc">Rates drop to 5.75–6.0% by mid-2026, unlocking meaningful pent-up purchase demand as "lock-in effect" homeowners begin trading up; existing home sales recover to 5.0–5.3M SAAR by 2027; commercial title maintains 25%+ growth through 2026 as CRE transaction market thaws more quickly; RES margins reach 5% by end of 2026; centralization savings ahead of schedule. 2026 — STC Title segment margin hits 8%+; RES profitable; order volumes surprise to the upside in Q2/Q3. 2027 — Full recovery volumes; ROE approaching 13–14%. 2028 — Revenues $4.35B; margins at 9.0%.</div>
+
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Total Revenue</span><span>$4,350M</span></div>
+  <div class="driver-row"><span>Residential Closed Orders (000s)</span><span>~285K</span></div>
+  <div class="driver-row"><span>Avg Revenue per Order</span><span>~$5,900</span></div>
+  <div class="driver-row"><span>Adj. Pretax Margin</span><span>9.0%</span></div>
+  <div class="driver-row"><span>Commercial Title Growth (vs. FY25)</span><span>+25% p.a.</span></div>
+
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>FY26E</td><td>FY27E</td><td>FY28E</td></tr>
+    <tr><td>$Revenue</td><td>$3,560M</td><td>$3,950M</td><td>$4,350M</td></tr>
+    <tr><td>Revenue Growth %</td><td style="color:#555;">+21.8%</td><td style="color:#555;">+10.9%</td><td style="color:#555;">+10.1%</td></tr>
+    <tr><td>Gross Income</td><td>$3,079M</td><td>$3,416M</td><td>$3,762M</td></tr>
+    <tr><td>Gross Margin %</td><td style="color:#555;">86.5%</td><td style="color:#555;">86.5%</td><td style="color:#555;">86.5%</td></tr>
+    <tr><td>EBIT (Adj. Pretax)</td><td>$285M</td><td>$355M</td><td>$392M</td></tr>
+    <tr><td>EBIT Margin %</td><td style="color:#555;">8.0%</td><td style="color:#555;">9.0%</td><td style="color:#555;">9.0%</td></tr>
+    <tr><td>Net Income</td><td>$214M</td><td>$266M</td><td>$294M</td></tr>
+    <tr><td>Net Income Margin %</td><td style="color:#555;">6.0%</td><td style="color:#555;">6.7%</td><td style="color:#555;">6.8%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>31.3</td><td>31.4</td><td>31.5</td></tr>
+    <tr><td>EPS</td><td>$6.83</td><td>$8.47</td><td>$9.33</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>13.0x</td><td>13.0x</td><td>13.0x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$88.79</td><td>$110.11</td><td>$121.29</td></tr>
+  </table>
+
+  <div class="exit-metrics">
+    <div style="font-size:10px; color:#555;">FY2028E EPS: $9.33 × Exit P/E: 13.0x</div>
+    <div class="exit-price">Implied Price: $121.29</div>
+    <div class="exit-upside" style="color:#155724;">Upside: +87.8% from $64.59</div>
+    <div style="font-size:9px; color:#888; margin-top:3px;">Implied Mkt Cap: $3,821M · Implied EV: $4,447M (+ $626M net debt)</div>
+  </div>
+</div>
+
+<!-- CASE 5: BULL SEVERE -->
+<div class="case-block">
+  <div class="case-name">🚀 Platform Inflection — Full Housing Recovery + Multiple Re-Rating</div>
+  <div class="case-desc">A combination of rate normalization (30-year to 5.5%), pent-up demand surge, CRE transaction boom, and RES segment reaching 7–8% margins as a fully matured platform generates an EPS trajectory that forces a multiple re-rating. The market begins pricing STC as a technology-enabled financial services platform rather than a cyclical title underwriter. 2026 — Order volumes surprise significantly to upside (+25% YoY); commercial title grows 35%+; RES margins hit 5%+. 2027 — Housing market reaches pre-rate-shock normalcy; STC gains market share through centralization; ROE hits 15%+. 2028 — Full cycle revenues $4.85B; pretax margins 10.5%; EPS ~$12; market awards 15x P/E on quality earnings.</div>
+
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Total Revenue</span><span>$4,850M</span></div>
+  <div class="driver-row"><span>Residential Closed Orders (000s)</span><span>~315K</span></div>
+  <div class="driver-row"><span>Avg Revenue per Order</span><span>~$6,200</span></div>
+  <div class="driver-row"><span>Adj. Pretax Margin</span><span>10.5%</span></div>
+  <div class="driver-row"><span>Commercial Title Growth (vs. FY25)</span><span>+33% p.a.</span></div>
+
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>FY26E</td><td>FY27E</td><td>FY28E</td></tr>
+    <tr><td>$Revenue</td><td>$3,780M</td><td>$4,280M</td><td>$4,850M</td></tr>
+    <tr><td>Revenue Growth %</td><td style="color:#555;">+29.4%</td><td style="color:#555;">+13.2%</td><td style="color:#555;">+13.3%</td></tr>
+    <tr><td>Gross Income</td><td>$3,270M</td><td>$3,702M</td><td>$4,195M</td></tr>
+    <tr><td>Gross Margin %</td><td style="color:#555;">86.5%</td><td style="color:#555;">86.5%</td><td style="color:#555;">86.6%</td></tr>
+    <tr><td>EBIT (Adj. Pretax)</td><td>$302M</td><td>$406M</td><td>$509M</td></tr>
+    <tr><td>EBIT Margin %</td><td style="color:#555;">8.0%</td><td style="color:#555;">9.5%</td><td style="color:#555;">10.5%</td></tr>
+    <tr><td>Net Income</td><td>$227M</td><td>$305M</td><td>$382M</td></tr>
+    <tr><td>Net Income Margin %</td><td style="color:#555;">6.0%</td><td style="color:#555;">7.1%</td><td style="color:#555;">7.9%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>31.3</td><td>31.4</td><td>31.5</td></tr>
+    <tr><td>EPS</td><td>$7.25</td><td>$9.71</td><td>$12.13</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>15.0x</td><td>15.0x</td><td>15.0x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$108.75</td><td>$145.65</td><td>$181.95</td></tr>
+  </table>
+
+  <div class="exit-metrics">
+    <div style="font-size:10px; color:#555;">FY2028E EPS: $12.13 × Exit P/E: 15.0x</div>
+    <div class="exit-price">Implied Price: $181.95</div>
+    <div class="exit-upside" style="color:#155724;">Upside: +181.7% from $64.59</div>
+    <div style="font-size:9px; color:#888; margin-top:3px;">Implied Mkt Cap: $5,731M · Implied EV: $6,357M (+ $626M net debt)</div>
+  </div>
+</div>
+
+<!-- SVG BAR CHART -->
+<div class="case-chart">
+  <div style="font-size:10px; font-weight:700; margin-bottom:8px;">Implied FY2028E Share Price by Scenario</div>
+  <svg viewBox="0 0 736 220" xmlns="http://www.w3.org/2000/svg">
+    <!-- Y axis -->
+    <line x1="60" y1="10" x2="60" y2="180" stroke="#ccc" stroke-width="1"/>
+    <!-- X axis -->
+    <line x1="60" y1="180" x2="720" y2="180" stroke="#ccc" stroke-width="1"/>
+
+    <!-- Scale lines and labels (0, 50, 100, 150, 200) -->
+    <text x="55" y="183" text-anchor="end" font-size="8" fill="#888">$0</text>
+    <line x1="60" y1="180" x2="720" y2="180" stroke="#eee" stroke-width="0.5" stroke-dasharray="2,2"/>
+    <text x="55" y="135" text-anchor="end" font-size="8" fill="#888">$50</text>
+    <line x1="60" y1="132" x2="720" y2="132" stroke="#eee" stroke-width="0.5" stroke-dasharray="2,2"/>
+    <text x="55" y="88" text-anchor="end" font-size="8" fill="#888">$100</text>
+    <line x1="60" y1="84" x2="720" y2="84" stroke="#eee" stroke-width="0.5" stroke-dasharray="2,2"/>
+    <text x="55" y="41" text-anchor="end" font-size="8" fill="#888">$150</text>
+    <line x1="60" y1="36" x2="720" y2="36" stroke="#eee" stroke-width="0.5" stroke-dasharray="2,2"/>
+
+    <!-- Bars (scale: $200 = 170px tall, so 1px = $200/170 ≈ $1.176 per px) -->
+    <!-- Bear Severe: $37.17 → 37.17/200*170 = 31.6px, bar top = 180-31.6 = 148.4 -->
+    <rect x="80" y="148" width="80" height="32" fill="#2563eb" rx="2"/>
+    <text x="120" y="143" text-anchor="middle" font-size="8.5" fill="#333" font-weight="600">$37.17</text>
+    <text x="120" y="196" text-anchor="middle" font-size="8" fill="#555">Bear Severe</text>
+
+    <!-- Bear Mild: $57.50 → 57.5/200*170 = 48.9px, bar top = 180-48.9 = 131.1 -->
+    <rect x="215" y="131" width="80" height="49" fill="#2563eb" rx="2"/>
+    <text x="255" y="126" text-anchor="middle" font-size="8.5" fill="#333" font-weight="600">$57.50</text>
+    <text x="255" y="196" text-anchor="middle" font-size="8" fill="#555">Bear Mild</text>
+
+    <!-- Base: $81.95 → 81.95/200*170 = 69.7px, bar top = 180-69.7 = 110.3 -->
+    <rect x="350" y="110" width="80" height="70" fill="#2563eb" rx="2"/>
+    <text x="390" y="105" text-anchor="middle" font-size="8.5" fill="#333" font-weight="600">$81.95</text>
+    <text x="390" y="196" text-anchor="middle" font-size="8" fill="#555">Base</text>
+
+    <!-- Bull Mild: $121.29 → 121.29/200*170 = 103.1px, bar top = 180-103.1 = 76.9 -->
+    <rect x="485" y="77" width="80" height="103" fill="#2563eb" rx="2"/>
+    <text x="525" y="72" text-anchor="middle" font-size="8.5" fill="#333" font-weight="600">$121.29</text>
+    <text x="525" y="196" text-anchor="middle" font-size="8" fill="#555">Bull Mild</text>
+
+    <!-- Bull Severe: $181.95 → 181.95/200*170 = 154.7px, bar top = 180-154.7 = 25.3 -->
+    <rect x="620" y="25" width="80" height="155" fill="#2563eb" rx="2"/>
+    <text x="660" y="20" text-anchor="middle" font-size="8.5" fill="#333" font-weight="600">$181.95</text>
+    <text x="660" y="196" text-anchor="middle" font-size="8" fill="#555">Bull Severe</text>
+
+    <!-- Current price dashed line: $64.59 → 64.59/200*170 = 54.9px, y = 180-54.9 = 125.1 -->
+    <line x1="60" y1="125" x2="720" y2="125" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <text x="724" y="128" font-size="8" fill="#c0392b" font-weight="600">Current $64.59</text>
+
+    <!-- Prob-wtd PV line: weighted avg = 5%×37.17 + 20%×57.50 + 50%×81.95 + 20%×121.29 + 5%×181.95 -->
+    <!-- = 1.859 + 11.50 + 40.975 + 24.258 + 9.098 = 87.69; discounted at 30%: 87.69/1.30 = $67.45 -->
+    <!-- $67.45 → 67.45/200*170 = 57.3px, y = 180-57.3 = 122.7 -->
+    <line x1="60" y1="123" x2="720" y2="123" stroke="#27ae60" stroke-width="1.5" stroke-dasharray="6,3"/>
+    <text x="724" y="120" font-size="8" fill="#27ae60" font-weight="600">Prob-Wtd PV: $67.45</text>
+  </svg>
+  <div style="font-size:8.5px; color:#888; margin-top:4px;">
+    Case weights: 5% / 20% / 50% / 20% / 5% · Weighted avg: $87.69 · Discounted @ 30% CoC (1-yr): <strong>$67.45</strong> · Current: $64.59
+  </div>
+</div>
+
+<!-- ===================== SECTION 11: COMPS ===================== -->
+<div class="memo-section">11. Comps — Title Insurance Peer Group</div>
+
+<div class="section-title">Selected Financials — Title Insurance Peers</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>Mkt Cap ($M)</th>
+      <th>EV ($M)</th>
+      <th>$Rev FY25A ($M)</th>
+      <th>Rev FY26E ($M)</th>
+      <th>Adj PTP Mgn FY25</th>
+      <th>Adj PTP Mgn FY26E</th>
+      <th>ROE FY25</th>
+      <th>ROE FY26E</th>
+      <th>Loss Ratio</th>
+      <th>Combined Ratio</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Stewart Info Svcs</td><td>STC</td><td>$1,965</td><td>$2,785</td><td>$2,922</td><td class="est">$3,354</td><td>6.8%</td><td class="est">7.1%</td><td>7.6%</td><td class="est">9.9%</td><td>3.4%</td><td>40.2%</td>
+    </tr>
+    <tr>
+      <td>Fidelity Natl Financial</td><td>FNF</td><td>$12,898</td><td>$21,165</td><td>~$12,500</td><td class="est">—</td><td>~5.5%</td><td class="est">—</td><td>7.9%</td><td class="est">—</td><td>2.8%</td><td>121.2%</td>
+    </tr>
+    <tr>
+      <td>First American Financial</td><td>FAF</td><td>$6,691</td><td>$8,160</td><td>~$5,600</td><td class="est">—</td><td>~4.8%</td><td class="est">—</td><td>12.0%</td><td class="est">—</td><td>3.2%</td><td>94.7%</td>
+    </tr>
+    <tr>
+      <td>Investors Title Co</td><td>ITIC</td><td>$421</td><td>$481</td><td>~$320</td><td class="est">—</td><td>~6.5%</td><td class="est">—</td><td>13.1%</td><td class="est">—</td><td>3.5%</td><td>97.7%</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title">Valuation Multiples — Title Insurance Peers</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>Price</th>
+      <th>PT</th>
+      <th>P/E NTM</th>
+      <th>P/E FY2</th>
+      <th>P/BV</th>
+      <th>P/TBV</th>
+      <th>EV/Rev FY1</th>
+      <th>EPS 1Yr Gro.</th>
+      <th>Div Yield</th>
+      <th>Rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Stewart Info Svcs</td><td>STC</td><td>$64.59</td><td>$81.33</td><td>10.50x</td><td>8.9x</td><td>1.19x</td><td>44.4x</td><td>0.83x</td><td>+55.2%</td><td>3.25%</td><td>OW</td>
+    </tr>
+    <tr>
+      <td>Fidelity Natl Financial</td><td>FNF</td><td>—</td><td>—</td><td>7.93x</td><td>—</td><td>—</td><td>—</td><td>1.69x</td><td>—</td><td>~3.8%</td><td>—</td>
+    </tr>
+    <tr>
+      <td>First American Financial</td><td>FAF</td><td>—</td><td>—</td><td>10.23x</td><td>—</td><td>—</td><td>—</td><td>1.46x</td><td>—</td><td>~3.5%</td><td>—</td>
+    </tr>
+    <tr>
+      <td>Investors Title Co</td><td>ITIC</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>~1.5%</td><td>—</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Average</td><td>—</td><td>—</td><td>—</td><td>9.55x</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Median</td><td>—</td><td>—</td><td>—</td><td>10.23x</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:8px;">STC trades at 10.5x NTM P/E — a 3% premium to the FAF peer median of 10.2x, but a 32% premium to FNF's 7.9x. The premium to FNF reflects STC's higher earnings growth trajectory (+55% EPS 1-year estimate) and the market's recognition that STC is operating below its structural earnings capacity, while FNF is larger and more mature. STC's discount to historical 5-year average multiples (22.1x P/E) is partially justified by: (1) elevated leverage post-MCS deal, (2) remaining execution risk on margin expansion, and (3) the housing market uncertainty tax. The bull case for multiple re-rating — from current 10.5x toward 13–15x — depends on demonstrated delivery of 8%+ pretax margins over 2–3 consecutive quarters, which would prove the centralization thesis is structural rather than cyclical.</p>
+
+<!-- ===================== SECTION 12: IS THIS A THEIA INVESTMENT? ===================== -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<p class="prose">Theia seeks small cap companies that aren't well covered and are strongly aligned on core internet finance thesis with wide outcome dispersion.</p>
+
+<div class="verdict">
+  <strong>(i) Market Cap Bucket: Small Cap ($1.96B)</strong> <span class="fw-rating strong">Strong</span>
+  <div style="margin-top:4px;">STC's $1.96B market cap sits squarely in Theia's $1–5B small cap sweet spot. The company is large enough to be institutionally investable (adequate liquidity, $185K/day average volume) but small enough that most large-cap mandate funds cannot own it. This creates the structural underownership that enables mispricing.</div>
+</div>
+
+<div class="verdict">
+  <strong>(ii) Analyst Coverage: 4 Analysts — Under-Covered</strong> <span class="fw-rating strong">Strong</span>
+  <div style="margin-top:4px;">Only 4 sell-side analysts cover STC (FactSet broker contributors: 4), with an average consensus rating of Overweight (1.25). This is well below the 5-analyst threshold Theia uses as the "under-covered" cutoff. KBW upgraded to Outperform in January 2026 at $75, suggesting even the existing small analyst community is bullish. With only 4 analysts, there is meaningful room for informational edge — particularly around the RES segment margin trajectory and MCS integration details that require deep channel research to assess accurately.</div>
+</div>
+
+<div class="verdict">
+  <strong>(iii) Blockchain / Internet Finance Thesis Alignment: Adjacent</strong> <span class="fw-rating moderate">Moderate</span>
+  <div style="margin-top:4px;">STC is not a pure-play internet finance company — it is a traditional title insurance underwriter undergoing technology-driven operational transformation. However, it is highly relevant to Theia's internet finance thesis in two ways: (1) STC's RES segment serves the digital mortgage ecosystem directly — the lender clients it processes centralized title for include the digitally-native mortgage originators (Rocket, UWM, Better.com) that are central to Theia's coverage universe. If the digital mortgage sector grows, STC benefits as the title infrastructure layer. (2) Blockchain-based property records and smart-contract title transfer represent a potential long-term disruption to the traditional title insurance model — and STC, as a $2B incumbent, is the most likely to be either disrupted or to acquire/partner with blockchain title innovators. This is more Adjacent than Core Thesis.</div>
+</div>
+
+<div class="verdict">
+  <strong>(iv) Outcome Dispersion: Wide</strong> <span class="fw-rating strong">Strong</span>
+  <div style="margin-top:4px;">The 5-scenario model produces implied FY2028 prices ranging from $37.17 (Bear Severe, −43%) to $181.95 (Bull Severe, +182%). The probability-weighted intrinsic value is $67.45 — only 4.4% above current price on a 1-year basis, suggesting the stock is roughly fairly valued at current consensus estimates. However, the base case ($81.95) represents 27% upside, and the option value of the bull case (+88% to +182%) creates an asymmetric payoff profile if rates normalize. The wide dispersion reflects the binary nature of the housing market recovery thesis. The downside is $37–57 (well below current) in adverse scenarios, so this is not a "heads I win, tails I don't lose much" setup — it has genuine two-sided risk.</div>
+</div>
+
+<div style="margin-top: 16px; padding: 12px 16px; background: #f4f6f9; border-left: 4px solid #856404; border-radius: 2px;">
+  <strong style="font-size:12px;">Verdict: MAYBE — Track Position, Await Rate Catalyst</strong>
+  <span class="fw-rating moderate" style="margin-left: 8px;">Track</span>
+  <p class="prose" style="margin-top:8px;">STC meets three of Theia's four criteria strongly: right market cap ($2B small cap), under-covered (4 analysts), and wide outcome dispersion ($37–$182 scenario range). Where it falls short of a conviction YES is thesis alignment — STC is a traditional title insurance business undergoing technology transformation, not a native internet finance company, and the core earnings driver remains housing market volume recovery rather than digital adoption. The probability-weighted intrinsic value ($67.45) is nearly at current price ($64.59), leaving limited margin of safety at current levels. The risk/reward improves materially if: (1) Q1 2026 earnings (April 29) confirm RES margins turning positive and commercial title growth continuing above 20%, and (2) mortgage rates show sustained directional decline below 6.25%. <strong>Initiate a tracking position at current levels (≤$65); size up to full position on a pullback toward $55–58 or on confirmed positive Q1 catalysts.</strong></p>
+</div>
+
+<!-- ===================== APPENDIX: PYTHON CODE ===================== -->
+<div class="memo-section appendix">Appendix — Python Code for Sensitivity &amp; Scenario Analysis</div>
+
+<div class="code-block">
+# STC Theia Memo — Parameterized Sensitivity & Scenario Generator
+# Adjust inputs below and run to regenerate tables
+
+import numpy as np
+
+# ============================================================
+# SENSITIVITY TABLE 1: Residential Title Revenue
+# Revenue = Closed_Orders × Rev_Per_Order
+# ============================================================
+
+closed_orders_k = [160, 185, 210, 240, 275]   # in thousands
+rev_per_order =   [4400, 4800, 5200, 5600, 6000]  # in dollars
+
+base_orders = 210   # current FY25A
+base_rpo = 5200     # current FY25A
+
+print("Table 1: Residential Title Revenue ($M)")
+print(f"{'Orders (K)':<12}", end="")
+for rpo in rev_per_order:
+    print(f"${rpo:>7,}", end="")
+print()
+for o in closed_orders_k:
+    marker = " <-- base" if o == base_orders else ""
+    print(f"{o:<12}", end="")
+    for rpo in rev_per_order:
+        rev = o * rpo / 1000  # in $M
+        tag = " [BASE]" if (o == base_orders and rpo == base_rpo) else ""
+        print(f"  ${rev:>6.0f}M", end="")
+    print(marker)
+
+# ============================================================
+# SENSITIVITY TABLE 2: Adj. Pretax Income
+# = Total Revenue × Adj. Pretax Margin
+# ============================================================
+
+revenues_b = [2.50, 2.75, 2.92, 3.35, 3.60]   # $B
+margins_pct = [4.0, 5.5, 6.8, 8.0, 9.5]        # %
+
+base_rev = 2.92
+base_margin = 6.8
+
+print("\nTable 2: Adj. Pretax Income ($M)")
+print(f"{'Rev ($B)':<12}", end="")
+for m in margins_pct:
+    print(f"  {m:.1f}%   ", end="")
+print()
+for r in revenues_b:
+    marker = " <-- base" if r == base_rev else ""
+    print(f"${r:.2f}B      ", end="")
+    for m in margins_pct:
+        pti = r * 1000 * m / 100  # $M
+        print(f"  ${pti:>6.0f}M", end="")
+    print(marker)
+
+# ============================================================
+# 5-CASE MODEL: EPS & Implied Price
+# ============================================================
+
+current_price = 64.59
+shares_m = 31.5      # fully diluted
+tax_rate = 0.25
+
+cases = {
+    "Bear Severe":  {"rev_b": 3.15, "margin_pct": 5.5,  "pe_exit": 9.0},
+    "Bear Mild":    {"rev_b": 3.45, "margin_pct": 7.0,  "pe_exit": 10.0},
+    "Base":         {"rev_b": 3.895,"margin_pct": 7.4,  "pe_exit": 11.0},
+    "Bull Mild":    {"rev_b": 4.35, "margin_pct": 9.0,  "pe_exit": 13.0},
+    "Bull Severe":  {"rev_b": 4.85, "margin_pct": 10.5, "pe_exit": 15.0},
+}
+
+weights = {"Bear Severe": 0.05, "Bear Mild": 0.20, "Base": 0.50,
+           "Bull Mild": 0.20, "Bull Severe": 0.05}
+
+cost_of_capital = 0.30
+
+print("\n5-Case FY2028E Model Summary")
+print(f"{'Case':<16} {'Rev ($B)':<10} {'Margin':<8} {'PTI ($M)':<10} {'NI ($M)':<10} {'EPS':<8} {'P/E Exit':<10} {'Implied $':<10} {'Upside':<8}")
+print("-" * 92)
+
+weighted_sum = 0
+for name, c in cases.items():
+    pti = c["rev_b"] * 1000 * c["margin_pct"] / 100
+    ni  = pti * (1 - tax_rate)
+    eps = ni / shares_m
+    implied = eps * c["pe_exit"]
+    updown = (implied / current_price - 1) * 100
+    weighted_sum += weights[name] * implied
+    print(f"{name:<16} ${c['rev_b']:<9.3f} {c['margin_pct']:<8.1f}% ${pti:<9.0f} ${ni:<9.0f} ${eps:<7.2f} {c['pe_exit']:<10.1f}x ${implied:<9.2f} {updown:+.1f}%")
+
+prob_wtd_pv = weighted_sum / (1 + cost_of_capital)
+print(f"\nWeighted Avg (FY2028E):  ${weighted_sum:.2f}")
+print(f"Prob-Weighted PV @ {int(cost_of_capital*100)}% CoC: ${prob_wtd_pv:.2f}  (vs. current ${current_price:.2f})")
+print(f"Implied return from current: {(prob_wtd_pv/current_price-1)*100:+.1f}%")
+</div>
+
+<div class="source-note" style="margin-top:16px;">Sources: FactSet snapshot (March 16, 2026) · Stewart Q4 2025 &amp; Q3 2025 earnings calls · Stephens Investment Conference (Feb 2026) · Q2 2025 earnings call · AlphaSense DR-Report (March 2026) · KBW research note (January 2026) · NAR housing data · Claude/Theia analysis. Not investment advice. Internal use only.</div>
+
+</body>
+</html>
