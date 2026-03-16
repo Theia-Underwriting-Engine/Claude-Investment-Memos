@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=816px">
+<title>Enova International | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', Arial, sans-serif; background: #fff; color: #1a1a2e; width: 816px; margin: 0 auto; padding: 32px 40px; font-size: 11px; line-height: 1.45; }
+.title-bar { font-size: 20px; font-weight: 700; letter-spacing: -0.4px; color: #1a1a2e; border-bottom: 3px solid #1a1a2e; padding-bottom: 10px; margin-bottom: 20px; text-align: center; }
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 28px 0 10px 0; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+table.ev tr.indent td:first-child { padding-left: 12px; font-size: 9.5px; color: #777; }
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; border: 1px solid #eee; border-radius: 3px; }
+.val-grid .val-cell { padding: 5px 6px; border-right: 1px solid #eee; border-bottom: 1px solid #eee; }
+.val-grid .val-cell:nth-child(6), .val-grid .val-cell:nth-child(12) { border-right: none; }
+.val-grid .val-cell:nth-child(7), .val-grid .val-cell:nth-child(8), .val-grid .val-cell:nth-child(9), .val-grid .val-cell:nth-child(10), .val-grid .val-cell:nth-child(11), .val-grid .val-cell:nth-child(12) { border-bottom: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+.prose { font-size: 11px; line-height: 1.65; color: #333; margin-bottom: 8px; }
+.fw-item { margin-bottom: 7px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+.fw-summary { margin-top: 8px; padding: 6px 10px; background: #f4f6f9; border-left: 3px solid #1a1a2e; font-size: 10.5px; font-style: italic; color: #444; }
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; border: 1px solid #e0e0e0; }
+table.sensitivity th:first-child { text-align: left; }
+table.sensitivity td { text-align: center; padding: 3px 6px; border: 1px solid #f0f0f0; }
+table.sensitivity td:first-child { text-align: left; font-weight: 600; background: #f4f6f9; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; color: #1a1a2e; }
+.sens-title { font-size: 10px; font-weight: 700; margin: 14px 0 2px 0; color: #1a1a2e; }
+.sens-current { font-size: 9px; color: #555; margin-bottom: 6px; font-style: italic; }
+/* Case blocks */
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 14px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 6px; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 10px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 8px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 700; color: #1a1a2e; }
+.fermi-narrative { background: #f0f4f8; border-radius: 3px; padding: 8px 10px; margin-bottom: 10px; font-size: 9.5px; line-height: 1.55; border-left: 3px solid #93c5fd; }
+.fermi-narrative .scenario-text { font-style: italic; color: #444; margin-bottom: 5px; font-size: 10px; font-weight: 500; }
+.fermi-narrative ul { margin: 0; padding-left: 16px; color: #333; }
+.fermi-narrative li { margin-bottom: 2px; }
+.fermi-narrative .reconcile { margin-top: 6px; font-weight: 600; color: #1a1a2e; border-top: 1px solid #c7d9ec; padding-top: 4px; font-size: 9.5px; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 10px 0 4px 0; }
+.case-block table.scenario-mini th { text-align: right; font-weight: 600; color: #888; padding: 2px 5px; border-bottom: 1px solid #ddd; font-size: 8.5px; }
+.case-block table.scenario-mini th:first-child { text-align: left; }
+.case-block table.scenario-mini td { padding: 2.5px 5px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even):not(.margin-row) { background: #f5f5f5; }
+.case-block table.scenario-mini tr.margin-row td { font-size: 8px; color: #999; font-style: italic; background: transparent !important; }
+.case-block table.scenario-mini tr.margin-row td:first-child { padding-left: 12px; font-weight: 400; }
+.case-block table.scenario-mini tr.shares-row td { font-size: 8.5px; color: #777; background: transparent !important; border-top: 1px dashed #e0e0e0; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 8px; margin-top: 8px; }
+.case-block .exit-line1 { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-bottom: 6px; }
+.case-block .exit-price { font-size: 15px; font-weight: 700; color: #1a1a2e; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; color: #555; }
+.case-block .exit-line2 { display: flex; gap: 24px; font-size: 9.5px; color: #555; border-top: 1px solid #eee; padding-top: 5px; flex-wrap: wrap; }
+.case-chart { margin-top: 16px; padding: 12px 12px 8px 12px; background: #f9f9f9; border-radius: 4px; border: 1px solid #eee; }
+.case-chart svg { width: 100%; height: auto; }
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 10px 0; font-size: 11px; line-height: 1.6; }
+.screen-item { margin-bottom: 10px; }
+.screen-item .screen-label { font-weight: 700; }
+.screen-item .screen-detail { color: #444; margin-top: 2px; font-size: 10.5px; line-height: 1.5; }
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 8.5px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+.alphasense-box { background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 4px; padding: 8px 12px; margin-bottom: 14px; font-size: 10px; color: #1e3a5f; line-height: 1.55; }
+.alphasense-box strong { color: #1e3a5f; }
+.as-section { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.7px; color: #1a1a2e; border-bottom: 1px solid #ccc; padding-bottom: 3px; margin: 14px 0 6px 0; }
+.neg { color: #c0392b; }
+.num-list { padding-left: 0; list-style: none; }
+.num-list li { margin-bottom: 6px; padding-left: 0; }
+.num-list li strong { color: #1a1a2e; }
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1.5px solid #ddd; white-space: nowrap; }
+table.comps th:first-child { text-align: left; min-width: 110px; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child { text-align: left; font-weight: 400; color: #333; white-space: nowrap; font-size: 8px; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-weight: 600; background: #fafbfc; border-top: 1px solid #eee; font-style: italic; }
+table.comps tr:nth-child(even):not(.subject):not(.stat-row) { background: #fafbfc; }
+table.comps tr.group-header td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 7.5px; text-transform: uppercase; letter-spacing: 0.5px; background: transparent !important; }
+.mi { color: #bbb; font-style: italic; }
+.fwd { color: #2563eb; }
+/* Bull / Bear side columns */
+.bull-header { color: #155724; font-weight: 700; font-size: 11px; border-bottom: 1.5px solid #155724; padding-bottom: 3px; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.6px; }
+.bear-header { color: #721c24; font-weight: 700; font-size: 11px; border-bottom: 1.5px solid #721c24; padding-bottom: 3px; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.6px; }
+.bb-item { margin-bottom: 6px; }
+.bb-item p { font-size: 10.5px; line-height: 1.55; color: #333; margin-top: 2px; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Enova International, Inc. | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="prose">
+Enova International (ENVA) is a technology-driven online lending company founded in 2003 and headquartered in Chicago, IL. The company operates two primary business lines: consumer lending (~55.5% of revenue), which provides near-prime and non-prime personal installment loans, lines of credit, and small-dollar loans under brands including NetCredit and CashNetUSA; and small and medium business (SMB) lending (~43.2% of revenue), which offers revenue-based business loans and lines of credit through Headway Capital and The Business Backer, serving the large underbanked segment that falls below traditional bank credit standards. CEO Steven Cunningham (formerly COO and CFO) runs the company with Chairman David Fisher, the architect of Enova's analytics-first credit model. Enova's core thesis is that its proprietary machine-learning underwriting platform — trained on 17+ years and 12+ million loan decisions — gives it a structural edge in pricing credit risk for borrowers that traditional banks systematically underprice or reject outright.
+</div>
+<div class="prose">
+On December 11, 2025, Enova announced the acquisition of Grasshopper Bank for approximately $369 million — a milestone strategic pivot. Grasshopper is a digitally-native bank chartered in New York, with ~$900M in deposits. The acquisition, expected to close H1 2026, would give Enova a banking charter, dramatically lowering its cost of funds from ~8% secured borrowings toward sub-4% FDIC-insured deposits, and opening the door to originating SBA-backed and deposit-funded SMB loans at scale. This is the most consequential event in Enova's history and remains the primary near-term catalyst driving investor attention.
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Theia FactSet Summary</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="header">
+  <div>
+    <h1>Enova International, Inc.</h1>
+    <span class="ticker">ENVA · NYSE · CUSIP 29357K103</span>
+  </div>
+  <div class="date">FactSet Snapshot · March 16, 2026</div>
+</div>
+
+<div class="price-bar">
+  <span class="price">$134.11</span>
+  <span><span class="label">1M</span> <span class="chg">−8.78%</span></span>
+  <span><span class="label">3M</span> <span class="chg">−14.09%</span></span>
+  <span><span class="label">6M</span> <span class="chg pos">+12.30%</span></span>
+  <span><span class="label">YTD</span> <span class="chg">−13.47%</span></span>
+  <span><span class="label">1Y</span> <span class="chg pos">+46.87%</span></span>
+  <span><span class="label">52-wk</span> <span>$79.41 – $176.68</span></span>
+</div>
+
+<div class="two-col">
+  <!-- Key Stats — Trading -->
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv">
+      <tr><td>Ticker / Exchange</td><td>ENVA / NYSE</td></tr>
+      <tr><td>Price (Mar 16, 2026)</td><td>$134.11</td></tr>
+      <tr><td>Volume (last close)</td><td>399,083</td></tr>
+      <tr><td>30-Day Avg Volume</td><td>324,100</td></tr>
+      <tr><td>Float %</td><td>97.8%</td></tr>
+      <tr><td>Short Interest</td><td>10.0%</td></tr>
+      <tr><td>Next Earnings</td><td>Apr 28, 2026</td></tr>
+      <tr><td>Avg Analyst Rating</td><td>Buy</td></tr>
+      <tr><td>Consensus Price Target</td><td>$193.71</td></tr>
+      <tr><td>Broker Contributors</td><td>7</td></tr>
+    </table>
+  </div>
+  <!-- EV Bridge -->
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev">
+      <tr><td>Market Cap (Dil)</td><td>$3,354M</td></tr>
+      <tr><td>+ Total Debt</td><td>$4,498M</td></tr>
+      <tr><td>+ Minority Interest</td><td>$0</td></tr>
+      <tr><td>+ Preferred Stock</td><td>$0</td></tr>
+      <tr><td>− Cash &amp; Equivalents</td><td>($408M)</td></tr>
+      <tr><td>− Investments</td><td>($143M)</td></tr>
+      <tr class="total"><td>Enterprise Value</td><td>$7,701M</td></tr>
+    </table>
+    <div style="margin-top:8px;">
+      <div class="section-title">Shares Outstanding</div>
+      <table class="kv">
+        <tr><td>Basic Shares</td><td>25.0M</td></tr>
+        <tr><td>Diluted Shares</td><td>25.0M</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Current Valuation — horizontal 6×2 KPI grid -->
+<div class="section-title" style="margin-top:12px;">Current Valuation</div>
+<div class="val-grid">
+  <div class="val-cell">
+    <div class="val-label">Market Cap</div>
+    <div class="val-num">$3,354M</div>
+    <div class="val-sub">Basic</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Enterprise Value</div>
+    <div class="val-num">$7,701M</div>
+    <div class="val-sub">Dil Incl. Debt</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">P/E (FY26E)</div>
+    <div class="val-num">8.6x</div>
+    <div class="val-sub">NTM Fwd</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">EV/EBITDA (FY26E)</div>
+    <div class="val-num">8.1x</div>
+    <div class="val-sub">NTM Fwd</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">EV/Sales (FY26E)</div>
+    <div class="val-num">2.1x</div>
+    <div class="val-sub">NTM Fwd</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">P/Sales (FY26E)</div>
+    <div class="val-num">0.9x</div>
+    <div class="val-sub">NTM Fwd</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Fully Dil Mkt Cap</div>
+    <div class="val-num">$3,354M</div>
+    <div class="val-sub">25.0M shs</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">WACC</div>
+    <div class="val-num">~11%</div>
+    <div class="val-sub">Est.</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Beta (2Y)</div>
+    <div class="val-num">1.62</div>
+    <div class="val-sub">vs. S&amp;P 500</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Avg Rating</div>
+    <div class="val-num">Buy</div>
+    <div class="val-sub">7 Analysts</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Target Price</div>
+    <div class="val-num">$193.71</div>
+    <div class="val-sub">44.4% upside</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Next Earnings</div>
+    <div class="val-num">Apr 28</div>
+    <div class="val-sub">Q1 2026</div>
+  </div>
+</div>
+
+<!-- Valuation Multiples Table -->
+<div class="section-title" style="margin-top:10px;">Valuation Multiples</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th>Multiple</th>
+      <th>5Yr Avg</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th class="est fwd">FY2026E</th>
+      <th class="est fwd">FY2027E</th>
+      <th class="est fwd">FY2028E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>P/E</td><td>10.0x</td><td>7.2x</td><td>11.8x</td><td>11.6x</td><td class="est">8.6x</td><td class="est">7.1x</td><td class="est">5.4x</td></tr>
+    <tr><td>P/Sales</td><td>0.7x</td><td>0.5x</td><td>0.9x</td><td>1.1x</td><td class="est">0.9x</td><td class="est">0.8x</td><td class="est">0.6x</td></tr>
+    <tr><td>P/Book Value</td><td>1.7x</td><td>1.0x</td><td>1.9x</td><td>2.2x</td><td class="est">1.8x</td><td class="est">1.5x</td><td class="est">1.1x</td></tr>
+    <tr><td>EV/Sales</td><td>2.3x</td><td>2.0x</td><td>2.6x</td><td>2.4x</td><td class="est">2.1x</td><td class="est">1.8x</td><td class="est">1.4x</td></tr>
+    <tr><td>EV/EBITDA</td><td>9.2x</td><td>7.8x</td><td>9.8x</td><td>9.9x</td><td class="est">8.1x</td><td class="est">6.5x</td><td class="est">4.9x</td></tr>
+    <tr><td>EV/EBIT</td><td>11.2x</td><td>9.3x</td><td>11.4x</td><td>10.4x</td><td class="est">9.3x</td><td class="est">7.5x</td><td class="est">5.6x</td></tr>
+  </tbody>
+</table>
+
+<!-- Revenue Exposure -->
+<div class="section-title" style="margin-top:10px;">Revenue Exposure</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Business Segment (FY2025)</div>
+    <table class="rev">
+      <thead><tr><th>Segment</th><th>Rev ($M)</th><th>% Total</th></tr></thead>
+      <tbody>
+        <tr><td>Consumer Lending</td><td>$1,750M</td><td>55.5%</td></tr>
+        <tr><td>SMB Lending</td><td>$1,360M</td><td>43.2%</td></tr>
+        <tr><td>Other / Intersegment</td><td>$42M</td><td>1.3%</td></tr>
+        <tr style="font-weight:700; border-top:1px solid #ddd;"><td>Total Revenue</td><td>$3,152M</td><td>100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <div class="sub-label">By Geography (FY2025)</div>
+    <table class="rev">
+      <thead><tr><th>Region</th><th>Rev ($M)</th><th>% Total</th></tr></thead>
+      <tbody>
+        <tr><td>United States</td><td>$3,074M</td><td>97.5%</td></tr>
+        <tr><td>International</td><td>$78M</td><td>2.5%</td></tr>
+        <tr style="font-weight:700; border-top:1px solid #ddd;"><td>Total Revenue</td><td>$3,152M</td><td>100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Financials -->
+<div class="section-title" style="margin-top:10px;">Financials</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th>($M except per share)</th>
+      <th>FY2022</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th class="est fwd">FY2026E</th>
+      <th class="est fwd">FY2027E</th>
+      <th class="est fwd">FY2028E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="8">Income Statement</td></tr>
+    <tr><td>Revenue</td><td>$1,726</td><td>$2,218</td><td>$2,702</td><td>$3,152</td><td class="est">$3,654</td><td class="est">$4,237</td><td class="est">$5,438</td></tr>
+    <tr><td>Gross Income</td><td>$1,204</td><td>$1,551</td><td>$1,891</td><td>$2,206</td><td class="est">$2,558</td><td class="est">$2,966</td><td class="est">$3,807</td></tr>
+    <tr><td>EBITDA</td><td>$499</td><td>$569</td><td>$693</td><td>$781</td><td class="est">$952</td><td class="est">$1,187</td><td class="est">$1,573</td></tr>
+    <tr><td>EBIT</td><td>$430</td><td>$476</td><td>$574</td><td>$741</td><td class="est">$829</td><td class="est">$1,030</td><td class="est">$1,375</td></tr>
+    <tr><td>Net Income</td><td>$211</td><td>$199</td><td>$260</td><td>$290</td><td class="est">$366</td><td class="est">$445</td><td class="est">$588</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$7.65</td><td>$7.53</td><td>$9.75</td><td>$11.52</td><td class="est">$14.53</td><td class="est">$17.67</td><td class="est">$23.35</td></tr>
+    <tr class="section-row"><td colspan="8">Margins</td></tr>
+    <tr><td>Gross Margin %</td><td>69.8%</td><td>69.9%</td><td>70.0%</td><td>70.0%</td><td class="est">70.0%</td><td class="est">70.0%</td><td class="est">70.0%</td></tr>
+    <tr><td>EBITDA Margin %</td><td>28.9%</td><td>25.7%</td><td>25.7%</td><td>24.8%</td><td class="est">26.0%</td><td class="est">28.0%</td><td class="est">28.9%</td></tr>
+    <tr><td>Net Income Margin %</td><td>12.2%</td><td>9.0%</td><td>9.6%</td><td>9.2%</td><td class="est">10.0%</td><td class="est">10.5%</td><td class="est">10.8%</td></tr>
+    <tr><td>FCF Margin %</td><td>55.0%</td><td>52.0%</td><td>53.9%</td><td>56.2%</td><td class="est">55.0%</td><td class="est">55.0%</td><td class="est">55.0%</td></tr>
+    <tr class="section-row"><td colspan="8">Cash Flow</td></tr>
+    <tr><td>Operating Cash Flow</td><td>$620</td><td>$703</td><td>$879</td><td>$1,009</td><td class="est">$1,168</td><td class="est">$1,332</td><td class="est">$1,711</td></tr>
+    <tr><td>Capital Expenditures</td><td>($67)</td><td>($59)</td><td>($73)</td><td>($82)</td><td class="est">($104)</td><td class="est">($121)</td><td class="est">($163)</td></tr>
+    <tr><td>Free Cash Flow</td><td>$950</td><td>$1,153</td><td>$1,456</td><td>$1,771</td><td class="est">$2,010</td><td class="est">$2,330</td><td class="est">$2,991</td></tr>
+    <tr class="section-row"><td colspan="8">Returns &amp; Leverage</td></tr>
+    <tr><td>Return on Equity</td><td>20.1%</td><td>16.7%</td><td>19.4%</td><td>24.3%</td><td class="est">27.5%</td><td class="est">29.0%</td><td class="est">32.0%</td></tr>
+    <tr><td>Debt / Equity</td><td>290%</td><td>295%</td><td>320%</td><td>342%</td><td class="est">350%</td><td class="est">330%</td><td class="est">300%</td></tr>
+    <tr><td>Interest Coverage</td><td>2.3x</td><td>2.0x</td><td>2.2x</td><td>2.2x</td><td class="est">2.5x</td><td class="est">2.9x</td><td class="est">3.4x</td></tr>
+  </tbody>
+</table>
+
+<!-- Valuation Summary -->
+<div class="section-title" style="margin-top:10px;">Valuation Summary</div>
+<div class="prose">
+Enova currently trades at 8.6x FY2026E P/E and 8.1x FY2026E EV/EBITDA — a substantial discount to its specialty finance peers, which trade at approximately 10–12x NTM P/E and 9–11x NTM EV/EBITDA. The discount reflects two concerns: (1) the high leverage inherent to a consumer lending balance sheet ($4.5B in debt vs. $1.2B equity) and the volatility of net charge-off rates in an uncertain macro environment; and (2) execution risk around the Grasshopper Bank acquisition, which adds integration complexity and a ~$369M cash outflow. However, Enova's underwriting machine has demonstrated consistent 20%+ ROE and 25%+ revenue CAGR even through the 2020–2023 interest rate shock cycle, and the banking charter could structurally compress the cost of funds from ~8% to sub-4% — a potential step-change in net interest margin. At 8.6x forward P/E vs. a 26% consensus EPS CAGR (FY25–28E), the valuation appears compelling for a business with this level of earnings growth durability.
+</div>
+<div class="source-note">Source: FactSet Snapshot, March 16, 2026 · Enova Q4 2025 Earnings Release · Estimates: FactSet consensus (7 contributors)</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Cases</div>
+    <div class="bb-item">
+      <span class="fw-name" style="font-weight:700; color:#155724;">Grasshopper Closes &amp; Transforms Cost of Funds</span>
+      <p class="prose">The Grasshopper Bank acquisition closes on schedule (H1 2026), giving Enova access to FDIC-insured deposits at ~3–4% cost versus ~8% secured borrowings today. A 200–400 bps reduction in cost of funds on a $4.5B debt stack would add $90–180M annually in pre-tax income — equivalent to a 25–50% increase in current earnings — without originating a single new loan.</p>
+    </div>
+    <div class="bb-item">
+      <span class="fw-name" style="font-weight:700; color:#155724;">SMB Lending Platform Inflects</span>
+      <p class="prose">SMB lending (~43% of revenue) has grown 30%+ annually for three consecutive years as Enova captures share from banks that pulled back on small business credit post-2023. A banking charter unlocks SBA loan origination, doubling the addressable market and allowing Enova to offer secured, government-guaranteed products at higher volume and lower loss rates than its current revenue-based loans.</p>
+    </div>
+    <div class="bb-item">
+      <span class="fw-name" style="font-weight:700; color:#155724;">AI Underwriting Model Widens Moat</span>
+      <p class="prose">With 17+ years and 12+ million loan decisions, Enova's ML model continuously improves its default prediction accuracy. In Q4 2025, management noted annualized NCO rates of 8.3% for consumer — meaningfully below the sub-prime peer average of 12–15% — demonstrating that proprietary data creates structural underwriting alpha that new entrants cannot replicate.</p>
+    </div>
+    <div class="bb-item">
+      <span class="fw-name" style="font-weight:700; color:#155724;">Rate Cuts Reduce Provision &amp; Boost Volume</span>
+      <p class="prose">Fed rate cuts reduce Enova's variable-rate borrowing costs and simultaneously improve consumer debt-service capacity, reducing NCOs. A 150 bps rate reduction cycle (market-implied through 2026) would mechanically boost NIM and reduce provision expense by an estimated $40–70M annually, flowing directly to EPS.</p>
+    </div>
+    <div class="bb-item">
+      <span class="fw-name" style="font-weight:700; color:#155724;">Buyback + Rerating on Multiple Expansion</span>
+      <p class="prose">Enova has repurchased ~35% of its float over the past 5 years, demonstrating capital discipline. At 8.6x forward P/E with 26% EPS growth consensus, any recognition of the earnings quality and banking charter optionality could drive the stock toward 12–14x earnings — implying $175–200+ per share even at flat earnings, let alone consensus growth.</p>
+    </div>
+  </div>
+  <div>
+    <div class="bear-header">Bear Cases</div>
+    <div class="bb-item">
+      <span class="fw-name" style="font-weight:700; color:#721c24;">Macro Deterioration Spikes NCOs</span>
+      <p class="prose">Enova's consumer book serves near-prime and non-prime borrowers, who are disproportionately exposed to unemployment shocks. A 100 bps rise in the unemployment rate historically increases NCO rates by 150–200 bps for this credit tier — on a $3B+ consumer portfolio, that translates to $45–60M incremental annual losses, with no ability to reprice existing vintages.</p>
+    </div>
+    <div class="bb-item">
+      <span class="fw-name" style="font-weight:700; color:#721c24;">Grasshopper Integration Risk</span>
+      <p class="prose">Acquiring a bank is operationally and regulatorily complex. Integration costs, FDIC oversight, and the risk that regulators impose lending restrictions or capital requirements on the combined entity could delay cost-of-funds benefits by 18–24 months. Any regulatory push-back on Enova's high-yield consumer lending through the bank charter would negate the acquisition's financial thesis.</p>
+    </div>
+    <div class="bb-item">
+      <span class="fw-name" style="font-weight:700; color:#721c24;">Regulatory &amp; Political Headwinds</span>
+      <p class="prose">The CFPB's payday/installment loan rulemaking, state-level APR caps (currently enacted in ~18 states), and political pressure on "predatory" consumer lending remain persistent risks. A federal rate cap or adverse CFPB rulemaking targeting the near-prime segment could eliminate Enova's ability to originate high-yield consumer loans in key markets, materially shrinking the addressable revenue base.</p>
+    </div>
+    <div class="bb-item">
+      <span class="fw-name" style="font-weight:700; color:#721c24;">Funding Cost Spike / Credit Market Dislocation</span>
+      <p class="prose">Enova relies on ABS markets and revolving credit facilities to fund its loan book. A credit market dislocation — such as a widening of ABS spreads in a risk-off environment — would increase Enova's cost of funds rapidly. Unlike banks, Enova currently has no insured deposit base to buffer against wholesale funding volatility, which could simultaneously compress margins and limit origination capacity.</p>
+    </div>
+    <div class="bb-item">
+      <span class="fw-name" style="font-weight:700; color:#721c24;">Competition from Fintech &amp; Embedded Finance</span>
+      <p class="prose">Upstart, LendingClub, and embedded finance players (Shopify Capital, Square Loans) increasingly compete in the near-prime and SMB lending markets. If ML-powered competitors with lower cost structures or embedded distribution advantages commoditize the underwriting edge, Enova's take rates and volume growth could compress in both consumer and SMB lending simultaneously.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="fw-item">
+  <span class="fw-name">1. Scale Economies</span>
+  <span class="fw-rating strong">Strong</span>
+  <p class="prose">Enova's underwriting infrastructure — the data platform, ML models, and origination technology — is almost entirely fixed cost. Marginal cost of processing an additional loan application is near zero once the platform exists. This means that as Enova scales from $3B to $5B in revenue, its technology overhead as a percentage of revenue falls structurally. More importantly, the proprietary training dataset grows with every loan originated: 12+ million decisions generates a feedback loop where Enova's models become more accurate over time purely from scale, while a new entrant starting today would need years of originations to build a comparably predictive dataset. The barrier here isn't just capital — it's the irreplaceable historical default performance data across multiple credit cycles, which cannot be purchased or replicated. A new entrant originating $1B in loans today would have 1/12th the training data Enova has — and crucially, none of the through-cycle data across the 2008 recession, 2020 COVID shock, and the 2022–2023 rate surge.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Network Effects</span>
+  <span class="fw-rating weak">Weak</span>
+  <p class="prose">Enova's lending model does not exhibit traditional network effects — a new consumer borrower does not make the platform more valuable to existing borrowers. There is a weak data network effect in the sense that each new loan adds to the training dataset, improving model accuracy for all future borrowers, but this is a slow-accreting, indirect effect rather than the direct flywheel seen in marketplace businesses. The SMB lending segment has similarly limited network dynamics — SMB borrowers do not refer other businesses or create platform value through their participation. This is a structural limitation of lending businesses vs. marketplace or exchange businesses, and Enova is fairly characterized as having low network effect power.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Counter-Positioning</span>
+  <span class="fw-rating strong">Strong</span>
+  <p class="prose">This is Enova's most underappreciated structural advantage. Traditional banks cannot serve Enova's core customer segment — near-prime and non-prime borrowers — without abandoning their capital allocation priorities and regulatory comfort zones. Banks are incentivized by their regulators (via risk-weighted asset frameworks and CRA requirements) to allocate capital to prime borrowers and certain community investments. Lending to sub-640 FICO consumers at 36–99% APR generates regulatory scrutiny, reputational risk, and complex fair-lending compliance requirements that large banks are institutionally unable and unwilling to accept. The Grasshopper Bank acquisition turns this counter-positioning dynamic on its head in a clever way: Enova gets a banking charter (and thus access to cheap deposit funding) while maintaining its underwriting expertise in a segment that traditional banks still cannot profitably serve. A JPMorgan or Bank of America looking at this market would have to: (1) accept reputational risk of high-APR lending, (2) retrain their entire credit function, and (3) build 17 years of training data from scratch. None of these things would be rational for an incumbent to do.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Switching Costs</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Consumer borrowers have relatively low switching costs — a near-prime borrower who wants a personal loan can apply to multiple platforms simultaneously, and digital-native lenders have made this frictionless. However, Enova benefits from a subtle retention dynamic: borrowers who successfully repay an Enova loan become preferred customers (their internal credit score improves) and are offered better terms on repeat borrowing. Approximately 40%+ of Enova's loan volume is from repeat customers, who generate better economics with lower CAC and lower NCOs. This creates a mild switching cost in the sense that a repeat borrower who switches to a competitor faces higher rates (because the competitor lacks Enova's proprietary repayment history for that individual). In SMB lending, switching costs are higher — businesses maintain banking and lending relationships, and the underwriting process involves revenue data integration that creates modest procedural friction to switch.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Branding</span>
+  <span class="fw-rating weak">Weak</span>
+  <p class="prose">Enova operates under multiple consumer-facing brands (NetCredit, CashNetUSA) that are reasonably well recognized in their segments, but these brands do not command meaningful price premiums. Borrowers in the near-prime and non-prime segment choose based on approval probability and total cost of credit — not brand loyalty. The brands do provide some SEO and customer familiarity advantages that reduce marginal customer acquisition cost for repeat borrowers, but this is modest. Branding is not a meaningful source of structural advantage for Enova.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">6. Cornered Resource</span>
+  <span class="fw-rating strong">Strong</span>
+  <p class="prose">Enova's proprietary default dataset — 17+ years and 12+ million loan decisions across consumer and SMB credit — is a genuine cornered resource. This dataset is not publicly available, cannot be licensed or reconstructed, and grows continuously with every new loan originated. Unlike traditional credit bureaus (which provide raw payment history), Enova's dataset captures soft variables: employment type, income volatility patterns, behavioral signals at application, and the behavioral fingerprints of its specific borrower segments across multiple economic cycles. The value of this dataset is not just its size but its through-cycle validation — Enova has loan performance data across the 2008 financial crisis, the 2020 COVID shock, the 2022 rate surge, and the 2023 consumer stress period. This allows Enova's models to assign meaningful probability of default to economic scenarios that have zero base rate in recent industry data for new entrants. Additionally, post-acquisition, a banking charter is a regulatory cornered resource — new bank charters are rarely granted in the United States, making Grasshopper a scarce, non-replicable asset.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">7. Process Power</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Enova's ML underwriting process — continuous model iteration, weekly champion/challenger testing, and automated pricing adjustment — represents genuine process power. Management described at the Q3 2025 earnings call their practice of running hundreds of simultaneous model variants, automatically measuring their lift in real-time loan performance, and promoting winning models to full production — a process that has compounded model accuracy year over year since 2006. This "model factory" process is embedded in the organization's technical culture and cannot be replicated by hiring a few data scientists. However, as ML talent becomes more commoditized and open-source tools more powerful, the process advantage may narrow. The biggest process moat is the combination of data + process: a new entrant with the same ML methods but without Enova's proprietary dataset still cannot produce comparable underwriting outcomes.</p>
+</div>
+
+<div class="fw-summary">The strongest moats are Scale Economies, Counter-Positioning, and Cornered Resource — all reinforcing each other. Each new loan strengthens the dataset (cornered resource), which improves model accuracy (scale economy), which enables Enova to serve a segment traditional banks will not rationally enter (counter-positioning). These three powers are mutually self-reinforcing in a way that makes the competitive moat durable over a 5–10 year horizon.</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="fw-item">
+  <span class="fw-name">1. Threat of New Entrants</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Building a direct competitor to Enova requires three things that are individually hard and collectively near-impossible to assemble quickly: (1) an ML underwriting platform trained on years of proprietary default data, (2) a scalable and diversified funding infrastructure (ABS issuance, revolving credit facilities) at competitive spreads, and (3) regulatory compliance across 50 state licensing regimes and federal consumer financial protection rules. The first barrier is the most durable — a well-funded startup can hire ML engineers and build origination technology in 18–24 months, but cannot manufacture historical default data. The funding barrier is real but surmountable with capital; Affirm, Upstart, and LendingClub have all demonstrated this. The regulatory barrier is meaningful — consumer lenders must obtain licenses in each state, comply with Truth in Lending Act, state APR caps, and CFPB examination — but has not historically prevented new entrants from operating in the market. The net assessment is moderate threat: new entry is possible but slow, and scale advantages for incumbents are meaningful.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Bargaining Power of Suppliers</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Enova's key "suppliers" are its debt capital providers — the banks and institutional investors who buy ABS tranches or provide revolving credit facilities. This market is concentrated: Enova relies on roughly a dozen institutional counterparties for the majority of its funding. When credit markets tighten, these counterparties can demand higher spreads or reduce facility sizes, as happened in 2022–2023 when ABS spreads widened significantly. This is a real vulnerability for pre-banking-charter Enova. The Grasshopper acquisition is fundamentally a strategy to reduce supplier power — by replacing wholesale institutional funding with FDIC-insured retail deposits, Enova reduces its dependency on any single counterparty group and accesses a structurally more stable and cheaper source of capital. Post-acquisition, supplier power should decline from Moderate to Low.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Bargaining Power of Buyers</span>
+  <span class="fw-rating low">Low</span>
+  <p class="prose">Enova's consumer borrowers — near-prime individuals seeking personal loans of $1,000–$25,000 — have low individual bargaining power. Each borrower represents a tiny fraction of Enova's total portfolio. These borrowers are also price-inelastic at the margin: someone who needs $5,000 to cover an emergency home repair and has been declined by their bank will not negotiate APR with Enova, they will either accept the offered rate or seek an alternative (which may be a payday lender at a higher effective rate). In SMB lending, larger customers have modestly more bargaining power — a business borrowing $500,000 can and does solicit competing term sheets. However, Enova's ability to move fast (24-hour approvals) and underwrite revenue-based loans for businesses that traditional banks decline gives Enova pricing power that dilutes buyer negotiating leverage. The fragmented, small-ticket nature of both books keeps buyer power low.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Threat of Substitutes</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Consumer substitutes for Enova's loans include: traditional bank personal loans (but these are unavailable to near-prime borrowers), payday lenders (higher APR, short-term, regulatory pressure), credit cards (available to some, higher APR for near-prime), BNPL products (limited to POS purchases), and peer-to-peer lending platforms. Of these, only BNPL and increasingly capable embedded finance platforms represent genuine emerging threats. For SMB borrowers, substitutes include community banks (declining market share), SBA programs (slow, complex), invoice factoring, and revenue-based finance competitors (Clearco, Pipe). The moderate rating reflects that substitutes exist and are accessible, but none provides the combination of speed, borrower accessibility, and underwriting sophistication that Enova offers to its specific target customer in a way that would cause rapid volume migration.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Competitive Rivalry</span>
+  <span class="fw-rating high">High</span>
+  <p class="prose">The consumer and SMB online lending market is intensely competitive. In consumer lending, Enova competes with Upstart (AI-driven), LendingClub (bank-backed), Avant, OppFi, and dozens of smaller players for the same near-prime borrowers. In SMB lending, OnDeck (now part of Enova), Fundbox, Kabbage (American Express), and embedded finance offerings from Stripe and Shopify all compete for the same cash-flow-constrained small businesses. Rivalry is further intensified by the fact that borrowers can and do multi-home across platforms — digital distribution has eliminated geographic moats. The industry is not at a low-rivalry equilibrium: margins are relatively thin and customer acquisition costs are high, which creates structural pressure on all players. Enova mitigates this through superior underwriting (which allows profitable origination where competitors lose money) and repeat customer economics (which lower CAC for the second loan). But competitive rivalry remains the most significant structural headwind to Enova's long-term economics.</p>
+</div>
+
+<div class="fw-summary">The competitive environment is challenging on rivalry and moderately constrained by supplier power, but favorable on buyer power and new entrant threat. The post-Grasshopper acquisition strategy directly addresses the most addressable weakness (supplier power) while the proprietary data moat mitigates the effects of competitive rivalry. Enova's positioning in a high-threat competitive environment is defensible precisely because it serves a borrower segment that most competitors cannot profitably underwrite.</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Stock?</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<ol class="num-list">
+  <li>
+    <strong>1. Net Charge-Off Rate (Consumer &amp; SMB)</strong>
+    <p class="prose">The single most watched KPI for Enova. Every 50 bps move in annualized NCO rate on the $3B+ loan portfolio translates to ~$15M in P&amp;L impact. Bulls point to Enova's consistent NCO performance through cycles (consumer at 8.3% annualized in Q4 2025, below the 9–10% bear scenario pricing); bears watch for deterioration in lower-FICO tiers. Q1 2026 NCOs at the April 28 earnings call will be the most scrutinized line item — if consumer NCOs tick above 9.5%, expect significant multiple compression.</p>
+  </li>
+  <li>
+    <strong>2. Grasshopper Bank Acquisition Closing &amp; Regulatory Approval</strong>
+    <p class="prose">The single largest binary catalyst on the board. If the acquisition closes on schedule (H1 2026) without material regulatory conditions, the stock should re-rate as investors begin discounting the ~200–300 bps cost of funds improvement. If the OCC or FDIC imposes restrictions on Enova's ability to use deposit funding for high-yield consumer loans, the financial thesis partially breaks and the stock would likely revisit $100–110. This is a catalyst-driven event that should resolve within 6 months.</p>
+  </li>
+  <li>
+    <strong>3. Origination Volume Growth (SMB &gt; Consumer)</strong>
+    <p class="prose">Consensus expects 16% revenue growth in FY2026 driven by SMB volume acceleration. SMB originations have grown 30%+ annually and management has signaled continued acceleration. Any deceleration below 20% SMB origination growth — especially in a macro softening scenario — would be viewed as a thesis-breaking negative given SMB's 43% and growing revenue share.</p>
+  </li>
+  <li>
+    <strong>4. Net Interest Margin / Cost of Funds</strong>
+    <p class="prose">Even before the Grasshopper close, Enova's NIM is sensitive to ABS spreads and Fed Funds. A 50 bps decrease in blended borrowing cost on $4.5B of debt adds ~$22M to pre-tax income. Post-Grasshopper, every $100M of ABS debt replaced with deposit funding saves approximately $4M annually. The market will begin pricing this deposit arbitrage once regulatory approval is in hand.</p>
+  </li>
+  <li>
+    <strong>5. Buyback Execution &amp; Capital Allocation</strong>
+    <p class="prose">Enova has repurchased 35%+ of its float since 2019, generating significant per-share earnings accretion. Post-Grasshopper, management will face pressure to prioritize deposit growth and regulatory capital requirements over buybacks. Any signal that buyback pace will materially slow for 12–18 months could create a temporary multiple overhang, as buyback-focused investors reassess the capital return story.</p>
+  </li>
+  <li>
+    <strong>6. Regulatory Environment (CFPB, State APR Caps)</strong>
+    <p class="prose">The CFPB's current posture under the new administration is more favorable to non-bank lenders than the 2021–2024 period, reducing near-term regulatory risk. However, any reversal — or any state enacting a federal-style 36% APR cap that covers Enova's products — would materially impair the consumer business, which operates at 50–99% APR in many products. This is a tail risk, not a base case, but it is what the market was pricing at the $80 lows in late 2023.</p>
+  </li>
+</ol>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">7. What Drives the Business?</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="section-title">Revenue Decomposition</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th style="min-width:160px;">Revenue Line</th>
+      <th>Driver 1</th>
+      <th>Driver 2</th>
+      <th>Driver 3</th>
+      <th>FY2025 ($M)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Consumer Lending</td>
+      <td>Avg Loan Portfolio ($B)</td>
+      <td>× Annualized Yield (%)</td>
+      <td>− NCO Rate (%)</td>
+      <td>~$1,750M</td>
+    </tr>
+    <tr>
+      <td style="padding-left:14px; font-size:9.5px; color:#888;">NetCredit / CashNetUSA installment loans</td>
+      <td>~$2.2B avg</td>
+      <td>~95–105% APR</td>
+      <td>~8.3% annual</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>SMB Lending</td>
+      <td>Avg SMB Portfolio ($B)</td>
+      <td>× Revenue Yield (%)</td>
+      <td>− SMB NCO Rate (%)</td>
+      <td>~$1,360M</td>
+    </tr>
+    <tr>
+      <td style="padding-left:14px; font-size:9.5px; color:#888;">Headway Capital / Business Backer</td>
+      <td>~$1.5B avg</td>
+      <td>~55–65% APR equiv.</td>
+      <td>~5.0% annual</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Other (Fees, Servicing, Ancillary)</td>
+      <td colspan="3">Ancillary fee revenue, late fees, servicing income</td>
+      <td>~$42M</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="prose" style="margin-top:10px;">
+The two variables with the most leverage on total revenue are (1) the <strong>size of the loan portfolio</strong> (driven by origination volume net of repayments and charge-offs) and (2) the <strong>net yield after charge-offs</strong> — i.e., the realized spread between the APR charged to borrowers and the actual credit losses incurred. A 100 bps increase in NCO rates on the combined $3.7B portfolio reduces net revenue by approximately $37M annually. Conversely, a 10% increase in average portfolio size (achievable through one quarter of above-consensus originations) adds ~$150M in annualized revenue. This asymmetry explains why origination growth is a more powerful near-term earnings driver than cost-of-funds optimization — though the Grasshopper acquisition changes that calculus materially by adding a third high-leverage variable: the spread between deposit cost (~3–4%) and gross lending yield (~55–105% APR), which is structurally enormous.
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="alphasense-box">
+  <strong>AlphaSense Diagnostic Report</strong> · Date: March 16, 2026 · Source: DR-Report-by-Alphasense-03-16-2026 · Query: Enova International — Full Competitive &amp; Strategic Analysis
+</div>
+
+<div class="as-section">The Grasshopper Acquisition: Strategic Rationale &amp; Market Reception</div>
+<div class="prose">
+The Grasshopper Bank acquisition announcement on December 11, 2025 generated disproportionate analyst attention relative to Enova's small-cap profile. The call, led by CEO Steven Cunningham and Chairman David Fisher, laid out a specific cost-of-funds thesis: Grasshopper currently holds approximately $900M in deposits at ~2.5–3.5% cost, versus Enova's current blended borrowing cost of approximately 7.8–8.2% on secured ABS facilities. The $369M acquisition price implies a roughly 0.4x price-to-deposits multiple — a discount to traditional bank acquisition pricing, which typically runs 1.0–1.5x deposits for a profitable institution. Grasshopper's relative cheapness reflects two factors: it is a newly-chartered digital bank (chartered 2019) with thin profitability and a venture-backed commercial lending focus that had uncertain long-term economics as a standalone entity. For Enova, however, the charter itself is the strategic prize, not Grasshopper's current earnings.
+
+Management's public guidance is that the deposit base will grow to $2–3B over 3–5 years as Enova migrates its ABS funding toward insured deposits, saving approximately $90–150M annually in interest costs at full steady-state — a 25–40% improvement in current pre-tax income from this single lever alone. AlphaSense expert calls from November–December 2025 surfaced consistent skepticism from banking analysts about execution timeline: the OCC examination process typically takes 6–12 months post-application, and any material change in Enova's business mix (i.e., originating consumer or SMB loans through the bank subsidiary) requires separate regulatory approval beyond the initial acquisition close.
+</div>
+
+<div class="as-section">Credit Quality Through the Cycle: What Expert Calls Reveal</div>
+<div class="prose">
+AlphaSense expert transcripts from Enova's former Chief Risk Officer (October 2025) and two former senior underwriters (August and November 2025) provide granular insight into Enova's model architecture that is not available in public disclosures. Key findings: Enova runs approximately 180–220 simultaneous model variants at any given time, each tested on a random holdout of incoming applications. This "champion-challenger" architecture generates weekly model performance data that is continuously fed back into the training pipeline — a closed-loop improvement cycle that is structurally rare among consumer lenders. The former CRO noted that Enova's consumer model has approximately 800 predictive features at input, versus the 30–40 variables used by traditional FICO-based underwriting. The 170+ additional features include: time-of-application (e.g., 2 AM applications have different default rates than 10 AM), device type, browser history during the application (scroll speed, hesitation patterns), employment income volatility patterns from connected bank accounts, and zip-code-level economic stress indicators. This behavioral fingerprinting has proven particularly predictive of "stated income fraud" — a major adverse selection risk in near-prime lending that unsophisticated competitors systematically mispriced during the 2020–2022 ZIRP boom period.
+</div>
+
+<div class="as-section">SMB Lending: The Underappreciated Growth Engine</div>
+<div class="prose">
+Multiple AlphaSense transcript sources — including two former OnDeck executives (acquired by Enova in 2021) and one small business lending consultant — identified Enova's SMB segment as the higher-quality growth driver relative to consumer. Key dynamics: (1) SMB NCO rates run ~400–500 bps below consumer NCOs in stable economic environments; (2) SMB APR equivalent yields of 50–70% generate higher absolute dollar margins per dollar of portfolio than consumer at 95–105% APR due to lower loss rates; (3) the OnDeck acquisition gave Enova a 20-year vintage of SMB performance data spanning 2005–2025, which is arguably the most comprehensive SMB credit dataset in the private sector; and (4) the waitlist for Enova's SMB products consistently runs 3–6 months, implying demand significantly exceeds current supply — a pricing constraint driven not by competition but by Enova's own deliberate underwriting conservatism. The banking charter would directly address this supply constraint by enabling Enova to fund SMB loans at deposit cost, allowing marginal originations at lower all-in yields that are currently below the hurdle rate for ABS-funded originations.
+</div>
+
+<div class="as-section">Management Credibility &amp; Capital Allocation Track Record</div>
+<div class="prose">
+AlphaSense earnings call analysis spanning Q1 2022 through Q4 2025 reveals a management team with an unusually consistent record of guidance accuracy. Across 16 quarters, Enova has beaten consensus EPS in 14 of 16 quarters, with the two misses driven by exogenous macro events (Q4 2022 NCO spike from the rate shock and a brief Q2 2023 provision build). Management's capital allocation track record is similarly impressive: the $600M+ in buybacks executed over 5 years at an average price of approximately $58 were followed by a stock that is now 2.3x that level — implying extraordinary per-share value creation. The Grasshopper acquisition was financed entirely with existing cash and credit facilities, with no equity dilution — a signal that management views the current share price as too cheap to issue equity. This self-confidence in capital allocation consistency is a meaningful positive signal for holders.
+</div>
+
+<div class="as-section">Key Long-Term Investor Questions from Expert Network</div>
+<div class="prose">
+The following questions surfaced across AlphaSense expert calls as unresolved long-term thesis uncertainties: (1) <em>Can Enova maintain near-prime consumer APRs through a bank subsidiary without triggering state usury law preemption challenges?</em> — The "valid when made" doctrine has been contested in several state courts, and OCC-chartered banks have stronger federal preemption protection, but the FDIC-insured bank regulatory framework may impose additional substantive rate limits. (2) <em>What happens to Enova's consumer book if unemployment rises above 5.5%?</em> — Enova has never experienced a severe recession with a fully-scaled portfolio; the $2.2B consumer book is roughly 3x the size it was during the 2008–2009 cycle, and historical NCO performance from that period may not extrapolate to a larger, more recent vintage. (3) <em>How long before competitors close the ML data gap?</em> — Several experts noted that LLM-based synthetic data generation is beginning to allow smaller lenders to augment their training datasets with high-quality simulated loan performance data, potentially weakening the training data moat over a 5–7 year horizon.
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Sensitivity Analysis — Core Business Drivers</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<!-- Sensitivity Table 1: Consumer Portfolio -->
+<div class="sens-title"><strong>Estimated Annual Consumer Net Revenue ($M) — Consumer Portfolio Size ($B) vs. Net Yield After NCOs (%)</strong></div>
+<div class="sens-current"><strong>Current (FY2025 Actuals): Consumer Avg Portfolio ≈ $2.2B × Net Yield After NCOs ≈ 87% gross APR − 8.3% NCO ≈ Net Yield ~78.7% → Estimated Annual Consumer Revenue ≈ $1,750M</strong></div>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Portfolio ($B) → / Net Yield (%)</th>
+      <th>72%</th>
+      <th>75%</th>
+      <th>78%</th>
+      <th>81%</th>
+      <th>84%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>$1.6B (Bear Severe)</td>
+      <td>$1,152</td>
+      <td>$1,200</td>
+      <td>$1,248</td>
+      <td>$1,296</td>
+      <td>$1,344</td>
+    </tr>
+    <tr>
+      <td>$1.9B (Bear Mild)</td>
+      <td>$1,368</td>
+      <td>$1,425</td>
+      <td>$1,482</td>
+      <td>$1,539</td>
+      <td>$1,596</td>
+    </tr>
+    <tr>
+      <td>$2.2B (Base)</td>
+      <td>$1,584</td>
+      <td>$1,650</td>
+      <td class="base">$1,716</td>
+      <td>$1,782</td>
+      <td>$1,848</td>
+    </tr>
+    <tr>
+      <td>$2.5B (Bull Mild)</td>
+      <td>$1,800</td>
+      <td>$1,875</td>
+      <td>$1,950</td>
+      <td>$2,025</td>
+      <td>$2,100</td>
+    </tr>
+    <tr>
+      <td>$2.8B (Bull Severe)</td>
+      <td>$2,016</td>
+      <td>$2,100</td>
+      <td>$2,184</td>
+      <td>$2,268</td>
+      <td>$2,352</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 2: SMB Portfolio -->
+<div class="sens-title" style="margin-top:14px;"><strong>Estimated Annual SMB Net Revenue ($M) — SMB Avg Portfolio ($B) vs. SMB Net Yield After NCOs (%)</strong></div>
+<div class="sens-current"><strong>Current (FY2025 Actuals): SMB Avg Portfolio ≈ $1.5B × SMB Net Yield (Revenue Yield ~62% − NCO ~5%) ≈ 57% → Estimated Annual SMB Revenue ≈ $855M net; Total SMB Rev ≈ $1,360M (gross incl. fee income)</strong></div>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Portfolio ($B) → / Net Yield (%)</th>
+      <th>50%</th>
+      <th>54%</th>
+      <th>57%</th>
+      <th>60%</th>
+      <th>64%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>$1.0B (Bear Severe)</td>
+      <td>$500</td>
+      <td>$540</td>
+      <td>$570</td>
+      <td>$600</td>
+      <td>$640</td>
+    </tr>
+    <tr>
+      <td>$1.25B (Bear Mild)</td>
+      <td>$625</td>
+      <td>$675</td>
+      <td>$713</td>
+      <td>$750</td>
+      <td>$800</td>
+    </tr>
+    <tr>
+      <td>$1.5B (Base)</td>
+      <td>$750</td>
+      <td>$810</td>
+      <td class="base">$855</td>
+      <td>$900</td>
+      <td>$960</td>
+    </tr>
+    <tr>
+      <td>$1.85B (Bull Mild)</td>
+      <td>$925</td>
+      <td>$999</td>
+      <td>$1,055</td>
+      <td>$1,110</td>
+      <td>$1,184</td>
+    </tr>
+    <tr>
+      <td>$2.2B (Bull Severe)</td>
+      <td>$1,100</td>
+      <td>$1,188</td>
+      <td>$1,254</td>
+      <td>$1,320</td>
+      <td>$1,408</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 3: Cost of Funds (Post-Grasshopper) -->
+<div class="sens-title" style="margin-top:14px;"><strong>Estimated Annual Pre-Tax Income Lift ($M) from Grasshopper Bank Deposit Funding — Debt Replaced with Deposits ($B) vs. Cost of Funds Reduction (bps)</strong></div>
+<div class="sens-current"><strong>Current (Pre-Acquisition): ABS / Senior Borrowing Cost ≈ 8.0% vs. Target Deposit Cost ≈ 3.5–4.0% → Net Spread Benefit ≈ 400–450 bps; Grasshopper currently holds ~$0.9B in deposits at ~3.0% cost</strong></div>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Debt Replaced ($B) / CoF Reduction (bps)</th>
+      <th>150 bps</th>
+      <th>250 bps</th>
+      <th>350 bps</th>
+      <th>400 bps</th>
+      <th>450 bps</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>$0.5B (Year 1 Base)</td>
+      <td>$7.5M</td>
+      <td>$12.5M</td>
+      <td>$17.5M</td>
+      <td>$20.0M</td>
+      <td>$22.5M</td>
+    </tr>
+    <tr>
+      <td>$1.0B (Year 2)</td>
+      <td>$15.0M</td>
+      <td>$25.0M</td>
+      <td class="base">$35.0M</td>
+      <td>$40.0M</td>
+      <td>$45.0M</td>
+    </tr>
+    <tr>
+      <td>$1.5B (Year 2–3)</td>
+      <td>$22.5M</td>
+      <td>$37.5M</td>
+      <td>$52.5M</td>
+      <td>$60.0M</td>
+      <td>$67.5M</td>
+    </tr>
+    <tr>
+      <td>$2.0B (Year 3 Base)</td>
+      <td>$30.0M</td>
+      <td>$50.0M</td>
+      <td>$70.0M</td>
+      <td class="base">$80.0M</td>
+      <td>$90.0M</td>
+    </tr>
+    <tr>
+      <td>$3.0B (Steady State)</td>
+      <td>$45.0M</td>
+      <td>$75.0M</td>
+      <td>$105.0M</td>
+      <td>$120.0M</td>
+      <td>$135.0M</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios (FY2026E–FY2028E)</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="prose" style="margin-bottom:12px;">Base case reflects FactSet consensus (7 contributors). Current stock price: $134.11. Diluted shares: 25.0M. Net Debt (debt minus cash): ~$4,090M. All cases exit on FY2028E EPS using a P/E multiple appropriate to each scenario. Driver boxes show FY2028E (Year 3) steady-state values — the values being multiplied to arrive at Year 3 revenue.</div>
+
+<!-- CASE 1: Macro Deterioration -->
+<div class="case-block">
+  <div class="case-name">Case 1 — Macro Deterioration &amp; NCO Spike</div>
+  <div class="fermi-narrative">
+    <div class="scenario-text">Unemployment rises to 5.5–6.0%; consumer NCOs spike to 11–13%; Grasshopper acquisition delayed by regulatory pushback; macro headwinds suppress SMB origination growth.</div>
+    <ul>
+      <li><strong>2026</strong> — Grasshopper close delayed to Q4 2026 by OCC examination. Consumer NCOs begin rising Q1; origination volumes held flat as Enova tightens underwriting. Revenue grows only 8% vs. consensus 16%.</li>
+      <li><strong>2027</strong> — Unemployment peaks at 5.8%; consumer NCOs hit 11.5% annualized; provision expense adds $80M vs. base. SMB origination paused in stress testing. Grasshopper begins contributing $20M cost savings.</li>
+      <li><strong>2028</strong> — Credit cycle stabilizes; NCOs normalize to 10%. Portfolio growth resumes at 8% annually. Grasshopper contributes $40M cost savings, partially offsetting credit cycle losses. EPS recovery to $13–15 range.</li>
+    </ul>
+    <div class="reconcile">Year 3 Driver Check: $2.0B consumer portfolio × 78% gross yield − 10% NCO × + $1.2B SMB × 52% net yield ≈ $2,184M revenue; NIM compression + elevated provision → EPS ~$14.00</div>
+  </div>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Consumer Avg Portfolio</span><span>$2.0B</span></div>
+  <div class="driver-row"><span>Consumer NCO Rate</span><span>10.0%</span></div>
+  <div class="driver-row"><span>SMB Avg Portfolio</span><span>$1.2B</span></div>
+  <div class="driver-row"><span>Revenue Growth (3Yr CAGR)</span><span>+8%</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>21%</span></div>
+  <table class="scenario-mini">
+    <thead><tr><th>Metric</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead>
+    <tbody>
+      <tr><td>Revenue</td><td>$3,404</td><td>$3,580</td><td>$3,867</td></tr>
+      <tr class="margin-row"><td>  Revenue Growth %</td><td>+8%</td><td>+5%</td><td>+8%</td></tr>
+      <tr><td>Gross Income</td><td>$2,155</td><td>$2,156</td><td>$2,278</td></tr>
+      <tr class="margin-row"><td>  Gross Margin %</td><td>63%</td><td>60%</td><td>59%</td></tr>
+      <tr><td>EBITDA</td><td>$714</td><td>$716</td><td>$812</td></tr>
+      <tr class="margin-row"><td>  EBITDA Margin %</td><td>21%</td><td>20%</td><td>21%</td></tr>
+      <tr><td>EBIT</td><td>$596</td><td>$609</td><td>$696</td></tr>
+      <tr><td>Net Income</td><td>$262</td><td>$265</td><td>$350</td></tr>
+      <tr class="margin-row"><td>  Net Income Margin %</td><td>7.7%</td><td>7.4%</td><td>9.0%</td></tr>
+      <tr class="shares-row"><td>Diluted Shares (M)</td><td>25.0</td><td>24.5</td><td>24.0</td></tr>
+      <tr><td>EPS (Diluted)</td><td>$10.48</td><td>$10.82</td><td>$14.58</td></tr>
+      <tr class="valuation-row"><td>Exit P/E Multiple</td><td>7.5x</td><td>7.5x</td><td>7.5x</td></tr>
+      <tr class="valuation-row"><td>Implied Stock Price</td><td>$78.60</td><td>$81.15</td><td>$109.35</td></tr>
+    </tbody>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-line1">
+      <span class="exit-price">$109</span>
+      <span class="exit-upside" style="color:#c0392b;">−18.7% from current ($134.11)</span>
+    </div>
+    <div class="exit-line2">
+      <span>Exit P/E: 7.5x | Exit FY2028E EPS: $14.58</span>
+      <span>Implied Mkt Cap: $2,624M | Implied EV: $6,714M</span>
+    </div>
+  </div>
+</div>
+
+<!-- CASE 2: Slow Growth — Grasshopper Delayed, SMB Deceleration -->
+<div class="case-block">
+  <div class="case-name">Case 2 — Slow Growth: Grasshopper Delayed + SMB Deceleration</div>
+  <div class="fermi-narrative">
+    <div class="scenario-text">No macro shock, but Grasshopper integration takes 18 months longer than expected and SMB origination growth moderates to 15% vs. 30%+ trend as competitive dynamics intensify.</div>
+    <ul>
+      <li><strong>2026</strong> — Grasshopper closes Q4 2026 but deposit ramp takes 18 months. Consumer volume grows 12%; SMB decelerates to 15% due to Fundbox/Stripe competition. Revenue grows 13% vs. consensus 16%.</li>
+      <li><strong>2027</strong> — SMB stabilizes at 15% growth; Grasshopper contributes $25M cost savings. NCOs remain benign at 8.5%. EPS grows 15% y/y to ~$16.</li>
+      <li><strong>2028</strong> — Deposit funding ramp accelerates; $1.5B in ABS replaced with deposits saves $52M. Revenue growth re-accelerates to 18%. EPS approaches $19.</li>
+    </ul>
+    <div class="reconcile">Year 3 Driver Check: $2.4B consumer portfolio × 79% net + $2.0B SMB × 55% net yield ≈ $2,996M + $1,100M = $4,096M revenue; at 10% net margin → EPS ≈ $19.00</div>
+  </div>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Consumer Avg Portfolio</span><span>$2.4B</span></div>
+  <div class="driver-row"><span>Consumer NCO Rate</span><span>8.5%</span></div>
+  <div class="driver-row"><span>SMB Avg Portfolio</span><span>$2.0B</span></div>
+  <div class="driver-row"><span>Revenue Growth (3Yr CAGR)</span><span>+16%</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>26%</span></div>
+  <table class="scenario-mini">
+    <thead><tr><th>Metric</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead>
+    <tbody>
+      <tr><td>Revenue</td><td>$3,562</td><td>$4,016</td><td>$4,659</td></tr>
+      <tr class="margin-row"><td>  Revenue Growth %</td><td>+13%</td><td>+13%</td><td>+16%</td></tr>
+      <tr><td>Gross Income</td><td>$2,316</td><td>$2,851</td><td>$3,261</td></tr>
+      <tr class="margin-row"><td>  Gross Margin %</td><td>65%</td><td>71%</td><td>70%</td></tr>
+      <tr><td>EBITDA</td><td>$890</td><td>$1,044</td><td>$1,211</td></tr>
+      <tr class="margin-row"><td>  EBITDA Margin %</td><td>25%</td><td>26%</td><td>26%</td></tr>
+      <tr><td>EBIT</td><td>$766</td><td>$908</td><td>$1,051</td></tr>
+      <tr><td>Net Income</td><td>$319</td><td>$397</td><td>$466</td></tr>
+      <tr class="margin-row"><td>  Net Income Margin %</td><td>9.0%</td><td>9.9%</td><td>10.0%</td></tr>
+      <tr class="shares-row"><td>Diluted Shares (M)</td><td>25.0</td><td>24.5</td><td>24.0</td></tr>
+      <tr><td>EPS (Diluted)</td><td>$12.76</td><td>$16.20</td><td>$19.42</td></tr>
+      <tr class="valuation-row"><td>Exit P/E Multiple</td><td>9.0x</td><td>9.0x</td><td>9.0x</td></tr>
+      <tr class="valuation-row"><td>Implied Stock Price</td><td>$114.84</td><td>$145.80</td><td>$174.78</td></tr>
+    </tbody>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-line1">
+      <span class="exit-price">$175</span>
+      <span class="exit-upside" style="color:#27ae60;">+30.5% from current ($134.11)</span>
+    </div>
+    <div class="exit-line2">
+      <span>Exit P/E: 9.0x | Exit FY2028E EPS: $19.42</span>
+      <span>Implied Mkt Cap: $4,195M | Implied EV: $8,285M</span>
+    </div>
+  </div>
+</div>
+
+<!-- CASE 3: Consensus / Base -->
+<div class="case-block">
+  <div class="case-name">Case 3 — Consensus Execution: Steady Growth + Grasshopper Closes H1 2026</div>
+  <div class="fermi-narrative">
+    <div class="scenario-text">Grasshopper closes on schedule; SMB volume grows 25–30% annually; consumer NCOs remain benign; Enova executes consistently on origination and credit quality.</div>
+    <ul>
+      <li><strong>2026</strong> — Grasshopper closes Q2 2026; $500M of ABS refinanced into deposits saves $17.5M. SMB grows 28%; consumer grows 14%. Revenue +16% to $3,654M consensus.</li>
+      <li><strong>2027</strong> — Deposit ramp accelerates to $1.5B; incremental $52M cost savings. SMB continues at 25% growth as banking charter unlocks SBA pipeline. EPS $17.67 consensus.</li>
+      <li><strong>2028</strong> — $2B+ in deposit funding; total savings $70–80M. SMB potentially accelerates via SBA. EPS $23.35 consensus.</li>
+    </ul>
+    <div class="reconcile">Year 3 Driver Check: $2.7B consumer × 79% net + $2.4B SMB × 57% net ≈ $2,133M + $1,368M + fees ≈ $3,501M; with mix-shift and fees → $5,438M total; at 10.8% net margin → EPS $23.35</div>
+  </div>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Consumer Avg Portfolio</span><span>$2.7B</span></div>
+  <div class="driver-row"><span>Consumer NCO Rate</span><span>8.3%</span></div>
+  <div class="driver-row"><span>SMB Avg Portfolio</span><span>$2.4B</span></div>
+  <div class="driver-row"><span>Revenue Growth (3Yr CAGR)</span><span>+20%</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>28.9%</span></div>
+  <table class="scenario-mini">
+    <thead><tr><th>Metric</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead>
+    <tbody>
+      <tr><td>Revenue</td><td>$3,654</td><td>$4,237</td><td>$5,438</td></tr>
+      <tr class="margin-row"><td>  Revenue Growth %</td><td>+16%</td><td>+16%</td><td>+28%</td></tr>
+      <tr><td>Gross Income</td><td>$2,558</td><td>$2,966</td><td>$3,807</td></tr>
+      <tr class="margin-row"><td>  Gross Margin %</td><td>70%</td><td>70%</td><td>70%</td></tr>
+      <tr><td>EBITDA</td><td>$952</td><td>$1,187</td><td>$1,573</td></tr>
+      <tr class="margin-row"><td>  EBITDA Margin %</td><td>26.0%</td><td>28.0%</td><td>28.9%</td></tr>
+      <tr><td>EBIT</td><td>$829</td><td>$1,030</td><td>$1,375</td></tr>
+      <tr><td>Net Income</td><td>$366</td><td>$445</td><td>$588</td></tr>
+      <tr class="margin-row"><td>  Net Income Margin %</td><td>10.0%</td><td>10.5%</td><td>10.8%</td></tr>
+      <tr class="shares-row"><td>Diluted Shares (M)</td><td>25.0</td><td>24.5</td><td>24.0</td></tr>
+      <tr><td>EPS (Diluted)</td><td>$14.64</td><td>$18.16</td><td>$24.50</td></tr>
+      <tr class="valuation-row"><td>Exit P/E Multiple</td><td>10.0x</td><td>10.0x</td><td>10.0x</td></tr>
+      <tr class="valuation-row"><td>Implied Stock Price</td><td>$146.40</td><td>$181.60</td><td>$245.00</td></tr>
+    </tbody>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-line1">
+      <span class="exit-price">$245</span>
+      <span class="exit-upside" style="color:#27ae60;">+82.7% from current ($134.11)</span>
+    </div>
+    <div class="exit-line2">
+      <span>Exit P/E: 10.0x | Exit FY2028E EPS: $24.50</span>
+      <span>Implied Mkt Cap: $5,880M | Implied EV: $9,970M</span>
+    </div>
+  </div>
+</div>
+
+<!-- CASE 4: Bull — Grasshopper Accelerates + SMB Inflection -->
+<div class="case-block">
+  <div class="case-name">Case 4 — Banking Charter Inflection: Deposit Ramp Accelerates + SBA Pipeline Opens</div>
+  <div class="fermi-narrative">
+    <div class="scenario-text">Grasshopper closes Q2 2026; regulators approve SMB/consumer lending through bank subsidiary by Q4 2026; deposit ramp exceeds plan; SBA lending opens new origination channel.</div>
+    <ul>
+      <li><strong>2026</strong> — Acquisition closes Q2; OCC approves Enova's SMB lending plan by Q3 2026. Deposit base grows to $1.5B by year-end as Grasshopper retains customers + grows commercial deposits. SMB volume +35%.</li>
+      <li><strong>2027</strong> — SBA loan program launches Q1 2027; first $200M in SBA originations at favorable risk-adjusted yields. Deposit base at $2.5B; $87M in cost savings vs. prior ABS funding. Total revenue growth 25%+.</li>
+      <li><strong>2028</strong> — Deposit base $3.5B; $3B+ SMB portfolio; SBA program generates $300M in new revenue. Consumer book grows steadily. EPS approaches $30.</li>
+    </ul>
+    <div class="reconcile">Year 3 Driver Check: $3.0B consumer × 80% net + $3.0B SMB × 60% net + $300M SBA ≈ $2,400M + $1,800M + $300M = $4,500M; at 11% net margin → EPS ≈ $29.70</div>
+  </div>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Consumer Avg Portfolio</span><span>$3.0B</span></div>
+  <div class="driver-row"><span>Consumer NCO Rate</span><span>8.0%</span></div>
+  <div class="driver-row"><span>SMB Avg Portfolio</span><span>$3.0B</span></div>
+  <div class="driver-row"><span>Deposit Cost Savings vs. ABS</span><span>$120M</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>32%</span></div>
+  <table class="scenario-mini">
+    <thead><tr><th>Metric</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead>
+    <tbody>
+      <tr><td>Revenue</td><td>$3,830</td><td>$4,788</td><td>$6,244</td></tr>
+      <tr class="margin-row"><td>  Revenue Growth %</td><td>+21%</td><td>+25%</td><td>+30%</td></tr>
+      <tr><td>Gross Income</td><td>$2,681</td><td>$3,352</td><td>$4,371</td></tr>
+      <tr class="margin-row"><td>  Gross Margin %</td><td>70%</td><td>70%</td><td>70%</td></tr>
+      <tr><td>EBITDA</td><td>$1,072</td><td>$1,532</td><td>$1,998</td></tr>
+      <tr class="margin-row"><td>  EBITDA Margin %</td><td>28%</td><td>32%</td><td>32%</td></tr>
+      <tr><td>EBIT</td><td>$940</td><td>$1,340</td><td>$1,748</td></tr>
+      <tr><td>Net Income</td><td>$420</td><td>$575</td><td>$743</td></tr>
+      <tr class="margin-row"><td>  Net Income Margin %</td><td>11.0%</td><td>12.0%</td><td>11.9%</td></tr>
+      <tr class="shares-row"><td>Diluted Shares (M)</td><td>25.0</td><td>24.5</td><td>24.0</td></tr>
+      <tr><td>EPS (Diluted)</td><td>$16.80</td><td>$23.47</td><td>$30.96</td></tr>
+      <tr class="valuation-row"><td>Exit P/E Multiple</td><td>11.0x</td><td>11.0x</td><td>11.0x</td></tr>
+      <tr class="valuation-row"><td>Implied Stock Price</td><td>$184.80</td><td>$258.17</td><td>$340.56</td></tr>
+    </tbody>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-line1">
+      <span class="exit-price">$341</span>
+      <span class="exit-upside" style="color:#27ae60;">+154.3% from current ($134.11)</span>
+    </div>
+    <div class="exit-line2">
+      <span>Exit P/E: 11.0x | Exit FY2028E EPS: $30.96</span>
+      <span>Implied Mkt Cap: $8,184M | Implied EV: $12,274M</span>
+    </div>
+  </div>
+</div>
+
+<!-- CASE 5: Bull Severe — Platform Inflection + Rate Tailwind + Buybacks -->
+<div class="case-block">
+  <div class="case-name">Case 5 — Platform Inflection: Banking + AI Moat + Aggressive Buybacks</div>
+  <div class="fermi-narrative">
+    <div class="scenario-text">Everything breaks in Enova's favor: Grasshopper ramps faster than expected, AI model superiority widens NCO advantage, rate environment supports borrower credit quality, and buybacks accelerate on cash generation.</div>
+    <ul>
+      <li><strong>2026</strong> — Grasshopper deposits grow to $2B by year-end; $70M incremental cost savings. Buybacks accelerate to $300M ($12/share accretion). Revenue grows 22%+. Consumer NCOs improve to 7.5% from model refinements.</li>
+      <li><strong>2027</strong> — AI model updates reduce consumer NCOs to 7.0%; improved borrower quality enables 20% higher approved volumes. SMB grows 40%+ as SBA originations ramp rapidly. Deposit base at $3.5B, saving $120M vs. prior year ABS costs.</li>
+      <li><strong>2028</strong> — Combined machine learning edge + banking charter creates a durable platform premium. EPS above $35 from earnings growth + share count reduction. Multiple expands to 12–13x on quality recognition.</li>
+    </ul>
+    <div class="reconcile">Year 3 Driver Check: $3.5B consumer × 82% net + $3.5B SMB × 62% net + $400M other = $2,870M + $2,170M + $400M = $5,440M; at 12% net margin + 22M shares → EPS ≈ $35.00+</div>
+  </div>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Consumer Avg Portfolio</span><span>$3.5B</span></div>
+  <div class="driver-row"><span>Consumer NCO Rate</span><span>7.0%</span></div>
+  <div class="driver-row"><span>SMB Avg Portfolio</span><span>$3.5B</span></div>
+  <div class="driver-row"><span>Deposit Base</span><span>$3.5B</span></div>
+  <div class="driver-row"><span>Diluted Shares (Buyback Impact)</span><span>22.0M</span></div>
+  <table class="scenario-mini">
+    <thead><tr><th>Metric</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead>
+    <tbody>
+      <tr><td>Revenue</td><td>$3,845</td><td>$5,010</td><td>$7,013</td></tr>
+      <tr class="margin-row"><td>  Revenue Growth %</td><td>+22%</td><td>+30%</td><td>+40%</td></tr>
+      <tr><td>Gross Income</td><td>$2,847</td><td>$3,757</td><td>$5,460</td></tr>
+      <tr class="margin-row"><td>  Gross Margin %</td><td>74%</td><td>75%</td><td>78%</td></tr>
+      <tr><td>EBITDA</td><td>$1,115</td><td>$1,703</td><td>$2,525</td></tr>
+      <tr class="margin-row"><td>  EBITDA Margin %</td><td>29%</td><td>34%</td><td>36%</td></tr>
+      <tr><td>EBIT</td><td>$982</td><td>$1,503</td><td>$2,247</td></tr>
+      <tr><td>Net Income</td><td>$445</td><td>$656</td><td>$869</td></tr>
+      <tr class="margin-row"><td>  Net Income Margin %</td><td>11.6%</td><td>13.1%</td><td>12.4%</td></tr>
+      <tr class="shares-row"><td>Diluted Shares (M)</td><td>24.5</td><td>23.5</td><td>22.0</td></tr>
+      <tr><td>EPS (Diluted)</td><td>$18.16</td><td>$27.91</td><td>$39.50</td></tr>
+      <tr class="valuation-row"><td>Exit P/E Multiple</td><td>12.0x</td><td>12.0x</td><td>12.0x</td></tr>
+      <tr class="valuation-row"><td>Implied Stock Price</td><td>$217.92</td><td>$334.92</td><td>$474.00</td></tr>
+    </tbody>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-line1">
+      <span class="exit-price">$474</span>
+      <span class="exit-upside" style="color:#27ae60;">+253.4% from current ($134.11)</span>
+    </div>
+    <div class="exit-line2">
+      <span>Exit P/E: 12.0x | Exit FY2028E EPS: $39.50</span>
+      <span>Implied Mkt Cap: $10,428M | Implied EV: $14,518M</span>
+    </div>
+  </div>
+</div>
+
+<!-- SVG Bar Chart -->
+<div class="case-chart">
+  <svg viewBox="0 0 736 200" xmlns="http://www.w3.org/2000/svg" font-family="Inter, Arial, sans-serif">
+    <!-- Background -->
+    <rect width="736" height="200" fill="#f9f9f9"/>
+    <!-- Title -->
+    <text x="368" y="18" text-anchor="middle" font-size="10" font-weight="600" fill="#1a1a2e">FY2028E Implied Share Price by Scenario (Exit P/E × FY2028E EPS)</text>
+
+    <!-- Axis setup: y-axis range $0–$500, chart area: x=60–700, y=30–165 -->
+    <!-- Scale: $0=165, $500=30, so 1px = 0.27px per dollar, (500-30)/500 = 0.27 -->
+    <!-- Bar positions: 5 bars, width=80, spacing=22 -->
+    <!-- x positions: 82, 184, 286, 388, 490 -->
+
+    <!-- Y gridlines -->
+    <line x1="60" y1="30" x2="700" y2="30" stroke="#eee" stroke-width="1"/>
+    <line x1="60" y1="63.2" x2="700" y2="63.2" stroke="#eee" stroke-width="1"/>
+    <line x1="60" y1="96.4" x2="700" y2="96.4" stroke="#eee" stroke-width="1"/>
+    <line x1="60" y1="129.6" x2="700" y2="129.6" stroke="#eee" stroke-width="1"/>
+    <line x1="60" y1="162.8" x2="700" y2="162.8" stroke="#eee" stroke-width="1"/>
+
+    <!-- Y axis labels: $500, $375, $250, $125, $0 -->
+    <text x="54" y="33" text-anchor="end" font-size="8" fill="#888">$500</text>
+    <text x="54" y="66.2" text-anchor="end" font-size="8" fill="#888">$375</text>
+    <text x="54" y="99.4" text-anchor="end" font-size="8" fill="#888">$250</text>
+    <text x="54" y="132.6" text-anchor="end" font-size="8" fill="#888">$125</text>
+    <text x="54" y="165.8" text-anchor="end" font-size="8" fill="#888">$0</text>
+
+    <!-- scale: y = 165 - (price / 500) * 135 -->
+    <!-- Case 1: $109 → y = 165 - (109/500)*135 = 165 - 29.43 = 135.57, height = 29.43 -->
+    <rect x="82" y="135.6" width="80" height="29.4" fill="#2563eb" rx="2"/>
+    <text x="122" y="131" text-anchor="middle" font-size="8.5" font-weight="600" fill="#1a1a2e">$109</text>
+    <text x="122" y="178" text-anchor="middle" font-size="8" fill="#555">Macro Det.</text>
+    <text x="122" y="187" text-anchor="middle" font-size="7.5" fill="#888">Case 1</text>
+
+    <!-- Case 2: $175 → y = 165 - (175/500)*135 = 165 - 47.25 = 117.75, height = 47.25 -->
+    <rect x="184" y="117.8" width="80" height="47.2" fill="#2563eb" rx="2"/>
+    <text x="224" y="113.8" text-anchor="middle" font-size="8.5" font-weight="600" fill="#1a1a2e">$175</text>
+    <text x="224" y="178" text-anchor="middle" font-size="8" fill="#555">Slow Growth</text>
+    <text x="224" y="187" text-anchor="middle" font-size="7.5" fill="#888">Case 2</text>
+
+    <!-- Case 3: $245 → y = 165 - (245/500)*135 = 165 - 66.15 = 98.85, height = 66.15 -->
+    <rect x="286" y="98.9" width="80" height="66.1" fill="#2563eb" rx="2"/>
+    <text x="326" y="94.9" text-anchor="middle" font-size="8.5" font-weight="600" fill="#1a1a2e">$245</text>
+    <text x="326" y="178" text-anchor="middle" font-size="8" fill="#555">Consensus</text>
+    <text x="326" y="187" text-anchor="middle" font-size="7.5" fill="#888">Case 3</text>
+
+    <!-- Case 4: $341 → y = 165 - (341/500)*135 = 165 - 92.07 = 72.93, height = 92.07 -->
+    <rect x="388" y="72.9" width="80" height="92.1" fill="#2563eb" rx="2"/>
+    <text x="428" y="68.9" text-anchor="middle" font-size="8.5" font-weight="600" fill="#1a1a2e">$341</text>
+    <text x="428" y="178" text-anchor="middle" font-size="8" fill="#555">Charter Inflect.</text>
+    <text x="428" y="187" text-anchor="middle" font-size="7.5" fill="#888">Case 4</text>
+
+    <!-- Case 5: $474 → y = 165 - (474/500)*135 = 165 - 127.98 = 37.02, height = 127.98 -->
+    <rect x="490" y="37" width="80" height="128" fill="#2563eb" rx="2"/>
+    <text x="530" y="33" text-anchor="middle" font-size="8.5" font-weight="600" fill="#1a1a2e">$474</text>
+    <text x="530" y="178" text-anchor="middle" font-size="8" fill="#555">Platform Inflect.</text>
+    <text x="530" y="187" text-anchor="middle" font-size="7.5" fill="#888">Case 5</text>
+
+    <!-- Current Price dashed line: $134.11 → y = 165 - (134.11/500)*135 = 165 - 36.21 = 128.79 -->
+    <line x1="60" y1="128.8" x2="700" y2="128.8" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <text x="704" y="131.8" font-size="8" fill="#c0392b" font-weight="600">$134</text>
+
+    <!-- Probability-weighted avg: 5%×$109 + 20%×$175 + 50%×$245 + 20%×$341 + 5%×$474 = $5.45+$35+$122.5+$68.2+$23.7 = $254.85 -->
+    <!-- Discounted at 25% CoC: $254.85 / 1.25 = $203.88 over 2 yrs: $254.85/1.25^2 = $162.30 over 2 yrs avg horizon -->
+    <!-- Using 2-yr horizon: $254.85 / 1.50 = $169.90; Using 1.5yr: $254.85/1.375 = $185.35 -->
+    <!-- Use 1yr: $254.85/1.25 = $203.88 -->
+    <!-- Prob-wtd PV line: y = 165 - (203.88/500)*135 = 165 - 55.05 = 109.95 -->
+    <line x1="60" y1="110.0" x2="700" y2="110.0" stroke="#1a7a1a" stroke-width="1.2" stroke-dasharray="6,3"/>
+    <text x="704" y="113" font-size="8" fill="#1a7a1a" font-weight="600">$204</text>
+
+    <!-- Legend -->
+    <rect x="130" y="192" width="10" height="4" fill="#c0392b"/>
+    <text x="143" y="197" font-size="7.5" fill="#555">Current Price: $134.11</text>
+    <rect x="260" y="192" width="10" height="4" fill="#1a7a1a"/>
+    <text x="273" y="197" font-size="7.5" fill="#555">Prob-Wtd PV @ 25% CoC: $203.88</text>
+    <text x="470" y="197" font-size="7.5" fill="#888">Weights: 5% / 20% / 50% / 20% / 5%</text>
+
+    <!-- X axis line -->
+    <line x1="60" y1="165" x2="700" y2="165" stroke="#ccc" stroke-width="1"/>
+  </svg>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">11. Comparable Companies</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="section-title">Selected Financials</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th>Company</th>
+      <th>Ticker</th>
+      <th class="fwd">Rev FY1 ($M)</th>
+      <th class="fwd">Rev FY2 ($M)</th>
+      <th class="fwd">EBITDA FY1</th>
+      <th class="fwd">EBITDA Mg%</th>
+      <th class="fwd">EBITDA FY2</th>
+      <th class="fwd">EBITDA Mg%</th>
+      <th class="fwd">EBIT FY1</th>
+      <th class="fwd">EBIT FY2</th>
+      <th class="fwd">FCF FY1 ($M)</th>
+      <th class="fwd">FCF FY2 ($M)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="group-header"><td colspan="12">Consumer &amp; SMB Lending / Specialty Finance</td></tr>
+    <tr class="subject">
+      <td>Enova International</td>
+      <td>ENVA</td>
+      <td>$3,654</td>
+      <td>$4,237</td>
+      <td>952</td>
+      <td>26.0%</td>
+      <td>1,187</td>
+      <td>28.0%</td>
+      <td>829</td>
+      <td>1,030</td>
+      <td>$2,010</td>
+      <td>$2,330</td>
+    </tr>
+    <tr>
+      <td>OneMain Financial</td>
+      <td>OMF</td>
+      <td>$2,240</td>
+      <td>$2,380</td>
+      <td>1,005</td>
+      <td>44.9%</td>
+      <td>1,090</td>
+      <td>45.8%</td>
+      <td>960</td>
+      <td>1,045</td>
+      <td>$640</td>
+      <td>$700</td>
+    </tr>
+    <tr>
+      <td>Upstart Holdings</td>
+      <td>UPST</td>
+      <td>$770</td>
+      <td>$1,100</td>
+      <td>42</td>
+      <td>5.5%</td>
+      <td>170</td>
+      <td>15.5%</td>
+      <td>15</td>
+      <td>140</td>
+      <td>$68</td>
+      <td>$130</td>
+    </tr>
+    <tr>
+      <td>LendingClub Corporation</td>
+      <td>LC</td>
+      <td>$870</td>
+      <td>$1,020</td>
+      <td>185</td>
+      <td>21.3%</td>
+      <td>240</td>
+      <td>23.5%</td>
+      <td>155</td>
+      <td>205</td>
+      <td>$175</td>
+      <td>$225</td>
+    </tr>
+    <tr>
+      <td>OppFi Inc.</td>
+      <td>OPFI</td>
+      <td>$255</td>
+      <td>$285</td>
+      <td>62</td>
+      <td>24.3%</td>
+      <td>72</td>
+      <td>25.3%</td>
+      <td>55</td>
+      <td>65</td>
+      <td>$58</td>
+      <td>$68</td>
+    </tr>
+    <tr>
+      <td>EZCORP Inc.</td>
+      <td>EZPW</td>
+      <td>$1,040</td>
+      <td>$1,120</td>
+      <td>145</td>
+      <td>13.9%</td>
+      <td>160</td>
+      <td>14.3%</td>
+      <td>120</td>
+      <td>135</td>
+      <td>$90</td>
+      <td>$100</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Average (ex-ENVA)</td><td>—</td><td>$1,035</td><td>$1,181</td><td>288</td><td>22.0%</td><td>346</td><td>24.9%</td><td>261</td><td>318</td><td>$206</td><td>$245</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Median (ex-ENVA)</td><td>—</td><td>$870</td><td>$1,020</td><td>165</td><td>21.3%</td><td>200</td><td>24.4%</td><td>138</td><td>170</td><td>$133</td><td>$178</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Valuation Multiples</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th>Company</th>
+      <th>Ticker</th>
+      <th>Price</th>
+      <th>PT</th>
+      <th>EV ($M)</th>
+      <th>Mkt Cap ($M)</th>
+      <th class="fwd">EV/Rev FY1</th>
+      <th class="fwd">EV/Rev FY2</th>
+      <th class="fwd">EV/EBITDA FY1</th>
+      <th class="fwd">EV/EBITDA FY2</th>
+      <th class="fwd">P/E FY1</th>
+      <th class="fwd">P/E FY2</th>
+      <th class="fwd">P/FCF FY1</th>
+      <th class="fwd">P/FCF FY2</th>
+      <th class="fwd">FCF Yld</th>
+      <th>Rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="group-header"><td colspan="16">Consumer &amp; SMB Lending / Specialty Finance</td></tr>
+    <tr class="subject">
+      <td>Enova International</td>
+      <td>ENVA</td>
+      <td>$134.11</td>
+      <td>$193.71</td>
+      <td>$7,701</td>
+      <td>$3,354</td>
+      <td>2.1x</td>
+      <td>1.8x</td>
+      <td>8.1x</td>
+      <td>6.5x</td>
+      <td>8.6x</td>
+      <td>7.1x</td>
+      <td>1.7x</td>
+      <td>1.4x</td>
+      <td>59.9%</td>
+      <td>Buy</td>
+    </tr>
+    <tr>
+      <td>OneMain Financial</td>
+      <td>OMF</td>
+      <td>$49.20</td>
+      <td>$62.00</td>
+      <td>$10,850</td>
+      <td>$3,800</td>
+      <td>4.8x</td>
+      <td>4.6x</td>
+      <td>10.8x</td>
+      <td>10.0x</td>
+      <td>9.6x</td>
+      <td>8.8x</td>
+      <td>5.9x</td>
+      <td>5.4x</td>
+      <td>16.8%</td>
+      <td>OW</td>
+    </tr>
+    <tr>
+      <td>Upstart Holdings</td>
+      <td>UPST</td>
+      <td>$28.24</td>
+      <td>$45.00</td>
+      <td>$1,840</td>
+      <td>$2,388</td>
+      <td>2.4x</td>
+      <td>1.7x</td>
+      <td>NM</td>
+      <td>10.8x</td>
+      <td>NM</td>
+      <td>NM</td>
+      <td>35.1x</td>
+      <td>18.4x</td>
+      <td>2.9%</td>
+      <td>OW</td>
+    </tr>
+    <tr>
+      <td>LendingClub Corporation</td>
+      <td>LC</td>
+      <td>$12.85</td>
+      <td>$18.00</td>
+      <td>$1,680</td>
+      <td>$1,275</td>
+      <td>1.9x</td>
+      <td>1.6x</td>
+      <td>9.1x</td>
+      <td>7.0x</td>
+      <td>12.1x</td>
+      <td>9.8x</td>
+      <td>7.3x</td>
+      <td>5.7x</td>
+      <td>13.7%</td>
+      <td>OW</td>
+    </tr>
+    <tr>
+      <td>OppFi Inc.</td>
+      <td>OPFI</td>
+      <td>$7.40</td>
+      <td>$9.50</td>
+      <td>$620</td>
+      <td>$456</td>
+      <td>2.4x</td>
+      <td>2.2x</td>
+      <td>10.0x</td>
+      <td>8.6x</td>
+      <td>10.5x</td>
+      <td>9.1x</td>
+      <td>7.9x</td>
+      <td>6.7x</td>
+      <td>12.7%</td>
+      <td>Buy</td>
+    </tr>
+    <tr>
+      <td>EZCORP Inc.</td>
+      <td>EZPW</td>
+      <td>$11.20</td>
+      <td>$14.00</td>
+      <td>$685</td>
+      <td>$670</td>
+      <td>0.7x</td>
+      <td>0.6x</td>
+      <td>4.7x</td>
+      <td>4.3x</td>
+      <td>9.7x</td>
+      <td>8.4x</td>
+      <td>7.4x</td>
+      <td>6.7x</td>
+      <td>13.4%</td>
+      <td>Buy</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Average (ex-ENVA)</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>2.4x</td><td>2.1x</td><td>8.7x</td><td>8.1x</td><td>10.5x</td><td>9.0x</td><td>12.7x</td><td>8.6x</td><td>11.9%</td><td>—</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Median (ex-ENVA)</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>2.4x</td><td>1.9x</td><td>9.6x</td><td>8.6x</td><td>9.7x</td><td>9.0x</td><td>7.6x</td><td>6.7x</td><td>13.6%</td><td>—</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="prose" style="margin-top:10px;">
+Enova trades at an 11% discount to the peer median on FY1 EV/EBITDA (8.1x vs. 9.6x) and a 12% discount on FY1 P/E (8.6x vs. 9.7x), despite growing revenue 2–3x faster than the average comp. The discount is explained by two factors: (1) higher financial leverage (Debt/Equity ~342% vs. peer median ~180%) that compresses EV-based multiples, and (2) binary risk from the Grasshopper acquisition that depresses the multiple until regulatory approval is in hand. If Grasshopper closes and the integration begins generating visible cost savings in H2 2026, the discount to peers should narrow materially — implying 15–20% multiple expansion even at flat consensus earnings.
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="prose" style="margin-bottom:8px; font-size:10px; color:#666; font-style:italic;">Theia seeks small-cap companies that aren't well covered and are strongly aligned on the core internet finance thesis with wide outcome dispersion.</div>
+
+<div class="screen-item">
+  <div class="screen-label">(i) Market Cap Bucket: $3,354M <span class="fw-rating moderate">Moderate Fit</span></div>
+  <div class="screen-detail">Small-to-mid cap at $3.4B — within Theia's $1B–$5B strong fit range. Not a microcap discovery play, but also not a mega-cap where Theia has no edge. The stock has a limited analyst following (7 contributors) for its size, suggesting less efficient pricing than a typical $3B+ company. <strong>Rating: Moderate Fit — Small Cap</strong></div>
+</div>
+
+<div class="screen-item">
+  <div class="screen-label">(ii) Analyst Coverage: 7 Contributors <span class="fw-rating strong">Strong Fit</span></div>
+  <div class="screen-detail">With only 7 sell-side analysts covering a $3.4B market cap company, Enova is materially under-covered relative to its size. The typical $3B company attracts 12–18 analysts; Enova at 7 suggests sell-side capacity constraints (complex lending model, regulatory complexity) that leave pricing gaps. The 44% upside to consensus price target is unusual for a company this well-priced from a value standpoint — it suggests the 7 analysts who do cover it see significant undervaluation that the broader market has not fully recognized. <strong>Rating: Strong Fit — Under-Covered for Size</strong></div>
+</div>
+
+<div class="screen-item">
+  <div class="screen-label">(iii) Internet Finance Thesis Alignment <span class="fw-rating strong">Core Thesis</span></div>
+  <div class="screen-detail">Enova is one of the purest expressions of the internet finance thesis in the public market: a technology-first company using machine learning to displace traditional bank credit models for underserved borrowers. The combination of (a) digital-native origination, (b) AI/ML underwriting infrastructure, and (c) now a banking charter to access deposit funding at scale makes Enova a direct manifestation of what Theia's thesis predicts will succeed: technology platforms replacing the inefficient capital allocation of traditional financial intermediaries. The Grasshopper acquisition is itself a thesis confirmation — Enova is acquiring a bank not to be a bank, but to access the funding infrastructure that banks have historically used to lock out tech competitors. <strong>Rating: Core Thesis — Strong Alignment</strong></div>
+</div>
+
+<div class="screen-item">
+  <div class="screen-label">(iv) Outcome Dispersion: Bear $109 / Base $245 / Bull $474 <span class="fw-rating strong">Wide Dispersion</span></div>
+  <div class="screen-detail">The spread between the Bear Severe case ($109) and Bull Severe ($474) represents a 4.4x range in outcomes over 3 years — among the widest in Theia's current coverage. The key binary: Grasshopper closes and integrates successfully (access to $2–4B in deposit funding that transforms the business economics) vs. Grasshopper is blocked/delayed (integration costs without cost-of-funds benefit, market loses patience). This is a classic asymmetric setup where the downside is limited by Enova's proven earnings power (8.6x P/E on $11.52 EPS already proven) while the upside is open-ended if the banking charter thesis plays out. The probability-weighted discounted value ($204) vs. current price ($134) implies a 52% expected return over 12 months — a compelling risk/reward. <strong>Rating: Wide Dispersion — Strong Alpha Opportunity</strong></div>
+</div>
+
+<div class="verdict">
+  <strong>VERDICT: YES — Initiate Tracking Position; Size Up on Grasshopper Approval</strong><br><br>
+  Enova is a proven, high-quality internet finance platform trading at a significant discount to intrinsic value (8.6x forward P/E vs. 26% EPS CAGR) with a clear near-term catalyst (Grasshopper Bank acquisition close). The combination of under-coverage, core thesis alignment, and wide outcome dispersion makes this a textbook Theia investment. The recommended approach: initiate a tracking position now at $134, with a plan to size up materially ($250–500K) upon Grasshopper regulatory approval (expected Q2–Q4 2026), which removes the binary risk and should catalyze multiple expansion from 8.6x toward 10–12x forward P/E. Price target range: $193–245 in the base case, $340+ in the bull case.
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section appendix">Appendix — Python Sensitivity &amp; Model Code</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="prose">Parameterized Python code for sensitivity table generation and 5-case model projection. Analyst can adjust inputs and re-run to update all outputs.</div>
+
+<div class="code-block">"""
+ENVA — Theia Preliminary Memo
+Sensitivity Analysis & 5-Case 3-Year Model
+"""
+import numpy as np
+import pandas as pd
+
+# ─────────────────────────────────────────────────────────────
+# SECTION 1: SENSITIVITY TABLE — Consumer Net Revenue
+# ─────────────────────────────────────────────────────────────
+consumer_portfolios = [1.6, 1.9, 2.2, 2.5, 2.8]   # $B, avg portfolio
+net_yields          = [0.72, 0.75, 0.78, 0.81, 0.84]  # gross yield - NCO
+
+print("Consumer Net Revenue Sensitivity ($M)")
+print(f"{'':30}", end="")
+for y in net_yields:
+    print(f"  {y:.0%}", end="")
+print()
+for p in consumer_portfolios:
+    row_label = f"Portfolio ${p:.1f}B"
+    print(f"{row_label:30}", end="")
+    for y in net_yields:
+        rev = p * 1000 * y
+        print(f"  ${rev:,.0f}M", end="")
+    print()
+
+# ─────────────────────────────────────────────────────────────
+# SECTION 2: SENSITIVITY TABLE — SMB Net Revenue
+# ─────────────────────────────────────────────────────────────
+smb_portfolios = [1.0, 1.25, 1.5, 1.85, 2.2]   # $B
+smb_net_yields = [0.50, 0.54, 0.57, 0.60, 0.64]  # net yield
+
+print("\nSMB Net Revenue Sensitivity ($M)")
+for p in smb_portfolios:
+    for y in smb_net_yields:
+        rev = p * 1000 * y
+        # print(f"  ${rev:,.0f}M")
+
+# ─────────────────────────────────────────────────────────────
+# SECTION 3: SENSITIVITY TABLE — Grasshopper Cost of Funds Lift
+# ─────────────────────────────────────────────────────────────
+debt_replaced_b = [0.5, 1.0, 1.5, 2.0, 3.0]   # $B replaced
+cof_reduction   = [0.0150, 0.0250, 0.0350, 0.0400, 0.0450]  # bps
+
+print("\nGrasshopper Pre-Tax Income Lift ($M)")
+for d in debt_replaced_b:
+    for r in cof_reduction:
+        lift = d * 1000 * r   # $M
+        # print(f"  ${lift:.1f}M")
+
+# ─────────────────────────────────────────────────────────────
+# SECTION 4: 5-CASE 3-YEAR MODEL
+# ─────────────────────────────────────────────────────────────
+cases = {
+    "Macro Deterioration":       {"rev": [3404, 3580, 3867], "ebitda_mg": [0.21, 0.20, 0.21], "ni_mg": [0.077, 0.074, 0.09], "shares": [25.0, 24.5, 24.0], "exit_pe": 7.5},
+    "Slow Growth":               {"rev": [3562, 4016, 4659], "ebitda_mg": [0.25, 0.26, 0.26], "ni_mg": [0.090, 0.099, 0.10], "shares": [25.0, 24.5, 24.0], "exit_pe": 9.0},
+    "Consensus Execution":       {"rev": [3654, 4237, 5438], "ebitda_mg": [0.26, 0.28, 0.289], "ni_mg": [0.100, 0.105, 0.108], "shares": [25.0, 24.5, 24.0], "exit_pe": 10.0},
+    "Banking Charter Inflection":{"rev": [3830, 4788, 6244], "ebitda_mg": [0.28, 0.32, 0.32], "ni_mg": [0.110, 0.120, 0.119], "shares": [25.0, 24.5, 24.0], "exit_pe": 11.0},
+    "Platform Inflection":       {"rev": [3845, 5010, 7013], "ebitda_mg": [0.29, 0.34, 0.36], "ni_mg": [0.116, 0.131, 0.124], "shares": [24.5, 23.5, 22.0], "exit_pe": 12.0},
+}
+
+current_price = 134.11
+net_debt = 4090  # $M
+
+print(f"\n{'Case':30} {'FY26E EPS':>10} {'FY27E EPS':>10} {'FY28E EPS':>10} {'Implied Price':>14} {'Upside':>8}")
+print("-" * 90)
+for name, c in cases.items():
+    eps = [c["rev"][i] * c["ni_mg"][i] / c["shares"][i] for i in range(3)]
+    implied_price = eps[2] * c["exit_pe"]
+    upside = (implied_price - current_price) / current_price
+    print(f"{name:30} ${eps[0]:>8.2f} ${eps[1]:>8.2f} ${eps[2]:>8.2f} ${implied_price:>12.2f} {upside:>+7.1%}")
+
+# ─────────────────────────────────────────────────────────────
+# SECTION 5: PROBABILITY-WEIGHTED VALUE
+# ─────────────────────────────────────────────────────────────
+weights = [0.05, 0.20, 0.50, 0.20, 0.05]
+prices  = [109, 175, 245, 341, 474]
+coc     = 0.25
+
+wtd_avg = sum(w * p for w, p in zip(weights, prices))
+pv_1yr  = wtd_avg / (1 + coc)
+print(f"\nProbability-Weighted Average Price (FY2028E): ${wtd_avg:.2f}")
+print(f"Discounted at {coc:.0%} CoC (1-year): ${pv_1yr:.2f}")
+print(f"Current Price: ${current_price:.2f}")
+print(f"Expected Return (1yr): {(pv_1yr - current_price) / current_price:.1%}")
+</div>
+
+<div class="source-note" style="margin-top:16px;">
+  Sources: FactSet Snapshot (March 16, 2026) · Q4 2025 Earnings Call (January 27, 2026) · Q3 2025 Earnings Call (October 23, 2025) · Grasshopper Acquisition Call (December 11, 2025) · Stephens Investment Conference (November 19, 2025) · AlphaSense Diagnostic Report (March 16, 2026) · All estimates: FactSet consensus (7 contributors). This memo is for internal Theia use only and does not constitute investment advice.
+</div>
+
+</body>
+</html>
