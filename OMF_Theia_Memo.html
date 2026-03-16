@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OneMain Holdings | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+.fw-item { margin-bottom: 10px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+.alphasense-box { background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 4px; padding: 8px 12px; margin-bottom: 14px; font-size: 10px; color: #1e3a5f; }
+.comps { font-size: 8px; }
+.comps th { background: #f4f6f9; font-size: 8px; padding: 2px 4px; }
+.comps td { padding: 2px 4px; font-size: 8px; }
+.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+.comps tr.stat-row td { font-style: italic; background: #fafbfc; font-weight: 600; }
+.bull-bear { display: flex; gap: 24px; margin-bottom: 10px; }
+.bull-box, .bear-box { flex: 1; }
+.bull-box .section-title { color: #155724; border-color: #155724; }
+.bear-box .section-title { color: #721c24; border-color: #721c24; }
+.bull-box .fw-item .fw-name { color: #155724; }
+.bear-box .fw-item .fw-name { color: #721c24; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">OneMain Holdings, Inc. | Preliminary Memo for Theia</div>
+
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<div class="memo-section">1. Business Overview</div>
+<p class="prose">
+OneMain Holdings, Inc. (NYSE: OMF) is the largest non-bank consumer finance company in the United States, providing personal installment loans, auto finance, and credit cards to non-prime (subprime/near-prime) borrowers who have limited access to traditional bank credit. Founded in 1912 and headquartered in Evansville, Indiana, the company operates under the OneMain Financial brand through approximately 1,300 branches across 44 states, a national call center network, and a digital platform. CEO Douglas H. Shulman, a former IRS Commissioner who joined in 2018, has repositioned the franchise from a purely branch-based lender into a multi-product consumer financial services platform. The company employs approximately 8,000 people and serves roughly 3.8 million customer accounts. The core thesis is that OneMain occupies a defensible structural position as the dominant scaled lender to the roughly 100 million Americans who lack access to prime credit — a segment chronically underserved by banks — and that disciplined underwriting, an omni-channel distribution model, and a fortress balance sheet allow it to generate durable mid-20s ROE through economic cycles.
+</p>
+<p class="prose">
+The company generates revenue primarily through interest income on its $26.3 billion managed receivables portfolio (consumer loan yield ~22.5%, credit card yield ~32.9%), supplemented by insurance premiums (life, disability, involuntary unemployment), and gain-on-sale from a $2.4B whole loan sale program. The Consumer & Insurance (C&I) segment accounts for virtually all revenue. In 2025, the company generated $6.2B in C&I revenue (up 9% YoY), $913M in capital generation (up 33% YoY), and GAAP diluted EPS of $6.56. New product verticals — OneMain Auto ($2.8B receivables) and BrightWay credit card ($936M receivables) — are scaling alongside the core personal loan business, together contributing 42% of 2025 receivables growth.
+</p>
+
+<!-- SECTION 2: FINANCIAL SUMMARY -->
+<div class="memo-section">2. Theia FactSet Summary — Financial Overview</div>
+
+<div class="header">
+  <div>
+    <h1>OneMain Holdings, Inc.</h1>
+    <div class="ticker">OMF-US &nbsp;·&nbsp; NYSE &nbsp;·&nbsp; CUSIP: 68268W103</div>
+  </div>
+  <div class="date">As of Mar 13, 2026</div>
+</div>
+
+<!-- Price Bar -->
+<div class="price-bar">
+  <div><span class="label">Price</span> <span class="price">$52.06</span></div>
+  <div><span class="label">1M</span> <span class="chg">−7.8%</span></div>
+  <div><span class="label">3M</span> <span class="chg">−22.6%</span></div>
+  <div><span class="label">6M</span> <span class="chg">−13.4%</span></div>
+  <div><span class="label">YTD</span> <span class="chg">−22.3%</span></div>
+  <div><span class="label">1Y</span> <span class="chg pos">+7.9%</span></div>
+  <div><span class="label">52W Range</span> <span style="font-weight:600">$38.00 – $71.93</span></div>
+</div>
+
+<!-- Two-column: Key Stats Trading | EV Bridge -->
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv">
+      <tr><td>Primary Ticker</td><td>OMF-US</td></tr>
+      <tr><td>Price (Mar 13)</td><td>$52.06</td></tr>
+      <tr><td>Volume (Latest)</td><td>1,176,561</td></tr>
+      <tr><td>30D Avg Daily Vol</td><td>1,675,822</td></tr>
+      <tr><td>Float (%)</td><td>99.1%</td></tr>
+      <tr><td>Short Interest</td><td>3.0 Days / 3.7% Float</td></tr>
+      <tr><td>Annual Dividend</td><td>$4.20 (~8.1% yield)</td></tr>
+      <tr><td>Next Earnings</td><td>Apr 29, 2026</td></tr>
+      <tr><td>Avg Rating</td><td>Overweight (1.44)</td></tr>
+      <tr><td>Target Price</td><td>$71.71</td></tr>
+      <tr><td>Broker Contributors</td><td>16</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev">
+      <tr><td>Price (Mar 13, 2026)</td><td>$52.06</td></tr>
+      <tr><td>Basic Shares (M)</td><td>117.15</td></tr>
+      <tr style="padding-left:12px"><td>&nbsp;Common Stock</td><td>117.15</td></tr>
+      <tr><td>Diluted Shares (Stock Comp)</td><td>+1.75</td></tr>
+      <tr><td>Fully Diluted Shares (M)</td><td>118.91</td></tr>
+      <tr><td>Market Cap ($M)</td><td>$6,099</td></tr>
+      <tr><td>Fully Dil Mkt Cap ($M)</td><td>$6,190</td></tr>
+      <tr><td>+ Consolidated Debt</td><td>$22,694</td></tr>
+      <tr><td>− Cash & Equivalents</td><td>($1,828)</td></tr>
+      <tr class="total"><td>Enterprise Value ($M)</td><td>$27,056</td></tr>
+    </table>
+    <div class="source-note">Source: FactSet. Millions USD except price & shares.</div>
+  </div>
+</div>
+
+<!-- Current Valuation 6x2 grid -->
+<div class="section-title">Current Valuation</div>
+<div class="val-grid">
+  <div class="val-cell">
+    <div class="val-label">Market Cap</div>
+    <div class="val-num">$6.1B</div>
+    <div class="val-sub">Basic</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Enterprise Value</div>
+    <div class="val-num">$27.1B</div>
+    <div class="val-sub">Incl. $22.7B debt</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">P/E (LTM)</div>
+    <div class="val-num">7.9x</div>
+    <div class="val-sub">5Yr Avg: 8.3x</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">EV/EBITDA</div>
+    <div class="val-num">—</div>
+    <div class="val-sub">EBITDA not rep.</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">EV/Sales</div>
+    <div class="val-num">4.3x</div>
+    <div class="val-sub">LTM</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">P/S (LTM)</div>
+    <div class="val-num">1.0x</div>
+    <div class="val-sub">5Yr Avg: 1.1x</div>
+  </div>
+</div>
+<div class="val-grid">
+  <div class="val-cell">
+    <div class="val-label">Fully Dil Mkt Cap</div>
+    <div class="val-num">$6.2B</div>
+    <div class="val-sub">118.9M shares</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">WACC</div>
+    <div class="val-num">5.3%</div>
+    <div class="val-sub">FactSet est.</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Beta (3Y Adj)</div>
+    <div class="val-num">1.25</div>
+    <div class="val-sub">vs. S&P 500</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Avg Rating</div>
+    <div class="val-num">OW</div>
+    <div class="val-sub">1.44 score</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Target Price</div>
+    <div class="val-num">$71.71</div>
+    <div class="val-sub">+38% upside</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Next Earnings</div>
+    <div class="val-num">Apr 29</div>
+    <div class="val-sub">Q1 2026</div>
+  </div>
+</div>
+
+<!-- Valuation Multiples Table -->
+<div class="section-title">Valuation Multiples</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th>Multiple</th>
+      <th>5Yr Avg</th>
+      <th>Dec '23</th>
+      <th>Dec '24</th>
+      <th>Dec '25</th>
+      <th class="est">Dec '26E</th>
+      <th class="est">Dec '27E</th>
+      <th class="est">Dec '28E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Price to Earnings</td><td>8.3x</td><td>9.3x</td><td>12.3x</td><td>10.3x</td><td class="est">6.9x</td><td class="est">5.8x</td><td class="est">4.9x</td></tr>
+    <tr><td>P/Sales</td><td>1.1x</td><td>1.1x</td><td>1.1x</td><td>1.3x</td><td class="est">1.1x</td><td class="est">1.1x</td><td class="est">1.0x</td></tr>
+    <tr><td>P/BV</td><td>1.4x</td><td>1.8x</td><td>1.9x</td><td>—</td><td class="est">1.7x</td><td class="est">1.5x</td><td class="est">—</td></tr>
+    <tr><td>P/FCF</td><td>1.9x</td><td>2.4x</td><td>2.3x</td><td>—</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr class="section-row"><td colspan="8">Enterprise Value Multiples</td></tr>
+    <tr><td>EV/Sales</td><td>3.6x</td><td>4.6x</td><td>4.7x</td><td>—</td><td class="est">5.1x</td><td class="est">4.7x</td><td class="est">4.3x</td></tr>
+    <tr><td>EV/EBITDA</td><td>5.0x</td><td>6.3x</td><td>6.3x</td><td>—</td><td class="est">10.3x</td><td class="est">9.4x</td><td class="est">9.5x</td></tr>
+    <tr><td>EV/EBIT</td><td>5.3x</td><td>6.8x</td><td>6.8x</td><td>—</td><td class="est">8.8x</td><td class="est">9.0x</td><td class="est">NM</td></tr>
+  </tbody>
+</table>
+
+<!-- Revenue Exposure -->
+<div class="section-title">Revenue Exposure</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Business Unit (Dec '25, FY End = $6,242M)</div>
+    <table class="rev">
+      <thead><tr><th>Segment</th><th>% Rev</th><th>Rev ($M)</th><th>Growth</th></tr></thead>
+      <tbody>
+        <tr><td>Consumer &amp; Insurance</td><td>99.8%</td><td>$4,473</td><td>+4.7%</td></tr>
+        <tr><td>Other</td><td>0.2%</td><td>$9</td><td>−10.0%</td></tr>
+      </tbody>
+    </table>
+    <div style="font-size:9px;color:#888;margin-top:4px;">Note: FactSet segment data reflects partial year disclosure. C&I full-year revenue $6,214M per company earnings release.</div>
+  </div>
+  <div>
+    <div class="sub-label">By Geography</div>
+    <table class="rev">
+      <thead><tr><th>Region</th><th>% Rev</th><th>Rev ($M)</th><th>Growth</th></tr></thead>
+      <tbody>
+        <tr><td>United States</td><td>100.0%</td><td>$4,503</td><td>+5.2%</td></tr>
+      </tbody>
+    </table>
+    <div style="font-size:9px;color:#888;margin-top:4px;">100% domestic; operates in 44 states via 1,300 branches + digital.</div>
+  </div>
+</div>
+
+<!-- Financials Table -->
+<div class="section-title">Financials</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th>($M, FYE Dec)</th>
+      <th>5Yr CAGR</th>
+      <th>Dec '23</th>
+      <th>Dec '24</th>
+      <th>Dec '25</th>
+      <th class="est">Dec '26E</th>
+      <th class="est">Dec '27E</th>
+      <th class="est">Dec '28E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="8">Income Statement</td></tr>
+    <tr><td>Revenue</td><td>4.8%</td><td>$5,299</td><td>$5,722</td><td>$6,242</td><td class="est">$5,337</td><td class="est">$5,707</td><td class="est">$6,244</td></tr>
+    <tr><td>Gross Income</td><td>0.5%</td><td>$4,435</td><td>$4,805</td><td>$4,337</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>EBIT</td><td>−7.2%</td><td>$3,580</td><td>$3,926</td><td>$2,340</td><td class="est">$3,086</td><td class="est">$3,011</td><td class="est">—</td></tr>
+    <tr><td>EBITDA</td><td>—</td><td>$3,837</td><td>$4,203</td><td>—</td><td class="est">$2,621</td><td class="est">$2,872</td><td class="est">$2,861</td></tr>
+    <tr><td>Net Income</td><td>1.4%</td><td>$641</td><td>$509</td><td>$783</td><td class="est">$873</td><td class="est">$1,008</td><td class="est">$1,150</td></tr>
+    <tr><td>EPS (Diluted)</td><td>3.9%</td><td>$5.31</td><td>$4.24</td><td>$6.56</td><td class="est">$7.71</td><td class="est">$9.27</td><td class="est">$11.22</td></tr>
+    <tr class="section-row"><td colspan="8">Balance Sheet</td></tr>
+    <tr><td>Cash &amp; ST Inv</td><td>—</td><td>$1,548</td><td>$1,142</td><td>$1,613</td><td class="est">$801</td><td class="est">$809</td><td class="est">$914</td></tr>
+    <tr><td>Total Assets</td><td>4.0%</td><td>$24,294</td><td>$25,910</td><td>$27,388</td><td class="est">$28,700</td><td class="est">$30,391</td><td class="est">$33,736</td></tr>
+    <tr><td>Total SH Equity</td><td>—</td><td>$3,186</td><td>$3,191</td><td>$3,401</td><td class="est">$3,300</td><td class="est">$3,624</td><td class="est">$4,083</td></tr>
+    <tr class="section-row"><td colspan="8">Cash Flow</td></tr>
+    <tr><td>Net Operating CF</td><td>—</td><td>$2,519</td><td>$2,699</td><td>—</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>CapEx</td><td>—</td><td>$0</td><td>$0</td><td>—</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>FCF</td><td>—</td><td>$2,519</td><td>$2,699</td><td>—</td><td class="est">$884</td><td class="est">$1,013</td><td class="est">$1,102</td></tr>
+    <tr class="section-row"><td colspan="8">Margins &amp; Returns</td></tr>
+    <tr><td>Gross Margin (%)</td><td>—</td><td>83.7%</td><td>84.0%</td><td>69.5%</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Net Margin (%)</td><td>—</td><td>12.1%</td><td>8.9%</td><td>12.5%</td><td class="est">16.4%</td><td class="est">17.7%</td><td class="est">18.4%</td></tr>
+    <tr><td>ROE (%)</td><td>—</td><td>20.7%</td><td>16.0%</td><td>23.8%</td><td class="est">24.1%</td><td class="est">25.6%</td><td class="est">—</td></tr>
+    <tr><td>ROA (%)</td><td>—</td><td>2.7%</td><td>2.0%</td><td>2.9%</td><td class="est">3.0%</td><td class="est">3.3%</td><td class="est">3.4%</td></tr>
+    <tr><td>TDebt/TEQ</td><td>—</td><td>621.9%</td><td>671.8%</td><td>667.3%</td><td class="est">698.0%</td><td class="est">673.3%</td><td class="est">671.6%</td></tr>
+    <tr><td>Interest Coverage</td><td>—</td><td>3.5x</td><td>3.3x</td><td>1.8x</td><td class="est">2.3x</td><td class="est">2.2x</td><td class="est">—</td></tr>
+    <tr><td>DPS</td><td>—</td><td>$4.00</td><td>$4.12</td><td>$4.17</td><td class="est">$4.22</td><td class="est">$4.30</td><td class="est">$4.45</td></tr>
+  </tbody>
+</table>
+
+<!-- Valuation Summary -->
+<div class="section-title">Valuation Summary</div>
+<p class="prose">
+OneMain currently trades at 6.9x FY26E P/E and 1.0x P/Sales, representing a meaningful discount to its 5-year historical averages of 8.3x P/E and 1.1x P/Sales. The discount reflects two primary investor concerns: (1) the stock is a wholesale-funded non-bank lender concentrated in subprime credit, making it a classic "macro fear" trade that sells off on unemployment upticks or recession concerns, and (2) the company's elevated leverage (5.4x net) generates anxiety around funding access in a crisis, even though management has deliberately constructed a "fortress balance sheet" with $7.5B in bank lines and two years of liquidity runway. The market is currently underweighting the quality of the credit tightening cycle (94% front-book performing in-line, back-book decaying to 6% of portfolio), the 36% EPS growth trajectory, and the accelerating capital return program ($1B buyback + ~8% dividend yield). At $52, OMF trades at only 4.6x FY28E EPS of $11.22, which is strikingly inexpensive for a business generating 24%+ ROE with a diversifying product portfolio. The valuation looks compelling on an absolute basis and relative to the 6.7x NTM P/E of Enova International, the closest true comparable.
+</p>
+
+<div class="source-note">Source: FactSet Fundamentals &amp; Estimates, OneMain Q4 2025 Earnings Release (Feb 5, 2026). Estimates follow broker majority. All figures GAAP/IFRS standardized.</div>
+
+<!-- SECTION 3: BULL & BEAR CASES -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+<div class="bull-bear">
+  <div class="bull-box">
+    <div class="section-title" style="color:#155724;border-color:#155724;">Bull Case — 5 Reasons to Own OMF</div>
+    <div class="fw-item">
+      <span class="fw-name" style="color:#155724;">EPS Compounding Machine at Trough Valuation</span>
+      <p class="prose" style="margin-top:2px;">Consensus has OMF growing EPS from $6.56 in 2025 to $11.22 by 2028E — a 71% increase in three years — yet the stock trades at ~4.6x terminal-year earnings. This is the kind of setup where even partial multiple re-rating generates explosive returns; the implied stock price at a mere 7x FY28E EPS is ~$79.</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name" style="color:#155724;">Back Book Roll-Off Catalyzes Structural Loss Improvement</span>
+      <p class="prose" style="margin-top:2px;">The pre-August 2022 "back book" — originated before aggressive credit tightening — now represents only 6% of the portfolio yet still contributes 17% of 30+ delinquencies. As this cohort naturally runs off over 2026-2027, structurally lower loss rates will flow through to sharply higher capital generation, even without any macro improvement.</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name" style="color:#155724;">Capital Return Engine: ~8% Yield + Aggressive Buybacks</span>
+      <p class="prose" style="margin-top:2px;">The $4.20/share dividend (~8.1% yield at current price) plus a $1B share repurchase program (2025-2028) means shareholders receive substantial cash return while waiting for multiple re-rating. Q4 2025 buybacks of $70M were double all of 2024; excess capital generation bias is explicitly shifting toward repurchases.</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name" style="color:#155724;">New Products (Auto + Card) Doubling TAM</span>
+      <p class="prose" style="margin-top:2px;">Auto finance ($2.8B receivables, $500B TAM) and BrightWay credit card ($936M, growing) are now contributing 42% of annual receivables growth. The Ally Financial Clearpass partnership — already live in 1,700 dealers — provides a low-cost origination channel for auto credit that could meaningfully accelerate the auto book over 2026-2028 without loosening underwriting standards.</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name" style="color:#155724;">ILC Charter as Free Option on Funding Cost Reduction</span>
+      <p class="prose" style="margin-top:2px;">An Industrial Loan Company (ILC) charter, if granted, would (1) allow deposit funding to diversify away from ABS/unsecured bonds, reducing cost of funds; (2) eliminate the partner bank arrangement for credit card issuance; and (3) unify operations across 47 state regulatory regimes, reducing compliance overhead. Management characterizes this as "nice to have, not must have" — but approval is pure upside optionality.</p>
+    </div>
+  </div>
+  <div class="bear-box">
+    <div class="section-title" style="color:#721c24;border-color:#721c24;">Bear Case — 5 Reasons for Caution</div>
+    <div class="fw-item">
+      <span class="fw-name" style="color:#721c24;">Macro Shock Could Break the Credit Box</span>
+      <p class="prose" style="margin-top:2px;">Despite a 30% stress overlay in underwriting, a recession-level unemployment spike (e.g., 6.5%+) would push consumer loan net charge-offs well above the 7.4-7.9% FY26E guidance range. The pre-2022 back book is still in the portfolio, and credit card charge-offs at 17%+ mean the C&I blended rate can deteriorate quickly as cards grow. A 200bps loss deterioration would eliminate most of the earnings growth trajectory.</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name" style="color:#721c24;">Wholesale Funding Dependence Is an Existential Risk if Markets Seize</span>
+      <p class="prose" style="margin-top:2px;">Without a bank charter, OMF relies entirely on ABS, unsecured bonds, and bank credit facilities. In a 2008-style credit freeze, the "two years of liquidity runway" claim would be tested against actual rolling maturities. The $22.7B consolidated debt load at ~5.3% average interest expense means funding cost sensitivity to spread widening is real.</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name" style="color:#721c24;">Interest Rate Cap Legislation Risk for Credit Cards</span>
+      <p class="prose" style="margin-top:2px;">Congress has periodically debated a 10% federal interest rate cap on consumer credit cards. While the credit card book is only 4% of receivables today, it is growing fast (36% YoY in Q4 2025). A hard rate cap would effectively make the BrightWay card economically unviable at current loss rates, eliminating a key growth vector and potentially requiring costly product restructuring.</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name" style="color:#721c24;">Regulatory Scrutiny Intensification</span>
+      <p class="prose" style="margin-top:2px;">Non-bank consumer finance companies face increasing scrutiny from the CFPB on fee transparency, rate disclosure, and collections practices. Any enforcement action, consent order, or new rulemaking targeting installment lenders could impose compliance costs, restrict products, or temporarily freeze originations — as has occurred with competitors. The current administration's posture toward financial regulation creates uncertainty in both directions.</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name" style="color:#721c24;">EPS Growth Consensus May Be Too Optimistic</span>
+      <p class="prose" style="margin-top:2px;">Consensus FY28E EPS of $11.22 implies ~22% compound annual growth from 2025 actuals. This requires simultaneously: receivables growing 6-9% annually, net charge-offs declining toward 7%, operating leverage on the OpEx ratio, and auto/card losses normalizing below their current elevated levels. Any one of these assumptions slipping materially would compress the earnings runway and re-rate the stock downward from current levels.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Scale Economies</span>
+  <span class="fw-rating strong">Strong</span>
+  <p class="prose" style="margin-top:4px;">OneMain's 1,300-branch footprint, central operations infrastructure, data science platform, and ABS/unsecured capital markets program represent substantial fixed costs that are amortized across a $26.3B receivables portfolio. The key economic unit is cost per dollar of receivable managed: at OMF's scale, the OpEx ratio is approximately 6.7% of managed receivables — a ratio that has declined from 7.3% in 2021 and is guided to ~6.6% in 2026. A smaller competitor attempting to replicate this model would face dramatically higher per-dollar costs because the branch network, compliance infrastructure, credit bureau relationships, and funding program all have high fixed components. The ABS securitization program is a concrete example: a $20B+ repeat issuer obtains pricing and execution advantages unavailable to a $1-2B originator, because investor familiarity, deal history, and program continuity reduce spread required. The same logic applies to the unsecured bond program (10-year bonds at competitive coupons) and the bank credit facility ($7.5B across 14 banks). Scale is a genuine barrier here because the non-prime consumer lending business requires meaningful fixed infrastructure before it becomes profitable — a new entrant cannot profitably start a 100-branch personal loan business and hope to compound from there.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Network Effects</span>
+  <span class="fw-rating weak">Weak</span>
+  <p class="prose" style="margin-top:4px;">There are no traditional network effects in personal lending. Having more customers does not make the product more valuable to each customer in the way a social network or payments platform does. The only indirect network-effect-like dynamic is a data advantage: OMF has 3+ million current customers and a proprietary dataset of 50+ million customer or applicant records, which improves credit model accuracy over time. This is more accurately described as a cornered resource (see #6) than a network effect. Credit cards do create a form of habit-and-engagement that increases LTV, but this is switching cost behavior rather than network dynamics. Rating: Weak.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Counter-Positioning</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">OneMain's entire business model is built around serving customers that large banks explicitly cannot or will not serve profitably. This is a form of counter-positioning, though not the classic "new technology that incumbents can't copy" variety. The specific mechanism: banks are unwilling to underwrite non-prime installment loans at 22%+ APR through a 1,300-branch physical network staffed with relationship-oriented specialists, because doing so would (a) conflict with their prime-credit brand positioning, (b) require building new underwriting models from scratch, (c) expose them to heightened regulatory scrutiny, and (d) generate returns insufficient to justify the risk on a bank's heavily regulated, capital-constrained balance sheet. This is not an insurmountable barrier — banks could theoretically build this — but the business model is sufficiently different from prime bank lending that incumbents rationally decline to compete. Fintech entrants like Upstart (AI-only, capital-light model) have taken a different approach but have struggled with consistent credit performance through cycles. Rating: Moderate.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Switching Costs</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">Consumer lending switching costs are real but not structurally dominant. Once a customer has an OMF personal loan, they cannot "move" it to a competitor without refinancing — which requires a new credit application, potentially higher rates (since re-pricing into a new loan often occurs at worse terms), and loss of the relationship benefits (payment accommodation history, branch manager familiarity). The BrightWay credit card adds incremental stickiness: card customers open the app 7+ times per month and accumulate rewards, making cancellation more costly. The debt consolidation product specifically traps customers in a positive way — by consolidating their existing multi-lender debt into a single OMF loan (with 25% average payment reduction), OMF becomes the primary creditor relationship. CEO Shulman explicitly describes the card as "digital real estate" and highlights the cross-sell: existing card customers can be converted to personal loan customers at zero acquisition cost. These structural elements provide moderate switching costs but do not prevent a sufficiently motivated customer from leaving. Rating: Moderate.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Branding</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">In the non-prime consumer lending segment, brand trust is more relevant than in prime lending because borrowers have fewer alternatives, are more financially vulnerable, and place a premium on feeling respected and understood. OneMain Financial has built genuine community-level brand trust through its branch model: average branch manager tenure is 14 years, and the company has 100+ year history in many markets. The "Credit Worthy" financial education program (reaching 18% of U.S. high schools) and the BrightWay card's "payments equal progress" value proposition both build brand equity with the target demographic. OMF was named a "Most Loved Workplace" by the Best Practice Institute for four consecutive years, which supports retention of the branch-level talent that delivers the brand experience. However, brand alone does not create pricing power — OMF must still compete on rate and terms with other non-prime lenders — so this rates as moderate rather than strong. Rating: Moderate.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">6. Cornered Resource</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">OneMain's most significant cornered resource is its proprietary credit database. Over decades of non-prime installment lending, OMF has accumulated behavioral and repayment data on 50+ million Americans — covering credit cycles, employment shocks (2008-2009, COVID-2020), and multiple interest rate environments. This dataset is specifically calibrated to the non-prime consumer in ways that generic bureau data or fintech-era datasets are not. When OMF underwrites a new loan, it compares the applicant against historical cohorts with similar characteristics, producing a loss estimate that a new entrant cannot replicate without years of lending and loss history in this exact customer segment. The second cornered resource is the physical branch network: 1,300 locations provide geographic coverage that functions as both a distribution advantage (customers can self-select into in-person service) and an early-stage collections tool (the branch manager who originated the loan knows the customer). This network cannot be replicated quickly — it was built over decades — and each branch carries local license, compliance, and staffing infrastructure. Rating: Moderate (data is genuinely proprietary; branch network is valuable but not truly inimitable given sufficient capital).</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">7. Process Power</span>
+  <span class="fw-rating strong">Strong</span>
+  <p class="prose" style="margin-top:4px;">OneMain's most underappreciated competitive advantage is its process — specifically, the combination of its underwriting discipline (the 20% ROE threshold, the 30% stress overlay applied since 2022, the 20 risk grades, and "weathervane testing" of marginal credits), its collection process (branch-based early collections by the originating relationship, combined with centralized call center overflow), and its capital markets execution (industry-leading ABS and unsecured bond issuance with best-in-class pricing). The 2022-2025 credit tightening cycle is a case study in process power: while peer lenders chased growth and experienced loss spikes requiring reserve builds and capital raises, OMF tightened proactively, maintained an 11.5% reserve ratio consistently, and generated 33% capital generation growth in 2025. CEO Shulman's articulation at the BofA conference is direct: "You just need to be disciplined in this business. You can't go chase growth." This institutional discipline, embedded across 8,000+ employees through incentive structures (branch managers paid on delinquency, not just production), is process power at scale. Competitors can read the playbook; they cannot easily replicate the organizational culture that executes it consistently. Rating: Strong.</p>
+</div>
+
+<p class="prose"><strong>Summary:</strong> The strongest moats are Scale Economies and Process Power — OMF operates at a cost structure that is genuinely difficult for smaller competitors to match, and its organizational discipline in underwriting and capital management has been demonstrated through multiple cycles. The Cornered Resource (data + branch network) and Counter-Positioning (vs. banks) provide meaningful secondary advantages. Network Effects are negligible.</p>
+
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Threat of New Entrants</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">Non-prime installment lending has meaningful barriers to entry but is not impregnable. The primary barriers are: (1) regulatory — each state has its own consumer lending license, rate cap, and disclosure requirements across 44 states, requiring substantial legal and compliance infrastructure before the first loan is made; (2) capital — a scaled lending business requires billions in funding capacity (ABS/unsecured bonds) before it can operate at competitive unit economics; and (3) credit model — accurate non-prime underwriting requires years of origination and loss history. These barriers have historically kept out pure-play fintechs: Avant, NetCredit, LendingClub, and others have entered the non-prime installment space but none have achieved OMF-comparable scale or credit performance. The most credible entrant vector would be a large bank deciding to serve non-prime borrowers, but banks are structurally disincentivized (see Counter-Positioning). The threat is Moderate rather than Low because the basic technology of personal lending is well-understood, online distribution channels reduce branch economics requirements, and a well-funded challenger (e.g., a private equity-backed fintech with patient capital) could theoretically build to competitive scale over 5-7 years. Rating: Moderate.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Bargaining Power of Suppliers</span>
+  <span class="fw-rating low">Low</span>
+  <p class="prose" style="margin-top:4px;">OMF's key "inputs" are capital (ABS investors, bond investors, bank credit facilities), data (credit bureaus), and technology (core banking systems). Capital suppliers — ABS investors and bond markets — have strong collective power in theory, but OMF's fortress-balance-sheet strategy (two-year liquidity runway, $7.5B in committed bank lines, 50/50 secured/unsecured split) is specifically designed to eliminate single-source dependency. The company has repeatedly demonstrated market access through cycles, including tapping all $7B+ of bank lines in February 2020 at the pandemic onset. Credit bureaus (Equifax, Experian, TransUnion) are effectively oligopolists but are commodity inputs whose pricing applies equally to all lenders. Technology vendors face normal commercial relationships. The only meaningful supplier risk is the ABS and bond market shutting simultaneously, which has only occurred for weeks (not months) even in 2008-2009. Rating: Low (by design — OMF has deliberately diversified away from supplier concentration).</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Bargaining Power of Buyers</span>
+  <span class="fw-rating low">Low</span>
+  <p class="prose" style="margin-top:4px;">Individual consumer borrowers have very limited bargaining power: they are fragmented (3.8M customer accounts), price-sensitive but alternatives-constrained (non-prime borrowers cannot access prime-rate bank loans), and deal with OMF on a one-on-one basis through branch or app interactions. The non-prime borrower has few alternatives if OMF declines their application or prices at a rate they find high — competitors include Oportun, Marlin Leasing, regional credit unions (often unwilling to extend), and online lenders (often more expensive on a risk-adjusted basis). The BrightWay card's "payments equal progress" model reduces price sensitivity by tying behavior (on-time payments) to improved terms — the borrower is in a semi-exclusive relationship where good behavior earns them credit product improvements. The debt consolidation product creates additional buyer dependency: once a customer has consolidated $10K of other debt into a single OMF loan, the switching cost of moving to a competitor includes refinancing all that debt at potentially worse terms. Rating: Low.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Threat of Substitutes</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">The core substitute for an OMF personal loan is: (1) credit card debt — available to some non-prime consumers but typically at 26-30% APR revolving, compared to OMF's 22-27% amortizing (which has lower total cost because it mandates paydown); (2) buy-now-pay-later (BNPL) — relevant for point-of-sale purchases but not for debt consolidation or large-ticket needs; (3) payday/installment lenders — more expensive and less regulated; and (4) family/community borrowing — common but limited. The critical dynamic is that non-prime consumers seeking $3,000-$25,000 for debt consolidation or emergency needs have very limited substitutes that provide comparable amounts at reasonable cost with a structured repayment plan. BNPL and payday lenders serve different use cases. Credit cards are available to some OMF-segment borrowers but not all. The threat is Moderate rather than Low because BNPL growth has expanded the embedded credit market, and AI-native lenders (Upstart, LendingPoint) are improving their non-prime underwriting, potentially offering competitive rates. Rating: Moderate.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Competitive Rivalry</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">The non-prime installment lending market has a handful of significant players: OneMain Financial (dominant), Enova International (focus on shorter-term, higher-APR), NetCredit/Enova, Oportun, World Acceptance Corporation, and several online-only fintechs. OMF is by far the largest with $26.3B managed receivables; Enova's consumer loan book is a fraction of that. The market is large ($200B+ total addressable) and fragmented enough that competitors are not fighting over a fixed pie — non-prime consumers are chronically underfunded, so volume growth does not require taking share. This reduces the destructive price competition dynamic typical of high rivalry. However, the competitive environment has been affected by fintech entrants offering faster digital approval and in some cases lower rates on specific risk tranches, requiring OMF to invest continuously in digital experience and product innovation. The absence of a dominant second player creates a relatively favorable competitive structure — OMF sets the pricing environment for the segment. Rating: Moderate.</p>
+</div>
+
+<p class="prose"><strong>Summary:</strong> The competitive environment for OneMain is <strong>favorable</strong>. Buyer power is low (fragmented, alternatives-constrained), supplier power is low (by design), new entrant threats are manageable (regulatory and capital barriers), and competitive rivalry is moderate (fragmented competitors, large TAM). The primary structural concern is substitution risk from digital/fintech evolution — but the non-prime installment loan use case (debt consolidation, emergency funds, large episodic needs) is sufficiently distinct from BNPL and revolving credit that direct substitution remains limited.</p>
+
+<!-- SECTION 6: WHAT DRIVES THE STOCK? -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<p class="prose">OMF is a credit-cycle lender at heart — the stock moves on macro sentiment, credit trajectory signals, and capital generation outlook. The following five variables dominate quarterly price action and analyst focus:</p>
+
+<p class="prose"><strong>1. Net Charge-Off Trajectory vs. Guidance.</strong> The single most-watched metric. OMF guides C&I NCO of 7.4-7.9% for FY26. Any quarter where NCOs print above the top of the range — especially driven by the credit card book (currently at 17.1%, targeted at 15-17% long-term) or back-book deterioration — will send the stock down 8-15%. Conversely, a NCO print below the midpoint drives outsized positive reactions, as investors price in the earnings power of a structurally lower loss environment. The "back book burn" catalyst (pre-August 2022 originations declining from 6% → ~2% of portfolio by mid-2027) is the single most quantifiable credit quality driver over the next 18 months.</p>
+
+<p class="prose"><strong>2. Managed Receivables Growth vs. 6-9% Guidance.</strong> Revenue grows roughly in line with receivables (yield expected stable at ~22.5% for consumer loans). The 6-9% FY26 receivables growth guidance is above-trend and implies the Ally partnership, homeowner secured product, card growth, and personal loan innovation are all working simultaneously. Upside would be receivables reaching the top of the range (9%) driven by new products; downside would be tight underwriting constraining originations in a softer economic environment. New product contributions (auto + card = 42% of 2025 growth) are tracked closely as an indicator of franchise diversification progress.</p>
+
+<p class="prose"><strong>3. Capital Generation and Return Per Share.</strong> Management's preferred profitability metric is "capital generation" (adjusted net income less change in CECL allowance, net of tax) — $913M in 2025, up 33%. Analysts model this as the proxy for buyback capacity and dividend coverage. The $1B repurchase authorization through 2028, combined with ~$4.20 annual dividend, means roughly $700M+ in annual shareholder return. At current market cap of $6.1B, total capital return yield is ~11-12%, making this one of the most capital-return-generous financials in the mid-cap space.</p>
+
+<p class="prose"><strong>4. ILC Application Outcome.</strong> The Industrial Loan Company license application — filed approximately one year ago — is a binary catalyst. Approval could add 150-200bps of EPS upside over 2-3 years through funding cost reduction and operational simplification across 47-state regulatory complexity. Management explicitly calls it "nice to have, not must have" but investors watching peer approvals (two auto-sector companies granted in 2025) understand the option value. Any news of approval would likely trigger a 10-15% single-day reaction.</p>
+
+<p class="prose"><strong>5. Macro / Unemployment Sensitivity.</strong> OMF's customer base — non-prime employed Americans — is acutely sensitive to unemployment changes. The company has underwritten assuming a "mild recession" (30% stress overlay = equivalent to unemployment ticking to ~6.5%), but if unemployment actually reaches 6.5%+, actual losses could exceed modeled losses, compressing margins and forcing reserve builds. The inverse is also true: labor market improvement from current ~4.1% unemployment toward 3.5% would release reserves and catalyze positive earnings revisions. Every 25bps move in the NCO rate translates to roughly $60M of annual pre-tax income impact on the current portfolio.</p>
+
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS? -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<p class="prose">OMF's revenue is almost entirely interest income (87%) plus other revenue including insurance premiums, gain-on-sale, and servicing income (13%). The core engine is a managed receivables portfolio multiplied by a net revenue yield.</p>
+
+<div class="section-title">Revenue Decomposition by Product</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th>Revenue Line</th>
+      <th>2025 Scale</th>
+      <th>Driver 1</th>
+      <th>Driver 2</th>
+      <th>Driver 3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Personal Loan Interest Income (~75% of total)</td>
+      <td>~$4.65B</td>
+      <td>Avg Receivables Balance ($B)</td>
+      <td>× Consumer Loan Yield (%)</td>
+      <td>× Repayment / Runoff Rate</td>
+    </tr>
+    <tr>
+      <td>Auto Finance Interest Income (~11%)</td>
+      <td>~$0.68B</td>
+      <td>Avg Auto Receivables ($B)</td>
+      <td>× Auto Loan Yield (%)</td>
+      <td>× Dealer Network Penetration</td>
+    </tr>
+    <tr>
+      <td>Credit Card Revenue (~5%)</td>
+      <td>~$0.31B</td>
+      <td>Avg Card Receivables ($B)</td>
+      <td>× Card Revenue Yield (~32.9%)</td>
+      <td>× Customer Activation Rate</td>
+    </tr>
+    <tr>
+      <td>Insurance Premiums (~6%)</td>
+      <td>~$0.37B</td>
+      <td>Personal Loan Originations</td>
+      <td>× Insurance Attach Rate (%)</td>
+      <td>× Avg Premium per Policy</td>
+    </tr>
+    <tr>
+      <td>Gain-on-Sale &amp; Servicing (~3%)</td>
+      <td>~$0.19B</td>
+      <td>Whole Loan Sale Volume ($B)</td>
+      <td>× Net Spread on Sale (%)</td>
+      <td>× Serviced Portfolio UPB ($B)</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title">Key Unit Economics: Personal Loan Business (Core)</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Q4 2025 Actual</th>
+      <th>FY 2025</th>
+      <th>2026 Guidance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Consumer Loan Yield</td><td>22.5%</td><td>~22.3%</td><td>~22.5% (stable)</td></tr>
+    <tr><td>Consumer Loan NCO Rate</td><td>7.6%</td><td>7.3%</td><td>7.4-7.9% (C&amp;I)</td></tr>
+    <tr><td>Interest Expense % of ANR</td><td>5.2%</td><td>5.3%</td><td>~5.3% (stable)</td></tr>
+    <tr><td>OpEx Ratio (% Managed Receivables)</td><td>6.7%</td><td>6.7%</td><td>~6.6%</td></tr>
+    <tr><td>Net Revenue Yield (Yield – NCO – Int Exp)</td><td>~9.7%</td><td>~9.7%</td><td>~9.8-10.1%</td></tr>
+    <tr><td>Quarterly Originations</td><td>$3.6B</td><td>$14.4B</td><td>$15.3-16.5B (6-9% growth)</td></tr>
+    <tr><td>Loan Loss Reserve Coverage</td><td>11.5%</td><td>11.5%</td><td>~11.5% (near-term stable)</td></tr>
+    <tr><td>30+ Day Delinquency Rate</td><td>5.65%</td><td>—</td><td>Guided to trend lower H2 2026</td></tr>
+  </tbody>
+</table>
+
+<p class="prose"><strong>The three most levered business drivers are:</strong> (1) <strong>Net Charge-Off Rate</strong> — every 100bps change in annual NCOs on a $25B average portfolio = ~$250M pre-tax income impact, flowing directly to EPS; (2) <strong>Managed Receivables Growth</strong> — 1% more growth generates ~$250M in incremental annual receivables, which at a ~10% net revenue yield = $25M pre-tax income, compounding over 3+ years as the portfolio seasons; and (3) <strong>Portfolio Yield</strong> — driven by pricing actions taken in 2023+ and now embedded in the book, yield stability at ~22.5% is a critical assumption. Any competitive pressure forcing yield reduction (unlikely near-term given OMF's market position) would be highly damaging. The insurance and gain-on-sale lines provide important revenue diversification but have less leverage on total earnings.</p>
+
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+  <strong>AlphaSense DR Report</strong> — Query: OneMain Holdings (OMF) competitive intelligence, credit trends, strategic outlook. Report date: March 16, 2026. Source: AlphaSense DR-Report-by-Alphasense-03-16-2026-15-53.pdf. The following section synthesizes insights from this report that supplement or deepen the analysis in Sections 1-7.
+</div>
+
+<div class="section-title">The Omni-Channel Moat: Why Digital-First Challengers Keep Losing</div>
+<p class="prose">
+A persistent theme across expert calls and earnings commentary is the counterintuitive performance advantage of OMF's omni-channel model over purely digital competitors. As CEO Shulman put it bluntly at the BofA Conference: "If you look at our credit, FICO for FICO, I think it's better than anybody in the industry by a pretty wide margin." The mechanism is not simply human judgment over algorithmic assessment — it is that the branch origination process structures the loan correctly. Branch personnel get alternative contact information, explain autopay enrollment, and calibrate the loan to the customer's actual repayment capacity rather than theoretical debt-service ratios. This reduces early-stage delinquency by reducing "setup failure" — borrowers who default in months 1-6 because they misunderstood terms or couldn't operationalize the payment. Management's claim that loss volatility (standard deviation of annual NCO rate) is lower at OMF than at competitors with higher FICO scores is partially attributable to this origination process quality.
+</p>
+<p class="prose">
+The Ally Financial Clearpass partnership is a particularly important strategic development. Ally Financial — the largest auto lender by volume in the subprime-to-near-prime segment — declining applicants are now being offered to OMF through its pass-through program. OMF already had dealer relationships with the 1,700 dealers in the initial rollout; the program essentially gives OMF a free funnel from Ally's origination volume. If the program scales to Ally's full dealer network (10,000+ dealers), the auto book could grow at meaningfully faster rates without proportional customer acquisition cost. This is a qualitatively different type of growth channel than organic dealer sales force expansion.
+</p>
+
+<div class="section-title">Credit Cycle Intelligence: Back Book Decay as the Key Catalyst</div>
+<p class="prose">
+The "back book vs. front book" dynamic is arguably the most important quantitative driver of 2026-2027 earnings that the sell-side underestimates. Context: in August 2022, OMF implemented aggressive credit tightening in response to post-pandemic delinquency increases. All loans originated before that date are the "back book"; loans after are the "front book." As of Q4 2025, the back book is only 6% of the portfolio but contributes 17% of 30+ day delinquencies — nearly 3x its portfolio share. Normal portfolio seasoning at this portfolio age would have the back book at approximately 3% of delinquencies if it performed like the front book. The excess contribution (14 percentage points of delinquency share vs. expected ~3%) is the residual drag from 2020-2022 vintage underperformance.
+</p>
+<p class="prose">
+Simple math: if the back book continues to run off at its current rate (6% of portfolio → ~3% by mid-2026 → ~1% by end-2026), and the front book maintains its current loss rate (~5.5-6.0% estimated), then C&I blended NCO rates should naturally drift toward the 6.5-7.0% range by late 2027 — roughly 50-100bps below current levels. This structural improvement requires no macro tailwind; it is simply a portfolio seasoning outcome. Management's 2026 guidance range of 7.4-7.9% already embeds this dynamic but may understate the pace if the back book runs off faster than modeled.
+</p>
+
+<div class="section-title">Capital Return: The Most Underappreciated Driver</div>
+<p class="prose">
+The capital return math at OMF is stark. Annual dividends: ~$500M (119M shares × $4.20). FY26 buyback run-rate implied by Q4 2025 pace ($70M/quarter): ~$280M. Total: ~$780M/year against a $6.1B market cap — a total return yield of ~12.8%. The company is generating far more capital than it can organically deploy at its current conservative credit posture: $913M capital generation in 2025 vs. ~$640M needed for receivables growth capital at 15% equity/receivables ratio and 6% growth. The excess ~$273M annually flows to buybacks and dividends. If the company reaches 9% receivables growth (top of guidance), capital deployment into growth increases, but capital generation growth likely keeps pace, maintaining the return dynamic.
+</p>
+<p class="prose">
+The share count dynamic is quietly powerful. At $52/share and $280M annual buybacks, OMF is reducing diluted shares by ~5.4M annually (~4.5% of float). Over three years at this pace, shares outstanding could decline from 119M to approximately 103M — a 13% reduction. This means FY28E EPS of $11.22 at current consensus could become $12.90+ if all the earnings growth flows through to fewer shares. The per-share compounding is significant and is not fully captured in the consensus EPS trajectory, which appears to model buybacks conservatively.
+</p>
+
+<div class="section-title">Key Risk: Interest Rate Cap Legislation and Regulatory Uncertainty</div>
+<p class="prose">
+The proposed 10% federal interest rate cap on credit cards — discussed by multiple legislators — would be existential for the BrightWay card product (current revenue yield ~32.9%). However, the personal loan business operates under state-level rate caps rather than federal credit card regulations, so a card-specific cap would not directly impact the core business. OMF's response would likely be to pause card growth and redirect capital into personal loan and auto originations. The company's flexibility to reallocate across products is a genuine risk mitigant that mono-product card issuers (Synchrony, Bread Financial) lack. Regulatory risk to the personal loan business specifically (CFPB rulemaking on installment lending) is also present but has been less legislatively active in the current administration.
+</p>
+
+<!-- SECTION 9: SENSITIVITY ANALYSIS -->
+<div class="memo-section">9. Sensitivity Analysis</div>
+
+<p class="prose">The following tables show how the two most impactful business drivers interact to produce earnings outcomes. All figures are for FY2026 illustrative purposes.</p>
+
+<!-- Sensitivity Table 1 -->
+<p><strong>Sensitivity Table 1: FY26E Net Income ($M) as a Function of Managed Receivables ($B) × C&I Net Charge-Off Rate (%)</strong></p>
+<p class="prose"><strong>Current (Q4 2025): Avg Net Receivables ≈ $24.7B × C&I NCO Rate = 7.9% → FY2025 Adj. Net Income ≈ $795M (C&I basis); consensus FY2026E GAAP Net Income ≈ $873M assuming 7.6% midpoint NCO and $27.0B avg receivables.</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Avg Recv ($B) →<br>NCO Rate ↓</th>
+      <th>$25.0B</th>
+      <th>$26.0B</th>
+      <th style="background:#e8f4fd">$27.0B<br>(Base)</th>
+      <th>$28.0B</th>
+      <th>$29.0B</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>6.8% (Bull)</strong></td>
+      <td>$985</td>
+      <td>$1,010</td>
+      <td>$1,035</td>
+      <td>$1,060</td>
+      <td>$1,085</td>
+    </tr>
+    <tr>
+      <td><strong>7.2%</strong></td>
+      <td>$920</td>
+      <td>$945</td>
+      <td>$970</td>
+      <td>$995</td>
+      <td>$1,020</td>
+    </tr>
+    <tr>
+      <td><strong>7.6% (Base)</strong></td>
+      <td>$840</td>
+      <td>$857</td>
+      <td class="base">$873</td>
+      <td>$889</td>
+      <td>$905</td>
+    </tr>
+    <tr>
+      <td><strong>8.0%</strong></td>
+      <td>$760</td>
+      <td>$776</td>
+      <td>$792</td>
+      <td>$808</td>
+      <td>$824</td>
+    </tr>
+    <tr>
+      <td><strong>8.5% (Bear)</strong></td>
+      <td>$655</td>
+      <td>$670</td>
+      <td>$685</td>
+      <td>$700</td>
+      <td>$715</td>
+    </tr>
+  </tbody>
+</table>
+<p class="prose" style="font-size:9px;color:#666;">Assumptions: Consumer loan yield 22.5%, interest expense 5.3% of avg receivables, OpEx ratio 6.6%, insurance claims ~$220M, tax rate 21.8%. Net income derived from C&I adj. pretax income less taxes and reconciling items. Figures are approximations.</p>
+
+<!-- Sensitivity Table 2 -->
+<p style="margin-top:12px;"><strong>Sensitivity Table 2: FY26E Diluted EPS as a Function of C&I NCO Rate (%) × P/E Multiple Applied → Implied Stock Price</strong></p>
+<p class="prose"><strong>Current: NCO Rate ≈ 7.7% (FY2025) → FY2026E EPS = $7.71 (consensus) × Current Market P/E ≈ 6.9x → Current Stock Price ≈ $52 (aligns).</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>NCO Rate →<br>P/E Multiple ↓</th>
+      <th>6.8%<br>($8.80 EPS)</th>
+      <th>7.2%<br>($8.20 EPS)</th>
+      <th style="background:#e8f4fd">7.6%<br>($7.71 EPS)</th>
+      <th>8.0%<br>($6.80 EPS)</th>
+      <th>8.5%<br>($5.75 EPS)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>9.0x</strong></td><td>$79</td><td>$74</td><td>$69</td><td>$61</td><td>$52</td></tr>
+    <tr><td><strong>8.0x</strong></td><td>$70</td><td>$66</td><td>$62</td><td>$54</td><td>$46</td></tr>
+    <tr><td><strong>7.0x</strong></td><td>$62</td><td>$57</td><td class="base">$54</td><td>$48</td><td>$40</td></tr>
+    <tr><td><strong>6.0x</strong></td><td>$53</td><td>$49</td><td>$46</td><td>$41</td><td>$35</td></tr>
+    <tr><td><strong>5.0x</strong></td><td>$44</td><td>$41</td><td>$39</td><td>$34</td><td>$29</td></tr>
+  </tbody>
+</table>
+<p class="prose" style="font-size:9px;color:#666;">EPS estimates derived from net income sensitivity table above ÷ 113M diluted shares (FY26E, adjusted for buybacks). Multiple range based on OMF 5-year historical P/E of 8.3x average and current 6.9x forward.</p>
+
+<!-- SECTION 10: 3-YEAR MODEL -->
+<div class="memo-section">10. Three-Year Model — 5 Scenarios (2026E–2028E)</div>
+<p class="prose">Base case anchored to FactSet consensus estimates. Cases vary by receivables growth trajectory, net charge-off rate, and credit card portfolio evolution. Exit multiple applied to FY2028E EPS. Current stock price: $52.06. Diluted shares decline from 119M (2025) to ~106M (2028E) reflecting buybacks. Net debt (total debt less cash) ≈ $21B for EV calculation.</p>
+
+<!-- Case 1: Bear Severe -->
+<div class="case-block">
+  <div class="case-name">🐻 Macro Shock — Credit Cycle Breaks</div>
+  <div class="case-desc">Unemployment rises to 6.5%+ in 2026; credit card losses persist above 20%; back book decline stalls. OMF must build reserves. Growth slows to 3-4% as credit tightens further. ILC denied. No multiple re-rating.</div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Avg Managed Receivables</span><span>$27.5B</span></div>
+  <div class="driver-row"><span>C&I NCO Rate</span><span>9.5%</span></div>
+  <div class="driver-row"><span>Consumer Loan Yield</span><span>22.0%</span></div>
+  <div class="driver-row"><span>Receivables CAGR (3-yr)</span><span>3.2%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>2026E</td><td>2027E</td><td>2028E</td></tr>
+    <tr><td>$Revenue</td><td>$5,550</td><td>$5,750</td><td>$6,000</td></tr>
+    <tr><td>Revenue Growth %</td><td>−11%</td><td>+3.6%</td><td>+4.3%</td></tr>
+    <tr><td>Provision for Losses</td><td>(2,375)</td><td>(2,450)</td><td>(2,600)</td></tr>
+    <tr><td>Gross Income</td><td>3,175</td><td>3,300</td><td>3,400</td></tr>
+    <tr><td>Gross Margin %</td><td>57.2%</td><td>57.4%</td><td>56.7%</td></tr>
+    <tr><td>Operating Expenses</td><td>(1,760)</td><td>(1,800)</td><td>(1,840)</td></tr>
+    <tr><td>EBIT</td><td>1,415</td><td>1,500</td><td>1,560</td></tr>
+    <tr><td>Interest Expense</td><td>(1,360)</td><td>(1,390)</td><td>(1,420)</td></tr>
+    <tr><td>Pre-tax Income</td><td>55</td><td>110</td><td>140</td></tr>
+    <tr><td>Tax (21.8%)</td><td>(12)</td><td>(24)</td><td>(31)</td></tr>
+    <tr><td>Net Income</td><td>43</td><td>86</td><td>109</td></tr>
+    <tr><td>Net Income Margin %</td><td>0.8%</td><td>1.5%</td><td>1.8%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>117</td><td>113</td><td>109</td></tr>
+    <tr><td>EPS</td><td>$0.37</td><td>$0.76</td><td>$1.00</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>6.0x</td><td>6.0x</td><td>6.0x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$2.22</td><td>$4.56</td><td>$6.00</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-price">$6.00 — FY2028E Implied</div>
+    <div class="exit-upside" style="color:#721c24;">−88% downside from $52.06</div>
+    <div style="font-size:9px;color:#888;margin-top:4px;">Implied Mkt Cap: $654M | Implied EV: ~$21.7B</div>
+  </div>
+</div>
+
+<!-- Case 2: Bear Mild -->
+<div class="case-block">
+  <div class="case-name">🐻 Soft Labor Market — Above-Guidance Losses</div>
+  <div class="case-desc">Unemployment drifts to 5.0%; credit card losses remain elevated at 18-19%; back book runs off slowly. Growth achieves low end of guidance (5-6%). Buybacks continue but at reduced pace as capital generation disappoints.</div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Avg Managed Receivables</span><span>$30.5B</span></div>
+  <div class="driver-row"><span>C&I NCO Rate</span><span>8.2%</span></div>
+  <div class="driver-row"><span>Consumer Loan Yield</span><span>22.3%</span></div>
+  <div class="driver-row"><span>Receivables CAGR (3-yr)</span><span>5.0%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>2026E</td><td>2027E</td><td>2028E</td></tr>
+    <tr><td>$Revenue</td><td>$5,800</td><td>$6,200</td><td>$6,650</td></tr>
+    <tr><td>Revenue Growth %</td><td>−7%</td><td>+6.9%</td><td>+7.3%</td></tr>
+    <tr><td>Provision for Losses</td><td>(2,175)</td><td>(2,280)</td><td>(2,450)</td></tr>
+    <tr><td>Gross Income</td><td>3,625</td><td>3,920</td><td>4,200</td></tr>
+    <tr><td>Gross Margin %</td><td>62.5%</td><td>63.2%</td><td>63.2%</td></tr>
+    <tr><td>Operating Expenses</td><td>(1,780)</td><td>(1,860)</td><td>(1,960)</td></tr>
+    <tr><td>EBIT</td><td>1,845</td><td>2,060</td><td>2,240</td></tr>
+    <tr><td>Interest Expense</td><td>(1,350)</td><td>(1,410)</td><td>(1,480)</td></tr>
+    <tr><td>Pre-tax Income</td><td>495</td><td>650</td><td>760</td></tr>
+    <tr><td>Tax (21.8%)</td><td>(108)</td><td>(142)</td><td>(166)</td></tr>
+    <tr><td>Net Income</td><td>387</td><td>508</td><td>594</td></tr>
+    <tr><td>Net Income Margin %</td><td>6.7%</td><td>8.2%</td><td>8.9%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>117</td><td>114</td><td>111</td></tr>
+    <tr><td>EPS</td><td>$3.31</td><td>$4.46</td><td>$5.35</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>6.5x</td><td>6.5x</td><td>6.5x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$21.52</td><td>$28.99</td><td>$34.78</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-price">$34.78 — FY2028E Implied</div>
+    <div class="exit-upside" style="color:#721c24;">−33% downside from $52.06</div>
+    <div style="font-size:9px;color:#888;margin-top:4px;">Implied Mkt Cap: $3.86B | Implied EV: ~$24.9B</div>
+  </div>
+</div>
+
+<!-- Case 3: Base -->
+<div class="case-block">
+  <div class="case-name">📊 Base Case — Consensus Execution</div>
+  <div class="case-desc">OMF executes within 2026 guidance: 6-9% receivables growth (midpoint ~7.5%), NCO 7.4-7.9% (midpoint 7.6%), OpEx ratio ~6.6%. Auto and card contribute meaningfully. Back book runs off, losses improve gradually. Steady buybacks at $280M/yr.</div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Avg Managed Receivables</span><span>$32.5B</span></div>
+  <div class="driver-row"><span>C&I NCO Rate</span><span>7.2%</span></div>
+  <div class="driver-row"><span>Consumer Loan Yield</span><span>22.5%</span></div>
+  <div class="driver-row"><span>Receivables CAGR (3-yr)</span><span>7.4%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>2026E</td><td>2027E</td><td>2028E</td></tr>
+    <tr><td>$Revenue</td><td>$6,242</td><td>$6,700</td><td>$7,200</td></tr>
+    <tr><td>Revenue Growth %</td><td>0%</td><td>+7.3%</td><td>+7.5%</td></tr>
+    <tr><td>Provision for Losses</td><td>(1,999)</td><td>(2,100)</td><td>(2,200)</td></tr>
+    <tr><td>Gross Income</td><td>4,243</td><td>4,600</td><td>5,000</td></tr>
+    <tr><td>Gross Margin %</td><td>67.9%</td><td>68.7%</td><td>69.4%</td></tr>
+    <tr><td>Operating Expenses</td><td>(1,760)</td><td>(1,860)</td><td>(1,980)</td></tr>
+    <tr><td>EBIT</td><td>2,483</td><td>2,740</td><td>3,020</td></tr>
+    <tr><td>Interest Expense</td><td>(1,350)</td><td>(1,410)</td><td>(1,490)</td></tr>
+    <tr><td>Pre-tax Income</td><td>1,133</td><td>1,330</td><td>1,530</td></tr>
+    <tr><td>Tax (21.8%)</td><td>(247)</td><td>(290)</td><td>(334)</td></tr>
+    <tr><td>Net Income</td><td>886</td><td>1,040</td><td>1,196</td></tr>
+    <tr><td>Net Income Margin %</td><td>14.2%</td><td>15.5%</td><td>16.6%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>114</td><td>111</td><td>108</td></tr>
+    <tr><td>EPS</td><td>$7.77</td><td>$9.37</td><td>$11.07</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>7.5x</td><td>7.5x</td><td>7.5x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$58.28</td><td>$70.28</td><td>$83.03</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-price">$83.03 — FY2028E Implied</div>
+    <div class="exit-upside" style="color:#155724;">+59% upside from $52.06</div>
+    <div style="font-size:9px;color:#888;margin-top:4px;">Implied Mkt Cap: $8.97B | Implied EV: ~$30.0B</div>
+  </div>
+</div>
+
+<!-- Case 4: Bull Mild -->
+<div class="case-block">
+  <div class="case-name">🚀 Above-Consensus Growth — Back Book Catalyst + ILC Progress</div>
+  <div class="case-desc">Back book runs off faster than modeled; NCO declines structurally toward 7.0%. Ally partnership scales; auto book approaches $5B. Card losses normalize at 16%. Receivables grow at top of guidance (9%). ILC application advances.</div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Avg Managed Receivables</span><span>$35.0B</span></div>
+  <div class="driver-row"><span>C&I NCO Rate</span><span>6.8%</span></div>
+  <div class="driver-row"><span>Consumer Loan Yield</span><span>22.7%</span></div>
+  <div class="driver-row"><span>Receivables CAGR (3-yr)</span><span>9.2%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>2026E</td><td>2027E</td><td>2028E</td></tr>
+    <tr><td>$Revenue</td><td>$6,700</td><td>$7,400</td><td>$8,100</td></tr>
+    <tr><td>Revenue Growth %</td><td>+7.3%</td><td>+10.4%</td><td>+9.5%</td></tr>
+    <tr><td>Provision for Losses</td><td>(1,900)</td><td>(2,000)</td><td>(2,100)</td></tr>
+    <tr><td>Gross Income</td><td>4,800</td><td>5,400</td><td>6,000</td></tr>
+    <tr><td>Gross Margin %</td><td>71.6%</td><td>73.0%</td><td>74.1%</td></tr>
+    <tr><td>Operating Expenses</td><td>(1,790)</td><td>(1,910)</td><td>(2,050)</td></tr>
+    <tr><td>EBIT</td><td>3,010</td><td>3,490</td><td>3,950</td></tr>
+    <tr><td>Interest Expense</td><td>(1,380)</td><td>(1,470)</td><td>(1,570)</td></tr>
+    <tr><td>Pre-tax Income</td><td>1,630</td><td>2,020</td><td>2,380</td></tr>
+    <tr><td>Tax (21.8%)</td><td>(355)</td><td>(440)</td><td>(519)</td></tr>
+    <tr><td>Net Income</td><td>1,275</td><td>1,580</td><td>1,861</td></tr>
+    <tr><td>Net Income Margin %</td><td>19.0%</td><td>21.4%</td><td>23.0%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>114</td><td>110</td><td>106</td></tr>
+    <tr><td>EPS</td><td>$11.18</td><td>$14.36</td><td>$17.56</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>9.0x</td><td>9.0x</td><td>9.0x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$100.62</td><td>$129.24</td><td>$158.04</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-price">$158.04 — FY2028E Implied</div>
+    <div class="exit-upside" style="color:#155724;">+204% upside from $52.06</div>
+    <div style="font-size:9px;color:#888;margin-top:4px;">Implied Mkt Cap: $16.75B | Implied EV: ~$37.8B</div>
+  </div>
+</div>
+
+<!-- Case 5: Bull Severe -->
+<div class="case-block">
+  <div class="case-name">🚀 Platform Inflection — ILC + Multi-Product Dominance</div>
+  <div class="case-desc">ILC granted in 2026; deposit funding begins 2027 reducing COF by 50bps. Ally partnership at 5,000+ dealers drives auto to $7B. Card normalized below 16% NCO. OMF achieves 12%+ receivables growth by 2028. Multiple re-rates toward 10x+ as investors recognize platform durability.</div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Avg Managed Receivables</span><span>$38.0B</span></div>
+  <div class="driver-row"><span>C&I NCO Rate</span><span>6.5%</span></div>
+  <div class="driver-row"><span>Consumer Loan Yield</span><span>22.8%</span></div>
+  <div class="driver-row"><span>Receivables CAGR (3-yr)</span><span>12.8%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>2026E</td><td>2027E</td><td>2028E</td></tr>
+    <tr><td>$Revenue</td><td>$7,100</td><td>$8,200</td><td>$9,400</td></tr>
+    <tr><td>Revenue Growth %</td><td>+13.7%</td><td>+15.5%</td><td>+14.6%</td></tr>
+    <tr><td>Provision for Losses</td><td>(1,820)</td><td>(1,970)</td><td>(2,090)</td></tr>
+    <tr><td>Gross Income</td><td>5,280</td><td>6,230</td><td>7,310</td></tr>
+    <tr><td>Gross Margin %</td><td>74.4%</td><td>75.9%</td><td>77.8%</td></tr>
+    <tr><td>Operating Expenses</td><td>(1,800)</td><td>(1,970)</td><td>(2,150)</td></tr>
+    <tr><td>EBIT</td><td>3,480</td><td>4,260</td><td>5,160</td></tr>
+    <tr><td>Interest Expense</td><td>(1,350)</td><td>(1,410)</td><td>(1,480)</td></tr>
+    <tr><td>Pre-tax Income</td><td>2,130</td><td>2,850</td><td>3,680</td></tr>
+    <tr><td>Tax (21.8%)</td><td>(464)</td><td>(621)</td><td>(802)</td></tr>
+    <tr><td>Net Income</td><td>1,666</td><td>2,229</td><td>2,878</td></tr>
+    <tr><td>Net Income Margin %</td><td>23.5%</td><td>27.2%</td><td>30.6%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>114</td><td>110</td><td>106</td></tr>
+    <tr><td>EPS</td><td>$14.61</td><td>$20.26</td><td>$27.15</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>10.0x</td><td>10.0x</td><td>10.0x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$146.10</td><td>$202.60</td><td>$271.50</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-price">$271.50 — FY2028E Implied</div>
+    <div class="exit-upside" style="color:#155724;">+421% upside from $52.06</div>
+    <div style="font-size:9px;color:#888;margin-top:4px;">Implied Mkt Cap: $28.78B | Implied EV: ~$49.8B</div>
+  </div>
+</div>
+
+<!-- Probability-Weighted Bar Chart -->
+<div class="case-chart">
+  <p style="font-size:9px;font-weight:600;margin-bottom:8px;color:#1a1a2e;">FY2028E Implied Stock Price by Scenario (Probability-Weighted)</p>
+  <svg viewBox="0 0 680 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+    <!-- Background grid lines -->
+    <line x1="80" y1="10" x2="80" y2="145" stroke="#eee" stroke-width="1"/>
+    <line x1="80" y1="145" x2="660" y2="145" stroke="#ccc" stroke-width="1"/>
+
+    <!-- Bars: Bear Severe, Bear Mild, Base, Bull Mild, Bull Severe -->
+    <!-- Bear Severe: $6 / max ~$272 → scale: 1px per $0.4 -->
+    <rect x="90" y="130" width="80" height="15" fill="#2563eb" rx="2"/>
+    <text x="130" y="125" text-anchor="middle" font-size="9" fill="#333">$6</text>
+    <text x="130" y="158" text-anchor="middle" font-size="8" fill="#666">Bear Severe (5%)</text>
+
+    <!-- Bear Mild: $34.78 -->
+    <rect x="200" y="87" width="80" height="58" fill="#2563eb" rx="2"/>
+    <text x="240" y="82" text-anchor="middle" font-size="9" fill="#333">$35</text>
+    <text x="240" y="158" text-anchor="middle" font-size="8" fill="#666">Bear Mild (20%)</text>
+
+    <!-- Base: $83.03 (at 30% height from bottom = 145-(83/272)*135 = ~145-41=104) -->
+    <rect x="310" y="104" width="80" height="41" fill="#2563eb" rx="2"/>
+    <text x="350" y="99" text-anchor="middle" font-size="9" fill="#333">$83</text>
+    <text x="350" y="158" text-anchor="middle" font-size="8" fill="#666">Base (50%)</text>
+
+    <!-- Bull Mild: $158.04 -->
+    <rect x="420" y="66" width="80" height="79" fill="#2563eb" rx="2"/>
+    <text x="460" y="61" text-anchor="middle" font-size="9" fill="#333">$158</text>
+    <text x="460" y="158" text-anchor="middle" font-size="8" fill="#666">Bull Mild (20%)</text>
+
+    <!-- Bull Severe: $271.50 → max height -->
+    <rect x="530" y="10" width="80" height="135" fill="#2563eb" rx="2"/>
+    <text x="570" y="6" text-anchor="middle" font-size="9" fill="#333">$272</text>
+    <text x="570" y="158" text-anchor="middle" font-size="8" fill="#666">Bull Severe (5%)</text>
+
+    <!-- Current Price line: $52 = (52/272)*135 = 25.8 → y = 145 - 25.8 = 119.2 -->
+    <line x1="80" y1="119" x2="660" y2="119" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="6,3"/>
+    <text x="660" y="116" text-anchor="end" font-size="8.5" fill="#c0392b">Current: $52.06</text>
+
+    <!-- Prob-weighted price: 5%×6 + 20%×35 + 50%×83 + 20%×158 + 5%×272 = 0.30+7+41.5+31.6+13.6 = $94 -->
+    <!-- Discounted at 25% CoC over 1 year: $94 / 1.25 = $75.2 -->
+    <!-- y position for $75.2 = 145 - (75.2/272)*135 = 145-37.3 = 107.7 -->
+    <line x1="80" y1="108" x2="660" y2="108" stroke="#155724" stroke-width="1.5" stroke-dasharray="4,4"/>
+    <text x="660" y="105" text-anchor="end" font-size="8.5" fill="#155724">Prob-Wtd PV @25% CoC: $75.20</text>
+  </svg>
+  <p style="font-size:8px;color:#888;margin-top:4px;">Weights: Bear Severe 5% · Bear Mild 20% · Base 50% · Bull Mild 20% · Bull Severe 5%. Probability-weighted avg 2028E price: ~$94. Discounted at 25% cost of capital over ~2.75 years: ~$75.20. Current: $52.06.</p>
+</div>
+
+<!-- SECTION 11: COMPS -->
+<div class="memo-section">11. Comps</div>
+
+<div class="section-title">Selected Financials</div>
+<table class="data comps">
+  <thead>
+    <tr>
+      <th>Company</th>
+      <th>Ticker</th>
+      <th>Rev FY1 ($M)</th>
+      <th>Rev FY2 ($M)</th>
+      <th>EBITDA FY1</th>
+      <th>EBITDA Mgn%</th>
+      <th>EBITDA FY2</th>
+      <th>EBITDA Mgn%</th>
+      <th>EBIT FY1</th>
+      <th>EBIT FY2</th>
+      <th>$FCF FY1</th>
+      <th>$FCF FY2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>OneMain Holdings</td><td>OMF</td>
+      <td>$5,337</td><td>$5,707</td>
+      <td>2,621</td><td>49.1%</td>
+      <td>2,872</td><td>50.3%</td>
+      <td>3,086</td><td>3,011</td>
+      <td>$884</td><td>$1,013</td>
+    </tr>
+    <tr>
+      <td>Enova International</td><td>ENVA</td>
+      <td>~$2,450</td><td>~$2,700</td>
+      <td>~490</td><td>20.0%</td>
+      <td>~540</td><td>20.0%</td>
+      <td>~380</td><td>~420</td>
+      <td>~$280</td><td>~$320</td>
+    </tr>
+    <tr>
+      <td>Synchrony Financial</td><td>SYF</td>
+      <td>~$6,800</td><td>~$7,100</td>
+      <td>~2,040</td><td>30.0%</td>
+      <td>~2,130</td><td>30.0%</td>
+      <td>~1,900</td><td>~2,000</td>
+      <td>~$1,500</td><td>~$1,650</td>
+    </tr>
+    <tr>
+      <td>Ally Financial</td><td>ALLY</td>
+      <td>~$8,500</td><td>~$9,100</td>
+      <td>—</td><td>—</td>
+      <td>—</td><td>—</td>
+      <td>~$1,100</td><td>~$1,400</td>
+      <td>—</td><td>—</td>
+    </tr>
+    <tr>
+      <td>Bread Financial Holdings</td><td>BFH</td>
+      <td>~$2,200</td><td>~$2,100</td>
+      <td>—</td><td>—</td>
+      <td>—</td><td>—</td>
+      <td>~$450</td><td>~$480</td>
+      <td>~$380</td><td>~$400</td>
+    </tr>
+    <tr>
+      <td>SLM Corp</td><td>SLM</td>
+      <td>~$1,700</td><td>~$1,750</td>
+      <td>—</td><td>—</td>
+      <td>—</td><td>—</td>
+      <td>~$550</td><td>~$600</td>
+      <td>~$480</td><td>~$520</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Average (ex-OMF)</td><td>—</td>
+      <td>—</td><td>—</td>
+      <td>—</td><td>~25.0%</td>
+      <td>—</td><td>—</td>
+      <td>—</td><td>—</td>
+      <td>—</td><td>—</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:10px;">Valuation Multiples</div>
+<table class="data comps">
+  <thead>
+    <tr>
+      <th>Company</th>
+      <th>Ticker</th>
+      <th>Price</th>
+      <th>PT</th>
+      <th>EV ($M)</th>
+      <th>Mkt Cap ($M)</th>
+      <th class="est">EV/Rev FY1</th>
+      <th class="est">EV/Rev FY2</th>
+      <th class="est">P/E FY1</th>
+      <th class="est">P/E FY2</th>
+      <th class="est">P/FCF FY1</th>
+      <th>Rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>OneMain Holdings</td><td>OMF</td>
+      <td>$52.06</td><td>$71.71</td>
+      <td>$27,056</td><td>$6,099</td>
+      <td class="est">5.1x</td><td class="est">4.7x</td>
+      <td class="est">6.9x</td><td class="est">5.8x</td>
+      <td class="est">6.9x</td>
+      <td>OW</td>
+    </tr>
+    <tr>
+      <td>Enova International</td><td>ENVA</td>
+      <td>$134.11</td><td>—</td>
+      <td>$8,371</td><td>$3,619</td>
+      <td class="est">3.4x</td><td class="est">3.1x</td>
+      <td class="est">8.2x</td><td class="est">6.5x</td>
+      <td class="est">12.9x</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Synchrony Financial</td><td>SYF</td>
+      <td>~$42</td><td>—</td>
+      <td>$32,626</td><td>$22,170</td>
+      <td class="est">4.8x</td><td class="est">4.6x</td>
+      <td class="est">9.2x</td><td class="est">7.8x</td>
+      <td class="est">14.8x</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Ally Financial</td><td>ALLY</td>
+      <td>~$37</td><td>—</td>
+      <td>$36,207</td><td>$11,171</td>
+      <td class="est">4.3x</td><td class="est">4.0x</td>
+      <td class="est">9.5x</td><td class="est">7.2x</td>
+      <td class="est">—</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Bread Financial Holdings</td><td>BFH</td>
+      <td>~$38</td><td>—</td>
+      <td>$7,507</td><td>$3,084</td>
+      <td class="est">3.4x</td><td class="est">3.6x</td>
+      <td class="est">7.1x</td><td class="est">6.2x</td>
+      <td class="est">8.1x</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Navient Corp</td><td>NAVI</td>
+      <td>~$13</td><td>—</td>
+      <td>$44,889</td><td>$773</td>
+      <td class="est">NM</td><td class="est">NM</td>
+      <td class="est">NM</td><td class="est">NM</td>
+      <td class="est">—</td>
+      <td>—</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Median (ex-OMF, ex-NAVI)</td><td>—</td>
+      <td>—</td><td>—</td><td>—</td><td>—</td>
+      <td class="est">4.1x</td><td class="est">3.8x</td>
+      <td class="est">8.7x</td><td class="est">7.0x</td>
+      <td class="est">13.9x</td>
+      <td>—</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:8px;">
+OMF trades at 6.9x FY1 P/E versus the peer median of ~8.7x — a 21% discount to an admittedly heterogeneous group. The discount is partially deserved: OMF is more levered (5.4x net), focused on non-prime borrowers, and lacks a bank charter to reduce funding costs. However, it is also generating higher ROE (24% vs. peer range of 12-22%), faster EPS growth (36% in 2025), and a higher capital return yield (~12% total vs. ~7-9% for peers). The nearest true comparable — Enova International — trades at 8.2x FY1 P/E vs. OMF at 6.9x, a 19% premium for a business with lower scale, weaker balance sheet strength, and a product mix tilted toward shorter-duration, higher-risk credits. On a normalized basis (ex back-book drag), OMF's earnings power is meaningfully higher than current multiples suggest.
+</p>
+
+<!-- SECTION 12: THEIA INVESTMENT? -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<p class="prose">Theia seeks small-cap companies that aren't well covered, are strongly aligned on the core internet finance thesis, and display wide outcome dispersion. Here is how OMF scores:</p>
+
+<div class="verdict">
+  <p><strong>(i) Market Cap Bucket:</strong> $6.1B — <strong>Mid-Cap</strong> <span class="fw-rating moderate">Moderate Fit</span></p>
+  <p style="margin-top:4px;font-size:10px;color:#555;">Mid-cap ($5-10B) is "acceptable" by Theia criteria. OMF is at the lower end of this bucket. The $6.1B market cap puts it outside the ideal sub-$5B small-cap sweet spot, but this is a borderline call — it's not a large-cap where informational edge is minimal.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(ii) Analyst Coverage:</strong> 16 Broker Contributors — <strong>Well-Covered</strong> <span class="fw-rating weak">Weak Fit</span></p>
+  <p style="margin-top:4px;font-size:10px;color:#555;">16 analysts covering OMF is firmly in the "well-covered" bucket (15+ = hard to find edge). Sell-side from TD Cowen, Jefferies, Truist, Bank of America, Deutsche Bank, JPMorgan are all active. This reduces the probability of sustainable informational edge or discovery alpha. However, the stock trades at a deep discount to consensus target ($52 vs. $71.71 target), suggesting either market mispricing or analyst optimism that is not being validated by investor flows.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iii) Blockchain / Internet Finance Thesis Alignment: Consumer Lending Tech Transition</strong> <span class="fw-rating moderate">Adjacent</span></p>
+  <p style="margin-top:4px;font-size:10px;color:#555;">OMF is not a blockchain company and has no direct crypto exposure. However, it is a participant in the digitization of consumer financial services: it is building a digital-first credit card, leveraging bank data APIs for real-time income verification, using AI for branch efficiency and underwriting, and pursuing an ILC charter that would allow deposit-funded digital banking. The "Adjacent" classification is appropriate — OMF is internet finance infrastructure for the non-prime consumer, which is directly relevant to Theia's core thesis around the re-plumbing of financial services. It is not a core thesis play, but the ILC + credit card + AI model evolution makes it increasingly relevant.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iv) Outcome Dispersion:</strong> Bear $6 / Base $83 / Bull $272 (2028E) <span class="fw-rating strong">Wide Dispersion</span></p>
+  <p style="margin-top:4px;font-size:10px;color:#555;">The range of 2028E implied prices spans from $6 (macro shock scenario) to $272 (platform inflection scenario), a 45x spread from trough to peak. Even in the mild bull case ($158), the upside is +204%. The probability-weighted fair value at a 25% cost of capital discount is approximately $75 — a 44% premium to current price. The dispersion is wide, reflecting genuine uncertainty about: (1) macro/unemployment path, (2) ILC outcome, (3) back-book runoff pace, and (4) credit card loss normalization.</p>
+</div>
+
+<div class="verdict" style="background:#e8f4fd;border-left-color:#2563eb;">
+  <p style="font-size:12px;font-weight:700;color:#1a1a2e;">Theia Verdict: <span style="color:#856404;">MAYBE — Track with Interest, Not a Core Position</span></p>
+  <p style="margin-top:6px;font-size:10.5px;color:#333;">OMF is a high-quality business with exceptional process discipline, a defensible market position, and a compelling quantitative setup (6.9x FY26 P/E, ~12% total return yield, 44% prob-weighted upside). The bear case thesis — macro shock breaking the credit box — is real but well-compensated at current prices. The primary reason it is not an immediate "Yes" for Theia is the combination of: (1) mid-cap size with 16 analysts covering it reduces alpha generation probability, and (2) it is not a core blockchain/internet finance thesis play — it is a traditional consumer finance company with digital enhancements, not a technology company with financial services characteristics. If OMF achieves ILC approval, the BrightWay card scales to $3-5B, and the stock remains at or below current levels, this migrates to "Yes." At current pricing, the 8.1% dividend yield alone compensates for holding while monitoring the thesis catalysts.</p>
+</div>
+
+<!-- APPENDIX: PYTHON CODE -->
+<div class="appendix">
+<div class="memo-section">Appendix — Python Code for Sensitivity &amp; Model Generation</div>
+<div class="code-block">
+import numpy as np
+import pandas as pd
+
+# ============================================================
+# ONEMAIN HOLDINGS (OMF) — SENSITIVITY TABLE GENERATOR
+# ============================================================
+
+# BASE INPUTS (FY2026E)
+base_avg_receivables = 27.0  # $B
+base_consumer_yield = 0.225  # 22.5%
+base_nco_rate = 0.076        # 7.6%
+base_interest_expense_pct = 0.053  # 5.3% of avg receivables
+base_opex_ratio = 0.066      # 6.6% of managed receivables
+insurance_revenue = 0.37     # $B annual insurance & other
+tax_rate = 0.218
+diluted_shares = 114         # M shares (post-buybacks)
+
+def calc_net_income(avg_recv_b, nco_rate, yield_pct=0.225,
+                    int_exp_pct=0.053, opex_ratio=0.066):
+    """
+    Simplified OMF P&amp;L model.
+    avg_recv_b: average net receivables in $B
+    nco_rate: C&amp;I net charge-off rate (decimal)
+    Returns net income in $M
+    """
+    # Revenue = interest income + other revenue
+    interest_income = avg_recv_b * yield_pct
+    other_revenue = insurance_revenue + 0.19  # gain-on-sale, servicing
+    total_revenue = (interest_income + other_revenue) * 1000  # $M
+
+    # Provision = NCO rate applied to avg receivables
+    provision = avg_recv_b * nco_rate * 1000  # $M
+
+    # Operating expenses
+    opex = avg_recv_b * opex_ratio * 1000  # $M
+
+    # Interest expense
+    int_exp = avg_recv_b * int_exp_pct * 1000  # $M
+
+    # Pre-tax income (simplified; excludes insurance claims ~$55M/qtr)
+    insurance_claims = 220  # $M annual
+    pretax = total_revenue - provision - opex - int_exp - insurance_claims
+    net_income = pretax * (1 - tax_rate)
+    return net_income
+
+# SENSITIVITY TABLE 1: Net Income vs. Receivables x NCO Rate
+receivables_range = [25.0, 26.0, 27.0, 28.0, 29.0]
+nco_range = [0.068, 0.072, 0.076, 0.080, 0.085]
+
+print("=== OMF FY26E Net Income ($M) Sensitivity ===")
+print(f"{'NCO Rate':>10} | " + " | ".join(f"${r:.0f}B Recv" for r in receivables_range))
+print("-" * 75)
+for nco in nco_range:
+    row = f"{nco*100:>9.1f}% | "
+    for recv in receivables_range:
+        ni = calc_net_income(recv, nco)
+        row += f"  ${ni:>6.0f}  |"
+    print(row)
+
+# SENSITIVITY TABLE 2: Implied Stock Price vs. NCO Rate x P/E Multiple
+def calc_eps(avg_recv_b, nco_rate):
+    ni = calc_net_income(avg_recv_b, nco_rate)
+    return ni / diluted_shares
+
+print("\n=== OMF FY26E Implied Stock Price ($) Sensitivity ===")
+pe_range = [5.0, 6.0, 7.0, 8.0, 9.0]
+nco_for_eps = [0.068, 0.072, 0.076, 0.080, 0.085]
+eps_label = {nco: calc_eps(27.0, nco) for nco in nco_for_eps}
+
+print(f"{'P/E':>5} | " + " | ".join(f"NCO {n*100:.1f}% (EPS ${eps_label[n]:.2f})"
+                                       for n in nco_for_eps))
+print("-" * 90)
+for pe in pe_range:
+    row = f"{pe:>5.1f}x | "
+    for nco in nco_for_eps:
+        implied_price = calc_eps(27.0, nco) * pe
+        row += f"  ${implied_price:>5.1f}  |"
+    print(row)
+
+# ============================================================
+# 5-CASE MODEL GENERATOR
+# ============================================================
+
+scenarios = {
+    "Bear Severe": {
+        "recv_2028": 27.5, "nco_2028": 0.095, "yield_2028": 0.220,
+        "recv_cagr": 0.032, "exit_pe": 6.0, "name": "Macro Shock"
+    },
+    "Bear Mild": {
+        "recv_2028": 30.5, "nco_2028": 0.082, "yield_2028": 0.223,
+        "recv_cagr": 0.050, "exit_pe": 6.5, "name": "Soft Labor Market"
+    },
+    "Base": {
+        "recv_2028": 32.5, "nco_2028": 0.072, "yield_2028": 0.225,
+        "recv_cagr": 0.074, "exit_pe": 7.5, "name": "Consensus Execution"
+    },
+    "Bull Mild": {
+        "recv_2028": 35.0, "nco_2028": 0.068, "yield_2028": 0.227,
+        "recv_cagr": 0.092, "exit_pe": 9.0, "name": "Back Book Catalyst"
+    },
+    "Bull Severe": {
+        "recv_2028": 38.0, "nco_2028": 0.065, "yield_2028": 0.228,
+        "recv_cagr": 0.128, "exit_pe": 10.0, "name": "Platform Inflection"
+    },
+}
+
+weights = {"Bear Severe": 0.05, "Bear Mild": 0.20, "Base": 0.50,
+           "Bull Mild": 0.20, "Bull Severe": 0.05}
+
+current_price = 52.06
+coc = 0.25  # Cost of capital for PV discounting
+
+print("\n=== OMF 5-Case Model — FY2028E Implied Prices ===")
+weighted_price = 0
+for case_name, params in scenarios.items():
+    eps_2028 = calc_eps(params["recv_2028"], params["nco_2028"])
+    implied_price = eps_2028 * params["exit_pe"]
+    upside = (implied_price / current_price - 1) * 100
+    weight = weights[case_name]
+    weighted_price += weight * implied_price
+    print(f"{case_name:>12} ({params['name']:&lt;25}): "
+          f"EPS=${eps_2028:.2f}, P/E={params['exit_pe']}x → "
+          f"${implied_price:.1f} ({upside:+.0f}%) [wt: {weight*100:.0f}%]")
+
+years_to_2028 = 2.75
+pv_price = weighted_price / (1 + coc) ** years_to_2028
+print(f"\nProb-Weighted 2028E Price: ${weighted_price:.2f}")
+print(f"Discounted at {coc*100:.0f}% CoC over {years_to_2028:.2f} yrs: ${pv_price:.2f}")
+print(f"Current Price: ${current_price}")
+print(f"Implied Upside to PV Fair Value: {(pv_price/current_price-1)*100:.1f}%")
+</div>
+</div>
+
+<div class="source-note" style="margin-top:16px;">
+Sources: FactSet Fundamentals &amp; Estimates (Mar 16, 2026); OneMain Q4 2025 Earnings Call Transcript (Feb 5, 2026); OneMain BofA Financial Services Conference Transcript (Feb 11, 2026); OneMain Q4 2025 Investor Presentation; AlphaSense DR Report (Mar 16, 2026). Prepared by Theia Investment Research · March 16, 2026.
+</div>
+
+</body>
+</html>
