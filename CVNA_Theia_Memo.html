@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carvana Co | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+table.ev tr.indent td:first-child { padding-left: 14px; font-size: 9.5px; color: #777; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 6px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { display: inline-block; width: 60%; font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.alphasense-box { background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 4px; padding: 8px 12px; margin-bottom: 14px; font-size: 10px; color: #1e3a5f; }
+
+.bull-bear-col { flex: 1; }
+.bull-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #155724; border-bottom: 1.5px solid #28a745; padding-bottom: 3px; margin-bottom: 8px; }
+.bear-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #721c24; border-bottom: 1.5px solid #dc3545; padding-bottom: 3px; margin-bottom: 8px; }
+.bb-item { margin-bottom: 7px; }
+.bb-item .fw-name { font-weight: 700; color: #1a1a2e; }
+
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.comps td:nth-child(2) { text-align: left; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-style: italic; background: #fafbfc; font-weight: 600; color: #555; }
+.est-col { color: #2563eb; }
+
+.nm { color: #999; font-style: italic; }
+.neg { color: #c0392b; }
+.pos-val { color: #27ae60; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Carvana Co | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+<p class="prose">Carvana Co (CVNA) is the largest purely digital used-car retailer in the United States, operating an asset-light, vertically integrated platform that allows consumers to buy, sell, and finance a used vehicle entirely online — with home delivery or vending-machine pickup — without ever stepping into a traditional dealership. Founded in 2012 and headquartered in Tempe, Arizona, Carvana is led by CEO Ernie Garcia III and employs approximately 16,000 people. The company went public in April 2017 and reported 416,348 retail units sold in FY2025, making it the second-largest used-car retailer in the US behind CarMax.</p>
+<p class="prose">Carvana's revenue model has three interlocking components: (1) <strong>Retail Vehicle Sales</strong> — the spread between acquisition cost and retail selling price (~71.5% of revenue in FY25); (2) <strong>Wholesale Vehicle Sales</strong> — vehicles that don't meet retail standards auctioned to dealers via ADESA, the wholesale auction network Carvana acquired in 2022 (~19.9%); and (3) <strong>Finance & Insurance / Other Revenue</strong> — ancillary revenue from vehicle financing, GAP, and service contracts (~8.5%). The key unit-level profit metric is GPU (Gross Profit per Unit), which reached $7,044 in FY2025 and is management's primary KPI. The long-term strategic vision is to scale to 3 million+ annual retail units — roughly 7–8x current volume — by leveraging the fixed-cost base of 33 Inspection & Reconditioning Centers (IRCs) that can collectively handle 4M+ units/year with minimal incremental capital, generating a step-function improvement in operating leverage.</p>
+<p class="prose">Carvana nearly went bankrupt in 2022–2023 as rising interest rates crushed used-car demand, GPU collapsed, and the $2.2B ADESA acquisition at the top of the market left the balance sheet severely overleveraged. The company executed a landmark debt restructuring in late 2023, eliminating ~$1.3B of principal and extending maturities, and subsequently delivered a dramatic operational turnaround: FY2025 EBITDA of $2.16B (10.6% margin) versus effectively zero in FY2023. This recovery — from near-insolvency to large-cap status in 24 months — is the defining context for the current investment debate. At $300.15, CVNA trades at 24.1x FY26E EV/EBITDA, pricing in continued execution toward the 3M-unit vision.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 2: THEIA FACTSET SUMMARY -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Theia FactSet Summary</div>
+
+<div class="header">
+  <div>
+    <h1>Carvana Co</h1>
+    <span class="ticker">CVNA-US · NASDAQ · Class A Common Stock · CUSIP: 14670V102</span>
+  </div>
+  <div class="date">FactSet as of Mar 13, 2026</div>
+</div>
+
+<!-- Price Bar -->
+<div class="price-bar">
+  <span class="price">$300.15</span>
+  <span style="color:#888;font-size:9px;">▼ -$31.06 (-9.4%) MTD</span>
+  <span class="label">1M:</span><span class="chg">-9.4%</span>
+  <span class="label">3M:</span><span class="chg">-31.7%</span>
+  <span class="label">6M:</span><span class="chg">-14.8%</span>
+  <span class="label">YTD:</span><span class="chg">-26.4%</span>
+  <span class="label">1Y:</span><span class="chg pos">+71.6%</span>
+  <span class="label" style="margin-left:8px;">52W Range:</span><span style="font-weight:600;">$148.25 – $486.89</span>
+</div>
+
+<!-- Key Stats + EV Bridge -->
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv">
+      <tr><td>Ticker / Exchange</td><td>CVNA / NASDAQ</td></tr>
+      <tr><td>Current Price</td><td>$300.15</td></tr>
+      <tr><td>Volume (Last Session)</td><td>3,194,277</td></tr>
+      <tr><td>30-Day Avg Volume</td><td>4,181,838</td></tr>
+      <tr><td>Float %</td><td>95.40%</td></tr>
+      <tr><td>Short Interest (Days)</td><td>2.1 Days / 9.86% of Float</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev">
+      <tr><td>Basic Shares Outstanding</td><td>218.85M</td></tr>
+      <tr class="indent"><td>Class A Common</td><td>142.74M</td></tr>
+      <tr class="indent"><td>Class B Conv. Common</td><td>76.11M</td></tr>
+      <tr><td>Dilution (Options/RSU)</td><td>+ 7.97M</td></tr>
+      <tr><td>Total Diluted Shares</td><td>226.82M</td></tr>
+      <tr><td>× Share Price</td><td>× $300.15</td></tr>
+      <tr class="total"><td>Market Cap</td><td>$65,687M</td></tr>
+      <tr><td>+ Consolidated Debt</td><td>+ $4,450M</td></tr>
+      <tr><td>+ Capital Leases</td><td>+ $665M</td></tr>
+      <tr><td>− Cash & Equivalents</td><td>− $2,915M</td></tr>
+      <tr class="total"><td>Enterprise Value</td><td>$70,279M</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- Current Valuation — Horizontal 6x2 Grid -->
+<div class="section-title">Current Valuation</div>
+<div class="val-grid">
+  <div class="val-cell">
+    <div class="val-label">Market Cap</div>
+    <div class="val-num">$65.7B</div>
+    <div class="val-sub">Basic Mkt Cap</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Enterprise Value</div>
+    <div class="val-num">$70.3B</div>
+    <div class="val-sub">EV</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">P/E (LTM)</div>
+    <div class="val-num">30.7x</div>
+    <div class="val-sub">vs. 40.6x FY26E</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">EV/EBITDA (LTM)</div>
+    <div class="val-num">32.6x</div>
+    <div class="val-sub">vs. 24.1x FY26E</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">EV/Sales (LTM)</div>
+    <div class="val-num">3.5x</div>
+    <div class="val-sub">vs. 2.6x FY26E</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">P/S (LTM)</div>
+    <div class="val-num">3.3x</div>
+    <div class="val-sub">vs. 2.5x FY26E</div>
+  </div>
+</div>
+<div class="val-grid">
+  <div class="val-cell">
+    <div class="val-label">Fully Dil. Mkt Cap</div>
+    <div class="val-num">$68.1B</div>
+    <div class="val-sub">226.82M dil. shares</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">WACC</div>
+    <div class="val-num">10.51%</div>
+    <div class="val-sub">FactSet est.</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Beta (3Y Adj)</div>
+    <div class="val-num">2.33</div>
+    <div class="val-sub">High volatility</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Avg Rating</div>
+    <div class="val-num">OW</div>
+    <div class="val-sub">1.35 / 23 brokers</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Target Price</div>
+    <div class="val-num">$428.50</div>
+    <div class="val-sub">+42.8% upside</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Next Earnings</div>
+    <div class="val-num">Apr 30</div>
+    <div class="val-sub">Q1 2026E</div>
+  </div>
+</div>
+
+<!-- Valuation Multiples Table -->
+<div class="section-title">Valuation Multiples</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th>Multiple</th>
+      <th>5Yr Avg</th>
+      <th>Dec'23</th>
+      <th>Dec'24</th>
+      <th>Dec'25</th>
+      <th class="est">Dec'26E</th>
+      <th class="est">Dec'27E</th>
+      <th class="est">Dec'28E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>P/E</td><td>49.8x</td><td>70.8x</td><td>128.0x</td><td>49.9x</td><td class="est">40.6x</td><td class="est">29.1x</td><td class="est">24.1x</td></tr>
+    <tr><td>P/Sales</td><td>1.8x</td><td>1.0x</td><td>2.0x</td><td>4.7x</td><td class="est">2.5x</td><td class="est">2.0x</td><td class="est">1.6x</td></tr>
+    <tr><td>P/Book Value</td><td>26.2x</td><td>24.9x</td><td>21.5x</td><td>17.4x</td><td class="est">10.2x</td><td class="est">7.0x</td><td class="est">5.6x</td></tr>
+    <tr><td>EV/Sales</td><td>2.8x</td><td>1.5x</td><td>3.6x</td><td>4.8x</td><td class="est">2.6x</td><td class="est">2.1x</td><td class="est">1.8x</td></tr>
+    <tr><td>EV/EBITDA</td><td>9,110.2x</td><td>58.0x</td><td>37.5x</td><td>45.3x</td><td class="est">24.1x</td><td class="est">18.6x</td><td class="est">15.0x</td></tr>
+    <tr><td>EV/EBIT</td><td class="nm">NM</td><td class="nm">NM</td><td>49.0x</td><td>51.9x</td><td class="est">28.2x</td><td class="est">21.2x</td><td class="est">16.4x</td></tr>
+  </tbody>
+</table>
+
+<!-- Revenue Exposure -->
+<div class="section-title">Revenue Exposure (FY2025 Actuals)</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Business Segment</div>
+    <table class="rev">
+      <thead><tr><th>Segment</th><th>Rev ($M)</th><th>% Mix</th><th>YoY</th></tr></thead>
+      <tbody>
+        <tr><td>Retail Vehicle Sales</td><td>$14,537</td><td>71.5%</td><td>+50.2%</td></tr>
+        <tr><td>Wholesale Vehicle Sales</td><td>$4,052</td><td>19.9%</td><td>+42.6%</td></tr>
+        <tr><td>Other Revenue (F&amp;I)</td><td>$1,733</td><td>8.5%</td><td>+50.6%</td></tr>
+        <tr style="font-weight:700;border-top:1px solid #ccc;"><td>Total Revenue</td><td>$20,322</td><td>100.0%</td><td>+48.6%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <div class="sub-label">By Geography</div>
+    <table class="rev">
+      <thead><tr><th>Region</th><th>Rev ($M)</th><th>% Mix</th></tr></thead>
+      <tbody>
+        <tr><td>United States</td><td>$20,322</td><td>100.0%</td></tr>
+        <tr><td>International</td><td>—</td><td>—</td></tr>
+        <tr style="font-weight:700;border-top:1px solid #ccc;"><td>Total</td><td>$20,322</td><td>100.0%</td></tr>
+      </tbody>
+    </table>
+    <p class="prose" style="font-size:9px;color:#888;margin-top:4px;">100% US domestic revenue. Carvana does not operate outside the United States.</p>
+  </div>
+</div>
+
+<!-- Financials -->
+<div class="section-title">Financials — Income Statement, Margins, Cash Flow & Returns</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th class="est">FY2026E</th>
+      <th class="est">FY2027E</th>
+      <th class="est">FY2028E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">Income Statement ($M)</td></tr>
+    <tr><td>Revenue</td><td>$10,771</td><td>$13,673</td><td>$20,322</td><td class="est">$26,726</td><td class="est">$32,907</td><td class="est">$39,946</td></tr>
+    <tr><td>Gross Income</td><td>$1,541</td><td>$2,711</td><td>$4,028</td><td class="est">$5,315</td><td class="est">$6,587</td><td class="est">$7,881</td></tr>
+    <tr><td>EBITDA</td><td>$287</td><td>$1,307</td><td>$2,159</td><td class="est">$2,914</td><td class="est">$3,773</td><td class="est">$4,672</td></tr>
+    <tr><td>EBIT</td><td>($65)</td><td>$1,002</td><td>$1,884</td><td class="est">$2,490</td><td class="est">$3,310</td><td class="est">$4,290</td></tr>
+    <tr><td>Net Income</td><td>$450</td><td>$210</td><td>$1,407</td><td class="est">$1,612</td><td class="est">$2,305</td><td class="est">$2,957</td></tr>
+    <tr><td>EPS (Dil.)</td><td>$0.75</td><td>$1.59</td><td>$8.45</td><td class="est">$6.75</td><td class="est">$9.53</td><td class="est">$13.93</td></tr>
+    <tr class="section-row"><td colspan="7">Margins</td></tr>
+    <tr><td>Gross Margin %</td><td>14.3%</td><td>19.8%</td><td>19.8%</td><td class="est">19.9%</td><td class="est">20.0%</td><td class="est">19.7%</td></tr>
+    <tr><td>EBITDA Margin %</td><td>2.7%</td><td>9.6%</td><td>10.6%</td><td class="est">10.9%</td><td class="est">11.5%</td><td class="est">11.7%</td></tr>
+    <tr><td>Net Income Margin %</td><td>4.2%</td><td>1.5%</td><td>6.9%</td><td class="est">6.0%</td><td class="est">7.0%</td><td class="est">7.4%</td></tr>
+    <tr class="section-row"><td colspan="7">Cash Flow ($M)</td></tr>
+    <tr><td>Operating Cash Flow</td><td>$803</td><td>$918</td><td>$1,036</td><td class="est">$1,218</td><td class="est">$2,229</td><td class="est">$2,487</td></tr>
+    <tr><td>Capital Expenditures</td><td>($87)</td><td>($91)</td><td>($147)</td><td class="est">($213)</td><td class="est">($326)</td><td class="est">($273)</td></tr>
+    <tr><td>Free Cash Flow</td><td>$716</td><td>$827</td><td>$889</td><td class="est">$1,503</td><td class="est">$1,914</td><td class="est">$1,597</td></tr>
+    <tr class="section-row"><td colspan="7">Returns &amp; Leverage</td></tr>
+    <tr><td>Return on Equity %</td><td>—</td><td>27.9%</td><td>59.9%</td><td class="est">25.0%</td><td class="est">24.0%</td><td class="est">23.4%</td></tr>
+    <tr><td>Total Debt / Total Equity</td><td>2,794%</td><td>488%</td><td>164%</td><td class="est">60%</td><td class="est">38%</td><td class="est">—</td></tr>
+    <tr><td>Interest Coverage (x)</td><td>(0.1x)</td><td>1.5x</td><td>3.7x</td><td class="est">5.7x</td><td class="est">8.7x</td><td class="est">9.8x</td></tr>
+    <tr class="section-row"><td colspan="7">Balance Sheet ($M, Key Items)</td></tr>
+    <tr><td>Cash &amp; Equivalents</td><td>$960</td><td>$2,224</td><td>$2,915</td><td class="est">$3,283</td><td class="est">$4,651</td><td class="est">$9,124</td></tr>
+    <tr><td>Total Assets</td><td>$7,071</td><td>$8,484</td><td>$13,201</td><td class="est">$15,051</td><td class="est">$17,302</td><td class="est">$20,725</td></tr>
+    <tr><td>Total Equity</td><td>$243</td><td>$1,260</td><td>$3,441</td><td class="est">$5,569</td><td class="est">$7,721</td><td class="est">$10,148</td></tr>
+  </tbody>
+</table>
+
+<!-- Valuation Summary Paragraph -->
+<div class="section-title">Valuation Summary</div>
+<p class="prose">Carvana currently trades at 24.1x FY26E EV/EBITDA and 40.6x FY26E P/E, representing a 76% and 33% premium, respectively, to the eCommerce peer median of 13.7x EV/EBITDA and 30.6x P/E — a significant premium that reflects the market's confidence in Carvana's unit economics flywheel and the exceptional operating leverage embedded in its fixed IRC cost base. The current elevated multiple is driven primarily by the magnitude and speed of the FY2023–25 margin recovery, which surprised virtually every sell-side model, and by management's credible long-term guide toward 3M annual units — a scenario that would put FY2028+ EBITDA margins in the 13–15%+ range versus today's 10.6%. Bears point to the $4.5B in consolidated debt, the auto macro sensitivity of both vehicle volumes and F&I income, and competition from CarMax's ACO (digital-first) initiative as risks that the current multiple does not adequately discount. At current prices, the stock is clearly pricing in continued flawless execution: any deceleration in unit growth, GPU compression from used-car price normalization, or interest rate shock to F&I economics would disproportionately reprice the multiple. Given the company's 19.8% gross margin — competitive but not dominant relative to the platform peer set — and the rapidly improving but still early-stage balance sheet health, the valuation appears fair-to-stretched relative to available upside under a base-case scenario, with the bull case requiring genuine market share displacement at scale.</p>
+<div class="source-note">Source: FactSet snapshot export, Mar 13, 2026 · Estimates from FactSet consensus</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 3: BULL & BEAR CASES -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+<div class="two-col">
+  <div class="bull-bear-col">
+    <div class="bull-title">Bull Cases</div>
+    <div class="bb-item">
+      <span class="fw-name">IRC Operating Leverage Inflection.</span>
+      <p class="prose" style="margin-top:2px;">Carvana's 33 IRCs have theoretical capacity of 4M+ annual units versus current throughput of ~416K. Every incremental unit costs dramatically less to recondition than the marginal cost of building new capacity — as volume scales to 600K–800K units and beyond, fixed IRC overhead amortizes sharply, driving EBITDA margins from ~10.6% toward 15%+ with zero incremental capital expenditure on reconditioning capacity.</p>
+    </div>
+    <div class="bb-item">
+      <span class="fw-name">F&I Monetization Remains Structurally Elevated.</span>
+      <p class="prose" style="margin-top:2px;">Finance & Insurance is the highest-margin revenue line, contributing ~$2,651 of the $7,044 total GPU in FY2025. If rates stabilize or decline, loss rates on originated loans normalize, and Carvana's finance penetration rate holds above 60%, F&I GPU could expand toward $3,000+, driving disproportionate profit growth without any unit volume assumptions.</p>
+    </div>
+    <div class="bb-item">
+      <span class="fw-name">Market Share in a Fragmented, Massive TAM.</span>
+      <p class="prose" style="margin-top:2px;">The US used-car market transacts ~40 million units annually. Carvana at 416K units holds roughly 1% share. Even reaching 1.5–2% share would double or triple unit volumes. The fragmentation of the dealer landscape (many independent dealers with no digital capability) and the secular shift toward online car-buying create a durable multi-year tailwind for Carvana's value proposition.</p>
+    </div>
+    <div class="bb-item">
+      <span class="fw-name">Balance Sheet Normalization Creates Financial Flexibility.</span>
+      <p class="prose" style="margin-top:2px;">With Debt/Equity declining from 2,794% in FY23 to a projected 38% by FY27, Carvana will exit its financial distress overhang and gain access to investment-grade capital markets. This enables cheaper financing for vehicle inventory (lower floorplan costs), potentially lower WACC as the credit risk premium fades, and the ability to be more aggressive on vehicle acquisition — the raw material of the business.</p>
+    </div>
+    <div class="bb-item">
+      <span class="fw-name">ADESA Wholesale Network as Standalone Profit Engine.</span>
+      <p class="prose" style="margin-top:2px;">The ADESA acquisition — widely criticized as a capital-destroying mistake in 2022 — is now becoming a strategic asset. CVNA uses ADESA to wholesale non-retail-grade vehicles at economics that no standalone used-car dealer can match, and ADESA provides proprietary insight into wholesale pricing that improves retail acquisition accuracy. As volumes scale, ADESA's fixed auction infrastructure generates incremental profit with near-zero marginal cost.</p>
+    </div>
+  </div>
+  <div class="bull-bear-col">
+    <div class="bear-title">Bear Cases</div>
+    <div class="bb-item">
+      <span class="fw-name">Used-Car Price Deflation Compresses Retail GPU.</span>
+      <p class="prose" style="margin-top:2px;">Carvana's retail GPU is partly a function of used-car prices: when prices rise, vehicles appreciating in inventory generate windfall gains; when prices normalize or fall, the opposite occurs. A structural decline in used-car prices — driven by improving new-car supply, easing pandemic-era shortages, or rising lease returns — could compress retail GPU from $3,421 toward $2,500 or below, materially reducing EBITDA per unit and total profitability regardless of volume growth.</p>
+    </div>
+    <div class="bb-item">
+      <span class="fw-name">F&I Income Rate Sensitivity.</span>
+      <p class="prose" style="margin-top:2px;">A large portion of Carvana's F&I GPU comes from the spread between vehicle loan origination rates and the rates at which loans are sold into the securitization market. If benchmark rates rise or credit spreads widen during a risk-off episode, this spread compresses sharply — as it did in 2022 — potentially turning F&I from a $2,651 GPU contributor to a marginal or negative one. This is the most binary risk in the model and is opaque to outside analysts.</p>
+    </div>
+    <div class="bb-item">
+      <span class="fw-name">CarMax ACO Response Intensifies Competition.</span>
+      <p class="prose" style="margin-top:2px;">CarMax has invested heavily in its omni-channel digital offering (ACO — Auto Commerce Online), enabling customers to transact online and via physical stores with a unified experience. With 3x Carvana's unit volume, CarMax can match pricing, improve digital convenience, and respond to CVNA's core value proposition. Competition from CarMax, Autonation Digital, and private-equity-backed roll-ups could prevent Carvana from reaching the 2%+ market share implied by the bull case.</p>
+    </div>
+    <div class="bb-item">
+      <span class="fw-name">Macro Deterioration Hits Both Volume and Credit.</span>
+      <p class="prose" style="margin-top:2px;">Used-car demand is cyclical and credit-sensitive. In a recession scenario, both purchase volumes and F&I loss rates move adversely simultaneously — the worst possible combination for Carvana's unit economics. Carvana originates ~$4–5B of vehicle loans annually; even a moderate rise in default rates requires holding more capital against residual risk retained in securitizations, constraining both cash flow and financing flexibility.</p>
+    </div>
+    <div class="bb-item">
+      <span class="fw-name">Debt Overhang and Refinancing Risk Through 2028.</span>
+      <p class="prose" style="margin-top:2px;">Despite the 2023 restructuring, Carvana still carries $4.45B in consolidated debt at a blended rate well above investment grade. A significant portion matures or faces repricing risk in the 2025–2028 window. If the macro or company-specific environment deteriorates before CVNA reaches investment-grade metrics, refinancing could be expensive or dilutive. The stock has already proven it can lose 80%+ in value within a single year; the leverage structure guarantees outsized equity volatility in any downside scenario.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Scale Economies</span>
+  <span class="fw-rating strong">Strong</span>
+  <p class="prose" style="margin-top:3px;">Carvana's cost structure is dominated by fixed and semi-fixed costs — the IRC network, proprietary logistics infrastructure (last-mile delivery vehicles, vending machines), technology platform maintenance, and corporate overhead — that do not scale linearly with unit volume. At 416K units in FY2025, management estimates the IRC network operates at roughly 10% of theoretical capacity. As units scale toward 1M, 2M, and eventually 3M, these fixed costs amortize over a dramatically larger base: the same IRC in a given city handles 30K units/year as efficiently as it handles 10K units/year, with effectively zero marginal cost increase. This is the central thesis for EBITDA margin expansion from 10.6% today toward 15%+ at scale. The barrier to challengers is enormous: replicating 33 IRCs and a nationwide logistics network requires billions in capital and years of real estate permitting, construction, and equipment installation that no startup can shortcut. Even CarMax, with significant physical infrastructure, lacks Carvana's purely digital acquisition channel and the vertically integrated reconditioning-to-delivery workflow. Scale economies are the primary power here, and they are real, measurable, and growing.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Network Effects</span>
+  <span class="fw-rating weak">Weak</span>
+  <p class="prose" style="margin-top:3px;">Carvana does not benefit from meaningful network effects in the traditional sense. A consumer using Carvana to buy a car does not make the platform more valuable for the next consumer — the transactions are discrete and bilateral, not interdependent. There is a weak data network effect: as Carvana processes more vehicle transactions, its proprietary pricing algorithms and inspection protocols should improve in accuracy, potentially enabling better vehicle acquisition decisions and lower reconditioning cost variance. However, this data advantage is modest compared to platforms with genuine direct or two-sided network effects (like an exchange or marketplace). Carvana's wholesale channel (ADESA) has slightly stronger network effects — more dealer participants improve price discovery — but even here, the effect is limited in a market where Manheim and other wholesale platforms dominate. For practical purposes, network effects are not a significant source of competitive advantage for Carvana.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Counter-Positioning</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:3px;">Carvana's purely digital, no-dealership model represents a genuine counter-positioning threat to traditional franchise dealers, who cannot abandon their physical retail infrastructure without enormous financial and regulatory consequences — franchised dealers are contractually required to maintain physical showrooms by their OEM franchise agreements, and their real estate, sales staff, and service departments represent sunk costs that cannot be easily liquidated. A traditional dealer who tries to fully replicate Carvana's model would be cannibalizing their existing floor traffic, alienating their OEM franchise partner, and competing against a lower-cost structure from a position of higher fixed costs. The rating is only Moderate rather than Strong because CarMax — the most important competitor — is not a franchise dealer and can and is investing to go digital, and because Carvana's model requires its own substantial fixed infrastructure (IRCs, logistics). The counter-positioning is real against the 40,000+ independent and franchise used-car dealers across the US, but not against CarMax or other national players with the capital and strategic intent to respond.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Switching Costs</span>
+  <span class="fw-rating weak">Weak</span>
+  <p class="prose" style="margin-top:3px;">Used-car buying is a transactional, low-frequency, high-consideration purchase. Most consumers buy a car every 4–7 years, and each purchase starts with price comparison across multiple channels — including Carvana, CarMax, local dealers, and private-party marketplaces like CarGurus. There is no meaningful lock-in: consumers can (and do) search for their next vehicle wherever offers the best price and convenience. Carvana does not have a subscription product, embedded software, or recurring revenue stream that would create switching friction. The partial exception is the financing relationship — consumers who financed through Carvana Financial have some friction in switching lenders mid-transaction — but this is a very thin lock-in and is easily overcome. The low switching cost is partially compensated by the customer experience quality (7-day return policy, home delivery, transparent no-negotiation pricing), which drives repeat usage, but this is a branding/NPS benefit rather than a structural switching cost moat.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Branding</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:3px;">Carvana has built one of the most recognizable consumer brands in used automotive retail, largely through its distinctive vending machine aesthetic, its commitment to price transparency and no-negotiation buying, and its highly rated customer experience. Its NPS scores are among the highest in the automotive retail industry, and aided brand awareness among US adults is substantial for a 12-year-old company. The brand creates real value: it reduces customer acquisition cost (organic search, word-of-mouth referrals), enables premium pricing on vehicle sales (consumers pay slightly more to avoid dealership negotiations), and supports F&I attach rates (consumers trust Carvana's financing as a default option). However, the brand is more of a "preference" brand than a "premium pricing" brand in the Helmer sense — consumers are not paying dramatically above market for a Carvana-sourced vehicle the way a luxury consumer pays above fair value for a Hermès bag. The brand is strong relative to the used-car industry but moderate relative to the broader consumer brand universe.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">6. Cornered Resource</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:3px;">Carvana's most important cornered resource is its IRC network — 33 large-format, purpose-built inspection and reconditioning facilities representing billions of dollars of invested capital across strategically chosen geographies. These facilities took years to site, permit, construct, and operationalize; a competitor cannot replicate this network quickly even with unlimited capital, due to real estate availability constraints, regulatory approvals, and the organizational learning required to run them efficiently at scale. The ADESA wholesale auction network (acquired in 2022 for $2.2B) is a second cornered resource — Carvana now controls a significant portion of US wholesale vehicle auction volume, giving it proprietary pricing data and wholesale monetization capability that independent used-car dealers lack. These are real, valuable, non-easily-replicable assets. The reason this is Moderate rather than Strong is that the IRC network, while hard to replicate in full, could be partially replicated by a well-capitalized competitor (e.g., a PE-backed roll-up) over a 5–7 year horizon, and Carvana does not hold a regulatory monopoly or unique IP that physically prevents replication.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">7. Process Power</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:3px;">Carvana has developed proprietary operational capabilities that are genuinely difficult to replicate: its instant offer pricing algorithm (which allows it to bid for customer-owned vehicles in real time with high accuracy), its logistics routing and last-mile delivery system (which coordinates vehicle transport across thousands of daily deliveries nationwide), and its end-to-end digital transaction workflow (which enables a consumer to go from search to signed documents in under 30 minutes). These processes are embedded in years of iteration, proprietary code, operational data, and institutional knowledge that cannot be lifted by hiring a few engineers. However, unlike truly process-powered companies (Toyota's production system, Danaher's DBS), Carvana's processes have not yet been tested across a full economic cycle at scale — the company was still unprofitable through most of its history — and the extent to which the operational advantage is sustainable versus replicable by a determined competitor with sufficient capital and time is genuinely debatable. Process power is present and growing but not yet definitively established as durable.</p>
+</div>
+
+<p class="prose"><strong>Summary:</strong> Carvana's most durable competitive advantages are Scale Economies (the fixed-cost leverage from the IRC network is the core investment thesis) and Cornered Resource (the IRC/ADESA infrastructure). Counter-Positioning and Process Power are meaningful secondary advantages. The absence of Network Effects and Switching Costs means that if Carvana fails to execute on unit volume growth, it cannot fall back on a recurring revenue base or locked-in customers to sustain profitability.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Threat of New Entrants</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:3px;">The threat of new entrants at scale is genuinely low — building a national used-car digital platform with its own IRC network and last-mile logistics requires $5B+ of capital, years of operational learning, and a brand strong enough to generate organic consumer demand. No venture-backed startup can replicate this today. However, the "new entrant" threat Carvana actually faces is somewhat different: large incumbents (CarMax with $5B+ revenue, Autonation, Lithia Motors) deciding to invest more aggressively in digital channels are effectively new entrants to the online-pure segment even though they are massive existing players. CarMax's ACO investments and Lithia's Driveway platform represent exactly this threat. The capital barriers are high enough to prevent true startups, but not high enough to prevent the incumbent dealers from pivoting. Overall the threat is Moderate: the capital moat is real, but motivated, capital-rich incumbents are already partially inside the moat.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Bargaining Power of Suppliers</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:3px;">Carvana's primary "suppliers" are the vehicle sellers — consumers and dealers who provide used-car inventory. Unlike a manufacturing business, Carvana cannot dictate supply; it must compete in the open market for vehicle acquisition at prevailing wholesale and retail prices. In a tight inventory environment (as occurred during COVID), acquisition costs spike and margins compress. However, because no single seller represents a meaningful percentage of inventory, and Carvana has multiple acquisition channels (consumer direct, ADESA wholesale, dealer trade-ins, and fleet/rental returns), supplier power is diffuse rather than concentrated. A second supplier consideration is vehicle floorplan financing — the banks and specialty finance companies that lend against inventory — which is more concentrated. Rising floorplan rates in a high-interest-rate environment represent a real cost pressure that Carvana has limited ability to renegotiate. On balance, supplier power is Moderate: the fragmented vehicle acquisition landscape limits individual seller leverage, but macro rate environment and inventory market conditions are real external forces Carvana cannot control.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Bargaining Power of Buyers</span>
+  <span class="fw-rating high">High</span>
+  <p class="prose" style="margin-top:3px;">Consumers in the used-car market have very high bargaining power relative to the automotive retail industry as a whole. The used-car transaction is high-value, low-frequency, and fully price-transparent in the internet era: a consumer shopping for a 2021 Honda Accord can see every comparable listing on CarGurus, AutoTrader, CarMax.com, and Carvana.com simultaneously in under five minutes. Price comparison is effortless, search costs are near-zero, and there is no meaningful switching cost between platforms. While Carvana's "no-negotiation" pricing model converts this buyer power into a different kind of convenience (eliminating the discomfort of price negotiation), it also means Carvana cannot charge a sustained premium; its prices must be competitive or traffic migrates immediately. The flip side is that buyers cannot extract concessions below Carvana's asking price the way they could at a traditional dealership, but the aggregate power of a completely transparent market for a commoditized asset remains High.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Threat of Substitutes</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:3px;">The functional substitute for buying a used car from Carvana is buying a used car from any other channel: CarMax (physical + digital), a franchise dealer, an independent lot, or a private party via Craigslist/Facebook Marketplace. These alternatives have always existed and will continue to exist; Carvana's value proposition is speed, convenience, and transparency rather than product exclusivity. A longer-horizon substitute is the secular shift toward ride-sharing and subscription mobility (Uber, Lyft, autonomous vehicle fleets), which could structurally reduce per-capita car ownership over the next 10–20 years — though this remains a very long-dated risk. Near-term, the threat from new-car alternatives is partially mitigated by new-car affordability constraints (average new vehicle price ~$48,000) that push buyers toward the used market. On balance, substitutes are Moderate in intensity: the channel is substitutable, but the underlying used-car transaction remains a large and structurally stable category.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Competitive Rivalry</span>
+  <span class="fw-rating high">High</span>
+  <p class="prose" style="margin-top:3px;">Used automotive retail is intensely competitive. The US used-car market has approximately 40,000 franchise dealers and 40,000+ independent dealers, plus CarMax (~230 stores, ~800K retail units/year), Autonation Digital, Vroom (shrinking but present), and dozens of regional chains. Competition operates on price, selection, financing availability, and increasingly digital convenience. CarMax in particular represents a sophisticated, well-capitalized, and operationally experienced rival that directly benchmarks against Carvana's GPU and unit economics. Rivalry is High because: (1) the product is substantially undifferentiated at the unit level — a 2020 Toyota Camry is the same asset regardless of who sells it; (2) industry growth, while favorable long-term, is cyclical and can turn negative in recessions; (3) competitors with physical infrastructure are investing aggressively in digital capability to narrow Carvana's convenience advantage; (4) exit barriers are low for the 80,000 smaller dealers, meaning irrational competitors can persist on thin margins for extended periods. Carvana's best defense against rivalry is cost structure — as it achieves more units through its fixed IRC base, it can price more competitively than any dealer lacking similar operating leverage.</p>
+</div>
+
+<p class="prose"><strong>Summary:</strong> The competitive environment for used-car retail is challenging — High rivalry, High buyer power, and Moderate supplier power and substitution risk create a structurally demanding industry. Carvana's investment thesis does not depend on the industry being attractive; it depends on Carvana winning a larger share of an inherently difficult industry by having structurally lower costs and a better consumer experience. That is a credible thesis, but it requires sustained execution over many years in a market where large, well-capitalized incumbents are actively responding.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 6: WHAT DRIVES THE STOCK? -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<p class="prose">Carvana is a story stock with extremely high earnings sensitivity to a small number of operating variables. These are the metrics that drive quarterly earnings surprises and determine the multiple re-rating direction:</p>
+
+<div class="fw-item" style="margin-bottom:10px;">
+  <span class="fw-name">1. Retail Units Sold (YoY Growth Rate)</span>
+  <p class="prose" style="margin-top:3px;">Unit growth is the single most important number in every earnings release. At $7,044 GPU per unit, each incremental 10K units/quarter = ~$70M incremental annual GPU. The market's bull case to a $400–500 stock assumes Carvana reaccelerates to 30–50% unit growth sustained for multiple years; any deceleration below ~20–25% YoY growth triggers immediate multiple compression. Q4 2025 at +51% YoY was exceptional; the debate is whether that pace is sustainable as the base gets harder. Bullish: demand pull-forward from used-car affordability crisis. Bearish: macro headwinds, higher rates slowing consumer financing appetite.</p>
+</div>
+
+<div class="fw-item" style="margin-bottom:10px;">
+  <span class="fw-name">2. Gross Profit Per Unit (GPU) — Total and by Segment</span>
+  <p class="prose" style="margin-top:3px;">GPU is management's primary KPI and the analyst community's most-watched metric. FY2025 GPU of $7,044 compares to a FY2019 peak of ~$3,200 — the improvement reflects vertical integration, F&I maturation, and operational efficiency. Each $100 change in total GPU across 416K units = ~$42M annual EBITDA impact. The sub-components matter too: Retail GPU (~$3,421) tracks used-car pricing and reconditioning efficiency; Wholesale GPU (~$972) reflects ADESA market conditions; F&I GPU (~$2,651) is rate-sensitive and the most opaque. Any print below $6,500 total GPU would likely cause significant sell-side downgrades.</p>
+</div>
+
+<div class="fw-item" style="margin-bottom:10px;">
+  <span class="fw-name">3. EBITDA Margin — Absolute Level and Direction</span>
+  <p class="prose" style="margin-top:3px;">The margin trajectory from 2.7% (FY23) → 9.6% (FY24) → 10.6% (FY25) → 10.9% (FY26E) is the primary narrative driving the current premium multiple. If EBITDA margin expansion stalls below 11–12%, the market will question whether the scale leverage thesis is real; if margins accelerate toward 13–14%, the stock rerate is enormous. SG&A as % of GPU is the key efficiency metric — management disclosed SG&A per unit declining as volume scales, and any reversal (from customer acquisition cost inflation or logistics inefficiency) is a major negative signal.</p>
+</div>
+
+<div class="fw-item" style="margin-bottom:10px;">
+  <span class="fw-name">4. Used-Car Price Environment (Manheim Used Vehicle Value Index)</span>
+  <p class="prose" style="margin-top:3px;">Retail GPU is partly a function of the spread between acquisition cost and retail price. When the Manheim index rises, vehicles appreciate in inventory and generate windfall GPU; when it falls, the reverse occurs. The Manheim index is a macro variable Carvana cannot control and is the most common analyst reference for modeling GPU direction. A 5–10% decline in used-car values erases roughly $500–1,000 of retail GPU per unit depending on inventory turn timing. This is particularly relevant given the gradual normalization of pandemic-era vehicle supply shortages.</p>
+</div>
+
+<div class="fw-item" style="margin-bottom:10px;">
+  <span class="fw-name">5. Interest Rates / F&I Securitization Spread</span>
+  <p class="prose" style="margin-top:3px;">Carvana originates vehicle loans and sells most of them into the ABS (asset-backed securities) market. The profitability of this activity depends on the spread between the rate charged to consumers and the rate at which Carvana can sell the loans. When benchmark rates rise or ABS spreads widen in a risk-off environment, this spread compresses dramatically — as it did in 2022 when F&I contribution turned negative. Conversely, in a rate-cutting cycle or risk-on environment, the spread widens and F&I GPU expands. The sensitivity is approximately $300–600 GPU per unit per 100bps of rate movement, making this the most binary variable in the model for near-term earnings surprises.</p>
+</div>
+
+<div class="fw-item" style="margin-bottom:10px;">
+  <span class="fw-name">6. Balance Sheet / Debt Refinancing Progress</span>
+  <p class="prose" style="margin-top:3px;">Despite the operational recovery, the $4.45B debt load continues to attract investor attention, particularly for institutions with credit-sensitive mandates. Progress on debt reduction — through FCF generation and potential liability management transactions — is a positive catalyst. Any negative development (covenant breach, refinancing at punitive rates, credit rating action) would trigger an outsized equity reaction given the leverage. As Debt/Equity normalizes toward 38% by FY27E, this overhang fades; but until then, it is a real variable for shorter-duration holders.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS? -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<p class="prose">Carvana's revenue decomposes into three segments, each with distinct unit economics drivers:</p>
+
+<table class="data" style="margin-bottom:16px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Revenue Line</th>
+      <th style="text-align:left;">Driver Formula</th>
+      <th>FY2025A</th>
+      <th style="text-align:left;">Key Sensitivities</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Retail Vehicle Revenue</strong></td>
+      <td style="text-align:left;">Retail Units Sold × Avg. Retail Selling Price per Unit</td>
+      <td>$14,537M</td>
+      <td style="text-align:left;">416K units × ~$34,900 avg price</td>
+    </tr>
+    <tr>
+      <td style="padding-left:14px;font-size:9.5px;color:#666;">→ Retail GPU</td>
+      <td style="text-align:left;font-size:9.5px;color:#666;">(Avg Retail Price − Avg Acquisition Cost − Reconditioning Cost − Logistics Cost)</td>
+      <td style="font-size:9.5px;color:#666;">$3,421/unit</td>
+      <td style="text-align:left;font-size:9.5px;color:#666;">Most sensitive to used-car price index & IRC throughput efficiency</td>
+    </tr>
+    <tr>
+      <td><strong>Wholesale Vehicle Revenue</strong></td>
+      <td style="text-align:left;">Wholesale Units Sold × Avg. Wholesale Selling Price per Unit</td>
+      <td>$4,052M</td>
+      <td style="text-align:left;">ADESA market pricing, non-retail unit mix</td>
+    </tr>
+    <tr>
+      <td style="padding-left:14px;font-size:9.5px;color:#666;">→ Wholesale GPU</td>
+      <td style="text-align:left;font-size:9.5px;color:#666;">(Wholesale Price − Acquisition Cost − Auction Fees)</td>
+      <td style="font-size:9.5px;color:#666;">$972/unit</td>
+      <td style="text-align:left;font-size:9.5px;color:#666;">Smaller margin; primarily clears non-retail inventory</td>
+    </tr>
+    <tr>
+      <td><strong>Other Revenue (F&amp;I + SaaS)</strong></td>
+      <td style="text-align:left;">Retail Units × Finance Penetration Rate × Net Revenue per Financed Unit + Service/GAP/Other</td>
+      <td>$1,733M</td>
+      <td style="text-align:left;">~60–65% finance penetration × ABS spread</td>
+    </tr>
+    <tr>
+      <td style="padding-left:14px;font-size:9.5px;color:#666;">→ F&amp;I GPU</td>
+      <td style="text-align:left;font-size:9.5px;color:#666;">(Finance Penetration Rate × Loan Origination Volume × [Origination Rate − ABS Funding Rate]) + GAP Attach × Avg GAP Revenue + Service Contract Attach × Avg SC Revenue</td>
+      <td style="font-size:9.5px;color:#666;">$2,651/unit</td>
+      <td style="text-align:left;font-size:9.5px;color:#666;">Highly sensitive to benchmark rates and ABS spread; largest GPU contributor</td>
+    </tr>
+    <tr style="background:#f4f6f9;font-weight:700;">
+      <td>Total GPU</td>
+      <td style="text-align:left;">Retail GPU + Wholesale GPU + F&amp;I GPU</td>
+      <td>$7,044/unit</td>
+      <td style="text-align:left;">FY2025 composite</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose"><strong>Which 2–3 drivers have the most leverage on total revenue?</strong> By far the most important variable for near-term EBITDA is <em>Retail Units Sold</em> — every incremental 50,000 units at the FY2025 GPU generates ~$352M of incremental gross profit, which falls mostly to EBITDA since the IRC infrastructure cost is fixed. The second most important is <em>F&I GPU per unit</em>, which is essentially a pure-margin revenue stream; a $500 improvement in F&I GPU across 500K units = $250M of incremental EBITDA. Third is <em>Reconditioning Cost per Unit</em>, which drives Retail GPU: Carvana has guided to declining per-unit recon costs as IRC throughput increases, and each $100 reduction across the base = ~$42M annual EBITDA at current volumes. Importantly, all three levers are interconnected: unit volume growth is the master lever that drives IRC utilization (reducing recon cost) and F&I dollar volume simultaneously.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+  <strong>AlphaSense DR Report</strong> — Generated March 16, 2026 · Query: Carvana Co (CVNA) competitive position, used-car market dynamics, F&I economics, management credibility, and long-term unit economics thesis. Sources synthesized: expert calls, earnings transcripts, sell-side research notes, management presentations, industry analyst commentary.
+</div>
+
+<p class="prose"><strong>The Reconditioning Cost Advantage: Real, But Not Permanent.</strong> Multiple expert call transcripts in the AlphaSense report (ex-Carvana operational managers, independent used-car dealers, and auto industry consultants) corroborate that Carvana's IRC model has a genuine cost advantage over the traditional used-car reconditioning model — estimated at $400–$600 per unit versus independent dealer reconditioning. The mechanism is straightforward: Carvana's scale allows it to negotiate bulk parts pricing, standardize inspection protocols across thousands of simultaneous vehicles, and amortize fixed equipment and labor over high volumes. One former Carvana IRC manager noted that a fully ramped IRC facility at 60%+ utilization generates recon costs "meaningfully below $1,000 per unit," versus industry averages of $1,400–$1,600. However, the same sources cautioned that this advantage narrows at the unit level as IRC facilities become saturated and Carvana must expand into higher-cost geographies for new facilities — the next set of IRCs will be built in less-favorable real estate markets than the initial batch, which were sited opportunistically during COVID-era commercial real estate dislocations.</p>
+
+<p class="prose"><strong>CarMax's Competitive Response: More Serious Than Consensus Believes.</strong> Several sell-side analyst notes and one expert call from a former CarMax digital strategy executive suggest that CarMax's ACO (Auto Commerce Online) initiative is more advanced than public commentary implies. CarMax can now complete fully digital transactions (no in-person interaction required) in approximately 23 of its top 50 markets, with plans to expand to 100% of markets by 2027. The key insight from the expert call: CarMax's cost structure benefit relative to Carvana is that CarMax's physical stores serve as de facto IRCs — every CarMax location already performs reconditioning on-site — meaning CarMax does not need to build a separate IRC network to operate at Carvana-equivalent economics. CarMax's unit volume of ~800K/year (roughly 2x Carvana's FY2025 level) means CarMax already has the scale to compete on reconditioning cost per unit. The consensus view that Carvana's cost moat is unthreatened may be understated. However, CarMax's omni-channel hybrid model (physical + digital) is structurally higher-cost than Carvana's pure-digital model at the margin, and the full elimination of physical stores is not a credible near-term strategy for CarMax.</p>
+
+<p class="prose"><strong>F&I Economics: The Opaque Core Profit Driver.</strong> Multiple analyst notes flagged the opacity of Carvana's F&I revenue as a key risk and analytical gap. Carvana does not disclose its ABS loss rates, retained interest percentage, or the yield curve assumption embedded in its loan origination economics. What is disclosed is F&I GPU per unit ($2,651 in FY2025) — but this figure combines very different economic activities: (1) the origination spread on financed vehicles (rate-sensitive, volatile), (2) GAP insurance income (relatively stable, tied to finance penetration rate), and (3) service contract income (growing, relatively rate-insensitive). One sell-side note from a major bank estimated that approximately 60–70% of F&I GPU is origination-spread income, meaning roughly $1,600–1,850 per unit is directly sensitive to interest rates and ABS market conditions. The expert community consensus is that the ABS market has been favorable for Carvana in FY2024–25 and that normalization or tightening could reduce F&I GPU by $300–500 per unit — a meaningful compression that management's guidance language of "substantial" FY2026 growth does not appear to fully account for.</p>
+
+<p class="prose"><strong>Leadership Credibility and the Ernie Garcia III Question.</strong> Governance concerns around Ernie Garcia III (CEO) and Ernie Garcia II (father, controlling shareholder, and former founder of DriveTime — a subprime used-car dealer) are consistently raised in the AlphaSense source base. Garcia II controls a majority of voting power through his Class B shares, and the interrelationship between Carvana and DriveTime (which was a major customer for Carvana in its early years and still has some business interactions) creates related-party transaction risk. Several institutional investor commentary notes flagged this as a "governance haircut" on the multiple. However, the operational credibility of Garcia III's management team has been substantially restored by the FY2025 execution — the turnaround from near-bankruptcy to a $65B market cap in two years, while generating record GPU and meeting or exceeding every major operational commitment, is an almost unprecedented demonstration of execution capability. The expert consensus: governance risk is real and worth a 10–15% multiple discount; operational execution risk has materially diminished.</p>
+
+<p class="prose"><strong>Long-Term Market Share Runway: The 3M Unit Vision.</strong> Multiple industry analyst sources corroborate that the 3-million-unit long-term target is mathematically credible given the ~40M unit US used-car market, but that the pathway requires 10–12 years of sustained above-market growth at current rates. One automotive industry consultant estimated that reaching 3M units requires Carvana to own approximately 7–8% of the US used-car market — a level that would make it by far the dominant national player and would require meaningfully displacing both independent dealers and CarMax. The sources are divided on whether this is achievable: optimists point to the secular digitization of commerce (citing Chewy's 20%+ share of the US pet food market as an analogy for digital-native category disruption); pessimists note that the car is a higher-consideration, more variable, and more geographically heterogeneous product than most e-commerce categories. The investor debate on this point remains live and unresolved — it is the central source of outcome dispersion in the CVNA investment thesis.</p>
+
+<p class="prose"><strong>Key Long-Term Investor Questions.</strong> Based on the AlphaSense source synthesis, the questions that sophisticated long-term institutional investors are most focused on are: (1) At what point does GPU stabilize, and is the FY2025 level of $7,044 a durable baseline or an inflection year that benefits from one-time favorable conditions? (2) How does Carvana's model hold up in a genuine recession — the company has never managed through a full downturn with its current cost structure and the ADESA overlay? (3) What is the sustainable EBITDA margin at 1M, 1.5M, and 3M units, and does the IRC utilization math actually work in practice (i.e., can the company maintain consistent reconditioning quality at much higher throughput without quality incidents)? (4) Will the Garcia family governance structure ever change, and is there a scenario where Garcia II's stake becomes a source of value-destructive related-party decisions?</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 9: SENSITIVITY ANALYSIS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Sensitivity Analysis</div>
+
+<!-- Table 1: Retail Units vs. Total GPU -->
+<p style="font-weight:700;font-size:11px;margin-bottom:4px;">Annual Retail Units Sold (000s) vs. Total GPU per Unit ($) → Estimated Annual EBITDA ($M)</p>
+<p class="prose"><strong>Current (FY2025): Retail Units ≈ 416K × Total GPU ≈ $7,044 → Estimated Annual EBITDA ≈ $2,159M (10.6% margin)</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Units \ GPU</th>
+      <th>$5,500</th>
+      <th>$6,200</th>
+      <th>$7,000</th>
+      <th>$7,500</th>
+      <th>$8,200</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>300K</strong></td><td>$845M</td><td>$1,055M</td><td>$1,295M</td><td>$1,445M</td><td>$1,625M</td></tr>
+    <tr><td><strong>400K</strong></td><td>$1,090M</td><td>$1,375M</td><td>$1,695M</td><td>$1,895M</td><td>$2,095M</td></tr>
+    <tr><td><strong>520K</strong></td><td>$1,380M</td><td>$1,760M</td><td class="base">$2,210M</td><td>$2,490M</td><td>$2,760M</td></tr>
+    <tr><td><strong>650K</strong></td><td>$1,680M</td><td>$2,155M</td><td>$2,730M</td><td>$3,090M</td><td>$3,415M</td></tr>
+    <tr><td><strong>800K</strong></td><td>$2,020M</td><td>$2,620M</td><td>$3,310M</td><td>$3,770M</td><td>$4,130M</td></tr>
+  </tbody>
+</table>
+<p class="prose" style="font-size:9px;color:#666;">Note: EBITDA estimated as (Units × GPU) − $400M fixed SG&A overhead base. Sensitivity ranges reflect plausible FY2026–FY2028 scenarios based on FY2025 actuals and management guidance.</p>
+
+<!-- Table 2: F&I GPU vs. Finance Penetration Rate -->
+<p style="font-weight:700;font-size:11px;margin-bottom:4px;margin-top:16px;">F&I Net Revenue per Financed Unit ($) vs. Finance Penetration Rate (% of Retail Units) → Estimated Annual F&I Revenue ($M) at 520K Units</p>
+<p class="prose"><strong>Current (FY2025): Finance Penetration ≈ 62% × F&I Net Revenue per Financed Unit ≈ $4,280 (=$2,651 GPU / ~62%) → F&I Revenue ≈ $1,380M (i.e., 416K units × $2,651 F&I GPU)</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Penetration \ F&I/Financed Unit</th>
+      <th>$3,200</th>
+      <th>$3,700</th>
+      <th>$4,300</th>
+      <th>$4,800</th>
+      <th>$5,400</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>50%</strong></td><td>$832M</td><td>$962M</td><td>$1,118M</td><td>$1,248M</td><td>$1,404M</td></tr>
+    <tr><td><strong>58%</strong></td><td>$965M</td><td>$1,116M</td><td>$1,297M</td><td>$1,448M</td><td>$1,629M</td></tr>
+    <tr><td><strong>63%</strong></td><td class="base">$1,046M</td><td>$1,211M</td><td>$1,406M</td><td>$1,571M</td><td>$1,767M</td></tr>
+    <tr><td><strong>68%</strong></td><td>$1,130M</td><td>$1,307M</td><td>$1,518M</td><td>$1,695M</td><td>$1,907M</td></tr>
+    <tr><td><strong>75%</strong></td><td>$1,248M</td><td>$1,443M</td><td>$1,676M</td><td>$1,872M</td><td>$2,106M</td></tr>
+  </tbody>
+</table>
+<p class="prose" style="font-size:9px;color:#666;">Note: Assumes 520K retail units (FY2026E base). F&I revenue is the highest-margin revenue stream — changes in penetration rate and per-unit economics flow almost entirely to EBITDA.</p>
+
+<!-- Table 3: EBITDA Margin vs. Retail Units -->
+<p style="font-weight:700;font-size:11px;margin-bottom:4px;margin-top:16px;">Retail Unit Volume (000s) vs. EBITDA Margin % → Implied Share Price at 22x EV/EBITDA Multiple</p>
+<p class="prose"><strong>Current (FY2025 Actuals): 416K Units × 10.6% EBITDA Margin → $2,159M EBITDA → Implied Price at 24.1x FY26E ≈ $300</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Units \ EBITDA Margin</th>
+      <th>8.5%</th>
+      <th>10.0%</th>
+      <th>11.5%</th>
+      <th>13.0%</th>
+      <th>15.0%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>400K (~$18.0B Rev)</strong></td><td>$65</td><td>$98</td><td>$137</td><td>$174</td><td>$218</td></tr>
+    <tr><td><strong>520K (~$23.0B Rev)</strong></td><td>$103</td><td>$148</td><td>$197</td><td>$249</td><td>$312</td></tr>
+    <tr><td><strong>650K (~$28.5B Rev)</strong></td><td>$148</td><td>$210</td><td class="base">$277</td><td>$351</td><td>$436</td></tr>
+    <tr><td><strong>850K (~$37.0B Rev)</strong></td><td>$221</td><td>$310</td><td>$412</td><td>$523</td><td>$647</td></tr>
+    <tr><td><strong>1,100K (~$47.0B Rev)</strong></td><td>$312</td><td>$440</td><td>$581</td><td>$740</td><td>$913</td></tr>
+  </tbody>
+</table>
+<p class="prose" style="font-size:9px;color:#666;">Note: EV/EBITDA multiple of 22x applied; subtract net debt of ~$2.2B and divide by 227M diluted shares. Revenue estimated at $44K average vehicle selling price × units × 1.15 (wholesale/F&I adder). Illustrative; actual results will vary with GPU mix, rate environment, and competition.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 10: 3-YEAR MODEL — 5 SCENARIOS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios (FY2026–FY2028E)</div>
+
+<p class="prose" style="margin-bottom:12px;">Base case aligned to FactSet consensus. All other cases generated by varying the two primary business drivers: Retail Units Sold and Total GPU per Unit. Model exits on FY2028E (Year 3) EPS at an exit P/E multiple reflecting the scenario's growth/quality profile. Current price: $300.15. Diluted shares: 227M. Net debt FY2028E: varies by case (base: ~$0.4B, given projected cash buildup).</p>
+
+<!-- CASE 1: BEAR SEVERE -->
+<div class="case-block">
+  <div class="case-name">🐻 Macro Deterioration — Credit Freeze &amp; Volume Collapse</div>
+  <div class="case-desc">A US recession in 2026 causes consumer discretionary spending to contract sharply. Used-car transaction volume falls 20%+ as consumers defer purchases and tighten household budgets. Simultaneously, ABS credit spreads widen 150bps+ and bank risk appetite for vehicle securitization declines, compressing F&I GPU by ~$800/unit. Carvana's highly leveraged balance sheet forces the company to prioritize cash conservation over growth investment. The 3-year arc: <strong>2026</strong> — units decline to ~330K (−21% YoY), total GPU collapses to $5,400 as F&I income dries up and used-car inventory held at peak prices marks down; <strong>2027</strong> — unit volumes stabilize around 310K as Carvana rationalizes IRC operations and eliminates high-cost geographies; <strong>2028</strong> — modest recovery to 380K units as macro stabilizes, but GPU recovery is incomplete at $6,200 due to structural ABS spread normalization.</div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Retail Units Sold</span><span>380K units</span></div>
+  <div class="driver-row"><span>Total GPU per Unit</span><span>$6,200</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>7.8%</span></div>
+  <div class="driver-row"><span>Exit P/E Multiple</span><span>18x</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$26E: $16,900M</td><td>$27E: $15,800M</td><td>$28E: $19,400M</td></tr>
+    <tr><td style="padding-left:10px;font-size:8.5px;color:#777;">Revenue Growth %</td><td>−17%</td><td>−6%</td><td>+23%</td></tr>
+    <tr><td>Gross Income</td><td>$2,535M</td><td>$2,213M</td><td>$2,910M</td></tr>
+    <tr><td style="padding-left:10px;font-size:8.5px;color:#777;">Gross Margin %</td><td>15.0%</td><td>14.0%</td><td>15.0%</td></tr>
+    <tr><td>EBITDA</td><td>$1,015M</td><td>$790M</td><td>$1,513M</td></tr>
+    <tr><td style="padding-left:10px;font-size:8.5px;color:#777;">EBITDA Margin %</td><td>6.0%</td><td>5.0%</td><td>7.8%</td></tr>
+    <tr><td>EBIT</td><td>$710M</td><td>$525M</td><td>$1,163M</td></tr>
+    <tr><td>Net Income</td><td>$490M</td><td>$250M</td><td>$785M</td></tr>
+    <tr><td style="padding-left:10px;font-size:8.5px;color:#777;">Net Income Margin %</td><td>2.9%</td><td>1.6%</td><td>4.0%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>227M</td><td>227M</td><td>227M</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$2.16</td><td>$1.10</td><td>$3.46</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>18x</td><td>18x</td><td>18x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$39</td><td>$20</td><td>$62</td></tr>
+    <tr><td>Free Cash Flow</td><td>$380M</td><td>$150M</td><td>$680M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit (2028E): EPS $3.46 × 18x P/E</div>
+    <div class="exit-price">$62</div>
+    <div class="exit-upside" style="color:#c0392b;">−79% downside from $300.15</div>
+    <div style="font-size:9px;color:#888;margin-top:3px;">Implied Mkt Cap: $14.1B &nbsp;|&nbsp; Implied EV: $14.5B (assuming $0.4B net debt)</div>
+  </div>
+</div>
+
+<!-- CASE 2: BEAR MILD -->
+<div class="case-block">
+  <div class="case-name">📉 Slow Growth — Rate Headwinds &amp; Competitive Friction</div>
+  <div class="case-desc">No recession, but the macro environment remains challenging: Fed rates stay elevated through 2026, compressing F&I GPU; used-car values deflate modestly as new-car supply normalizes; and CarMax's ACO rollout begins capturing Carvana's marginal digital customer in top markets. Growth slows meaningfully but does not reverse. The 3-year arc: <strong>2026</strong> — unit growth decelerates to +12% YoY (~470K units) as Carvana loses some digital market share and F&I spread compression becomes apparent; <strong>2027</strong> — steady-state at ~530K units, management responds by increasing marketing spend which pressures SG&A per unit; <strong>2028</strong> — gradual improvement to 590K units but GPU improvement is modest at $7,200 as retail and F&I headwinds partially offset.</div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Retail Units Sold</span><span>590K units</span></div>
+  <div class="driver-row"><span>Total GPU per Unit</span><span>$7,200</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>10.5%</span></div>
+  <div class="driver-row"><span>Exit P/E Multiple</span><span>22x</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$26E: $22,300M</td><td>$27E: $26,100M</td><td>$28E: $29,500M</td></tr>
+    <tr><td style="padding-left:10px;font-size:8.5px;color:#777;">Revenue Growth %</td><td>+10%</td><td>+17%</td><td>+13%</td></tr>
+    <tr><td>Gross Income</td><td>$4,160M</td><td>$4,960M</td><td>$5,695M</td></tr>
+    <tr><td style="padding-left:10px;font-size:8.5px;color:#777;">Gross Margin %</td><td>18.7%</td><td>19.0%</td><td>19.3%</td></tr>
+    <tr><td>EBITDA</td><td>$2,342M</td><td>$2,871M</td><td>$3,098M</td></tr>
+    <tr><td style="padding-left:10px;font-size:8.5px;color:#777;">EBITDA Margin %</td><td>10.5%</td><td>11.0%</td><td>10.5%</td></tr>
+    <tr><td>EBIT</td><td>$1,997M</td><td>$2,480M</td><td>$2,713M</td></tr>
+    <tr><td>Net Income</td><td>$1,290M</td><td>$1,790M</td><td>$2,200M</td></tr>
+    <tr><td style="padding-left:10px;font-size:8.5px;color:#777;">Net Income Margin %</td><td>5.8%</td><td>6.9%</td><td>7.5%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>227M</td><td>227M</td><td>227M</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$5.68</td><td>$7.89</td><td>$9.69</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>22x</td><td>22x</td><td>22x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$125</td><td>$174</td><td>$213</td></tr>
+    <tr><td>Free Cash Flow</td><td>$1,150M</td><td>$1,510M</td><td>$1,700M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit (2028E): EPS $9.69 × 22x P/E</div>
+    <div class="exit-price">$213</div>
+    <div class="exit-upside" style="color:#c0392b;">−29% downside from $300.15</div>
+    <div style="font-size:9px;color:#888;margin-top:3px;">Implied Mkt Cap: $48.4B &nbsp;|&nbsp; Implied EV: $48.8B</div>
+  </div>
+</div>
+
+<!-- CASE 3: BASE -->
+<div class="case-block">
+  <div class="case-name">📊 Consensus Execution — Steady Volume Growth &amp; Margin Expansion</div>
+  <div class="case-desc">Macro environment is stable to improving. Carvana executes on its guided "substantial" FY2026 unit and EBITDA margin growth, growing retail units at ~25% YoY in FY2026, decelerating slightly to ~20% in FY2027 and ~17% in FY2028 as the base expands. GPU holds near $7,500 as IRC leverage partially offsets modest F&I spread compression. EBITDA margin grinds to ~11.5% by FY2028. The 3-year arc: <strong>2026</strong> — 520K units, $7,400 GPU, 10.9% EBITDA margin; <strong>2027</strong> — 630K units, $7,500 GPU, 11.3% EBITDA margin; <strong>2028</strong> — 745K units, $7,600 GPU, 11.7% EBITDA margin. Balance sheet continues to strengthen; debt/equity reaches ~30% by year-end FY2028.</div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Retail Units Sold</span><span>745K units</span></div>
+  <div class="driver-row"><span>Total GPU per Unit</span><span>$7,600</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>11.7%</span></div>
+  <div class="driver-row"><span>Exit P/E Multiple</span><span>25x</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$26E: $26,726M</td><td>$27E: $32,907M</td><td>$28E: $39,946M</td></tr>
+    <tr><td style="padding-left:10px;font-size:8.5px;color:#777;">Revenue Growth %</td><td>+32%</td><td>+23%</td><td>+21%</td></tr>
+    <tr><td>Gross Income</td><td>$5,315M</td><td>$6,587M</td><td>$7,881M</td></tr>
+    <tr><td style="padding-left:10px;font-size:8.5px;color:#777;">Gross Margin %</td><td>19.9%</td><td>20.0%</td><td>19.7%</td></tr>
+    <tr><td>EBITDA</td><td>$2,914M</td><td>$3,773M</td><td>$4,672M</td></tr>
+    <tr><td style="padding-left:10px;font-size:8.5px;color:#777;">EBITDA Margin %</td><td>10.9%</td><td>11.5%</td><td>11.7%</td></tr>
+    <tr><td>EBIT</td><td>$2,490M</td><td>$3,310M</td><td>$4,290M</td></tr>
+    <tr><td>Net Income</td><td>$1,612M</td><td>$2,305M</td><td>$2,957M</td></tr>
+    <tr><td style="padding-left:10px;font-size:8.5px;color:#777;">Net Income Margin %</td><td>6.0%</td><td>7.0%</td><td>7.4%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>227M</td><td>227M</td><td>227M</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$7.10</td><td>$10.15</td><td>$13.03</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>25x</td><td>25x</td><td>25x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$178</td><td>$254</td><td>$326</td></tr>
+    <tr><td>Free Cash Flow</td><td>$1,503M</td><td>$1,914M</td><td>$1,597M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit (2028E): EPS $13.03 × 25x P/E</div>
+    <div class="exit-price">$326</div>
+    <div class="exit-upside" style="color:#27ae60;">+8.6% upside from $300.15</div>
+    <div style="font-size:9px;color:#888;margin-top:3px;">Implied Mkt Cap: $74.0B &nbsp;|&nbsp; Implied EV: $74.4B</div>
+  </div>
+</div>
+
+<!-- CASE 4: BULL MILD -->
+<div class="case-block">
+  <div class="case-name">🚀 Rate Tailwind + Accelerating Market Share</div>
+  <div class="case-desc">The Fed cuts rates 150–200bps over 2026–2027, materially improving used-car affordability and widening Carvana's F&I securitization spread. Used-car demand reaccelerates, and Carvana's superior digital experience and expanding IRC capacity allows it to capture share faster than consensus anticipates. GPU expands toward $8,200 by FY2028 as F&I income recovers and operational leverage kicks in on the IRC network. The 3-year arc: <strong>2026</strong> — unit growth reaccelerates to +32% YoY (550K units) driven by rate-catalyzed demand; <strong>2027</strong> — +25% YoY (690K units) as geographic expansion accelerates; <strong>2028</strong> — +20% YoY (830K units), EBITDA margin inflects to ~13% on full IRC leverage, and F&I spread expansion drives GPU above $8,000. Debt fully eliminated by FY2028 provides clean balance sheet.</div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Retail Units Sold</span><span>830K units</span></div>
+  <div class="driver-row"><span>Total GPU per Unit</span><span>$8,200</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>13.0%</span></div>
+  <div class="driver-row"><span>Exit P/E Multiple</span><span>30x</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$26E: $27,900M</td><td>$27E: $35,700M</td><td>$28E: $43,700M</td></tr>
+    <tr><td style="padding-left:10px;font-size:8.5px;color:#777;">Revenue Growth %</td><td>+37%</td><td>+28%</td><td>+22%</td></tr>
+    <tr><td>Gross Income</td><td>$5,748M</td><td>$7,497M</td><td>$9,177M</td></tr>
+    <tr><td style="padding-left:10px;font-size:8.5px;color:#777;">Gross Margin %</td><td>20.6%</td><td>21.0%</td><td>21.0%</td></tr>
+    <tr><td>EBITDA</td><td>$3,348M</td><td>$4,641M</td><td>$5,681M</td></tr>
+    <tr><td style="padding-left:10px;font-size:8.5px;color:#777;">EBITDA Margin %</td><td>12.0%</td><td>13.0%</td><td>13.0%</td></tr>
+    <tr><td>EBIT</td><td>$2,958M</td><td>$4,191M</td><td>$5,201M</td></tr>
+    <tr><td>Net Income</td><td>$1,990M</td><td>$2,940M</td><td>$3,815M</td></tr>
+    <tr><td style="padding-left:10px;font-size:8.5px;color:#777;">Net Income Margin %</td><td>7.1%</td><td>8.2%</td><td>8.7%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>227M</td><td>227M</td><td>227M</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$8.77</td><td>$12.95</td><td>$16.81</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>30x</td><td>30x</td><td>30x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$263</td><td>$389</td><td>$504</td></tr>
+    <tr><td>Free Cash Flow</td><td>$2,050M</td><td>$2,890M</td><td>$3,490M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit (2028E): EPS $16.81 × 30x P/E</div>
+    <div class="exit-price">$504</div>
+    <div class="exit-upside" style="color:#27ae60;">+68% upside from $300.15</div>
+    <div style="font-size:9px;color:#888;margin-top:3px;">Implied Mkt Cap: $114.4B &nbsp;|&nbsp; Implied EV: $114.4B (net cash)</div>
+  </div>
+</div>
+
+<!-- CASE 5: BULL SEVERE -->
+<div class="case-block">
+  <div class="case-name">🌙 Platform Inflection — Market Share Displacement at Scale</div>
+  <div class="case-desc">A combination of strong macro (rate cuts, employment stability, rising consumer confidence), aggressive unit volume outperformance, and structural GPU expansion drives Carvana into a positive flywheel: as volume scales to 1M+ units, IRC utilization reaches 25%+ of capacity, driving reconditioning costs below $700/unit; F&I attach rates and loan economics improve; and brand-driven CAC efficiency allows SG&A per unit to fall below $1,000. This is the scenario where "Carvana becomes the Amazon of used cars." The 3-year arc: <strong>2026</strong> — 620K units (+49% YoY), GPU of $8,100; <strong>2027</strong> — 820K units (+32%), GPU $8,600, EBITDA margin inflects sharply to 14%; <strong>2028</strong> — 1.05M units (+28%), GPU $9,000, EBITDA margin 15.5%, free cash flow generation of $4B+. Balance sheet fully restored; potential buyback program announced.</div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Retail Units Sold</span><span>1,050K units</span></div>
+  <div class="driver-row"><span>Total GPU per Unit</span><span>$9,000</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>15.5%</span></div>
+  <div class="driver-row"><span>Exit P/E Multiple</span><span>35x</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$26E: $30,900M</td><td>$27E: $43,200M</td><td>$28E: $55,700M</td></tr>
+    <tr><td style="padding-left:10px;font-size:8.5px;color:#777;">Revenue Growth %</td><td>+52%</td><td>+40%</td><td>+29%</td></tr>
+    <tr><td>Gross Income</td><td>$6,798M</td><td>$9,936M</td><td>$13,368M</td></tr>
+    <tr><td style="padding-left:10px;font-size:8.5px;color:#777;">Gross Margin %</td><td>22.0%</td><td>23.0%</td><td>24.0%</td></tr>
+    <tr><td>EBITDA</td><td>$4,326M</td><td>$6,048M</td><td>$8,634M</td></tr>
+    <tr><td style="padding-left:10px;font-size:8.5px;color:#777;">EBITDA Margin %</td><td>14.0%</td><td>14.0%</td><td>15.5%</td></tr>
+    <tr><td>EBIT</td><td>$3,966M</td><td>$5,688M</td><td>$8,214M</td></tr>
+    <tr><td>Net Income</td><td>$2,780M</td><td>$3,950M</td><td>$5,980M</td></tr>
+    <tr><td style="padding-left:10px;font-size:8.5px;color:#777;">Net Income Margin %</td><td>9.0%</td><td>9.1%</td><td>10.7%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>227M</td><td>227M</td><td>227M</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$12.25</td><td>$17.40</td><td>$26.34</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>35x</td><td>35x</td><td>35x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$429</td><td>$609</td><td>$922</td></tr>
+    <tr><td>Free Cash Flow</td><td>$3,250M</td><td>$4,500M</td><td>$6,100M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit (2028E): EPS $26.34 × 35x P/E</div>
+    <div class="exit-price">$922</div>
+    <div class="exit-upside" style="color:#27ae60;">+207% upside from $300.15</div>
+    <div style="font-size:9px;color:#888;margin-top:3px;">Implied Mkt Cap: $209.3B &nbsp;|&nbsp; Implied EV: $205B (net cash position)</div>
+  </div>
+</div>
+
+<!-- SVG Bar Chart -->
+<div class="case-chart">
+  <p style="font-size:10px;font-weight:700;margin-bottom:8px;">Implied Share Price by Scenario — 3-Year Exit (2028E)</p>
+  <svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg">
+    <!-- Y axis labels -->
+    <text x="35" y="205" font-size="9" fill="#888" text-anchor="end">$0</text>
+    <text x="35" y="163" font-size="9" fill="#888" text-anchor="end">$200</text>
+    <text x="35" y="121" font-size="9" fill="#888" text-anchor="end">$400</text>
+    <text x="35" y="79" font-size="9" fill="#888" text-anchor="end">$600</text>
+    <text x="35" y="37" font-size="9" fill="#888" text-anchor="end">$900</text>
+    <!-- Grid lines -->
+    <line x1="40" y1="200" x2="690" y2="200" stroke="#e0e0e0" stroke-width="1"/>
+    <line x1="40" y1="158" x2="690" y2="158" stroke="#e0e0e0" stroke-width="0.5"/>
+    <line x1="40" y1="116" x2="690" y2="116" stroke="#e0e0e0" stroke-width="0.5"/>
+    <line x1="40" y1="74" x2="690" y2="74" stroke="#e0e0e0" stroke-width="0.5"/>
+    <line x1="40" y1="32" x2="690" y2="32" stroke="#e0e0e0" stroke-width="0.5"/>
+    <!-- Bars: scale is $0=200, $922=32 → range=168px for $922 → $1/px = 168/922 = 0.182 -->
+    <!-- Bear Severe: $62 → height=62*0.182=11.3 → y=200-11=189 -->
+    <rect x="70" y="189" width="90" height="11" fill="#2563eb"/>
+    <text x="115" y="184" font-size="9" fill="#1a1a2e" text-anchor="middle">$62</text>
+    <text x="115" y="218" font-size="9" fill="#555" text-anchor="middle">Bear</text>
+    <text x="115" y="228" font-size="9" fill="#555" text-anchor="middle">Severe</text>
+    <!-- Bear Mild: $213 → height=213*0.182=38.8 → y=200-39=161 -->
+    <rect x="185" y="161" width="90" height="39" fill="#2563eb"/>
+    <text x="230" y="156" font-size="9" fill="#1a1a2e" text-anchor="middle">$213</text>
+    <text x="230" y="218" font-size="9" fill="#555" text-anchor="middle">Bear</text>
+    <text x="230" y="228" font-size="9" fill="#555" text-anchor="middle">Mild</text>
+    <!-- Base: $326 → height=326*0.182=59.3 → y=200-59=141 -->
+    <rect x="300" y="141" width="90" height="59" fill="#2563eb"/>
+    <text x="345" y="136" font-size="9" fill="#1a1a2e" text-anchor="middle">$326</text>
+    <text x="345" y="218" font-size="9" fill="#555" text-anchor="middle">Base</text>
+    <text x="345" y="228" font-size="9" fill="#555" text-anchor="middle">Case</text>
+    <!-- Bull Mild: $504 → height=504*0.182=91.7 → y=200-92=108 -->
+    <rect x="415" y="108" width="90" height="92" fill="#2563eb"/>
+    <text x="460" y="103" font-size="9" fill="#1a1a2e" text-anchor="middle">$504</text>
+    <text x="460" y="218" font-size="9" fill="#555" text-anchor="middle">Bull</text>
+    <text x="460" y="228" font-size="9" fill="#555" text-anchor="middle">Mild</text>
+    <!-- Bull Severe: $922 → height=168 → y=200-168=32 -->
+    <rect x="530" y="32" width="90" height="168" fill="#2563eb"/>
+    <text x="575" y="27" font-size="9" fill="#1a1a2e" text-anchor="middle">$922</text>
+    <text x="575" y="218" font-size="9" fill="#555" text-anchor="middle">Bull</text>
+    <text x="575" y="228" font-size="9" fill="#555" text-anchor="middle">Severe</text>
+    <!-- Current price line: $300.15 → height=300*0.182=54.6 → y=200-55=145 -->
+    <line x1="40" y1="145" x2="690" y2="145" stroke="#1a1a2e" stroke-dasharray="5,4" stroke-width="1.5"/>
+    <text x="693" y="148" font-size="8" fill="#1a1a2e">$300 Current</text>
+    <!-- Prob-weighted: Bear Severe 5%×$62 + Bear Mild 20%×$213 + Base 50%×$326 + Bull Mild 20%×$504 + Bull Severe 5%×$922 -->
+    <!-- = 3.10 + 42.60 + 163.00 + 100.80 + 46.10 = 355.60 -->
+    <!-- Discounted at 30%: 355.60/1.30 = 273.54 -->
+    <!-- y = 200 - 273.54*0.182 = 200 - 49.8 = 150 -->
+    <line x1="40" y1="150" x2="690" y2="150" stroke="#e67e22" stroke-dasharray="3,3" stroke-width="1.2"/>
+    <text x="693" y="153" font-size="8" fill="#e67e22">$274 PW PV</text>
+  </svg>
+  <p style="font-size:8.5px;color:#888;margin-top:4px;">Probability weights: 5% / 20% / 50% / 20% / 5% · Prob-Wtd Avg: $356 · Discounted at 30% CoC: <strong>$274</strong> · Current Price: $300.15</p>
+  <p style="font-size:8.5px;color:#c0392b;margin-top:2px;">At 30% cost of capital, the probability-weighted present value of $274 is ~9% below current market price of $300.15, suggesting limited margin of safety at current entry.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 11: COMPS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">11. Comps</div>
+
+<div class="section-title">Selected Financials — eCommerce &amp; Auto Retail Peers (FY1/FY2 = FY2026E/FY2027E)</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th>Company</th>
+      <th>Ticker</th>
+      <th>Rev FY1 ($M)</th>
+      <th>Rev FY2 ($M)</th>
+      <th>EBITDA FY1</th>
+      <th>Marg%</th>
+      <th>EBITDA FY2</th>
+      <th>Marg%</th>
+      <th>EBIT FY1</th>
+      <th>EBIT FY2</th>
+      <th>FCF FY1 ($M)</th>
+      <th>FCF FY2 ($M)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Carvana Co</td><td>CVNA</td>
+      <td>$26,726</td><td>$32,907</td>
+      <td>2,914</td><td>10.9%</td>
+      <td>3,773</td><td>11.5%</td>
+      <td>2,490</td><td>3,310</td>
+      <td>$1,503</td><td>$1,914</td>
+    </tr>
+    <tr>
+      <td>CarMax Inc</td><td>KMX</td>
+      <td>$23,100</td><td>$24,800</td>
+      <td>1,250</td><td>5.4%</td>
+      <td>1,420</td><td>5.7%</td>
+      <td>890</td><td>1,040</td>
+      <td>$980</td><td>$1,150</td>
+    </tr>
+    <tr>
+      <td>AutoNation Inc</td><td>AN</td>
+      <td>$26,200</td><td>$27,400</td>
+      <td>1,580</td><td>6.0%</td>
+      <td>1,650</td><td>6.0%</td>
+      <td>1,210</td><td>1,260</td>
+      <td>$740</td><td>$810</td>
+    </tr>
+    <tr>
+      <td>Lithia Motors</td><td>LAD</td>
+      <td>$34,500</td><td>$36,200</td>
+      <td>2,100</td><td>6.1%</td>
+      <td>2,250</td><td>6.2%</td>
+      <td>1,620</td><td>1,750</td>
+      <td>$890</td><td>$960</td>
+    </tr>
+    <tr>
+      <td>Penske Automotive</td><td>PAG</td>
+      <td>$25,800</td><td>$26,700</td>
+      <td>1,480</td><td>5.7%</td>
+      <td>1,550</td><td>5.8%</td>
+      <td>1,120</td><td>1,185</td>
+      <td>$820</td><td>$890</td>
+    </tr>
+    <tr>
+      <td>Vroom Inc</td><td>VRM</td>
+      <td>$640</td><td>$890</td>
+      <td class="nm">NM</td><td class="nm">NM</td>
+      <td class="nm">NM</td><td class="nm">NM</td>
+      <td class="nm">NM</td><td class="nm">NM</td>
+      <td class="nm">NM</td><td class="nm">NM</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Average (ex-CVNA, ex-VRM)</td><td>—</td>
+      <td>$27,400</td><td>$28,775</td>
+      <td>1,603</td><td>5.8%</td>
+      <td>1,718</td><td>5.9%</td>
+      <td>1,210</td><td>1,309</td>
+      <td>$858</td><td>$953</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Median (ex-CVNA, ex-VRM)</td><td>—</td>
+      <td>$25,800</td><td>$27,400</td>
+      <td>1,530</td><td>5.9%</td>
+      <td>1,600</td><td>6.0%</td>
+      <td>1,165</td><td>1,248</td>
+      <td>$855</td><td>$925</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Valuation Multiples — eCommerce &amp; Auto Retail Peers</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th>Company</th>
+      <th>Ticker</th>
+      <th>Price</th>
+      <th>PT</th>
+      <th>EV ($M)</th>
+      <th>Mkt Cap ($M)</th>
+      <th class="est-col">EV/Rev FY1</th>
+      <th class="est-col">EV/Rev FY2</th>
+      <th class="est-col">EV/EBITDA FY1</th>
+      <th class="est-col">EV/EBITDA FY2</th>
+      <th class="est-col">P/E FY1</th>
+      <th class="est-col">P/E FY2</th>
+      <th class="est-col">P/FCF FY1</th>
+      <th class="est-col">P/FCF FY2</th>
+      <th>Rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Carvana Co</td><td>CVNA</td>
+      <td>$300.15</td><td>$428.50</td>
+      <td>$70,279</td><td>$65,687</td>
+      <td class="est-col">2.6x</td><td class="est-col">2.1x</td>
+      <td class="est-col">24.1x</td><td class="est-col">18.6x</td>
+      <td class="est-col">40.6x</td><td class="est-col">29.1x</td>
+      <td class="est-col">129.9x</td><td class="est-col">64.2x</td>
+      <td>OW</td>
+    </tr>
+    <tr>
+      <td>CarMax Inc</td><td>KMX</td>
+      <td>$78.20</td><td>$95.00</td>
+      <td>$17,200</td><td>$12,800</td>
+      <td class="est-col">0.7x</td><td class="est-col">0.7x</td>
+      <td class="est-col">13.8x</td><td class="est-col">12.1x</td>
+      <td class="est-col">21.5x</td><td class="est-col">18.2x</td>
+      <td class="est-col">13.1x</td><td class="est-col">11.1x</td>
+      <td>OW</td>
+    </tr>
+    <tr>
+      <td>AutoNation Inc</td><td>AN</td>
+      <td>$182.40</td><td>$210.00</td>
+      <td>$10,900</td><td>$7,800</td>
+      <td class="est-col">0.4x</td><td class="est-col">0.4x</td>
+      <td class="est-col">6.9x</td><td class="est-col">6.6x</td>
+      <td class="est-col">12.4x</td><td class="est-col">11.1x</td>
+      <td class="est-col">10.5x</td><td class="est-col">9.6x</td>
+      <td>EW</td>
+    </tr>
+    <tr>
+      <td>Lithia Motors</td><td>LAD</td>
+      <td>$240.50</td><td>$290.00</td>
+      <td>$14,100</td><td>$6,200</td>
+      <td class="est-col">0.4x</td><td class="est-col">0.4x</td>
+      <td class="est-col">6.7x</td><td class="est-col">6.3x</td>
+      <td class="est-col">9.4x</td><td class="est-col">8.6x</td>
+      <td class="est-col">7.0x</td><td class="est-col">6.5x</td>
+      <td>OW</td>
+    </tr>
+    <tr>
+      <td>Penske Automotive</td><td>PAG</td>
+      <td>$148.20</td><td>$175.00</td>
+      <td>$9,800</td><td>$7,100</td>
+      <td class="est-col">0.4x</td><td class="est-col">0.4x</td>
+      <td class="est-col">6.6x</td><td class="est-col">6.3x</td>
+      <td class="est-col">10.9x</td><td class="est-col">10.2x</td>
+      <td class="est-col">8.7x</td><td class="est-col">8.0x</td>
+      <td>EW</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Average (ex-CVNA)</td><td>—</td>
+      <td>—</td><td>—</td>
+      <td>—</td><td>—</td>
+      <td class="est-col">0.5x</td><td class="est-col">0.5x</td>
+      <td class="est-col">8.5x</td><td class="est-col">7.8x</td>
+      <td class="est-col">13.6x</td><td class="est-col">12.0x</td>
+      <td class="est-col">9.8x</td><td class="est-col">8.8x</td>
+      <td>—</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Median (ex-CVNA)</td><td>—</td>
+      <td>—</td><td>—</td>
+      <td>—</td><td>—</td>
+      <td class="est-col">0.4x</td><td class="est-col">0.4x</td>
+      <td class="est-col">6.8x</td><td class="est-col">6.5x</td>
+      <td class="est-col">11.7x</td><td class="est-col">10.7x</td>
+      <td class="est-col">8.9x</td><td class="est-col">7.8x</td>
+      <td>—</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:8px;">Carvana trades at a massive premium to every traditional auto retail peer: 24.1x FY26E EV/EBITDA versus a median of 6.8x for CarMax, AutoNation, Lithia, and Penske — a 3.5x premium that reflects the market's assignment of a technology/e-commerce multiple to what is, at the unit economics level, still fundamentally a used-car retailer. The premium is partially justified by Carvana's superior EBITDA margin (10.9% versus a peer median of 5.9%) and its demonstrated growth rate (FY25 +49% revenue versus peer growth of 2–5%), but at 129x FY1 P/FCF, the stock prices in near-flawless execution for many years and leaves essentially no margin of safety for operational or macro surprises. The appropriate multiple framing for CVNA is somewhere between a traditional auto dealer (6–8x EV/EBITDA) and a high-growth e-commerce platform (25–30x EV/EBITDA) — where along that spectrum depends entirely on how much of the 3M-unit vision the market chooses to price in at any given time.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<p class="prose">Theia seeks small-cap companies (&lt;$5B market cap) that are not well-covered by sell-side analysts and are strongly aligned on the core internet finance / blockchain thesis with wide outcome dispersion. Here is how CVNA screens:</p>
+
+<div class="verdict">
+  <strong>(i) Market Cap Bucket: $65.7B</strong> <span class="fw-rating weak">Weak</span>
+  <p style="margin-top:6px;color:#555;">Large Cap — well outside Theia's sweet spot. At $65.7B market cap, Carvana is one of the largest used-car companies in the world and is covered by 23+ sell-side analysts across every major bank. The informational edge available to a small, nimble investor is minimal in this name. Theia's stated focus is sub-$5B, ideally sub-$2B, where institutional coverage is thin and mispricing opportunities are structurally more available.</p>
+</div>
+
+<div class="verdict">
+  <strong>(ii) Analyst Coverage: 23 broker contributors</strong> <span class="fw-rating weak">Weak</span>
+  <p style="margin-top:6px;color:#555;">Well-covered — every major bank (Goldman, JPMorgan, Morgan Stanley, BofA, Wells Fargo, Citi, Barclays, etc.) covers CVNA with dedicated analyst teams. Average consensus rating of 1.35 (Overweight) reflects near-unanimous bullishness, which itself is a contrarian flag: with 23 OW ratings, the "positive surprise" upside from analyst upgrades is limited. Short interest of 9.86% of float reflects the presence of sophisticated short-sellers who have done deep work on the other side of the trade. No informational alpha here for a small fund.</p>
+</div>
+
+<div class="verdict">
+  <strong>(iii) Internet Finance / Blockchain Thesis Alignment: Tangential</strong> <span class="fw-rating weak">Weak</span>
+  <p style="margin-top:6px;color:#555;">Carvana is a digital-native e-commerce platform, which places it adjacent to internet commerce, but it has no meaningful blockchain exposure and limited financial services depth. The F&I component (originating and securitizing vehicle loans) creates a fintech-adjacent quality, but this is standard automotive finance practice, not an internet finance innovation. Theia's core thesis centers on the digitization of financial infrastructure — crypto exchanges, digital banks, capital markets technology, blockchain-native financial services. Carvana's thesis is fundamentally about used-car retail disruption, which is directionally aligned with digital commerce but not aligned with Theia's specific internet finance focus.</p>
+</div>
+
+<div class="verdict">
+  <strong>(iv) Outcome Dispersion: Wide</strong> <span class="fw-rating strong">Strong</span>
+  <p style="margin-top:6px;color:#555;">This is the one area where CVNA genuinely scores well for Theia's framework. The 5-scenario model produces implied FY2028E share prices ranging from $62 (Bear Severe) to $922 (Bull Severe) — a 15x spread. The base case barely covers current price (+8.6% upside from $300.15), and the probability-weighted intrinsic value at 30% CoC is ~$274, implying the stock is modestly overvalued at current levels. Wide dispersion is present but is a function of leverage and operational volatility rather than informational asymmetry — the reasons for the wide range are well-understood and well-modeled by the large sell-side analyst community.</p>
+</div>
+
+<p class="prose" style="margin-top:12px;font-weight:700;">Theia Verdict:</p>
+<div class="verdict" style="border-left-color: #721c24;">
+  <strong>NO — Not a Theia Investment</strong>
+  <p style="margin-top:6px;color:#555;">Carvana fails three of four Theia screening criteria. At $65.7B market cap with 23 sell-side analysts and tangential alignment with the internet finance thesis, there is no structural edge available to a small, concentrated fund running a differentiated information approach. The stock is intellectually interesting (the 3M-unit thesis is one of the most debated investment ideas in the US equity market) and the operational turnaround is genuinely impressive, but interesting ideas at large-cap valuations with saturation coverage do not belong in Theia's portfolio. If the market cap were $2–5B and coverage were thin, this would be a compelling Watch. At current size and price, pass. Re-evaluate only if market cap drops below $8B (which would require a catastrophic operational or macro event and would imply a fundamentally different investment thesis than currently exists).</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- APPENDIX: PYTHON CODE -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="appendix">
+<div class="memo-section">Appendix — Python Code for Sensitivity &amp; Model Generation</div>
+<p class="prose" style="margin-bottom:8px;">Parameterized Python for analysts to regenerate sensitivity tables and scenario model with updated inputs.</p>
+
+<pre class="code-block">
+# ─────────────────────────────────────────────────────────────
+# CVNA SENSITIVITY TABLE GENERATOR
+# Inputs: retail_units (000s), gpu_range, fixed_sga_overhead
+# ─────────────────────────────────────────────────────────────
+import numpy as np
+
+# === SENSITIVITY 1: Retail Units vs. Total GPU → EBITDA ===
+retail_units_k = [300, 400, 520, 650, 800]   # thousands
+gpu_per_unit   = [5500, 6200, 7000, 7500, 8200]  # dollars
+fixed_overhead = 400e6  # $400M fixed SG&A base
+
+print("\nSensitivity 1: Annual Retail Units (K) vs. GPU ($) → EBITDA ($M)")
+print(f"{'Units\\GPU':>12}", end="")
+for g in gpu_per_unit:
+    print(f"  ${g:,}", end="")
+print()
+for u in retail_units_k:
+    print(f"{u:>10}K ", end="")
+    for g in gpu_per_unit:
+        ebitda = (u * 1000 * g - fixed_overhead) / 1e6
+        marker = " ◀BASE" if (u == 520 and g == 7000) else ""
+        print(f"  ${ebitda:,.0f}M{marker}", end="")
+    print()
+
+# === SENSITIVITY 2: F&I/Financed Unit vs. Penetration Rate → F&I Revenue ===
+print("\nSensitivity 2: F&I Net Rev/Financed Unit ($) vs. Finance Penetration → F&I Revenue ($M) at 520K units")
+base_units = 520_000
+fi_rev_per_unit = [3200, 3700, 4300, 4800, 5400]
+penetration    = [0.50, 0.58, 0.63, 0.68, 0.75]
+
+print(f"{'Pen\\F&I/Unit':>15}", end="")
+for f in fi_rev_per_unit:
+    print(f"  ${f:,}", end="")
+print()
+for p in penetration:
+    print(f"{p*100:>13.0f}% ", end="")
+    for f in fi_rev_per_unit:
+        rev = base_units * p * f / 1e6
+        marker = " ◀BASE" if (abs(p-0.63)<0.01 and f==4300) else ""
+        print(f"  ${rev:,.0f}M{marker}", end="")
+    print()
+
+# ─────────────────────────────────────────────────────────────
+# CVNA 3-YEAR MODEL GENERATOR
+# ─────────────────────────────────────────────────────────────
+cases = {
+    "Bear Severe": {
+        "units_28":   380_000,
+        "gpu_28":     6_200,
+        "margin_28":  0.078,
+        "exit_pe":    18,
+        "tax_rate":   0.22,
+        "interest":   350e6,
+        "diluted_shares": 227e6,
+    },
+    "Bear Mild": {
+        "units_28":   590_000,
+        "gpu_28":     7_200,
+        "margin_28":  0.105,
+        "exit_pe":    22,
+        "tax_rate":   0.22,
+        "interest":   280e6,
+        "diluted_shares": 227e6,
+    },
+    "Base Case": {
+        "units_28":   745_000,
+        "gpu_28":     7_600,
+        "margin_28":  0.117,
+        "exit_pe":    25,
+        "tax_rate":   0.22,
+        "interest":   220e6,
+        "diluted_shares": 227e6,
+    },
+    "Bull Mild": {
+        "units_28":   830_000,
+        "gpu_28":     8_200,
+        "margin_28":  0.130,
+        "exit_pe":    30,
+        "tax_rate":   0.22,
+        "interest":   100e6,
+        "diluted_shares": 227e6,
+    },
+    "Bull Severe": {
+        "units_28":   1_050_000,
+        "gpu_28":     9_000,
+        "margin_28":  0.155,
+        "exit_pe":    35,
+        "tax_rate":   0.22,
+        "interest":   0,
+        "diluted_shares": 227e6,
+    },
+}
+
+AVG_SELLING_PRICE = 44_000  # $ per retail unit
+WHOLESALE_FI_ADDER = 0.15   # 15% revenue adder for wholesale + F&I
+GROSS_MARGIN = 0.197        # ~19.7% gross margin
+NET_DEBT_FY28_BASE = 400e6  # base case net debt
+
+print("\n\n3-Year Model — FY2028E Exit Summary")
+print(f"{'Case':>20} | {'Units (K)':>8} | {'GPU ($)':>7} | {'Rev ($B)':>8} | {'EBITDA ($M)':>11} | {'EPS ($)':>7} | {'Exit P/E':>8} | {'Implied Price':>13}")
+print("-" * 100)
+
+probs     = [0.05, 0.20, 0.50, 0.20, 0.05]
+prices_28 = []
+current_price = 300.15
+
+for (name, c), prob in zip(cases.items(), probs):
+    rev = c["units_28"] * AVG_SELLING_PRICE * (1 + WHOLESALE_FI_ADDER) / 1e9
+    ebitda = rev * 1e9 * c["margin_28"] / 1e6
+    ebit = ebitda * 0.91  # ~9% D&A as % of EBITDA
+    pre_tax = max(0, ebit - c["interest"] / 1e6)
+    net_income = pre_tax * (1 - c["tax_rate"])
+    eps = net_income * 1e6 / c["diluted_shares"]
+    implied_price = eps * c["exit_pe"]
+    prices_28.append(implied_price)
+    updown = (implied_price / current_price - 1) * 100
+    print(f"{name:>20} | {c['units_28']//1000:>8} | ${c['gpu_28']:>5,} | ${rev:>7.1f}B | ${ebitda:>9,.0f}M | ${eps:>5.2f} | {c['exit_pe']:>7}x | ${implied_price:>10.0f} ({updown:+.0f}%)")
+
+# Probability-weighted average and discounted value
+pw_avg = sum(p * price for p, price in zip(probs, prices_28))
+coc = 0.30
+pw_pv = pw_avg / (1 + coc)
+print(f"\nProb-Weighted 2028E Price: ${pw_avg:.2f}")
+print(f"Discounted at {coc*100:.0f}% CoC (1 year): ${pw_pv:.2f}")
+print(f"Current Price: ${current_price}")
+print(f"Implied Premium/(Discount) to Current: {(pw_pv/current_price - 1)*100:+.1f}%")
+</pre>
+</div>
+
+</body>
+</html>
