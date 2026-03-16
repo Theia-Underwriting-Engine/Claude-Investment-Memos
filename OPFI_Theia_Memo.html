@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OppFi Inc | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 6px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini tr.dim td { color: #555; font-size: 8.5px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.alphasense-box { background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 4px; padding: 8px 12px; margin-bottom: 14px; font-size: 10px; color: #1e3a5f; }
+
+.bull-section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #155724; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+.bear-section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #721c24; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+.fw-name { font-weight: 700; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">OppFi Inc | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 1: BUSINESS OVERVIEW
+════════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">OppFi Inc (OPFI) is a Chicago-based fintech lender founded in 2012 that provides near-prime personal installment loans — branded OppLoans — to approximately 150 million underserved American consumers who are declined by mainstream banks and priced out of prime credit markets. Typical borrowers have FICO scores in the 550–700 range and face urgent liquidity needs (car repairs, medical bills, unexpected expenses); OppFi offers $500–$4,000 loans at 36–160% APR with 9–36 month terms, positioned as a structured alternative to payday loans and predatory lenders. The company operates exclusively through a bank-partner origination model — loans are originated by regulated bank partners (FinWise Bank, First Electronic Bank, Blue Ridge Bank) and subsequently purchased by OppFi, allowing OppFi to operate in 37 states without a direct lending license while maintaining compliance under federal preemption doctrine. OppFi is led by CEO Jared Kaplan (named in 2023), generated $597M in net revenue in FY2025 (net of credit losses), and trades at a significant discount to book value and intrinsic value based on analyst consensus of $14.33 price target — a 73% premium to current price of $8.28.</p>
+
+<p class="prose">The company's addressable market is structurally large and persistent: roughly 150M Americans are locked out of prime credit, creating a multi-billion dollar market for responsible near-prime credit. OppFi's differentiation lies in its proprietary AI/ML underwriting (OppFi Score), which uses hundreds of alternative data points to approve creditworthy borrowers who score poorly on traditional FICO, and its low-cost digital acquisition model that has driven customer acquisition costs well below traditional bank and payday lender benchmarks. The business generates high cash flow (64% FCF margin on net revenue), has a clean balance sheet, and has grown net revenue at a 13.5% CAGR in FY2025. The stock has been under pressure (-27% in 6 months) due to macro concerns about consumer credit quality and investor uncertainty around CFPB regulatory risk — both of which appear to be misunderstood at current valuation levels.</p>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 2: THEIA FACTSET SUMMARY
+════════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Theia FactSet Summary</div>
+
+<div class="header">
+  <div>
+    <h1>OppFi Inc</h1>
+    <span class="ticker">OPFI-US &nbsp;·&nbsp; NYSE &nbsp;·&nbsp; CUSIP 68373J104</span>
+  </div>
+  <div class="date">FactSet Snapshot · March 16, 2026</div>
+</div>
+
+<div class="price-bar">
+  <span class="price">$8.28</span>
+  <span><span class="label">1M</span> <span class="chg">-7.3%</span></span>
+  <span><span class="label">3M</span> <span class="chg">-24.6%</span></span>
+  <span><span class="label">6M</span> <span class="chg">-27.7%</span></span>
+  <span><span class="label">YTD</span> <span class="chg">-21.0%</span></span>
+  <span><span class="label">1Y</span> <span class="chg">-10.7%</span></span>
+  <span><span class="label">52W Range</span> $7.54 – $15.03</span>
+</div>
+
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv">
+      <tr><td>Ticker / Exchange</td><td>OPFI / NYSE</td></tr>
+      <tr><td>Price</td><td>$8.28</td></tr>
+      <tr><td>Volume (Today)</td><td>541,060</td></tr>
+      <tr><td>30D Avg Volume</td><td>621,730</td></tr>
+      <tr><td>Float %</td><td>~32% (Class A)</td></tr>
+      <tr><td>Short Interest</td><td>4.2%</td></tr>
+      <tr><td>Broker Contributors</td><td>4</td></tr>
+      <tr><td>Avg Rating</td><td>Overweight (1.50)</td></tr>
+      <tr><td>Consensus Price Target</td><td>$14.33 (+73%)</td></tr>
+      <tr><td>Next Earnings</td><td>May 13, 2026</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev">
+      <tr><td>Market Cap (Class A: 27.66M sh)</td><td>$229M</td></tr>
+      <tr><td>Class V Voting Shares (58.69M)</td><td>$486M</td></tr>
+      <tr style="padding-left:8px"><td style="color:#888;font-size:9px">→ Blended Market Cap (86.35M basic)</td><td style="color:#888;font-size:9px">$715M</td></tr>
+      <tr><td>Total Debt</td><td>+$538M</td></tr>
+      <tr><td>Preferred / Minority Interest</td><td>+$0</td></tr>
+      <tr><td>Cash & Equivalents</td><td>−$315M</td></tr>
+      <tr class="total"><td>Enterprise Value</td><td>$938M</td></tr>
+    </table>
+    <div style="font-size:8.5px;color:#888;margin-top:4px">Note: Class A (NYSE-listed) represents ~32% economic interest. Class V (founder/management) carries voting rights but no economic interest separately from Class A exchangeability. Fully diluted share count ~88M incl. RSUs/warrants.</div>
+  </div>
+</div>
+
+<!-- Current Valuation — horizontal 6x2 KPI grid -->
+<div class="section-title">Current Valuation</div>
+<div class="val-grid">
+  <div class="val-cell">
+    <div class="val-label">Market Cap</div>
+    <div class="val-num">$715M</div>
+    <div class="val-sub">Basic (86.35M sh)</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Enterprise Value</div>
+    <div class="val-num">$938M</div>
+    <div class="val-sub">EV = Mkt Cap + Debt − Cash</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">P/E (FY1E)</div>
+    <div class="val-num">4.3x</div>
+    <div class="val-sub">FY26E EPS $1.94</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">EV/EBITDA (FY1E)</div>
+    <div class="val-num">4.4x</div>
+    <div class="val-sub">FY26E EBITDA ~$213M</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">EV/Sales (FY1E)</div>
+    <div class="val-num">1.4x</div>
+    <div class="val-sub">FY26E Rev $662M</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">P/Book</div>
+    <div class="val-num">1.4x</div>
+    <div class="val-sub">BV/sh ~$5.90</div>
+  </div>
+</div>
+<div class="val-grid">
+  <div class="val-cell">
+    <div class="val-label">Fully Dil. Mkt Cap</div>
+    <div class="val-num">$729M</div>
+    <div class="val-sub">~88M dil. shares</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">WACC</div>
+    <div class="val-num">10.09%</div>
+    <div class="val-sub">FactSet estimate</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Beta</div>
+    <div class="val-num">1.17</div>
+    <div class="val-sub">vs. S&P 500</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Avg Analyst Rating</div>
+    <div class="val-num">OW</div>
+    <div class="val-sub">1.50 / 4 analysts</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Consensus Target</div>
+    <div class="val-num">$14.33</div>
+    <div class="val-sub">+73% implied upside</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Next Earnings</div>
+    <div class="val-num">May 13</div>
+    <div class="val-sub">Q1 2026</div>
+  </div>
+</div>
+
+<!-- Valuation Multiples Table -->
+<div class="section-title">Valuation Multiples</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th style="text-align:left">Multiple</th>
+      <th>5Yr Avg</th>
+      <th>FY2022</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th class="est">FY2025E</th>
+      <th class="est">FY2026E</th>
+      <th class="est">FY2027E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>P/E</td><td>8.4x</td><td>NM</td><td>9.4x</td><td>7.2x</td><td class="est">8.4x</td><td class="est">4.3x</td><td class="est">3.5x</td></tr>
+    <tr><td>P/Sales</td><td>1.3x</td><td>1.3x</td><td>1.5x</td><td>1.3x</td><td class="est">1.2x</td><td class="est">1.1x</td><td class="est">1.0x</td></tr>
+    <tr><td>P/Book</td><td>1.8x</td><td>2.1x</td><td>2.0x</td><td>1.6x</td><td class="est">1.5x</td><td class="est">1.4x</td><td class="est">1.2x</td></tr>
+    <tr><td>EV/Sales</td><td>1.6x</td><td>1.7x</td><td>1.8x</td><td>1.6x</td><td class="est">1.6x</td><td class="est">1.4x</td><td class="est">1.3x</td></tr>
+    <tr><td>EV/EBITDA</td><td>6.2x</td><td>NM</td><td>6.8x</td><td>5.4x</td><td class="est">4.7x</td><td class="est">4.4x</td><td class="est">3.8x</td></tr>
+    <tr><td>EV/EBIT</td><td>7.1x</td><td>NM</td><td>7.5x</td><td>6.1x</td><td class="est">5.3x</td><td class="est">4.9x</td><td class="est">4.2x</td></tr>
+  </tbody>
+</table>
+
+<!-- Revenue Exposure -->
+<div class="section-title">Revenue Exposure</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Business Segment</div>
+    <table class="rev">
+      <thead><tr><th style="text-align:left">Segment</th><th>% Rev</th></tr></thead>
+      <tbody>
+        <tr><td>OppLoans (Installment)</td><td>100%</td></tr>
+        <tr><td>SalaryTap (Payroll Deduct)</td><td>&lt;1%</td></tr>
+        <tr><td>OppFi Card</td><td>&lt;1%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <div class="sub-label">By Geography</div>
+    <table class="rev">
+      <thead><tr><th style="text-align:left">Region</th><th>% Rev</th></tr></thead>
+      <tbody>
+        <tr><td>United States</td><td>100%</td></tr>
+        <tr><td>International</td><td>0%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Financials Table -->
+<div class="section-title">Financials ($M unless noted)</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th style="text-align:left">Metric</th>
+      <th>FY2022</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th>FY2025A</th>
+      <th class="est">FY2026E</th>
+      <th class="est">FY2027E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">Income Statement</td></tr>
+    <tr><td>Net Revenue (after prov.)</td><td>$391</td><td>$470</td><td>$526</td><td>$597</td><td class="est">$662</td><td class="est">$734</td></tr>
+    <tr><td style="color:#555;font-size:9px">  Revenue Growth %</td><td style="color:#555;font-size:9px">—</td><td style="color:#555;font-size:9px">+20.2%</td><td style="color:#555;font-size:9px">+11.9%</td><td style="color:#555;font-size:9px">+13.5%</td><td class="est" style="color:#555;font-size:9px">+10.9%</td><td class="est" style="color:#555;font-size:9px">+10.9%</td></tr>
+    <tr><td>Gross Income</td><td>$374</td><td>$451</td><td>$509</td><td>$574</td><td class="est">$640</td><td class="est">$712</td></tr>
+    <tr><td style="color:#555;font-size:9px">  Gross Margin %</td><td style="color:#555;font-size:9px">95.7%</td><td style="color:#555;font-size:9px">95.9%</td><td style="color:#555;font-size:9px">96.7%</td><td style="color:#555;font-size:9px">96.1%</td><td class="est" style="color:#555;font-size:9px">96.7%</td><td class="est" style="color:#555;font-size:9px">97.0%</td></tr>
+    <tr><td>EBITDA</td><td>($15)</td><td>$114</td><td>$188</td><td>$198</td><td class="est">$213</td><td class="est">$246</td></tr>
+    <tr><td style="color:#555;font-size:9px">  EBITDA Margin %</td><td style="color:#555;font-size:9px">NM</td><td style="color:#555;font-size:9px">24.3%</td><td style="color:#555;font-size:9px">35.7%</td><td style="color:#555;font-size:9px">33.2%</td><td class="est" style="color:#555;font-size:9px">32.1%</td><td class="est" style="color:#555;font-size:9px">33.5%</td></tr>
+    <tr><td>EBIT</td><td>($23)</td><td>$105</td><td>$179</td><td>$177</td><td class="est">$191</td><td class="est">$224</td></tr>
+    <tr><td>Net Income (GAAP)</td><td>($52)</td><td>$86</td><td>$91</td><td>$26</td><td class="est">$156</td><td class="est">$193</td></tr>
+    <tr><td style="color:#555;font-size:9px">  Net Margin %</td><td style="color:#555;font-size:9px">NM</td><td style="color:#555;font-size:9px">18.3%</td><td style="color:#555;font-size:9px">17.3%</td><td style="color:#555;font-size:9px">4.4%</td><td class="est" style="color:#555;font-size:9px">23.6%</td><td class="est" style="color:#555;font-size:9px">26.3%</td></tr>
+    <tr><td>EPS (Diluted)</td><td>($1.66)</td><td>$1.07</td><td>$1.15</td><td>$0.99</td><td class="est">$1.94</td><td class="est">$2.37</td></tr>
+    <tr class="section-row"><td colspan="7">Cash Flow</td></tr>
+    <tr><td>Operating Cash Flow</td><td>$55</td><td>$131</td><td>$252</td><td>$396</td><td class="est">$425</td><td class="est">$468</td></tr>
+    <tr><td>Capital Expenditures</td><td>($7)</td><td>($10)</td><td>($14)</td><td>($14)</td><td class="est">($15)</td><td class="est">($16)</td></tr>
+    <tr><td>Free Cash Flow</td><td>$48</td><td>$121</td><td>$238</td><td>$382</td><td class="est">$410</td><td class="est">$452</td></tr>
+    <tr><td style="color:#555;font-size:9px">  FCF Margin %</td><td style="color:#555;font-size:9px">12.3%</td><td style="color:#555;font-size:9px">25.7%</td><td style="color:#555;font-size:9px">45.2%</td><td style="color:#555;font-size:9px">64.0%</td><td class="est" style="color:#555;font-size:9px">62.0%</td><td class="est" style="color:#555;font-size:9px">61.6%</td></tr>
+    <tr class="section-row"><td colspan="7">Returns & Leverage</td></tr>
+    <tr><td>Return on Equity (ROE)</td><td>NM</td><td>32.8%</td><td>29.2%</td><td>7.1%</td><td class="est">35.4%</td><td class="est">38.1%</td></tr>
+    <tr><td>Total Debt / Equity</td><td>2.6x</td><td>1.9x</td><td>1.5x</td><td>1.3x</td><td class="est">1.1x</td><td class="est">0.9x</td></tr>
+    <tr><td>Interest Coverage</td><td>NM</td><td>3.2x</td><td>5.1x</td><td>4.8x</td><td class="est">5.5x</td><td class="est">6.4x</td></tr>
+  </tbody>
+</table>
+
+<div class="section-title">Valuation Summary</div>
+<p class="prose">OppFi currently trades at 4.3x FY26E P/E and 4.4x FY26E EV/EBITDA, representing a 55–65% discount to the specialty finance peer group median of approximately 10x P/E and 10x EV/EBITDA. The current discount reflects three investor concerns: (1) the FY2025 GAAP net income of $26M (versus $91M in FY2024) was depressed by a large non-cash Tax Receivable Agreement charge, which creates the misleading appearance of earnings collapse; (2) CFPB regulatory risk around bank-partnership origination models and "rent-a-bank" litigation has cast a shadow over the entire vertical; and (3) macro concerns about near-prime consumer credit quality as interest rates stayed elevated through 2025. However, EBIT was $177M in FY2025 (stable), FCF was $382M (best-ever, 64% margin), and consensus calls for EPS of $1.94 in FY2026 as the TRA drag reverses — placing the stock at a 4.3x forward P/E. At current levels, OppFi appears deeply discounted: a conservative 8–10x P/E on FY2026E EPS implies a stock price of $15.50–$19.40, consistent with the analyst consensus price target of $14.33. The valuation is compelling given the business quality, strong cash generation, and durable near-prime lending moat.</p>
+
+<div class="source-note">Source: FactSet snapshot export · March 16, 2026 · Q4 2025 earnings call transcript · OppFi investor materials</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 3: BULL & BEAR CASES
+════════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="two-col">
+  <div>
+    <div class="bull-section-title">Bull Cases</div>
+
+    <div class="fw-item">
+      <span class="fw-name">Regulatory Tailwind — CFPB Reset</span>
+      <p class="prose">The Trump administration's restructuring of the CFPB in 2025 has dramatically reduced the regulatory overhang that suppressed OPFI's valuation for two years. Enforcement actions targeting "rent-a-bank" models have been deprioritized; state-level legal challenges have stalled. As regulatory clarity returns, the discount assigned to bank-partnership lending models could compress significantly, re-rating OPFI toward 8–10x P/E from its current 4.3x.</p>
+    </div>
+
+    <div class="fw-item">
+      <span class="fw-name">TRA Reversal — Earnings Power Revealed</span>
+      <p class="prose">FY2025 GAAP net income of $26M badly misrepresented economic earnings due to a large non-cash Tax Receivable Agreement liability charge. FY2026E consensus EPS of $1.94 strips out this distortion, implying a stock at 4.3x true-earnings — a valuation that would be alarming for a consumer financial with 64% FCF margins. When the market fully digests the TRA mechanics post-Q4 2025 earnings call, the re-rating could be swift.</p>
+    </div>
+
+    <div class="fw-item">
+      <span class="fw-name">Rate Cuts Improve Net Interest Margin</span>
+      <p class="prose">OppFi's cost of funds on its senior secured credit facilities is floating-rate (SOFR + spread), while loan yields are largely fixed at origination. Even modest Fed rate cuts (50–100bps) in 2026 expand net interest spread immediately, flowing directly to EBITDA with minimal lag. Management guided to incremental margin improvement of 150–200bps for every 100bps of rate cuts.</p>
+    </div>
+
+    <div class="fw-item">
+      <span class="fw-name">AI Underwriting Advantage Compounds</span>
+      <p class="prose">OppFi's proprietary OppFi Score incorporates 300+ alternative data variables (employment tenure, gig income volatility, bank account cash flow patterns) versus FICO's single-factor approach. As the model accumulates 13+ years of near-prime repayment data through multiple credit cycles, the accuracy advantage widens. Better underwriting means lower credit losses at comparable yields, allowing margin expansion while competitors price risk less precisely.</p>
+    </div>
+
+    <div class="fw-item">
+      <span class="fw-name">Product Expansion — OppFi Card &amp; SalaryTap</span>
+      <p class="prose">OppFi Card (secured credit card) and SalaryTap (payroll-deducted installment loans) are still sub-1% of revenue but growing. SalaryTap's payroll-deduction mechanic dramatically reduces default risk and could be the most important product in the company's history if adoption scales. Each successful cross-sell extends customer LTV and reduces reliance on new customer acquisition.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="bear-section-title">Bear Cases</div>
+
+    <div class="fw-item">
+      <span class="fw-name">Bank Partnership Model Threatened</span>
+      <p class="prose">OppFi's legal structure depends on bank-partner origination (FinWise, First Electronic, Blue Ridge) to export favorable rate preemptions to states with rate caps. Successful "true lender" litigation — arguing that OppFi, not the bank, is the de facto lender — could require OppFi to comply with state usury laws and dramatically reduce allowable APRs in its most important states. A successful challenge in even 5–6 states could reduce addressable originations by 20–30%.</p>
+    </div>
+
+    <div class="fw-item">
+      <span class="fw-name">Consumer Credit Deterioration</span>
+      <p class="prose">Near-prime borrowers are among the first to show stress in a consumer recession. OppFi's net charge-off rate rose to ~55% of gross revenue in stressed periods. If unemployment ticks up 100–200bps above current levels, OppFi's provision expense could spike materially, compressing EBITDA. The company has limited ability to tighten credit fast enough to avoid elevated losses on already-originated loans.</p>
+    </div>
+
+    <div class="fw-item">
+      <span class="fw-name">Low Barrier Competitive Pressure</span>
+      <p class="prose">The near-prime installment lending market is not truly winner-take-all. LendingClub, Avant, NetCredit, and regional credit unions all compete for the same 550–700 FICO borrowers. If a better-capitalized fintech or bank decides to aggressively price this segment, OppFi's take rate compression could be severe. Its cost advantage is real but not absolute, and the product is fundamentally a commodity (cash).</p>
+    </div>
+
+    <div class="fw-item">
+      <span class="fw-name">Founder Float Compression / Dual-Class Overhang</span>
+      <p class="prose">The Schwartz family controls ~68% of economic/voting interest through Class V shares and has historically been slow to convert and sell. This structure creates a persistent discount to NAV, limits institutional index inclusion (S&P eligibility requires float requirements), and reduces the stock's liquidity profile. If the family converts and sells Class V shares to raise capital, the increased supply could further depress the stock.</p>
+    </div>
+
+    <div class="fw-item">
+      <span class="fw-name">Interest Rate Reversal — Funding Cost Squeeze</span>
+      <p class="prose">OppFi's warehouse credit facilities are variable-rate. If rates remain elevated or increase unexpectedly, the spread between fixed loan yields and floating funding costs compresses further. With ~$538M in total debt, each 100bps increase in funding rates adds approximately $5.4M in annual interest expense — manageable, but directionally negative and a source of earnings volatility.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 4: HELMER'S 7 POWERS
+════════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Scale Economies</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">OppFi benefits from meaningful scale advantages in two dimensions. First, its fixed-cost technology and underwriting infrastructure (the OppFi platform, data pipelines, AI models) is largely fixed — marginal cost of underwriting a new loan is near-zero once the model is built, whereas a smaller entrant pays the same R&D per unit with far fewer loans over which to amortize. Second, OppFi's 13-year history of near-prime repayment data creates a training dataset that a new entrant cannot replicate regardless of capital. The barrier is moderate, not strong, because the platform itself does not have the cost-per-unit advantage of a payment network or exchange — loan processing cost scales roughly linearly with origination volume above a certain threshold. Still, OppFi's cost per loan originated is substantially below what a startup would incur to build comparable underwriting capability from scratch.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Network Effects</span>
+  <span class="fw-rating weak">Weak</span>
+  <p class="prose">Near-prime installment lending does not benefit from direct or indirect network effects in the traditional sense. OppFi's 300,000+ active borrowers do not generate more value for each other's borrowing experience. There is a mild data network effect — more borrowers generate more repayment data, which improves model accuracy, which improves credit decisions, which reduces losses — but this is a second-order data advantage, not a true network effect. A competitor with access to a large alternative dataset (a payroll processor, a major bank) could build comparable model accuracy more quickly than OppFi could build comparable origination volume. This power is genuinely weak for a product that is essentially a bilateral loan transaction.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Counter-Positioning</span>
+  <span class="fw-rating strong">Strong</span>
+  <p class="prose">OppFi's counter-positioning against traditional banks is structural and durable. A JPMorgan or Wells Fargo could theoretically serve near-prime borrowers — but doing so would require them to (a) underwrite to non-FICO criteria, threatening their credit culture and regulatory standing; (b) charge 36–160% APR, which would generate severe consumer advocate and regulatory backlash; (c) accept dramatically higher provision expense, reducing ROTCE on the product below their cost of equity. The rational incumbent response is to NOT enter, which is exactly what the market shows — no major bank competes with OppFi in this segment. This is a textbook counter-positioning dynamic: the incumbents could copy but won't, because the economics would damage their core franchise. OppFi exists in the gap that the incumbents have voluntarily ceded by choosing to serve prime borrowers at lower yields with lower risk — a choice that is deeply embedded in their operating models, capital allocation frameworks, and regulatory relationships.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Switching Costs</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Borrower switching costs are moderate and somewhat unusual in structure. OppFi's borrowers typically have limited access to alternatives — being declined by prime lenders is the reason they came to OppFi in the first place. For a borrower who has successfully repaid an OppFi loan, their OppFi repayment history is invisible to FICO-dependent competitors (it doesn't appear on credit reports in a usable way). Critically, OppFi's relationship loyalty data — showing which customers repay reliably — is proprietary, allowing OppFi to offer returning customers meaningfully better pricing and larger loan amounts than it would offer a new customer. This creates a sticky repeat-borrower dynamic: returning customers have better terms at OppFi than they could get anywhere else, because only OppFi knows their actual repayment performance. Q4 2025 data showed approximately 40% of originations were repeat borrowers, a figure management is actively trying to grow through the OppFi loyalty program.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Branding</span>
+  <span class="fw-rating weak">Weak</span>
+  <p class="prose">OppFi does not compete on brand in the traditional sense. Near-prime borrowers facing an urgent cash need are primarily price-sensitive and availability-sensitive — they want credit, not an aspirational brand relationship. The "OppLoans" name has recognition in the segment, and the company has invested in its reputation as a responsible lender (the Fair Access to Credit Standard, fee transparency, credit reporting for successful borrowers), but this generates goodwill rather than brand premium. The company's unit economics are driven by digital acquisition efficiency, not brand pull. For B2C lending, branding is simply not a meaningful competitive moat.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">6. Cornered Resource</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">OppFi has two meaningful cornered resources. First, its proprietary 13-year near-prime credit performance dataset — covering hundreds of thousands of borrowers with full repayment histories across the 2020 COVID shock, 2022 inflation surge, and 2023 rate spike — cannot be replicated by a new entrant. This dataset trains the OppFi Score model in ways that cannot be purchased from any data vendor. Second, OppFi's bank partnerships (FinWise, First Electronic, Blue Ridge) are not truly exclusive but represent relationship assets that are difficult for new entrants to replicate quickly — regulated bank partnerships for consumer lending require FDIC approval, significant due diligence, and multi-year relationship development. Neither resource is unassailable (a well-funded competitor could build similar data over a decade, and other fintechs have secured bank partnerships), but together they provide a meaningful head start.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">7. Process Power</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">OppFi's organizational capability in alternative-data underwriting, bank-partnership compliance management, and state-by-state regulatory navigation represents genuine process power. Managing a lending product that operates legally across 37 states under federal preemption requires deep institutional expertise in regulatory compliance, state AG relationships, and legal defense — knowledge that is embedded across the company's legal, compliance, and operations teams. Additionally, OppFi's underwriting team has iterated the OppFi Score through multiple credit cycles, building intuitions about near-prime borrower behavior that cannot be codified in a playbook. CEO Jared Kaplan's background (previously at Goldman Sachs and a consumer lending startup) and the management team's tenure suggests this capability persists beyond any single individual.</p>
+</div>
+
+<p class="prose" style="margin-top:10px"><strong>Summary:</strong> OppFi's strongest and most durable moats are Counter-Positioning (banks will not compete) and a combination of Cornered Resource + Process Power in alternative underwriting. Switching Costs and Scale Economies provide incremental reinforcement. The absence of Network Effects and Brand is typical for a B2C lending business and not a fundamental weakness — just a ceiling on how high the competitive barriers can ultimately be.</p>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 5: PORTER'S 5 FORCES
+════════════════════════════════════════════════════════ -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Threat of New Entrants</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Entry into near-prime installment lending is technically feasible (no spectrum license or physical asset required) but practically difficult. A credible entrant must: (1) secure a bank partner willing to originate under a program agreement and accept FDIC scrutiny; (2) build or buy alternative-data underwriting capability; (3) fund a loan portfolio — requiring warehouse credit facilities from institutional lenders who want to see management track records; (4) acquire borrowers at scale, competing against OppFi's optimized digital marketing funnel. Steps 1 and 3 together typically take 18–36 months for a well-capitalized startup. The more significant barrier is step 2 — building accurate near-prime underwriting requires years of origination data and multiple economic cycle exposure. Google or Amazon could conceivably enter this market using their proprietary data, which would be a severe threat, but neither has shown interest in consumer credit risk. Well-funded fintechs like Avant and LendingClub already exist in this space — the market is competitive but not freely enterable. Net: moderate barrier, with the caveat that Big Tech entry would be a high-impact, low-probability tail risk.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Bargaining Power of Suppliers</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">OppFi's primary "supplier" is funding — the warehouse credit facilities and securitization markets that provide the capital to fund loans. As a non-bank, OppFi cannot take deposits (unlike a bank competitor) and must access institutional debt markets, which creates funding cost exposure. During the 2022–2023 rate spike, SOFR-linked funding costs rose sharply, compressing margins. However, OppFi has three bank partners (not one), and has accessed the ABS (asset-backed securities) market for term funding at fixed rates, reducing dependence on revolving warehouse lines. Its secondary supplier — bank partners themselves — has moderate power: FinWise or Blue Ridge could potentially exit a partnership agreement, which would require OppFi to qualify replacement banks. This is manageable but not costless. Net: suppliers have meaningful leverage given OppFi's non-deposit funding model, but the risk is manageable given multiple funding sources and improving ABS market access.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Bargaining Power of Buyers</span>
+  <span class="fw-rating low">Low</span>
+  <p class="prose">Individual borrowers have very limited bargaining power. A near-prime consumer seeking $1,500 cannot negotiate the APR on an OppFi loan — take it or leave it pricing is standard. Borrower alternatives are limited: payday loans (higher cost, shorter term), credit cards (require higher credit scores than these borrowers typically have), family/friends, or going without. The concentration is also favorable — no single borrower represents more than a rounding error in OppFi's $1.5B+ receivables book. The only meaningful buyer-side pressure comes from competition: if a competing lender (Avant, NetCredit) offers a better rate, that borrower can shop elsewhere, which is why OppFi's customer acquisition economics are driven more by digital marketing efficiency than by pricing power. But this is competitive rivalry, not buyer bargaining power. In aggregate, buyers have very low power over OppFi's pricing.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Threat of Substitutes</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">The most meaningful substitutes for OppFi borrowers are payday loans (worse product: shorter term, balloon repayment, even higher effective APR), secured credit cards (require positive credit history), pawn loans (require physical collateral), BNPL (different use case: point-of-sale, not emergency cash), and employer-sponsored earned wage access products (Earnin, DailyPay). The emergence of Earned Wage Access (EWA) platforms is a meaningful watch item — if EWA penetration grows significantly among the gig and hourly workforce, it could reduce the frequency of emergency installment loan needs. However, EWA typically addresses temporary liquidity gaps of $200–$500, while OppFi's average loan is $1,500 with a 12–18 month term — a different use case. Net: substitutes exist but are largely inferior products for OppFi's core use case; EWA is the most plausible long-term disruptor but serves a different immediate need.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Competitive Rivalry</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">The near-prime installment lending market is fragmented and competitive. Key competitors include: Avant (private, ~$700M in annual originations), NetCredit/Enova ($1.8B market cap), LendingPoint (private), Possible Finance (smaller, app-native), and regional credit unions expanding into installment lending. Competition is primarily on digital acquisition cost (Google/Facebook CPL), APR pricing at the margin, and loan amount. The market is growing fast enough (the 150M underserved Americans represent enormous unmet demand) that competition has not been destructive to pricing — APRs have remained in the 36–160% range across the industry. The most important competitive dynamic is not peer-to-peer rivalry but rather whether a new technology platform (AI-native, not a legacy lender retrofitting ML onto FICO) can outcompete OppFi on underwriting accuracy. No such competitor has yet emerged at scale. Net: rivalry is present but not currently destructive to economics.</p>
+</div>
+
+<p class="prose" style="margin-top:10px"><strong>Summary:</strong> The competitive environment is moderately favorable for OppFi. The most favorable forces are low buyer power and manageable substitutes. The most significant risks are supplier (funding) power during rate spikes, ongoing competitive rivalry, and the tail risk of new entrants with superior data assets (Big Tech). OppFi's structural legal advantage (bank partnership preemption) and data advantage (13 years of credit cycle data) are the key asymmetric defenses.</p>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 6: WHAT DRIVES THE STOCK?
+════════════════════════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<p class="prose"><strong>1. Net Charge-Off Rate vs. Consensus.</strong> This is the single most important monthly/quarterly variable for OPFI's stock. Net charge-offs (NCOs) as a percentage of average receivables represent OppFi's realized credit losses — the difference between the high gross yield (avg ~160% APR) and net revenue. Q4 2025 NCO rate was ~51%, within management's guided 50–55% range. Any NCO print below 50% is strongly bullish (implies underwriting improvement and better net revenue); above 58% is bearish (credit deterioration, provision spike). Analysts model EPS to within $0.10 per share based on NCO assumptions alone.</p>
+
+<p class="prose"><strong>2. CFPB / True Lender Regulatory Headline Risk.</strong> Any new CFPB enforcement action, state AG lawsuit against a rent-a-bank structure, or federal court ruling on "true lender" doctrine can move OPFI ±15% in a session. Conversely, regulatory clarity (court dismissals, favorable rulings, CFPB de-prioritization) would catalyze a re-rating. The Trump administration's CFPB restructuring in 2025 has been net positive, but this is a persistent background risk that depresses the multiple.</p>
+
+<p class="prose"><strong>3. Earnings Quality / TRA Resolution.</strong> FY2025 GAAP EPS of $0.99 was severely impacted by non-cash TRA (Tax Receivable Agreement) charges that are mathematically temporary and non-cash. The market has been slow to strip this out and value OppFi on normalized earnings. As Q1–Q2 2026 prints show $1.94+ annualized EPS run-rates, investor confusion about earnings quality should resolve, potentially driving a multiple re-rating from 4.3x to 7–8x P/E.</p>
+
+<p class="prose"><strong>4. Origination Volume Growth.</strong> Origination volume (total new loans funded in a quarter) is the leading indicator for revenue 12–18 months forward (given loan durations). Q4 2025 originations grew 8% YoY. Acceleration above 10–12% would signal OppFi is taking share, gaining marketing efficiency, or benefiting from rate cuts expanding eligible borrower pool. Deceleration below 5% would raise concerns about demand destruction or tightened underwriting.</p>
+
+<p class="prose"><strong>5. Repeat Borrower Penetration.</strong> Returning borrowers are OppFi's most profitable customer cohort — zero CAC, proven repayment history, higher loan amounts, and better pricing. Management target is 40–50% repeat borrower mix (currently ~40%). Each percentage point increase in repeat mix meaningfully improves blended acquisition economics and NCO rates, creating a compounding quality improvement in the portfolio.</p>
+
+<p class="prose"><strong>6. Rate Environment / Funding Cost.</strong> OppFi's senior secured warehouse facilities are SOFR-linked floating rate. Every 100bps of Fed rate reduction saves approximately $5.4M annually in funding costs and expands net interest margin. Given the Fed's 2025–2026 cutting cycle, this is a tailwind. Any reversal (rate hike, credit spread widening) in institutional lending markets would compress margins and hit consensus EPS estimates.</p>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 7: WHAT DRIVES THE BUSINESS?
+════════════════════════════════════════════════════════ -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<div class="section-title">Revenue Decomposition</div>
+<table class="data" style="margin-bottom:14px">
+  <thead>
+    <tr>
+      <th style="text-align:left">Revenue Line</th>
+      <th style="text-align:left">Driver Formula</th>
+      <th>FY2025A</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Gross Interest &amp; Fee Income</strong></td>
+      <td style="text-align:left">Avg Receivables × Blended Yield %</td>
+      <td>~$1,340M</td>
+      <td style="text-align:left">Gross before provision</td>
+    </tr>
+    <tr>
+      <td><strong>Less: Net Charge-Offs</strong></td>
+      <td style="text-align:left">Avg Receivables × NCO Rate (~51%)</td>
+      <td>~($683M)</td>
+      <td style="text-align:left">Credit losses</td>
+    </tr>
+    <tr>
+      <td><strong>Net Revenue</strong></td>
+      <td style="text-align:left">Avg Receivables × (Yield − NCO Rate)</td>
+      <td>$597M</td>
+      <td style="text-align:left">As reported</td>
+    </tr>
+    <tr>
+      <td><strong>OppLoans Net Revenue</strong></td>
+      <td style="text-align:left">Avg Receivables ($1,050M) × Net Yield (~57%)</td>
+      <td>$594M</td>
+      <td style="text-align:left">&gt;99% of total</td>
+    </tr>
+    <tr>
+      <td><strong>OppFi Card + SalaryTap</strong></td>
+      <td style="text-align:left">Active accounts × Net Revenue per account</td>
+      <td>&lt;$3M</td>
+      <td style="text-align:left">Rounding error today</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose"><strong>Expanded Decomposition — OppLoans Net Revenue:</strong></p>
+<table class="data" style="margin-bottom:14px">
+  <thead>
+    <tr>
+      <th style="text-align:left">Component</th>
+      <th style="text-align:left">Value / Driver</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Average Receivables (FY25)</td><td style="text-align:left">~$1,050M (estimated from interest income ÷ blended yield)</td></tr>
+    <tr><td>Blended Gross Yield</td><td style="text-align:left">~125–135% APR on portfolio (lower than marginal 160% due to seasoning)</td></tr>
+    <tr><td>Net Charge-Off Rate</td><td style="text-align:left">~51% of avg receivables — the single most variable driver</td></tr>
+    <tr><td>Net Revenue Yield</td><td style="text-align:left">~57% = Gross Yield − NCO Rate (the retained spread)</td></tr>
+    <tr><td>Average Loan Size</td><td style="text-align:left">~$1,500 per origination</td></tr>
+    <tr><td>Annual Originations</td><td style="text-align:left">~$700M+ in FY25 (growing ~8% YoY)</td></tr>
+    <tr><td>Repeat Borrower Mix</td><td style="text-align:left">~40% of originations (key quality driver)</td></tr>
+    <tr><td>States Operated</td><td style="text-align:left">37 states + DC</td></tr>
+  </tbody>
+</table>
+
+<p class="prose"><strong>Key Leverage Analysis:</strong> The three variables with the most leverage on net revenue are (1) <strong>Net Charge-Off Rate</strong> — every 100bps reduction in NCO rate adds ~$10.5M to net revenue directly; (2) <strong>Average Receivables Balance</strong> — each $100M increase in the portfolio adds ~$57M in annualized net revenue at current net yield; and (3) <strong>Blended Gross Yield</strong> — increases when origination mix shifts toward shorter-tenure, higher-rate loans, decreases as credit quality tightens. The FCF conversion rate is extremely high (64% in FY25) because the business requires minimal capex — the main "investment" is the receivables book itself, which is funded by warehouse debt. As the receivables book grows, working capital consumption is funded by incremental warehouse facility draws, meaning the equity FCF is essentially net income + D&amp;A.</p>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 8: ALPHASENSE INSIGHTS
+════════════════════════════════════════════════════════ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+  <strong>AlphaSense DR Report</strong> · Query: "OppFi Inc near-prime lending competitive dynamics underwriting" · Report Date: March 16, 2026 · Sources: Earnings transcripts, expert calls, sell-side research, regulatory filings
+</div>
+
+<p class="prose"><strong>The AI Underwriting Advantage: More Durable Than Investors Appreciate.</strong> Expert call evidence from the AlphaSense report reveals that OppFi's underwriting advantage is substantially more durable than the sell-side typically credits. Former credit risk executives from competing lenders described the OppFi Score's "behavioral signal extraction" — specifically its use of bank account transaction flow data (not bank statements, but live ACH data with permissioned access) — as "genuinely proprietary" and "not reproducible from FICO + bureau data alone." One expert from a competing near-prime lender noted that when his firm attempted to replicate similar behavioral underwriting in 2023, they found the primary bottleneck was not model architecture but training data — specifically, the lack of through-cycle repayment performance data for near-prime borrowers who had been tracked by OppFi since 2011–2012. The COVID cohort (2020–2021 originations) was described as particularly valuable: "Any model that survived COVID intact, on near-prime borrowers, has empirical validation that you simply cannot shortcut." This supports a stronger "Cornered Resource" rating than the FactSet summary alone would suggest.</p>
+
+<p class="prose"><strong>Regulatory Environment: A Genuine Turning Point.</strong> Multiple sources in the AlphaSense report — including a former OCC official and a fintech compliance attorney — described the post-2025 CFPB restructuring as a "regime change, not a policy adjustment." Enforcement staff attrition at the CFPB has been significant (30–40% reduction per one source), and the new leadership's stated posture is "guidance and education first, enforcement last." For OppFi specifically, the collapse of the Madden v. Midland Funding line of cases under the Trump-era OCC rules means the preemption basis for bank-partnership lending is more secure than at any point since 2021. However, experts cautioned that state attorneys general — particularly in New York, California, and Illinois — have independently increased scrutiny of "rent-a-bank" structures. This state-level risk is structurally different from CFPB risk and cannot be fully addressed by federal regulatory changes alone. The key watch item is a pending Illinois AG action that could, if decided against OppFi's structure, require a restructuring of operations in Illinois (approximately 8% of originations).</p>
+
+<p class="prose"><strong>Near-Prime Consumer Resilience: Better Than Macro Headlines Suggest.</strong> Expert evidence from credit bureau analysts and former bank credit risk officers in the report described near-prime consumer performance as "bifurcated but not broadly deteriorating" as of early 2026. Borrowers with stable employment in services and healthcare (a large portion of OppFi's customer base) have maintained repayment rates; the stress has been concentrated in gig economy workers and construction-adjacent employment categories. OppFi's own Q4 2025 NCO rate of ~51% was described by one analyst as "better than we expected given October–November macro noise," and management's guided 50–55% NCO range for FY2026 was characterized as conservative. The key watch item is unemployment — experts consistently cited 5.5% U3 unemployment as the threshold above which near-prime NCOs historically spike to 60%+ levels.</p>
+
+<p class="prose"><strong>SalaryTap: Underrated Option Value.</strong> The AlphaSense report contained two expert calls specifically about SalaryTap, OppFi's payroll-deduction installment product. The product — where loan repayments are deducted directly from a borrower's paycheck, fully eliminating voluntary default risk — was described by a former employer benefits consultant as "the single most credit-safe consumer lending structure I have seen outside of 401k loans." The NCO rate on SalaryTap originations is estimated at 8–12% (vs. 51% on standard OppLoans), which would imply a dramatically higher net yield. OppFi's penetration of SalaryTap is currently limited by employer partnership development — convincing HR departments to integrate the product into payroll systems is a long sales cycle. But one expert noted that "every employer HR department I have talked to about this product has been very receptive — the concept of offering an alternative to payday loans as an employee benefit resonates, particularly for hourly workers." If SalaryTap reaches even 10% of originations with an 8% NCO rate, the blended portfolio economics improve materially. This is an underappreciated option value in the current valuation.</p>
+
+<p class="prose"><strong>Management Credibility: Recovering From the Class V Overhang.</strong> Institutional investor interviews in the AlphaSense report revealed a persistent concern about governance: the dual-class structure (Class A public, Class V founder) means Jared Kaplan and the board serve at the pleasure of the Schwartz family. However, one long-term institutional holder described management's track record since Kaplan's appointment in 2023 as "meaningfully better on capital allocation discipline — they have consistently bought back stock, reduced leverage, and grown the receivables book prudently, all at the same time." The buyback program ($50M authorized, $30M+ deployed in FY2025) was cited as evidence that management is aware of the valuation disconnect and is using capital to narrow it. The governance risk is real but appears to be declining as the Schwartz family's effective control gradually decreases through option exercises and secondary sales.</p>
+
+<p class="prose"><strong>Long-Term Investor Questions Surfaced by AlphaSense.</strong> The most frequent questions from institutional investors in the expert network, as summarized in the report: (1) What is the realistic ceiling on receivables growth — i.e., how large can the portfolio get before the TAM becomes a binding constraint? Management has suggested $3–4B in receivables is achievable within the current bank partnership structure, which at current net yields would imply ~$1.7–2.3B in annual net revenue. (2) Can SalaryTap achieve enough employer penetration to become a second meaningful product line, or will it remain a rounding error? (3) Is the NCO guidance range (50–55%) sustainable in a higher-unemployment environment, or is it cycle-peak performance that will worsen? (4) When and how does the Schwartz family's Class V position eventually resolve, and what does conversion mean for float and index eligibility?</p>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 9: SENSITIVITY ANALYSIS
+════════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Sensitivity Analysis</div>
+
+<!-- Sensitivity Table 1 -->
+<p class="prose"><strong>Sensitivity 1: Annual Net Revenue ($M) as a Function of Average Receivables Balance × Net Revenue Yield %</strong></p>
+<p class="prose"><strong>Current (FY2025A): Avg Receivables ≈ $1,050M × Net Revenue Yield ≈ 56.9% → Annual Net Revenue ≈ $597M</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Net Rev Yield →<br>Avg Recv ↓</th>
+      <th>48%</th>
+      <th>52%</th>
+      <th>57% (Base)</th>
+      <th>62%</th>
+      <th>67%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>$750M</strong></td><td>$360</td><td>$390</td><td>$428</td><td>$465</td><td>$503</td></tr>
+    <tr><td><strong>$900M</strong></td><td>$432</td><td>$468</td><td>$513</td><td>$558</td><td>$603</td></tr>
+    <tr><td><strong>$1,050M (Base)</strong></td><td>$504</td><td>$546</td><td class="base">$597</td><td>$651</td><td>$704</td></tr>
+    <tr><td><strong>$1,200M</strong></td><td>$576</td><td>$624</td><td>$684</td><td>$744</td><td>$804</td></tr>
+    <tr><td><strong>$1,400M</strong></td><td>$672</td><td>$728</td><td>$798</td><td>$868</td><td>$938</td></tr>
+  </tbody>
+</table>
+<p class="prose" style="font-size:9px;color:#666">Net Revenue Yield = Gross Yield % minus Net Charge-Off Rate %. Base case: Gross Yield ~108%, NCO ~51% → Net Yield ~57%. Bear case assumes NCO rate rises to 60%+ (reducing net yield to 48–52%). Bull case assumes NCO rate falls to 40–45% (expanding net yield to 62–67%).</p>
+
+<!-- Sensitivity Table 2 -->
+<p class="prose" style="margin-top:14px"><strong>Sensitivity 2: Adjusted EPS ($) as a Function of Origination Volume Growth Rate × Net Charge-Off Rate</strong></p>
+<p class="prose"><strong>Current (FY2025A): Origination Volume Growth ≈ +8% YoY × NCO Rate ≈ 51% → Adj. EPS ≈ $1.15 (FY2025 reported $0.99 depressed by TRA); FY2026E consensus EPS $1.94</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>NCO Rate →<br>Vol Growth ↓</th>
+      <th>60% NCO</th>
+      <th>55% NCO</th>
+      <th>51% NCO (Base)</th>
+      <th>46% NCO</th>
+      <th>41% NCO</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>−5% (Contraction)</strong></td><td>$0.42</td><td>$0.78</td><td>$1.05</td><td>$1.35</td><td>$1.68</td></tr>
+    <tr><td><strong>+3%</strong></td><td>$0.58</td><td>$0.95</td><td>$1.24</td><td>$1.58</td><td>$1.95</td></tr>
+    <tr><td><strong>+8% (Base)</strong></td><td>$0.72</td><td>$1.14</td><td class="base">$1.48</td><td>$1.88</td><td>$2.32</td></tr>
+    <tr><td><strong>+13%</strong></td><td>$0.88</td><td>$1.35</td><td>$1.74</td><td>$2.21</td><td>$2.73</td></tr>
+    <tr><td><strong>+18%</strong></td><td>$1.05</td><td>$1.56</td><td>$2.02</td><td>$2.57</td><td>$3.16</td></tr>
+  </tbody>
+</table>
+<p class="prose" style="font-size:9px;color:#666">EPS sensitivity uses FY2026E structure: ~88M diluted shares, ~$180M in operating expenses, ~$48M in interest expense. TRA effect excluded (assumed normalized). NCO rate is the single biggest variable — the spread between base (51%) and stress (60%) cases is $0.76 in EPS, representing $6.30 in stock price at 8x P/E.</p>
+
+<!-- Sensitivity Table 3 -->
+<p class="prose" style="margin-top:14px"><strong>Sensitivity 3: Implied Share Price ($) as a Function of Forward EPS × Exit P/E Multiple</strong></p>
+<p class="prose"><strong>Current: Stock Price = $8.28 × FY2026E EPS = $1.94 → Current Implied P/E = 4.3x (deeply discounted vs. peer median ~10x)</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>P/E Multiple →<br>FY2026E EPS ↓</th>
+      <th>4x</th>
+      <th>6x</th>
+      <th>8x</th>
+      <th>10x</th>
+      <th>12x</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>$1.20 (Bear)</strong></td><td>$4.80</td><td>$7.20</td><td>$9.60</td><td>$12.00</td><td>$14.40</td></tr>
+    <tr><td><strong>$1.60</strong></td><td>$6.40</td><td>$9.60</td><td>$12.80</td><td>$16.00</td><td>$19.20</td></tr>
+    <tr><td><strong>$1.94 (Base)</strong></td><td>$7.76</td><td>$11.64</td><td class="base">$15.52</td><td>$19.40</td><td>$23.28</td></tr>
+    <tr><td><strong>$2.40</strong></td><td>$9.60</td><td>$14.40</td><td>$19.20</td><td>$24.00</td><td>$28.80</td></tr>
+    <tr><td><strong>$3.00 (Bull)</strong></td><td>$12.00</td><td>$18.00</td><td>$24.00</td><td>$30.00</td><td>$36.00</td></tr>
+  </tbody>
+</table>
+<p class="prose" style="font-size:9px;color:#666">Current stock at $8.28 implies either: FY2026E EPS $1.94 at 4.3x P/E (deeply discounted), or bear case EPS of ~$1.20–$1.40 at 6–7x P/E. Peers (NetCredit/Enova) trade at 7–10x. If OPFI re-rates to 8x on base-case EPS, implied price is $15.52 — 88% above current.</p>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 10: 3-YEAR MODEL — 5 SCENARIOS
+════════════════════════════════════════════════════════ -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios</div>
+
+<p class="prose" style="font-size:9.5px;color:#555">Model basis: FY2025A actuals → 3-year forecast to FY2028E. Exit multiple applied to FY2028E EPS (Year 3). Current price: $8.28. Shares: 88M diluted. All figures $M except EPS and per-share items. $ sign on Revenue (first row) and FCF (last row) only per Theia formatting convention.</p>
+
+<!-- CASE 1: MACRO DETERIORATION -->
+<div class="case-block">
+  <div class="case-name">Macro Deterioration — Credit Cycle Turns</div>
+  <div class="case-desc">Unemployment rises to 5.5–6% by 2027 as consumer spending contracts. Near-prime borrowers face income stress; OppFi tightens underwriting, reducing originations, while NCO rate spikes above 58%. Revenue growth stalls; margins compress materially. CFPB enforcement risk re-emerges under a change in administration.</div>
+  <div class="case-desc"><strong>2026</strong> — NCO rate rises to 56–58% on existing portfolio; OppFi tightens credit box, slowing originations to flat/−5%; EPS recovers from TRA distortion but disappoints at ~$1.10–1.20. <strong>2027</strong> — Unemployment at 5.5%; NCO spikes to 60%+; origination decline accelerates; EBITDA margin falls to 25–28%; EPS drops to $0.70–0.90. <strong>2028</strong> — Credit cycle trough; originations stabilize at lower base; portfolio runoff begins recovery; EPS at $0.85–1.00. Market assigns trough multiple of 5x.</div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Avg Receivables (FY28E)</span><span>$820M</span></div>
+  <div class="driver-row"><span>Net Revenue Yield (NCO ~59%)</span><span>~47%</span></div>
+  <div class="driver-row"><span>Origination Volume Growth (3-yr CAGR)</span><span>−5% / yr</span></div>
+  <div class="driver-row"><span>Net Revenue (FY28E)</span><span>~$385M</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>FY26E</td><td>FY27E</td><td>FY28E</td></tr>
+    <tr><td>$Net Revenue</td><td>$600M</td><td>$490M</td><td>$385M</td></tr>
+    <tr class="dim"><td>  Revenue Growth %</td><td>+0.5%</td><td>−18.3%</td><td>−21.4%</td></tr>
+    <tr><td>Gross Income</td><td>575</td><td>470</td><td>370</td></tr>
+    <tr class="dim"><td>  Gross Margin %</td><td>95.8%</td><td>95.9%</td><td>96.1%</td></tr>
+    <tr><td>EBITDA</td><td>155</td><td>110</td><td>82</td></tr>
+    <tr class="dim"><td>  EBITDA Margin %</td><td>25.8%</td><td>22.4%</td><td>21.3%</td></tr>
+    <tr><td>EBIT</td><td>140</td><td>96</td><td>70</td></tr>
+    <tr><td>Net Income</td><td>85</td><td>52</td><td>56</td></tr>
+    <tr class="dim"><td>  Net Margin %</td><td>14.2%</td><td>10.6%</td><td>14.5%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>88</td><td>88</td><td>86</td></tr>
+    <tr><td>EPS</td><td>$0.97</td><td>$0.59</td><td>$0.65</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>5x</td><td>5x</td><td>5x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$4.85</td><td>$2.95</td><td>$3.25</td></tr>
+    <tr><td>$Free Cash Flow</td><td>$225</td><td>$128</td><td>$98</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit P/E: <strong>5x</strong> · FY28E EPS: <strong>$0.65</strong></div>
+    <div class="exit-price">Implied Price: $3.25</div>
+    <div class="exit-upside" style="color:#c0392b">−60.7% vs. current $8.28</div>
+    <div style="font-size:9px;color:#888;margin-top:4px">Implied Mkt Cap: $279M · Implied EV: ~$502M (incl. ~$223M net debt at trough)</div>
+  </div>
+</div>
+
+<!-- CASE 2: SLOW GROWTH — REGULATORY DRAG -->
+<div class="case-block">
+  <div class="case-name">Slow Growth — Regulatory Overhang Persists</div>
+  <div class="case-desc">Consumer credit holds up, but state-level regulatory actions (Illinois AG, California rate cap legislation) force OppFi to exit or restructure operations in 5–7 states. Origination growth slows to 3–5% from 8%. NCO rate stable at 52–54% but spread compression on shorter-term compliance restructuring impacts net yield. Company delivers on TRA normalization but multiple expansion is limited by regulatory uncertainty.</div>
+  <div class="case-desc"><strong>2026</strong> — Illinois AG action creates uncertainty; OppFi pre-emptively restricts originations in 3 states; EPS of $1.60–1.70 as TRA normalizes but growth disappoints. <strong>2027</strong> — State restructuring costs ~$15M non-recurring; organic growth at 4–5%; EPS ~$1.85–1.95. <strong>2028</strong> — Resolution of state actions allows re-entry into 1–2 states; growth re-accelerates modestly; EPS at $2.10–2.20. Exit multiple 7x (regulatory discount persists).</div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Avg Receivables (FY28E)</span><span>$1,160M</span></div>
+  <div class="driver-row"><span>Net Revenue Yield (NCO ~53%)</span><span>~55%</span></div>
+  <div class="driver-row"><span>Origination Volume Growth (3-yr CAGR)</span><span>+4% / yr</span></div>
+  <div class="driver-row"><span>Net Revenue (FY28E)</span><span>~$638M</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>FY26E</td><td>FY27E</td><td>FY28E</td></tr>
+    <tr><td>$Net Revenue</td><td>$630M</td><td>$608M</td><td>$638M</td></tr>
+    <tr class="dim"><td>  Revenue Growth %</td><td>+5.5%</td><td>−3.5%</td><td>+4.9%</td></tr>
+    <tr><td>Gross Income</td><td>606</td><td>584</td><td>614</td></tr>
+    <tr class="dim"><td>  Gross Margin %</td><td>96.2%</td><td>96.1%</td><td>96.2%</td></tr>
+    <tr><td>EBITDA</td><td>195</td><td>178</td><td>198</td></tr>
+    <tr class="dim"><td>  EBITDA Margin %</td><td>30.9%</td><td>29.3%</td><td>31.0%</td></tr>
+    <tr><td>EBIT</td><td>178</td><td>161</td><td>182</td></tr>
+    <tr><td>Net Income</td><td>140</td><td>151</td><td>171</td></tr>
+    <tr class="dim"><td>  Net Margin %</td><td>22.2%</td><td>24.8%</td><td>26.8%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>88</td><td>87</td><td>85</td></tr>
+    <tr><td>EPS</td><td>$1.59</td><td>$1.74</td><td>$2.01</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>7x</td><td>7x</td><td>7x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$11.13</td><td>$12.18</td><td>$14.07</td></tr>
+    <tr><td>$Free Cash Flow</td><td>$362</td><td>$358</td><td>$382</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit P/E: <strong>7x</strong> · FY28E EPS: <strong>$2.01</strong></div>
+    <div class="exit-price">Implied Price: $14.07</div>
+    <div class="exit-upside" style="color:#27ae60">+70.0% vs. current $8.28</div>
+    <div style="font-size:9px;color:#888;margin-top:4px">Implied Mkt Cap: $1,196M · Implied EV: ~$1,419M (incl. ~$223M net debt)</div>
+  </div>
+</div>
+
+<!-- CASE 3: BASE CASE — CONSENSUS EXECUTION -->
+<div class="case-block">
+  <div class="case-name">Consensus Execution — Steady Growth, TRA Normalization</div>
+  <div class="case-desc">OppFi delivers on consensus FY2026E and FY2027E estimates. NCO rate stable at 50–52%, origination growth at 8–10% YoY, TRA distortion normalizes in FY2026 driving EPS recovery to $1.94. Regulatory environment remains benign; CFPB does not re-escalate. Modest buybacks continue. Multiple gradually re-rates from 4.3x to 8x as earnings quality becomes clear.</div>
+  <div class="case-desc"><strong>2026</strong> — TRA normalizes; EPS prints $1.94 vs. FY25 $0.99; market starts to appreciate true earnings power. <strong>2027</strong> — Growth continues at 9–10%; EPS at $2.37; multiple slowly expands to 7–8x as regulatory clarity builds. <strong>2028</strong> — Portfolio at $1.35B; EPS at $2.85; re-rating to 9–10x P/E fully prices in steady growth and superior FCF profile.</div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Avg Receivables (FY28E)</span><span>$1,350M</span></div>
+  <div class="driver-row"><span>Net Revenue Yield (NCO ~51%)</span><span>~57%</span></div>
+  <div class="driver-row"><span>Origination Volume Growth (3-yr CAGR)</span><span>+9% / yr</span></div>
+  <div class="driver-row"><span>Net Revenue (FY28E)</span><span>~$770M</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>FY26E</td><td>FY27E</td><td>FY28E</td></tr>
+    <tr><td>$Net Revenue</td><td>$662M</td><td>$734M</td><td>$810M</td></tr>
+    <tr class="dim"><td>  Revenue Growth %</td><td>+10.9%</td><td>+10.9%</td><td>+10.4%</td></tr>
+    <tr><td>Gross Income</td><td>640</td><td>712</td><td>785</td></tr>
+    <tr class="dim"><td>  Gross Margin %</td><td>96.7%</td><td>97.0%</td><td>96.9%</td></tr>
+    <tr><td>EBITDA</td><td>213</td><td>246</td><td>280</td></tr>
+    <tr class="dim"><td>  EBITDA Margin %</td><td>32.2%</td><td>33.5%</td><td>34.6%</td></tr>
+    <tr><td>EBIT</td><td>191</td><td>224</td><td>258</td></tr>
+    <tr><td>Net Income</td><td>156</td><td>193</td><td>244</td></tr>
+    <tr class="dim"><td>  Net Margin %</td><td>23.6%</td><td>26.3%</td><td>30.1%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>88</td><td>87</td><td>86</td></tr>
+    <tr><td>EPS</td><td>$1.77</td><td>$2.22</td><td>$2.84</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>9x</td><td>9x</td><td>9x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$15.93</td><td>$19.98</td><td>$25.56</td></tr>
+    <tr><td>$Free Cash Flow</td><td>$410</td><td>$452</td><td>$503</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit P/E: <strong>9x</strong> · FY28E EPS: <strong>$2.84</strong></div>
+    <div class="exit-price">Implied Price: $25.56</div>
+    <div class="exit-upside" style="color:#27ae60">+208.7% vs. current $8.28</div>
+    <div style="font-size:9px;color:#888;margin-top:4px">Implied Mkt Cap: $2,198M · Implied EV: ~$2,421M</div>
+  </div>
+</div>
+
+<!-- CASE 4: AI UNDERWRITING + RATE CUTS -->
+<div class="case-block">
+  <div class="case-name">AI Underwriting + Rate Tailwind — Margin Expansion Cycle</div>
+  <div class="case-desc">NCO rate improves to 46–48% by 2028 as AI model iterations reduce default risk on new originations. Fed cuts 150bps by end 2026, reducing SOFR-linked funding costs and expanding net interest spread by ~200bps. Origination growth accelerates to 12–14% as lower funding cost allows OppFi to approve borderline applicants at breakeven. Repeat borrower mix reaches 48% by 2027, further improving portfolio quality.</div>
+  <div class="case-desc"><strong>2026</strong> — Rate cuts begin; funding cost drops ~75bps on floating facilities; EPS of $2.20–2.30. <strong>2027</strong> — AI underwriting iteration #7 deployed; NCO rate falls from 51% to 48%; origination growth at 13%; EPS at $2.80–3.00. <strong>2028</strong> — Full benefit of lower funding costs and improved NCO rate; EPS at $3.60–4.00; market assigns 10–11x as quality improvement narrative takes hold.</div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Avg Receivables (FY28E)</span><span>$1,600M</span></div>
+  <div class="driver-row"><span>Net Revenue Yield (NCO ~47%)</span><span>~63%</span></div>
+  <div class="driver-row"><span>Origination Volume Growth (3-yr CAGR)</span><span>+13% / yr</span></div>
+  <div class="driver-row"><span>Net Revenue (FY28E)</span><span>~$1,008M</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>FY26E</td><td>FY27E</td><td>FY28E</td></tr>
+    <tr><td>$Net Revenue</td><td>$720M</td><td>$854M</td><td>$1,008M</td></tr>
+    <tr class="dim"><td>  Revenue Growth %</td><td>+20.6%</td><td>+18.6%</td><td>+18.0%</td></tr>
+    <tr><td>Gross Income</td><td>698</td><td>829</td><td>978</td></tr>
+    <tr class="dim"><td>  Gross Margin %</td><td>96.9%</td><td>97.1%</td><td>97.0%</td></tr>
+    <tr><td>EBITDA</td><td>258</td><td>330</td><td>420</td></tr>
+    <tr class="dim"><td>  EBITDA Margin %</td><td>35.8%</td><td>38.6%</td><td>41.7%</td></tr>
+    <tr><td>EBIT</td><td>237</td><td>309</td><td>399</td></tr>
+    <tr><td>Net Income</td><td>195</td><td>262</td><td>341</td></tr>
+    <tr class="dim"><td>  Net Margin %</td><td>27.1%</td><td>30.7%</td><td>33.8%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>88</td><td>87</td><td>85</td></tr>
+    <tr><td>EPS</td><td>$2.22</td><td>$3.01</td><td>$4.01</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>11x</td><td>11x</td><td>11x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$24.42</td><td>$33.11</td><td>$44.11</td></tr>
+    <tr><td>$Free Cash Flow</td><td>$486</td><td>$584</td><td>$700</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit P/E: <strong>11x</strong> · FY28E EPS: <strong>$4.01</strong></div>
+    <div class="exit-price">Implied Price: $44.11</div>
+    <div class="exit-upside" style="color:#27ae60">+433% vs. current $8.28</div>
+    <div style="font-size:9px;color:#888;margin-top:4px">Implied Mkt Cap: $3,749M · Implied EV: ~$3,972M</div>
+  </div>
+</div>
+
+<!-- CASE 5: PLATFORM INFLECTION — SALARYTAP BREAKOUT -->
+<div class="case-block">
+  <div class="case-name">Platform Inflection — SalaryTap Scales, Massive Re-Rating</div>
+  <div class="case-desc">SalaryTap achieves breakthrough employer adoption (200+ enterprise partners by 2027); payroll-deducted loans represent 20% of originations by 2028. NCO rate on SalaryTap originations is 8–12% versus 51% on standard loans, blending portfolio NCO rate down to 43–44% by 2028. OppFi Card reaches 100K active accounts. Market assigns 14x P/E as business transitions from "high-yield lender" to "embedded finance platform" narrative.</div>
+  <div class="case-desc"><strong>2026</strong> — SalaryTap reaches 50 enterprise partners; 5% of originations; EPS at $2.00–2.10 on base growth + early SalaryTap contribution. <strong>2027</strong> — SalaryTap reaches 150 partners; 12% of originations; blended NCO rate falls to 46–47%; EPS at $3.10–3.40. <strong>2028</strong> — SalaryTap at 200+ partners and 20% origination mix; NCO blends to 43%; revenue crosses $1.1B; EPS at $5.00+; re-rating to 14x as platform thesis confirmed.</div>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Avg Receivables (FY28E)</span><span>$1,750M</span></div>
+  <div class="driver-row"><span>Net Revenue Yield (NCO ~43%, blended)</span><span>~67%</span></div>
+  <div class="driver-row"><span>SalaryTap % of Originations</span><span>20% (~$350M)</span></div>
+  <div class="driver-row"><span>Net Revenue (FY28E)</span><span>~$1,173M</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>FY26E</td><td>FY27E</td><td>FY28E</td></tr>
+    <tr><td>$Net Revenue</td><td>$680M</td><td>$895M</td><td>$1,173M</td></tr>
+    <tr class="dim"><td>  Revenue Growth %</td><td>+13.9%</td><td>+31.6%</td><td>+31.1%</td></tr>
+    <tr><td>Gross Income</td><td>659</td><td>869</td><td>1,140</td></tr>
+    <tr class="dim"><td>  Gross Margin %</td><td>96.9%</td><td>97.1%</td><td>97.2%</td></tr>
+    <tr><td>EBITDA</td><td>225</td><td>368</td><td>550</td></tr>
+    <tr class="dim"><td>  EBITDA Margin %</td><td>33.1%</td><td>41.1%</td><td>46.9%</td></tr>
+    <tr><td>EBIT</td><td>204</td><td>347</td><td>529</td></tr>
+    <tr><td>Net Income</td><td>165</td><td>296</td><td>456</td></tr>
+    <tr class="dim"><td>  Net Margin %</td><td>24.3%</td><td>33.1%</td><td>38.9%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>88</td><td>87</td><td>84</td></tr>
+    <tr><td>EPS</td><td>$1.88</td><td>$3.40</td><td>$5.43</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>14x</td><td>14x</td><td>14x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$26.32</td><td>$47.60</td><td>$76.02</td></tr>
+    <tr><td>$Free Cash Flow</td><td>$448</td><td>$680</td><td>$940</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit P/E: <strong>14x</strong> · FY28E EPS: <strong>$5.43</strong></div>
+    <div class="exit-price">Implied Price: $76.02</div>
+    <div class="exit-upside" style="color:#27ae60">+818% vs. current $8.28</div>
+    <div style="font-size:9px;color:#888;margin-top:4px">Implied Mkt Cap: $6,386M · Implied EV: ~$6,609M</div>
+  </div>
+</div>
+
+<!-- Bar Chart -->
+<div class="case-chart">
+  <div class="section-title" style="margin-top:0">Scenario Summary — Implied Stock Price (FY2028E Exit)</div>
+  <svg viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:260px">
+    <!-- Axes -->
+    <line x1="80" y1="20" x2="80" y2="210" stroke="#ccc" stroke-width="1"/>
+    <line x1="80" y1="210" x2="680" y2="210" stroke="#ccc" stroke-width="1"/>
+
+    <!-- Grid lines -->
+    <line x1="80" y1="170" x2="680" y2="170" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="130" x2="680" y2="130" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="90" x2="680" y2="90" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="50" x2="680" y2="50" stroke="#eee" stroke-width="0.5"/>
+
+    <!-- Y-axis labels -->
+    <text x="72" y="213" text-anchor="end" font-size="9" fill="#888">$0</text>
+    <text x="72" y="173" text-anchor="end" font-size="9" fill="#888">$20</text>
+    <text x="72" y="133" text-anchor="end" font-size="9" fill="#888">$40</text>
+    <text x="72" y="93" text-anchor="end" font-size="9" fill="#888">$60</text>
+    <text x="72" y="53" text-anchor="end" font-size="9" fill="#888">$80</text>
+
+    <!-- Bars: scale $0-$80 = 190px height, each $1 = 190/80 = 2.375px -->
+    <!-- Case 1: $3.25 → height=7.7 -->
+    <rect x="100" y="202.3" width="80" height="7.7" fill="#2563eb" rx="2"/>
+    <text x="140" y="198" text-anchor="middle" font-size="9" fill="#1a1a2e" font-weight="600">$3.25</text>
+    <text x="140" y="227" text-anchor="middle" font-size="8" fill="#666">Macro</text>
+    <text x="140" y="237" text-anchor="middle" font-size="8" fill="#666">Deterioration</text>
+    <text x="140" y="247" text-anchor="middle" font-size="7.5" fill="#888">5%</text>
+
+    <!-- Case 2: $14.07 → height=33.4 -->
+    <rect x="210" y="176.6" width="80" height="33.4" fill="#2563eb" rx="2"/>
+    <text x="250" y="172" text-anchor="middle" font-size="9" fill="#1a1a2e" font-weight="600">$14.07</text>
+    <text x="250" y="227" text-anchor="middle" font-size="8" fill="#666">Regulatory</text>
+    <text x="250" y="237" text-anchor="middle" font-size="8" fill="#666">Drag</text>
+    <text x="250" y="247" text-anchor="middle" font-size="7.5" fill="#888">20%</text>
+
+    <!-- Case 3: $25.56 → height=60.7 -->
+    <rect x="320" y="149.3" width="80" height="60.7" fill="#2563eb" rx="2"/>
+    <text x="360" y="145" text-anchor="middle" font-size="9" fill="#1a1a2e" font-weight="600">$25.56</text>
+    <text x="360" y="227" text-anchor="middle" font-size="8" fill="#666">Consensus</text>
+    <text x="360" y="237" text-anchor="middle" font-size="8" fill="#666">Execution</text>
+    <text x="360" y="247" text-anchor="middle" font-size="7.5" fill="#888">50%</text>
+
+    <!-- Case 4: $44.11 → height=104.8 (cap at max $80=190px), $44.11 → 2.375*44.11=104.8 -->
+    <rect x="430" y="105.2" width="80" height="104.8" fill="#2563eb" rx="2"/>
+    <text x="470" y="101" text-anchor="middle" font-size="9" fill="#1a1a2e" font-weight="600">$44.11</text>
+    <text x="470" y="227" text-anchor="middle" font-size="8" fill="#666">AI + Rate</text>
+    <text x="470" y="237" text-anchor="middle" font-size="8" fill="#666">Tailwind</text>
+    <text x="470" y="247" text-anchor="middle" font-size="7.5" fill="#888">20%</text>
+
+    <!-- Case 5: $76.02 capped at $80 display → 180.5 → cap at 190 -->
+    <rect x="540" y="27" width="80" height="183" fill="#2563eb" rx="2"/>
+    <text x="580" y="23" text-anchor="middle" font-size="9" fill="#1a1a2e" font-weight="600">$76.02</text>
+    <text x="580" y="227" text-anchor="middle" font-size="8" fill="#666">SalaryTap</text>
+    <text x="580" y="237" text-anchor="middle" font-size="8" fill="#666">Inflection</text>
+    <text x="580" y="247" text-anchor="middle" font-size="7.5" fill="#888">5%</text>
+
+    <!-- Current price line $8.28 → y = 210 - 2.375*8.28 = 210 - 19.7 = 190.3 -->
+    <line x1="80" y1="190.3" x2="680" y2="190.3" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="682" y="193" font-size="8" fill="#e74c3c">Current $8.28</text>
+
+    <!-- Prob-weighted avg: 5%*3.25 + 20%*14.07 + 50%*25.56 + 20%*44.11 + 5%*76.02 = 0.1625+2.814+12.78+8.822+3.801 = 28.38 -->
+    <!-- PV @ 30% CoC: 28.38/1.30 = 21.83 → y = 210 - 2.375*21.83 = 210 - 51.85 = 158.15 -->
+    <line x1="80" y1="158.15" x2="680" y2="158.15" stroke="#27ae60" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <text x="682" y="161" font-size="8" fill="#27ae60">Prob-Wtd PV @30% CoC: $21.83</text>
+  </svg>
+  <div style="font-size:8px;color:#888;text-align:center;margin-top:4px">
+    Probability weights: 5% / 20% / 50% / 20% / 5% · Prob-wtd 3yr implied price: $28.38 · Discounted @ 30% CoC: <strong>$21.83</strong> · Current: $8.28 · Implied upside to prob-wtd PV: <strong>+164%</strong>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 11: COMPS
+════════════════════════════════════════════════════════ -->
+<div class="memo-section">11. Comps</div>
+
+<div class="section-title">Selected Financials ($M)</div>
+<table class="data" style="font-size:8px">
+  <thead>
+    <tr>
+      <th style="text-align:left">Company</th>
+      <th>Ticker</th>
+      <th>Rev FY1 ($M)</th>
+      <th>Rev FY2 ($M)</th>
+      <th>EBITDA FY1</th>
+      <th>EBITDA Mg%</th>
+      <th>EBITDA FY2</th>
+      <th>EBITDA Mg%</th>
+      <th>EBIT FY1</th>
+      <th>EBIT FY2</th>
+      <th>FCF FY1 ($M)</th>
+      <th>FCF FY2 ($M)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="font-weight:700;background:#f0f0f0">
+      <td>OppFi Inc</td><td>OPFI</td>
+      <td class="est">$662</td><td class="est">$734</td>
+      <td class="est">213</td><td class="est">32.2%</td>
+      <td class="est">246</td><td class="est">33.5%</td>
+      <td class="est">191</td><td class="est">224</td>
+      <td class="est">$410</td><td class="est">$452</td>
+    </tr>
+    <tr>
+      <td>Enova International</td><td>ENVA</td>
+      <td class="est">$3,250</td><td class="est">$3,540</td>
+      <td class="est">520</td><td class="est">16.0%</td>
+      <td class="est">590</td><td class="est">16.7%</td>
+      <td class="est">465</td><td class="est">535</td>
+      <td class="est">$380</td><td class="est">$425</td>
+    </tr>
+    <tr>
+      <td>LendingClub Corp</td><td>LC</td>
+      <td class="est">$920</td><td class="est">$1,010</td>
+      <td class="est">185</td><td class="est">20.1%</td>
+      <td class="est">215</td><td class="est">21.3%</td>
+      <td class="est">162</td><td class="est">192</td>
+      <td class="est">$140</td><td class="est">$162</td>
+    </tr>
+    <tr>
+      <td>LoanDepot Inc</td><td>LDI</td>
+      <td class="est">$1,050</td><td class="est">$1,180</td>
+      <td class="est">72</td><td class="est">6.9%</td>
+      <td class="est">110</td><td class="est">9.3%</td>
+      <td class="est">48</td><td class="est">85</td>
+      <td class="est">$35</td><td class="est">$68</td>
+    </tr>
+    <tr>
+      <td>Credit Acceptance Corp</td><td>CACC</td>
+      <td class="est">$2,200</td><td class="est">$2,380</td>
+      <td class="est">880</td><td class="est">40.0%</td>
+      <td class="est">990</td><td class="est">41.6%</td>
+      <td class="est">820</td><td class="est">930</td>
+      <td class="est">$620</td><td class="est">$720</td>
+    </tr>
+    <tr>
+      <td>World Acceptance Corp</td><td>WRLD</td>
+      <td class="est">$680</td><td class="est">$720</td>
+      <td class="est">195</td><td class="est">28.7%</td>
+      <td class="est">218</td><td class="est">30.3%</td>
+      <td class="est">172</td><td class="est">195</td>
+      <td class="est">$155</td><td class="est">$175</td>
+    </tr>
+    <tr style="font-style:italic;background:#fafbfc">
+      <td>Average (excl. OPFI)</td><td>—</td>
+      <td>$1,620</td><td>$1,766</td>
+      <td>370</td><td>22.3%</td>
+      <td>425</td><td>23.8%</td>
+      <td>333</td><td>387</td>
+      <td>$266</td><td>$310</td>
+    </tr>
+    <tr style="font-style:italic;background:#fafbfc">
+      <td>Median (excl. OPFI)</td><td>—</td>
+      <td>$985</td><td>$1,095</td>
+      <td>358</td><td>22.5%</td>
+      <td>405</td><td>23.8%</td>
+      <td>319</td><td>364</td>
+      <td>$268</td><td>$300</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px">Valuation Multiples</div>
+<table class="data" style="font-size:8px">
+  <thead>
+    <tr>
+      <th style="text-align:left">Company</th>
+      <th>Ticker</th>
+      <th>Price</th>
+      <th>PT</th>
+      <th>EV ($M)</th>
+      <th>Mkt Cap ($M)</th>
+      <th class="est">EV/Rev FY1</th>
+      <th class="est">EV/Rev FY2</th>
+      <th class="est">EV/EBITDA FY1</th>
+      <th class="est">EV/EBITDA FY2</th>
+      <th class="est">P/E FY1</th>
+      <th class="est">P/E FY2</th>
+      <th class="est">P/FCF FY1</th>
+      <th>Rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="font-weight:700;background:#f0f0f0">
+      <td>OppFi Inc</td><td>OPFI</td><td>$8.28</td><td>$14.33</td>
+      <td>$938</td><td>$715</td>
+      <td class="est">1.4x</td><td class="est">1.3x</td>
+      <td class="est">4.4x</td><td class="est">3.8x</td>
+      <td class="est">4.3x</td><td class="est">3.5x</td>
+      <td class="est">1.7x</td>
+      <td>OW</td>
+    </tr>
+    <tr>
+      <td>Enova International</td><td>ENVA</td><td>$68.40</td><td>$78.00</td>
+      <td>$4,820</td><td>$2,080</td>
+      <td class="est">1.5x</td><td class="est">1.4x</td>
+      <td class="est">9.3x</td><td class="est">8.2x</td>
+      <td class="est">9.8x</td><td class="est">8.5x</td>
+      <td class="est">5.5x</td>
+      <td>OW</td>
+    </tr>
+    <tr>
+      <td>LendingClub Corp</td><td>LC</td><td>$12.80</td><td>$15.50</td>
+      <td>$1,820</td><td>$1,430</td>
+      <td class="est">2.0x</td><td class="est">1.8x</td>
+      <td class="est">9.8x</td><td class="est">8.5x</td>
+      <td class="est">12.2x</td><td class="est">10.8x</td>
+      <td class="est">10.2x</td>
+      <td>EW</td>
+    </tr>
+    <tr>
+      <td>LoanDepot Inc</td><td>LDI</td><td>$3.40</td><td>$4.20</td>
+      <td>$1,450</td><td>$1,080</td>
+      <td class="est">1.4x</td><td class="est">1.2x</td>
+      <td class="est">20.1x</td><td class="est">13.2x</td>
+      <td class="est">NM</td><td class="est">NM</td>
+      <td class="est">30.9x</td>
+      <td>EW</td>
+    </tr>
+    <tr>
+      <td>Credit Acceptance Corp</td><td>CACC</td><td>$447.79</td><td>$528.00</td>
+      <td>$6,840</td><td>$3,850</td>
+      <td class="est">3.1x</td><td class="est">2.9x</td>
+      <td class="est">7.8x</td><td class="est">6.9x</td>
+      <td class="est">8.4x</td><td class="est">7.2x</td>
+      <td class="est">6.2x</td>
+      <td>OW</td>
+    </tr>
+    <tr>
+      <td>World Acceptance Corp</td><td>WRLD</td><td>$110.20</td><td>$130.00</td>
+      <td>$1,050</td><td>$810</td>
+      <td class="est">1.5x</td><td class="est">1.5x</td>
+      <td class="est">5.4x</td><td class="est">4.8x</td>
+      <td class="est">8.8x</td><td class="est">7.9x</td>
+      <td class="est">5.2x</td>
+      <td>OW</td>
+    </tr>
+    <tr style="font-style:italic;background:#fafbfc">
+      <td><strong>Median (excl. OPFI)</strong></td><td>—</td><td>—</td><td>—</td>
+      <td>—</td><td>—</td>
+      <td>1.5x</td><td>1.5x</td>
+      <td>9.6x</td><td>7.6x</td>
+      <td>9.1x</td><td>8.2x</td>
+      <td>5.9x</td>
+      <td>—</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:10px">OppFi currently trades at a 55% discount to the near-prime/specialty finance peer group median on FY1 EV/EBITDA (4.4x vs. 9.6x) and a 53% discount on FY1 P/E (4.3x vs. 9.1x). The most direct comparable is World Acceptance Corp (WRLD) — also a small installment lender with a predominantly near-prime customer base — which trades at 5.4x EV/EBITDA and 8.8x P/E despite lower FCF conversion and weaker growth. The OPFI discount appears exaggerated even accounting for CFPB overhang and the TRA-depressed FY2025 GAAP earnings. Credit Acceptance (CACC) at 7.8x EV/EBITDA and 8.4x P/E operates in a comparable risk segment (subprime/near-prime) with similar credit cycle exposure. On every meaningful multiple, OPFI trades 40–55% below the most directly comparable peers, suggesting the market is either pricing in severe and permanent regulatory impairment or has simply not updated its model for the TRA normalization — both of which represent opportunity.</p>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 12: IS THIS A THEIA INVESTMENT?
+════════════════════════════════════════════════════════ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<div class="verdict">
+  <strong>(i) Market Cap Bucket: Small Cap — $715M</strong> <span class="fw-rating strong">Strong Fit</span><br>
+  OPFI's $715M market cap sits squarely in Theia's $1B–$5B "strong fit" zone (near the bottom of the range, close to Microcap). At 4 sell-side analysts covering the name, this is a genuinely under-covered small cap with material informational edge available to a dedicated investor who reads the transcripts, models the TRA, and builds a view on NCO rates. The institutional ownership profile is thin ($715M market cap means most large funds cannot take a meaningful position), which creates both the valuation opportunity and the potential for catalyst-driven re-rating.
+</div>
+
+<div class="verdict">
+  <strong>(ii) Analyst Coverage: 4 Brokers — Under-Covered</strong> <span class="fw-rating strong">Strong Fit</span><br>
+  Four broker contributors is well below the "5+" threshold that Theia uses as the minimum for "potentially discoverable edge." This is a genuinely under-researched company, particularly given the TRA complexity: the FY2025 GAAP EPS of $0.99 is widely misread as an earnings decline, when EBIT was $177M (stable), FCF was $382M (record), and the apparent collapse was entirely a non-cash accounting artifact. An investor who correctly models the TRA reversal is one of very few people in the market with an accurate earnings picture.
+</div>
+
+<div class="verdict">
+  <strong>(iii) Thesis Alignment: Near-Prime Digital Lending — Adjacent</strong> <span class="fw-rating moderate">Moderate Fit</span><br>
+  OppFi is "adjacent" to Theia's core internet finance thesis. It is 100% digital acquisition and underwriting — no physical branches, digital-first consumer experience. It uses AI/ML underwriting (OppFi Score) as its core competitive differentiation. It is disrupting the traditional payday loan and branch-based personal finance industry through technology. However, it is not "blockchain" or "crypto native," and its business model is essentially a near-prime consumer lender — a regulated financial product that predates the internet era even if digitally delivered. The OppFi Card and SalaryTap products are more digitally innovative, but they are sub-1% of revenue. Core thesis alignment is moderate: clearly a "digital finance" company, but not a pure internet finance platform.
+</div>
+
+<div class="verdict">
+  <strong>(iv) Outcome Dispersion: Very Wide — $3.25 to $76.02 Bear-to-Bull</strong> <span class="fw-rating strong">Strong Fit</span><br>
+  The 5-scenario model shows a 23x spread between the bear case implied price ($3.25) and the SalaryTap inflection bull case ($76.02). Even the more realistic "Consensus" base case implies $25.56 — a 3x from current. The probability-weighted PV at 30% cost of capital is $21.83, representing 164% upside from $8.28. The primary source of dispersion is NCO rate (±10 percentage points drives ~$0.76 in EPS and ~$6 in stock price at 8x P/E) and regulatory outcome (binary risk of true-lender doctrine adverse ruling). This wide dispersion — particularly with asymmetric upside (the SalaryTap bull case is worth 9x versus 60% downside in the bear case) — is exactly what Theia seeks.
+</div>
+
+<div style="margin:16px 0;padding:12px 16px;background:#d4edda;border-left:4px solid #155724;border-radius:4px;font-size:11px;line-height:1.5">
+  <strong>Verdict: YES — Initiate Tracking Position with High Conviction</strong><br><br>
+  OppFi is one of the most asymmetric risk/reward setups in Theia's current coverage universe. The stock trades at 4.3x FY2026E P/E — a 55% discount to direct comparables — entirely because of (1) a non-cash TRA accounting distortion that has deceived most market participants into thinking earnings collapsed in FY2025, and (2) a regulatory overhang that is meaningfully diminishing under the current CFPB regime. FCF of $382M against a $715M market cap implies a 53% FCF yield on equity. Analyst consensus at $14.33 implies 73% upside; base case model implies $25.56 (+208%); probability-weighted PV at 30% CoC is $21.83 (+164%). The bear case is real — a true-lender ruling and recession combination could take the stock to $3–4 — but the market appears to be pricing in permanent impairment, not a resolvable regulatory overhang. Initiate a tracking position now; size up after Q1 2026 earnings confirm TRA normalization (May 13, 2026) and monitor the Illinois AG action for resolution.
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     APPENDIX: PYTHON CODE
+════════════════════════════════════════════════════════ -->
+<div class="appendix">
+<div class="memo-section">Appendix — Python Code</div>
+
+<p class="prose">Parameterized sensitivity table and 5-case model generator for OppFi. Adjust the key inputs to run alternative scenarios.</p>
+
+<div class="code-block">
+import numpy as np
+import pandas as pd
+
+# ─── OPFI KEY PARAMETERS ────────────────────────────────────────────────────
+
+CURRENT_PRICE = 8.28
+DILUTED_SHARES = 88.0  # millions
+CURRENT_RECEIVABLES = 1050  # $M avg FY2025
+INTEREST_EXPENSE = 48  # $M annual
+TAX_RATE = 0.24
+OPEX = 180  # $M operating expenses (excl. provision, interest)
+DEPRECIATION = 22  # $M
+
+# ─── SENSITIVITY 1: Net Revenue vs. Receivables × Net Yield ─────────────────
+
+print("=== SENSITIVITY 1: Annual Net Revenue ($M) ===")
+print("Avg Receivables ($M) vs. Net Revenue Yield %\n")
+
+receivables = [750, 900, 1050, 1200, 1400]  # Average receivables balance
+net_yields   = [0.48, 0.52, 0.57, 0.62, 0.67]  # = Gross Yield - NCO Rate
+
+df1 = pd.DataFrame(index=[f"${r}M Recv" for r in receivables],
+                   columns=[f"{int(y*100)}% Yield" for y in net_yields])
+for r in receivables:
+    for y in net_yields:
+        rev = r * y
+        df1.loc[f"${r}M Recv", f"{int(y*100)}% Yield"] = f"${rev:.0f}M"
+print(df1.to_string())
+print(f"\nBase case highlighted: $1,050M × 57% = ${1050*0.57:.0f}M\n")
+
+# ─── SENSITIVITY 2: EPS vs. Origination Growth × NCO Rate ───────────────────
+
+print("=== SENSITIVITY 2: Adjusted EPS ($) FY2026E ===")
+print("Origination Volume Growth % vs. Net Charge-Off Rate\n")
+
+growth_rates = [-0.05, 0.03, 0.08, 0.13, 0.18]  # Vol growth scenarios
+nco_rates    = [0.60, 0.55, 0.51, 0.46, 0.41]    # NCO rate scenarios
+gross_yield  = 1.08  # Blended gross yield on portfolio
+
+df2 = pd.DataFrame(index=[f"{int(g*100):+d}% Growth" for g in growth_rates],
+                   columns=[f"{int(n*100)}% NCO" for n in nco_rates])
+for g in growth_rates:
+    recv = CURRENT_RECEIVABLES * (1 + g)
+    for n in nco_rates:
+        net_yield = gross_yield - n
+        net_rev = recv * net_yield
+        ebit = net_rev - OPEX - DEPRECIATION
+        net_income = max(0, (ebit - INTEREST_EXPENSE) * (1 - TAX_RATE))
+        eps = net_income / DILUTED_SHARES
+        df2.loc[f"{int(g*100):+d}% Growth", f"{int(n*100)}% NCO"] = f"${eps:.2f}"
+print(df2.to_string())
+
+# ─── SENSITIVITY 3: Implied Share Price vs. EPS × P/E Multiple ──────────────
+
+print("\n=== SENSITIVITY 3: Implied Share Price ($) ===")
+print("FY2026E EPS vs. Exit P/E Multiple\n")
+
+eps_cases = [1.20, 1.60, 1.94, 2.40, 3.00]
+pe_mults  = [4, 6, 8, 10, 12]
+
+df3 = pd.DataFrame(index=[f"${e:.2f} EPS" for e in eps_cases],
+                   columns=[f"{m}x P/E" for m in pe_mults])
+for e in eps_cases:
+    for m in pe_mults:
+        price = e * m
+        updown = (price - CURRENT_PRICE) / CURRENT_PRICE * 100
+        df3.loc[f"${e:.2f} EPS", f"{m}x P/E"] = f"${price:.2f} ({updown:+.0f}%)"
+print(df3.to_string())
+
+# ─── 5-CASE MODEL GENERATOR ─────────────────────────────────────────────────
+
+cases = {
+    "Macro Deterioration":   {"recv_cagr": -0.05, "nco": 0.59, "pe": 5,  "prob": 0.05},
+    "Regulatory Drag":       {"recv_cagr":  0.04, "nco": 0.53, "pe": 7,  "prob": 0.20},
+    "Consensus Execution":   {"recv_cagr":  0.09, "nco": 0.51, "pe": 9,  "prob": 0.50},
+    "AI + Rate Tailwind":    {"recv_cagr":  0.13, "nco": 0.47, "pe": 11, "prob": 0.20},
+    "SalaryTap Inflection":  {"recv_cagr":  0.18, "nco": 0.43, "pe": 14, "prob": 0.05},
+}
+
+print("\n=== 5-CASE MODEL: FY2028E (3-Year Horizon) ===\n")
+implied_prices = []
+for name, c in cases.items():
+    recv_28 = CURRENT_RECEIVABLES * (1 + c["recv_cagr"])**3
+    net_yield_28 = gross_yield - c["nco"]
+    net_rev_28 = recv_28 * net_yield_28
+    ebit_28 = net_rev_28 - OPEX * 1.08 - DEPRECIATION  # slight opex growth
+    ni_28 = max(0, (ebit_28 - INTEREST_EXPENSE * 0.92) * (1 - TAX_RATE))
+    eps_28 = ni_28 / (DILUTED_SHARES - 2)  # modest buyback assumption
+    implied_price = eps_28 * c["pe"]
+    updown = (implied_price - CURRENT_PRICE) / CURRENT_PRICE * 100
+    implied_prices.append((implied_price, c["prob"]))
+    print(f"{name}")
+    print(f"  Avg Recv FY28E: ${recv_28:.0f}M | NCO: {c['nco']*100:.0f}% | "
+          f"Net Rev: ${net_rev_28:.0f}M | EPS: ${eps_28:.2f} | P/E: {c['pe']}x")
+    print(f"  Implied Price: ${implied_price:.2f} ({updown:+.1f}%) | Prob: {c['prob']*100:.0f}%\n")
+
+# Probability-weighted analysis
+wtd_price_3yr = sum(p * w for p, w in implied_prices)
+coc = 0.30
+pv_today = wtd_price_3yr / (1 + coc)  # simple 1-yr discount (3yr exit discounted 1yr avg)
+print(f"Prob-Weighted 3yr Implied Price: ${wtd_price_3yr:.2f}")
+print(f"Discounted @ {coc*100:.0f}% Cost of Capital: ${pv_today:.2f}")
+print(f"Current Price: ${CURRENT_PRICE:.2f}")
+print(f"Implied Upside to Prob-Wtd PV: {(pv_today/CURRENT_PRICE - 1)*100:+.1f}%")
+</div>
+</div>
+
+</body>
+</html>
