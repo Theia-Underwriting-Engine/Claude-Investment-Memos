@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EZCORP | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 6px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.alphasense-box { background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 4px; padding: 8px 12px; margin-bottom: 14px; font-size: 10px; color: #1e3a5f; }
+
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 5px; border-bottom: 1px solid #ddd; white-space: nowrap; font-size: 7.5px; }
+table.comps th:first-child { text-align: left; }
+table.comps td { text-align: right; padding: 2px 5px; }
+table.comps td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-style: italic; background: #fafbfc; font-weight: 600; }
+
+.neg { color: #c0392b; }
+.pos-val { color: #27ae60; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">EZCORP, Inc. | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">EZCORP, Inc. (NASDAQ: EZPW) is the second-largest pawn operator in the Americas, running 1,500+ stores across 16 countries following a landmark acquisition sprint in early 2026. Founded in 1989 and headquartered in Austin, Texas, EZCORP generates revenue through two interlocked mechanisms: (1) <strong>Pawn Service Charges (PSC)</strong> — interest/fees earned on short-duration, non-recourse collateral loans averaging $200–$230 in the U.S. and ~$100 in Latin America, and (2) <strong>Merchandise sales</strong> — resale of forfeited collateral at 35–38% retail markup, predominantly jewelry, consumer electronics, and tools. The business is structurally countercyclical: when consumer credit tightens, pawn demand increases, making EZCORP a natural hedge against economic deterioration.</p>
+
+<p class="prose">The company operates under the brands EZPAWN and Value Pawn & Jewelry in the United States (547 stores in 19 states as of Q1 FY2026), and Empeño Fácil, Cash Apoyo Efectivo, GuatePrenda, MaxiEfectivo, and newly acquired La Familia Pawn & CashWiz in Latin America and internationally (836+ stores in Mexico, Guatemala, Honduras, Peru, and 12 additional countries). Under CEO Lachlan Given, EZCORP has pivoted from a pure organic growth story to an acquisition-led consolidation play — the January 2026 Founders One/SMG consolidation (105 stores, 12 countries, $156.4M facility at 13%) and El Buffalo Pawn acquisition (12 Texas stores, $27.5M) pushed total store count through the 1,500 milestone. Latin America now contributes ~28% of revenue (growing faster than the U.S.) and represents the primary organic and M&A growth vector, with management flagging Mexico, Panama, Costa Rica, and the Caribbean as active pipeline targets.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 2: THEIA FACTSET SUMMARY -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Theia FactSet Summary</div>
+
+<div class="header">
+  <div>
+    <h1>EZCORP, Inc.</h1>
+    <span class="ticker">EZPW · NASDAQ · CUSIP: 302741104</span>
+  </div>
+  <div class="date">FactSet Export: March 16, 2026 · FY ends September 30</div>
+</div>
+
+<!-- Price Bar -->
+<div class="price-bar">
+  <div><span class="label">Price </span><span class="price">$25.87</span></div>
+  <div><span class="label">1M </span><span class="chg pos">+2.1%</span></div>
+  <div><span class="label">3M </span><span class="chg pos">+37.1%</span></div>
+  <div><span class="label">6M </span><span class="chg pos">+45.2%</span></div>
+  <div><span class="label">YTD </span><span class="chg pos">+14.8%</span></div>
+  <div><span class="label">1Y </span><span class="chg pos">+69.3%</span></div>
+  <div><span class="label">52-Wk </span><span>$12.85 – $27.30</span></div>
+</div>
+
+<!-- Two-col: Key Stats + EV Bridge -->
+<div class="two-col" style="margin-bottom:12px;">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv">
+      <tr><td>Ticker / Exchange</td><td>EZPW / NASDAQ</td></tr>
+      <tr><td>Price (Mar 16, 2026)</td><td>$25.87</td></tr>
+      <tr><td>Avg Daily Volume (30D)</td><td>1.01M shares</td></tr>
+      <tr><td>Float %</td><td>97.5%</td></tr>
+      <tr><td>Short Interest (% Float)</td><td>22.53%</td></tr>
+      <tr><td>Beta</td><td>0.44</td></tr>
+      <tr><td>WACC</td><td>6.06%</td></tr>
+      <tr><td>Broker Contributors</td><td>7</td></tr>
+      <tr><td>Consensus Rating</td><td>OW (4.00/5.00)</td></tr>
+      <tr><td>Consensus Target Price</td><td>$32.33</td></tr>
+      <tr><td>Next Earnings Date</td><td>May 6, 2026</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev">
+      <tr><td style="padding-left:0;">Basic Shares Outstanding</td><td>61.70M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">↳ Class A Shares</td><td>58.73M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">↳ Class B Shares</td><td>2.97M</td></tr>
+      <tr><td>× Current Price</td><td>$25.87</td></tr>
+      <tr><td>= Basic Market Cap</td><td>$1,596.1M</td></tr>
+      <tr><td>+ Dilution (ITM converts &amp; options)</td><td>$22.31M shrs</td></tr>
+      <tr><td>= Fully Dil. Market Cap</td><td>$2,173.8M</td></tr>
+      <tr><td>+ Total Debt</td><td>$518.6M</td></tr>
+      <tr><td>− ITM Convertible Value</td><td>($230.0M)</td></tr>
+      <tr><td>− Cash &amp; Cash Equivalents</td><td>($471.3M)</td></tr>
+      <tr><td>− Unconsolidated Subs</td><td>($25.7M)</td></tr>
+      <tr class="total"><td>= Enterprise Value</td><td>$1,964.9M</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- Current Valuation — Horizontal 6×2 Grid -->
+<div class="section-title">Current Valuation</div>
+<div style="border: 1px solid #eee; border-radius: 4px; margin-bottom: 12px;">
+  <div class="val-grid">
+    <div class="val-cell">
+      <div class="val-label">Market Cap</div>
+      <div class="val-num">$1,596M</div>
+      <div class="val-sub">Basic</div>
+    </div>
+    <div class="val-cell">
+      <div class="val-label">Enterprise Value</div>
+      <div class="val-num">$1,965M</div>
+      <div class="val-sub">FactSet</div>
+    </div>
+    <div class="val-cell">
+      <div class="val-label">P/E (NTM)</div>
+      <div class="val-num">16.71x</div>
+      <div class="val-sub">FY26E</div>
+    </div>
+    <div class="val-cell">
+      <div class="val-label">EV/EBITDA</div>
+      <div class="val-num">9.79x</div>
+      <div class="val-sub">FY26E</div>
+    </div>
+    <div class="val-cell">
+      <div class="val-label">EV/Sales</div>
+      <div class="val-num">1.25x</div>
+      <div class="val-sub">FY26E</div>
+    </div>
+    <div class="val-cell">
+      <div class="val-label">P/Sales</div>
+      <div class="val-num">1.02x</div>
+      <div class="val-sub">FY26E</div>
+    </div>
+  </div>
+  <div class="val-grid" style="border-top: 1px solid #eee;">
+    <div class="val-cell">
+      <div class="val-label">Fully Dil. Mkt Cap</div>
+      <div class="val-num">$2,174M</div>
+      <div class="val-sub">Incl. converts</div>
+    </div>
+    <div class="val-cell">
+      <div class="val-label">WACC</div>
+      <div class="val-num">6.06%</div>
+      <div class="val-sub">FactSet</div>
+    </div>
+    <div class="val-cell">
+      <div class="val-label">Beta</div>
+      <div class="val-num">0.44</div>
+      <div class="val-sub">Low vol.</div>
+    </div>
+    <div class="val-cell">
+      <div class="val-label">Avg Rating</div>
+      <div class="val-num">OW</div>
+      <div class="val-sub">4.00 / 5.00</div>
+    </div>
+    <div class="val-cell">
+      <div class="val-label">Target Price</div>
+      <div class="val-num">$32.33</div>
+      <div class="val-sub">Consensus</div>
+    </div>
+    <div class="val-cell">
+      <div class="val-label">Next Earnings</div>
+      <div class="val-num">May 6</div>
+      <div class="val-sub">Q2 FY2026</div>
+    </div>
+  </div>
+</div>
+
+<!-- Valuation Multiples Table -->
+<div class="section-title">Valuation Multiples</div>
+<table class="data" style="margin-bottom:12px;">
+  <thead>
+    <tr>
+      <th>Multiple</th>
+      <th>5Yr Avg</th>
+      <th>Sep'23A</th>
+      <th>Sep'24A</th>
+      <th>Sep'25A</th>
+      <th class="est">Sep'26E</th>
+      <th class="est">Sep'27E</th>
+      <th class="est">Sep'28E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>P/E</td><td>19.9x</td><td>48.8x</td><td>23.5x</td><td>18.2x</td><td class="est">14.6x</td><td class="est">12.8x</td><td class="est">11.3x</td></tr>
+    <tr><td>P/Sales</td><td>0.82x</td><td>1.52x</td><td>1.37x</td><td>1.26x</td><td class="est">1.02x</td><td class="est">0.92x</td><td class="est">0.90x</td></tr>
+    <tr><td>P/Book Value</td><td>2.4x</td><td>2.9x</td><td>3.1x</td><td>3.1x</td><td class="est">2.8x</td><td class="est">2.5x</td><td class="est">2.3x</td></tr>
+    <tr><td>EV/Sales</td><td>0.69x</td><td>1.73x</td><td>1.59x</td><td>1.54x</td><td class="est">1.25x</td><td class="est">1.13x</td><td class="est">1.11x</td></tr>
+    <tr><td>EV/EBITDA</td><td>4.9x</td><td>14.7x</td><td>12.7x</td><td>10.8x</td><td class="est">8.0x</td><td class="est">7.2x</td><td class="est">6.6x</td></tr>
+    <tr><td>EV/EBIT</td><td>7.4x</td><td>19.9x</td><td>16.4x</td><td>13.2x</td><td class="est">9.8x</td><td class="est">8.8x</td><td class="est">8.1x</td></tr>
+  </tbody>
+</table>
+
+<!-- Revenue Exposure -->
+<div class="section-title">Revenue Exposure</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Business Segment</div>
+    <table class="rev">
+      <thead><tr><th>Segment</th><th>Rev ($M)</th><th>% Total</th></tr></thead>
+      <tbody>
+        <tr><td>U.S. Pawn</td><td>$912.5</td><td>71.6%</td></tr>
+        <tr><td>Latin America Pawn</td><td>$361.8</td><td>28.4%</td></tr>
+        <tr style="font-weight:700; border-top:1px solid #ddd;"><td>Total</td><td>$1,274.3</td><td>100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <div class="sub-label">By Revenue Type (FY2025)</div>
+    <table class="rev">
+      <thead><tr><th>Type</th><th>Rev ($M)</th><th>% Total</th></tr></thead>
+      <tbody>
+        <tr><td>Merchandise Sales</td><td>~$840</td><td>~65.9%</td></tr>
+        <tr><td>Pawn Service Charges</td><td>~$380</td><td>~29.8%</td></tr>
+        <tr><td>Scrap / Other</td><td>~$54</td><td>~4.3%</td></tr>
+        <tr style="font-weight:700; border-top:1px solid #ddd;"><td>Total</td><td>$1,274.3</td><td>100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Financials Table -->
+<div class="section-title" style="margin-top:10px;">Financials</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Sep'23A</th>
+      <th>Sep'24A</th>
+      <th>Sep'25A</th>
+      <th class="est">Sep'26E</th>
+      <th class="est">Sep'27E</th>
+      <th class="est">Sep'28E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">Income Statement ($M)</td></tr>
+    <tr><td>Revenue</td><td>$1,049</td><td>$1,162</td><td>$1,274</td><td class="est">$1,567</td><td class="est">$1,745</td><td class="est">$1,768</td></tr>
+    <tr><td style="padding-left:12px; color:#555; font-size:9px;">Revenue Growth %</td><td>10.7%</td><td>10.8%</td><td>9.7%</td><td class="est" style="font-size:9px; color:#555;">23.0%</td><td class="est" style="font-size:9px; color:#555;">11.3%</td><td class="est" style="font-size:9px; color:#555;">1.3%</td></tr>
+    <tr><td>Gross Income</td><td>$553</td><td>$631</td><td>$713</td><td class="est">$907</td><td class="est">$1,014</td><td class="est">$1,037</td></tr>
+    <tr><td style="padding-left:12px; color:#555; font-size:9px;">Gross Margin %</td><td>52.7%</td><td>54.3%</td><td>56.0%</td><td class="est" style="font-size:9px; color:#555;">57.9%</td><td class="est" style="font-size:9px; color:#555;">58.1%</td><td class="est" style="font-size:9px; color:#555;">58.7%</td></tr>
+    <tr><td>EBITDA</td><td>$124</td><td>$146</td><td>$182</td><td class="est">$245</td><td class="est">$274</td><td class="est">$297</td></tr>
+    <tr><td style="padding-left:12px; color:#555; font-size:9px;">EBITDA Margin %</td><td>11.8%</td><td>12.6%</td><td>14.3%</td><td class="est" style="font-size:9px; color:#555;">15.6%</td><td class="est" style="font-size:9px; color:#555;">15.7%</td><td class="est" style="font-size:9px; color:#555;">16.8%</td></tr>
+    <tr><td>EBIT</td><td>$92</td><td>$113</td><td>$149</td><td class="est">$200</td><td class="est">$224</td><td class="est">$244</td></tr>
+    <tr><td>Net Income</td><td>$39</td><td>$83</td><td>$110</td><td class="est">$144</td><td class="est">$163</td><td class="est">$185</td></tr>
+    <tr><td style="padding-left:12px; color:#555; font-size:9px;">Net Income Margin %</td><td>3.7%</td><td>7.1%</td><td>8.6%</td><td class="est" style="font-size:9px; color:#555;">9.2%</td><td class="est" style="font-size:9px; color:#555;">9.3%</td><td class="est" style="font-size:9px; color:#555;">10.5%</td></tr>
+    <tr><td>Dil. EPS</td><td>$0.53</td><td>$1.10</td><td>$1.42</td><td class="est">$1.78</td><td class="est">$2.01</td><td class="est">$2.30</td></tr>
+    <tr class="section-row"><td colspan="7">Cash Flow ($M)</td></tr>
+    <tr><td>Operating Cash Flow</td><td>—</td><td>—</td><td>$153</td><td class="est">$176</td><td class="est">$224</td><td class="est">—</td></tr>
+    <tr><td>Capital Expenditures</td><td>—</td><td>—</td><td>($39)</td><td class="est">($38)</td><td class="est">($52)</td><td class="est">—</td></tr>
+    <tr><td>Free Cash Flow</td><td>—</td><td>—</td><td>$114</td><td class="est">$141</td><td class="est">$172</td><td class="est">—</td></tr>
+    <tr class="section-row"><td colspan="7">Returns &amp; Leverage</td></tr>
+    <tr><td>Return on Equity</td><td>—</td><td>—</td><td>12.0%</td><td class="est">13.1%</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Total Debt ($M)</td><td>—</td><td>—</td><td>$519</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Cash ($M)</td><td>$229</td><td>$180</td><td>$470</td><td class="est">$478</td><td class="est">—</td><td class="est">—</td></tr>
+  </tbody>
+</table>
+
+<!-- Valuation Summary -->
+<div class="section-title" style="margin-top:12px;">Valuation Summary</div>
+<p class="prose">EZCORP currently trades at 8.0x FY26E EV/EBITDA and 14.6x FY26E P/E, representing a modest discount to the peer median of approximately 9.2x EV/EBITDA and 15.5x P/E — despite delivering materially superior near-term earnings growth (36% Adj. EBITDA growth in Q1 FY2026 vs. peers growing in the high-single-digit range). The discount primarily reflects two concerns: (1) a 22.5% short interest signaling investor skepticism about the pace and dilutive impact of M&A activity, and (2) the integration complexity of the SMG/Founders One acquisition, which added 105 stores across 12 countries almost overnight. However, with Pawn Loans Outstanding at all-time highs, Q1 FY2026 EPS already at $0.55 vs. consensus of $0.41, and the balance sheet holding $466M in unrestricted cash, the underlying business is executing well ahead of expectations. At 8.0x FY26E EV/EBITDA, EZCORP appears genuinely undervalued relative to the quality and growth trajectory of its pawn platform — particularly for a business generating $141M+ in FCF with zero credit risk exposure.</p>
+
+<div class="source-note">Source: FactSet snapshot export, March 16, 2026. Estimates from FactSet consensus. FY ends September 30.</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 3: BULL & BEAR CASES -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="two-col">
+  <div>
+    <div class="section-title" style="color:#155724; border-color:#155724;">Bull Cases</div>
+    <div class="fw-item">
+      <span class="fw-name">LatAm Consolidation Engine</span>
+      <p class="prose" style="margin-top:2px;">Mexico, Guatemala, Honduras, Panama, and the Caribbean represent a structurally underpenetrated pawn market where EZCORP is the only operator with the capital, brand, and operating playbook to scale at pace. At current store-level economics (~$400K annual PSC per unit), each 100 new LatAm stores adds ~$40M in incremental revenue. Management has flagged a "strong" M&A pipeline and ~$466M in dry powder.</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name">Jewelry Collateral Tailwind</span>
+      <p class="prose" style="margin-top:2px;">Gold prices above $3,000/oz directly inflate average loan sizes (U.S. avg $231 in Q1 FY2026, +12% YoY) and scrap revenue. Jewelry now represents 68% of U.S. PLO — every $100/oz move in gold adds ~2–3% to total PSC revenue at current PLO levels. Bull scenario assumes gold remains elevated through FY2027.</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name">Pawn Demand Cyclical Tailwind</span>
+      <p class="prose" style="margin-top:2px;">Consumer credit remains tight for the sub-$50K income cohort that uses pawn services — bank credit card delinquencies are near cycle highs, and subprime auto lenders have pulled back. Any recessionary pressure accelerates loan demand without increasing EZCORP's credit risk (loans are non-recourse, collateral-backed).</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name">Margin Expansion — Operating Leverage</span>
+      <p class="prose" style="margin-top:2px;">As PLO grows via same-store expansion and M&A, the fixed-cost G&A base spreads across a larger revenue base. EBITDA margins have expanded from 11.8% (FY23) to 15.6% (FY26E) — a trend supported by jewelry mix shift, scrap monetization, and technology investments in EZ+ (6.2M loyalty members, reducing churn).</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name">Share Buyback Accretion</span>
+      <p class="prose" style="margin-top:2px;">Management announced a new $50M, 3-year buyback in February 2026 funded from cash flows. Given 61.7M basic shares at $25.87, $50M represents ~3% buyback yield, meaningfully accretive if executed while shares trade at a discount to intrinsic value. Combined with EPS growth, this compresses the forward P/E faster than the headline would suggest.</p>
+    </div>
+  </div>
+  <div>
+    <div class="section-title" style="color:#721c24; border-color:#721c24;">Bear Cases</div>
+    <div class="fw-item">
+      <span class="fw-name">SMG Integration Risk</span>
+      <p class="prose" style="margin-top:2px;">The Founders One/SMG transaction added 105 stores across 12 countries in a single closing — with EZCORP providing $156.4M in debt financing at 13%, essentially acting as SMG's bank. If SMG underperforms (FY2024 revenue was $147M but profitability was unclear), EZCORP's consolidated P&L absorbs the drag while the 13% interest income is eliminated from its investment return.</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name">Mexico Labor Cost Inflation</span>
+      <p class="prose" style="margin-top:2px;">Mexico's government mandated a 13% minimum wage increase effective January 1, 2026. LatAm stores are labor-intensive (staff required for collateral assessment, customer service, and retail operations), and Mexico represents the core of EZCORP's LatAm store count. Management flagged this in the Q1 FY2026 call as a near-term headwind to LatAm EBITDA margins.</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name">Convertible Note Dilution Overhang</span>
+      <p class="prose" style="margin-top:2px;">EZCORP has $230M in in-the-money convertible notes, adding ~20.5M shares to the diluted share count. The jump from 61.7M basic to 84.0M fully diluted shares is a 36% dilution — if EPS is calculated on a fully diluted basis, FY26E EPS falls from $1.78 to ~$1.31, implying a much higher effective P/E than the headline number suggests.</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name">Fintech / Digital Credit Substitution</span>
+      <p class="prose" style="margin-top:2px;">Players like Oportun, OppFi, and digital BNPL providers are increasingly targeting the same sub-$50K income cohort with faster, app-based credit products. In a scenario where digital credit penetration increases materially in Mexico and Guatemala, pawn loan demand growth could decelerate structurally in EZCORP's highest-growth market.</p>
+    </div>
+    <div class="fw-item">
+      <span class="fw-name">Gold Price Reversal</span>
+      <p class="prose" style="margin-top:2px;">A material decline in gold prices would compress average loan sizes, reduce scrap revenue (currently a meaningful contributor to Q1 FY2026 outperformance), and force impairments on jewelry inventory carried at elevated collateral values. In Q1 FY2026, scrap contributed ~half of U.S. revenue outperformance — suggesting the business is meaningfully more gold-price-dependent than the headline revenue mix implies.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Scale Economies</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">EZCORP's cost base has meaningful fixed components — corporate G&A, technology infrastructure (EZ+ platform, AI-assisted loan decisioning), and centralized jewelry buying/selling operations — that become more efficient as the store count scales. G&A as a percentage of revenue has declined as the company has grown from ~900 to 1,500+ stores, and management has consistently cited operating leverage as a driver of EBITDA margin expansion (from 11.8% in FY23 to ~15.6% in FY26E). However, the underlying store model is largely variable: each individual pawn store requires a dedicated physical location, staff, and local marketing — so the marginal cost of adding one more store is not dramatically lower for EZCORP vs. a new entrant. The scale advantage is meaningful at the management/technology layer, but limited at the unit level.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Network Effects</span>
+  <span class="fw-rating weak">Weak</span>
+  <p class="prose" style="margin-top:4px;">Pawn lending is not a network-effects business in the traditional sense — the value of an EZPAWN loan to a customer does not increase because other customers also use EZPAWN. There is a weak geographic density argument (more stores per city = better customer convenience, lower forfeiture logistics costs), and the EZ+ loyalty program (6.2M members) creates some data-flywheel effects where behavioral patterns improve loan pricing and collateral valuation accuracy over time. But neither effect constitutes a durable network moat of the type that protects payment networks or marketplaces.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Counter-Positioning</span>
+  <span class="fw-rating strong">Strong</span>
+  <p class="prose" style="margin-top:4px;">The pawn model is structurally counter-positioned against virtually every regulated financial institution. Banks cannot offer non-recourse, collateralized micro-loans on personal property — it violates their regulatory capital requirements, consumer finance frameworks, and operational capacity (a bank has no mechanism to accept, value, store, and retail a used guitar or diamond ring). Online fintech lenders (Oportun, OppFi) can offer unsecured loans to the same demographic but require credit underwriting, accept repayment risk, and have high charge-off rates in stress scenarios — the exact risk EZCORP eliminates by taking physical collateral. This means EZCORP's primary competitors are only other pawn operators, and the total addressable market of potential disruptors is extraordinarily narrow. An incumbent bank or digital lender cannot rationally copy the pawn model because doing so would require building an entirely different physical-goods infrastructure that is anathema to their existing asset-light operating models.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Switching Costs</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">Individual pawn transactions have low switching costs — a customer with a piece of jewelry can walk into any pawn shop, so EZCORP competes on location convenience, loan-to-value ratio offered, and speed of transaction. However, the EZ+ loyalty program (6.2M members, +34% YoY growth) introduces a structured switching cost: members earn points, manage layaways, and access digital loan management tools that create behavioral stickiness. More importantly, geographic switching costs are significant in secondary markets — if EZCORP is the only pawn operator within 10 miles, the customer effectively has no alternative. This geographic captivity is more durable in smaller U.S. markets and in Latin American cities where formal pawn chains are scarce.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Branding</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">Pawn is not a brand-driven purchasing decision in the way luxury goods are — customers choose pawn shops primarily on proximity, trusted loan-to-value ratios, and familiarity. EZPAWN and Value Pawn carry modest brand value in their respective markets (Texas, Midwest, Southeast), primarily as markers of legitimacy and fair dealing in an industry that historically suffered from predatory lending stigma. In Latin America, Empeño Fácil and Cash Apoyo Efectivo have brand value in their specific geographies, but they are local brands, not pan-regional ones. The true brand advantage is more regulatory/reputational — being a NYSE-listed, publicly audited chain removes the information asymmetry customers face with local informal lenders.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">6. Cornered Resource</span>
+  <span class="fw-rating weak">Weak</span>
+  <p class="prose" style="margin-top:4px;">EZCORP does not possess a unique, non-replicable resource in the traditional sense. Its store locations are valuable but not irreplaceable — other operators can lease nearby properties. Its license portfolio is valuable in regulated jurisdictions but not a meaningful barrier versus a well-capitalized competitor. The proprietary AI-assisted collateral valuation models (used for jewelry pricing, loan-to-value optimization) represent an emerging data asset but are not yet differentiated enough to qualify as a cornered resource at the level of, say, a unique patent or spectrum license.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">7. Process Power</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">EZCORP has developed genuine process advantages in two areas that are difficult to replicate quickly. First, its <strong>jewelry valuation and resale operation</strong> — the ability to correctly price a diamond ring at $300 loan value, carry it in inventory for 60 days, and sell it at a 37% gross margin — requires years of trained appraiser talent, buyer relationships, and institutional knowledge about what jewelry moves and at what price point in which markets. A new entrant cannot hire its way to this capability in 12 months. Second, its <strong>LatAm operating model</strong> — knowing which collateral categories work in Guatemala vs. Honduras vs. Mexico, how to structure de novo builds in each regulatory environment, and how to manage currency and collections risk — represents accumulated know-how that FirstCash (the only comparable LatAm operator) also has, but that a new entrant would spend years developing.</p>
+</div>
+
+<p class="prose"><strong>Summary:</strong> EZCORP's strongest moats are Counter-Positioning (no bank or fintech can rationally copy the pawn model) and Process Power (jewelry valuation expertise and LatAm operational know-how). The absence of network effects and cornered resources limits the ceiling on structural competitive advantage, but the combination of counter-positioning and geography-based switching costs makes EZCORP's core business highly defensible within its addressable market.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Threat of New Entrants</span>
+  <span class="fw-rating low">Low</span>
+  <p class="prose" style="margin-top:4px;">Building a pawn operation from scratch requires capital for physical real estate (lease or own), inventory financing, state/county pawn licenses, trained appraisers, compliance infrastructure (pawn transactions are regulated as consumer loans in most U.S. states), and a point-of-sale technology system integrated with state law enforcement databases (required for stolen property reporting). The regulatory overlay alone — licensing requirements vary by state and county, with many jurisdictions requiring background checks and bonding — creates a meaningful time-to-market barrier. More practically, at 1,500+ stores, EZCORP and FirstCash together own most of the desirable pawn real estate in their target geographies; the best locations are already occupied. New entrant risk in the U.S. is primarily from regional operators attempting to scale — but none has the capital or operator playbook to challenge the national chains. International greenfield entry by a new competitor in LatAm is theoretically possible but faces language, culture, and regulatory hurdles that favor established operators with existing government relationships.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Bargaining Power of Suppliers</span>
+  <span class="fw-rating low">Low</span>
+  <p class="prose" style="margin-top:4px;">EZCORP's primary "suppliers" are its customers — the people who bring in collateral for loans. These customers are fragmented, price-taking individuals with no ability to coordinate pricing power. The company's physical supply inputs (real estate, display cases, safes, POS systems) are commodity-like with multiple vendors. The only supplier concentration risk is in jewelry liquidation channels: EZCORP needs reliable gold/silver refiners and jewelry wholesalers to convert forfeited inventory into cash. However, this is a deep, liquid market with many competing buyers, and EZCORP's scale (being one of the largest U.S. jewelry resellers) gives it negotiating leverage rather than supplier vulnerability.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Bargaining Power of Buyers</span>
+  <span class="fw-rating low">Low</span>
+  <p class="prose" style="margin-top:4px;">Pawn customers are highly fragmented — no single borrower represents more than a rounding error of EZCORP's PLO, and the typical customer is a lower-income individual with limited financial alternatives and high urgency for liquidity. Price sensitivity is moderate (customers do compare loan-to-value ratios between local shops), but convenience typically dominates the decision — proximity, familiarity, and trust in the appraisal are the primary selection criteria. For the retail resale side of the business, EZCORP competes with other used goods marketplaces (eBay, Facebook Marketplace, local thrift stores) — this creates modest pricing pressure on merchandise margins but has not prevented steady margin expansion.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Threat of Substitutes</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">The core substitute for a pawn loan is any other form of short-term, small-dollar credit: payday loans, rent-to-own, credit card cash advances, digital fintech apps (Oportun, Dave, OppFi, Chime's SpotMe), and — increasingly — BNPL for purchase financing. The pawn loan's unique attribute is that it requires no credit check and carries no repayment obligation (the customer simply walks away from the collateral if they can't repay). No fintech product currently replicates this non-recourse structure — digital apps either require repayment (making them loans with credit risk) or are small advance amounts (<$200). The moderate threat rating reflects the gradual digitization of the small-dollar credit market and the risk that a well-capitalized fintech could develop a materially better value proposition for the sub-prime borrower over a 5–10 year horizon — particularly as pawn's cultural stigma fades and digital-native consumers prefer app-based alternatives.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Competitive Rivalry</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">The U.S. pawn industry is a duopoly in practice: FirstCash (FCFS, ~3,000 stores, $3.8B market cap) and EZCORP (EZPW, ~1,500 stores, $1.6B market cap) together dominate the organized sector, with thousands of independent operators below them. The two companies largely avoid direct geographic competition — EZCORP is concentrated in Texas and the Midwest, while FirstCash has historically been stronger in the South and East, though geographic overlap is increasing. In Latin America, EZCORP competes with FirstCash's existing Latin American pawn chains (LatAm is FirstCash's primary growth vector as well), Nacional Monte de Piedad (Mexico's government pawn institution), and thousands of informal lenders. Rivalry is moderate because the industry is growing (rising PLO across all operators), the two main players have implicitly differentiated geographies, and no competitor is pursuing a destructive price war. However, the convergence of both operators into the same LatAm M&A targets (EZCORP and FirstCash are competing for the same small regional chains) will intensify deal competition and acquisition multiples over the next 3 years.</p>
+</div>
+
+<p class="prose"><strong>Summary:</strong> The competitive environment is favorable for EZCORP. All five forces are either low or moderate, and the most important structural dynamics — counter-positioning against banks/fintechs, fragmented customers, and a rational duopoly with limited price competition — create an industry where earning above-average returns is achievable and sustainable. The primary long-term risk to this favorable structure is digital credit substitution, which will play out over years, not quarters.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 6: WHAT DRIVES THE STOCK? -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<div class="fw-item">
+  <p class="prose"><strong>1. Pawn Loans Outstanding (PLO) Growth — Same-Store &amp; Total.</strong> PLO is the leading indicator for the entire P&L: higher PLO directly drives PSC revenue (loans × yield), and forfeiture rates determine merchandise inventory pipeline. Same-store PLO growth of +8% U.S. and +12% LatAm in Q1 FY2026 was the primary reason management guided confidence; a deceleration below 5% would be a material negative catalyst. Analysts track PLO balance per store per quarter as the single most important KPI.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><strong>2. Gold Price.</strong> Gold above $3,000/oz directly inflates average loan sizes, scrap revenue, and jewelry merchandise margins simultaneously. In Q1 FY2026, management attributed ~half of U.S. revenue outperformance to elevated scrap activity driven by gold prices. If gold corrects to $2,500 or below, FY2026 EPS estimates would likely need a $0.15–$0.25 downward revision. Gold is an exogenous driver with significant leverage on short-term results.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><strong>3. Latin America Same-Store Growth &amp; Margin Trajectory.</strong> LatAm PLO grew 23% total (+12% same-store) in Q1 FY2026, but Mexico's 13% minimum wage increase is a structural headwind to LatAm EBITDA margins. The market will be watching whether LatAm segment margins hold or compress in Q2–Q4 FY2026. Sustained LatAm EBITDA margins above 18–20% would be a bullish catalyst; compression to 15% would trigger negative estimate revisions.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><strong>4. SMG/Founders One Integration Progress.</strong> The consolidation of 105 stores across 12 countries is the largest single transaction in EZCORP history. Investors are watching for: (a) SMG revenue and EBITDA contribution disclosed in subsequent quarters, (b) whether the $156.4M facility at 13% generates adequate consolidated returns, and (c) whether management's focus on integration distracts from organic U.S. execution. Clean integration = re-rating catalyst; messy integration = multiple compression.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><strong>5. EPS vs. Diluted Share Count Clarity.</strong> With 61.7M basic shares but 84.0M fully diluted shares (including $230M in ITM converts), the EPS presentation matters enormously. Analysts using basic shares show FY26E EPS of $1.78 and a 14.6x P/E; analysts using fully diluted shares show ~$1.31 and a ~19.7x P/E — nearly 35% higher. Any news on the convertible structure (refinancing, conversion, repurchase) would significantly clarify the intrinsic value picture and could be a major catalyst.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><strong>6. M&amp;A Execution &amp; Deal Multiples in LatAm.</strong> The market is pricing EZCORP as an acquisition machine, and the ~$466M cash balance gives management substantial firepower. However, with FirstCash also pursuing LatAm consolidation, the next significant LatAm acquisition target will face competitive bidding. If EZCORP pays elevated multiples (>10x EBITDA) for LatAm assets, the accretion math deteriorates quickly. Disciplined M&A (7–8x EBITDA, known management teams, proven operating models) is strongly accretive; undisciplined M&A is dilutive to returns.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS? -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<div class="section-title">Revenue Decomposition</div>
+<table class="data" style="margin-bottom:12px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Revenue Line</th>
+      <th style="text-align:left;">Driver Formula</th>
+      <th>FY25A</th>
+      <th>% Rev</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>U.S. Pawn Service Charges</td>
+      <td style="text-align:left; font-size:9px; color:#555;">U.S. Avg PLO ($M) × Annualized PSC Yield (%)</td>
+      <td>~$275</td>
+      <td>21.6%</td>
+    </tr>
+    <tr>
+      <td>U.S. Merchandise Sales</td>
+      <td style="text-align:left; font-size:9px; color:#555;">Forfeiture Rate × Avg Loan Size × Retail Markup (35–38%)</td>
+      <td>~$580</td>
+      <td>45.5%</td>
+    </tr>
+    <tr>
+      <td>U.S. Scrap/Other</td>
+      <td style="text-align:left; font-size:9px; color:#555;">Jewelry Purchased × Gold Price × Spot Spread</td>
+      <td>~$58</td>
+      <td>4.5%</td>
+    </tr>
+    <tr>
+      <td>LatAm Pawn Service Charges</td>
+      <td style="text-align:left; font-size:9px; color:#555;">LatAm Avg PLO ($M) × Annualized PSC Yield (%) × FX Rate</td>
+      <td>~$105</td>
+      <td>8.2%</td>
+    </tr>
+    <tr>
+      <td>LatAm Merchandise Sales</td>
+      <td style="text-align:left; font-size:9px; color:#555;">LatAm Forfeiture Rate × Avg LatAm Loan × Retail Markup × FX</td>
+      <td>~$220</td>
+      <td>17.3%</td>
+    </tr>
+    <tr>
+      <td>LatAm Scrap/Other</td>
+      <td style="text-align:left; font-size:9px; color:#555;">LatAm Jewelry Volume × Gold Price × Spot Spread × FX</td>
+      <td>~$36</td>
+      <td>2.8%</td>
+    </tr>
+    <tr style="font-weight:700; border-top:1px solid #ddd;"><td>Total Revenue</td><td></td><td>$1,274</td><td>100%</td></tr>
+  </tbody>
+</table>
+
+<p class="prose">The three drivers with the most leverage on total revenue are: (1) <strong>U.S. Pawn Loans Outstanding</strong> — the $239M U.S. PLO base generates both PSC revenue directly and determines the pipeline of forfeited merchandise, so a 10% change in PLO flows through to approximately $55–60M of combined PSC + merch revenue (4–5% of total); (2) <strong>Gold Price</strong> — every $100/oz move in gold affects loan sizes, scrap revenue, and jewelry margin simultaneously across both segments, with an estimated 1–2% total revenue impact per $100/oz; and (3) <strong>LatAm Store Count × Same-Store PLO Growth</strong> — with LatAm now contributing 28% of revenue and growing 2–3x faster than the U.S., the cadence of LatAm de novo openings and same-store PLO growth is an increasingly significant driver of total top-line trajectory.</p>
+
+<p class="prose">The forfeiture rate — the percentage of pawn loans where customers do not redeem their collateral — is a secondary but important variable. Historically running at 25–35% in the U.S. (higher in economic stress), the forfeiture rate determines how much loan principal converts into merchandise inventory. A high forfeiture rate initially boosts merchandise revenue but depresses PSC income (loans not rolling over); a low forfeiture rate means customers are redeeming, generating PSC but creating inventory scarcity. Management optimizes for a ~30% forfeiture rate as the "sweet spot" for sustained PSC + merch revenue generation.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+  <strong>AlphaSense DR-Report</strong> — EZCORP, Inc. (EZPW) · Report Date: March 16, 2026 · Query: Pawn Lending, LatAm Expansion, Consumer Credit, Competitive Dynamics
+</div>
+
+<p class="prose"><strong>The Strategic Pivot: From Operator to Consolidator.</strong> The AlphaSense report highlights a consistent management narrative across multiple quarters: EZCORP has deliberately shifted from an organic growth model to an acquisition-led consolidation strategy, with CEO Lachlan Given explicitly framing scale as "the number one strategic priority." Expert call transcripts corroborate that this shift accelerated after the pandemic-era recovery, when management observed that organic de novo builds in the U.S. required 18–24 months to reach maturity, while acquisitions of established chains (even at modest EBITDA premiums) could be accretive within 2–3 quarters. This M&A-first posture is supported by the balance sheet — $466M in cash at Q1 FY2026 vs. $180M two years prior — a transformation driven by operational FCF generation rather than dilutive equity issuance.</p>
+
+<p class="prose"><strong>Gold as an Amplifier, Not a Driver.</strong> Multiple expert interviews in the AlphaSense report caution against attributing EZCORP's margin expansion solely to gold prices. The more durable margin driver, according to former EZCORP operations managers, is the shift in jewelry composition of PLO — from 58% jewelry two years ago to 68% now. Jewelry has the highest loan-to-appraised-value ratio (50–60%), the highest PSC yield (~180–200% annualized effective rate vs. ~120–140% for electronics), and the highest merchandise margin (40–45% vs. 25–30% for electronics). Management has actively encouraged loan officers to prioritize jewelry collateral — this mix shift is a structural improvement in unit economics that persists regardless of gold prices, though gold amplifies the magnitude in both directions.</p>
+
+<p class="prose"><strong>LatAm: Cultural Moat and Banking Gap.</strong> Expert calls with former operators in Mexico and Guatemala provide context for why pawn lending in LatAm is structurally different from the U.S. market. In Mexico, formal banking penetration is approximately 37% of adults, meaning the majority of the population has no access to consumer credit from traditional institutions. Pawn lending — known locally as "empeño" — carries minimal stigma and is viewed as a dignified alternative to informal moneylenders. EZCORP's Empeño Fácil and Cash Apoyo Efectivo brands have invested in physical store aesthetics (clean, modern storefronts vs. the traditional dingy appearance of local empeñadoras) to capture upmarket borrowers who previously avoided pawn. Industry experts estimate the total addressable LatAm pawn market is 5–7x the size of the U.S. market, with current organized-chain penetration below 15%, compared to ~30–35% in the U.S. This structural underpenetration supports the organic and M&A growth case for the next decade.</p>
+
+<p class="prose"><strong>SMG Risk — The 13% Facility Structure.</strong> The AlphaSense report flags the SMG/Founders One transaction structure as unusual and potentially risky. EZCORP is simultaneously the equity owner (87.7% of Founders, 85.1% of SMG) and the primary debt financier ($156.4M at 13% per annum). The 13% interest rate is well above the U.S. risk-free rate, suggesting EZCORP priced significant credit risk into the facility. Former pawn industry executives in the report note that multi-country pawn networks (operating in Puerto Rico, Central America, and the Caribbean simultaneously) are operationally complex — inventory logistics, currency risk, and regulatory compliance multiply with each new country. If SMG's cross-border operations underperform, EZCORP will face both equity impairment and loan loss risk from the same asset simultaneously — an unusually concentrated exposure. Management has not disclosed SMG standalone financial results, which is a transparency gap analysts have flagged.</p>
+
+<p class="prose"><strong>Convertible Debt — The Hidden Dilution Story.</strong> AlphaSense sell-side note analysis (multiple Canaccord and Citizens JMP notes cited) raises the question of whether consensus EPS estimates adequately account for the ~20.5M shares embedded in the in-the-money convertible notes. Most consensus models appear to use basic share counts in EPS calculations (61.7M) rather than fully diluted (84.0M). If consensus shifts to fully diluted EPS calculations — as would happen if the converts are eventually converted into equity — the implied FY26E P/E jumps from 14.6x to ~19.7x, and EZCORP's valuation gap to FirstCash (which has no convert overhang) narrows significantly. Management has not announced any plans to address the convertible structure ahead of maturity, creating an ongoing valuation uncertainty.</p>
+
+<p class="prose"><strong>Technology Investment and EZ+ Data Asset.</strong> Across multiple earnings transcripts and internal product notes cited in the AlphaSense report, EZCORP's technology agenda is more ambitious than publicly appreciated. The EZ+ platform (6.2M loyalty members) is being evolved from a simple rewards program into a data layer that informs real-time collateral pricing, predicts customer redemption probability (to optimize loan provisioning), and enables digital loan extensions (customers can renew pawn loans via the app without visiting the store). Former EZCORP technology employees note that this digital loan management capability, while still nascent, could meaningfully reduce operating costs (fewer in-store transactions per loan) and increase PSC yield per loan by extending loan duration at full service charge rates. If the data asset matures, it could add 50–100 basis points to EBITDA margins over 3–4 years.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 9: SENSITIVITY ANALYSIS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Sensitivity Analysis</div>
+
+<!-- Sensitivity Table 1: U.S. PSC Revenue -->
+<p class="prose"><strong>Table 1: U.S. Pawn Service Charges — Annual Revenue ($M)</strong><br>
+Driver 1: U.S. Average PLO ($M) · Driver 2: Annualized PSC Yield (%)</p>
+<p class="prose" style="margin-bottom:4px;"><strong>Current (Q1 FY2026 Annualized): U.S. Avg PLO ≈ $240M × Annualized PSC Yield ≈ 115% → Estimated Annual U.S. PSC Revenue ≈ $276M</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Avg PLO \ PSC Yield</th>
+      <th>95%</th>
+      <th>105%</th>
+      <th>115%</th>
+      <th>125%</th>
+      <th>135%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>$180M</strong></td>
+      <td>$171</td><td>$189</td><td>$207</td><td>$225</td><td>$243</td>
+    </tr>
+    <tr>
+      <td><strong>$210M</strong></td>
+      <td>$200</td><td>$221</td><td>$242</td><td>$263</td><td>$284</td>
+    </tr>
+    <tr>
+      <td><strong>$240M</strong></td>
+      <td>$228</td><td>$252</td><td class="base">$276</td><td>$300</td><td>$324</td>
+    </tr>
+    <tr>
+      <td><strong>$270M</strong></td>
+      <td>$257</td><td>$284</td><td>$311</td><td>$338</td><td>$365</td>
+    </tr>
+    <tr>
+      <td><strong>$300M</strong></td>
+      <td>$285</td><td>$315</td><td>$345</td><td>$375</td><td>$405</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 2: Total Revenue vs PLO + LatAm Growth -->
+<p class="prose" style="margin-top:12px;"><strong>Table 2: Total Annual Revenue ($M) — FY2027E</strong><br>
+Driver 1: U.S. Total PLO ($M) · Driver 2: LatAm Revenue Growth Rate (%)</p>
+<p class="prose" style="margin-bottom:4px;"><strong>Current (FY27E Consensus Base): U.S. Total PLO ≈ $270M × LatAm Revenue Growth ≈ 20% → Estimated FY27E Total Revenue ≈ $1,745M</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>U.S. PLO \ LatAm Growth</th>
+      <th>5%</th>
+      <th>10%</th>
+      <th>20%</th>
+      <th>30%</th>
+      <th>40%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>$220M</strong></td>
+      <td>$1,530</td><td>$1,570</td><td>$1,650</td><td>$1,720</td><td>$1,790</td>
+    </tr>
+    <tr>
+      <td><strong>$245M</strong></td>
+      <td>$1,580</td><td>$1,620</td><td>$1,700</td><td>$1,775</td><td>$1,850</td>
+    </tr>
+    <tr>
+      <td><strong>$270M</strong></td>
+      <td>$1,640</td><td>$1,685</td><td class="base">$1,745</td><td>$1,820</td><td>$1,910</td>
+    </tr>
+    <tr>
+      <td><strong>$295M</strong></td>
+      <td>$1,695</td><td>$1,740</td><td>$1,810</td><td>$1,895</td><td>$1,980</td>
+    </tr>
+    <tr>
+      <td><strong>$320M</strong></td>
+      <td>$1,750</td><td>$1,800</td><td>$1,880</td><td>$1,970</td><td>$2,060</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 3: Diluted EPS -->
+<p class="prose" style="margin-top:12px;"><strong>Table 3: FY2028E Diluted EPS — EBITDA Margin % vs. Effective Diluted Share Count (M)</strong><br>
+Driver 1: EBITDA Margin % · Driver 2: Diluted Share Count (M) — key given convertible overhang</p>
+<p class="prose" style="margin-bottom:4px;"><strong>Current (FY28E Consensus): EBITDA Margin ≈ 16.8% × Diluted Shares ≈ 80.5M → Estimated FY28E Diluted EPS ≈ $2.30</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>EBITDA Margin \ Dil. Shares</th>
+      <th>62M</th>
+      <th>71M</th>
+      <th>80M</th>
+      <th>84M</th>
+      <th>90M</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>13.0%</strong></td>
+      <td>$2.10</td><td>$1.83</td><td>$1.62</td><td>$1.55</td><td>$1.45</td>
+    </tr>
+    <tr>
+      <td><strong>15.0%</strong></td>
+      <td>$2.48</td><td>$2.17</td><td>$1.92</td><td>$1.83</td><td>$1.71</td>
+    </tr>
+    <tr>
+      <td><strong>16.8%</strong></td>
+      <td>$2.85</td><td>$2.50</td><td class="base">$2.30</td><td>$2.14</td><td>$2.00</td>
+    </tr>
+    <tr>
+      <td><strong>18.5%</strong></td>
+      <td>$3.20</td><td>$2.79</td><td>$2.55</td><td>$2.38</td><td>$2.22</td>
+    </tr>
+    <tr>
+      <td><strong>20.0%</strong></td>
+      <td>$3.50</td><td>$3.06</td><td>$2.80</td><td>$2.62</td><td>$2.44</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 10: 3-YEAR MODEL — 5 SCENARIOS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios</div>
+
+<p class="prose" style="margin-bottom:12px;">Current price: $25.87 · Fully diluted shares: 84.0M · Exit year: FY2028E (Sep '28) · Cost of capital: 18% (pawn/specialty finance). All monetary rows show $ on Revenue (first) and FCF (last); middle rows have no $ prefix.</p>
+
+<!-- CASE 1: BEAR SEVERE -->
+<div class="case-block">
+  <div class="case-name">🐻 Case 1 — Macro Deterioration + Integration Breakdown</div>
+  <div class="case-desc">Gold corrects to $2,400 by FY2026, compressing loan sizes and scrap revenue. SMG integration fails to hit targets — $156M facility faces elevated credit losses. Mexico wage inflation erodes LatAm margins. M&A activity pauses to stabilize operations. EPS growth stalls. <strong>FY2026</strong> — PLO growth decelerates to 3–5% same-store; scrap revenue drops 25%; SMG delivers only $90M revenue at breakeven EBITDA. <strong>FY2027</strong> — LatAm margins compress 300bps; U.S. same-store PLO growth flat as credit tightening partially reverses. <strong>FY2028</strong> — Consensus marks FY28 EPS down to ~$1.50; exit multiple compresses to 10x P/E on margin disappointment.</div>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>U.S. PLO (same-store growth)</span><span>+2% / yr</span></div>
+  <div class="driver-row"><span>LatAm Revenue Growth</span><span>+8% / yr</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>13.5%</span></div>
+  <div class="driver-row"><span>Diluted Shares (M)</span><span>84.0M</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue ($M)</td><td>FY26E</td><td>FY27E</td><td>FY28E</td></tr>
+    <tr><td>$Revenue</td><td>$1,380</td><td>$1,450</td><td>$1,510</td></tr>
+    <tr><td style="padding-left:12px; font-size:8px; color:#777;">Revenue Growth %</td><td style="font-size:8px; color:#777;">8.3%</td><td style="font-size:8px; color:#777;">5.1%</td><td style="font-size:8px; color:#777;">4.1%</td></tr>
+    <tr><td>Gross Income</td><td>760</td><td>800</td><td>840</td></tr>
+    <tr><td style="padding-left:12px; font-size:8px; color:#777;">Gross Margin %</td><td style="font-size:8px; color:#777;">55.1%</td><td style="font-size:8px; color:#777;">55.2%</td><td style="font-size:8px; color:#777;">55.6%</td></tr>
+    <tr><td>EBITDA</td><td>186</td><td>196</td><td>204</td></tr>
+    <tr><td style="padding-left:12px; font-size:8px; color:#777;">EBITDA Margin %</td><td style="font-size:8px; color:#777;">13.5%</td><td style="font-size:8px; color:#777;">13.5%</td><td style="font-size:8px; color:#777;">13.5%</td></tr>
+    <tr><td>EBIT</td><td>143</td><td>152</td><td>158</td></tr>
+    <tr><td>Net Income</td><td>95</td><td>101</td><td>108</td></tr>
+    <tr><td style="padding-left:12px; font-size:8px; color:#777;">Net Income Margin %</td><td style="font-size:8px; color:#777;">6.9%</td><td style="font-size:8px; color:#777;">7.0%</td><td style="font-size:8px; color:#777;">7.2%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>84.0</td><td>84.0</td><td>84.0</td></tr>
+    <tr><td>EPS</td><td>$1.13</td><td>$1.20</td><td>$1.29</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>10.0x</td><td>10.0x</td><td>10.0x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$11.30</td><td>$12.00</td><td>$12.90</td></tr>
+    <tr><td>$FCF</td><td>$81</td><td>$86</td><td>$92</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit FY28E EPS: $1.29 × 10.0x P/E</div>
+    <div class="exit-price">Implied Price: $12.90</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: −50.2% from $25.87</div>
+    <div style="font-size:9px; color:#888; margin-top:4px;">Implied Mkt Cap: $1,084M · Implied EV: $1,371M</div>
+  </div>
+</div>
+
+<!-- CASE 2: BEAR MILD -->
+<div class="case-block">
+  <div class="case-name">🐻 Case 2 — Slow Growth: LatAm Margin Headwinds + Gold Flatlines</div>
+  <div class="case-desc">Gold stabilizes at $2,600–$2,800 (vs. $3,000+ today), reducing scrap contribution. Mexico wage increases compress LatAm EBITDA margins by 150bps. U.S. same-store growth moderates to 5%. SMG performs to plan but contributes minimal EBITDA accretion in first 18 months. <strong>FY2026</strong> — Revenue grows 16% (vs. 23% consensus) as scrap normalizes; EBITDA margin 14.5%. <strong>FY2027</strong> — LatAm margin recovers partially as scale absorbs wage costs; total revenue $1,620M. <strong>FY2028</strong> — Steady-state scenario with 15% EBITDA margin.</div>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>U.S. PLO (same-store growth)</span><span>+5% / yr</span></div>
+  <div class="driver-row"><span>LatAm Revenue Growth</span><span>+12% / yr</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>15.0%</span></div>
+  <div class="driver-row"><span>Diluted Shares (M)</span><span>84.0M</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue ($M)</td><td>FY26E</td><td>FY27E</td><td>FY28E</td></tr>
+    <tr><td>$Revenue</td><td>$1,480</td><td>$1,620</td><td>$1,700</td></tr>
+    <tr><td style="padding-left:12px; font-size:8px; color:#777;">Revenue Growth %</td><td style="font-size:8px; color:#777;">16.1%</td><td style="font-size:8px; color:#777;">9.5%</td><td style="font-size:8px; color:#777;">4.9%</td></tr>
+    <tr><td>Gross Income</td><td>843</td><td>924</td><td>975</td></tr>
+    <tr><td style="padding-left:12px; font-size:8px; color:#777;">Gross Margin %</td><td style="font-size:8px; color:#777;">57.0%</td><td style="font-size:8px; color:#777;">57.0%</td><td style="font-size:8px; color:#777;">57.4%</td></tr>
+    <tr><td>EBITDA</td><td>215</td><td>243</td><td>255</td></tr>
+    <tr><td style="padding-left:12px; font-size:8px; color:#777;">EBITDA Margin %</td><td style="font-size:8px; color:#777;">14.5%</td><td style="font-size:8px; color:#777;">15.0%</td><td style="font-size:8px; color:#777;">15.0%</td></tr>
+    <tr><td>EBIT</td><td>168</td><td>191</td><td>201</td></tr>
+    <tr><td>Net Income</td><td>116</td><td>133</td><td>142</td></tr>
+    <tr><td style="padding-left:12px; font-size:8px; color:#777;">Net Income Margin %</td><td style="font-size:8px; color:#777;">7.8%</td><td style="font-size:8px; color:#777;">8.2%</td><td style="font-size:8px; color:#777;">8.4%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>84.0</td><td>82.0</td><td>80.0</td></tr>
+    <tr><td>EPS</td><td>$1.38</td><td>$1.62</td><td>$1.78</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>12.0x</td><td>12.0x</td><td>12.0x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$16.56</td><td>$19.44</td><td>$21.36</td></tr>
+    <tr><td>$FCF</td><td>$100</td><td>$116</td><td>$124</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit FY28E EPS: $1.78 × 12.0x P/E</div>
+    <div class="exit-price">Implied Price: $21.36</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: −17.4% from $25.87</div>
+    <div style="font-size:9px; color:#888; margin-top:4px;">Implied Mkt Cap: $1,709M · Implied EV: $1,996M</div>
+  </div>
+</div>
+
+<!-- CASE 3: BASE -->
+<div class="case-block">
+  <div class="case-name">📊 Case 3 — Consensus Execution: Steady Growth + LatAm Scaling</div>
+  <div class="case-desc">Consensus estimates from FactSet. EZCORP executes on its acquisition pipeline, delivers consistent U.S. same-store PLO growth of 7–8%, and LatAm scales organically and via targeted M&A. Gold prices moderate slightly but stay supportive. SMG integration proceeds on plan with breakeven EBITDA contribution by FY27. EBITDA margins expand steadily through operating leverage. <strong>FY2026</strong> — Revenue $1,567M, EBITDA $245M, EPS $1.78. <strong>FY2027</strong> — Revenue $1,745M, EBITDA $274M, EPS $2.01. <strong>FY2028</strong> — Revenue $1,768M, EBITDA $297M, EPS $2.30.</div>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>U.S. PLO (same-store growth)</span><span>+7–8% / yr</span></div>
+  <div class="driver-row"><span>LatAm Revenue Growth</span><span>+18–20% / yr</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>16.8%</span></div>
+  <div class="driver-row"><span>Diluted Shares (M)</span><span>80.5M</span></div>
+  <table class="scenario-mini">
+    <tr><td></td><td>FY26E</td><td>FY27E</td><td>FY28E</td></tr>
+    <tr><td>$Revenue</td><td>$1,567</td><td>$1,745</td><td>$1,768</td></tr>
+    <tr><td style="padding-left:12px; font-size:8px; color:#777;">Revenue Growth %</td><td style="font-size:8px; color:#777;">23.0%</td><td style="font-size:8px; color:#777;">11.4%</td><td style="font-size:8px; color:#777;">1.3%</td></tr>
+    <tr><td>Gross Income</td><td>907</td><td>1,014</td><td>1,037</td></tr>
+    <tr><td style="padding-left:12px; font-size:8px; color:#777;">Gross Margin %</td><td style="font-size:8px; color:#777;">57.9%</td><td style="font-size:8px; color:#777;">58.1%</td><td style="font-size:8px; color:#777;">58.7%</td></tr>
+    <tr><td>EBITDA</td><td>245</td><td>274</td><td>297</td></tr>
+    <tr><td style="padding-left:12px; font-size:8px; color:#777;">EBITDA Margin %</td><td style="font-size:8px; color:#777;">15.6%</td><td style="font-size:8px; color:#777;">15.7%</td><td style="font-size:8px; color:#777;">16.8%</td></tr>
+    <tr><td>EBIT</td><td>200</td><td>224</td><td>244</td></tr>
+    <tr><td>Net Income</td><td>144</td><td>163</td><td>185</td></tr>
+    <tr><td style="padding-left:12px; font-size:8px; color:#777;">Net Income Margin %</td><td style="font-size:8px; color:#777;">9.2%</td><td style="font-size:8px; color:#777;">9.3%</td><td style="font-size:8px; color:#777;">10.5%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>83.0</td><td>81.5</td><td>80.5</td></tr>
+    <tr><td>EPS</td><td>$1.78</td><td>$2.01</td><td>$2.30</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>14.0x</td><td>14.0x</td><td>14.0x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$24.92</td><td>$28.14</td><td>$32.20</td></tr>
+    <tr><td>$FCF</td><td>$141</td><td>$172</td><td>$192</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit FY28E EPS: $2.30 × 14.0x P/E</div>
+    <div class="exit-price">Implied Price: $32.20</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +24.4% from $25.87</div>
+    <div style="font-size:9px; color:#888; margin-top:4px;">Implied Mkt Cap: $2,592M · Implied EV: $2,879M</div>
+  </div>
+</div>
+
+<!-- CASE 4: BULL MILD -->
+<div class="case-block">
+  <div class="case-name">🚀 Case 4 — LatAm Acceleration + U.S. Jewelry Tailwind</div>
+  <div class="case-desc">LatAm M&A adds 150+ stores by FY2027 at 7–8x EBITDA (accretive). Mexico's consumer credit gap expands — bank retrenchment drives 15–18% same-store PLO growth in LatAm. U.S. gold prices remain at $3,000+, maintaining elevated scrap and jewelry contribution. SMG integrates ahead of plan, delivering $15–20M EBITDA by FY2027. <strong>FY2026</strong> — Revenue $1,640M, ahead of consensus; EBITDA margin 16.5%. <strong>FY2027</strong> — LatAm revenue overtakes 35% of total on M&A + organic growth; total revenue $1,900M. <strong>FY2028</strong> — Margins expand toward 18% as LatAm operating leverage kicks in.</div>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>U.S. PLO (same-store growth)</span><span>+10% / yr</span></div>
+  <div class="driver-row"><span>LatAm Revenue Growth</span><span>+28–30% / yr</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>18.0%</span></div>
+  <div class="driver-row"><span>Diluted Shares (M)</span><span>78.0M</span></div>
+  <table class="scenario-mini">
+    <tr><td></td><td>FY26E</td><td>FY27E</td><td>FY28E</td></tr>
+    <tr><td>$Revenue</td><td>$1,640</td><td>$1,900</td><td>$2,050</td></tr>
+    <tr><td style="padding-left:12px; font-size:8px; color:#777;">Revenue Growth %</td><td style="font-size:8px; color:#777;">28.7%</td><td style="font-size:8px; color:#777;">15.9%</td><td style="font-size:8px; color:#777;">7.9%</td></tr>
+    <tr><td>Gross Income</td><td>960</td><td>1,121</td><td>1,222</td></tr>
+    <tr><td style="padding-left:12px; font-size:8px; color:#777;">Gross Margin %</td><td style="font-size:8px; color:#777;">58.5%</td><td style="font-size:8px; color:#777;">59.0%</td><td style="font-size:8px; color:#777;">59.6%</td></tr>
+    <tr><td>EBITDA</td><td>271</td><td>342</td><td>369</td></tr>
+    <tr><td style="padding-left:12px; font-size:8px; color:#777;">EBITDA Margin %</td><td style="font-size:8px; color:#777;">16.5%</td><td style="font-size:8px; color:#777;">18.0%</td><td style="font-size:8px; color:#777;">18.0%</td></tr>
+    <tr><td>EBIT</td><td>222</td><td>283</td><td>306</td></tr>
+    <tr><td>Net Income</td><td>157</td><td>202</td><td>228</td></tr>
+    <tr><td style="padding-left:12px; font-size:8px; color:#777;">Net Income Margin %</td><td style="font-size:8px; color:#777;">9.6%</td><td style="font-size:8px; color:#777;">10.6%</td><td style="font-size:8px; color:#777;">11.1%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>82.0</td><td>80.0</td><td>78.0</td></tr>
+    <tr><td>EPS</td><td>$1.91</td><td>$2.53</td><td>$2.92</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>16.0x</td><td>16.0x</td><td>16.0x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$30.56</td><td>$40.48</td><td>$46.72</td></tr>
+    <tr><td>$FCF</td><td>$166</td><td>$210</td><td>$240</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit FY28E EPS: $2.92 × 16.0x P/E</div>
+    <div class="exit-price">Implied Price: $46.72</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +80.6% from $25.87</div>
+    <div style="font-size:9px; color:#888; margin-top:4px;">Implied Mkt Cap: $3,644M · Implied EV: $3,931M</div>
+  </div>
+</div>
+
+<!-- CASE 5: BULL SEVERE -->
+<div class="case-block">
+  <div class="case-name">🚀 Case 5 — Platform Inflection: 2,000 Stores + Convertible Resolution</div>
+  <div class="case-desc">EZCORP executes a transformative LatAm acquisition (200+ stores), pushes total store count to 2,000+ by FY2028. Converts are repurchased/refinanced, collapsing diluted share count to 65M. EZ+ loyalty platform reaches 10M+ members, driving 50bps incremental EBITDA margin from digital loan management. SMG delivers $30M EBITDA, and the 13% facility becomes a carry trade in EZCORP's favor. Gold remains above $3,000. <strong>FY2026</strong> — Beat-and-raise on Q2/Q3; stock re-rates to 18x. <strong>FY2027</strong> — LatAm revenue exceeds 40% of total; EBITDA margin 20%+. <strong>FY2028</strong> — EPS approaching $3.50 on a smaller share count; P/E expansion to 18–20x.</div>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>U.S. PLO (same-store growth)</span><span>+12% / yr</span></div>
+  <div class="driver-row"><span>LatAm Revenue Growth</span><span>+35–40% / yr</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>20.5%</span></div>
+  <div class="driver-row"><span>Diluted Shares (M)</span><span>65.0M</span></div>
+  <table class="scenario-mini">
+    <tr><td></td><td>FY26E</td><td>FY27E</td><td>FY28E</td></tr>
+    <tr><td>$Revenue</td><td>$1,720</td><td>$2,100</td><td>$2,350</td></tr>
+    <tr><td style="padding-left:12px; font-size:8px; color:#777;">Revenue Growth %</td><td style="font-size:8px; color:#777;">35.0%</td><td style="font-size:8px; color:#777;">22.1%</td><td style="font-size:8px; color:#777;">11.9%</td></tr>
+    <tr><td>Gross Income</td><td>1,022</td><td>1,260</td><td>1,422</td></tr>
+    <tr><td style="padding-left:12px; font-size:8px; color:#777;">Gross Margin %</td><td style="font-size:8px; color:#777;">59.4%</td><td style="font-size:8px; color:#777;">60.0%</td><td style="font-size:8px; color:#777;">60.5%</td></tr>
+    <tr><td>EBITDA</td><td>310</td><td>420</td><td>482</td></tr>
+    <tr><td style="padding-left:12px; font-size:8px; color:#777;">EBITDA Margin %</td><td style="font-size:8px; color:#777;">18.0%</td><td style="font-size:8px; color:#777;">20.0%</td><td style="font-size:8px; color:#777;">20.5%</td></tr>
+    <tr><td>EBIT</td><td>258</td><td>358</td><td>413</td></tr>
+    <tr><td>Net Income</td><td>186</td><td>260</td><td>310</td></tr>
+    <tr><td style="padding-left:12px; font-size:8px; color:#777;">Net Income Margin %</td><td style="font-size:8px; color:#777;">10.8%</td><td style="font-size:8px; color:#777;">12.4%</td><td style="font-size:8px; color:#777;">13.2%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>80.0</td><td>72.0</td><td>65.0</td></tr>
+    <tr><td>EPS</td><td>$2.33</td><td>$3.61</td><td>$4.77</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>18.0x</td><td>18.0x</td><td>18.0x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$41.94</td><td>$64.98</td><td>$85.86</td></tr>
+    <tr><td>$FCF</td><td>$200</td><td>$275</td><td>$330</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit FY28E EPS: $4.77 × 18.0x P/E</div>
+    <div class="exit-price">Implied Price: $85.86</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +231.8% from $25.87</div>
+    <div style="font-size:9px; color:#888; margin-top:4px;">Implied Mkt Cap: $5,581M · Implied EV: $5,868M</div>
+  </div>
+</div>
+
+<!-- Bar Chart -->
+<div class="case-chart">
+  <svg viewBox="0 0 736 240" xmlns="http://www.w3.org/2000/svg">
+    <!-- Title -->
+    <text x="368" y="18" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="10" font-weight="600" fill="#1a1a2e">FY2028E Implied Share Price — 5 Scenarios</text>
+
+    <!-- Bars (5 cases) -->
+    <!-- Bear Severe: $12.90, max scale $90 -->
+    <rect x="60" y="185" width="80" height="0" fill="#2563eb"/>
+    <!-- scale: ($12.90 / $90) * 160 = 22.9 px -->
+    <rect x="60" y="162.1" width="80" height="22.9" fill="#2563eb" rx="2"/>
+    <text x="100" y="157" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="9" fill="#1a1a2e" font-weight="600">$12.90</text>
+    <text x="100" y="202" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="8.5" fill="#555">Bear Severe</text>
+    <text x="100" y="213" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="8" fill="#888">5%</text>
+
+    <!-- Bear Mild: $21.36 -->
+    <rect x="170" y="147.6" width="80" height="37.4" fill="#2563eb" rx="2"/>
+    <text x="210" y="142" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="9" fill="#1a1a2e" font-weight="600">$21.36</text>
+    <text x="210" y="202" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="8.5" fill="#555">Bear Mild</text>
+    <text x="210" y="213" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="8" fill="#888">20%</text>
+
+    <!-- Base: $32.20 -->
+    <rect x="280" y="128" width="80" height="57" fill="#2563eb" rx="2"/>
+    <text x="320" y="122" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="9" fill="#1a1a2e" font-weight="600">$32.20</text>
+    <text x="320" y="202" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="8.5" fill="#555">Base</text>
+    <text x="320" y="213" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="8" fill="#888">50%</text>
+
+    <!-- Bull Mild: $46.72 -->
+    <rect x="390" y="102" width="80" height="83" fill="#2563eb" rx="2"/>
+    <text x="430" y="97" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="9" fill="#1a1a2e" font-weight="600">$46.72</text>
+    <text x="430" y="202" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="8.5" fill="#555">Bull Mild</text>
+    <text x="430" y="213" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="8" fill="#888">20%</text>
+
+    <!-- Bull Severe: $85.86 -->
+    <!-- capped for display at 155px (max = 160px at $90) -->
+    <rect x="500" y="30" width="80" height="155" fill="#2563eb" rx="2"/>
+    <text x="540" y="24" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="9" fill="#1a1a2e" font-weight="600">$85.86</text>
+    <text x="540" y="202" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="8.5" fill="#555">Bull Severe</text>
+    <text x="540" y="213" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="8" fill="#888">5%</text>
+
+    <!-- Current price line: $25.87 → (25.87/90)*160 = 46.0px from bottom, y = 185 - 46 = 139 -->
+    <line x1="40" y1="139" x2="700" y2="139" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="6,4"/>
+    <text x="704" y="143" font-family="Inter,Arial,sans-serif" font-size="8" fill="#c0392b" font-weight="600">$25.87</text>
+
+    <!-- Prob-weighted price: 5%×12.90 + 20%×21.36 + 50%×32.20 + 20%×46.72 + 5%×85.86 = 0.645+4.272+16.10+9.344+4.293 = 34.65, discounted at 18% = 34.65/1.18 = $29.37 -->
+    <!-- y position: (29.37/90)*160 = 52.2px from bottom → y = 185-52.2 = 132.8 -->
+    <line x1="40" y1="132.8" x2="700" y2="132.8" stroke="#27ae60" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <text x="704" y="137" font-family="Inter,Arial,sans-serif" font-size="8" fill="#27ae60" font-weight="600">PV $29.37</text>
+
+    <!-- Legend -->
+    <line x1="60" y1="228" x2="85" y2="228" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="90" y="231" font-family="Inter,Arial,sans-serif" font-size="8" fill="#555">Current Price ($25.87)</text>
+    <line x1="230" y1="228" x2="255" y2="228" stroke="#27ae60" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <text x="260" y="231" font-family="Inter,Arial,sans-serif" font-size="8" fill="#555">Prob-Wtd PV @ 18% CoC: $29.37</text>
+    <text x="500" y="231" font-family="Inter,Arial,sans-serif" font-size="8" fill="#888">Weights: 5% / 20% / 50% / 20% / 5%</text>
+  </svg>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 11: COMPS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">11. Comps</div>
+
+<div class="section-title">Selected Financials — Peer Group ($M)</div>
+<table class="comps" style="margin-bottom:10px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th>Ticker</th>
+      <th class="est">Rev FY1 ($M)</th>
+      <th class="est">Rev FY2 ($M)</th>
+      <th class="est">EBITDA FY1</th>
+      <th>EBITDA Mg%</th>
+      <th class="est">EBITDA FY2</th>
+      <th>EBITDA Mg%</th>
+      <th class="est">EBIT FY1</th>
+      <th class="est">EBIT FY2</th>
+      <th class="est">FCF FY1 ($M)</th>
+      <th class="est">FCF FY2 ($M)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>EZCORP</td><td>EZPW</td>
+      <td class="est">$1,567</td><td class="est">$1,745</td>
+      <td class="est">245</td><td>15.6%</td>
+      <td class="est">274</td><td>15.7%</td>
+      <td class="est">200</td><td class="est">224</td>
+      <td class="est">$141</td><td class="est">$172</td>
+    </tr>
+    <tr>
+      <td>FirstCash Holdings</td><td>FCFS</td>
+      <td class="est">$3,050</td><td class="est">$3,280</td>
+      <td class="est">490</td><td>16.1%</td>
+      <td class="est">535</td><td>16.3%</td>
+      <td class="est">395</td><td class="est">435</td>
+      <td class="est">$210</td><td class="est">$245</td>
+    </tr>
+    <tr>
+      <td>Envela Corporation</td><td>ELA</td>
+      <td class="est">$58</td><td class="est">$65</td>
+      <td class="est">6</td><td>10.3%</td>
+      <td class="est">7</td><td>10.8%</td>
+      <td class="est">5</td><td class="est">6</td>
+      <td class="est">$4</td><td class="est">$5</td>
+    </tr>
+    <tr>
+      <td>ValueMax Group</td><td>VM · SGX</td>
+      <td class="est">$210</td><td class="est">$228</td>
+      <td class="est">18</td><td>8.6%</td>
+      <td class="est">20</td><td>8.8%</td>
+      <td class="est">15</td><td class="est">17</td>
+      <td class="est">$12</td><td class="est">$14</td>
+    </tr>
+    <tr>
+      <td>Daikokuya Holdings</td><td>6993 · TSE</td>
+      <td class="est">$840</td><td class="est">$890</td>
+      <td class="est">62</td><td>7.4%</td>
+      <td class="est">67</td><td>7.5%</td>
+      <td class="est">48</td><td class="est">52</td>
+      <td class="est">$38</td><td class="est">$42</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Average</td><td>—</td>
+      <td>—</td><td>—</td>
+      <td>—</td><td>10.6%</td>
+      <td>—</td><td>10.8%</td>
+      <td>—</td><td>—</td><td>—</td><td>—</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Median</td><td>—</td>
+      <td>—</td><td>—</td>
+      <td>—</td><td>9.5%</td>
+      <td>—</td><td>9.8%</td>
+      <td>—</td><td>—</td><td>—</td><td>—</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title">Valuation Multiples — Peer Group</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th>Ticker</th>
+      <th>Price</th>
+      <th>PT</th>
+      <th>EV ($M)</th>
+      <th>Mkt Cap ($M)</th>
+      <th class="est">EV/Rev FY1</th>
+      <th class="est">EV/Rev FY2</th>
+      <th class="est">EV/EBITDA FY1</th>
+      <th class="est">EV/EBITDA FY2</th>
+      <th class="est">P/E FY1</th>
+      <th class="est">P/E FY2</th>
+      <th class="est">P/FCF FY1</th>
+      <th>FCF Yld</th>
+      <th>Rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>EZCORP</td><td>EZPW</td>
+      <td>$25.87</td><td>$32.33</td>
+      <td class="est">$1,965</td><td>$1,596</td>
+      <td class="est">1.25x</td><td class="est">1.13x</td>
+      <td class="est">8.02x</td><td class="est">7.17x</td>
+      <td class="est">14.6x</td><td class="est">12.9x</td>
+      <td class="est">11.3x</td>
+      <td>8.9%</td><td>OW</td>
+    </tr>
+    <tr>
+      <td>FirstCash</td><td>FCFS</td>
+      <td>$81.40</td><td>$95.00</td>
+      <td>$4,520</td><td>$3,820</td>
+      <td class="est">1.48x</td><td class="est">1.38x</td>
+      <td class="est">9.22x</td><td class="est">8.45x</td>
+      <td class="est">15.8x</td><td class="est">14.2x</td>
+      <td class="est">18.2x</td>
+      <td>5.5%</td><td>OW</td>
+    </tr>
+    <tr>
+      <td>Envela Corp</td><td>ELA</td>
+      <td>$6.20</td><td>—</td>
+      <td>$112</td><td>$108</td>
+      <td class="est">1.93x</td><td class="est">1.72x</td>
+      <td class="est">18.67x</td><td class="est">16.00x</td>
+      <td class="est">22.1x</td><td class="est">19.8x</td>
+      <td class="est">27.0x</td>
+      <td>3.7%</td><td>NR</td>
+    </tr>
+    <tr>
+      <td>ValueMax Group</td><td>VM</td>
+      <td>S$0.51</td><td>—</td>
+      <td>$312</td><td>$295</td>
+      <td class="est">1.49x</td><td class="est">1.37x</td>
+      <td class="est">17.33x</td><td class="est">15.60x</td>
+      <td class="est">19.2x</td><td class="est">17.5x</td>
+      <td class="est">24.6x</td>
+      <td>4.1%</td><td>NR</td>
+    </tr>
+    <tr>
+      <td>Daikokuya</td><td>6993</td>
+      <td>¥980</td><td>—</td>
+      <td>$620</td><td>$540</td>
+      <td class="est">0.74x</td><td class="est">0.70x</td>
+      <td class="est">10.00x</td><td class="est">9.25x</td>
+      <td class="est">13.5x</td><td class="est">12.4x</td>
+      <td class="est">14.2x</td>
+      <td>7.0%</td><td>NR</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Average (ex-EZPW)</td><td>—</td>
+      <td>—</td><td>—</td><td>—</td><td>—</td>
+      <td class="est">1.41x</td><td class="est">1.29x</td>
+      <td class="est">13.81x</td><td class="est">12.33x</td>
+      <td class="est">17.7x</td><td class="est">16.0x</td>
+      <td>—</td><td>5.1%</td><td>—</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Median (ex-EZPW)</td><td>—</td>
+      <td>—</td><td>—</td><td>—</td><td>—</td>
+      <td class="est">1.49x</td><td class="est">1.37x</td>
+      <td class="est">13.67x</td><td class="est">12.43x</td>
+      <td class="est">17.5x</td><td class="est">15.8x</td>
+      <td>—</td><td>5.3%</td><td>—</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:10px;">EZCORP trades at an 8.02x FY1 EV/EBITDA and 14.6x FY1 P/E, representing a 41% discount to the peer median EV/EBITDA of 13.67x and a 17% discount on P/E — despite delivering the highest near-term EBITDA growth rate in the group (+36% Q1 FY2026) and the most active acquisition pipeline. The most relevant direct comp is FirstCash (FCFS), which trades at 9.22x FY1 EV/EBITDA — a 15% premium to EZCORP — largely reflecting FirstCash's larger scale, lower convertible dilution, and more transparent multi-country integration track record. The EZCORP discount is partially justified by the SMG integration uncertainty and the convert overhang, but the magnitude of the gap seems excessive given the comparable business quality and superior growth trajectory.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<p class="prose" style="margin-bottom:8px; font-size:10px; color:#555; font-style:italic;">Theia seeks small cap companies that aren't well covered and are strongly aligned on core internet finance thesis with wide outcome dispersion.</p>
+
+<div class="verdict">
+  <strong>(i) Market Cap Bucket: Small Cap ($1.6B)</strong> <span class="fw-rating strong">Strong Fit</span>
+  <p class="prose" style="margin-top:4px;">EZCORP's basic market cap of $1,596M puts it squarely in Theia's $1B–$5B small-cap sweet spot. The fully diluted market cap of $2,174M (including convert) is still within the small-cap range. This is exactly the market cap tier where institutional ownership is building but where discovery alpha is still available.</p>
+</div>
+
+<div class="verdict">
+  <strong>(ii) Analyst Coverage: 7 Broker Contributors</strong> <span class="fw-rating strong">Strong Fit</span>
+  <p class="prose" style="margin-top:4px;">With only 7 sell-side analysts covering EZPW, this is a genuinely under-covered name. Major bulge bracket firms are absent — coverage is concentrated at Canaccord Genuity, Roth MKM, and Citizens JMP. Q1 FY2026 EPS beat consensus by 34% ($0.55 vs. $0.41 estimated), suggesting the analyst community is significantly undermodeling the business — the classic alpha signal that Theia targets. The short interest at 22.5% of float (nearly 1-in-4 shares sold short) indicates continued institutional skepticism, which creates a favorable setup for a squeeze alongside fundamental outperformance.</p>
+</div>
+
+<div class="verdict">
+  <strong>(iii) Blockchain / Internet Finance Thesis Alignment: Adjacent</strong> <span class="fw-rating moderate">Moderate Fit</span>
+  <p class="prose" style="margin-top:4px;">EZCORP is not a core blockchain or internet finance play — it is a physical pawn operation at its heart. However, the LatAm consumer finance angle (serving the 63% of Mexican adults with no bank account) has genuine thematic resonance with Theia's interest in financial inclusion and alternative credit infrastructure. The EZ+ digital platform (6.2M members, digital loan management) represents a nascent fintech overlay on a traditional physical business. The alignment is adjacent rather than core — the business benefits from the same structural tailwinds as fintech (banking deserts, digital credit, LatAm financial inclusion) but via physical rather than digital infrastructure. If one views EZCORP as the dominant "offline" financial infrastructure provider for underbanked LatAm consumers, the thesis connection strengthens.</p>
+</div>
+
+<div class="verdict">
+  <strong>(iv) Outcome Dispersion: Wide</strong> <span class="fw-rating strong">Strong Fit</span>
+  <p class="prose" style="margin-top:4px;">The 5-scenario model shows implied FY2028 prices ranging from $12.90 (Bear Severe, −50%) to $85.86 (Bull Severe, +232%), with a probability-weighted PV of $29.37 — representing 13.5% upside from current prices after discounting at 18% cost of capital. The distribution is right-skewed: the bear cases are real but bounded (pawn is a cash-flow generative business even in a downturn), while the bull cases benefit from multiplicative compounding of store count × PLO growth × margin expansion × buyback accretion. The primary dispersion drivers are LatAm M&A execution, gold prices, and convertible resolution — all of which are genuinely uncertain and create a wide range of outcomes that the market appears to be pricing inefficiently.</p>
+</div>
+
+<div style="background: #d4edda; border-left: 4px solid #155724; padding: 10px 14px; margin: 16px 0; font-size: 11px; line-height: 1.6;">
+  <strong>Theia Verdict: MAYBE — Track with High Conviction</strong>
+  <p class="prose" style="margin-top:6px;">EZCORP passes 3 of 4 Theia criteria cleanly (market cap, coverage, outcome dispersion) and has partial thesis alignment via LatAm financial inclusion. The investment case is compelling: a structurally counter-positioned pawn business with zero credit risk, a dominant LatAm consolidation runway, 7 sell-side analysts vs. a 34% EPS beat-rate, and a probability-weighted PV of $29.37 vs. a current price of $25.87. The key risk is not the business — it is the convertible structure (84M fully diluted vs. 62M basic shares) and the SMG integration opacity. <strong>Recommended action:</strong> Initiate a tracking position, add on clarity around the convertible structure or SMG transparency, and watch PLO same-store growth in Q2 FY2026 as the primary confirmation signal. If Q2 FY2026 same-store PLO stays above 7% U.S. and 10% LatAm, the base case trajectory is intact and warrants sizing up.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- APPENDIX: PYTHON CODE -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section appendix">Appendix — Python Code for Sensitivity &amp; Model Generation</div>
+
+<p class="prose">Parameterized Python code for the EZPW sensitivity tables and 5-case scenario model. Adjust the inputs at the top of each block to re-run with updated assumptions.</p>
+
+<div class="code-block">
+# ─────────────────────────────────────────────────────────────────────────────
+# EZPW Sensitivity Table Generator
+# Usage: pip install pandas tabulate; python ezpw_sensitivity.py
+# ─────────────────────────────────────────────────────────────────────────────
+
+import pandas as pd
+
+# ── Table 1: U.S. PSC Revenue ────────────────────────────────────────────────
+avg_plo_range  = [180, 210, 240, 270, 300]        # U.S. Average PLO ($M)
+psc_yield_range = [0.95, 1.05, 1.15, 1.25, 1.35]  # Annualized PSC yield (decimal)
+base_plo, base_yield = 240, 1.15                   # current values
+
+print("Table 1: U.S. Annual PSC Revenue ($M)")
+print(f"Current: Avg PLO = ${base_plo}M × PSC Yield = {base_yield*100:.0f}% → PSC = ${base_plo*base_yield:.0f}M")
+table1 = pd.DataFrame(
+    [[f"${int(round(plo * yield_, 0))}" + (" ← BASE" if plo == base_plo and yield_ == base_yield else "")
+      for yield_ in psc_yield_range]
+     for plo in avg_plo_range],
+    index=[f"${p}M PLO" for p in avg_plo_range],
+    columns=[f"{int(y*100)}% Yield" for y in psc_yield_range]
+)
+print(table1.to_string())
+
+# ── Table 3: FY2028E Diluted EPS ─────────────────────────────────────────────
+revenue_fy28     = 1768        # FY28E base revenue ($M) from FactSet
+da_per_rev       = 0.030       # D&A as % of revenue (approx)
+tax_rate         = 0.23        # effective tax rate
+interest_net     = -15         # net interest expense ($M, negative = cost)
+ebitda_margins   = [0.130, 0.150, 0.168, 0.185, 0.200]
+share_counts     = [62, 71, 80, 84, 90]   # diluted shares (M)
+base_margin, base_shares = 0.168, 80
+
+print("\nTable 3: FY2028E Diluted EPS")
+print(f"Current: EBITDA Margin = {base_margin*100:.1f}% × Dil. Shares = {base_shares}M → EPS ≈ ${revenue_fy28*base_margin*(1-da_per_rev)*(1-tax_rate)/base_shares:.2f}")
+rows = []
+for m in ebitda_margins:
+    row = []
+    for s in share_counts:
+        ebitda = revenue_fy28 * m
+        ebit   = ebitda - revenue_fy28 * da_per_rev
+        ebt    = ebit + interest_net
+        ni     = ebt * (1 - tax_rate)
+        eps    = ni / s
+        tag = " ← BASE" if m == base_margin and s == base_shares else ""
+        row.append(f"${eps:.2f}{tag}")
+    rows.append(row)
+table3 = pd.DataFrame(rows,
+    index=[f"{int(m*100)}% EBITDA Mg" for m in ebitda_margins],
+    columns=[f"{s}M Shrs" for s in share_counts])
+print(table3.to_string())
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# EZPW 5-Case Scenario Model Generator
+# ─────────────────────────────────────────────────────────────────────────────
+
+cases = {
+    "Bear Severe":   {"rev": [1380, 1450, 1510], "ebitda_mg": [0.135,0.135,0.135], "shares": [84,84,84], "pe": 10.0, "prob": 0.05},
+    "Bear Mild":     {"rev": [1480, 1620, 1700], "ebitda_mg": [0.145,0.150,0.150], "shares": [84,82,80], "pe": 12.0, "prob": 0.20},
+    "Base":          {"rev": [1567, 1745, 1768], "ebitda_mg": [0.156,0.157,0.168], "shares": [83,81.5,80.5], "pe": 14.0, "prob": 0.50},
+    "Bull Mild":     {"rev": [1640, 1900, 2050], "ebitda_mg": [0.165,0.180,0.180], "shares": [82,80,78], "pe": 16.0, "prob": 0.20},
+    "Bull Severe":   {"rev": [1720, 2100, 2350], "ebitda_mg": [0.180,0.200,0.205], "shares": [80,72,65], "pe": 18.0, "prob": 0.05},
+}
+
+years = ["FY26E", "FY27E", "FY28E"]
+tax_rate = 0.23; da_rate = 0.030; int_exp = -15; coc = 0.18
+
+print("\n5-Case Model Summary")
+wtd_terminal = 0
+for name, c in cases.items():
+    rev3, mg3, sh3 = c["rev"][2], c["ebitda_mg"][2], c["shares"][2]
+    ebitda3 = rev3 * mg3
+    ebit3   = ebitda3 - rev3 * da_rate
+    ni3     = (ebit3 + int_exp) * (1 - tax_rate)
+    eps3    = ni3 / sh3
+    price3  = eps3 * c["pe"]
+    pv      = price3 / (1 + coc)
+    wtd_terminal += c["prob"] * price3
+    print(f"  {name:15s} → FY28 EPS: ${eps3:.2f} | P/E: {c['pe']}x | "
+          f"Implied: ${price3:.2f} | 1yr PV: ${pv:.2f} (p={c['prob']:.0%})")
+
+prob_wtd_pv = wtd_terminal / (1 + coc)
+current_price = 25.87
+print(f"\n  Prob-Weighted Terminal: ${wtd_terminal:.2f}")
+print(f"  Prob-Weighted PV @ {coc*100:.0f}% CoC: ${prob_wtd_pv:.2f}")
+print(f"  vs. Current Price: ${current_price:.2f}")
+print(f"  Implied Upside from PV: {(prob_wtd_pv/current_price - 1)*100:.1f}%")
+</div>
+
+<div class="source-note" style="margin-top:16px;">Sources: FactSet (March 16, 2026) · EZCORP Q1 FY2026 Earnings Release (Feb 4, 2026) · Q4/Q3 FY2025 Earnings Transcripts · AlphaSense DR-Report (March 16, 2026) · Founders One/SMG Press Release (Jan 5, 2026) · El Buffalo Pawn Press Release (Jan 12, 2026) · Web research via public filings and news sources. This memo is for internal Theia research purposes only and does not constitute investment advice.</div>
+
+</body>
+</html>
