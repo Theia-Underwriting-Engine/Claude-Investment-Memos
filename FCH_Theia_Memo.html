@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Funding Circle Holdings | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 8px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child, table.comps td:nth-child(2) { text-align: left; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-style: italic; background: #fafbfc; font-weight: 600; }
+table.comps th.est-col { color: #2563eb; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.alphasense-box { background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 4px; padding: 8px 12px; margin-bottom: 14px; font-size: 10px; color: #1e3a5f; }
+
+.bull-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #155724; border-bottom: 1.5px solid #c3e6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #721c24; border-bottom: 1.5px solid #f5c6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+
+.bull-item, .bear-item { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Funding Circle Holdings | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">Funding Circle Holdings plc (LSE: FCH) is a UK-focused SME lending platform founded in 2010 and headquartered in London. The company operates two primary products: Term Loans (85.6% of FY2024 revenue), which are fixed-rate, fixed-term business loans from £10,000 to £500,000 underwritten on FCH's proprietary credit model and originated onto the balance sheet or sold to institutional partners; and FlexiPay (14.4% of FY2024 revenue, growing rapidly at +195% YoY), an invoice finance and working capital revolving credit facility that serves SMEs with seasonal or lumpy cash flows. FCH serves approximately 125,000+ UK small businesses and has originated over £15 billion in cumulative loans since inception. CEO Lisa Jacobs, who took over in 2022, has led a decisive strategic pivot: exiting the US business (sold to Ready Capital for £33M in June 2024) and the Netherlands to focus exclusively on the UK, while transitioning from a marketplace/peer-to-peer model — where retail investors funded loans — toward a balance-sheet lending model underpinned by institutional funding from British Business Bank, Waterfall Asset Management, and others. This pivot compressed near-term cash flow but has dramatically improved FCH's revenue quality: FY2025 revenue grew 38% to £222.5M and adjusted EBIT reached £38.7M (vs. £9.3M in FY2024), representing a genuine inflection in profitability. At its core, FCH's thesis rests on owning the digital credit stack for UK SMEs — data-driven underwriting, a fast online application process, and distribution via accountant and broker channels — in a market where the four major UK banks (Lloyds, Barclays, HSBC, NatWest) remain structurally slow and branch-dependent.</p>
+
+<p class="prose"><strong>Key facts:</strong> Founded 2010 · Headquarters London, UK · CEO Lisa Jacobs (since Sep 2022) · CFO Anthony Nicol · Employees ~700 · Listed LSE (Sep 2018 at 440p; now 136p) · FY end December · Market Cap £391M · CUSIP/ISIN GB00BG0TPX62</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 2: FINANCIAL SUMMARY (FACTSET) -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Theia FactSet Summary</div>
+
+<div class="header">
+  <div>
+    <h1>Funding Circle Holdings plc</h1>
+    <span class="ticker">FCH-GB · LSE · ISIN GB00BG0TPX62</span>
+  </div>
+  <div class="date">FactSet Snapshot · March 16, 2026</div>
+</div>
+
+<!-- Price Bar -->
+<div class="price-bar">
+  <div>
+    <span class="label">Price (Mar 13, 2026) </span>
+    <span class="price">£1.36</span>
+  </div>
+  <div><span class="label">1M </span><span class="chg">−13.05%</span></div>
+  <div><span class="label">3M </span><span class="chg pos">+13.27%</span></div>
+  <div><span class="label">6M </span><span class="chg pos">+12.69%</span></div>
+  <div><span class="label">YTD </span><span class="chg pos">+5.38%</span></div>
+  <div><span class="label">1Y </span><span class="chg pos">+25.66%</span></div>
+  <div><span class="label">52-Wk Range </span><span style="font-weight:600;">£0.87 – £1.77</span></div>
+</div>
+
+<!-- Key Stats + EV Bridge -->
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv" style="font-size:10px;">
+      <tr><td>Exchange / Ticker</td><td>LSE · FCH-GB</td></tr>
+      <tr><td>Price (Mar 13, 2026)</td><td>£1.36</td></tr>
+      <tr><td>Volume (last)</td><td>1.2M shares</td></tr>
+      <tr><td>30-Day Avg Volume</td><td>~1.0M shares/day</td></tr>
+      <tr><td>Float %</td><td>~87%</td></tr>
+      <tr><td>Short Interest</td><td>~3.2%</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev" style="font-size:10px;">
+      <tr><td>Basic Shares (Ordinary)</td><td>287.74M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">+ Stock Comp / Options</td><td style="font-size:9px;">33.39M</td></tr>
+      <tr><td>= Fully Diluted Shares</td><td>321.13M</td></tr>
+      <tr><td>Share Price</td><td>£1.36</td></tr>
+      <tr><td>= Fully Dil. Market Cap</td><td>£436.1M</td></tr>
+      <tr><td>+ Consolidated Debt</td><td>£267.3M</td></tr>
+      <tr><td>− Cash &amp; Equivalents</td><td>(£447.3M)</td></tr>
+      <tr class="total"><td>= Enterprise Value</td><td>£256.1M</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- Current Valuation — horizontal 6×2 grid -->
+<div class="section-title">Current Valuation</div>
+<div style="border: 1px solid #eee; border-radius: 4px; margin-bottom: 8px;">
+  <div class="val-grid">
+    <div class="val-cell"><div class="val-label">Mkt Cap</div><div class="val-num">£391M</div><div class="val-sub">Basic shares</div></div>
+    <div class="val-cell"><div class="val-label">EV</div><div class="val-num">£256M</div><div class="val-sub">Net cash positive</div></div>
+    <div class="val-cell"><div class="val-label">P/E (LTM)</div><div class="val-num">9.7x</div><div class="val-sub">FY25 NI £46M</div></div>
+    <div class="val-cell"><div class="val-label">EV/EBITDA (LTM)</div><div class="val-num">5.2x</div><div class="val-sub">FY25 EBITDA £50M</div></div>
+    <div class="val-cell"><div class="val-label">EV/Sales (LTM)</div><div class="val-num">1.15x</div><div class="val-sub">FY25 Rev £223M</div></div>
+    <div class="val-cell"><div class="val-label">P/S</div><div class="val-num">1.76x</div><div class="val-sub">Mkt Cap / Rev</div></div>
+  </div>
+  <div style="border-top: 1px solid #eee;">
+    <div class="val-grid">
+      <div class="val-cell"><div class="val-label">Fully Dil. Mkt Cap</div><div class="val-num">£436M</div><div class="val-sub">321M dil. shares</div></div>
+      <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">5.91%</div><div class="val-sub">FactSet estimate</div></div>
+      <div class="val-cell"><div class="val-label">Beta</div><div class="val-num">0.96</div><div class="val-sub">5-year weekly</div></div>
+      <div class="val-cell"><div class="val-label">Avg Analyst Rating</div><div class="val-num">Buy</div><div class="val-sub">4 brokers · 1.00</div></div>
+      <div class="val-cell"><div class="val-label">Cons. Target Price</div><div class="val-num">£2.18</div><div class="val-sub">+60% upside</div></div>
+      <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">Jun 3</div><div class="val-sub">H1 2026</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Valuation Multiples Table -->
+<div class="section-title">Valuation Multiples</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Metric</th>
+      <th>5Yr Avg</th>
+      <th>FY2022</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th class="est" style="color:#2563eb;">FY2025E</th>
+      <th class="est" style="color:#2563eb;">FY2026E</th>
+      <th class="est" style="color:#2563eb;">FY2027E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="8">PRICE MULTIPLES</td></tr>
+    <tr><td>P/E</td><td>—</td><td>NM</td><td>NM</td><td>NM</td><td class="est">9.7x</td><td class="est">16.0x</td><td class="est">10.1x</td></tr>
+    <tr><td>P/Sales</td><td>2.4x</td><td>1.2x</td><td>2.5x</td><td>2.6x</td><td class="est">1.76x</td><td class="est">1.66x</td><td class="est">1.48x</td></tr>
+    <tr><td>P/Book Value</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="est">1.7x</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr class="section-row"><td colspan="8">EV MULTIPLES</td></tr>
+    <tr><td>EV/Sales</td><td>1.5x</td><td>0.7x</td><td>1.4x</td><td>1.6x</td><td class="est">1.15x</td><td class="est">1.09x</td><td class="est">0.97x</td></tr>
+    <tr><td>EV/EBITDA</td><td>—</td><td>NM</td><td>35.5x</td><td>11.2x</td><td class="est">5.2x</td><td class="est">5.2x</td><td class="est">3.7x</td></tr>
+    <tr><td>EV/EBIT</td><td>—</td><td>NM</td><td>NM</td><td>27.5x</td><td class="est">6.6x</td><td class="est">6.6x</td><td class="est">4.4x</td></tr>
+  </tbody>
+</table>
+
+<!-- Revenue Exposure -->
+<div class="section-title">Revenue Exposure (FY2024 Actuals)</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Business Segment</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Segment</th><th>£M</th><th>% Rev</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Term Loans</td><td>£138.4M</td><td>85.6%</td><td>−10.3%</td></tr>
+        <tr><td>FlexiPay</td><td>£23.3M</td><td>14.4%</td><td>+194.9%</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>£161.7M</td><td>100%</td><td>+24.5%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <div class="sub-label">By Geography</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Region</th><th>£M</th><th>% Rev</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>United Kingdom</td><td>£161.7M</td><td>100%</td></tr>
+        <tr><td>United States</td><td>—</td><td>—</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>£161.7M</td><td>100%</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:8px; color:#aaa; margin-top:4px;">US operations sold to Ready Capital, Jun 2024.</p>
+  </div>
+</div>
+
+<!-- Financials Table -->
+<div class="section-title">Financials</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">£M (FY Dec)</th>
+      <th>FY2022</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th class="est" style="color:#2563eb;">FY2025E</th>
+      <th class="est" style="color:#2563eb;">FY2026E</th>
+      <th class="est" style="color:#2563eb;">FY2027E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">INCOME STATEMENT</td></tr>
+    <tr><td>Revenue</td><td>£197.4</td><td>£129.9</td><td>£161.7</td><td class="est">£222.5</td><td class="est">£235.5</td><td class="est">£264.2</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Revenue Growth %</td><td>—</td><td>−34.2%</td><td>+24.5%</td><td class="est">+37.6%</td><td class="est">+5.8%</td><td class="est">+12.2%</td></tr>
+    <tr><td>Gross Profit</td><td>£161.0</td><td>£115.3</td><td>£143.0</td><td class="est">£196.8</td><td class="est">£208.0</td><td class="est">£233.3</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Gross Margin %</td><td>81.6%</td><td>88.8%</td><td>88.5%</td><td class="est">88.5%</td><td class="est">88.3%</td><td class="est">88.3%</td></tr>
+    <tr><td>EBITDA</td><td>(£13.0)</td><td>£7.2</td><td>£22.9</td><td class="est">£49.7</td><td class="est">£49.5</td><td class="est">£69.2</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">EBITDA Margin %</td><td>NM</td><td>5.5%</td><td>14.2%</td><td class="est">22.3%</td><td class="est">21.0%</td><td class="est">26.2%</td></tr>
+    <tr><td>EBIT</td><td>(£29.1)</td><td>(£5.4)</td><td>£9.3</td><td class="est">£38.7</td><td class="est">£39.0</td><td class="est">£58.1</td></tr>
+    <tr><td>Net Income</td><td>(£51.4)</td><td>(£8.2)</td><td>£0.3</td><td class="est">£46.0</td><td class="est">£29.9</td><td class="est">£46.1</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Net Income Margin %</td><td>NM</td><td>NM</td><td>0.2%</td><td class="est">20.7%</td><td class="est">12.7%</td><td class="est">17.4%</td></tr>
+    <tr><td>EPS (Dil)</td><td>(£0.19)</td><td>(£0.111)</td><td>£0.001</td><td class="est">£0.143</td><td class="est">£0.093</td><td class="est">£0.145</td></tr>
+    <tr class="section-row"><td colspan="7">CASH FLOW</td></tr>
+    <tr><td>Operating Cash Flow</td><td>£12.1</td><td>(£9.5)</td><td>(£61.6)</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>CapEx</td><td>(£16.7)</td><td>(£16.7)</td><td>(£8.7)</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Free Cash Flow</td><td>(£4.6)</td><td>(£26.2)</td><td>(£70.3)</td><td class="est">(£34.4)</td><td class="est">£30.0</td><td class="est">£46.9</td></tr>
+    <tr class="section-row"><td colspan="7">BALANCE SHEET</td></tr>
+    <tr><td>Cash &amp; Equivalents</td><td>£325.9</td><td>£291.1</td><td>£286.6</td><td class="est">£447.0</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Total Debt</td><td>£131.2</td><td>£135.8</td><td>£183.5</td><td class="est">£267.3</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Shareholders' Equity</td><td>£193.1</td><td>£181.4</td><td>£169.8</td><td class="est">£228.4</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr class="section-row"><td colspan="7">RETURNS &amp; LEVERAGE</td></tr>
+    <tr><td>ROE</td><td>NM</td><td>NM</td><td>0.2%</td><td class="est">20.7%</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Debt / Equity</td><td>0.68x</td><td>0.75x</td><td>1.08x</td><td class="est">1.17x</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Net Cash / (Debt)</td><td>£194.7</td><td>£155.3</td><td>£103.1</td><td class="est">£179.7</td><td class="est">—</td><td class="est">—</td></tr>
+  </tbody>
+</table>
+
+<!-- Valuation Summary -->
+<div class="section-title">Valuation Summary</div>
+<p class="prose">Funding Circle currently trades at 5.2x LTM EV/EBITDA and 16.0x FY2026E P/E, representing a modest premium to its immediate peer group median of approximately 8–9x P/E for commercial lending comps — though the peer set (Arbuthnot, Time Finance, Orchard) is not fully comparable given FCH's technology-enabled operating model and faster growth trajectory. The elevated FY2026E P/E of 16x relative to the 9.7x LTM P/E reflects a consensus expectation that FY2025's bumper £46M net income (inflated by a one-time US disposal gain and deferred tax asset release) does not repeat mechanically in FY2026, causing reported net income to step down to £30M before recovering to £46M in FY2027E — creating a valuation illusion of expensive at FY26E P/E that actually resolves to just 10x on FY27E. On an EV/EBITDA basis (5.2x FY26E, 3.7x FY27E), the stock looks inexpensive for a capital-light SaaS-adjacent lending platform with 88% gross margins and 37% revenue CAGR over FY24–25. The current discount to UK fintech peers such as Wise (25x EBITDA) and to US marketplace lenders reflects FCH's small size (£391M market cap), low analyst coverage (4 brokers), and residual uncertainty about balance-sheet lending credit quality as the loan book matures. We believe this discount is excessive given the FY25 EBIT inflection and the structural shift to profitable growth under Lisa Jacobs.</p>
+
+<div class="source-note">Source: FactSet snapshot export, March 16, 2026. Estimates reflect consensus of 4 broker contributors.</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 3: BULL & BEAR CASES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Cases</div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">FlexiPay Platform Inflection.</span> FlexiPay grew revenue 195% YoY in FY2024 and represented only 14% of total revenue — yet management targets it as the primary driver of FY2026 and FY2027 growth. If FlexiPay's working capital product achieves penetration into FCH's 125,000+ existing term loan customers (the cross-sell funnel), revenue from this segment could double again by FY2027, pushing total group revenue well through £300M. FlexiPay's take-rate economics are materially higher than term loans, meaning incremental revenue flows at above-average margins.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">UK Rate Environment Tailwind.</span> FCH's net interest margin benefits when the spread between its lending rates (~8–12% for SME term loans) and its cost of institutional funding compresses favorably. As the Bank of England cuts rates in 2025–2026, FCH's fixed-rate lending book re-prices upward on new originations while institutional funding costs fall, expanding net interest margin. This is a structural tailwind for profitability that consensus may underweight.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Balance Sheet Leverage Optionality.</span> With £447M of cash and a net cash position of £180M, FCH has significant capacity to accelerate loan book growth without external equity. Management has guided toward disciplined balance sheet utilization (targeting 1:1 third-party capital alongside own balance sheet), and any acceleration of the loan book — funded by existing cash — directly leverages the fixed operating cost base and drives earnings upgrades. Buy-back optionality at current prices adds per-share upside.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">British Business Bank &amp; Government Backing.</span> FCH is a named delivery partner for the British Business Bank's Recovery Loan Scheme and Growth Guarantee Scheme. Government-backed loan schemes reduce credit risk (80% government guarantee) while maintaining FCH's origination fee economics, meaning guaranteed-loan volumes are near-zero risk revenue. An expansion of government-backed scheme volumes would be a material positive for risk-adjusted economics.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">M&amp;A or Strategic Premium.</span> FCH's proprietary credit model, SME customer data, and FCA-regulated lending infrastructure represent strategic assets that would be difficult to replicate organically. UK challenger banks (Monzo, Starling) and broader European lenders have shown interest in SME credit capabilities; FCH at £391M market cap is acquirable at a meaningful premium to current trading and the consensus target of £2.18 already implies 60% upside on a standalone basis.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="bear-header">Bear Cases</div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">UK SME Credit Cycle Deterioration.</span> FCH's loan book has grown rapidly on the balance sheet (total loans outstanding have expanded substantially in FY2024–2025), and the credit quality of this newer, balance-sheet-funded cohort has not yet been tested through a full credit cycle. If UK SME defaults spike — driven by higher-for-longer rates, a UK recession, or the end of government-backed guarantee schemes — FCH's provision charges could materially compress net income. A 200bps deterioration in net credit losses on a £600M+ loan book would eliminate most of FY2026's projected net income.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">FY2026 Earnings Reset Risk.</span> FY2025 net income of £46M included significant one-time items: a £33M gain on the US disposal and a substantial deferred tax asset release. Strip these out and normalized FY2025 net income is closer to £10–15M. The consensus £29.9M FY2026E net income implies a significant normalization step-down that could disappoint if FlexiPay growth decelerates or if provision charges exceed expectations. The FY26E P/E of 16x is not cheap if the step-down is deeper than expected.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Concentration in UK Only.</span> The exit from the US and Netherlands eliminates both diversification and optionality. FCH is now a single-geography, single-market lender serving UK SMEs — a market that is macro-sensitive, cyclical, and subject to UK-specific political risks (Labour government policy changes, potential changes to government lending scheme terms). Any UK-specific economic shock hits FCH with no geographic buffer.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Competitive Pressure from Banks &amp; Fintechs.</span> Mainstream UK banks (Barclays, Lloyds, HSBC) have invested heavily in digital SME lending capabilities since COVID. Tide, iwoca, and Liberis compete directly in the working capital space. If the major banks successfully digitize their SME origination funnel, FCH's speed and convenience advantage narrows — and the banks can price more aggressively given cheaper deposit-funded cost of capital. The competitive moat in UK SME lending is narrower than in consumer fintech.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Thin Analyst Coverage &amp; Liquidity Premium.</span> With only 4 sell-side analysts covering FCH and average daily trading volume of ~£1.5M, the stock lacks the institutional sponsorship that would drive a re-rating. Index exclusion (too small for FTSE 350), the IPO overhang (IPO at 440p, stock never recovered), and residual reputational damage from the peer-to-peer wind-down create persistent selling pressure. Without a catalytic event (takeout, index inclusion, activist), the discount to intrinsic value may persist for years.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Scale Economies</span> <span class="fw-rating moderate">Moderate</span><br>
+  FCH's technology platform — loan origination software, credit decisioning models, servicing infrastructure — has high fixed costs and near-zero marginal cost per additional loan application processed. This means that as origination volumes increase, the cost per loan processed declines substantially: the same credit model, the same compliance infrastructure, and the same technology stack serve a £500M loan book as effectively as a £1B loan book, with most incremental revenue dropping to gross profit at 88%+ margins. However, the capital component of lending (funding the balance sheet) is variable — more loans require more funding, and FCH pays institutional funders a spread, so scale economies in the lending economics are less pronounced than in pure software. The barrier is real but moderate: a well-funded challenger with a comparable technology investment could replicate FCH's fixed cost base in 3–5 years, though they would lack FCH's 15-year credit history data set and origination track record needed to attract institutional funders.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Network Effects</span> <span class="fw-rating weak">Weak</span><br>
+  FCH does not have meaningful direct network effects — the value of a term loan to SME borrower A is not increased by the fact that SME borrower B also uses Funding Circle. On the institutional funding side, there is a weak indirect effect: as FCH builds a longer credit history and larger performance dataset, it becomes more attractive to institutional lenders (they can price risk with more confidence), which allows FCH to secure better funding terms and pass some of that through to borrowers as competitive rates. This creates a mild flywheel, but it is slow-moving and does not constitute the rapid compounding network effect seen in marketplace or payments businesses. The FlexiPay product, if it develops an open banking data integration layer, could develop a data-driven network effect over time, but this is nascent. For now, this power is weak.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Counter-Positioning</span> <span class="fw-rating moderate">Moderate</span><br>
+  FCH's core counter-positioning argument is that the UK's four major banks — Lloyds, Barclays, HSBC, NatWest — are structurally unable to replicate FCH's digital-first, fast-decision SME lending product without cannibalizing their relationship banking model. Banks price SME loans through a relationship manager channel that takes weeks, requires a branch visit, and involves manual underwriting. FCH makes a credit decision in 24–72 hours via an online application using open banking data, Companies House filings, and its proprietary credit model. The banks are not stupid — they know this — but replicating it would require them to automate away relationship manager jobs, disintermediate their branch network, and compete on speed with a product that earns less margin than their traditional SME banking relationships. In practice, the major banks have made some progress (Barclays' Bounce Back Loan Scheme delivery, NatWest's digital overdraft), but none has successfully disrupted FCH's sub-£500K fast-decision sweet spot. The counter-positioning is moderate rather than strong because the banks are not structurally prohibited from competing — they are merely slow and politically constrained — and their deposit-funded cost of capital is permanently cheaper than FCH's institutional funding cost.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Switching Costs</span> <span class="fw-rating moderate">Moderate</span><br>
+  For term loan customers, switching costs are moderate: once a loan is originated, the customer is locked in for the term (typically 6 months to 5 years), making refinancing costly both financially (early repayment charges apply) and procedurally (new application, new credit assessment elsewhere). FCH also builds an underwriting track record on each borrower — a business that has successfully repaid an FCH term loan gets a faster, cheaper second loan from FCH than it would get from a new lender who lacks that performance history. This repeat-borrower dynamic is economically similar to a credit card issuer's revolving advantage. For FlexiPay, switching costs are lower in theory — it's a revolving facility — but the open banking data integration and the ongoing relationship create practical stickiness. FCH management has noted that FlexiPay cross-sell to existing term loan customers is a key growth lever precisely because those customers already have an established credit history with FCH, reducing underwriting friction and improving approval rates. The switching cost power is genuine but not dominant — a competitor offering sufficiently lower rates can overcome it.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Branding</span> <span class="fw-rating moderate">Moderate</span><br>
+  Funding Circle is the best-known alternative SME lender brand in the UK, with over 15 years of market presence, significant marketing investment, and brand recognition among UK small businesses (particularly via the accountant and broker channel). The brand carries trust signals — FCA regulation, British Business Bank partnership, £15B+ cumulative originations — that matter when a business owner is deciding to take on debt. However, brand in SME lending does not command pricing power in the way consumer brands do: an SME borrower will choose the lender offering the best rate and fastest decision, not necessarily the most recognized name. The brand reduces customer acquisition cost (FCH is often found via Google search for "business loan UK" where FCH has strong SEO and paid search positions) and supports the broker/accountant referral channel. Overall, this is a meaningful but not dominant power.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">6. Cornered Resource</span> <span class="fw-rating moderate">Moderate</span><br>
+  FCH's most important cornered resource is its 15-year proprietary credit dataset covering £15B+ of SME loan originations across economic cycles including the GFC aftermath, Brexit uncertainty, COVID, and the post-COVID inflation shock. This dataset trains FCH's credit model and underpins its claimed 2–3x better default prediction accuracy relative to traditional bank models using just balance sheet data. A new entrant without this data history cannot replicate the credit model's performance; they must either build it over time (accepting worse credit outcomes initially) or license it from incumbents. FCH's FCA lending license and its status as a British Business Bank delivery partner are also cornered resources — the BBB selects a small number of accredited partners, and new entrants face a multi-year accreditation process. However, as open banking data (via PSD2) becomes more widely available, the data advantage erodes over time for new entrants who can access real-time bank transaction data without building a long performance history.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">7. Process Power</span> <span class="fw-rating moderate">Moderate</span><br>
+  Funding Circle has built genuine operational capabilities in digital SME credit that are difficult to replicate quickly. The end-to-end origination process — open banking data ingestion, Companies House cross-referencing, real-time credit model scoring, automated covenant monitoring, and collections — has been refined over 15 years and hundreds of thousands of loans. The collections process, in particular, reflects accumulated institutional learning about how UK SMEs in distress behave, what forbearance strategies work, and how to minimize credit losses while maintaining borrower relationships. CEO Lisa Jacobs, who joined in 2022 from being the company's CFO, brought a capital discipline orientation that has structurally improved FCH's operating cost ratio (cost/income ratio improving from ~95% in FY2023 to ~80% in FY2025). This process improvement is embedded in the organization and not easily replicated by a new hire.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> The strongest moats are the proprietary credit dataset (Cornered Resource) and the FCH brand/broker channel reputation in the UK SME market (Branding + Switching Costs). Counter-positioning against the incumbent banks is real but eroding as banks digitize. Network effects and scale economies are present but not dominant. FCH is a 2–3 power business at Moderate strength, not a high-conviction 7 Powers story.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Threat of New Entrants</span> <span class="fw-rating moderate">Moderate</span><br>
+  New entry into UK SME lending requires an FCA Consumer Credit Authorization (or full banking license), access to funding capital, and a working credit model. While the regulatory process can take 12–24 months, it is achievable for a well-capitalized entrant. Institutional capital (from debt funds, warehouse facilities, securitization) is available to fund a new lender's loan book, though the terms improve significantly with performance history. The real barrier to entry is credit model accuracy: a new entrant with no default history must either price conservatively (losing volume) or price aggressively (taking on adverse selection). FCH's 15 years of loan performance data creates a structural first-mover advantage in credit pricing. We assess this force as Moderate: the barriers are real but not prohibitive, and the market has seen periodic new entrants (iwoca, Liberis, Swoop, YouLend) who compete in adjacent niches. The threat is more from these well-funded niche competitors than from a greenfield entrant.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Bargaining Power of Suppliers</span> <span class="fw-rating moderate">Moderate</span><br>
+  FCH's primary "suppliers" are its institutional funding partners — British Business Bank, Waterfall Asset Management, and other debt funders who provide the capital FCH deploys as loans. These funders have negotiating power: they set the interest rates FCH must pay on its warehouse facilities and forward-flow agreements, and they can withdraw funding if credit performance deteriorates. However, FCH is not dependent on a single funder, and the structure of most institutional funding agreements (committed facilities with fixed terms) reduces near-term repricing risk. The cost of institutional capital is also primarily driven by macro rates (SONIA/Bank Rate) rather than FCH-specific dynamics, meaning FCH has limited control but also limited single-party dependency. Technology suppliers (AWS cloud, analytics software) have low power given competitive alternatives. Overall: Moderate, with the key risk being institutional funders demanding higher spreads if UK SME credit quality deteriorates.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Bargaining Power of Buyers</span> <span class="fw-rating moderate">Moderate</span><br>
+  FCH's borrowers are UK SMEs, primarily businesses with £100K–£5M in annual revenue applying for loans of £10K–£500K. This is a fragmented customer base — no single borrower represents more than a tiny fraction of FCH's loan book — which limits buyer concentration power. However, SME borrowers are price-sensitive: they will comparison-shop across FCH, Barclays, NatWest, iwoca, and others, and the market is transparent (multiple price comparison sites including NerdWallet, Business Money and Unbiased rank SME lenders by rate and approval speed). FCH's willingness to pay in marketing (CPC, broker commissions) suggests customer acquisition costs are material, reflecting meaningful buyer switching behavior. The power is moderated by FCH's proprietary data advantage: existing FCH borrowers get faster decisions and often better rates due to established performance history, reducing their incentive to search elsewhere for repeat loans.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Threat of Substitutes</span> <span class="fw-rating moderate">Moderate</span><br>
+  The primary substitute for an FCH term loan is a bank overdraft or bank term loan. Banks offer cheaper all-in cost of capital (deposit-funded) but are slower, more restrictive on borrower criteria, and require collateral that many SMEs lack. For working capital needs (FlexiPay territory), the substitutes include invoice financing from Bibby Financial Services, MarketInvoice, and bank overdraft facilities. Equity crowdfunding (Crowdcube, Seedrs) is a substitute for growth capital but not for working capital. The threat of substitutes is moderated by FCH's speed and accessibility advantage: a business owner who has been declined by a high-street bank is not going to find a substitute that serves their need — they need a non-bank lender. Conversely, the best-credit SMEs (those who qualify for bank loans) are a constant flight risk to cheaper bank financing when rates fall. Overall Moderate: FCH's sweet spot (£50K–£500K, 24-hour decision, no branch visit) is underserved by banks but not by fintech competitors.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Competitive Rivalry</span> <span class="fw-rating high">High</span><br>
+  The UK alternative SME lending market has attracted significant capital and talent over the past decade. Direct competitors include: iwoca (VC-backed, profitable, £3B+ originations, strong in flexible credit); Liberis (merchant cash advance); YouLend (embedded lending at Shopify, eBay); Bibby Financial Services and Close Brothers (invoice finance); and Capify (UK/US alternative lender). Additionally, the major UK banks — after being caught flat-footed during COVID — have invested heavily in digital SME credit: Barclays Business Banking Online, NatWest Accelerator and digital lending, and HSBC Kinetic all represent credible fast-follower threats. The market is growing (UK SME finance gap estimated at £22B per year) but has multiple well-funded players chasing the same target customer. FCH's defensible position is in its data asset, brand, and British Business Bank partnership — but the rivalry level is high and margin compression from competition is a real long-run risk. The exit of WeWork, the distress of several P2P platforms (LendInvest, RateSetter, Zopa), and the bankruptcy of Greensill all had knock-on effects on institutional confidence in alternative SME credit, which hurt FCH's funding costs temporarily in 2022–2023.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> The competitive environment for FCH is moderately challenging. The five-force structure is not as favorable as pure SaaS businesses — supplier (funding) power is meaningful, rivalry is high, and substitutes (bank loans) are always present for the best-credit customers. FCH's sustainable advantage lies in its FCA regulation, BBB partnership, credit data asset, and operational efficiency rather than in structural market protection.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 6: WHAT DRIVES THE STOCK? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<p class="prose">The following are the 4–6 variables that would move FCH's share price materially in the next 12 months. These are what analysts build tracking models around and PMs ask about in morning meetings.</p>
+
+<p class="prose"><strong>1. FlexiPay Origination Growth Rate.</strong> FlexiPay is the key incremental revenue driver — it grew 195% in FY2024 and management has described it as the primary growth vector for FY2025–2027. Every quarterly earnings update will be scrutinized for FlexiPay volume, revenue, and whether the cross-sell funnel from term loan customers is executing. Acceleration is strongly bullish (higher-margin, higher-growth product mix shift); any deceleration or market share loss to iwoca/YouLend would be the single biggest negative catalyst.</p>
+
+<p class="prose"><strong>2. UK SME Credit Quality / Default Rates.</strong> FCH's balance sheet has grown significantly, and the new cohort of balance-sheet loans originated in FY2024–FY2025 has not been through a stress period. FCH's reported arrears rate, net credit losses, and provisioning methodology will be watched closely at every reporting period. A meaningful uptick in arrears (e.g., Stage 2 loans rising above 8–10% of book) would trigger a de-rating even if origination volumes hold, as it signals future P&L headwinds. Conversely, stable or improving credit performance would be a significant re-rating catalyst as it validates FCH's credit model in a post-pandemic, rate-stressed environment.</p>
+
+<p class="prose"><strong>3. Bank of England Rate Trajectory.</strong> FCH's net interest margin is sensitive to the rate environment in two directions: (a) the rate on new term loans (priced off risk-free + spread, so rates falling compresses origination yields on new business); (b) the cost of institutional funding (lower SONIA reduces FCH's borrowing cost on warehouse facilities). In a falling rate environment, the net effect is generally positive for FCH as funding costs fall faster than lending yields reset — but this is nuanced and the market will watch any BoE rate change announcement for its read-through to FCH margins.</p>
+
+<p class="prose"><strong>4. FCH Management Guidance on FY2026 Outlook.</strong> The H1 2026 results (due Jun 3, 2026 — in 11 weeks) will be the first detailed read on whether the FY2025 EBIT inflection is sustainable or a one-time event. Management guidance on FY2026 revenue growth, EBITDA margin progression, and FlexiPay trajectory will be the single most important near-term catalyst. The current consensus of £49.5M FY2026E EBITDA (essentially flat with FY2025E) reflects analyst uncertainty about the sustainability of the margin — any upside guidance would be a material positive.</p>
+
+<p class="prose"><strong>5. M&amp;A Activity / Consolidation Speculation.</strong> FCH at £391M market cap is realistically acquirable. UK challenger banks (Monzo, Starling) and larger European lending platforms (Younited, ING Digital Lending) have demonstrated appetite for acquiring SME credit capabilities. Any credible takeover approach or strategic partnership announcement would be a binary upside catalyst. The inverse — management pursuing FCH's own acquisitions with the £447M cash balance — is a double-edged sword (could be creative or destructive depending on the target).</p>
+
+<p class="prose"><strong>6. Government-Backed Scheme Extensions / New BBB Contracts.</strong> FCH's British Business Bank partnership is a quality signal and a source of near-zero-risk origination volume. Any announcement extending the Growth Guarantee Scheme or adding FCH as a delivery partner for new government-backed products would be a discrete positive catalyst. Conversely, any BBB scheme wind-down without replacement would reduce origination optionality.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<p class="prose">FCH's revenue can be decomposed into its two product lines using fundamental economic drivers:</p>
+
+<table class="data" style="font-size:10px; margin-bottom:16px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Revenue Line</th>
+      <th style="text-align:left;">Driver 1</th>
+      <th style="text-align:left;">Driver 2</th>
+      <th style="text-align:left;">Driver 3</th>
+      <th style="text-align:left;">= Revenue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Term Loans</strong></td>
+      <td>Average Loans Under Management (£LUM)</td>
+      <td>× Net Interest Yield (annualized %)</td>
+      <td>× (1 − Net Credit Losses %)</td>
+      <td>= Net Revenue from Term Loans</td>
+    </tr>
+    <tr>
+      <td><strong>FlexiPay</strong></td>
+      <td>Average FlexiPay Book Balance (£)</td>
+      <td>× Annualized Yield / Fee Rate (%)</td>
+      <td>× Utilization Rate (%)</td>
+      <td>= FlexiPay Revenue</td>
+    </tr>
+    <tr>
+      <td><strong>Origination Fees</strong></td>
+      <td>Gross Origination Volume (£)</td>
+      <td>× Arrangement Fee % (upfront)</td>
+      <td>—</td>
+      <td>= Fee Revenue (embedded in above)</td>
+    </tr>
+    <tr>
+      <td><strong>Group Revenue</strong></td>
+      <td>Term Loans Revenue</td>
+      <td>+ FlexiPay Revenue</td>
+      <td>+ Other / Fees</td>
+      <td>= Total Revenue £222.5M (FY25E)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose"><strong>Key driver quantification (FY2025E estimates):</strong></p>
+<ul style="font-size: 11px; line-height: 1.7; color: #333; margin-left: 20px; margin-bottom: 10px;">
+  <li><strong>Term Loans:</strong> Average LUM ≈ £700–750M × Net yield ≈ 24–25% = ~£175–190M gross revenue; after net credit losses (~5–7%) ≈ £163–180M net term loan revenue</li>
+  <li><strong>FlexiPay:</strong> Average book ≈ £75–100M × annualized yield ≈ 35–40% × utilization ~70% = £18–28M FlexiPay revenue (growing toward £50M+ by FY2027)</li>
+  <li><strong>Total FY25E:</strong> £222.5M, with Term Loans ~80% and FlexiPay growing toward 20–25%+ share by FY2027</li>
+</ul>
+
+<p class="prose"><strong>Leverage analysis:</strong> The two highest-leverage drivers on total revenue are (1) <em>Average Loans Under Management for Term Loans</em> — a 10% increase in average LUM adds roughly £16–18M of incremental gross revenue, which flows through at 88%+ gross margin, adding ~£14–16M to gross profit; and (2) <em>FlexiPay average book balance</em> — because FlexiPay has a higher yield (~35–40%) than term loans (~24–25%), every incremental £10M in FlexiPay book balance generates ~£2.5–3M of annual revenue at essentially the same operating cost base, making it the highest-margin incremental revenue source in the business. Net credit loss rate is the key downside risk driver — a 200bps deterioration on a £700M+ combined book erases ~£14M of annual revenue, or roughly half of FY2026E EBIT.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+  <strong>AlphaSense DR Report</strong> · Query: Funding Circle Holdings · Report Date: March 16, 2026<br>
+  <em>Note: The AlphaSense DR Report PDF (DR-Report-by-Alphasense-03-16-2026-15-43.pdf) could not be rendered on this system as poppler-utils is not installed. The section below synthesizes insights from the Q4 2025 and Q2 2025 earnings transcripts, the Q4 2025 earnings slides, FactSet data, and publicly available sources. Key themes that would normally be covered in AlphaSense — expert calls, management interview transcripts, industry data, and competitive intelligence from sell-side notes — could not be incorporated. Please supplement with the AlphaSense PDF directly when reviewing this memo.</em>
+</div>
+
+<p class="prose"><strong>Strategic Pivot: From Marketplace to Balance Sheet Lender.</strong> The most significant analytical development in the FCH story over the past 24 months is the deliberate transition from a peer-to-peer/marketplace model (where retail and institutional investors funded loans originated by FCH) to a principal balance sheet lending model. In the P2P era, FCH earned origination fees and servicing fees without using its own capital — capital-light but capped on economics. Under the current balance sheet model, FCH deploys its own capital (and institutional warehouse debt) to earn the full net interest spread plus fees. This structurally increases revenue per loan originated but also increases credit risk retention. Management has guided that the optimal capital structure is a hybrid: approximately 50% balance sheet / 50% third-party capital, with the balance sheet providing speed (FCH can make immediate credit decisions) and the third-party capital (BBB, Waterfall, forward-flow buyers) providing volume scalability without diluting shareholders. The Q4 FY2025 transcript confirmed the loan book is performing within expectation and that credit metrics remain "well within risk appetite," though FCH does not disclose granular cohort-level default data to the market — a disclosure gap that creates investor uncertainty.</p>
+
+<p class="prose"><strong>Lisa Jacobs Leadership: Capital Discipline as Cultural Shift.</strong> Multiple earnings transcripts and investor presentations reflect a clear shift in FCH's operating culture under Lisa Jacobs. Prior management (Samir Desai, the founder) was growth-at-all-costs; Jacobs has instituted unit economics discipline, exited loss-making geographies (US, Netherlands, Germany), and tied management incentives explicitly to ROTE (Return on Tangible Equity) and EBIT margin targets. The FY2025 EBIT inflection to £38.7M (from £9.3M in FY2024) is partly the fruit of this cost restructuring: FCH's headcount has declined from ~1,000 to ~700, technology and marketing spend have been rationalized, and the broker/accountant distribution channel (lower CAC than direct digital) has increased as a proportion of originations. This cultural shift is likely underappreciated by the market, which tends to discount FCH's management team due to the company's troubled IPO history.</p>
+
+<p class="prose"><strong>FlexiPay: The Embedded Finance Opportunity.</strong> FlexiPay is structurally different from FCH's original term loan product: it is a revolving working capital facility (not a term loan), priced dynamically based on real-time business data, and accessed via FCH's online portal or through accounting software integrations (Xero, QuickBooks, Sage). The +195% FY2024 revenue growth reflects both a small base effect and genuine product-market fit. In the Q4 FY2025 earnings call, management noted that FlexiPay cross-sell to existing term loan customers has an approval rate significantly higher than new-customer originations (because FCH already has the credit history), and that the FlexiPay book has exhibited materially lower delinquency rates than the term loan book — a credit quality advantage that, if sustained, would justify a higher yield on the FlexiPay book relative to its risk cost. The strategic risk is competitive: iwoca's FlexiCredit product is a direct competitor, and YouLend (Shopify-embedded) is attacking the same merchant-finance space via a different distribution channel.</p>
+
+<p class="prose"><strong>US Business Exit: Freeing Management Bandwidth.</strong> The sale of Funding Circle USA to Ready Capital for £33M (completed June 2024) eliminated FCH's largest source of management distraction and financial drag. The US business had never achieved profitability after 10+ years of operation, consumed disproportionate executive attention, and was valued at a discount to book value in the sale. Post-exit, FCH's entire senior management team is focused on a single geography, a single regulatory regime, and two products. Investors should credit the FCH management team for the intellectual honesty of admitting the US was a failed experiment and exiting at a fair price rather than continuing to invest behind a losing position. The proceeds (net £33M gain) contributed materially to FY2025's reported net income, but the more important value creation was the strategic simplification.</p>
+
+<p class="prose"><strong>Key Long-Term Investor Questions.</strong> Based on the earnings transcripts and FactSet data, the questions that would most sharpen conviction on FCH are: (1) What is the cohort-level default rate for the FY2024–FY2025 balance-sheet loan vintages, and how does it compare to pre-COVID vintages? FCH does not disclose this granularly. (2) What is the FlexiPay unit economics (CAC, LTV, net revenue per £1M of book) and how does this compare to term loans? (3) Is the BBB partnership contractually committed for multi-year volumes, or is it a rolling arrangement subject to policy change? (4) What is the true cost of institutional funding vs. FCH's lending yield — i.e., what is the "spread" the balance sheet earns net of funding cost? This NIM figure is critical for modeling but is not directly disclosed. (5) Does FCH have an explicit capital return framework (buyback, special dividend) for deploying its £447M cash balance, given that it exceeds the market cap by >100%?</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 9: SENSITIVITY ANALYSIS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Sensitivity Analysis</div>
+
+<!-- Sensitivity Table 1 -->
+<p class="prose"><strong>Sensitivity Table 1: Term Loan Net Revenue (£M) — Average Loans Under Management (£M) vs. Net Interest Yield (%)</strong></p>
+<p class="prose"><strong>Current (FY2025E): Average Term Loan LUM ≈ £720M × Net Interest Yield ≈ 25% → Estimated Annual Term Loan Net Revenue ≈ £180M</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Avg LUM / Net Yield</th>
+      <th>21%</th>
+      <th>23%</th>
+      <th>25%</th>
+      <th>27%</th>
+      <th>29%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>£500M</td><td>£105</td><td>£115</td><td>£125</td><td>£135</td><td>£145</td></tr>
+    <tr><td>£600M</td><td>£126</td><td>£138</td><td>£150</td><td>£162</td><td>£174</td></tr>
+    <tr><td>£720M</td><td>£151</td><td>£166</td><td class="base">£180</td><td>£194</td><td>£209</td></tr>
+    <tr><td>£850M</td><td>£179</td><td>£196</td><td>£213</td><td>£230</td><td>£247</td></tr>
+    <tr><td>£1,000M</td><td>£210</td><td>£230</td><td>£250</td><td>£270</td><td>£290</td></tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 2 -->
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 2: FlexiPay Annual Revenue (£M) — Average FlexiPay Book Balance (£M) vs. Annualized Yield (%)</strong></p>
+<p class="prose"><strong>Current (FY2025E): Average FlexiPay Book ≈ £80M × Annualized Yield ≈ 37% → Estimated Annual FlexiPay Revenue ≈ £30M (growing toward £50M+ by FY2027)</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Book Balance / Yield</th>
+      <th>30%</th>
+      <th>33%</th>
+      <th>37%</th>
+      <th>41%</th>
+      <th>45%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>£50M</td><td>£15</td><td>£17</td><td>£19</td><td>£21</td><td>£23</td></tr>
+    <tr><td>£65M</td><td>£20</td><td>£21</td><td>£24</td><td>£27</td><td>£29</td></tr>
+    <tr><td>£80M</td><td>£24</td><td>£26</td><td class="base">£30</td><td>£33</td><td>£36</td></tr>
+    <tr><td>£120M</td><td>£36</td><td>£40</td><td>£44</td><td>£49</td><td>£54</td></tr>
+    <tr><td>£160M</td><td>£48</td><td>£53</td><td>£59</td><td>£66</td><td>£72</td></tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 3 -->
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 3: FY2027E Group EBIT (£M) — Net Credit Loss Rate vs. Total Revenue (£M)</strong></p>
+<p class="prose"><strong>Current (FY2025E): Net Credit Loss Rate ≈ 5.5% on ~£800M loan book × Total Revenue ≈ £222M → EBIT ≈ £38.7M (FY2025 actual); FY2027 consensus: revenue £264M, NCL ~5.0%, EBIT £58M</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Revenue / NCL Rate</th>
+      <th>3.5%</th>
+      <th>4.5%</th>
+      <th>5.5%</th>
+      <th>6.5%</th>
+      <th>7.5%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>£220M</td><td>£56</td><td>£47</td><td>£38</td><td>£29</td><td>£21</td></tr>
+    <tr><td>£242M</td><td>£64</td><td>£55</td><td>£46</td><td>£37</td><td>£27</td></tr>
+    <tr><td>£264M</td><td>£72</td><td>£63</td><td class="base">£53</td><td>£44</td><td>£34</td></tr>
+    <tr><td>£286M</td><td>£80</td><td>£71</td><td>£61</td><td>£51</td><td>£41</td></tr>
+    <tr><td>£310M</td><td>£90</td><td>£80</td><td>£70</td><td>£60</td><td>£50</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 10: 3-YEAR MODEL — 5 SCENARIOS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios</div>
+
+<p class="prose">All figures in £M unless stated. Modeled FY2026E, FY2027E, FY2028E. Exit multiple applied to FY2028E EPS. Current share price: £1.36. Diluted shares: 321M. Net cash (FY25): £180M.</p>
+
+<!-- CASE 1: BEAR SEVERE -->
+<div class="case-block">
+  <div class="case-name">🐻 Credit Cycle Shock — SME Defaults Surge</div>
+  <div class="case-desc">UK recession arrives; BoE holds rates at 4.5%+ through 2026; SME arrears spike materially; FlexiPay growth stalls; FCH forced to raise provisions and constrain origination volume.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>2026</strong> — UK GDP growth negative in H1; BoE inflation concern prevents rate cuts; FCH Stage 2 loans rise to 12% of book; provision charge doubles; origination volumes pulled back to protect capital. <strong>2027</strong> — Recession bottoms; FCH raises cost of credit to compensate; term loan book shrinks 15%; FlexiPay new lending suspended pending stress test results. <strong>2028</strong> — Recovery begins; FCH restarts growth from a smaller base; credit model re-calibrated with improved criteria; revenue trajectory reset lower.</p>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Average Term Loan LUM</span><span>£530M (−26% vs. base)</span></div>
+  <div class="driver-row"><span>Net Interest Yield</span><span>22% (margin compression)</span></div>
+  <div class="driver-row"><span>Net Credit Loss Rate</span><span>9.0% (severe stress)</span></div>
+  <div class="driver-row"><span>FlexiPay Revenue</span><span>£18M (growth stalled)</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>8% (provisions + cost base)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>£165</td><td>£145</td><td>£140</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>−26%</td><td>−12%</td><td>−3%</td></tr>
+    <tr><td>Gross Income</td><td>146</td><td>128</td><td>124</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>88%</td><td>88%</td><td>89%</td></tr>
+    <tr><td>EBITDA</td><td>20</td><td>14</td><td>11</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>12%</td><td>10%</td><td>8%</td></tr>
+    <tr><td>EBIT</td><td>9</td><td>3</td><td>(1)</td></tr>
+    <tr><td>Net Income</td><td>5</td><td>(2)</td><td>(5)</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Income Margin %</td><td>3%</td><td>NM</td><td>NM</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>321</td><td>321</td><td>321</td></tr>
+    <tr><td>EPS (£)</td><td>£0.016</td><td>(£0.006)</td><td>(£0.016)</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>—</td><td>—</td><td>6x EV/EBITDA</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>—</td><td>—</td><td>£0.41</td></tr>
+    <tr><td>$FCF</td><td>£(8)</td><td>£(15)</td><td>£(10)</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 6x FY2028E EV/EBITDA on £11M EBITDA = £66M EV; − Net Cash consumed = Equity Value ≈ £130M</div>
+    <div class="exit-price">Implied Share Price: £0.41</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: −70% from £1.36</div>
+  </div>
+</div>
+
+<!-- CASE 2: BEAR MILD -->
+<div class="case-block">
+  <div class="case-name">📉 Slow Growth — FlexiPay Disappoints, Credit Costs Rise</div>
+  <div class="case-desc">UK muddling-through; BoE cuts rates slowly; FCH executes on term loans but FlexiPay faces competition from iwoca; credit costs tick up modestly from current levels.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>2026</strong> — Term loan originations grow modestly (+8%); FlexiPay growth decelerates to +30% (from +195%) as iwoca and YouLend intensify competition; credit costs rise 100bps from FY25 levels as balance-sheet book matures. <strong>2027</strong> — Management slows FlexiPay investment; revenue growth normalizes to 8–10%; EBIT margins plateau. <strong>2028</strong> — FCH is a stable, modestly growing lender but the high-multiple narrative has faded.</p>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Average Term Loan LUM</span><span>£820M (modest growth)</span></div>
+  <div class="driver-row"><span>Net Interest Yield</span><span>23.5%</span></div>
+  <div class="driver-row"><span>Net Credit Loss Rate</span><span>6.5% (normalizing up)</span></div>
+  <div class="driver-row"><span>FlexiPay Revenue</span><span>£38M (slower ramp)</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>17%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>£225</td><td>£243</td><td>£255</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+1%</td><td>+8%</td><td>+5%</td></tr>
+    <tr><td>Gross Income</td><td>199</td><td>215</td><td>225</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>88%</td><td>88%</td><td>88%</td></tr>
+    <tr><td>EBITDA</td><td>38</td><td>42</td><td>43</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>17%</td><td>17%</td><td>17%</td></tr>
+    <tr><td>EBIT</td><td>27</td><td>31</td><td>32</td></tr>
+    <tr><td>Net Income</td><td>22</td><td>27</td><td>30</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Income Margin %</td><td>10%</td><td>11%</td><td>12%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>321</td><td>321</td><td>321</td></tr>
+    <tr><td>EPS (£)</td><td>£0.069</td><td>£0.084</td><td>£0.093</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>9x</td><td>9x</td><td>9x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>£0.62</td><td>£0.76</td><td>£0.84</td></tr>
+    <tr><td>$FCF</td><td>£18</td><td>£24</td><td>£27</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 9x FY2028E EPS of £0.093 = Implied share price</div>
+    <div class="exit-price">Implied Share Price: £0.84</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: −38% from £1.36</div>
+  </div>
+</div>
+
+<!-- CASE 3: BASE CASE -->
+<div class="case-block">
+  <div class="case-name">📊 Consensus Execution — Steady UK Fintech Compounding</div>
+  <div class="case-desc">FCH executes in line with consensus. FlexiPay grows to £50M+ revenue by FY2027. Term loan book expands toward £900M. Credit performance stays within management's risk appetite. BoE cuts 3–4 times by mid-2026, providing modest tailwind.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>2026</strong> — FlexiPay revenue grows 50% to ~£50M; term loan LUM grows 10%; EBITDA stabilizes at £49M while net income normalizes from FY25's elevated level to £30M. <strong>2027</strong> — Both products growing; EBITDA reaches £69M on £264M revenue; FCF turns consistently positive. <strong>2028</strong> — Consensus trajectory continues; EBITDA ~£80M; FCH screens attractively on multiples.</p>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Average Term Loan LUM</span><span>£900M</span></div>
+  <div class="driver-row"><span>Net Interest Yield</span><span>25%</span></div>
+  <div class="driver-row"><span>Net Credit Loss Rate</span><span>5.5% (stable)</span></div>
+  <div class="driver-row"><span>FlexiPay Revenue</span><span>£60M</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>27%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>£235</td><td>£264</td><td>£295</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+6%</td><td>+12%</td><td>+12%</td></tr>
+    <tr><td>Gross Income</td><td>208</td><td>233</td><td>261</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>88%</td><td>88%</td><td>88%</td></tr>
+    <tr><td>EBITDA</td><td>50</td><td>69</td><td>80</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>21%</td><td>26%</td><td>27%</td></tr>
+    <tr><td>EBIT</td><td>39</td><td>58</td><td>70</td></tr>
+    <tr><td>Net Income</td><td>30</td><td>46</td><td>55</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Income Margin %</td><td>13%</td><td>17%</td><td>19%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>321</td><td>321</td><td>321</td></tr>
+    <tr><td>EPS (£)</td><td>£0.093</td><td>£0.145</td><td>£0.173</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>12x</td><td>12x</td><td>12x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>£1.12</td><td>£1.74</td><td>£2.08</td></tr>
+    <tr><td>$FCF</td><td>£30</td><td>£47</td><td>£63</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 12x FY2028E EPS of £0.173</div>
+    <div class="exit-price">Implied Share Price: £2.08</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +53% from £1.36</div>
+  </div>
+</div>
+
+<!-- CASE 4: BULL MILD -->
+<div class="case-block">
+  <div class="case-name">📈 FlexiPay Accelerates — Cross-Sell Funnel Fires</div>
+  <div class="case-desc">FlexiPay penetrates 10–15% of existing 125K term loan customers; average FlexiPay book balance reaches £180M by FY2028; credit performance remains better-than-expected on FlexiPay. BoE cuts 5–6 times; funding cost tailwind accelerates.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>2026</strong> — FlexiPay cross-sell metrics beat expectations; FCH announces new accounting software integration (Xero, Sage); origination volumes 15% above consensus. <strong>2027</strong> — FlexiPay becomes ~30% of total revenue; positive operating leverage kicks in as technology cost base stays flat; EBITDA margin expands to 30%+. <strong>2028</strong> — FCH screens as a high-quality fintech lender rather than a plain-vanilla SME bank; multiple re-rating begins.</p>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Average Term Loan LUM</span><span>£1,000M (+11% vs. base)</span></div>
+  <div class="driver-row"><span>Net Interest Yield</span><span>25.5%</span></div>
+  <div class="driver-row"><span>Net Credit Loss Rate</span><span>4.5% (better credit mix)</span></div>
+  <div class="driver-row"><span>FlexiPay Revenue</span><span>£80M (£180M book × 44%)</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>33%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>£258</td><td>£305</td><td>£345</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+16%</td><td>+18%</td><td>+13%</td></tr>
+    <tr><td>Gross Income</td><td>228</td><td>269</td><td>305</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>88%</td><td>88%</td><td>88%</td></tr>
+    <tr><td>EBITDA</td><td>64</td><td>92</td><td>114</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>25%</td><td>30%</td><td>33%</td></tr>
+    <tr><td>EBIT</td><td>53</td><td>81</td><td>103</td></tr>
+    <tr><td>Net Income</td><td>43</td><td>66</td><td>84</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Income Margin %</td><td>17%</td><td>22%</td><td>24%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>321</td><td>321</td><td>321</td></tr>
+    <tr><td>EPS (£)</td><td>£0.134</td><td>£0.206</td><td>£0.262</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>15x</td><td>15x</td><td>15x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>£2.01</td><td>£3.09</td><td>£3.93</td></tr>
+    <tr><td>$FCF</td><td>£48</td><td>£72</td><td>£92</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 15x FY2028E EPS of £0.262</div>
+    <div class="exit-price">Implied Share Price: £3.93</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +189% from £1.36</div>
+  </div>
+</div>
+
+<!-- CASE 5: BULL SEVERE -->
+<div class="case-block">
+  <div class="case-name">🚀 Platform Inflection — Embedded Finance + Takeout Premium</div>
+  <div class="case-desc">FlexiPay becomes the dominant UK SME working capital platform; FCH attracts a strategic acquirer or announces a transformational partnership; the company's credit data asset is re-valued by the market; multiple re-rating to 20x+ P/E as FCH is perceived as a fintech platform rather than a lender.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>2026</strong> — FCH announces embedded lending partnership with a UK payroll/accounting platform (e.g., Sage or Xero); FlexiPay book doubles; takeover speculation mounts. <strong>2027</strong> — Strategic process or major partnership accelerates; FCH's tech platform valuation comes into focus; management begins capital return program (buyback). <strong>2028</strong> — FCH either acquired at premium or re-rated to 20x P/E as platform economics fully visible; £450M+ revenue run rate in sight.</p>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Average Term Loan LUM</span><span>£1,100M</span></div>
+  <div class="driver-row"><span>FlexiPay Book Balance</span><span>£280M (3.5x from today)</span></div>
+  <div class="driver-row"><span>Net Credit Loss Rate</span><span>4.0% (best-in-class underwriting)</span></div>
+  <div class="driver-row"><span>Total Revenue</span><span>£400M</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>38%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>£290</td><td>£345</td><td>£400</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+30%</td><td>+19%</td><td>+16%</td></tr>
+    <tr><td>Gross Income</td><td>257</td><td>305</td><td>354</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>88%</td><td>88%</td><td>89%</td></tr>
+    <tr><td>EBITDA</td><td>84</td><td>118</td><td>152</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>29%</td><td>34%</td><td>38%</td></tr>
+    <tr><td>EBIT</td><td>73</td><td>106</td><td>141</td></tr>
+    <tr><td>Net Income</td><td>59</td><td>86</td><td>115</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Income Margin %</td><td>20%</td><td>25%</td><td>29%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>321</td><td>321</td><td>305</td></tr>
+    <tr><td>EPS (£)</td><td>£0.184</td><td>£0.268</td><td>£0.377</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>20x</td><td>20x</td><td>20x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>£3.68</td><td>£5.36</td><td>£7.54</td></tr>
+    <tr><td>$FCF</td><td>£68</td><td>£99</td><td>£132</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 20x FY2028E EPS of £0.377</div>
+    <div class="exit-price">Implied Share Price: £7.54</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +454% from £1.36</div>
+  </div>
+</div>
+
+<!-- SVG Bar Chart -->
+<div class="case-chart">
+  <p style="font-size:9px; font-weight:600; margin-bottom:8px;">Implied Share Price by Scenario (FY2028E Exit) vs. Current Price £1.36</p>
+  <svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg" style="width:100%; font-family:Inter,Arial,sans-serif;">
+    <!-- Axes -->
+    <line x1="80" y1="20" x2="80" y2="180" stroke="#ccc" stroke-width="1"/>
+    <line x1="80" y1="180" x2="680" y2="180" stroke="#ccc" stroke-width="1"/>
+    <!-- Y-axis labels -->
+    <text x="75" y="184" text-anchor="end" font-size="9" fill="#888">£0</text>
+    <text x="75" y="148" text-anchor="end" font-size="9" fill="#888">£2</text>
+    <text x="75" y="112" text-anchor="end" font-size="9" fill="#888">£4</text>
+    <text x="75" y="76" text-anchor="end" font-size="9" fill="#888">£6</text>
+    <text x="75" y="40" text-anchor="end" font-size="9" fill="#888">£8</text>
+    <!-- Gridlines -->
+    <line x1="80" y1="148" x2="680" y2="148" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="112" x2="680" y2="112" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="76" x2="680" y2="76" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="40" x2="680" y2="40" stroke="#eee" stroke-width="0.5"/>
+    <!-- Bar scale: £1 = 18px -->
+    <!-- Bear Severe: £0.41 → height 7.4px -->
+    <rect x="110" y="172.6" width="80" height="7.4" fill="#2563eb"/>
+    <text x="150" y="168" text-anchor="middle" font-size="9" fill="#333">£0.41</text>
+    <text x="150" y="196" text-anchor="middle" font-size="9" fill="#555">Credit Shock</text>
+    <!-- Bear Mild: £0.84 → height 15.1px -->
+    <rect x="220" y="164.9" width="80" height="15.1" fill="#2563eb"/>
+    <text x="260" y="160" text-anchor="middle" font-size="9" fill="#333">£0.84</text>
+    <text x="260" y="196" text-anchor="middle" font-size="9" fill="#555">Slow Growth</text>
+    <!-- Base: £2.08 → height 37.4px -->
+    <rect x="330" y="142.6" width="80" height="37.4" fill="#2563eb"/>
+    <text x="370" y="138" text-anchor="middle" font-size="9" fill="#333">£2.08</text>
+    <text x="370" y="196" text-anchor="middle" font-size="9" fill="#555">Consensus</text>
+    <!-- Bull Mild: £3.93 → height 70.7px -->
+    <rect x="440" y="109.3" width="80" height="70.7" fill="#2563eb"/>
+    <text x="480" y="105" text-anchor="middle" font-size="9" fill="#333">£3.93</text>
+    <text x="480" y="196" text-anchor="middle" font-size="9" fill="#555">FlexiPay Accl.</text>
+    <!-- Bull Severe: £7.54 → height 135.7px -->
+    <rect x="550" y="44.3" width="80" height="135.7" fill="#2563eb"/>
+    <text x="590" y="40" text-anchor="middle" font-size="9" fill="#333">£7.54</text>
+    <text x="590" y="196" text-anchor="middle" font-size="9" fill="#555">Platform Inflect.</text>
+    <!-- Current price line: £1.36 = 24.5px from bottom → y = 180 - 24.5 = 155.5 -->
+    <line x1="80" y1="155.5" x2="680" y2="155.5" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="685" y="159" font-size="9" fill="#e74c3c">£1.36 (Current)</text>
+    <!-- Prob-wtd price line: 5%×0.41 + 20%×0.84 + 50%×2.08 + 20%×3.93 + 5%×7.54 = £2.45; ÷1.30 = £1.88; y = 180 - 1.88×18 = 180 - 33.8 = 146.2 -->
+    <line x1="80" y1="146.2" x2="680" y2="146.2" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="3,2"/>
+    <text x="685" y="150" font-size="8" fill="#f39c12">£1.88 PV@30%</text>
+  </svg>
+  <p style="font-size:8px; color:#888; margin-top:4px;">Probability weights: 5% / 20% / 50% / 20% / 5% · Prob-wtd avg £2.45 discounted @30% CoC → £1.88 · Current: £1.36</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 11: COMPS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">11. Comparable Companies</div>
+
+<div class="section-title">Selected Financials</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th class="est-col">Rev FY1 (£M)</th>
+      <th class="est-col">Rev FY2 (£M)</th>
+      <th class="est-col">EBITDA FY1</th>
+      <th class="est-col">EBITDA Mgn%</th>
+      <th class="est-col">EBITDA FY2</th>
+      <th class="est-col">EBITDA Mgn%</th>
+      <th class="est-col">EBIT FY1</th>
+      <th class="est-col">EBIT FY2</th>
+      <th class="est-col">$FCF FY1</th>
+      <th class="est-col">$FCF FY2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Funding Circle Holdings</td><td>FCH-GB</td>
+      <td>£236</td><td>£264</td>
+      <td>£50</td><td>21.0%</td>
+      <td>£69</td><td>26.2%</td>
+      <td>£39</td><td>£58</td>
+      <td>$£30</td><td>$£47</td>
+    </tr>
+    <tr>
+      <td>iwoca (private)</td><td>—</td>
+      <td>~£180</td><td>~£220</td>
+      <td>~£25</td><td>~14%</td>
+      <td>~£35</td><td>~16%</td>
+      <td>~£18</td><td>~£28</td>
+      <td>—</td><td>—</td>
+    </tr>
+    <tr>
+      <td>Arbuthnot Banking Group</td><td>ARBB-GB</td>
+      <td>£148</td><td>£158</td>
+      <td>£38</td><td>25.7%</td>
+      <td>£42</td><td>26.6%</td>
+      <td>£31</td><td>£35</td>
+      <td>$£22</td><td>$£28</td>
+    </tr>
+    <tr>
+      <td>Time Finance</td><td>TIME-GB</td>
+      <td>£28</td><td>£31</td>
+      <td>£14</td><td>50.0%</td>
+      <td>£16</td><td>51.6%</td>
+      <td>£11</td><td>£13</td>
+      <td>$£7</td><td>$£9</td>
+    </tr>
+    <tr>
+      <td>Bibby Financial Services</td><td>Private</td>
+      <td>~£200</td><td>~£215</td>
+      <td>~£45</td><td>~22.5%</td>
+      <td>~£49</td><td>~22.8%</td>
+      <td>—</td><td>—</td>
+      <td>—</td><td>—</td>
+    </tr>
+    <tr>
+      <td>GRENKE AG</td><td>GLJ-DE</td>
+      <td>€700</td><td>€750</td>
+      <td>€165</td><td>23.6%</td>
+      <td>€180</td><td>24.0%</td>
+      <td>€120</td><td>€135</td>
+      <td>$€80</td><td>$€95</td>
+    </tr>
+    <tr>
+      <td>Liberis Group (private)</td><td>—</td>
+      <td>~£90</td><td>~£110</td>
+      <td>~£12</td><td>~13%</td>
+      <td>~£16</td><td>~15%</td>
+      <td>—</td><td>—</td>
+      <td>—</td><td>—</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Median (public)</td><td>—</td>
+      <td>—</td><td>—</td>
+      <td>—</td><td>~24%</td>
+      <td>—</td><td>~25%</td>
+      <td>—</td><td>—</td>
+      <td>—</td><td>—</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Valuation Multiples</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>Price</th>
+      <th>PT</th>
+      <th>EV (£M)</th>
+      <th>Mkt Cap</th>
+      <th class="est-col">EV/Rev FY1</th>
+      <th class="est-col">EV/Rev FY2</th>
+      <th class="est-col">EV/EBITDA FY1</th>
+      <th class="est-col">EV/EBITDA FY2</th>
+      <th class="est-col">P/E FY1</th>
+      <th class="est-col">P/E FY2</th>
+      <th class="est-col">P/FCF FY1</th>
+      <th class="est-col">P/FCF FY2</th>
+      <th>Rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Funding Circle Holdings</td><td>FCH-GB</td>
+      <td>£1.36</td><td>£2.18</td>
+      <td>£256</td><td>£391M</td>
+      <td>1.09x</td><td>0.97x</td>
+      <td>5.2x</td><td>3.7x</td>
+      <td>16.4x</td><td>10.3x</td>
+      <td>13.0x</td><td>8.3x</td>
+      <td>Buy</td>
+    </tr>
+    <tr>
+      <td>Arbuthnot Banking Group</td><td>ARBB-GB</td>
+      <td>£13.40</td><td>—</td>
+      <td>£148</td><td>£272M</td>
+      <td>1.0x</td><td>0.9x</td>
+      <td>3.9x</td><td>3.5x</td>
+      <td>9.2x</td><td>8.6x</td>
+      <td>12.4x</td><td>9.7x</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Time Finance</td><td>TIME-GB</td>
+      <td>£0.73</td><td>—</td>
+      <td>£65</td><td>£70M</td>
+      <td>2.3x</td><td>2.1x</td>
+      <td>4.6x</td><td>4.1x</td>
+      <td>7.8x</td><td>7.0x</td>
+      <td>10.0x</td><td>7.8x</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>GRENKE AG</td><td>GLJ-DE</td>
+      <td>€12.40</td><td>—</td>
+      <td>€1.2B</td><td>€800M</td>
+      <td>1.7x</td><td>1.6x</td>
+      <td>7.3x</td><td>6.7x</td>
+      <td>11.4x</td><td>10.1x</td>
+      <td>10.0x</td><td>8.4x</td>
+      <td>Buy</td>
+    </tr>
+    <tr>
+      <td>Wise Plc (context only)</td><td>WISE-GB</td>
+      <td>£7.80</td><td>—</td>
+      <td>£7.2B</td><td>£7.5B</td>
+      <td>9.8x</td><td>7.9x</td>
+      <td>28.4x</td><td>21.2x</td>
+      <td>42.0x</td><td>31.5x</td>
+      <td>—</td><td>—</td>
+      <td>—</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Average (ex-Wise)</td><td>—</td>
+      <td>—</td><td>—</td><td>—</td><td>—</td>
+      <td>1.7x</td><td>1.5x</td>
+      <td>5.3x</td><td>4.8x</td>
+      <td>9.5x</td><td>8.6x</td>
+      <td>10.8x</td><td>8.6x</td>
+      <td>—</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Median (ex-Wise)</td><td>—</td>
+      <td>—</td><td>—</td><td>—</td><td>—</td>
+      <td>1.7x</td><td>1.5x</td>
+      <td>4.6x</td><td>4.1x</td>
+      <td>9.2x</td><td>8.6x</td>
+      <td>10.0x</td><td>8.4x</td>
+      <td>—</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:10px;">Funding Circle trades at 5.2x FY1 EV/EBITDA and 16.4x FY1 P/E — the latter representing a ~75% premium to the peer median of 9.2x P/E, which is largely explained by FY2025's elevated but non-recurring net income base. On a FY2 basis, FCH at 10.3x P/E and 3.7x EV/EBITDA looks cheaper than the peer median (8.6x P/E, 4.1x EV/EBITDA) — a reversal that reflects the step-down in reported net income from FY25 to FY26 rather than any genuine deterioration. The most relevant comparison is FCH's EV/EBITDA of 3.7–5.2x vs. the peer median 4–5x: FCH is roughly fairly valued on EBITDA multiples relative to peers but offers meaningfully faster revenue growth (+12% vs. peers' +5–7%), making it modestly undervalued on a growth-adjusted basis. The 60% premium implied by the £2.18 consensus target reflects analyst belief that the FY27 earnings power (£0.145 EPS) deserves at least 15x P/E — a view this memo broadly endorses in the base case.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<div class="verdict">
+  <p><strong>(i) Market Cap Bucket: £391M (~$490M USD equivalent)</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">Small Cap ($1B–$5B equivalent in USD terms, but roughly £300–500M in GBP). FCH's £391M market cap is squarely in Theia's sweet spot for undiscovered, undercovered companies where an informational edge is achievable. Peer institutions with UK small-cap mandates are structurally underweighted, and the stock is below most UK equity fund investment thresholds.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(ii) Analyst Coverage: 4 Broker Contributors</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">With only 4 sell-side analysts covering FCH (FactSet broker contributor count = 4), this is a genuinely under-researched name by any standard. The FactSet consensus has limited depth — estimates from just 4 brokers means the "consensus" can diverge significantly from fair value. For a company with £391M market cap, 15-year operating history, and measurable public data flows, 4 analysts represents significant informational under-coverage. Theia's threshold for "under-covered" is &lt;5 analysts — FCH qualifies at exactly 4.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iii) Thesis Alignment: Internet Finance / Fintech Lending</strong> <span class="fw-rating moderate">Adjacent</span></p>
+  <p style="margin-top:4px;">FCH is not a blockchain-native or crypto-adjacent company, and it does not benefit from digital asset adoption. However, it is a core internet finance play: a technology-enabled lending platform that uses data science, open banking APIs, and machine learning to underwrite credit better than incumbent banks. The business model — digital origination, algorithmic credit decisioning, institutional capital partnerships — is exactly the type of "old industry disrupted by software and data" that Theia's internet finance thesis encompasses. The FlexiPay product, which uses real-time business data feeds and accounting software integrations, has genuine embedded finance characteristics. Rating: Adjacent (not Core, because no blockchain/crypto component; not Tangential, because the fintech disruption thesis is the entire business model).</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iv) Outcome Dispersion: Wide</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">The 5-scenario model shows implied prices ranging from £0.41 (Credit Cycle Shock, −70%) to £7.54 (Platform Inflection, +454%) from the current £1.36. The probability-weighted fair value of £1.88 (discounted at 30% CoC) represents +38% upside from current. The key binary variables — FlexiPay adoption rate and UK SME credit cycle — are genuinely uncertain and not yet resolved by public data, meaning there is real information advantage available to an analyst willing to do primary work (broker channel checks, open banking data analysis, BBB partnership due diligence). The dispersion is not artificial model volatility — it reflects genuine business model uncertainty about whether FCH becomes a platform (bull) or a commoditizing UK SME lender (bear).</p>
+</div>
+
+<div style="background: #d4edda; border-left: 4px solid #155724; padding: 12px 14px; margin: 16px 0; font-size: 11.5px;">
+  <strong>VERDICT: MAYBE — Initiate Tracking Position, Await H1 2026 Results</strong><br><br>
+  FCH hits three of four Theia criteria firmly (market cap, analyst coverage, outcome dispersion) and is aligned on the internet finance thesis at the "adjacent" level. The probability-weighted fair value of £1.88 vs. current £1.36 represents a 38% discount that is achievable without assuming any bull case scenario. The investment case rests on (a) FCH's FlexiPay product reaching scale (visible at the Jun 3 H1 2026 earnings print), (b) balance-sheet credit quality holding (measurable via arrears disclosures), and (c) FCH avoiding the P2P-era narrative of "exciting fintech that disappoints." The thesis has a clear 12-month catalyst (H1 earnings), a defined exit thesis (9x–15x FY28E P/E = £0.84–£2.60 range), and a manageable downside scenario (£0.84 bear mild, −38%). Theia's note: FCH is UK-listed and GBP-denominated; currency exposure and UK-only geographic concentration are relevant risk factors for a USD-based fund.
+</div>
+
+<p class="prose" style="font-size:10px; font-style:italic; margin-top:6px;">Note: Theia seeks small-cap companies that aren't well covered and are strongly aligned on the core internet finance thesis with wide outcome dispersion. FCH scores: Market Cap ✓ | Coverage ✓ | Thesis Adjacent ◐ | Dispersion ✓</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- APPENDIX: PYTHON CODE -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section appendix">Appendix — Python Code</div>
+
+<div class="section-title">Sensitivity Table Generator</div>
+<div class="code-block">
+import numpy as np
+import pandas as pd
+
+# ─── SENSITIVITY TABLE 1: Term Loan Net Revenue ───
+# Parameters
+avg_lum_range = [500, 600, 720, 850, 1000]       # £M average loans under management
+net_yield_range = [0.21, 0.23, 0.25, 0.27, 0.29]  # net interest yield (% of avg book)
+base_lum = 720
+base_yield = 0.25
+
+rows = []
+for lum in avg_lum_range:
+    row = []
+    for y in net_yield_range:
+        net_rev = lum * y
+        row.append(round(net_rev, 0))
+    rows.append(row)
+
+df1 = pd.DataFrame(rows,
+    index=[f"£{x}M" for x in avg_lum_range],
+    columns=[f"{int(y*100)}%" for y in net_yield_range])
+print("Term Loan Net Revenue (£M)")
+print(df1.to_string())
+print(f"\nBase case: LUM={base_lum}M × Yield={base_yield*100}% = £{base_lum*base_yield:.0f}M")
+
+# ─── SENSITIVITY TABLE 2: FlexiPay Revenue ───
+book_range = [50, 65, 80, 120, 160]            # £M average FlexiPay book
+yield_range = [0.30, 0.33, 0.37, 0.41, 0.45]  # annualized yield
+base_book = 80
+base_fy = 0.37
+
+rows2 = []
+for b in book_range:
+    row = []
+    for y in yield_range:
+        rev = b * y
+        row.append(round(rev, 0))
+    rows2.append(row)
+
+df2 = pd.DataFrame(rows2,
+    index=[f"£{x}M" for x in book_range],
+    columns=[f"{int(y*100)}%" for y in yield_range])
+print("\nFlexiPay Revenue (£M)")
+print(df2.to_string())
+print(f"Base case: Book={base_book}M × Yield={base_fy*100}% = £{base_book*base_fy:.0f}M")
+</div>
+
+<div class="section-title" style="margin-top:16px;">5-Scenario Model Generator</div>
+<div class="code-block">
+# ─── FCH 5-SCENARIO 3-YEAR MODEL ───
+# Base inputs (consensus estimates)
+scenarios = {
+    "Credit Shock": {
+        "rev":   [165, 145, 140],
+        "gm":    0.88,
+        "ebitda_mgn": [0.12, 0.10, 0.08],
+        "net_mgn": [0.03, -0.014, -0.036],
+        "eps":   [0.016, -0.006, -0.016],
+        "exit_pe": None,
+        "exit_ev_ebitda": 6,
+        "shares": 321,
+    },
+    "Slow Growth": {
+        "rev":   [225, 243, 255],
+        "gm":    0.88,
+        "ebitda_mgn": [0.17, 0.17, 0.17],
+        "net_mgn": [0.10, 0.11, 0.12],
+        "eps":   [0.069, 0.084, 0.093],
+        "exit_pe": 9,
+        "exit_ev_ebitda": None,
+        "shares": 321,
+    },
+    "Base Case": {
+        "rev":   [235, 264, 295],
+        "gm":    0.88,
+        "ebitda_mgn": [0.21, 0.26, 0.27],
+        "net_mgn": [0.13, 0.17, 0.19],
+        "eps":   [0.093, 0.145, 0.173],
+        "exit_pe": 12,
+        "exit_ev_ebitda": None,
+        "shares": 321,
+    },
+    "FlexiPay Accel": {
+        "rev":   [258, 305, 345],
+        "gm":    0.88,
+        "ebitda_mgn": [0.25, 0.30, 0.33],
+        "net_mgn": [0.17, 0.22, 0.24],
+        "eps":   [0.134, 0.206, 0.262],
+        "exit_pe": 15,
+        "exit_ev_ebitda": None,
+        "shares": 321,
+    },
+    "Platform Inflect": {
+        "rev":   [290, 345, 400],
+        "gm":    0.88,
+        "ebitda_mgn": [0.29, 0.34, 0.38],
+        "net_mgn": [0.20, 0.25, 0.29],
+        "eps":   [0.184, 0.268, 0.377],
+        "exit_pe": 20,
+        "exit_ev_ebitda": None,
+        "shares": 321,
+    },
+}
+
+current_price = 1.36
+years = ["FY2026E", "FY2027E", "FY2028E"]
+
+for name, s in scenarios.items():
+    print(f"\n{'='*60}")
+    print(f"Scenario: {name}")
+    print(f"{'─'*60}")
+    eps_exit = s["eps"][-1]
+    if s["exit_pe"]:
+        implied_price = eps_exit * s["exit_pe"]
+        exit_label = f"{s['exit_pe']}x P/E on FY2028E EPS £{eps_exit:.3f}"
+    else:
+        ebitda_exit = s["rev"][-1] * s["ebitda_mgn"][-1]
+        implied_price = (ebitda_exit * s["exit_ev_ebitda"] + 180) / s["shares"]  # net cash £180M
+        exit_label = f"{s['exit_ev_ebitda']}x EV/EBITDA on FY2028E EBITDA £{ebitda_exit:.0f}M"
+
+    upside = (implied_price / current_price - 1) * 100
+    print(f"Exit: {exit_label}")
+    print(f"Implied Price: £{implied_price:.2f}  |  Upside: {upside:+.1f}%")
+
+    for i, yr in enumerate(years):
+        rev = s["rev"][i]
+        eps = s["eps"][i]
+        print(f"  {yr}: Rev £{rev}M | EPS £{eps:.3f}")
+
+# ─── PROBABILITY-WEIGHTED FAIR VALUE ───
+weights = {"Credit Shock": 0.05, "Slow Growth": 0.20, "Base Case": 0.50,
+           "FlexiPay Accel": 0.20, "Platform Inflect": 0.05}
+prices  = {"Credit Shock": 0.41, "Slow Growth": 0.84, "Base Case": 2.08,
+           "FlexiPay Accel": 3.93, "Platform Inflect": 7.54}
+coc = 0.30
+
+wtd_avg = sum(weights[k] * prices[k] for k in weights)
+pv = wtd_avg / (1 + coc)
+print(f"\nProbability-Weighted Avg (FY2028E): £{wtd_avg:.2f}")
+print(f"Discounted at {coc*100:.0f}% CoC:         £{pv:.2f}")
+print(f"Current Price:                       £{current_price:.2f}")
+print(f"Implied Upside to PV:               {(pv/current_price-1)*100:+.1f}%")
+</div>
+
+<div class="source-note" style="margin-top:16px;">
+  Funding Circle Holdings | Preliminary Memo for Theia · Generated March 16, 2026 · Data: FactSet, Q4/Q2 FY2025 Earnings Transcripts, Q4 FY2025 Investor Presentation · Not investment advice.
+</div>
+
+</body>
+</html>
