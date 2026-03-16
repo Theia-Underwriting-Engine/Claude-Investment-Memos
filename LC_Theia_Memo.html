@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LendingClub | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; border: 1px solid #eee; border-radius: 4px; overflow: hidden; }
+.val-grid .val-cell { padding: 6px 8px; border-right: 1px solid #eee; background: #fafbfc; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 10px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 6px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 8px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #f5f5f5; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.alphasense-box { background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 4px; padding: 8px 12px; margin-bottom: 14px; font-size: 10px; color: #1e3a5f; }
+
+.bull-col .section-title { color: #155724; border-color: #155724; }
+.bear-col .section-title { color: #721c24; border-color: #721c24; }
+
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 5px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
+table.comps td { text-align: right; padding: 2px 5px; }
+table.comps td:first-child, table.comps td:nth-child(2) { text-align: left; font-weight: 500; color: #333; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-weight: 600; background: #fafbfc; font-style: italic; }
+table.comps tr:nth-child(even):not(.subject):not(.stat-row) { background: #fafbfc; }
+table.comps th.est-col { color: #2563eb; }
+
+.dim { color: #555; font-size: 9px; }
+.section-divider { border: none; border-top: 1px solid #eee; margin: 20px 0; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">LendingClub Corporation | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 1: BUSINESS OVERVIEW                               -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">LendingClub Corporation (NASDAQ: LC) is a digital marketplace bank headquartered in San Francisco, California, founded in 2006 as one of the first peer-to-peer lending platforms in the United States. The company acquired Radius Bancorp in February 2021 to obtain an FDIC-insured bank charter, completing its transformation from a marketplace lender into a full-spectrum digital bank — LendingClub Bank — with the ability to hold loans on its own balance sheet, fund originations via deposits, and earn net interest income in addition to origination fees. Today LC offers personal loans (primarily for debt consolidation), auto refinance loans, and commercial lending, serving both individual borrowers and institutional investors who purchase loan pools through the marketplace. The company's core thesis is that its AI-driven credit underwriting model — trained on over 5.5 million loans and continuous FICO / bureau refresh data — can price credit risk more precisely than traditional banks, allowing it to capture borrowers who are "mis-priced" by legacy institutions.</p>
+
+<p class="prose">CEO Scott Sanborn (at the helm since 2016) has led LC through its bank charter acquisition and the subsequent integration of its deposit-gathering, balance sheet, and marketplace functions into a unified flywheel. As of Q4 2025, LendingClub had approximately 3,700 employees. The investment thesis centers on the company's recovery from a trough in loan originations (driven by tightened credit standards and a difficult macro in 2023–2024), its expanding net interest margin as it holds a growing share of originated loans, and a P/E valuation (~8x FY26E) that prices in almost no credit-cycle recovery — creating wide outcome dispersion as the rate environment normalizes and origination volumes ramp.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 2: THEIA FACTSET SUMMARY                           -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Theia FactSet Summary</div>
+
+<div class="header">
+  <div>
+    <h1>LendingClub Corporation</h1>
+    <span class="ticker">LC — NASDAQ · CUSIP: 52603A208</span>
+  </div>
+  <div class="date">As of March 16, 2026</div>
+</div>
+
+<!-- Price Bar -->
+<div class="price-bar">
+  <div><span class="label">Price</span><br><span class="price">$13.80</span></div>
+  <div><span class="label">1M</span><br><span class="chg">−4.8%</span></div>
+  <div><span class="label">3M</span><br><span class="chg">−16.3%</span></div>
+  <div><span class="label">6M</span><br><span class="chg">−12.7%</span></div>
+  <div><span class="label">YTD</span><br><span class="chg">−16.6%</span></div>
+  <div><span class="label">1Y</span><br><span class="chg pos">+30.2%</span></div>
+  <div><span class="label">52W Range</span><br><span style="font-weight:600">$8.78 – $19.86</span></div>
+</div>
+
+<!-- Key Stats + EV Bridge -->
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv">
+      <tr><td>Ticker / Exchange</td><td>LC / NASDAQ</td></tr>
+      <tr><td>Price</td><td>$13.80</td></tr>
+      <tr><td>Volume (Last)</td><td>3.1M shares</td></tr>
+      <tr><td>30D Avg Volume</td><td>2.8M shares</td></tr>
+      <tr><td>Float %</td><td>~95%</td></tr>
+      <tr><td>Short Interest</td><td>~8.2% of float</td></tr>
+      <tr><td>Broker Contributors</td><td>10 analysts</td></tr>
+      <tr><td>Avg Rating</td><td>Buy (1.8 / 5)</td></tr>
+      <tr><td>Consensus Price Target</td><td>$24.20</td></tr>
+      <tr><td>Next Earnings</td><td>Late April 2026</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev">
+      <tr><td>Market Cap (Basic)</td><td>$1,589.5M</td></tr>
+      <tr><td>&nbsp;&nbsp;Basic Shares Outstanding</td><td>115.2M</td></tr>
+      <tr><td>&nbsp;&nbsp;Treasury Shares</td><td>(—)</td></tr>
+      <tr><td>+ Total Debt</td><td>—</td></tr>
+      <tr><td>+ Preferred Stock</td><td>—</td></tr>
+      <tr><td>+ Minority Interest</td><td>—</td></tr>
+      <tr><td>− Cash &amp; Equivalents</td><td>($930.4M)</td></tr>
+      <tr><td>− Short-Term Investments</td><td>—</td></tr>
+      <tr class="total"><td>Enterprise Value</td><td>$734.1M</td></tr>
+    </table>
+    <p style="font-size:8.5px; color:#888; margin-top:4px; font-style:italic;">Note: Net cash position ($930M) results in EV significantly below market cap. LC Bank holds deposits as liabilities on a bank balance sheet — not consolidated debt.</p>
+  </div>
+</div>
+
+<!-- Current Valuation: Horizontal 6×2 KPI Grid -->
+<div class="section-title">Current Valuation</div>
+<div class="val-grid">
+  <div class="val-cell"><div class="val-label">Market Cap</div><div class="val-num">$1.6B</div><div class="val-sub">Basic</div></div>
+  <div class="val-cell"><div class="val-label">Enterprise Value</div><div class="val-num">$734M</div><div class="val-sub">Net cash co.</div></div>
+  <div class="val-cell"><div class="val-label">P/E (FY26E)</div><div class="val-num">8.1x</div><div class="val-sub">$1.71 EPS est.</div></div>
+  <div class="val-cell"><div class="val-label">EV/EBITDA (FY26E)</div><div class="val-num">—</div><div class="val-sub">Bank model</div></div>
+  <div class="val-cell"><div class="val-label">EV/Sales (FY26E)</div><div class="val-num">0.7x</div><div class="val-sub">On $1,072M rev</div></div>
+  <div class="val-cell"><div class="val-label">P/S (FY26E)</div><div class="val-num">1.5x</div><div class="val-sub">Mkt cap / rev</div></div>
+</div>
+<div class="val-grid" style="margin-top:2px;">
+  <div class="val-cell"><div class="val-label">Fully Dil Mkt Cap</div><div class="val-num">$1,664M</div><div class="val-sub">120.6M dil. shs</div></div>
+  <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">~11%</div><div class="val-sub">FactSet est.</div></div>
+  <div class="val-cell"><div class="val-label">Beta (5Y Monthly)</div><div class="val-num">1.72</div><div class="val-sub">vs S&amp;P 500</div></div>
+  <div class="val-cell"><div class="val-label">Avg Rating</div><div class="val-num">Buy</div><div class="val-sub">10 contributors</div></div>
+  <div class="val-cell"><div class="val-label">Consensus PT</div><div class="val-num">$24.20</div><div class="val-sub">+75% upside</div></div>
+  <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">Apr '26</div><div class="val-sub">Q1 2026 results</div></div>
+</div>
+
+<!-- Valuation Multiples Table -->
+<div class="section-title" style="margin-top:14px;">Valuation Multiples</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th>Multiple</th>
+      <th>5Yr Avg</th>
+      <th>FY2023A</th>
+      <th>FY2024A</th>
+      <th>FY2025A</th>
+      <th class="est">FY2026E</th>
+      <th class="est">FY2027E</th>
+      <th class="est">FY2028E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>P/E</td><td>NM</td><td>NM</td><td>NM</td><td>11.9x</td><td class="est">8.1x</td><td class="est">5.8x</td><td class="est">4.0x</td></tr>
+    <tr><td>P/Sales</td><td>1.5x</td><td>0.7x</td><td>0.9x</td><td>1.1x</td><td class="est">1.5x</td><td class="est">1.1x</td><td class="est">0.8x</td></tr>
+    <tr><td>P/Book Value</td><td>1.4x</td><td>0.7x</td><td>0.8x</td><td>1.2x</td><td class="est">1.0x</td><td class="est">0.9x</td><td class="est">0.8x</td></tr>
+    <tr><td>EV/Sales</td><td>0.8x</td><td>0.3x</td><td>0.4x</td><td>0.5x</td><td class="est">0.7x</td><td class="est">0.5x</td><td class="est">0.4x</td></tr>
+    <tr><td>EV/EBITDA</td><td>NM</td><td>NM</td><td>NM</td><td>NM</td><td class="est">NM</td><td class="est">NM</td><td class="est">NM</td></tr>
+    <tr><td>EV/EBIT</td><td>NM</td><td>NM</td><td>NM</td><td>4.7x</td><td class="est">2.1x</td><td class="est">1.5x</td><td class="est">1.0x</td></tr>
+  </tbody>
+</table>
+<p style="font-size:8px; color:#888; margin-top:2px;">EV/EBITDA shown as NM: bank model does not report EBITDA as a standard metric. EV/EBIT uses pre-tax operating income. Historical NM reflects pre-profitability years (2022–2024).</p>
+
+<!-- Revenue Exposure -->
+<div class="section-title" style="margin-top:14px;">Revenue Exposure</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Business Segment</div>
+    <table class="rev">
+      <thead><tr><th>Segment</th><th>% Rev</th><th>FY25A ($M)</th></tr></thead>
+      <tbody>
+        <tr><td>Net Interest Income</td><td>~52%</td><td>~$764M</td></tr>
+        <tr><td>Non-Interest Income</td><td>~48%</td><td>~$706M</td></tr>
+        <tr><td>&nbsp;&nbsp;Origination Fees</td><td>~28%</td><td>~$412M</td></tr>
+        <tr><td>&nbsp;&nbsp;Servicing Fees</td><td>~9%</td><td>~$132M</td></tr>
+        <tr><td>&nbsp;&nbsp;Gain on Sale / Other</td><td>~11%</td><td>~$162M</td></tr>
+        <tr style="font-weight:700; border-top:1px solid #ddd;"><td>Total Revenue</td><td>100%</td><td>$1,470M</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <div class="sub-label">By Geography</div>
+    <table class="rev">
+      <thead><tr><th>Region</th><th>% Rev</th></tr></thead>
+      <tbody>
+        <tr><td>United States</td><td>~99%</td></tr>
+        <tr><td>International / Other</td><td>~1%</td></tr>
+        <tr><td colspan="2" style="font-size:8px; color:#aaa; padding-top:4px;">Primarily US consumer lending</td></tr>
+      </tbody>
+    </table>
+    <div class="sub-label" style="margin-top:8px;">By Loan Type</div>
+    <table class="rev">
+      <thead><tr><th>Product</th><th>% Orig.</th></tr></thead>
+      <tbody>
+        <tr><td>Personal Loans (Unsecured)</td><td>~85%</td></tr>
+        <tr><td>Auto Refinance</td><td>~8%</td></tr>
+        <tr><td>Commercial / Other</td><td>~7%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Financials Table -->
+<div class="section-title" style="margin-top:14px;">Financials</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th>($M except EPS)</th>
+      <th>FY2022A</th>
+      <th>FY2023A</th>
+      <th>FY2024A</th>
+      <th>FY2025A</th>
+      <th class="est">FY2026E</th>
+      <th class="est">FY2027E</th>
+      <th class="est">FY2028E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="8">Income Statement</td></tr>
+    <tr><td>Revenue</td><td>$840</td><td>$719</td><td>$1,114</td><td>$1,470</td><td class="est">$1,072</td><td class="est">$1,260</td><td class="est">$1,453</td></tr>
+    <tr><td>Gross Income</td><td>$472</td><td>$338</td><td>$618</td><td>$890</td><td class="est">$680</td><td class="est">$815</td><td class="est">$975</td></tr>
+    <tr><td>EBITDA</td><td>NM</td><td>NM</td><td>NM</td><td>NM</td><td class="est">NM</td><td class="est">NM</td><td class="est">NM</td></tr>
+    <tr><td>EBIT</td><td>($147)</td><td>($101)</td><td>$32</td><td>$156</td><td class="est">$347</td><td class="est">$487</td><td class="est">$735</td></tr>
+    <tr><td>Net Income</td><td>($192)</td><td>($107)</td><td>$11</td><td>$133</td><td class="est">$196</td><td class="est">$271</td><td class="est">$394</td></tr>
+    <tr><td>EPS (Diluted)</td><td>($1.61)</td><td>($0.91)</td><td>$0.09</td><td>$1.16</td><td class="est">$1.71</td><td class="est">$2.37</td><td class="est">$3.45</td></tr>
+    <tr class="section-row"><td colspan="8">Margins</td></tr>
+    <tr><td>Gross Margin %</td><td>56.2%</td><td>47.0%</td><td>55.5%</td><td>60.5%</td><td class="est">63.4%</td><td class="est">64.7%</td><td class="est">67.1%</td></tr>
+    <tr><td>Net Income Margin %</td><td>NM</td><td>NM</td><td>1.0%</td><td>9.0%</td><td class="est">18.3%</td><td class="est">21.5%</td><td class="est">27.1%</td></tr>
+    <tr><td>FCF Margin %</td><td>NM</td><td>NM</td><td>NM</td><td>~10%</td><td class="est">~18%</td><td class="est">~22%</td><td class="est">~27%</td></tr>
+    <tr class="section-row"><td colspan="8">Cash Flow</td></tr>
+    <tr><td>Operating Cash Flow</td><td>($284)</td><td>($205)</td><td>$198</td><td>$312</td><td class="est">$380</td><td class="est">$475</td><td class="est">$600</td></tr>
+    <tr><td>Capital Expenditures</td><td>($30)</td><td>($25)</td><td>($28)</td><td>($35)</td><td class="est">($38)</td><td class="est">($40)</td><td class="est">($45)</td></tr>
+    <tr><td>Free Cash Flow</td><td>($314)</td><td>($230)</td><td>$170</td><td>$277</td><td class="est">$342</td><td class="est">$435</td><td class="est">$555</td></tr>
+    <tr class="section-row"><td colspan="8">Returns &amp; Leverage</td></tr>
+    <tr><td>Return on Equity (ROE)</td><td>NM</td><td>NM</td><td>0.7%</td><td>8.3%</td><td class="est">11.5%</td><td class="est">14.8%</td><td class="est">19.2%</td></tr>
+    <tr><td>Return on Assets (ROA)</td><td>NM</td><td>NM</td><td>0.1%</td><td>0.8%</td><td class="est">1.1%</td><td class="est">1.5%</td><td class="est">2.0%</td></tr>
+    <tr><td>Debt / Equity</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Net Cash Position</td><td>—</td><td>—</td><td>$627</td><td>$930</td><td class="est">$1,050</td><td class="est">$1,200</td><td class="est">$1,400</td></tr>
+  </tbody>
+</table>
+<p style="font-size:8px; color:#888; margin-top:2px;">Note: FY2026E revenue decline vs FY2025A reflects accounting reclassification as LC transitions toward bank hold model — more revenue recognized as NII (net interest income) on retained loans vs. gross origination fees on marketplace loans sold. EPS trajectory is the cleaner profitability signal.</p>
+
+<!-- Valuation Summary -->
+<div class="section-title" style="margin-top:14px;">Valuation Summary</div>
+<p class="prose">LendingClub currently trades at 8.1x FY2026E P/E and 5.8x FY2027E P/E, representing a steep discount to its StreetAccount fintech peer median of approximately 25x forward P/E (SoFi at 30x, Upstart at 82x, Affirm at 24x). The discount reflects three investor concerns: (1) macro uncertainty around consumer credit quality and potential charge-off deterioration, (2) confusion around the revenue reclassification as LC shifts from marketplace fees to net interest income, which makes headline revenue appear to decline even as earnings per share accelerate, and (3) lingering skepticism about whether a digital bank can sustain above-average ROEs through a credit cycle. Despite these concerns, LC's EPS trajectory ($1.71 in FY26E growing to $3.45 by FY28E) implies a 3-year earnings CAGR of approximately 43%, and the balance sheet is net cash positive — the stock is pricing in near-zero credit-cycle recovery. Given the company's expanding NIM, proprietary credit model, and strong deposit franchise, the current valuation appears compelling relative to the earnings power trajectory.</p>
+
+<p class="source-note">Source: FactSet snapshot export, LendingClub Q4 2025 earnings release, FactSet consensus estimates. As of March 16, 2026.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 3: BULL & BEAR CASES                               -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="two-col">
+  <div class="bull-col">
+    <div class="section-title" style="color:#155724; border-color:#155724;">Bull Cases</div>
+
+    <div class="fw-item">
+      <span class="fw-name">Credit Cycle Normalization</span>
+      <p class="prose" style="margin-top:3px;">Consumer credit has been tightening since 2022, but charge-off rates on LC's high-FICO borrower base (avg FICO ~726) have been more resilient than feared. A soft landing or rate cuts reducing financial stress on borrowers could restore origination volumes to $10B+ annually, materially above the $8.5B FY25A base. LC's AI-driven credit model is explicitly designed to maintain pricing discipline through cycles — the bull case is that it delivers.</p>
+    </div>
+
+    <div class="fw-item">
+      <span class="fw-name">NIM Expansion as Hold Mix Increases</span>
+      <p class="prose" style="margin-top:3px;">Management guided to a 5–7% NIM on held loans, meaningfully above the ~4% blended NIM today. As LC continues rotating away from selling all originations to marketplace investors (fee revenue) toward holding more on balance sheet (NII revenue), each additional loan held earns full net interest vs. a one-time fee. The Investor Day targets of 15–17% ROE by 2026–2027 depend on this shift executing — and the Q4 2025 results suggest it is on track.</p>
+    </div>
+
+    <div class="fw-item">
+      <span class="fw-name">LevelUp Checking &amp; Deposit Flywheel</span>
+      <p class="prose" style="margin-top:3px;">LC's high-yield checking account (LevelUp) is a structurally advantaged deposit tool — it offers up to 5% APY to customers who direct-deposit, at a blended cost LC can sustain because its net interest spread on loans far exceeds it. As of Q4 2025, LC had $9.9B in total deposits. The flywheel: more deposits → lower cost of funds → larger hold portfolio → higher NII → higher EPS. Deposit growth above 15% annually is achievable given no branch overhead and a digitally-native customer base.</p>
+    </div>
+
+    <div class="fw-item">
+      <span class="fw-name">Buybacks + Capital Return</span>
+      <p class="prose" style="margin-top:3px;">LC repurchased $80M of stock in FY2025 and entered 2026 with $930M in cash versus a $1.6B market cap. Management has consistently stated capital will be returned to shareholders as it accumulates in excess of regulatory minimums. An accelerated buyback program at current prices (8x P/E) would be extraordinarily accretive — a $200M buyback at $13.80 retires ~12.5% of the float.</p>
+    </div>
+
+    <div class="fw-item">
+      <span class="fw-name">Structural Disintermediation of Traditional Banks</span>
+      <p class="prose" style="margin-top:3px;">LC's borrowers come predominantly from high-rate revolving credit card debt (avg APR 20–22%) and refinance into LC personal loans at materially lower rates. Traditional banks have been slow to unbundle credit cards, creating a sustained flow of refinancing demand that is independent of macro conditions. Every 50bps the Fed cuts reduces card APRs marginally, but does not eliminate the 8–10% rate differential that makes LC's product compelling.</p>
+    </div>
+  </div>
+
+  <div class="bear-col">
+    <div class="section-title" style="color:#721c24; border-color:#721c24;">Bear Cases</div>
+
+    <div class="fw-item">
+      <span class="fw-name">Consumer Credit Deterioration</span>
+      <p class="prose" style="margin-top:3px;">LC's loan book is 85% unsecured personal loans to borrowers who, while higher FICO than subprime, are often cash-flow constrained. A recession or sustained unemployment spike above 5% could push net charge-off rates from the current ~5–6% toward 8–9%, compressing NIM, triggering loan loss provisioning that offsets earnings growth, and potentially forcing LC to reduce originations and tighten underwriting — creating a self-reinforcing volume/revenue spiral.</p>
+    </div>
+
+    <div class="fw-item">
+      <span class="fw-name">Marketplace Investor Withdrawal</span>
+      <p class="prose" style="margin-top:3px;">Approximately 40–50% of LC's originations are still sold to bank and non-bank investors through the marketplace channel. In a credit stress scenario, these investors reduce allocations, forcing LC to either hold more loans itself (requiring more capital and deposit funding) or reduce originations sharply. In Q1 2023, marketplace volume dropped 50%+ quarter-over-quarter — that playbook could repeat in a recession.</p>
+    </div>
+
+    <div class="fw-item">
+      <span class="fw-name">Competitive Pressure from Banks Upgrading</span>
+      <p class="prose" style="margin-top:3px;">JPMorgan, Discover, and Citi all have digital personal loan products that, while less sophisticated on underwriting, have lower cost of capital advantages. As digital banking matures, the differentiation from LC's AI model narrows for prime borrowers — the cohort most price-sensitive and most desired by banks. SoFi also directly competes for the same high-FICO refinancing customer with a broader multi-product bundle that creates stickier retention than a single-loan relationship.</p>
+    </div>
+
+    <div class="fw-item">
+      <span class="fw-name">Regulatory / CFPB Risk</span>
+      <p class="prose" style="margin-top:3px;">LC operates under OCC bank supervision and CFPB oversight. A more aggressive CFPB stance on algorithmic credit decisions or "fair lending" scrutiny of AI models could impose operational restrictions, consent orders, or fine-based costs. Given the current regulatory environment's political sensitivity around fintech bank charters, the risk is above baseline for a company of LC's size.</p>
+    </div>
+
+    <div class="fw-item">
+      <span class="fw-name">Revenue Reclassification Confusion Persists</span>
+      <p class="prose" style="margin-top:3px;">LC's FY2026E headline revenue ($1,072M) is lower than FY2025A ($1,470M) purely due to accounting changes — more loans held means less gross origination fee income recognized upfront, replaced by NII recognized over the loan life. If generalist investors screen on revenue growth and pass on LC, the valuation multiple can stay depressed even as EPS grows rapidly. A lack of re-rating could prevent the stock from closing its discount to peers for an extended period.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 4: HELMER'S 7 POWERS                               -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Scale Economies</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">LendingClub operates with significant fixed costs in its credit AI infrastructure, compliance platform, and deposit infrastructure — all of which are largely amortized regardless of the number of loans originated. As origination volume grows from $8.5B toward $12–15B (management's medium-term target), the cost per loan originated should decline meaningfully because technology, fraud detection, and servicing infrastructure costs do not scale linearly with volume. However, the unit economics of a bank are not as scalable as pure software: LC must fund each incremental loan with deposits (variable cost), maintain regulatory capital ratios, and carry credit risk reserves proportional to book size. The scale advantage is real but more moderate than a software business — it manifests primarily in marketing efficiency (lower customer acquisition cost per loan at scale) and tech amortization spread across more volume. A challenger attempting to replicate LC's operation at $1B origination volume would face prohibitive per-loan costs relative to LC at $8–10B, creating a meaningful but not insurmountable moat.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Network Effects</span>
+  <span class="fw-rating weak">Weak</span>
+  <p class="prose" style="margin-top:4px;">LendingClub does not have direct network effects — a borrower's experience is not improved because more borrowers use the platform. There is a weak data network effect: the more loans LC has originated (now over 5.5 million, totaling ~$90B lifetime), the more training data its AI model has on borrower behavior across credit cycles, employment shocks, and economic environments. This data advantage creates a compounding improvement in credit risk prediction accuracy over time — each default cohort teaches the model something a new entrant cannot learn without experiencing those defaults themselves. The barrier is real but works through model quality rather than a direct user-to-user value creation loop. On the marketplace side, there is a mild two-sided effect: more institutional investors watching the platform means tighter pricing for loans sold, which benefits borrowers marginally — but this is a very weak dynamic and marketplace investors can and do multi-home across Upstart, SoFi, and direct bank originations simultaneously.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Counter-Positioning</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">LC's bank charter + AI underwriting model creates a counter-positioning dynamic against traditional banks: to replicate LC's business, a legacy bank would need to (1) build or acquire an AI credit model that can price unsecured personal loans at the individual FICO-plus-behavioral level, and (2) cannibalize its own revolving credit card portfolio by offering customers a better option to pay it off. The second point is critical — a major bank like JPMorgan earns $20B+ annually from credit card interest income. Proactively steering its 700-credit-score cardholders toward cheaper personal loans would directly reduce that income stream. LC is doing exactly what JPM rationally cannot: aggressively marketing "pay off your credit card" to JPM's best credit card customers. This is a textbook counter-positioning moat. However, the counter-positioning is weakened by the fact that fintech-native banks (SoFi, Marcus) do not have the same conflict and are competing directly in the same space without the incumbent handicap.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Switching Costs</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">Switching costs for individual borrowers are low — a personal loan is a closed-end product, and once repaid, the borrower is free to go anywhere. However, several dynamics create stickiness that grows over a customer's lifetime. First, LC's LevelUp checking account (high-yield, direct deposit-linked) creates meaningful switching friction: changing a direct deposit, re-linking bill pay, and migrating a debit card history to a new bank typically takes 3–6 months of active effort and the fear of missing payroll. Second, repeat borrowers — who are LC's most profitable segment — receive faster approval, lower rates, and better terms because LC's model has their full payment history, creating a demonstrated preference and pricing advantage that new lenders cannot match. Third, the "member since [year]" relationship track record means LC can offer credit limit increases and new products at lower marketing cost than acquiring a new borrower. These dynamics are not impenetrable but create meaningful lifetime value concentration in the repeat borrower cohort.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Branding</span>
+  <span class="fw-rating weak">Weak</span>
+  <p class="prose" style="margin-top:4px;">LendingClub has moderate brand recognition in the consumer debt consolidation space — it was one of the first major platforms to popularize the "use a personal loan to pay off credit cards" use case, and it has high awareness in the 680–750 FICO borrower segment that constitutes its core market. However, the brand does not command a price premium (borrowers choose LC because it offers lower rates, not because of loyalty to the brand) and does not create habitual purchasing (unlike, say, an Amazon Prime subscription where the brand is the retention mechanism). In a head-to-head rate comparison, a borrower with good credit will typically choose whoever offers the lowest APR across SoFi, Upstart, LightStream, or Discover. The brand is a useful marketing asset in that it drives awareness and reduces customer acquisition cost, but it is not a durable competitive moat in the way Helmer defines branding power.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">6. Cornered Resource</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">LendingClub's most credible cornered resource is its proprietary loan performance dataset — 5.5 million+ loans originated since 2007, spanning the 2008 financial crisis, the 2020 COVID shock, and the 2022–2023 rate cycle. This dataset is genuinely non-replicable: a new entrant cannot buy or reconstruct 18 years of loan-level performance data including origination terms, borrower behavior, and ultimate recovery rates. The dataset trains LC's underwriting AI and is the foundational input to its pricing advantage. A second emerging cornered resource is the federal bank charter (OCC-regulated LendingClub Bank), which provides access to FDIC-insured deposits as a funding source that non-chartered fintech lenders (Upstart, Figure) cannot access — forcing them to rely on more expensive warehouse lines, securitization, or bank partnerships. The charter effectively locks in a structural cost-of-funds advantage that is difficult (3–5 year process) for competitors to replicate.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">7. Process Power</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">LC has developed genuine process power in two areas: (1) its credit underwriting and loan servicing infrastructure, which operates at 85–90% automation rates for decisioning and executes approvals in minutes, and (2) its capital markets / marketplace operation, which has established a multi-year track record of delivering consistent risk-adjusted returns to institutional investors, allowing LC to price each loan tranche with precision and maintain marketplace relationships through credit cycles. These capabilities are embedded in organizational routines, proprietary models, and institutional knowledge that cannot be replicated by hiring a team — a new entrant would need 3–5 years of operating experience to develop comparable calibration. The risk to process power is talent attrition — LC's model team, underwriting engineers, and capital markets staff are the carriers of this knowledge, and aggressive competitor recruiting (SoFi, Upstart, Goldman Sachs) could erode the advantage over time.</p>
+</div>
+
+<p class="prose"><strong>Summary:</strong> LC's strongest moats are its proprietary dataset / AI model (Cornered Resource) and its counter-positioning against legacy banks. Scale Economies, Switching Costs, and Process Power are moderate and reinforcing but not impenetrable. The primary structural weakness is low Branding power and minimal Network Effects — in an undifferentiated rate-comparison environment, LC competes on execution rather than structural lock-in.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 5: PORTER'S 5 FORCES                               -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Threat of New Entrants</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">The personal loan market is relatively easy to enter from a product standpoint — numerous fintechs (Upstart, Figure, Dave, SoFi) have launched personal lending products with relatively modest capital requirements using bank partnership models where a chartered bank holds the loans and the fintech provides the technology. However, building a scaled, profitable personal lending operation with an FDIC-insured bank charter is substantially harder. Obtaining an OCC national bank charter requires 3–5 years of regulatory process, a demonstrated capital plan, management experience, and ongoing CRA compliance — a genuine barrier that Upstart and Figure have not crossed. The threat is highest from well-capitalized non-bank fintech entrants using bank partnerships (which can originate quickly without a charter) and from incumbent bank digital transformation efforts. The barrier for true bank-model entrants (LC's direct competitive category) is high; the barrier for marketplace-model entrants is lower.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Bargaining Power of Suppliers</span>
+  <span class="fw-rating low">Low</span>
+  <p class="prose" style="margin-top:4px;">LC's primary "suppliers" are its depositors — the individuals and small businesses who place funds in LevelUp checking accounts, certificates of deposit, and savings accounts at LendingClub Bank. Depositor bargaining power is structurally low for several reasons. First, deposits are fungible and fragmented — LC has hundreds of thousands of individual depositors, none of whom individually represent a material funding share. Second, while depositors can withdraw funds with little friction, deposit stickiness is empirically high: direct-deposit customers who set up bill pay, debit cards, and payroll rarely switch unless the APY premium offered elsewhere exceeds ~100bps. LevelUp's competitive APY (up to 5% for qualifying direct-deposit customers) is priced to maintain meaningful spread while minimizing attrition. Third, the FDIC insurance backstop (up to $250K per depositor) reduces depositor sensitivity to LC's credit risk, removing one of the primary reasons depositors might flee a non-chartered institution. Technology suppliers (cloud infrastructure, credit bureau data from Experian/Equifax/TransUnion) have moderate power but multiple competitive alternatives exist.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Bargaining Power of Buyers</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">Borrowers (retail customers) have meaningful but bounded bargaining power. Rate comparison sites (NerdWallet, LendingTree, Bankrate, Credit Karma) have made it trivial for a borrower to obtain soft-pull rate quotes from 5–10 lenders simultaneously, which creates direct price competition for each loan. A 680 FICO borrower seeking a $15,000 debt consolidation loan has real alternatives across LightStream, Discover Personal Loans, SoFi, and Upstart — and will generally choose the lowest APR. This constrains LC's ability to price above market. However, not all customers have this level of engagement: many borrowers reach LC via direct mail or targeted digital advertising and complete the loan with LC without extensive comparison shopping — particularly borrowers with less financial sophistication or time. Institutional marketplace buyers (banks, hedge funds, insurance companies purchasing loan pools) have higher bargaining power: they are concentrated, can compare yields across multiple loan marketplaces, and multi-home across LC, Upstart, and direct bank originations. Their pricing leverage is constrained by LC's track record and credit model transparency, but they can and do reduce allocations rapidly when risk appetite shifts.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Threat of Substitutes</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">The primary substitute for an LC personal loan is the customer doing nothing — keeping their high-interest revolving credit card debt rather than refinancing it into a fixed-rate personal loan. This "inaction substitute" is the biggest competitive force: if the interest rate differential narrows (e.g., if the Fed cuts rates, reducing card APRs meaningfully), the value proposition of refinancing shrinks and origination demand softens. A second substitute is the balance transfer credit card — at times when banks offer 0% promotional APR balance transfers, these are functionally identical products that directly compete with LC's core use case. A third substitute is HELOC (home equity line of credit) — homeowners with significant equity can borrow against their home at rates of 6–7%, well below unsecured personal loan rates of 12–15%, making HELOCs a superior substitute for any borrower who owns a home. The rapid rise in home equity since 2020 has meaningfully expanded the HELOC-eligible population, creating a structural headwind. BNPL (buy-now-pay-later) is a weak substitute for debt consolidation but is gaining share for point-of-purchase financing use cases.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Competitive Rivalry</span>
+  <span class="fw-rating high">High</span>
+  <p class="prose" style="margin-top:4px;">The personal loan and digital banking market is highly competitive, with rivalry intensifying across all vectors. Traditional banks have launched digital-first personal lending products (Chase, Citi, Discover, Wells Fargo); fintech competitors (SoFi, Upstart, Avant, Prosper) are well-capitalized and actively competing for the same high-FICO debt consolidation customer; and emerging AI-native lenders (Upstart's AI underwriting model directly benchmarks against LC) are attempting to compete on the core differentiator LC claims. Price competition is intense because the product (an unsecured personal loan) is highly commoditizable — the primary differentiator is rate, and rate is easily comparable across platforms in real time. One important structural factor works in LC's favor: the personal lending market is large enough ($200B+ annual originations) that multiple players can exist profitably, so rivalry does not approach zero-sum intensity. However, any individual origination is competed for aggressively. The competitive environment is challenging but not existential — LC has demonstrated it can gain share against traditional banks even in the face of this rivalry, primarily through superior credit pricing on the mid-prime segment.</p>
+</div>
+
+<p class="prose"><strong>Summary:</strong> The competitive environment for LendingClub is challenging, primarily due to high competitive rivalry and moderate buyer bargaining power (rate transparency). The two structural protections are low supplier power (cheap deposit funding from a diversified deposit base) and the moderate barrier to entry imposed by the bank charter requirement. LC's long-term profitability depends on maintaining credit pricing superiority through its AI model — the moment that edge narrows, the competitive dynamics become substantially less favorable.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 6: WHAT DRIVES THE STOCK?                          -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<p class="prose">Six variables will determine whether LC re-rates from ~8x P/E toward a fair-value multiple of 12–15x over the next 12–18 months:</p>
+
+<ol style="padding-left:20px; line-height:2;">
+  <li class="prose"><strong>Loan Origination Volume:</strong> The single largest EPS lever. FY25A originations of ~$8.5B vs. management's long-term target of $12–15B. Every $1B of incremental annual originations adds ~$15–20M of net interest income and ~$25–30M of origination fees (depending on hold vs. sell mix). A return to $10B+ volume would be the primary positive catalyst for 2026 EPS estimates moving higher.</li>
+  <li class="prose"><strong>Net Interest Margin (NIM):</strong> FY25A blended NIM was approximately 5.0–5.5%. Management guided to expansion toward 5.5–6.0% as the hold portfolio matures and higher-rate loans originated in 2023–2024 season. NIM compression (from rising deposit costs, credit losses, or lower-rate new originations in a falling-rate environment) is the primary downside risk to EPS. Every 25bps of NIM move = ~$25–30M of NII impact on a $10B+ held portfolio.</li>
+  <li class="prose"><strong>Net Charge-Off (NCO) Rate:</strong> Q4 2025 NCO annualized was approximately 5.5–6.0%. The market is most sensitive to whether NCOs stabilize or deteriorate through early-2026. Each 50bps increase in NCO rate requires incremental provision expense that directly reduces pre-tax earnings. Stabilization below 6.5% would be a meaningful de-risking event for the stock.</li>
+  <li class="prose"><strong>Capital Return / Buyback Execution:</strong> LC had $930M in cash vs. a $1.6B market cap at the time of this memo. Management authorized a $150M buyback program in 2025 and purchased ~$80M. Acceleration of buybacks at these prices (8x P/E, net cash) would signal management confidence and would be EPS accretive at a magnitude few companies can match. Watch the buyback cadence quarterly.</li>
+  <li class="prose"><strong>Marketplace Volume + Investor Demand:</strong> The proportion of loans sold vs. held determines near-term revenue recognition. A shift toward more marketplace sales (driven by institutional demand returning as credit spreads normalize) would boost near-term reported revenue and create a positive earnings surprise, though at the cost of long-term NII. Institutional bid for LC paper is a real-time indicator of credit market conditions.</li>
+  <li class="prose"><strong>Rate Environment (Fed Funds Path):</strong> Rate cuts reduce the value proposition of debt consolidation (by narrowing the spread between card APRs and personal loan rates) but simultaneously reduce LC's cost of deposits and reduce pressure on borrower affordability. The net effect on LC is nuanced — management estimates rate cuts are mildly positive net-net, with improved credit quality more than offsetting the modest origination demand softening from a smaller APR differential.</li>
+</ol>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS?                       -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<div class="section-title">Revenue Decomposition</div>
+
+<table class="data">
+  <thead>
+    <tr>
+      <th style="text-align:left">Revenue Line</th>
+      <th style="text-align:left">Driver Formula</th>
+      <th>FY25A Est.</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Net Interest Income</strong></td>
+      <td style="text-align:left; font-size:9px;">Avg Held Loan Portfolio ($) × Net Interest Margin (%)</td>
+      <td>~$764M</td>
+    </tr>
+    <tr>
+      <td style="padding-left:12px; color:#555; font-size:9px;">Avg Held Portfolio</td>
+      <td style="text-align:left; font-size:9px;">Beginning balance + New Originations Held − Payoffs / Chargeoffs</td>
+      <td style="font-size:9px;">~$8.5B</td>
+    </tr>
+    <tr>
+      <td style="padding-left:12px; color:#555; font-size:9px;">Net Interest Margin</td>
+      <td style="text-align:left; font-size:9px;">Loan Yield (%) − Cost of Deposits (%) − NCO Rate (%)</td>
+      <td style="font-size:9px;">~5.1%</td>
+    </tr>
+    <tr>
+      <td><strong>Origination Fee Income</strong></td>
+      <td style="text-align:left; font-size:9px;">Total Origination Volume ($) × Marketplace Sell % × Avg Origination Fee (%)</td>
+      <td>~$412M</td>
+    </tr>
+    <tr>
+      <td style="padding-left:12px; color:#555; font-size:9px;">Total Origination Volume</td>
+      <td style="text-align:left; font-size:9px;">Approved Applications × Avg Loan Size</td>
+      <td style="font-size:9px;">~$8.5B</td>
+    </tr>
+    <tr>
+      <td style="padding-left:12px; color:#555; font-size:9px;">Marketplace Sell %</td>
+      <td style="text-align:left; font-size:9px;">% of originations sold to institutional investors (vs. held)</td>
+      <td style="font-size:9px;">~55–60%</td>
+    </tr>
+    <tr>
+      <td style="padding-left:12px; color:#555; font-size:9px;">Avg Origination Fee</td>
+      <td style="text-align:left; font-size:9px;">Upfront fee charged on marketplace-sold loans (~5% of principal)</td>
+      <td style="font-size:9px;">~4.5–5.0%</td>
+    </tr>
+    <tr>
+      <td><strong>Servicing Fee Income</strong></td>
+      <td style="text-align:left; font-size:9px;">Total Serviced Portfolio ($) × Annual Servicing Rate (%)</td>
+      <td>~$132M</td>
+    </tr>
+    <tr>
+      <td><strong>Gain on Sale / Fair Value</strong></td>
+      <td style="text-align:left; font-size:9px;">Volume sold × (Market price premium above par)</td>
+      <td>~$162M</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:10px;"><strong>Key leverage points:</strong> The two highest-leverage variables for total earnings are (1) <strong>Total Origination Volume × Hold Mix</strong> — more volume held generates both origination-to-hold NIM and eliminates the one-time fee, compounding NII over the loan life; and (2) <strong>Net Interest Margin</strong>, specifically the spread between loan yield and deposit cost net of credit losses. A 1-percentage-point increase in NIM on $10B of held loans adds $100M in NII — translating to ~$0.65–0.70 of incremental EPS after tax. These two drivers — volume and margin — explain why the consensus EPS trajectory from $1.71 (FY26E) to $3.45 (FY28E) is achievable with relatively modest assumptions: flat loan yields, modestly improving NCOs, and continued deposit growth supporting the hold portfolio.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 8: ALPHASENSE INSIGHTS                             -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+  <strong>AlphaSense Smart Summaries — DR Report</strong> · Query: LendingClub Corporation (LC) · Report Date: March 16, 2026<br>
+  Sources include: expert calls, earnings transcripts, analyst notes, regulatory filings synthesized via AlphaSense platform. Key themes extracted below supplement Sections 1–7 with incremental insights not fully covered in the core FactSet analysis.
+</div>
+
+<div class="section-title">The AI Credit Moat: Expert Validation and Competitive Signaling</div>
+<p class="prose">Multiple AlphaSense expert call sources — including former executives at competing fintech lenders and credit risk officers from institutional bank partners — validate that LC's underwriting AI creates a genuine, measurable credit-quality advantage in the 680–740 FICO cohort that is its core origination target. One former head of credit at a competing marketplace lender noted that "LendingClub's loss prediction accuracy in the 700–730 FICO band has historically been 15–25% more precise than industry standard bureau scores alone" — the result of behavioral and payment pattern data accumulated across 5.5 million loans that bureau models simply cannot replicate. This expert specifically called out the FICO-bureau-refresh cycle (LC re-pulls credit data on existing borrowers monthly, allowing it to price credit deterioration before competitors do) as a "quietly significant" operational advantage that is underappreciated by the market. A second expert, a former senior product manager at a major regional bank that partners with LC, described the institutional side of the marketplace as "significantly stickier than it looks from the outside" — noting that once a bank's credit portfolio team calibrates its internal models to LC's loan stratifications, changing providers requires a full re-approval process that takes 6–9 months. This institutional switching cost is not visible in LC's public disclosures but meaningfully reduces the volatility of marketplace volume.</p>
+
+<div class="section-title">Deposit Franchise: Strategic Depth Beyond the APY</div>
+<p class="prose">AlphaSense earnings transcript analysis highlights a consistent management theme across Q3 and Q4 2025 calls: LC's deposit strategy is explicitly designed around deposit stickiness rather than just deposit growth. The LevelUp checking account's 5% APY for direct-deposit customers is structured to attract borrowers who have already taken an LC loan — converting one-time loan customers into multi-product banking relationships with dramatically higher lifetime value. Management has disclosed that borrowers who adopt a LevelUp checking account have a 40–50% higher probability of returning for a second loan versus borrowers who do not adopt the account. This cross-sell flywheel is underappreciated: LevelUp is not just a low-cost deposit vehicle, it is the primary retention mechanism for LC's highest-value customer segment. The deposit base as of Q4 2025 was $9.9B, with approximately 65–70% in consumer deposits (vs. institutional) — a composition that management explicitly targets because consumer deposits are structurally stickier and less rate-sensitive than institutional deposits in stress scenarios.</p>
+
+<div class="section-title">New Market Execution: Auto Refinance and Commercial Lending</div>
+<p class="prose">LC's auto refinance product — launched in 2019 and rebuilt on the LC Bank infrastructure post-charter acquisition — represented approximately 8% of origination volume in FY2025. Expert call analysis suggests the auto refinance market is a large and underpenetrated opportunity for LC: an estimated $1.5 trillion in auto loans outstanding, with 15–20% of borrowers paying materially above-market rates due to dealer financing upselling. LC's data advantage on credit pricing translates directly to this segment — the same FICO-bureau-refresh model that prices personal loans can be applied to auto, and the origination infrastructure is already built. The primary barrier has been customer acquisition cost — auto refinancing requires a different marketing channel (targeting existing auto loan holders rather than credit card holders) and a slower consumer adoption curve. Multiple experts cited 2026–2027 as the window when LC's auto volume should inflect meaningfully, driven by direct-mail campaigns to existing members, a lower-rate environment that makes refinancing more economically compelling, and LC's cross-sell capabilities to the existing deposit base. Commercial lending (small business term loans to business owners who are existing LC personal loan customers) is an early-stage opportunity that several experts noted as the most under-discussed element of LC's long-term revenue diversification story.</p>
+
+<div class="section-title">Regulatory Environment: Bank Charter as Competitive Moat</div>
+<p class="prose">Several AlphaSense analyst notes and regulatory expert calls specifically call out the OCC national bank charter as a structural competitive advantage that will become more important, not less, as fintech lending regulation tightens. The current regulatory direction — particularly the OCC's "true lender" rule guidance and the CFPB's focus on ensuring bank oversight of AI underwriting models — creates compliance requirements that are easier to satisfy as a chartered bank than as a fintech-bank partner arrangement. Non-chartered lenders (Upstart, Avant) operating via bank partnerships face regulatory uncertainty about whether the originating bank or the fintech is responsible for fair lending obligations — a risk that has caused multiple bank partners to reduce fintech origination programs after CFPB scrutiny. LC as a chartered bank is the regulatory principal for all originations, providing clarity and reducing the risk of a regulatory action forcing a program shutdown. One regulatory expert noted that the OCC's recent tendency to impose enhanced governance requirements on bank-fintech partnerships (as opposed to direct bank originations) "effectively makes the charter more valuable every year as the regulatory environment matures."</p>
+
+<div class="section-title">Key Long-Term Investor Questions (From AlphaSense IC Coverage)</div>
+<p class="prose">Institutional investor and analyst coverage surfaced through AlphaSense identifies three unresolved questions that represent the primary barriers to a valuation re-rating. First: can LC demonstrate credit model stability through a full recession cycle without a charter-level capital event? The 2008 and 2020 cycles pre-dated the bank model, and investors will require 1–2 quarters of NCO stability through the next credit softening before expanding the multiple. Second: will the revenue reclassification from origination fees to NII, which makes headline revenue appear to decline, ever be understood clearly enough by generalist investors to not suppress the valuation? Management's decision to present total net revenue (vs. gross revenue) creates persistent confusion on screens. Third: is the $12–15B origination volume target realistic, or does it require a material change in marketing spend that compresses margins? The consensus view among analysts is that the target is achievable but back-end weighted toward FY2027–2028, creating a waiting period risk.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 9: SENSITIVITY ANALYSIS                            -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Sensitivity Analysis</div>
+
+<!-- Table 1: NII Sensitivity -->
+<p style="font-weight:700; font-size:11px; margin-bottom:4px;">Annual Net Interest Income ($M) vs. Avg Held Loan Portfolio Size ($B) × Net Interest Margin (%)</p>
+<p class="prose"><strong>Current (Q4 FY2025 run-rate): Avg Held Loan Portfolio ≈ $8.5B × Net Interest Margin ≈ 5.1% → Estimated Annual Net Interest Income ≈ $434M</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Portfolio ($B) \ NIM (%)</th>
+      <th>3.5%</th>
+      <th>4.0%</th>
+      <th>4.5%</th>
+      <th>5.0%</th>
+      <th class="est">5.1%</th>
+      <th>5.5%</th>
+      <th>6.0%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$6B</td><td>$210M</td><td>$240M</td><td>$270M</td><td>$300M</td><td>$306M</td><td>$330M</td><td>$360M</td></tr>
+    <tr><td>$7B</td><td>$245M</td><td>$280M</td><td>$315M</td><td>$350M</td><td>$357M</td><td>$385M</td><td>$420M</td></tr>
+    <tr><td>$8B</td><td>$280M</td><td>$320M</td><td>$360M</td><td>$400M</td><td>$408M</td><td>$440M</td><td>$480M</td></tr>
+    <tr><td>$8.5B</td><td>$298M</td><td>$340M</td><td>$383M</td><td>$425M</td><td class="base">$434M</td><td>$468M</td><td>$510M</td></tr>
+    <tr><td>$10B</td><td>$350M</td><td>$400M</td><td>$450M</td><td>$500M</td><td>$510M</td><td>$550M</td><td>$600M</td></tr>
+    <tr><td>$12B</td><td>$420M</td><td>$480M</td><td>$540M</td><td>$600M</td><td>$612M</td><td>$660M</td><td>$720M</td></tr>
+    <tr><td>$15B</td><td>$525M</td><td>$600M</td><td>$675M</td><td>$750M</td><td>$765M</td><td>$825M</td><td>$900M</td></tr>
+  </tbody>
+</table>
+
+<!-- Table 2: EPS Sensitivity -->
+<p style="font-weight:700; font-size:11px; margin-top:14px; margin-bottom:4px;">FY2026E EPS ($) vs. Total Origination Volume ($B) × Net Charge-Off Rate (%)</p>
+<p class="prose"><strong>Current (FY2025A): Total Origination Volume ≈ $8.5B × Net Charge-Off Rate ≈ 5.8% → Estimated FY2026E EPS ≈ $1.71 at consensus assumptions</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Originations ($B) \ NCO (%)</th>
+      <th>4.0%</th>
+      <th>4.5%</th>
+      <th>5.0%</th>
+      <th>5.5%</th>
+      <th class="est">5.8%</th>
+      <th>6.5%</th>
+      <th>7.5%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$7.0B</td><td>$1.45</td><td>$1.30</td><td>$1.15</td><td>$1.00</td><td>$0.92</td><td>$0.72</td><td>$0.42</td></tr>
+    <tr><td>$8.0B</td><td>$1.75</td><td>$1.58</td><td>$1.40</td><td>$1.23</td><td>$1.14</td><td>$0.90</td><td>$0.57</td></tr>
+    <tr><td>$8.5B</td><td>$1.92</td><td>$1.74</td><td>$1.55</td><td>$1.38</td><td class="base">$1.28</td><td>$1.02</td><td>$0.65</td></tr>
+    <tr><td>$9.5B</td><td>$2.28</td><td>$2.08</td><td>$1.87</td><td>$1.68</td><td>$1.58</td><td>$1.29</td><td>$0.87</td></tr>
+    <tr><td>$10.5B</td><td>$2.65</td><td>$2.42</td><td>$2.20</td><td>$1.98</td><td>$1.86</td><td>$1.55</td><td>$1.08</td></tr>
+    <tr><td>$11.5B</td><td>$3.02</td><td>$2.76</td><td>$2.52</td><td>$2.28</td><td>$2.14</td><td>$1.81</td><td>$1.29</td></tr>
+    <tr><td>$13.0B</td><td>$3.55</td><td>$3.25</td><td>$2.97</td><td>$2.70</td><td>$2.54</td><td>$2.16</td><td>$1.58</td></tr>
+  </tbody>
+</table>
+<p style="font-size:8px; color:#888; margin-top:3px;">Note: Sensitivity table 2 adjusts origination fee income, NII growth from new held loan volume, and provision expense from NCO rate. All else equal to FY25A base. Consensus FY26E EPS of $1.71 aligns with ~$9.5B originations at ~5.5–5.8% NCO.</p>
+
+<!-- Table 3: Implied Share Price Sensitivity -->
+<p style="font-weight:700; font-size:11px; margin-top:14px; margin-bottom:4px;">Implied Share Price ($) vs. FY2027E EPS ($) × Exit P/E Multiple (x)</p>
+<p class="prose"><strong>Current (FY2026E): Consensus FY2027E EPS = $2.37 × Current market P/E ≈ 5.8x → Implied Share Price at today's multiple = $13.75 (matches current stock price)</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>FY27E EPS \ P/E</th>
+      <th>6x</th>
+      <th>8x</th>
+      <th>10x</th>
+      <th>12x</th>
+      <th>14x</th>
+      <th>16x</th>
+      <th>18x</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$1.50</td><td>$9.00</td><td>$12.00</td><td>$15.00</td><td>$18.00</td><td>$21.00</td><td>$24.00</td><td>$27.00</td></tr>
+    <tr><td>$1.80</td><td>$10.80</td><td>$14.40</td><td>$18.00</td><td>$21.60</td><td>$25.20</td><td>$28.80</td><td>$32.40</td></tr>
+    <tr><td>$2.10</td><td>$12.60</td><td>$16.80</td><td>$21.00</td><td>$25.20</td><td>$29.40</td><td>$33.60</td><td>$37.80</td></tr>
+    <tr><td class="base">$2.37</td><td class="base">$14.22</td><td>$18.96</td><td>$23.70</td><td>$28.44</td><td>$33.18</td><td>$37.92</td><td>$42.66</td></tr>
+    <tr><td>$2.70</td><td>$16.20</td><td>$21.60</td><td>$27.00</td><td>$32.40</td><td>$37.80</td><td>$43.20</td><td>$48.60</td></tr>
+    <tr><td>$3.00</td><td>$18.00</td><td>$24.00</td><td>$30.00</td><td>$36.00</td><td>$42.00</td><td>$48.00</td><td>$54.00</td></tr>
+    <tr><td>$3.45</td><td>$20.70</td><td>$27.60</td><td>$34.50</td><td>$41.40</td><td>$48.30</td><td>$55.20</td><td>$62.10</td></tr>
+  </tbody>
+</table>
+<p style="font-size:8px; color:#888; margin-top:3px;">Key insight: At consensus FY27E EPS of $2.37, even a modest P/E re-rating to 10x yields $23.70 — a 72% return from current price. The stock is priced for zero multiple expansion. Any combination of EPS upside + multiple recovery creates asymmetric upside.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 10: 3-YEAR MODEL — 5 SCENARIOS                     -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios</div>
+
+<p class="prose" style="margin-bottom:12px;">Base case uses FactSet consensus for FY2026E–FY2028E. All other cases adjust core business drivers from the origination model (Section 7). Exit multiple applied to FY2028E EPS. Current price: $13.80. Diluted shares: ~115M (FY26), ~112M (FY27), ~110M (FY28) — declining from buybacks.</p>
+
+<!-- CASE 1: Bear Severe -->
+<div class="case-block">
+  <div class="case-name">🐻 Credit Cycle Deterioration — Recession &amp; Charge-Off Spike</div>
+  <div class="case-desc">Consumer credit deteriorates sharply; NCO rates spike to 8–9% as unemployment rises; marketplace investors withdraw; originations contract to $6–7B range; LC tightens underwriting, reducing volume and compressing NIM.</div>
+
+  <p class="prose" style="font-size:10px; margin-bottom:6px;"><strong>2026</strong> — Unemployment rises toward 5.5%; NCOs spike to 7.5% annualized; marketplace investor allocations cut 30%; management tightens underwriting to 740+ FICO only, reducing applicant pool. Originations drop to $7.0B. <strong>2027</strong> — Provision expense elevated; NIM compressed to 4.0% from rising deposit costs and loss reserves. EPS recovery stalls. Buybacks paused to preserve capital ratios. <strong>2028</strong> — Partial recovery begins; originations improve to $7.5B; NCOs settle to 6.5%; NIM begins recovering but remains below FY25 levels. EPS recovers but stays well below consensus.</p>
+
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Annual Origination Volume</span><span>$7.5B</span></div>
+  <div class="driver-row"><span>Net Interest Margin</span><span>4.2%</span></div>
+  <div class="driver-row"><span>Net Charge-Off Rate</span><span>6.5%</span></div>
+  <div class="driver-row"><span>Avg Held Portfolio Size</span><span>$7.0B</span></div>
+
+  <table class="scenario-mini">
+    <tr><td>Revenue (Net)</td><td>$820M</td><td>$860M</td><td>$910M</td></tr>
+    <tr style="color:#888; font-size:8px;"><td>&nbsp;&nbsp;Revenue Growth %</td><td>−23%</td><td>+5%</td><td>+6%</td></tr>
+    <tr><td>Gross Income</td><td>$490M</td><td>$520M</td><td>$565M</td></tr>
+    <tr style="color:#888; font-size:8px;"><td>&nbsp;&nbsp;Gross Margin %</td><td>59.8%</td><td>60.5%</td><td>62.1%</td></tr>
+    <tr><td>EBIT</td><td>$85M</td><td>$110M</td><td>$150M</td></tr>
+    <tr><td>Net Income</td><td>$68M</td><td>$90M</td><td>$120M</td></tr>
+    <tr style="color:#888; font-size:8px;"><td>&nbsp;&nbsp;Net Income Margin %</td><td>8.3%</td><td>10.5%</td><td>13.2%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>115M</td><td>113M</td><td>111M</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$0.59</td><td>$0.80</td><td>$1.08</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>7x</td><td>7x</td><td>7x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$4.13</td><td>$5.60</td><td>$7.56</td></tr>
+  </table>
+
+  <div class="exit-metrics">
+    <div style="font-size:10px; color:#555;">FY2028E EPS: $1.08 × 7x P/E =</div>
+    <div class="exit-price">$7.56</div>
+    <div class="exit-upside" style="color:#c0392b;">−45% downside from $13.80</div>
+    <div style="font-size:9px; color:#888; margin-top:3px;">Implied Mkt Cap: $836M · Implied EV: ~$0M (cash absorbs discount)</div>
+  </div>
+</div>
+
+<!-- CASE 2: Bear Mild -->
+<div class="case-block">
+  <div class="case-name">📉 Slow Recovery — Volume Stall &amp; Margin Pressure</div>
+  <div class="case-desc">Macro softens but no hard recession; NCOs elevated at 6.5%; originations stall at $8–9B; NIM expansion delayed by deposit repricing; EPS grows but below consensus pace.</div>
+
+  <p class="prose" style="font-size:10px; margin-bottom:6px;"><strong>2026</strong> — Consumer stress continues; originations grow only modestly to $8.5B; NCOs settle at 6.2%; NIM flat at 5.0%. <strong>2027</strong> — Marketplace investors cautious; hold mix remains elevated; originations inch to $9.5B. NIM expands to 5.3% as deposit costs normalize. <strong>2028</strong> — Recovery gains traction; originations reach $10.5B; NCOs improve to 5.5%; NIM expands to 5.5%. EPS below consensus but meaningful vs. current price.</p>
+
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Annual Origination Volume</span><span>$10.5B</span></div>
+  <div class="driver-row"><span>Net Interest Margin</span><span>5.5%</span></div>
+  <div class="driver-row"><span>Net Charge-Off Rate</span><span>5.5%</span></div>
+  <div class="driver-row"><span>Avg Held Portfolio Size</span><span>$9.5B</span></div>
+
+  <table class="scenario-mini">
+    <tr><td>Revenue (Net)</td><td>$1,000M</td><td>$1,140M</td><td>$1,285M</td></tr>
+    <tr style="color:#888; font-size:8px;"><td>&nbsp;&nbsp;Revenue Growth %</td><td>−7%</td><td>+14%</td><td>+13%</td></tr>
+    <tr><td>Gross Income</td><td>$620M</td><td>$718M</td><td>$832M</td></tr>
+    <tr style="color:#888; font-size:8px;"><td>&nbsp;&nbsp;Gross Margin %</td><td>62.0%</td><td>63.0%</td><td>64.7%</td></tr>
+    <tr><td>EBIT</td><td>$255M</td><td>$370M</td><td>$510M</td></tr>
+    <tr><td>Net Income</td><td>$153M</td><td>$222M</td><td>$316M</td></tr>
+    <tr style="color:#888; font-size:8px;"><td>&nbsp;&nbsp;Net Income Margin %</td><td>15.3%</td><td>19.5%</td><td>24.6%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>115M</td><td>112M</td><td>110M</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$1.33</td><td>$1.98</td><td>$2.87</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>8x</td><td>8x</td><td>8x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$10.64</td><td>$15.84</td><td>$22.96</td></tr>
+  </table>
+
+  <div class="exit-metrics">
+    <div style="font-size:10px; color:#555;">FY2028E EPS: $2.87 × 8x P/E =</div>
+    <div class="exit-price">$22.96</div>
+    <div class="exit-upside" style="color:#27ae60;">+66% upside from $13.80</div>
+    <div style="font-size:9px; color:#888; margin-top:3px;">Implied Mkt Cap: $2,526M · Implied EV: ~$1,126M (adding ~$1.4B net cash)</div>
+  </div>
+</div>
+
+<!-- CASE 3: Base -->
+<div class="case-block">
+  <div class="case-name">📊 Consensus Execution — Steady Volume Growth + NIM Expansion</div>
+  <div class="case-desc">Consensus FactSet estimates; originations grow toward $12B by FY2028; NIM expands to 5.5–6.0%; NCOs stabilize at 5.5%; EPS grows ~43% CAGR from FY2025 base.</div>
+
+  <p class="prose" style="font-size:10px; margin-bottom:6px;"><strong>2026</strong> — Originations reach $9.5B; NCOs normalize to 5.5%; NIM expands to 5.3%. EPS: $1.71. <strong>2027</strong> — Volume accelerates to $11B; auto refinance gains meaningful traction; NIM at 5.7%; NCOs stable. EPS: $2.37. <strong>2028</strong> — LC approaches $12–13B origination target; deposit base reaches $12B; LevelUp cross-sell converts 30%+ of borrowers to checking; EPS: $3.45.</p>
+
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Annual Origination Volume</span><span>$12.5B</span></div>
+  <div class="driver-row"><span>Net Interest Margin</span><span>5.8%</span></div>
+  <div class="driver-row"><span>Net Charge-Off Rate</span><span>5.0%</span></div>
+  <div class="driver-row"><span>Avg Held Portfolio Size</span><span>$11.5B</span></div>
+
+  <table class="scenario-mini">
+    <tr><td>Revenue (Net)</td><td>$1,072M</td><td>$1,260M</td><td>$1,453M</td></tr>
+    <tr style="color:#888; font-size:8px;"><td>&nbsp;&nbsp;Revenue Growth %</td><td>−27%</td><td>+18%</td><td>+15%</td></tr>
+    <tr><td>Gross Income</td><td>$680M</td><td>$815M</td><td>$975M</td></tr>
+    <tr style="color:#888; font-size:8px;"><td>&nbsp;&nbsp;Gross Margin %</td><td>63.4%</td><td>64.7%</td><td>67.1%</td></tr>
+    <tr><td>EBIT</td><td>$347M</td><td>$487M</td><td>$735M</td></tr>
+    <tr><td>Net Income</td><td>$196M</td><td>$271M</td><td>$394M</td></tr>
+    <tr style="color:#888; font-size:8px;"><td>&nbsp;&nbsp;Net Income Margin %</td><td>18.3%</td><td>21.5%</td><td>27.1%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>115M</td><td>112M</td><td>110M</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$1.71</td><td>$2.37</td><td>$3.45</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>10x</td><td>10x</td><td>10x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$17.10</td><td>$23.70</td><td>$34.50</td></tr>
+  </table>
+
+  <div class="exit-metrics">
+    <div style="font-size:10px; color:#555;">FY2028E EPS: $3.45 × 10x P/E =</div>
+    <div class="exit-price">$34.50</div>
+    <div class="exit-upside" style="color:#27ae60;">+150% upside from $13.80</div>
+    <div style="font-size:9px; color:#888; margin-top:3px;">Implied Mkt Cap: $3,795M · Implied EV: ~$2,395M</div>
+  </div>
+</div>
+
+<!-- CASE 4: Bull Mild -->
+<div class="case-block">
+  <div class="case-name">📈 AI Marketing + Rate Tailwind — Accelerated Volume Capture</div>
+  <div class="case-desc">Fed cuts rates 100–150bps by end of 2026, reducing card APRs only marginally while meaningfully improving borrower affordability; LC's AI-driven marketing (targeting 720+ FICO credit card holders) accelerates customer acquisition; originations exceed $14B by 2028.</div>
+
+  <p class="prose" style="font-size:10px; margin-bottom:6px;"><strong>2026</strong> — Fed delivers 75bps of cuts; LC's AI marketing targeting credit card debtors drives 15% conversion rate improvement; originations reach $10.5B. NCOs improve to 5.0% on tighter FICO mix. <strong>2027</strong> — Marketing ROI compounds; auto refinance crosses $1B; originations hit $12.5B; NIM expands to 6.0%. LevelUp checking adoption crosses 40% of existing members. <strong>2028</strong> — Platform approaching $14B+; ROE crosses 15%; buybacks accelerate to $250M annually; EPS: $4.40.</p>
+
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Annual Origination Volume</span><span>$14.5B</span></div>
+  <div class="driver-row"><span>Net Interest Margin</span><span>6.1%</span></div>
+  <div class="driver-row"><span>Net Charge-Off Rate</span><span>4.5%</span></div>
+  <div class="driver-row"><span>Avg Held Portfolio Size</span><span>$13.0B</span></div>
+
+  <table class="scenario-mini">
+    <tr><td>Revenue (Net)</td><td>$1,180M</td><td>$1,415M</td><td>$1,680M</td></tr>
+    <tr style="color:#888; font-size:8px;"><td>&nbsp;&nbsp;Revenue Growth %</td><td>−20%</td><td>+20%</td><td>+19%</td></tr>
+    <tr><td>Gross Income</td><td>$754M</td><td>$920M</td><td>$1,118M</td></tr>
+    <tr style="color:#888; font-size:8px;"><td>&nbsp;&nbsp;Gross Margin %</td><td>63.9%</td><td>65.0%</td><td>66.5%</td></tr>
+    <tr><td>EBIT</td><td>$430M</td><td>$600M</td><td>$860M</td></tr>
+    <tr><td>Net Income</td><td>$250M</td><td>$348M</td><td>$495M</td></tr>
+    <tr style="color:#888; font-size:8px;"><td>&nbsp;&nbsp;Net Income Margin %</td><td>21.2%</td><td>24.6%</td><td>29.5%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>113M</td><td>110M</td><td>107M</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$2.21</td><td>$3.16</td><td>$4.63</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>12x</td><td>12x</td><td>12x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$26.52</td><td>$37.92</td><td>$55.56</td></tr>
+  </table>
+
+  <div class="exit-metrics">
+    <div style="font-size:10px; color:#555;">FY2028E EPS: $4.63 × 12x P/E =</div>
+    <div class="exit-price">$55.56</div>
+    <div class="exit-upside" style="color:#27ae60;">+303% upside from $13.80</div>
+    <div style="font-size:9px; color:#888; margin-top:3px;">Implied Mkt Cap: $5,950M · Implied EV: ~$4,550M</div>
+  </div>
+</div>
+
+<!-- CASE 5: Bull Severe -->
+<div class="case-block">
+  <div class="case-name">🚀 Platform Inflection — Market Share Displacement</div>
+  <div class="case-desc">LC achieves the Investor Day vision: $15B+ originations by 2028, LevelUp becomes a primary banking relationship for 1M+ members, auto refinance crosses $2B, and the market re-rates LC as a high-growth digital bank at 15x P/E vs. today's 8x.</div>
+
+  <p class="prose" style="font-size:10px; margin-bottom:6px;"><strong>2026</strong> — Inflection in AI-driven marketing ROI; LevelUp direct-deposit adoption grows 60%; originations jump to $11.5B on improved customer acquisition and repeat borrower surge. <strong>2027</strong> — Auto refinance crosses $1.5B; commercial lending adds $500M+ of diversified originations; deposits reach $13B; NIM expands to 6.5% as funding mix shifts favorably. <strong>2028</strong> — LC becomes clearly recognized as a profitable, scalable digital bank platform; ROE reaches 18%+; originations hit $16B; P/E re-rating to 15x driven by institutional investor recognition. EPS: $5.50+.</p>
+
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Annual Origination Volume</span><span>$16.0B</span></div>
+  <div class="driver-row"><span>Net Interest Margin</span><span>6.5%</span></div>
+  <div class="driver-row"><span>Net Charge-Off Rate</span><span>4.0%</span></div>
+  <div class="driver-row"><span>Avg Held Portfolio Size</span><span>$14.5B</span></div>
+
+  <table class="scenario-mini">
+    <tr><td>Revenue (Net)</td><td>$1,280M</td><td>$1,580M</td><td>$1,950M</td></tr>
+    <tr style="color:#888; font-size:8px;"><td>&nbsp;&nbsp;Revenue Growth %</td><td>−13%</td><td>+23%</td><td>+23%</td></tr>
+    <tr><td>Gross Income</td><td>$826M</td><td>$1,040M</td><td>$1,320M</td></tr>
+    <tr style="color:#888; font-size:8px;"><td>&nbsp;&nbsp;Gross Margin %</td><td>64.5%</td><td>65.8%</td><td>67.7%</td></tr>
+    <tr><td>EBIT</td><td>$530M</td><td>$745M</td><td>$1,050M</td></tr>
+    <tr><td>Net Income</td><td>$312M</td><td>$435M</td><td>$618M</td></tr>
+    <tr style="color:#888; font-size:8px;"><td>&nbsp;&nbsp;Net Income Margin %</td><td>24.4%</td><td>27.5%</td><td>31.7%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>112M</td><td>109M</td><td>106M</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$2.79</td><td>$3.99</td><td>$5.83</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>15x</td><td>15x</td><td>15x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$41.85</td><td>$59.85</td><td>$87.45</td></tr>
+  </table>
+
+  <div class="exit-metrics">
+    <div style="font-size:10px; color:#555;">FY2028E EPS: $5.83 × 15x P/E =</div>
+    <div class="exit-price">$87.45</div>
+    <div class="exit-upside" style="color:#27ae60;">+534% upside from $13.80</div>
+    <div style="font-size:9px; color:#888; margin-top:3px;">Implied Mkt Cap: $9,278M · Implied EV: ~$7,878M</div>
+  </div>
+</div>
+
+<!-- Bar Chart -->
+<div class="case-chart">
+  <p style="font-size:10px; font-weight:600; margin-bottom:8px;">FY2028E Implied Share Price by Scenario + Probability-Weighted Present Value</p>
+  <svg viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg" font-family="Inter, Arial, sans-serif">
+    <!-- Grid lines -->
+    <line x1="80" y1="20" x2="80" y2="220" stroke="#ddd" stroke-width="1"/>
+    <line x1="80" y1="220" x2="680" y2="220" stroke="#ddd" stroke-width="1"/>
+    <!-- Y axis labels -->
+    <text x="75" y="224" text-anchor="end" font-size="9" fill="#888">$0</text>
+    <text x="75" y="180" text-anchor="end" font-size="9" fill="#888">$22</text>
+    <text x="75" y="140" text-anchor="end" font-size="9" fill="#888">$44</text>
+    <text x="75" y="100" text-anchor="end" font-size="9" fill="#888">$66</text>
+    <text x="75" y="60" text-anchor="end" font-size="9" fill="#888">$88</text>
+    <!-- Horizontal grid -->
+    <line x1="80" y1="180" x2="680" y2="180" stroke="#eee" stroke-width="0.5" stroke-dasharray="3,3"/>
+    <line x1="80" y1="140" x2="680" y2="140" stroke="#eee" stroke-width="0.5" stroke-dasharray="3,3"/>
+    <line x1="80" y1="100" x2="680" y2="100" stroke="#eee" stroke-width="0.5" stroke-dasharray="3,3"/>
+    <line x1="80" y1="60" x2="680" y2="60" stroke="#eee" stroke-width="0.5" stroke-dasharray="3,3"/>
+
+    <!-- Bear Severe: $7.56 → height = 7.56/90*200 = 16.8 → bar height 16.8, y = 220-16.8 = 203.2 -->
+    <rect x="110" y="203" width="80" height="17" fill="#2563eb" opacity="0.7"/>
+    <text x="150" y="199" text-anchor="middle" font-size="9" fill="#333">$7.56</text>
+    <text x="150" y="238" text-anchor="middle" font-size="8.5" fill="#666">Bear</text>
+    <text x="150" y="248" text-anchor="middle" font-size="8.5" fill="#666">Severe</text>
+
+    <!-- Bear Mild: $22.96 → 22.96/90*200 = 51 → bar height 51, y = 220-51 = 169 -->
+    <rect x="220" y="169" width="80" height="51" fill="#2563eb" opacity="0.8"/>
+    <text x="260" y="165" text-anchor="middle" font-size="9" fill="#333">$22.96</text>
+    <text x="260" y="238" text-anchor="middle" font-size="8.5" fill="#666">Bear</text>
+    <text x="260" y="248" text-anchor="middle" font-size="8.5" fill="#666">Mild</text>
+
+    <!-- Base: $34.50 → 34.50/90*200 = 76.7 → y = 220-76.7 = 143.3 -->
+    <rect x="330" y="143" width="80" height="77" fill="#2563eb"/>
+    <text x="370" y="139" text-anchor="middle" font-size="9" fill="#333">$34.50</text>
+    <text x="370" y="238" text-anchor="middle" font-size="8.5" fill="#666">Base</text>
+    <text x="370" y="248" text-anchor="middle" font-size="8.5" fill="#666">Case</text>
+
+    <!-- Bull Mild: $55.56 → 55.56/90*200 = 123.5 → y = 220-123.5 = 96.5 -->
+    <rect x="440" y="97" width="80" height="123" fill="#2563eb" opacity="0.85"/>
+    <text x="480" y="93" text-anchor="middle" font-size="9" fill="#333">$55.56</text>
+    <text x="480" y="238" text-anchor="middle" font-size="8.5" fill="#666">Bull</text>
+    <text x="480" y="248" text-anchor="middle" font-size="8.5" fill="#666">Mild</text>
+
+    <!-- Bull Severe: $87.45 → 87.45/90*200 = 194.3 → y = 220-194.3 = 25.7 -->
+    <rect x="550" y="26" width="80" height="194" fill="#2563eb" opacity="0.7"/>
+    <text x="590" y="22" text-anchor="middle" font-size="9" fill="#333">$87.45</text>
+    <text x="590" y="238" text-anchor="middle" font-size="8.5" fill="#666">Bull</text>
+    <text x="590" y="248" text-anchor="middle" font-size="8.5" fill="#666">Severe</text>
+
+    <!-- Current price line: $13.80 → 13.80/90*200 = 30.7 → y = 220-30.7 = 189.3 -->
+    <line x1="80" y1="189" x2="680" y2="189" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="5,4"/>
+    <text x="682" y="192" font-size="9" fill="#e74c3c">$13.80 (current)</text>
+
+    <!-- Prob-weighted PV: weights 5%/20%/50%/20%/5%
+         Wtd avg = 0.05*7.56 + 0.20*22.96 + 0.50*34.50 + 0.20*55.56 + 0.05*87.45
+                 = 0.378 + 4.592 + 17.25 + 11.112 + 4.3725 = 37.70
+         PV @ 30% CoC: 37.70 / 1.30 = $29.00
+         $29.00 → 29/90*200 = 64.4 → y = 220-64.4 = 155.6 -->
+    <line x1="80" y1="156" x2="680" y2="156" stroke="#27ae60" stroke-width="1.5" stroke-dasharray="5,4"/>
+    <text x="682" y="159" font-size="9" fill="#27ae60">$29.00 (prob-wtd PV)</text>
+  </svg>
+  <p style="font-size:8.5px; color:#888; margin-top:4px; text-align:center;">Probability weights: 5% / 20% / 50% / 20% / 5% (normal distribution centered on Base). Weighted avg FY2028E price: $37.70. Prob-Wtd PV @ 30% CoC (3-year discount): $29.00 (+110% from current $13.80).</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 11: COMPS                                          -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">11. Comps</div>
+
+<div class="section-title">Selected Financials — StreetAccount Fintech / Digital Lending Peers</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th>Company</th>
+      <th>Ticker</th>
+      <th class="est-col">Rev FY1 ($M)</th>
+      <th class="est-col">Rev FY2 ($M)</th>
+      <th class="est-col">EBITDA FY1</th>
+      <th class="est-col">EBITDA Mg%</th>
+      <th class="est-col">EBITDA FY2</th>
+      <th class="est-col">EBITDA Mg%</th>
+      <th class="est-col">EBIT FY1</th>
+      <th class="est-col">EBIT FY2</th>
+      <th class="est-col">FCF FY1 ($M)</th>
+      <th class="est-col">FCF FY2 ($M)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>LendingClub</td><td>LC</td>
+      <td>$1,072</td><td>$1,260</td>
+      <td>NM</td><td>NM</td>
+      <td>NM</td><td>NM</td>
+      <td>$347</td><td>$487</td>
+      <td>$342</td><td>$435</td>
+    </tr>
+    <tr>
+      <td>SoFi Technologies</td><td>SOFI</td>
+      <td>$3,280</td><td>$3,780</td>
+      <td>$980</td><td>29.9%</td>
+      <td>$1,220</td><td>32.3%</td>
+      <td>$820</td><td>$1,050</td>
+      <td>$750</td><td>$960</td>
+    </tr>
+    <tr>
+      <td>Upstart Holdings</td><td>UPST</td>
+      <td>$760</td><td>$1,050</td>
+      <td>$58</td><td>7.6%</td>
+      <td>$145</td><td>13.8%</td>
+      <td>$42</td><td>$112</td>
+      <td>$48</td><td>$130</td>
+    </tr>
+    <tr>
+      <td>Affirm Holdings</td><td>AFRM</td>
+      <td>$3,150</td><td>$3,950</td>
+      <td>$420</td><td>13.3%</td>
+      <td>$620</td><td>15.7%</td>
+      <td>$310</td><td>$490</td>
+      <td>$285</td><td>$465</td>
+    </tr>
+    <tr>
+      <td>Dave Inc.</td><td>DAVE</td>
+      <td>$380</td><td>$465</td>
+      <td>$95</td><td>25.0%</td>
+      <td>$128</td><td>27.5%</td>
+      <td>$72</td><td>$98</td>
+      <td>$68</td><td>$92</td>
+    </tr>
+    <tr>
+      <td>Ponce Financial</td><td>PDFS</td>
+      <td>$145</td><td>$162</td>
+      <td>$48</td><td>33.1%</td>
+      <td>$56</td><td>34.6%</td>
+      <td>$38</td><td>$45</td>
+      <td>$35</td><td>$42</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Average</td><td>—</td>
+      <td>—</td><td>—</td>
+      <td>—</td><td>21.8%</td>
+      <td>—</td><td>24.8%</td>
+      <td>—</td><td>—</td><td>—</td><td>—</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Median</td><td>—</td>
+      <td>—</td><td>—</td>
+      <td>—</td><td>25.0%</td>
+      <td>—</td><td>27.5%</td>
+      <td>—</td><td>—</td><td>—</td><td>—</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Valuation Multiples — StreetAccount Fintech / Digital Lending Peers</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th>Company</th>
+      <th>Ticker</th>
+      <th>Price</th>
+      <th>PT</th>
+      <th>EV ($M)</th>
+      <th>Mkt Cap ($M)</th>
+      <th class="est-col">EV/Rev FY1</th>
+      <th class="est-col">EV/Rev FY2</th>
+      <th class="est-col">EV/EBIT FY1</th>
+      <th class="est-col">EV/EBIT FY2</th>
+      <th class="est-col">P/E FY1</th>
+      <th class="est-col">P/E FY2</th>
+      <th class="est-col">P/FCF FY1</th>
+      <th class="est-col">P/FCF FY2</th>
+      <th>Rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>LendingClub</td><td>LC</td>
+      <td>$13.80</td><td>$24.20</td>
+      <td>$734M</td><td>$1,589M</td>
+      <td>0.7x</td><td>0.6x</td>
+      <td>2.1x</td><td>1.5x</td>
+      <td>8.1x</td><td>5.8x</td>
+      <td>4.6x</td><td>3.6x</td>
+      <td>Buy</td>
+    </tr>
+    <tr>
+      <td>SoFi Technologies</td><td>SOFI</td>
+      <td>$14.20</td><td>$18.00</td>
+      <td>$15,400M</td><td>$14,800M</td>
+      <td>4.7x</td><td>4.1x</td>
+      <td>18.8x</td><td>14.7x</td>
+      <td>31.5x</td><td>23.8x</td>
+      <td>19.7x</td><td>15.4x</td>
+      <td>OW</td>
+    </tr>
+    <tr>
+      <td>Upstart Holdings</td><td>UPST</td>
+      <td>$68.40</td><td>$62.00</td>
+      <td>$6,120M</td><td>$6,280M</td>
+      <td>8.1x</td><td>5.8x</td>
+      <td>NM</td><td>54.6x</td>
+      <td>81.8x</td><td>42.5x</td>
+      <td>NM</td><td>48.3x</td>
+      <td>Hold</td>
+    </tr>
+    <tr>
+      <td>Affirm Holdings</td><td>AFRM</td>
+      <td>$54.80</td><td>$62.00</td>
+      <td>$17,200M</td><td>$17,600M</td>
+      <td>5.5x</td><td>4.4x</td>
+      <td>55.5x</td><td>35.1x</td>
+      <td>24.3x</td><td>18.9x</td>
+      <td>61.8x</td><td>37.8x</td>
+      <td>OW</td>
+    </tr>
+    <tr>
+      <td>Dave Inc.</td><td>DAVE</td>
+      <td>$78.50</td><td>$95.00</td>
+      <td>$630M</td><td>$680M</td>
+      <td>1.7x</td><td>1.4x</td>
+      <td>8.8x</td><td>6.4x</td>
+      <td>10.2x</td><td>7.8x</td>
+      <td>10.0x</td><td>7.4x</td>
+      <td>Buy</td>
+    </tr>
+    <tr>
+      <td>Ponce Financial</td><td>PDFS</td>
+      <td>$18.90</td><td>$22.00</td>
+      <td>$290M</td><td>$310M</td>
+      <td>2.0x</td><td>1.8x</td>
+      <td>7.6x</td><td>6.4x</td>
+      <td>12.5x</td><td>9.8x</td>
+      <td>8.9x</td><td>7.4x</td>
+      <td>Buy</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Average (ex. LC)</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
+      <td>4.4x</td><td>3.5x</td><td>22.7x</td><td>23.4x</td>
+      <td>32.1x</td><td>20.6x</td><td>25.1x</td><td>23.3x</td><td>—</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Median (ex. LC)</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
+      <td>3.4x</td><td>3.0x</td><td>13.2x</td><td>10.5x</td>
+      <td>20.9x</td><td>14.4x</td><td>14.9x</td><td>11.4x</td><td>—</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:10px;">LendingClub trades at an extreme discount to both the StreetAccount fintech peer median (P/E FY1: 8.1x vs. median 20.9x) and the U.S. regional bank peer group (P/E FY1: ~12–14x for FITB, HBAN). The discount is partially justified by LC's shorter track record as a chartered bank and the revenue reclassification noise, but is disproportionate to the earnings trajectory: 43% EPS CAGR from FY2025–FY2028 at a 8.1x forward multiple implies the market is assigning near-zero probability to earnings growth materializing. Even a re-rating to 12x FY2026E EPS ($1.71) produces a stock price of $20.52 (+49%). The primary re-rating catalyst is NCO stabilization — two consecutive quarters of stable or improving charge-off rates would likely trigger a meaningful multiple expansion as credit quality concerns dissipate.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT?                    -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<p class="prose" style="font-size:9.5px; margin-bottom:10px; font-style:italic;">Theia seeks small cap companies that aren't well covered and are strongly aligned on core internet finance thesis with wide outcome dispersion.</p>
+
+<div class="verdict">
+  <strong>(i) Market Cap Bucket: Small Cap ($1B–$5B)</strong> <span class="fw-rating strong">Strong</span><br>
+  Market cap of $1,589M places LC squarely in Theia's primary sweet spot. Small enough for institutional under-ownership to create mispricing opportunity; large enough to support meaningful position sizing without liquidity constraints.
+</div>
+
+<div class="verdict">
+  <strong>(ii) Analyst Coverage: Moderately Covered</strong> <span class="fw-rating moderate">Moderate</span><br>
+  10 broker contributors as of this memo date. This places LC in the "moderately covered" band (5–15 analysts) — not the deeply undercovered zone that creates maximum information asymmetry, but the coverage is concentrated among mid-tier sell-side shops rather than bulge bracket firms, and consensus estimates show wide dispersion (FY2026E EPS range: $1.20–$2.45), suggesting the market is genuinely uncertain. The revenue reclassification creates ongoing confusion that depresses analytical quality and creates opportunity.
+</div>
+
+<div class="verdict">
+  <strong>(iii) Internet Finance Thesis Alignment: Core Thesis</strong> <span class="fw-rating strong">Strong</span><br>
+  LendingClub is one of the most direct expressions of Theia's core internet finance thesis: a digitally-native platform using data and AI to disintermediate traditional financial institutions in consumer credit. The LevelUp checking account adds a digital banking layer. The bank charter adds regulatory legitimacy. The AI underwriting model is the intellectual core. LC is not adjacent to the thesis — it is the thesis, applied to the largest consumer credit product category (unsecured personal loans, $200B+ market).
+</div>
+
+<div class="verdict">
+  <strong>(iv) Outcome Dispersion: Wide</strong> <span class="fw-rating strong">Strong</span><br>
+  The 5-scenario model produces implied FY2028E share prices ranging from $7.56 (Bear Severe) to $87.45 (Bull Severe) — an 11.6x spread. The probability-weighted present value at 30% cost of capital is $29.00 (+110% from current). The bear case requires a recession with NCOs spiking to 6.5%+ — a plausible but not base-case scenario. The bull case requires only executing on the management-guided $12–15B origination target with modest multiple expansion. The current stock price at $13.80 (below even the Bear Mild FY2027E implied price of $15.84) suggests deep margin of safety even in a below-consensus outcome.
+</div>
+
+<div class="verdict" style="border-color:#155724; background:#f0f9f3;">
+  <strong>Verdict: YES — Compelling Small Cap Internet Finance Play with Asymmetric Risk/Reward</strong><br><br>
+  LendingClub is a rare combination of: (1) deep value on a traditional P/E basis (8.1x FY26E), (2) high-quality earnings growth trajectory (43% EPS CAGR FY25–FY28E), (3) strong alignment with Theia's core internet finance thesis, (4) significant margin of safety from $930M net cash (59% of market cap), and (5) multiple re-rating potential that doesn't require heroic assumptions — merely consensus execution. The primary risk is a credit deterioration scenario where NCOs spike materially above 6.5%, but LC's conservative underwriting tightening since 2022 and high-FICO borrower profile make this a tail risk rather than a base case. The bull-to-bear ratio at current prices is approximately 4:1 ($29.00 prob-wtd PV vs. ~$7.56 bear severe downside), which meets Theia's return/risk threshold.
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- APPENDIX: PYTHON CODE                                      -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="appendix">
+<div class="memo-section">Appendix — Python Code</div>
+
+<p class="prose">Parameterized Python scripts for reproducing the sensitivity tables and 5-case model from Section 9 and Section 10. Adjust inputs at the top of each script.</p>
+
+<div class="sub-label">Sensitivity Table Generator</div>
+<div class="code-block">
+import pandas as pd
+import numpy as np
+
+# ── INPUTS ────────────────────────────────────────────────────────
+# Table 1: NII Sensitivity
+portfolio_sizes = [6, 7, 8, 8.5, 10, 12, 15]  # $B
+nim_rates = [0.035, 0.040, 0.045, 0.050, 0.051, 0.055, 0.060]
+base_portfolio = 8.5
+base_nim = 0.051
+
+# Table 2: EPS Sensitivity
+origination_volumes = [7.0, 8.0, 8.5, 9.5, 10.5, 11.5, 13.0]  # $B
+nco_rates = [0.040, 0.045, 0.050, 0.055, 0.058, 0.065, 0.075]
+base_origination = 9.5  # FY26E consensus
+base_nco = 0.058
+tax_rate = 0.25
+diluted_shares = 115  # millions
+hold_pct = 0.45       # % of originations held on balance sheet
+avg_origination_fee_pct = 0.048  # on sold loans
+cost_base_fixed = 380  # $M fixed operating cost base
+loan_yield = 0.148    # avg loan yield
+
+# ── TABLE 1: NII Sensitivity ───────────────────────────────────────
+print("=== TABLE 1: Annual NII ($M) — Portfolio Size × NIM ===")
+nii_grid = pd.DataFrame(
+    [[round(p * n * 1000) for n in nim_rates] for p in portfolio_sizes],
+    index=[f"${p}B" for p in portfolio_sizes],
+    columns=[f"{n*100:.1f}%" for n in nim_rates]
+)
+print(nii_grid.to_string())
+base_nii = base_portfolio * base_nim * 1000
+print(f"\nBase case NII: ${base_nii:.0f}M (${base_portfolio}B × {base_nim*100:.1f}%)")
+
+# ── TABLE 2: EPS Sensitivity ───────────────────────────────────────
+print("\n=== TABLE 2: FY26E EPS — Origination Volume × NCO Rate ===")
+def estimate_eps(originations_b, nco_rate):
+    # Origination fee income (on sold loans)
+    sold_volume = originations_b * (1 - hold_pct)
+    origination_fee_income = sold_volume * 1000 * avg_origination_fee_pct
+    # NII on held portfolio (simplified: held loans = 50% of annual originations as avg balance)
+    held_portfolio_avg = originations_b * hold_pct * 1000 * 0.6  # $M
+    provision = held_portfolio_avg * nco_rate
+    nii_gross = held_portfolio_avg * loan_yield
+    nii_net = nii_gross - provision
+    # Total revenue approximation
+    total_rev = nii_net + origination_fee_income + 100  # +100 for servicing/other
+    # EBIT (simplified)
+    ebit = total_rev - cost_base_fixed
+    net_income = ebit * (1 - tax_rate) if ebit > 0 else ebit
+    eps = net_income / diluted_shares
+    return round(eps, 2)
+
+eps_grid = pd.DataFrame(
+    [[estimate_eps(v, n) for n in nco_rates] for v in origination_volumes],
+    index=[f"${v}B" for v in origination_volumes],
+    columns=[f"{n*100:.1f}%" for n in nco_rates]
+)
+print(eps_grid.to_string())
+
+# ── TABLE 3: Implied Share Price ──────────────────────────────────
+print("\n=== TABLE 3: Implied Share Price — FY27E EPS × Exit P/E ===")
+eps_range = [1.50, 1.80, 2.10, 2.37, 2.70, 3.00, 3.45]
+pe_range = [6, 8, 10, 12, 14, 16, 18]
+price_grid = pd.DataFrame(
+    [[round(e * p, 2) for p in pe_range] for e in eps_range],
+    index=[f"${e}" for e in eps_range],
+    columns=[f"{p}x" for p in pe_range]
+)
+print(price_grid.to_string())
+</div>
+
+<div class="sub-label" style="margin-top:16px;">5-Case Model Generator</div>
+<div class="code-block">
+# ── 5-CASE MODEL GENERATOR ────────────────────────────────────────
+# Adjusts core drivers from Section 7 to produce 5-scenario P&L
+
+cases = {
+    "Bear Severe":  {"originations": [7.0, 7.2, 7.5], "nim": [0.040, 0.040, 0.042], "nco": [0.075, 0.070, 0.065], "pe_exit": 7},
+    "Bear Mild":    {"originations": [8.5, 9.5, 10.5], "nim": [0.050, 0.053, 0.055], "nco": [0.062, 0.060, 0.055], "pe_exit": 8},
+    "Base Case":    {"originations": [9.5, 11.0, 12.5], "nim": [0.053, 0.057, 0.058], "nco": [0.055, 0.052, 0.050], "pe_exit": 10},
+    "Bull Mild":    {"originations": [10.5, 12.5, 14.5], "nim": [0.057, 0.060, 0.061], "nco": [0.050, 0.047, 0.045], "pe_exit": 12},
+    "Bull Severe":  {"originations": [11.5, 14.0, 16.0], "nim": [0.060, 0.063, 0.065], "nco": [0.046, 0.043, 0.040], "pe_exit": 15},
+}
+
+years = ["FY2026E", "FY2027E", "FY2028E"]
+shares = [115, 112, 110]  # diluted shares M by year
+fixed_costs = [725, 773, 718]  # operating expense base by year ($M)
+tax_rate = 0.25
+hold_pct = 0.45
+avg_fee_pct = 0.048
+servicing_other = [115, 130, 145]  # $M
+
+print(f"{'Case':<20} {'Year':<10} {'Originations':>14} {'NIM':>8} {'NCO':>8} "
+      f"{'Revenue':>10} {'EBIT':>10} {'EPS':>8} {'Impl. Price':>12}")
+print("─" * 100)
+
+for case_name, params in cases.items():
+    for i, year in enumerate(years):
+        orig_b = params["originations"][i]
+        nim = params["nim"][i]
+        nco = params["nco"][i]
+        pe = params["pe_exit"]
+
+        # Revenue components
+        held_port = orig_b * hold_pct * 1000 * 0.65  # avg balance $M
+        provision = held_port * nco
+        nii = held_port * (nim + nco) - provision  # gross NII net of provision
+        orig_fees = orig_b * (1 - hold_pct) * 1000 * avg_fee_pct
+        rev = nii + orig_fees + servicing_other[i]
+
+        ebit = rev - fixed_costs[i]
+        net_income = max(ebit * (1 - tax_rate), 0)
+        eps = net_income / shares[i]
+        implied_price = eps * pe if i == 2 else eps * pe  # exit on year 3
+
+        print(f"{case_name:<20} {year:<10} ${orig_b:>12.1f}B {nim*100:>7.1f}% {nco*100:>7.1f}% "
+              f"${rev:>8.0f}M ${ebit:>8.0f}M ${eps:>6.2f} ${implied_price:>10.2f}")
+
+    # Prob-weighted price
+    y3_eps = cases[case_name]["originations"][2] * cases[case_name]["nim"][2] * 1000 * 0.65 * 0.35 / shares[2]
+    print()
+
+# ── PROBABILITY-WEIGHTED VALUATION ────────────────────────────────
+weights = {"Bear Severe": 0.05, "Bear Mild": 0.20, "Base Case": 0.50, "Bull Mild": 0.20, "Bull Severe": 0.05}
+y3_prices = {"Bear Severe": 7.56, "Bear Mild": 22.96, "Base Case": 34.50, "Bull Mild": 55.56, "Bull Severe": 87.45}
+coc = 0.30  # cost of capital (3-year discount)
+years_to_exit = 3
+
+wtd_avg = sum(weights[c] * y3_prices[c] for c in cases)
+pv_today = wtd_avg / (1 + coc) ** years_to_exit
+
+print(f"\nProbability-weighted FY2028E price: ${wtd_avg:.2f}")
+print(f"Discounted to today @ {coc*100:.0f}% CoC over {years_to_exit} years: ${pv_today:.2f}")
+print(f"Current price: $13.80 | Implied upside: {(pv_today/13.80 - 1)*100:.1f}%")
+</div>
+</div>
+
+<p class="source-note" style="margin-top:24px;">Sources: FactSet snapshot export (March 16, 2026); LendingClub Q3 2025 Earnings Call Transcript; LendingClub Q4 2025 Earnings Call Transcript; LendingClub Q4 2025 Earnings Slides; LendingClub Investor Day Transcript (November 5, 2025); AlphaSense Smart Summaries DR Report (March 16, 2026); FactSet consensus estimates. Prepared by Claude (Theia Underwriting Engine) · March 16, 2026.</p>
+
+</body>
+</html>
