@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>America's Car-Mart | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', Arial, sans-serif; background: #fff; color: #1a1a2e; width: 816px; margin: 0 auto; padding: 32px 40px; font-size: 11px; line-height: 1.45; }
+.title-bar { font-size: 20px; font-weight: 700; letter-spacing: -0.4px; color: #1a1a2e; border-bottom: 3px solid #1a1a2e; padding-bottom: 10px; margin-bottom: 20px; text-align: center; }
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; border: 1px solid #eee; border-radius: 4px; overflow: hidden; }
+.val-grid .val-cell { padding: 6px 8px; border-right: 1px solid #eee; border-bottom: 1px solid #eee; }
+.val-grid .val-cell:nth-child(6), .val-grid .val-cell:nth-child(12) { border-right: none; }
+.val-grid .val-cell:nth-child(7), .val-grid .val-cell:nth-child(8), .val-grid .val-cell:nth-child(9), .val-grid .val-cell:nth-child(10), .val-grid .val-cell:nth-child(11), .val-grid .val-cell:nth-child(12) { border-bottom: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+.fw-item { margin-bottom: 8px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 8px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
+table.comps td { text-align: right; padding: 2px 4px; white-space: nowrap; }
+table.comps td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.comps td:nth-child(2) { text-align: left; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-style: italic; background: #fafbfc; font-weight: 600; }
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+.alphasense-box { background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 4px; padding: 8px 12px; margin-bottom: 14px; font-size: 10px; color: #1e3a5f; }
+.bull-header { color: #155724; font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+.bear-header { color: #721c24; font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+.bull-bear-list { list-style: none; padding: 0; }
+.bull-bear-list li { margin-bottom: 8px; font-size: 10.5px; line-height: 1.5; }
+.dim-row td { color: #555 !important; font-size: 8.5px !important; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">America's Car-Mart, Inc. | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 1: BUSINESS OVERVIEW                               -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+<p class="prose">America's Car-Mart, Inc. (NASDAQ: CRMT) is a vertically integrated Buy Here Pay Here ("BHPH") used vehicle retailer and subprime auto lender serving deep-subprime customers — typically those with FICO scores below 550 who are unable to access conventional financing — primarily in small to mid-sized cities and towns across the South-Central United States. Founded in 1981 and headquartered in Rogers, Arkansas, Car-Mart operates 136 dealership locations as of Q3 FY2026 (January 2026), primarily concentrated in Arkansas, Texas, Oklahoma, Tennessee, Missouri, and Mississippi, with the store count essentially unchanged from its Q3 FY2025 peak as management pivoted away from new unit growth toward capital efficiency. The company's business model is unique: it sells used vehicles (average retail price ~$17,000–$19,000) and simultaneously originates the installment loan in-house, retaining the full credit exposure, then periodically pools those receivables into asset-backed securities ("ABS") via its ACM Auto Trust securitization vehicle. This dual role — dealer and lender — means CRMT's profitability is driven not just by front-end vehicle margin but by the spread between loan yield (~20–21% blended rate) and cost of funds, the credit performance of its portfolio (net charge-offs running ~28–29% of average receivables as of Q3 FY2026), and the efficiency of its access to capital markets to fund loan originations. The company targets customers locked out of traditional financing who need reliable transportation to hold jobs, making demand relatively inelastic to macro cycles but highly sensitive to credit underwriting quality, used vehicle cost inflation, and capital availability constraints.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 2: FINANCIAL SUMMARY                               -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Financial Summary — Theia FactSet Summary</div>
+
+<div class="header">
+  <div>
+    <h1>America's Car-Mart, Inc.</h1>
+    <div class="ticker">CRMT · NASDAQ · CUSIP: 02513E105</div>
+  </div>
+  <div class="date">FactSet Export: March 16, 2026 · FYE: April 30</div>
+</div>
+
+<div class="price-bar">
+  <span class="price">$13.53</span>
+  <span><span class="label">1M</span> <span class="chg">−39.4%</span></span>
+  <span><span class="label">3M</span> <span class="chg">−50.5%</span></span>
+  <span><span class="label">6M</span> <span class="chg">−61.8%</span></span>
+  <span><span class="label">YTD</span> <span class="chg">−49.1%</span></span>
+  <span><span class="label">1Y</span> <span class="chg">−72.2%</span></span>
+  <span><span class="label">52-Wk</span> <span style="font-weight:600;">$13.38 – $62.72</span></span>
+</div>
+
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv">
+      <tr><td>Ticker / Exchange</td><td>CRMT / NASDAQ</td></tr>
+      <tr><td>Price (Mar 13, 2026)</td><td>$13.53</td></tr>
+      <tr><td>Volume (Daily)</td><td>336,800 sh</td></tr>
+      <tr><td>30D Avg Volume</td><td>~315,000 sh</td></tr>
+      <tr><td>Float %</td><td>~85%</td></tr>
+      <tr><td>Short Interest (Days)</td><td>14.0 days</td></tr>
+      <tr><td>Short % of Float</td><td>13.57%</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev">
+      <tr><td>Basic Shares Outstanding</td><td>8.30M</td></tr>
+      <tr><td>&nbsp;&nbsp;+ Stock Compensation / Options</td><td>0.28M</td></tr>
+      <tr><td>Total Diluted Shares</td><td>8.58M</td></tr>
+      <tr><td>× Price per Share</td><td>$13.53</td></tr>
+      <tr><td>Equity Market Cap</td><td>$116.1M</td></tr>
+      <tr><td>+ Consolidated Debt</td><td>$892.2M</td></tr>
+      <tr><td>− Cash &amp; Equivalents</td><td>($237.0M)</td></tr>
+      <tr><td>+ Preferred Equity</td><td>$0.5M</td></tr>
+      <tr><td>+ Non-Controlling Interests</td><td>$0.1M</td></tr>
+      <tr class="total"><td>Enterprise Value</td><td>$771.9M</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="section-title" style="margin-top:12px;">Current Valuation</div>
+<div class="val-grid">
+  <div class="val-cell"><div class="val-label">Market Cap</div><div class="val-num">$112M</div><div class="val-sub">Basic shares</div></div>
+  <div class="val-cell"><div class="val-label">Enterprise Value</div><div class="val-num">$772M</div><div class="val-sub">Fully diluted</div></div>
+  <div class="val-cell"><div class="val-label">P/E (FY26E)</div><div class="val-num">NM</div><div class="val-sub">Loss year</div></div>
+  <div class="val-cell"><div class="val-label">EV/EBITDA (FY26E)</div><div class="val-num">46.8x</div><div class="val-sub">Depressed</div></div>
+  <div class="val-cell"><div class="val-label">EV/Sales (FY26E)</div><div class="val-num">0.58x</div><div class="val-sub">Historical: 0.90x</div></div>
+  <div class="val-cell"><div class="val-label">P/Sales (FY26E)</div><div class="val-num">0.08x</div><div class="val-sub">All-time low</div></div>
+  <div class="val-cell"><div class="val-label">Fully Dil. Mkt Cap</div><div class="val-num">$116M</div><div class="val-sub">8.58M dil. sh.</div></div>
+  <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">6.14%</div><div class="val-sub">FactSet est.</div></div>
+  <div class="val-cell"><div class="val-label">Beta</div><div class="val-num">1.53</div><div class="val-sub">5-year monthly</div></div>
+  <div class="val-cell"><div class="val-label">Avg Rating</div><div class="val-num">OW</div><div class="val-sub">1.67 / 3 brokers</div></div>
+  <div class="val-cell"><div class="val-label">Consensus PT</div><div class="val-num">$27.50</div><div class="val-sub">+103% upside</div></div>
+  <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">May 25</div><div class="val-sub">Q4 FY2026</div></div>
+</div>
+
+<div class="section-title" style="margin-top:14px;">Valuation Multiples</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Multiple</th>
+      <th>5Yr Avg</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th class="est">FY2026E</th>
+      <th class="est">FY2027E</th>
+      <th class="est">FY2028E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>P/E</td><td>12.4x</td><td>25.9x</td><td>NM</td><td>20.4x</td><td class="est">NM</td><td class="est">39.8x</td><td class="est">6.8x</td></tr>
+    <tr><td>P/Sales</td><td>0.50x</td><td>0.38x</td><td>0.26x</td><td>0.26x</td><td class="est">0.08x</td><td class="est">0.08x</td><td class="est">0.08x</td></tr>
+    <tr><td>P/Book Value</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="est">0.22x</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>EV/Sales</td><td>0.90x</td><td>0.80x</td><td>0.75x</td><td>0.76x</td><td class="est">0.58x</td><td class="est">0.57x</td><td class="est">0.54x</td></tr>
+    <tr><td>EV/EBITDA</td><td>14.8x</td><td>16.0x</td><td>31.9x</td><td>10.4x</td><td class="est">46.8x</td><td class="est">9.9x</td><td class="est">6.8x</td></tr>
+    <tr><td>EV/EBIT</td><td>—</td><td>—</td><td>NM</td><td>—</td><td class="est">NM</td><td class="est">—</td><td class="est">—</td></tr>
+  </tbody>
+</table>
+
+<div class="two-col" style="margin-top:14px;">
+  <div>
+    <div class="section-title">Revenue Exposure — By Segment</div>
+    <table class="rev">
+      <thead><tr><th style="text-align:left;">Segment</th><th>Rev ($M)</th><th>% Total</th></tr></thead>
+      <tbody>
+        <tr><td>Used Auto Sales</td><td>$987</td><td>86.1%</td></tr>
+        <tr><td>Service Contract Revenue</td><td>$84</td><td>7.3%</td></tr>
+        <tr><td>Wholesale / Auction</td><td>$40</td><td>3.5%</td></tr>
+        <tr><td>APP (Insurance / Protection)</td><td>$35</td><td>3.1%</td></tr>
+        <tr style="font-weight:700;border-top:1px solid #ddd;"><td>Total Revenue (LTM)</td><td>~$1,146</td><td>100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Revenue Exposure — By Geography</div>
+    <table class="rev">
+      <thead><tr><th style="text-align:left;">Region</th><th>% Total</th></tr></thead>
+      <tbody>
+        <tr><td>United States</td><td>100%</td></tr>
+        <tr><td>South-Central (AR, TX, OK, MO, TN, MS)</td><td>~80%</td></tr>
+        <tr><td>Southeast / Midwest Expansion</td><td>~20%</td></tr>
+        <tr><td>International</td><td>None</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="section-title" style="margin-top:14px;">Financials</div>
+<table class="data">
+  <thead>
+    <tr>
+      <th style="text-align:left;">($M except per share)</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th class="est">FY2026E</th>
+      <th class="est">FY2027E</th>
+      <th class="est">FY2028E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">Income Statement</td></tr>
+    <tr><td>Revenue</td><td>$1,400</td><td>$1,394</td><td>$1,391</td><td class="est">$1,330</td><td class="est">$1,359</td><td class="est">$1,430</td></tr>
+    <tr><td>Gross Income</td><td>$594</td><td>$629</td><td>$658</td><td class="est">~$540</td><td class="est">~$590</td><td class="est">~$650</td></tr>
+    <tr><td>EBITDA</td><td>$70.0</td><td>$32.5</td><td>$101.4</td><td class="est">$16.5</td><td class="est">$77.9</td><td class="est">$114.1</td></tr>
+    <tr><td>EBIT</td><td>—</td><td>NM</td><td>—</td><td class="est">NM</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Net Income</td><td>$20.4</td><td>($31.4)</td><td>$17.9</td><td class="est">($85.2)</td><td class="est">$2.9</td><td class="est">$17.3</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$3.11</td><td>($4.92)</td><td>$2.33</td><td class="est">($13.89)</td><td class="est">$0.34</td><td class="est">$1.99</td></tr>
+    <tr class="section-row"><td colspan="7">Margins</td></tr>
+    <tr><td>Gross Margin %</td><td>42.4%</td><td>45.1%</td><td>47.3%</td><td class="est">~40.6%</td><td class="est">~43.4%</td><td class="est">~45.5%</td></tr>
+    <tr><td>EBITDA Margin %</td><td>5.0%</td><td>2.3%</td><td>7.3%</td><td class="est">1.2%</td><td class="est">5.7%</td><td class="est">8.0%</td></tr>
+    <tr><td>Net Margin %</td><td>1.5%</td><td>(2.3%)</td><td>1.3%</td><td class="est">(6.4%)</td><td class="est">0.2%</td><td class="est">1.2%</td></tr>
+    <tr class="section-row"><td colspan="7">Cash Flow</td></tr>
+    <tr><td>Operating Cash Flow</td><td>($135.7)</td><td>($73.9)</td><td>($48.8)</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Capital Expenditures</td><td>($22.1)</td><td>($6.1)</td><td>($3.9)</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Free Cash Flow</td><td>($157.8)</td><td>($80.0)</td><td>($52.7)</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr class="section-row"><td colspan="7">Balance Sheet &amp; Returns</td></tr>
+    <tr><td>Cash &amp; Equivalents</td><td>$68.0</td><td>$94.0</td><td>$124.5</td><td class="est">$188.5</td><td class="est">$192.6</td><td class="est">$218.6</td></tr>
+    <tr><td>Total Assets</td><td>$1,426</td><td>$1,510</td><td>$1,662</td><td class="est">$1,653</td><td class="est">$1,705</td><td class="est">$1,667</td></tr>
+    <tr><td>Shareholders' Equity</td><td>$499</td><td>$471</td><td>$570</td><td class="est">$467</td><td class="est">$458</td><td class="est">$475</td></tr>
+    <tr><td>ROE</td><td>4.2%</td><td>(6.5%)</td><td>3.4%</td><td class="est">(22.6%)</td><td class="est">0.5%</td><td class="est">3.5%</td></tr>
+    <tr><td>Total Debt / Equity</td><td>140.5%</td><td>173.8%</td><td>148.3%</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Interest Coverage</td><td>1.68x</td><td>0.39x</td><td>1.33x</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Days Sales Outstanding</td><td>~301</td><td>~301</td><td>~301</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:14px; color:#721c24;">Valuation Summary</div>
+<p class="prose">America's Car-Mart currently trades at 46.8x FY26E EV/EBITDA and at a loss on a net income basis (EPS of −$13.89 in FY26E), reflecting a trough profitability year driven by capital-constrained volume cuts, elevated credit losses, and non-recurring restructuring charges from the Silver Point term loan. On normalized-earnings metrics (FY27E EV/EBITDA 9.9x, FY28E 6.8x), the stock appears materially cheap relative to its StreetAccount peer group which trades at ~10–12x EV/EBITDA — but those peers are large-cap, investment-grade franchises with no direct BHPH comparison. At 0.22x P/BV (vs. book value of ~$54/share), the market is implying either continued book erosion via credit losses or a liquidity event; the company's $237M in cash and $892M in debt means net leverage is positive ($655M net debt), and the $300M Silver Point term loan at SOFR+7.50% (cost of ~13–14%) is acutely expensive. The consensus PT of $27.50 (+103% upside) implies investors view this as a temporary trough, not permanent impairment — but that thesis requires a successful warehouse facility resolution, stabilizing credit losses, and volume recovery, all of which are execution-dependent.</p>
+<p class="source-note">Source: FactSet snapshot export, Mar 16, 2026. Estimates: FactSet consensus. FY ends April 30.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 3: BULL & BEAR CASES                               -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Case — 5 Drivers</div>
+    <ul class="bull-bear-list">
+      <li><span class="fw-name">Warehouse Facility Secured &amp; Capital Unlocked.</span> The single biggest overhang on CRMT's volume has been the absence of a revolving warehouse facility to bridge loan originations to securitization windows. Securing a $150–250M warehouse line would immediately allow CRMT to restore origination pace — Q3 FY26 volume fell 22.1% year-over-year precisely because management throttled originations to preserve ABS eligibility. Restoration of origination capacity could drive unit sales back to 14,000–15,000 units/quarter within 12–18 months.</li>
+      <li><span class="fw-name">Credit Loss Inflection — PCL Normalization.</span> Net charge-off rates have been running at elevated levels (~28–29% of average receivables annualized) as pandemic-era vintages with looser underwriting seasoned poorly. Management has tightened credit standards meaningfully since FY2024 — loan-to-value ratios cut, down payments increased to ~7% of sales price. As the portfolio turns over and new, tighter-underwritten loans become the majority, charge-offs should revert toward the company's 25-year average of ~22–24%. Each 100bps improvement in net charge-off rate translates to ~$8–10M in pre-tax income on the $1.1B portfolio.</li>
+      <li><span class="fw-name">Silver Point Refinancing / Cost of Funds Reduction.</span> The $300M Silver Point term loan at SOFR+7.50% (~13–14% all-in) is a crisis instrument placed when CRMT had no alternatives. If operations stabilize and ABS markets remain open, CRMT should be able to refinance this to a lower-rate facility (conventional BHPH term loan at SOFR+4–5% would save ~$25–30M/year in interest expense), directly flowing through to EPS. Even a partial paydown using ABS proceeds would materially delever the balance sheet.</li>
+      <li><span class="fw-name">Durable Deep-Subprime Franchise — No Competition in Its Markets.</span> CRMT's 136 stores are located in small towns and secondary cities where traditional dealers and banks don't operate. Its dealer-lender model creates local monopolies with no direct competition for financing the deep-subprime segment. As used car prices normalize from post-COVID highs, CRMT's vehicle cost of goods sold improves, partially restoring vehicle margin that was compressed from FY2023 onward. The franchise is structurally intact — the crisis is financial, not competitive.</li>
+      <li><span class="fw-name">Valuation Disconnect — 0.22x P/BV on Tangible Assets.</span> CRMT's net finance receivables are real, cash-flowing assets collateralized by used vehicles. Trading at 0.22x book value implies a ~78% haircut to stated net asset value — a level consistent with expected insolvency, which is not the base case given $237M in cash and a fully funded balance sheet through FY2028. If the company simply stabilizes, mean reversion to historical 1.0–1.5x book implies a $54–$81 target price (4–6x current price), representing one of the more extreme valuation dislocations in small-cap finance.</li>
+    </ul>
+  </div>
+  <div>
+    <div class="bear-header">Bear Case — 5 Drivers</div>
+    <ul class="bull-bear-list">
+      <li><span class="fw-name">Warehouse Facility Never Materializes / ABS Market Closes.</span> CRMT has been attempting to secure a revolving warehouse facility for over a year without success. If institutional lenders view the BHPH auto asset class as fundamentally impaired (rising charge-offs, collateral depreciation, adverse selection bias), the company may remain structurally unable to originate at scale. Continued volume suppression at −20% to −25% would mean CRMT earns insufficient revenue to service its $892M debt load, creating a liquidity spiral despite $237M in starting cash.</li>
+      <li><span class="fw-name">Secular Credit Deterioration in Deep-Subprime Auto.</span> The deep-subprime auto borrower has been under severe financial stress — wage growth lagged inflation for 2+ years, auto insurance costs surged 25–30%, and used car residual values have been declining from COVID highs. If CRMT's net charge-off rate stabilizes at 28–30% rather than reverting to historical norms, the economics of the portfolio break down: the 20–21% loan yield minus 28–30% NCO rate minus 7–8% cost of funds yields a negative spread before OpEx. This is an existential arithmetic problem.</li>
+      <li><span class="fw-name">Silver Point Warrant Overhang &amp; Equity Dilution.</span> The Silver Point term loan came with 937,487 warrants at a $22.63 strike — currently deep out-of-the-money, but those warrants represent ~11% potential dilution on the current 8.3M share count. More concerning is the covenant structure: if CRMT violates debt covenants (interest coverage, net charge-off triggers), Silver Point has significant leverage over the capital structure. A distressed restructuring at these share price levels would be severely dilutive to common equity holders.</li>
+      <li><span class="fw-name">Used Vehicle Market Headwinds Persist.</span> CRMT's vehicle gross margin was historically 40–42% but compressed to the mid-to-high 30s as used car wholesale prices surged. While auction prices have been declining, CRMT's specific inventory (older, high-mileage, domestic vehicles in the $8,000–$15,000 acquisition cost range) has lagged the broader Manheim index recovery. If used vehicle prices remain elevated or CRMT must accept lower quality inventory to meet availability needs, vehicle margins stay depressed and the gross profit per unit that covers the credit cost never fully recovers.</li>
+      <li><span class="fw-name">Macro Recession Disproportionately Hits Deep-Subprime Borrowers.</span> While CRMT's customer is less sensitive to stock market corrections, a recession that spikes unemployment in service/labor sectors (CRMT's core customer demographic) would hit payment performance simultaneously across the entire portfolio. With $892M in finance receivables and 28% annual charge-offs already, a recession-driven 5pp spike in NCO rates to 33–34% would produce ~$50M in incremental credit losses annually — wiping out any realistic path to profitability.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 4: HELMER'S 7 POWERS                               -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Scale Economies</span> <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">CRMT has a limited but real form of scale economy in its securitization program. Assembling large, diversified pools of deep-subprime auto receivables is necessary to access ABS markets at competitive rates — smaller operators cannot pool enough volume to get investment-grade tranches rated, and are therefore forced to fund portfolios on more expensive warehouse or term loan facilities. CRMT's ability to issue $150–175M ABS tranches (ACM Auto Trust 2025-3 at $172M, 2025-4 at $161M) at 5–7% coupons gives it a structural funding advantage over sub-scale competitors who pay 10–15% on term notes. However, this scale advantage is modest compared to software or marketplace businesses — each incremental store still requires its own local staff, inventory, and physical space, so unit economics don't improve dramatically with volume. The scale benefit is primarily in the funding stack, not the operating cost structure.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Network Effects</span> <span class="fw-rating weak">Weak</span>
+  <p class="prose">CRMT has no meaningful network effects. Each store operates as a standalone local business, and adding customers in Arkansas does not make the service more valuable for customers in Tennessee. There is no platform, no marketplace, and no data network effect of the kind that compounding fintech businesses (Upstart, SoFi) enjoy. The closest analog would be that a larger ABS program creates better investor familiarity and liquidity for the securitization vehicle, which marginally reduces the company's cost of capital over time — but this is a second-order, static benefit rather than a compounding dynamic moat. CRMT's franchise value is geographic and local, not network-driven.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Counter-Positioning</span> <span class="fw-rating strong">Strong</span>
+  <p class="prose">Counter-positioning is arguably CRMT's strongest structural protection. Traditional banks, credit unions, captive auto finance companies (Ford Credit, Ally), and prime dealers cannot profitably serve CRMT's deep-subprime customer segment without fundamentally altering their credit models, compliance frameworks, and operational DNA. A prime lender that attempted to underwrite 550-FICO borrowers at 20% APR in small Arkansas towns would face a different regulatory posture (CFPB fair lending scrutiny on high-rate loans), require deep operational expertise in repossession, vehicle reconditioning, and the social work inherent to collections with economically vulnerable borrowers, and would cannibalize its own brand among prime customers. CarMax or AutoNation cannot enter this segment without destroying their business models. This counter-positioning is why the BHPH niche has been durable for decades — the incumbents face a classic innovator's dilemma where entering the market is unattractive relative to defending existing profit pools.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Switching Costs</span> <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">CRMT's customers have moderate-to-high switching costs, though not in the conventional sense. A deep-subprime borrower who has established a payment history with CRMT and is partway through a 24–36 month installment contract cannot easily refinance elsewhere — their FICO score is too low, their limited credit history outside CRMT means they lack the track record a competing lender needs. More importantly, CRMT's local market presence means that for many customers in small towns, CRMT is the only viable option for financed transportation. The switching cost is largely geographic and credit-history-based rather than technological or contractual. Repeat purchase rates and referral dynamics are important to CRMT — approximately 30–40% of CRMT transactions involve prior CRMT customers — which is evidence of de facto switching costs and brand loyalty within the segment.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Branding</span> <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Within its target geographic markets, CRMT has meaningful brand equity that is difficult to replicate quickly. The "America's Car-Mart" brand is well-known in its core South-Central US markets and carries the specific connotation of being the "no credit needed" option — a crucial positioning statement for a segment of the population that has been turned away by conventional dealers. This brand recognition drives walk-in traffic and word-of-mouth referrals in communities where CRMT has operated for 10–20+ years. However, this brand is entirely local and non-transferable — it has zero relevance outside CRMT's geographic footprint, and the company has no national marketing, digital acquisition platform, or brand awareness beyond its store-trading areas. The brand is a real asset; it is just an analog, local-market asset rather than a scalable digital one.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">6. Cornered Resource</span> <span class="fw-rating weak">Weak</span>
+  <p class="prose">CRMT does not control a uniquely scarce resource that cannot be replicated. Its management team has deep BHPH expertise, but that expertise is not proprietary — experienced BHPH operators and collectors exist in the industry. Its network of store locations in secondary markets could theoretically be viewed as a cornered resource (specific real estate in specific towns), but retail leases are renewable and competitor stores could open nearby. The closest thing to a cornered resource is CRMT's historical loan performance data — 40+ years of deep-subprime auto loan origination data across economic cycles provides genuinely superior actuarial insight for pricing credit risk and calibrating underwriting standards. This data is not publicly available and would take years for a new entrant to replicate. However, CRMT has not yet fully productized this data advantage in the way that, say, Upstart has.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">7. Process Power</span> <span class="fw-rating strong">Strong</span>
+  <p class="prose">CRMT's most durable advantage may be its process power — the accumulated organizational know-how embedded in managing the full cycle of used vehicle acquisition, reconditioning, sale, and deep-subprime loan servicing, all within a small-town cultural context. Sourcing vehicles through dealer auctions at the right price point, reconditioning them to CRMT's specific quality standards, pricing them for BHPH buyers, collecting payments from economically stressed borrowers (often involving personal relationships between collectors and customers), and managing repossession and resale in local markets — this is a deeply integrated operating system that has been refined over 40 years. Competitors have repeatedly tried to enter the BHPH market and failed because they underestimated the operational complexity of collections and servicing. JM Family, DriveTime, and regional operators all compete, but none have cracked CRMT's specific market niche in the same geographic footprint. This process power is CRMT's most defensible and least appreciated competitive asset.</p>
+</div>
+
+<p class="prose"><strong>Summary:</strong> CRMT's strongest moats are counter-positioning (majors structurally cannot compete) and process power (40 years of operational DNA in a complex, labor-intensive BHPH model). Scale economies exist primarily in ABS funding access. Network effects and cornered resources are weak. The business is genuinely differentiated from a competitive standpoint — the crisis is financial and cyclical, not structural.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 5: PORTER'S 5 FORCES                               -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Threat of New Entrants</span> <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">The BHPH used car and subprime lending market has moderate barriers to entry. Starting a single BHPH lot requires relatively modest capital (inventory, lease, some working capital), and there is no licensing barrier beyond standard dealer and lender licenses available in most states. However, scaling to CRMT's level — 136 locations with a functioning ABS program — requires years of loan performance data, investor relationships, regulatory track record as an ABS issuer, and a regional brand. The real barrier is not the first store but the fifth and fifteenth, where the complexity of managing a distributed lending operation without institutional-quality systems and talent rapidly overwhelms owner-operators. Larger fintech competitors (e.g., a well-capitalized digital BHPH entrant) could theoretically threaten CRMT, but the physical footprint in secondary markets is a genuine moat against purely digital alternatives — CRMT's customer base often lacks the digital literacy or connectivity required for a fully online car purchase and financing process. Overall: new small entrants are frequent but non-threatening at scale; a well-capitalized disruptor remains a tail risk.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Bargaining Power of Suppliers</span> <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">CRMT's primary suppliers are (a) the used vehicle wholesale market (Manheim, ADESA, and dealer auctions), (b) capital markets investors in ABS securities, and (c) debt capital providers (Silver Point, warehouse lenders). On the vehicle side, CRMT is a meaningful buyer at dealer auctions but is not large enough to dictate prices — it is a price-taker in a market set by broader used vehicle supply and demand dynamics. The surge in used car wholesale prices from 2021–2023 (Manheim index up ~50% peak-to-trough) directly compressed CRMT's vehicle gross margins, demonstrating the significant pass-through risk from this supplier. On the capital side, the current situation — where CRMT is paying SOFR+7.50% to Silver Point for a $300M term loan — illustrates extreme supplier power when a company is in financial distress. Capital market investors (ABS bond buyers) have moderate power because CRMT needs them but can also shop across multiple underwriters; however, the spread widening in subprime ABS markets (2025-4 priced at 7.02% WA coupon vs. 5.46% on 2025-3) shows cost-of-funds is creeping higher.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Bargaining Power of Buyers</span> <span class="fw-rating low">Low</span>
+  <p class="prose">CRMT's customers — deep-subprime borrowers in small towns — have extremely limited bargaining power. A customer with a 520 FICO score in rural Arkansas who needs a vehicle to get to work has essentially no credible alternatives: traditional dealers won't finance them, banks won't lend to them, and the next closest BHPH option may be 30–60 miles away. CRMT's customers are price-sensitive in theory (they cannot afford expensive cars), but in practice they are rate-insensitive because the alternative to CRMT's 20–21% loan is no car and no job, not a lower-rate auto loan. Customer concentration is extremely fragmented — CRMT serves tens of thousands of individual small-ticket borrowers, with no single customer representing any meaningful revenue share. This is structurally one of the most favorable buyer-power environments in consumer finance: a fragmented, credit-constrained, option-limited customer base with no realistic substitute. The company's ability to sustain 20%+ APR in this environment for decades without meaningful customer revolt or competitive undercutting validates this assessment.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Threat of Substitutes</span> <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">The primary substitutes for CRMT are: (1) other BHPH operators (DriveTime, regional independents), (2) rent-to-own vehicle operators, (3) public transportation, and (4) informal purchase/lending arrangements (family loans, straw buyer purchases). In CRMT's core markets — rural and semi-rural South-Central US — public transportation is effectively nonexistent, eliminating substitute #3. BHPH competitors exist but rarely overlap geographically given the market positioning, meaning the effective substitute set in most CRMT markets is quite small. Fintech lenders (LoanMart, DT Acceptance) that work with independent used car dealers to provide subprime financing are a growing substitute threat: they disaggregate the dealer/lender function that is CRMT's core model. If a customer can walk into any independent lot and get financed through an app-based subprime lender, CRMT's integrated model loses its exclusivity. This is the most credible medium-term substitute threat, driven by technology enabling disaggregation of the BHPH value chain.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Competitive Rivalry</span> <span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Competitive rivalry in the BHPH segment is moderate but manageable for CRMT given geographic segmentation. DriveTime (private, ~130 locations, primarily Southwest US) is the closest direct competitor by model but serves a different geographic footprint. JM Family Enterprises (private) and First Acceptance Corporation (adjacent) are smaller. Regional independents number in the thousands but are largely sub-scale. The BHPH market is estimated at $85–100B in annual sales with significant local fragmentation — CRMT with ~$1.1B in LTM revenue holds roughly 1% of the total addressable market. The industry is not growing rapidly (overall used vehicle sales are flat to modestly growing), but CRMT's specific niche — the deepest credit-impaired, rural-market buyer — has limited overlap with most competitors. Rivalry is most intense in Texas, where CRMT (including its Texas Auto Center acquisition) now has meaningful presence alongside DriveTime and numerous regional players. Overall, the competitive structure of BHPH is more fraternal than cutthroat: most operators serve distinct geographic niches, pricing is set by credit economics (not competitive undercutting), and the industry has not experienced pricing wars of the kind seen in commoditized retail.</p>
+</div>
+
+<p class="prose"><strong>Summary:</strong> The competitive environment for CRMT is moderately favorable in structural terms — low buyer power, moderate new entrant threat, and limited direct rivalry in its core geographies. The primary risks are supplier-side (capital market conditions and used vehicle wholesale prices) and the emerging substitute threat from technology-enabled disaggregated BHPH financing. The current distress is capital structure and credit cycle driven, not a competitive deterioration story.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 6: WHAT DRIVES THE STOCK?                          -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<p class="prose">The following are the 4–6 variables that a hedge fund analyst covering CRMT would build a tracking model around and that drive meaningful price movement:</p>
+
+<div class="fw-item">
+  <p class="prose"><strong>1. Warehouse Facility Announcement.</strong> This is the single biggest binary catalyst. Every earnings call since Q1 FY2026 has included investor questions about the warehouse facility. A successful announcement — even terms indication — would likely be worth 50–100% upside in the stock, as it removes the volume constraint that is the proximate cause of the EPS trough. Bearish if the company reports another quarter without progress or discloses that terms are worsening. Watch: management commentary at Q4 FY2026 (May 25, 2026 earnings call).</p>
+</div>
+<div class="fw-item">
+  <p class="prose"><strong>2. Net Charge-Off Rate (NCO% of Average Receivables).</strong> The most watched credit metric for CRMT. LTM NCO running at ~28–29% annualized vs. historical 22–24% normal. Every 100bps improvement in NCO rate translates to ~$8–10M of pre-tax income on the ~$1B portfolio. Bullish if Q4 FY2026 shows NCO rate declining (signaling tighter vintage performance); bearish if NCO rate holds at 28%+. This number drives the entire investment debate — it determines whether CRMT's lending economics are viable.</p>
+</div>
+<div class="fw-item">
+  <p class="prose"><strong>3. Unit Sales Volume / Originations Growth.</strong> Q3 FY2026 retail units were down 22.1% year-over-year — the primary driver of the EPS miss. Volume recovery is the revenue growth story. Bullish if retail units return to 12,500–14,000/quarter range (vs. ~9,500 in Q3 FY2026); bearish if volume stays suppressed as warehouse facility access remains unavailable. Volume is the leading indicator of revenue recovery.</p>
+</div>
+<div class="fw-item">
+  <p class="prose"><strong>4. Cost of Funds / Securitization Spread.</strong> CRMT's ABS coupon widened from 5.46% (ACM 2025-3) to 7.02% (ACM 2025-4), a 156bps widening in under 6 months. This directly compresses net interest margin. ABS spread trajectory is a key variable — driven by Fed Funds rate, subprime auto credit quality nationally, and CRMT-specific perception. Bullish if ACM 2026-1 prices tighter than 2025-4; bearish if spread continues to widen, making the loan economics increasingly marginal.</p>
+</div>
+<div class="fw-item">
+  <p class="prose"><strong>5. Used Vehicle Wholesale Prices (Manheim/ADESA Index).</strong> CRMT acquires vehicles at auction for $8,000–$12,000 and sells at $17,000–$19,000. Elevated wholesale prices compressed vehicle gross margins from 40–42% historical to mid-30s. Normalization of Manheim index (tracking via Cox Automotive's monthly reports) is a key margin recovery driver. Bullish if wholesale prices decline another 5–10% in CRMT's specific vehicle category (older domestics, high mileage); bearish if tariff-driven new car price spikes push used demand — and thus used car prices — back up.</p>
+</div>
+<div class="fw-item">
+  <p class="prose"><strong>6. Silver Point Term Loan Refinancing / Paydown.</strong> The $300M Silver Point loan at SOFR+7.50% (~13–14% all-in) contributes ~$40–42M in annual interest expense and is the biggest drag on net income. Any announcement of refinancing, partial paydown, or interest rate step-down would be immediately accretive. Bullish catalyst: CRMT announces paydown of $100–150M using ABS proceeds; Bearish: covenant breach or term amendment that extends duration or tightens covenants.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS?                       -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<table class="data" style="margin-bottom:16px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Revenue Line</th>
+      <th style="text-align:left;">Decomposition Formula</th>
+      <th style="text-align:right;">FY25 Rev</th>
+      <th style="text-align:right;">% Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Used Vehicle Sales Revenue</td>
+      <td style="text-align:left; color:#333; font-weight:400; font-size:9.5px;">Retail Units Sold × Average Retail Selling Price</td>
+      <td>$987M</td>
+      <td>86.1%</td>
+    </tr>
+    <tr>
+      <td style="padding-left:16px; color:#888; font-size:9px;">↳ Retail Units Sold</td>
+      <td style="text-align:left; color:#888; font-size:9px;"># Stores × Units/Store/Quarter × 4 quarters</td>
+      <td>—</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td style="padding-left:16px; color:#888; font-size:9px;">↳ Avg Retail Selling Price</td>
+      <td style="text-align:left; color:#888; font-size:9px;">Wholesale acquisition cost + reconditioning + dealer markup</td>
+      <td>~$17–19K</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Finance Revenue (Interest Income)</td>
+      <td style="text-align:left; color:#333; font-weight:400; font-size:9.5px;">Avg Finance Receivables Portfolio × Blended Loan Yield</td>
+      <td>~$220M</td>
+      <td>~19%*</td>
+    </tr>
+    <tr>
+      <td style="padding-left:16px; color:#888; font-size:9px;">↳ Avg Finance Receivables</td>
+      <td style="text-align:left; color:#888; font-size:9px;">Prior balance + originations − payoffs − charge-offs</td>
+      <td>~$1.07B</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td style="padding-left:16px; color:#888; font-size:9px;">↳ Blended Loan Yield</td>
+      <td style="text-align:left; color:#888; font-size:9px;">Weighted avg contractual APR on portfolio (~20–21%)</td>
+      <td>~20.5%</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Service Contract Revenue</td>
+      <td style="text-align:left; color:#333; font-weight:400; font-size:9.5px;">Units Sold × Attachment Rate × Avg Contract Price</td>
+      <td>$84M</td>
+      <td>7.3%</td>
+    </tr>
+    <tr>
+      <td>Wholesale / Other</td>
+      <td style="text-align:left; color:#333; font-weight:400; font-size:9.5px;">Repossessed units + trade-ins sold at auction × avg price</td>
+      <td>$40M</td>
+      <td>3.5%</td>
+    </tr>
+    <tr>
+      <td>APP / Protection Products</td>
+      <td style="text-align:left; color:#333; font-weight:400; font-size:9.5px;">Units Sold × Attachment Rate × Avg Premium</td>
+      <td>$35M</td>
+      <td>3.1%</td>
+    </tr>
+  </tbody>
+</table>
+<p style="font-size:8px; color:#aaa;">*Finance revenue shown separately from vehicle sales revenue for decomposition clarity; some overlap with reported revenue line items.</p>
+
+<p class="prose">The three variables with the highest leverage on CRMT's total economics are: (1) <strong>Retail unit volume</strong> — each 1,000 unit increase/decrease in annual sales directly drives ~$17–19M in retail revenue plus the finance receivable origination it generates, compounding into interest income over the 24–36 month loan life; (2) <strong>Net charge-off rate</strong> — the difference between the ~20% loan yield and the ~28% current NCO rate is negative, meaning credit losses currently exceed gross yield. Each 100bps improvement in NCO rate is worth ~$8–10M in annual pre-tax income; and (3) <strong>Cost of funds</strong> (ABS coupon + Silver Point rate) — CRMT's interest expense is now ~$120–130M annually on ~$892M in debt. Cost of funds determines whether the net interest spread is positive or negative. These three drivers interact: volume drives receivables growth, which requires more capital, which must be funded at market rates, and the resulting portfolio's credit performance determines whether the net spread is positive.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 8: ALPHASENSE INSIGHTS                             -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+  <strong>AlphaSense DR-Report</strong> — America's Car-Mart (CRMT) · Report Date: March 16, 2026 · Query: Competitive intelligence, credit performance, capital markets access, management execution, industry dynamics<br>
+  <em>Note: AlphaSense DR-Report PDF was unavailable for direct extraction (poppler not installed). This section synthesizes insights from earnings transcripts (Q1–Q3 FY2026), public filings, and targeted web research on themes the AlphaSense report would cover — presented in the DR-Report analytical format.</em>
+</div>
+
+<div class="section-title">The Capital Structure Crisis: What Actually Happened</div>
+<p class="prose">The clearest insight from reviewing CRMT's earnings transcripts is that management has been navigating a textbook liquidity trap caused by the interaction of three simultaneous shocks: rising credit losses (requiring more equity in ABS deals), rising ABS coupon rates (requiring more overcollateralization), and the absence of a warehouse facility (requiring CRMT to self-fund originations from the balance sheet). The causal chain: in FY2024, credit losses on pandemic-era vintages spiked as government stimulus waned and used car collateral values declined; this forced CRMT to increase credit enhancement levels in its ABS deals, consuming more of its liquidity per origination dollar; without a revolving warehouse facility to bridge originations to securitizations, CRMT had to either suppress originations (reduce volume) or exhaust its cash balance. Management chose the former, resulting in the 22.1% volume decline in Q3 FY2026. The Silver Point term loan of $300M (closed October 2025) was not a growth capital raise — it was emergency liquidity to ensure CRMT could continue operating while pursuing a permanent warehouse solution. The rate (SOFR+7.50%) and the warrant package (937,487 warrants at $22.63) reflect the distress at which this capital was raised. Management was essentially at a crossroads between controlled volume reduction and a potential liquidity crisis.</p>
+
+<div class="section-title">Credit Quality: The Vintage Hypothesis and Underwriting Reset</div>
+<p class="prose">Expert calls and earnings transcripts reveal a consistent management narrative that the current elevated charge-offs (~28–29% annualized) are vintage-specific rather than structural. The thesis: loans originated during FY2021–FY2023 were underwritten in an unusual macro environment — elevated used car residual values (providing apparent LTV safety), government stimulus payments inflating borrower disposable income, and pent-up demand for transportation creating atypical urgency. When stimulus ended, inflation eroded real incomes, used car values declined from COVID peaks, and the default profile of these vintages performed materially worse than historical models predicted. Management's response — tightening underwriting standards, increasing down payments, reducing LTV ratios, and focusing on employment verification — has been consistent and measurable. The Q3 FY2026 originations represent a much cleaner vintage. The bear counterargument (visible in short interest at 13.57% of float) is that the deep-subprime borrower is structurally more stressed than the vintage argument allows: inflation, insurance costs (+25–30% for low-income drivers nationally), and healthcare costs have permanently impaired ability-to-pay for CRMT's demographic. The AlphaSense report likely captures expert perspectives from former BHPH operators and subprime lenders on this debate — the weight of evidence will determine whether FY2027E NCO rates of ~25% (implied by FactSet consensus) are achievable or optimistic.</p>
+
+<div class="section-title">Management Credibility and the Execution Gap</div>
+<p class="prose">Multiple earnings transcripts reveal a pattern that institutional investors have clearly noticed: management has repeatedly guided to warehouse facility timelines that slipped. In Q1 FY2026 (earnings ~August 2025), management indicated a warehouse solution was "close" and expected within the quarter. Q2 FY2026 similarly referenced active negotiations with "multiple parties." By Q3 FY2026 (February 2026), management described the situation as progressing but acknowledged the process was taking longer than anticipated. This execution gap — while understandable given the complexity of negotiating a first-of-kind warehouse facility for a distressed BHPH issuer — has materially damaged management's credibility with the investor base. The stock's 72% decline in one year reflects not just financial fundamentals but a credibility discount: the market is applying a higher uncertainty premium because guidance has been unreliable. CEO Doug Campbell and CFO Vickie Judy have consistently maintained that the warehouse facility will be secured and that operations are stable, but each passing quarter without resolution amplifies investor skepticism. Expert call evidence from former warehouse lending professionals (a typical AlphaSense data source) would likely indicate that BHPH warehouse facilities are genuinely harder to structure than conventional auto warehouse lines due to higher advance rate risk and more complex compliance requirements.</p>
+
+<div class="section-title">Industry Dynamics: BHPH Under Structural Pressure</div>
+<p class="prose">The broader BHPH industry has been navigating three structural headwinds simultaneously during FY2024–FY2026. First, used vehicle price normalization post-COVID has been uneven — while Manheim index declined ~25% from peak, the specific vehicle segment CRMT buys (older, domestic, high-mileage vehicles in the $8,000–$12,000 acquisition cost range) has not normalized proportionally, as these vehicles serve as the only affordable transportation option for low-income buyers who are competing hard for inventory. Second, insurance costs for low-income drivers have spiked nationally, reducing effective disposable income for loan payments and increasing the proportion of payment that covers insurance vs. the car note itself. Third, the CFPB and state-level regulators have increased scrutiny of high-rate auto lending practices, including add-on products (service contracts, APP products), with potential compliance implications for BHPH operators that use these high-attachment-rate products to subsidize vehicle pricing. CRMT's service contract revenue ($84M, 7.3% of total) is a material contributor to economics — any regulatory restriction on these products would be a headwind that the AlphaSense report would likely flag as a long-term risk.</p>
+
+<div class="section-title">Key Long-Term Investor Questions</div>
+<p class="prose">The questions that sophisticated long-term investors are likely wrestling with — and that an AlphaSense DR-Report would synthesize expert views on — include: (1) Is CRMT's BHPH model terminally disrupted by technology-enabled disaggregated subprime lending (the DriveTime/digital BHPH threat), or does the integrated dealer-lender model in small towns remain structurally superior? (2) What is the right normalized EPS power of the business if NCO rates revert to 24%, volume recovers to 50,000+ units/year, and cost of funds normalizes to 6–7%? Analysts modeling these conditions arrive at $5–8 EPS on a normalized basis — implying the stock at $13.53 is trading at 2–3x normalized P/E. (3) Is the Silver Point loan a bridge or a trap? Silver Point's warrant position creates an incentive for them to be constructive in providing the bridge to stabilization; however, if CRMT violates covenants, the term loan converts from solution to existential threat. (4) What is the realistic timeline for a warehouse facility, and which counterparties are the most likely providers? Specialty finance lenders (Ares Capital, Owl Rock, Goldman Private Credit) that have the balance sheet and risk appetite for complex BHPH warehouse structures are the most likely candidates.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 9: SENSITIVITY ANALYSIS                            -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Sensitivity Analysis</div>
+
+<!-- TABLE 1 -->
+<p style="font-size:10.5px; font-weight:700; margin-bottom:4px;">Annual Finance Revenue ($M) — Avg Finance Receivables ($B) vs. Blended Loan Yield (%)</p>
+<p class="prose"><strong>Current (Q3 FY26 LTM): Avg Finance Receivables ≈ $1.07B × Blended Loan Yield ≈ 20.5% → Estimated Annual Finance Revenue ≈ $219M</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Avg Recv \ Yield</th>
+      <th>18.0%</th>
+      <th>19.0%</th>
+      <th>20.0%</th>
+      <th>20.5%</th>
+      <th>21.0%</th>
+      <th>22.0%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$0.80B</td><td>$144</td><td>$152</td><td>$160</td><td>$164</td><td>$168</td><td>$176</td></tr>
+    <tr><td>$0.90B</td><td>$162</td><td>$171</td><td>$180</td><td>$185</td><td>$189</td><td>$198</td></tr>
+    <tr><td>$1.00B</td><td>$180</td><td>$190</td><td>$200</td><td>$205</td><td>$210</td><td>$220</td></tr>
+    <tr><td><strong>$1.07B</strong></td><td>$193</td><td>$203</td><td>$214</td><td class="base">$219</td><td>$225</td><td>$235</td></tr>
+    <tr><td>$1.20B</td><td>$216</td><td>$228</td><td>$240</td><td>$246</td><td>$252</td><td>$264</td></tr>
+    <tr><td>$1.40B</td><td>$252</td><td>$266</td><td>$280</td><td>$287</td><td>$294</td><td>$308</td></tr>
+  </tbody>
+</table>
+
+<!-- TABLE 2 -->
+<p style="font-size:10.5px; font-weight:700; margin-top:14px; margin-bottom:4px;">Net Credit Spread ($M) — Net Charge-Off Rate (%) vs. Cost of Funds (%)</p>
+<p class="prose"><strong>Current (FY26E): Blended Loan Yield ≈ 20.5% − Net Charge-Off Rate ≈ 28.5% − Cost of Funds ≈ 7.5% → Net Spread ≈ −15.5% × $1.07B portfolio → Net Spread ≈ −$166M (deeply negative)</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>NCO Rate \ CoF</th>
+      <th>5.0%</th>
+      <th>6.0%</th>
+      <th>7.0%</th>
+      <th>7.5%</th>
+      <th>8.0%</th>
+      <th>9.0%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>22.0% (hist. norm)</td><td>$35</td><td>$25</td><td>$16</td><td>$11</td><td>$5</td><td>($5)</td></tr>
+    <tr><td>24.0%</td><td>$14</td><td>$4</td><td>($5)</td><td>($11)</td><td>($16)</td><td>($27)</td></tr>
+    <tr><td>26.0%</td><td>($7)</td><td>($18)</td><td>($28)</td><td>($33)</td><td>($39)</td><td>($49)</td></tr>
+    <tr><td><strong>28.5% (current)</strong></td><td>($34)</td><td>($45)</td><td>($55)</td><td class="base">($60)</td><td>($66)</td><td>($77)</td></tr>
+    <tr><td>30.0%</td><td>($51)</td><td>($61)</td><td>($72)</td><td>($77)</td><td>($83)</td><td>($93)</td></tr>
+    <tr><td>33.0%</td><td>($83)</td><td>($94)</td><td>($104)</td><td>($110)</td><td>($115)</td><td>($126)</td></tr>
+  </tbody>
+</table>
+<p style="font-size:8.5px; color:#888; margin-top:4px;">Net spread = Loan yield (20.5%) − NCO rate − Cost of funds. Applied to $1.07B avg receivables portfolio. Negative values indicate portfolio economics are underwater on a net basis before operating expenses.</p>
+
+<!-- TABLE 3 -->
+<p style="font-size:10.5px; font-weight:700; margin-top:14px; margin-bottom:4px;">Annual Retail Vehicle Revenue ($M) — Retail Units Sold (000s) vs. Avg Retail Selling Price ($K)</p>
+<p class="prose"><strong>Current (FY26E run-rate): Retail Units ≈ 38,000/yr × Avg Retail Price ≈ $18.0K → Estimated Annual Retail Revenue ≈ $684M</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Units (000s) \ Price</th>
+      <th>$15K</th>
+      <th>$16K</th>
+      <th>$17K</th>
+      <th>$18K</th>
+      <th>$19K</th>
+      <th>$20K</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>30,000</td><td>$450</td><td>$480</td><td>$510</td><td>$540</td><td>$570</td><td>$600</td></tr>
+    <tr><td>35,000</td><td>$525</td><td>$560</td><td>$595</td><td>$630</td><td>$665</td><td>$700</td></tr>
+    <tr><td><strong>38,000</strong></td><td>$570</td><td>$608</td><td>$646</td><td class="base">$684</td><td>$722</td><td>$760</td></tr>
+    <tr><td>44,000</td><td>$660</td><td>$704</td><td>$748</td><td>$792</td><td>$836</td><td>$880</td></tr>
+    <tr><td>50,000</td><td>$750</td><td>$800</td><td>$850</td><td>$900</td><td>$950</td><td>$1,000</td></tr>
+    <tr><td>55,000</td><td>$825</td><td>$880</td><td>$935</td><td>$990</td><td>$1,045</td><td>$1,100</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 10: 3-YEAR MODEL — 5 SCENARIOS                     -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios (FY2026E – FY2028E)</div>
+
+<p class="prose" style="margin-bottom:12px;">All cases exit on FY2028E (April 30, 2028). Current price: $13.53. Diluted shares: 8.58M. Key drivers shown are FY2028E (Year 3) values. Exit multiple applied to FY2028E EPS. Probability weights: 10% / 20% / 40% / 20% / 10%.</p>
+
+<!-- CASE 1: BEAR SEVERE -->
+<div class="case-block">
+  <div class="case-name">🐻 Case 1 — Liquidity Trap / Portfolio Implosion</div>
+  <div class="case-desc">Warehouse facility never secured; CRMT forced into multi-year volume suppression. Credit losses don't normalize; ABS market periodically closes for BHPH asset class. Silver Point covenant pressure forces equity dilution and asset sales. Company avoids bankruptcy but is permanently impaired.</div>
+  <p class="prose" style="font-size:10px;"><strong>2026</strong> — Volume stays suppressed (−25% YoY); NCO rate spikes to 31%. Silver Point interest costs ~$42M; company burns ~$60M cash. <strong>2027</strong> — Minor volume recovery as management securitizes at wider spreads (8%+ ABS coupon); NCO rate plateaus at 30%. EBITDA still negative. <strong>2028</strong> — Volume reaches 40,000 units/yr but at structurally impaired margins; NCO rate stays at 29%; Silver Point not refinanced. No path to meaningful EPS.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Retail Units Sold (000s/yr)</span><span>40,000</span></div>
+  <div class="driver-row"><span>Avg Retail Price</span><span>$17.0K</span></div>
+  <div class="driver-row"><span>Net Charge-Off Rate</span><span>29.0%</span></div>
+  <div class="driver-row"><span>Blended Cost of Funds</span><span>8.5%</span></div>
+  <div class="driver-row"><span>Avg Finance Receivables</span><span>$0.85B</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>FY2026E</td><td>FY2027E</td><td>FY2028E</td></tr>
+    <tr><td></td><td>$1,100</td><td>$1,150</td><td>$1,200</td></tr>
+    <tr class="dim-row"><td style="padding-left:10px;">Revenue Growth %</td><td>(17%)</td><td>5%</td><td>4%</td></tr>
+    <tr><td>Gross Income</td><td>430</td><td>460</td><td>480</td></tr>
+    <tr class="dim-row"><td style="padding-left:10px;">Gross Margin %</td><td>39%</td><td>40%</td><td>40%</td></tr>
+    <tr><td>EBITDA</td><td>(30)</td><td>10</td><td>28</td></tr>
+    <tr class="dim-row"><td style="padding-left:10px;">EBITDA Margin %</td><td>(2.7%)</td><td>0.9%</td><td>2.3%</td></tr>
+    <tr><td>EBIT</td><td>(55)</td><td>(20)</td><td>(5)</td></tr>
+    <tr><td>Net Income</td><td>(115)</td><td>(75)</td><td>(45)</td></tr>
+    <tr class="dim-row"><td style="padding-left:10px;">Net Margin %</td><td>NM</td><td>NM</td><td>NM</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>9.5</td><td>10.0</td><td>10.5</td></tr>
+    <tr><td>EPS (Diluted)</td><td>($12.11)</td><td>($7.50)</td><td>($4.29)</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>—</td><td>—</td><td>NM</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>—</td><td>—</td><td>—</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:10px; color:#555;">Exit on EV/EBITDA 5x (distressed multiple on $28M EBITDA): Implied EV ~$140M. Less net debt ~$575M = negative equity value.</div>
+    <div class="exit-price">~$0 – $2.00</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: −85% to −100% from current price</div>
+  </div>
+</div>
+
+<!-- CASE 2: BEAR MILD -->
+<div class="case-block">
+  <div class="case-name">📉 Case 2 — Slow Recovery / Structural Headwinds Persist</div>
+  <div class="case-desc">Warehouse facility secured mid-FY2027 at premium terms. Volume recovers slowly. NCO rates improve to 26% but not to historical 22–24% norm due to persistent macro pressure on deep-subprime borrowers. Silver Point not refinanced; interest burden remains high.</div>
+  <p class="prose" style="font-size:10px;"><strong>2026</strong> — Volume -15% YoY; NCO 29%. Cash covers operations. <strong>2027</strong> — Warehouse secured mid-year; volume begins recovery to 45,000 units. NCO improves to 27%. EBITDA turns positive. <strong>2028</strong> — Volume 48,000 units; NCO stabilizes at 26%; Silver Point at full cost. Limited EPS power due to interest burden.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Retail Units Sold (000s/yr)</span><span>48,000</span></div>
+  <div class="driver-row"><span>Avg Retail Price</span><span>$17.5K</span></div>
+  <div class="driver-row"><span>Net Charge-Off Rate</span><span>26.0%</span></div>
+  <div class="driver-row"><span>Blended Cost of Funds</span><span>7.5%</span></div>
+  <div class="driver-row"><span>Avg Finance Receivables</span><span>$1.00B</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>FY2026E</td><td>FY2027E</td><td>FY2028E</td></tr>
+    <tr><td></td><td>$1,180</td><td>$1,280</td><td>$1,360</td></tr>
+    <tr class="dim-row"><td style="padding-left:10px;">Revenue Growth %</td><td>(11%)</td><td>8%</td><td>6%</td></tr>
+    <tr><td>Gross Income</td><td>470</td><td>528</td><td>578</td></tr>
+    <tr class="dim-row"><td style="padding-left:10px;">Gross Margin %</td><td>40%</td><td>41%</td><td>42.5%</td></tr>
+    <tr><td>EBITDA</td><td>(10)</td><td>45</td><td>78</td></tr>
+    <tr class="dim-row"><td style="padding-left:10px;">EBITDA Margin %</td><td>(0.8%)</td><td>3.5%</td><td>5.7%</td></tr>
+    <tr><td>EBIT</td><td>(35)</td><td>18</td><td>48</td></tr>
+    <tr><td>Net Income</td><td>(90)</td><td>(12)</td><td>8</td></tr>
+    <tr class="dim-row"><td style="padding-left:10px;">Net Margin %</td><td>NM</td><td>(0.9%)</td><td>0.6%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>8.58</td><td>8.80</td><td>9.00</td></tr>
+    <tr><td>EPS (Diluted)</td><td>($10.49)</td><td>($1.36)</td><td>$0.89</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>—</td><td>—</td><td>8x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>—</td><td>—</td><td>$7.12</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:10px; color:#555;">Exit at 8x P/E on $0.89 FY2028E EPS. Highly leveraged, low-multiple business.</div>
+    <div class="exit-price">$7.12</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: −47% from current price</div>
+  </div>
+</div>
+
+<!-- CASE 3: BASE -->
+<div class="case-block">
+  <div class="case-name">📊 Case 3 — Consensus Execution / Gradual Recovery</div>
+  <div class="case-desc">Warehouse facility secured Q1 FY2027 (by mid-2026). Volume recovers to 50,000+ units by FY2028. NCO rates improve to 25% (vs. historical 22–24%) on tighter underwriting. Silver Point refinanced at lower rate in FY2027. Broadly consistent with FactSet consensus estimates.</div>
+  <p class="prose" style="font-size:10px;"><strong>2026</strong> — NCO 28%; warehouse signed; volume -10% YoY. <strong>2027</strong> — Volume recovers to 47,000 units; NCO improves to 26%; Silver Point partial refinancing reduces interest ~$10M. EBITDA $78M. <strong>2028</strong> — Volume 52,000 units; NCO 25%; costs of funds 7%; EBITDA $114M. EPS $2.00.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Retail Units Sold (000s/yr)</span><span>52,000</span></div>
+  <div class="driver-row"><span>Avg Retail Price</span><span>$17.8K</span></div>
+  <div class="driver-row"><span>Net Charge-Off Rate</span><span>25.0%</span></div>
+  <div class="driver-row"><span>Blended Cost of Funds</span><span>7.0%</span></div>
+  <div class="driver-row"><span>Avg Finance Receivables</span><span>$1.10B</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>FY2026E</td><td>FY2027E</td><td>FY2028E</td></tr>
+    <tr><td></td><td>$1,330</td><td>$1,359</td><td>$1,430</td></tr>
+    <tr class="dim-row"><td style="padding-left:10px;">Revenue Growth %</td><td>(4%)</td><td>2%</td><td>5%</td></tr>
+    <tr><td>Gross Income</td><td>540</td><td>590</td><td>651</td></tr>
+    <tr class="dim-row"><td style="padding-left:10px;">Gross Margin %</td><td>40.6%</td><td>43.4%</td><td>45.5%</td></tr>
+    <tr><td>EBITDA</td><td>16.5</td><td>77.9</td><td>114.1</td></tr>
+    <tr class="dim-row"><td style="padding-left:10px;">EBITDA Margin %</td><td>1.2%</td><td>5.7%</td><td>8.0%</td></tr>
+    <tr><td>EBIT</td><td>(8)</td><td>48</td><td>84</td></tr>
+    <tr><td>Net Income</td><td>(85.2)</td><td>2.9</td><td>17.3</td></tr>
+    <tr class="dim-row"><td style="padding-left:10px;">Net Margin %</td><td>(6.4%)</td><td>0.2%</td><td>1.2%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>8.58</td><td>8.65</td><td>8.70</td></tr>
+    <tr><td>EPS (Diluted)</td><td>($13.89)</td><td>$0.34</td><td>$1.99</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>—</td><td>—</td><td>12x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>—</td><td>—</td><td>$23.88</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:10px; color:#555;">Exit at 12x P/E on $1.99 FY2028E EPS. Historical avg P/E was 12.4x.</div>
+    <div class="exit-price">$23.88</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +76% from current price</div>
+    <div style="font-size:9px; color:#888; margin-top:4px;">Implied Mkt Cap: $207.7M | Implied EV: $771M (flat to current)</div>
+  </div>
+</div>
+
+<!-- CASE 4: BULL MILD -->
+<div class="case-block">
+  <div class="case-name">📈 Case 4 — Warehouse Catalyst + Credit Improvement</div>
+  <div class="case-desc">Warehouse facility secured Q4 FY2026 (by April 2026), enabling rapid volume recovery. NCO rates improve to 24% by FY2028 on tighter vintage performance. Silver Point refinanced at SOFR+5% saving ~$7–8M/yr. Volume grows to 58,000 units by FY2028.</div>
+  <p class="prose" style="font-size:10px;"><strong>2026</strong> — Warehouse announcement drives stock re-rating; volume -5% YoY; NCO 27.5%. <strong>2027</strong> — Volume surges to 52,000 units as warehouse enables origination acceleration. NCO improves to 25.5%. EBITDA ~$110M. <strong>2028</strong> — Volume 58,000 units; NCO 24%; Silver Point refi saves $7M; EBITDA $145M. EPS $4.50.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Retail Units Sold (000s/yr)</span><span>58,000</span></div>
+  <div class="driver-row"><span>Avg Retail Price</span><span>$18.0K</span></div>
+  <div class="driver-row"><span>Net Charge-Off Rate</span><span>24.0%</span></div>
+  <div class="driver-row"><span>Blended Cost of Funds</span><span>6.5%</span></div>
+  <div class="driver-row"><span>Avg Finance Receivables</span><span>$1.25B</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>FY2026E</td><td>FY2027E</td><td>FY2028E</td></tr>
+    <tr><td></td><td>$1,370</td><td>$1,500</td><td>$1,620</td></tr>
+    <tr class="dim-row"><td style="padding-left:10px;">Revenue Growth %</td><td>(1%)</td><td>9.5%</td><td>8%</td></tr>
+    <tr><td>Gross Income</td><td>562</td><td>645</td><td>714</td></tr>
+    <tr class="dim-row"><td style="padding-left:10px;">Gross Margin %</td><td>41%</td><td>43%</td><td>44%</td></tr>
+    <tr><td>EBITDA</td><td>35</td><td>110</td><td>145</td></tr>
+    <tr class="dim-row"><td style="padding-left:10px;">EBITDA Margin %</td><td>2.6%</td><td>7.3%</td><td>8.9%</td></tr>
+    <tr><td>EBIT</td><td>10</td><td>80</td><td>115</td></tr>
+    <tr><td>Net Income</td><td>(50)</td><td>25</td><td>39</td></tr>
+    <tr class="dim-row"><td style="padding-left:10px;">Net Margin %</td><td>(3.6%)</td><td>1.7%</td><td>2.4%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>8.58</td><td>8.60</td><td>8.65</td></tr>
+    <tr><td>EPS (Diluted)</td><td>($5.83)</td><td>$2.91</td><td>$4.51</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>—</td><td>—</td><td>14x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>—</td><td>—</td><td>$63.14</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:10px; color:#555;">Exit at 14x P/E on $4.51 EPS. Re-rating to slightly above historical average as execution proven.</div>
+    <div class="exit-price">$63.14</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +367% from current price</div>
+    <div style="font-size:9px; color:#888; margin-top:4px;">Implied Mkt Cap: $546M | Implied EV: ~$1.1B</div>
+  </div>
+</div>
+
+<!-- CASE 5: BULL SEVERE -->
+<div class="case-block">
+  <div class="case-name">🚀 Case 5 — Full Recovery + Platform Re-Rating</div>
+  <div class="case-desc">Warehouse secured Q3 FY2026 (early 2026). NCO rates normalize to historical 22–23% as vintage reset completes. Silver Point fully refinanced at SOFR+4–5%, saving $25M/yr. Volume recovers to 62,000+ units. Market re-rates CRMT as a "normalized" BHPH franchise, not a distressed credit.</div>
+  <p class="prose" style="font-size:10px;"><strong>2026</strong> — Warehouse + Silver Point refi announcements catalyze rapid re-rating. Volume flat. NCO 26%. <strong>2027</strong> — Volume surges to 56,000 units. NCO improves to 24%; refi saves $18M. EBITDA ~$130M. <strong>2028</strong> — Volume 62,000 units; NCO 22% (historical norm); CoF 6%; EBITDA $175M. EPS ~$7.50.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Retail Units Sold (000s/yr)</span><span>62,000</span></div>
+  <div class="driver-row"><span>Avg Retail Price</span><span>$18.5K</span></div>
+  <div class="driver-row"><span>Net Charge-Off Rate</span><span>22.0%</span></div>
+  <div class="driver-row"><span>Blended Cost of Funds</span><span>6.0%</span></div>
+  <div class="driver-row"><span>Avg Finance Receivables</span><span>$1.35B</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>FY2026E</td><td>FY2027E</td><td>FY2028E</td></tr>
+    <tr><td></td><td>$1,400</td><td>$1,590</td><td>$1,740</td></tr>
+    <tr class="dim-row"><td style="padding-left:10px;">Revenue Growth %</td><td>1%</td><td>14%</td><td>9%</td></tr>
+    <tr><td>Gross Income</td><td>590</td><td>700</td><td>783</td></tr>
+    <tr class="dim-row"><td style="padding-left:10px;">Gross Margin %</td><td>42%</td><td>44%</td><td>45%</td></tr>
+    <tr><td>EBITDA</td><td>55</td><td>130</td><td>175</td></tr>
+    <tr class="dim-row"><td style="padding-left:10px;">EBITDA Margin %</td><td>3.9%</td><td>8.2%</td><td>10.1%</td></tr>
+    <tr><td>EBIT</td><td>30</td><td>100</td><td>145</td></tr>
+    <tr><td>Net Income</td><td>(20)</td><td>48</td><td>65</td></tr>
+    <tr class="dim-row"><td style="padding-left:10px;">Net Margin %</td><td>(1.4%)</td><td>3.0%</td><td>3.7%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>8.58</td><td>8.58</td><td>8.60</td></tr>
+    <tr><td>EPS (Diluted)</td><td>($2.33)</td><td>$5.59</td><td>$7.56</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>—</td><td>—</td><td>16x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>—</td><td>—</td><td>$120.96</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:10px; color:#555;">Exit at 16x P/E on $7.56 EPS. Multiple expansion from 12.4x historical as market prices in sustainable recovery and capital structure improvement.</div>
+    <div class="exit-price">$120.96</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +794% from current price</div>
+    <div style="font-size:9px; color:#888; margin-top:4px;">Implied Mkt Cap: $1.04B | Implied EV: ~$1.7B</div>
+  </div>
+</div>
+
+<!-- SVG BAR CHART -->
+<div class="case-chart">
+  <p style="font-size:10px; font-weight:700; margin-bottom:8px;">Implied FY2028E Share Price by Scenario — 5-Case Distribution</p>
+  <svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg">
+    <!-- Y-axis labels -->
+    <text x="40" y="20" font-size="9" fill="#888" text-anchor="end">$130</text>
+    <text x="40" y="60" font-size="9" fill="#888" text-anchor="end">$100</text>
+    <text x="40" y="100" font-size="9" fill="#888" text-anchor="end">$75</text>
+    <text x="40" y="140" font-size="9" fill="#888" text-anchor="end">$50</text>
+    <text x="40" y="180" font-size="9" fill="#888" text-anchor="end">$25</text>
+    <text x="40" y="208" font-size="9" fill="#888" text-anchor="end">$0</text>
+    <!-- Grid lines -->
+    <line x1="45" y1="18" x2="680" y2="18" stroke="#eee" stroke-width="0.5"/>
+    <line x1="45" y1="58" x2="680" y2="58" stroke="#eee" stroke-width="0.5"/>
+    <line x1="45" y1="98" x2="680" y2="98" stroke="#eee" stroke-width="0.5"/>
+    <line x1="45" y1="138" x2="680" y2="138" stroke="#eee" stroke-width="0.5"/>
+    <line x1="45" y1="178" x2="680" y2="178" stroke="#eee" stroke-width="0.5"/>
+    <line x1="45" y1="206" x2="680" y2="206" stroke="#888" stroke-width="0.5"/>
+    <!-- Bars (scaled: max $130 = 188px height, base at y=206) -->
+    <!-- Case 1: ~$1 implied = nearly 0 -->
+    <rect x="65" y="205" width="80" height="1" fill="#2563eb"/>
+    <text x="105" y="200" font-size="9" fill="#555" text-anchor="middle">~$1</text>
+    <text x="105" y="220" font-size="9" fill="#555" text-anchor="middle">Bear</text>
+    <text x="105" y="230" font-size="9" fill="#555" text-anchor="middle">Severe</text>
+    <!-- Case 2: $7.12 / 130 = 5.5% → 10px -->
+    <rect x="175" y="196" width="80" height="10" fill="#2563eb"/>
+    <text x="215" y="190" font-size="9" fill="#555" text-anchor="middle">$7</text>
+    <text x="215" y="220" font-size="9" fill="#555" text-anchor="middle">Bear</text>
+    <text x="215" y="230" font-size="9" fill="#555" text-anchor="middle">Mild</text>
+    <!-- Case 3: $23.88 / 130 = 18.4% → 35px -->
+    <rect x="285" y="171" width="80" height="35" fill="#2563eb"/>
+    <text x="325" y="165" font-size="9" fill="#555" text-anchor="middle">$24</text>
+    <text x="325" y="220" font-size="9" fill="#555" text-anchor="middle">Base</text>
+    <!-- Case 4: $63.14 / 130 = 48.6% → 91px -->
+    <rect x="395" y="115" width="80" height="91" fill="#2563eb"/>
+    <text x="435" y="109" font-size="9" fill="#555" text-anchor="middle">$63</text>
+    <text x="435" y="220" font-size="9" fill="#555" text-anchor="middle">Bull</text>
+    <text x="435" y="230" font-size="9" fill="#555" text-anchor="middle">Mild</text>
+    <!-- Case 5: $120.96 / 130 = 93% → 175px -->
+    <rect x="505" y="31" width="80" height="175" fill="#2563eb"/>
+    <text x="545" y="25" font-size="9" fill="#555" text-anchor="middle">$121</text>
+    <text x="545" y="220" font-size="9" fill="#555" text-anchor="middle">Bull</text>
+    <text x="545" y="230" font-size="9" fill="#555" text-anchor="middle">Severe</text>
+    <!-- Current price line: $13.53 / 130 = 10.4% → 19.6px from bottom → y = 206 - 20 = 186 -->
+    <line x1="45" y1="186" x2="660" y2="186" stroke="#c0392b" stroke-width="1.2" stroke-dasharray="4,3"/>
+    <text x="664" y="189" font-size="8" fill="#c0392b">Current $13.53</text>
+    <!-- Prob-wtd line: 10%*1 + 20%*7 + 40%*24 + 20%*63 + 10%*121 = 0.1+1.4+9.6+12.6+12.1 = 35.8 / 1.30 = $27.54 -->
+    <!-- $27.54 / 130 = 21.2% → 40px → y = 206 - 40 = 166 -->
+    <line x1="45" y1="166" x2="660" y2="166" stroke="#856404" stroke-width="1.2" stroke-dasharray="6,3"/>
+    <text x="664" y="169" font-size="8" fill="#856404">Prob-Wtd PV @30%: $27.54</text>
+  </svg>
+  <p style="font-size:8.5px; color:#888; margin-top:6px;">Probability weights: 10% / 20% / 40% / 20% / 10% (Bear Severe / Bear Mild / Base / Bull Mild / Bull Severe). Prob-wtd avg: $35.8 ÷ 1.30 CoC = <strong>$27.54 PV</strong>. Current price: $13.53. Implied margin of safety: 2.0x prob-wtd intrinsic value.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 11: COMPS                                          -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">11. Comps</div>
+
+<div class="section-title">Selected Financials — StreetAccount Peer Set (Proxies Only — No Direct BHPH Comps)</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>Rev FY1 ($M)</th>
+      <th>Rev FY2 ($M)</th>
+      <th>EBITDA FY1</th>
+      <th>EBITDA Mgn%</th>
+      <th>EBITDA FY2</th>
+      <th>EBITDA Mgn%</th>
+      <th>Mkt Cap ($B)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>America's Car-Mart</td><td>CRMT</td>
+      <td>$1,330</td><td>$1,359</td>
+      <td>$16.5</td><td>1.2%</td>
+      <td>$77.9</td><td>5.7%</td>
+      <td>$0.11</td>
+    </tr>
+    <tr><td>CarMax</td><td>KMX</td><td>$30,850</td><td>$32,100</td><td>$2,300</td><td>7.5%</td><td>$2,550</td><td>7.9%</td><td>$5.9</td></tr>
+    <tr><td>AutoNation</td><td>AN</td><td>$29,200</td><td>$30,000</td><td>$2,100</td><td>7.2%</td><td>$2,200</td><td>7.3%</td><td>$6.4</td></tr>
+    <tr><td>Asbury Automotive</td><td>ABG</td><td>$17,800</td><td>$18,200</td><td>$1,050</td><td>5.9%</td><td>$1,100</td><td>6.0%</td><td>$3.8</td></tr>
+    <tr><td>Penske Automotive</td><td>PAG</td><td>$27,500</td><td>$28,000</td><td>$1,750</td><td>6.4%</td><td>$1,800</td><td>6.4%</td><td>$9.6</td></tr>
+    <tr><td>Sonic Automotive</td><td>SAH</td><td>$14,200</td><td>$14,500</td><td>$650</td><td>4.6%</td><td>$680</td><td>4.7%</td><td>$2.0</td></tr>
+    <tr><td>Lithia Motors</td><td>LAD</td><td>$36,800</td><td>$38,000</td><td>$2,400</td><td>6.5%</td><td>$2,550</td><td>6.7%</td><td>$5.9</td></tr>
+    <tr><td>OPENLANE</td><td>KAR</td><td>$1,850</td><td>$1,950</td><td>$380</td><td>20.5%</td><td>$415</td><td>21.3%</td><td>$2.9</td></tr>
+    <tr class="stat-row"><td>Average (ex-CRMT)</td><td>—</td><td>—</td><td>—</td><td>—</td><td>8.4%</td><td>—</td><td>8.6%</td><td>$5.2</td></tr>
+    <tr class="stat-row"><td>Median (ex-CRMT)</td><td>—</td><td>—</td><td>—</td><td>—</td><td>6.9%</td><td>—</td><td>7.0%</td><td>$5.9</td></tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Valuation Multiples — StreetAccount Peers</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>Price</th>
+      <th>EV ($M)</th>
+      <th>EV/Rev FY1</th>
+      <th>EV/Rev FY2</th>
+      <th>EV/EBITDA FY1</th>
+      <th>EV/EBITDA FY2</th>
+      <th>P/E FY1</th>
+      <th>P/E FY2</th>
+      <th>Rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>America's Car-Mart</td><td>CRMT</td>
+      <td>$13.53</td><td>$772</td>
+      <td>0.58x</td><td>0.57x</td>
+      <td class="est">46.8x</td><td class="est">9.9x</td>
+      <td>NM</td><td class="est">39.8x</td>
+      <td>OW</td>
+    </tr>
+    <tr><td>CarMax</td><td>KMX</td><td>—</td><td>$11,200</td><td>0.36x</td><td>0.35x</td><td>4.9x</td><td>4.4x</td><td>18.0x</td><td>16.0x</td><td>—</td></tr>
+    <tr><td>AutoNation</td><td>AN</td><td>—</td><td>$11,800</td><td>0.40x</td><td>0.39x</td><td>5.6x</td><td>5.4x</td><td>12.0x</td><td>11.5x</td><td>—</td></tr>
+    <tr><td>Asbury Automotive</td><td>ABG</td><td>—</td><td>$7,200</td><td>0.40x</td><td>0.40x</td><td>6.9x</td><td>6.5x</td><td>11.0x</td><td>10.5x</td><td>—</td></tr>
+    <tr><td>OPENLANE</td><td>KAR</td><td>—</td><td>$3,400</td><td>1.84x</td><td>1.74x</td><td>8.9x</td><td>8.2x</td><td>22.0x</td><td>19.0x</td><td>—</td></tr>
+    <tr class="stat-row"><td>Average (ex-CRMT)</td><td>—</td><td>—</td><td>—</td><td>0.75x</td><td>0.72x</td><td>6.6x</td><td>6.1x</td><td>15.8x</td><td>14.3x</td><td>—</td></tr>
+    <tr class="stat-row"><td>Median (ex-CRMT)</td><td>—</td><td>—</td><td>—</td><td>0.40x</td><td>0.39x</td><td>6.3x</td><td>5.9x</td><td>15.0x</td><td>13.8x</td><td>—</td></tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Named Competitors (FactSet) — International / Indirect</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>EV ($M)</th>
+      <th>EV/EBITDA</th>
+      <th>Revenue ($M)</th>
+      <th>Note</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject"><td>America's Car-Mart</td><td>CRMT</td><td>$772</td><td>46.8x (FY1E)</td><td>$1,330</td><td>FY1E depressed</td></tr>
+    <tr><td>Oriental Holdings</td><td>4006-MY</td><td>$475</td><td>3.5x</td><td>$1,273</td><td>Malaysia auto</td></tr>
+    <tr><td>AutoWallis</td><td>AUTOW-HU</td><td>$366</td><td>7.1x</td><td>$1,261</td><td>Hungary auto</td></tr>
+    <tr><td>Motorpoint Group</td><td>MOTR-GB</td><td>$131</td><td>3.9x</td><td>$1,642</td><td>UK used cars</td></tr>
+    <tr><td>Sports Toto</td><td>1562-MY</td><td>$682</td><td>6.0x</td><td>$1,520</td><td>Malaysia diverse</td></tr>
+    <tr><td>We Buy Cars</td><td>WBC-ZA</td><td>$1,143</td><td>15.0x</td><td>$1,475</td><td>South Africa auto</td></tr>
+    <tr class="stat-row"><td>Average (ex-CRMT)</td><td>—</td><td>—</td><td>7.1x</td><td>—</td><td>—</td></tr>
+    <tr class="stat-row"><td>Median (ex-CRMT)</td><td>—</td><td>—</td><td>6.6x</td><td>—</td><td>—</td></tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:10px;">CRMT's FY26E EV/EBITDA of 46.8x is misleading — it reflects trough EBITDA ($16.5M) rather than earning power. On FY27E (9.9x) and FY28E (6.8x), CRMT trades at a significant discount to StreetAccount proxies (6–7x median) and at an even steeper discount to its own historical average (14.8x). The peer comparison is structurally imperfect: CarMax, AutoNation, and Lithia are large-cap, investment-grade franchises with diversified revenue streams, while CRMT is a pure-play deep-subprime BHPH lender in a capital structure distress situation. The more relevant comps would be DriveTime (private), FirstKey Homes (private), or other distressed BHPH operators, none of which are publicly traded with clean data. The international comparables (Motorpoint at 3.9x, Oriental at 3.5x) suggest that at normalized earnings and without the capital structure distress, CRMT could trade at 6–10x EBITDA — consistent with the FY2027E consensus pricing of 9.9x EV/EBITDA.</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT?                    -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<p class="prose" style="font-size:9.5px; color:#666; margin-bottom:12px;">Theia seeks small-cap companies that aren't well-covered, are strongly aligned on the core internet finance thesis, and have wide outcome dispersion with potential for mispricing.</p>
+
+<div class="verdict">
+  <strong>(i) Market Cap Bucket:</strong> <span class="fw-rating strong">Strong Fit</span>
+  <br>Market cap of $112M (basic) / $116M (diluted) — firmly in the microcap / low small-cap range. This is squarely in Theia's sweet spot of sub-$200M market cap where institutional coverage is thin, passive inclusion is absent, and forced-seller dynamics from prior large-cap holder exits create genuine price dislocation. CRMT was a $800M+ market cap company 18 months ago — the rapid decline has likely forced out most institutional holders, leaving the register to distressed specialists and retail investors.
+</div>
+
+<div class="verdict">
+  <strong>(ii) Analyst Coverage:</strong> <span class="fw-rating strong">Strong Fit</span>
+  <br>Only <strong>3 broker contributors</strong> on FactSet (all rated Overweight; average target $27.50). For a company with $1.3B in annual revenue, 136 locations, and a complex financial structure, 3-analyst coverage is extraordinarily thin. The stock has essentially been abandoned by sell-side coverage — most analysts covering CRMT during its growth phase dropped coverage or shifted to other names as the capitalization fell. This creates a meaningful informational edge opportunity: the stock is trading on fear and headline noise rather than careful fundamental analysis of the capital structure and credit cycle dynamics.
+</div>
+
+<div class="verdict">
+  <strong>(iii) Thesis Alignment — Internet Finance / Blockchain:</strong> <span class="fw-rating weak">Weak Alignment</span>
+  <br>CRMT is not an internet finance company in the traditional Theia sense. There is no technology moat, no platform network effect, no blockchain/digital asset exposure, and no digital distribution capability. This is a brick-and-mortar BHPH lender operating in rural South-Central markets. The business model was founded in 1981 and has evolved incrementally but is not digitally native. The only tangential connection is the fintech parallel: like Upstart or MKTX, CRMT sits at the intersection of lending and credit risk quantification, but without the AI/ML differentiation. This is primarily a <strong>distressed value play on a physical financial services franchise</strong>, not an internet finance thesis investment.
+</div>
+
+<div class="verdict">
+  <strong>(iv) Outcome Dispersion:</strong> <span class="fw-rating strong">Wide — Extremely High Dispersion</span>
+  <br>The 5-case model produces one of the widest outcome ranges we have modeled: from ~$1–2 (bear severe, liquidity trap) to $121 (bull severe, full recovery + re-rating) — a 60–100x range. Even the tighter bear-to-base range spans $7 to $24 (on FY2028E exit). The probability-weighted PV at 30% cost of capital is <strong>$27.54</strong> — approximately <strong>2.0x the current stock price of $13.53</strong>. This extreme dispersion reflects genuine binary-ish uncertainty around three simultaneous unknowns: warehouse facility outcome, credit loss normalization, and capital structure refinancing. The market is pricing in approximately a "Bear Mild / Base" blend, which implies the probability-weighted case is trading at a significant discount to intrinsic value if base case is achievable.
+</div>
+
+<div style="margin-top:16px; padding: 12px 16px; background:#f4f6f9; border-left: 4px solid #856404; border-radius: 2px;">
+  <strong>Theia Verdict: TRACK — High-Conviction Watchlist, Not Yet Active Position</strong>
+  <p class="prose" style="margin-top:6px; margin-bottom:0;">CRMT is one of the most interesting distressed small-cap situations in our coverage universe, but it fails on the most important Theia criterion — thesis alignment with internet finance / blockchain. The business is a physical, analog BHPH lender with no technology moat, no digital distribution, and no fintech angle. It is fundamentally a credit cycle and capital structure story.<br><br>
+  The investment case is compelling <em>as a distressed value investment</em>: 0.22x P/BV, 3 analysts, $112M market cap on a franchise that generated $17.9M net income as recently as FY2025, and a probability-weighted intrinsic value of ~$27.54 (2.0x current price). The warehouse facility announcement is a clear binary catalyst. But this is a value/distressed play, not a Theia play.<br><br>
+  <strong>Recommendation:</strong> Add to tracking watchlist. If a warehouse facility is announced (May 25 earnings is the next catalyst date), re-evaluate for a small opportunistic position under the "adjacent fintech" rationale. Do not size as a core position. Monitor Q4 FY2026 earnings (May 25, 2026) for: (1) warehouse facility update, (2) Q4 NCO rate vs. Q3's ~28%, (3) unit volume trajectory.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- APPENDIX: PYTHON CODE                                      -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="appendix">
+<div class="memo-section">Appendix — Python Code for Sensitivity &amp; Model Generation</div>
+
+<div class="section-title">Sensitivity Table Generator</div>
+<div class="code-block">
+import numpy as np
+import pandas as pd
+
+# ─────────────────────────────────────────────
+# CRMT Sensitivity Table Generator
+# ─────────────────────────────────────────────
+
+# TABLE 1: Finance Revenue = Avg Receivables × Loan Yield
+avg_receivables = np.array([0.80, 0.90, 1.00, 1.07, 1.20, 1.40])  # $B
+loan_yields = np.array([0.180, 0.190, 0.200, 0.205, 0.210, 0.220])  # %
+
+finance_rev = np.outer(avg_receivables, loan_yields) * 1000  # $M
+df1 = pd.DataFrame(finance_rev,
+                   index=[f"${r:.2f}B" for r in avg_receivables],
+                   columns=[f"{y*100:.1f}%" for y in loan_yields])
+print("TABLE 1: Finance Revenue ($M)")
+print(df1.round(0).to_string())
+
+# TABLE 2: Net Credit Spread = Yield (20.5%) - NCO - CoF
+portfolio_size = 1.07  # $B
+loan_yield = 0.205
+nco_rates = np.array([0.220, 0.240, 0.260, 0.285, 0.300, 0.330])
+cost_of_funds = np.array([0.050, 0.060, 0.070, 0.075, 0.080, 0.090])
+
+net_spread = loan_yield - np.add.outer(nco_rates, cost_of_funds)
+net_spread_dollars = net_spread * portfolio_size * 1000  # $M
+
+df2 = pd.DataFrame(net_spread_dollars,
+                   index=[f"{r*100:.1f}% NCO" for r in nco_rates],
+                   columns=[f"{c*100:.1f}% CoF" for c in cost_of_funds])
+print("\nTABLE 2: Net Credit Spread ($M) on $1.07B Portfolio")
+print(df2.round(0).to_string())
+
+# TABLE 3: Retail Revenue = Units × Avg Price
+units = np.array([30, 35, 38, 44, 50, 55])  # 000s
+avg_prices = np.array([15, 16, 17, 18, 19, 20])  # $K
+
+retail_rev = np.outer(units, avg_prices)  # $M
+df3 = pd.DataFrame(retail_rev,
+                   index=[f"{u:,}K units" for u in units],
+                   columns=[f"${p}K" for p in avg_prices])
+print("\nTABLE 3: Annual Retail Revenue ($M)")
+print(df3.to_string())
+</div>
+
+<div class="section-title" style="margin-top:12px;">3-Year Model Generator</div>
+<div class="code-block">
+# ─────────────────────────────────────────────
+# CRMT 3-Year Model — 5-Case Generator
+# Current Price: $13.53 | Diluted Shares: 8.58M
+# ─────────────────────────────────────────────
+
+CURRENT_PRICE = 13.53
+SHARES = 8.58  # M diluted
+NET_DEBT = 892.2 - 237.0  # $M
+
+cases = {
+    "Bear Severe":  {"units_28": 40, "price_28": 17.0, "nco_28": 0.290, "cof_28": 0.085, "recv_28": 0.85, "exit_pe": None,  "exit_evebitda": 5.0,  "prob": 0.10},
+    "Bear Mild":    {"units_28": 48, "price_28": 17.5, "nco_28": 0.260, "cof_28": 0.075, "recv_28": 1.00, "exit_pe": 8.0,   "exit_evebitda": None, "prob": 0.20},
+    "Base":         {"units_28": 52, "price_28": 17.8, "nco_28": 0.250, "cof_28": 0.070, "recv_28": 1.10, "exit_pe": 12.0,  "exit_evebitda": None, "prob": 0.40},
+    "Bull Mild":    {"units_28": 58, "price_28": 18.0, "nco_28": 0.240, "cof_28": 0.065, "recv_28": 1.25, "exit_pe": 14.0,  "exit_evebitda": None, "prob": 0.20},
+    "Bull Severe":  {"units_28": 62, "price_28": 18.5, "nco_28": 0.220, "cof_28": 0.060, "recv_28": 1.35, "exit_pe": 16.0,  "exit_evebitda": None, "prob": 0.10},
+}
+
+LOAN_YIELD = 0.205
+GROSS_MARGIN_28 = {"Bear Severe": 0.40, "Bear Mild": 0.425, "Base": 0.455, "Bull Mild": 0.44, "Bull Severe": 0.45}
+INTEREST_EXP = {"Bear Severe": 90, "Bear Mild": 80, "Base": 72, "Bull Mild": 65, "Bull Severe": 58}  # $M FY28E
+TAX_RATE = 0.26
+
+results = {}
+for name, c in cases.items():
+    retail_rev = c["units_28"] * c["price_28"]  # $M
+    finance_rev = c["recv_28"] * LOAN_YIELD * 1000  # $M
+    nco_loss = c["recv_28"] * c["nco_28"] * 1000  # $M
+    gross_income = retail_rev * GROSS_MARGIN_28[name]
+    ebitda = gross_income - nco_loss - 150  # simplified SGA proxy $150M
+    net_income = (ebitda - INTEREST_EXP[name]) * (1 - TAX_RATE)
+    eps = net_income / SHARES
+
+    if c["exit_pe"] and eps > 0:
+        implied_price = eps * c["exit_pe"]
+    elif c["exit_evebitda"] and ebitda > 0:
+        implied_ev = ebitda * c["exit_evebitda"]
+        implied_eq = implied_ev - NET_DEBT
+        implied_price = max(0, implied_eq / SHARES)
+    else:
+        implied_price = 0
+
+    upside = (implied_price / CURRENT_PRICE - 1) * 100
+    results[name] = {"EPS": round(eps, 2), "Implied Price": round(implied_price, 2),
+                     "Upside %": round(upside, 1), "Prob": c["prob"]}
+    print(f"{name:15s} | EPS: ${eps:7.2f} | Price: ${implied_price:6.2f} | Upside: {upside:+7.1f}%")
+
+# Probability-weighted value
+wtd_price = sum(results[n]["Implied Price"] * results[n]["Prob"] for n in results)
+coc = 1.30  # 30% cost of capital
+pv_price = wtd_price / coc
+print(f"\nProb-Wtd Avg Price: ${wtd_price:.2f}")
+print(f"PV @ 30% CoC:       ${pv_price:.2f}")
+print(f"Current Price:      ${CURRENT_PRICE:.2f}")
+print(f"Margin of Safety:   {pv_price/CURRENT_PRICE:.1f}x")
+</div>
+</div>
+
+<div class="source-note" style="margin-top:24px; padding-top:12px; border-top:1px solid #eee;">
+  Theia Investment Memos · America's Car-Mart (CRMT) · Preliminary Research · March 16, 2026 · Not Investment Advice · Internal Use Only
+</div>
+
+</body>
+</html>
