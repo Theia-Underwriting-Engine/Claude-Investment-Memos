@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NerdWallet | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 6px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; }
+.case-block .driver-row span:first-child { display: inline-block; width: 60%; font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { text-align: right; font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.bold-row { font-weight: 700 !important; background: #f0f0f0 !important; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">NerdWallet | Preliminary Memo for Theia</div>
+
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<div class="memo-section">1. Business Overview</div>
+<p class="prose">
+<strong>NerdWallet, Inc.</strong> (NASDAQ: NRDS) is a digital personal finance platform founded in 2009 and headquartered in San Francisco. The company operates as a lead-generation marketplace connecting consumers with financial product providers across credit cards, loans, insurance, banking, and investment products. NerdWallet monetizes through cost-per-click (CPC) and cost-per-action (CPA) payments from financial partners when users engage with or apply for products through its platform. CEO Tim Chen (co-founder) leads a team of ~650 employees. The company IPO'd in October 2021 at $18/share.
+</p>
+<p class="prose">
+<strong>One-line thesis:</strong> NerdWallet is a high-margin digital marketplace facing an existential AI-driven disruption to its organic search traffic model, forcing a pivot to paid marketing and vertical integration (Next Door Lending acquisition) while retaining a premium consumer audience and $100M+ cash position.
+</p>
+
+<!-- SECTION 2: FINANCIAL SUMMARY -->
+<div class="memo-section">2. Financial Summary (Theia FactSet Summary)</div>
+
+<div class="header">
+  <div>
+    <h1>NerdWallet, Inc. Class A</h1>
+    <span class="ticker">NRDS-US | NASDAQ</span>
+  </div>
+  <div>
+    <span class="date">CUSIP: 64082B102 | March 17, 2026</span>
+  </div>
+</div>
+
+<div class="price-bar">
+  <span class="price">$10.09</span>
+  <span><span class="label">1M</span> <span class="chg pos">+5.5%</span></span>
+  <span><span class="label">3M</span> <span class="chg">-29.7%</span></span>
+  <span><span class="label">6M</span> <span class="chg">-6.9%</span></span>
+  <span><span class="label">YTD</span> <span class="chg">-23.7%</span></span>
+  <span><span class="label">1Y</span> <span class="chg pos">+14.6%</span></span>
+  <span><span class="label">52Wk</span> $7.55 – $16.24</span>
+</div>
+
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv">
+      <tr><td>Primary Ticker</td><td>NRDS-US</td></tr>
+      <tr><td>Price</td><td>$10.09</td></tr>
+      <tr><td>Volume</td><td>1,372,587</td></tr>
+      <tr><td>30D Avg Vol</td><td>1,229,059</td></tr>
+      <tr><td>Float (%)</td><td>91.1%</td></tr>
+      <tr><td>Short Interest</td><td>4.6 Days / 18.2% of Float</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev">
+      <tr><td>Price (Mar 16 '26)</td><td>$10.09</td></tr>
+      <tr><td>Basic Shares</td><td>66.79M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">Class A Common</td><td>35.10M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">Class B Convertible</td><td>31.69M</td></tr>
+      <tr><td>Market Cap</td><td>$673.87M</td></tr>
+      <tr><td>+ Stock Compensation</td><td>5.07M</td></tr>
+      <tr><td>Fully Diluted Shares</td><td>71.86M</td></tr>
+      <tr><td>Fully Diluted Mkt Cap</td><td>$725.03M</td></tr>
+      <tr><td>– Cash & Equivalents</td><td>($100.60M)</td></tr>
+      <tr class="total"><td>Enterprise Value</td><td>$624.43M</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="section-title">Current Valuation</div>
+<div class="val-grid">
+  <div class="val-cell"><div class="val-label">Market Cap</div><div class="val-num">$674M</div></div>
+  <div class="val-cell"><div class="val-label">EV</div><div class="val-num">$624M</div></div>
+  <div class="val-cell"><div class="val-label">P/E (LTM)</div><div class="val-num">15.8x</div></div>
+  <div class="val-cell"><div class="val-label">EV/EBITDA (LTM)</div><div class="val-num">5.4x</div></div>
+  <div class="val-cell"><div class="val-label">EV/Sales (LTM)</div><div class="val-num">0.75x</div></div>
+  <div class="val-cell"><div class="val-label">P/S (LTM)</div><div class="val-num">0.89x</div></div>
+</div>
+<div class="val-grid">
+  <div class="val-cell"><div class="val-label">Fully Dil Mkt Cap</div><div class="val-num">$725M</div></div>
+  <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">9.5%</div></div>
+  <div class="val-cell"><div class="val-label">Beta (3Y Adj)</div><div class="val-num">1.18</div></div>
+  <div class="val-cell"><div class="val-label">Avg Rating</div><div class="val-num">OW (1.50)</div></div>
+  <div class="val-cell"><div class="val-label">Target Price</div><div class="val-num">$14.50</div></div>
+  <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">May 5, 2026</div></div>
+</div>
+
+<div class="section-title">Valuation Multiples</div>
+<table class="data">
+  <tr><th></th><th>5Yr Avg</th><th>Dec '23</th><th>Dec '24</th><th>Dec '25</th><th class="est">Dec '26E</th><th class="est">Dec '27E</th><th class="est">Dec '28E</th></tr>
+  <tr><td>P/E</td><td>11.1x</td><td>NM</td><td>34.5x</td><td>21.1x</td><td class="est">10.3x</td><td class="est">8.4x</td><td class="est">6.2x</td></tr>
+  <tr><td>P/Sales</td><td>1.7x</td><td>1.9x</td><td>1.5x</td><td>1.2x</td><td class="est">0.7x</td><td class="est">0.7x</td><td class="est">0.7x</td></tr>
+  <tr><td>P/BV</td><td>2.9x</td><td>3.1x</td><td>2.7x</td><td>2.6x</td><td class="est">1.6x</td><td class="est">1.3x</td><td class="est">1.1x</td></tr>
+  <tr><td>EV/Sales</td><td>1.4x</td><td>1.9x</td><td>1.4x</td><td>—</td><td class="est">0.7x</td><td class="est">0.7x</td><td class="est">0.6x</td></tr>
+  <tr><td>EV/EBITDA</td><td>24.3x</td><td>20.0x</td><td>13.7x</td><td>—</td><td class="est">4.2x</td><td class="est">3.7x</td><td class="est">3.5x</td></tr>
+  <tr><td>EV/EBIT</td><td>NM</td><td>127.3x</td><td>42.3x</td><td>—</td><td class="est">7.7x</td><td class="est">6.6x</td><td class="est">5.4x</td></tr>
+</table>
+
+<div class="two-col">
+  <div>
+    <div class="section-title">Revenue Exposure — Business Unit</div>
+    <table class="rev">
+      <tr><th>Segment</th><th>% Rev</th><th>$M</th><th>Y/Y</th></tr>
+      <tr><td>Insurance</td><td>33.6%</td><td>281</td><td>+46.6%</td></tr>
+      <tr><td>Emerging Verticals</td><td>22.6%</td><td>189</td><td>+50.8%</td></tr>
+      <tr><td>Loans</td><td>15.9%</td><td>133</td><td>+57.9%</td></tr>
+      <tr><td>Credit Cards</td><td>15.9%</td><td>133</td><td>-24.4%</td></tr>
+      <tr><td>SMB</td><td>12.0%</td><td>100</td><td>-8.9%</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Revenue Exposure — Geography</div>
+    <table class="rev">
+      <tr><th>Region</th><th>% Rev</th><th>$M</th><th>Y/Y</th></tr>
+      <tr><td>United States</td><td>100%</td><td>837</td><td>+21.7%</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="section-title">Financials</div>
+<table class="data">
+  <tr><th></th><th>5Yr CAGR</th><th>Dec '23</th><th>Dec '24</th><th>Dec '25</th><th class="est">Dec '26E</th><th class="est">Dec '27E</th><th class="est">Dec '28E</th></tr>
+  <tr class="section-row"><td colspan="8">Income Statement</td></tr>
+  <tr><td>Revenue</td><td>27.8%</td><td>$599</td><td>$688</td><td>$837</td><td class="est">$900</td><td class="est">$959</td><td class="est">$1,010</td></tr>
+  <tr><td>Gross Income</td><td>29.4%</td><td>$545</td><td>$624</td><td>$773</td><td class="est">$841</td><td class="est">$899</td><td class="est">$920</td></tr>
+  <tr><td>EBITDA</td><td>37.6%</td><td>$57</td><td>$72</td><td>$116</td><td class="est">$147</td><td class="est">$167</td><td class="est">$181</td></tr>
+  <tr><td>EBIT</td><td>112.7%</td><td>$9</td><td>$23</td><td>$70</td><td class="est">$81</td><td class="est">$95</td><td class="est">$115</td></tr>
+  <tr><td>Net Income</td><td>55.8%</td><td>($12)</td><td>$30</td><td>$49</td><td class="est">$65</td><td class="est">$76</td><td class="est">$90</td></tr>
+  <tr><td>EPS (Dil)</td><td>51.5%</td><td>($0.15)</td><td>$0.39</td><td>$0.64</td><td class="est">$0.88</td><td class="est">$0.99</td><td class="est">—</td></tr>
+  <tr class="section-row"><td colspan="8">Margins</td></tr>
+  <tr><td>Gross Margin</td><td>—</td><td>91.0%</td><td>90.8%</td><td>92.4%</td><td class="est">93.5%</td><td class="est">93.7%</td><td class="est">91.2%</td></tr>
+  <tr><td>EBITDA Margin</td><td>—</td><td>9.5%</td><td>10.4%</td><td>13.9%</td><td class="est">16.4%</td><td class="est">17.4%</td><td class="est">17.9%</td></tr>
+  <tr><td>Net Margin</td><td>—</td><td>-2.0%</td><td>4.4%</td><td>5.8%</td><td class="est">7.3%</td><td class="est">7.9%</td><td class="est">9.0%</td></tr>
+  <tr><td>FCF Margin</td><td>—</td><td>7.1%</td><td>7.3%</td><td>13.6%</td><td class="est">17.9%</td><td class="est">6.6%</td><td class="est">11.8%</td></tr>
+  <tr class="section-row"><td colspan="8">Cash Flow</td></tr>
+  <tr><td>Op Cash Flow</td><td>53.6%</td><td>$72</td><td>$72</td><td>$132</td><td class="est">$161</td><td class="est">$65</td><td class="est">$121</td></tr>
+  <tr><td>CapEx</td><td>-0.5%</td><td>$30</td><td>$21</td><td>$18</td><td class="est">$0</td><td class="est">$2</td><td class="est">$2</td></tr>
+  <tr><td>Free Cash Flow</td><td>—</td><td>$43</td><td>$51</td><td>$113</td><td class="est">$161</td><td class="est">$63</td><td class="est">$120</td></tr>
+  <tr class="section-row"><td colspan="8">Returns & Leverage</td></tr>
+  <tr><td>ROE</td><td>—</td><td>-3.3%</td><td>8.3%</td><td>13.2%</td><td class="est">15.5%</td><td class="est">16.0%</td><td class="est">18.5%</td></tr>
+  <tr><td>Debt/Equity</td><td>—</td><td>2.6%</td><td>2.4%</td><td>4.0%</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+  <tr><td>Interest Coverage</td><td>—</td><td>11.3x</td><td>33.1x</td><td>116.0x</td><td class="est">58.1x</td><td class="est">68.0x</td><td class="est">—</td></tr>
+</table>
+<div class="source-note">Source: FactSet Fundamentals, FactSet Estimates. All figures in millions of USD. E = Estimate.</div>
+
+<!-- SECTION 3: HELMER'S 7 POWERS -->
+<div class="memo-section">3. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Scale Economies</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">NerdWallet's 92%+ gross margins reflect minimal variable costs — content creation and platform infrastructure are largely fixed. However, the shift from organic to paid traffic erodes this advantage as customer acquisition becomes more expensive with scale.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Network Effects</span><span class="fw-rating weak">Weak</span>
+  <p class="prose" style="margin-top:4px;">Limited network effects. More users don't make the product better for other users. Content quality is static, and financial partners don't meaningfully benefit from consumer concentration on the platform beyond volume.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Counter-Positioning</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">NerdWallet's editorial-first, SEO-native model was historically counter-positioned against traditional lead-gen players (Bankrate, LendingTree) that relied on paid acquisition. However, AI search is eroding this advantage, and the pivot to paid marketing brings NerdWallet closer to incumbents' model.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Switching Costs</span><span class="fw-rating weak">Weak</span>
+  <p class="prose" style="margin-top:4px;">Consumers face zero switching costs — they can use Credit Karma, LendingTree, or Google Search directly. Registered users (25M) provide some data asset, but engagement is transactional rather than habitual for most.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Branding</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">NerdWallet has 64% aided brand awareness (per management) and a reputation for trustworthy content. The brand commands some organic recall, but doesn't drive price premiums — it's a traffic source rather than a pricing lever.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">6. Cornered Resource</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">NerdWallet's premium consumer audience (high FICO, high intent) is valuable to financial partners. The company also owns Next Door Lending (mortgage origination), enabling vertical integration. However, the audience isn't truly exclusive — it can be reached through other channels.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">7. Process Power</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">15+ years of SEO expertise and content infrastructure represent real process power, but AI-driven search changes threaten to make this expertise less relevant. Management's ability to pivot to performance marketing will determine whether this power persists.</p>
+</div>
+
+<p class="prose" style="margin-top:10px;"><strong>Summary:</strong> NerdWallet's moat is shallow and under active erosion. The strongest advantages — scale economies, brand, and content process power — are all tied to organic search, which is being disrupted by AI. The company lacks sticky network effects or switching costs that would protect against competitive displacement.</p>
+
+<!-- SECTION 4: PORTER'S 5 FORCES -->
+<div class="memo-section">4. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Threat of New Entrants</span><span class="fw-rating high">High</span>
+  <p class="prose" style="margin-top:4px;">Low barriers to entry. AI tools make content creation cheaper; paid marketing is accessible to anyone with capital. New AI-native financial assistants (Perplexity, ChatGPT plugins) could disintermediate traditional comparison sites entirely.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Bargaining Power of Suppliers</span><span class="fw-rating high">High</span>
+  <p class="prose" style="margin-top:4px;">Google is NerdWallet's primary "supplier" of traffic. Google's AI Overviews directly answer user queries, reducing click-through to NerdWallet. The company has minimal leverage over this existential dependency.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Bargaining Power of Buyers</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:4px;">Financial partners (credit card issuers, insurance carriers, lenders) have moderate power. While there are many comparison sites, NerdWallet's premium audience justifies pricing. Large partners like Capital One and American Express have leverage in negotiations.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Threat of Substitutes</span><span class="fw-rating high">High</span>
+  <p class="prose" style="margin-top:4px;">Many substitutes: Credit Karma (free credit scores + marketplace), LendingTree (established competitor), direct-to-consumer products (Apple Card), bank apps with embedded comparison tools, and now AI assistants that can compare financial products conversationally.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Competitive Rivalry</span><span class="fw-rating high">High</span>
+  <p class="prose" style="margin-top:4px;">Intense competition from LendingTree, Credit Karma (Intuit), Bankrate (Red Ventures), and The Points Guy. All players compete for the same SEO keywords and paid traffic. Industry growth is slowing as rate hike tailwinds fade.</p>
+</div>
+
+<p class="prose" style="margin-top:10px;"><strong>Summary:</strong> The competitive environment is challenging. Four of five forces are high-threat, with Google's power over traffic being existential. NerdWallet's survival depends on successfully pivoting away from SEO dependency while retaining audience quality.</p>
+
+<!-- SECTION 5: WHAT DRIVES THE STOCK -->
+<div class="memo-section">5. What Drives the Stock?</div>
+
+<ol class="prose">
+  <li><strong>Organic Search Traffic Trends:</strong> Google AI Overviews launched in May 2024 and caused ~30% organic traffic declines to comparison sites. Further AI integration into search (Gemini, SGE expansion) would be bearish; any pullback or monetization of AI links would be bullish.</li>
+  <li><strong>Paid Marketing ROI:</strong> NerdWallet is pivoting to performance marketing to replace lost organic traffic. Q4 2025 showed 23% Y/Y revenue growth despite organic headwinds, suggesting the pivot is working. Deterioration in CAC payback would signal trouble.</li>
+  <li><strong>Interest Rate Environment:</strong> Insurance and loans verticals benefit from rate shopping activity. If rates stabilize or decline, loan origination volume increases (bullish for Loans vertical). Conversely, low rate volatility reduces consumer shopping behavior.</li>
+  <li><strong>Insurance Carrier Health:</strong> Insurance is now NerdWallet's largest vertical (34% of revenue). Performance depends on carrier appetite for customer acquisition — carrier pullback (as seen in 2022-2023 home insurance crisis) constrains monetization.</li>
+  <li><strong>Credit Card Issuer Spend:</strong> Credit Cards went from 30%+ of revenue historically to 16% in 2025 due to issuer marketing cuts. Recovery in card issuer marketing budgets would be a significant tailwind.</li>
+  <li><strong>Next Door Lending Performance:</strong> The October 2024 acquisition of this mortgage origination platform represents NerdWallet's vertical integration strategy. Strong execution here creates direct revenue rather than lead-gen fees.</li>
+</ol>
+
+<!-- SECTION 6: WHAT DRIVES THE BUSINESS -->
+<div class="memo-section">6. What Drives the Business?</div>
+
+<table class="data" style="margin-bottom:10px;">
+  <tr><th style="width:20%;">Revenue Line</th><th style="width:60%;">Driver Formula</th><th style="width:20%;">FY25 Revenue</th></tr>
+  <tr><td>Insurance</td><td>Insurance Queries × Match Rate × CPC/CPA</td><td>$281M (34%)</td></tr>
+  <tr><td>Emerging Verticals</td><td>(Banking + Investing + Travel) Visits × Monetization Rate</td><td>$189M (23%)</td></tr>
+  <tr><td>Loans</td><td>Loan Applications × Approval Rate × CPA + Next Door Lending Origination Fees</td><td>$133M (16%)</td></tr>
+  <tr><td>Credit Cards</td><td>Card Applications × Approval Rate × Bounty ($50-200/approval)</td><td>$133M (16%)</td></tr>
+  <tr><td>SMB</td><td>SMB Leads × Lead Value (business credit cards, payroll, accounting software)</td><td>$100M (12%)</td></tr>
+</table>
+
+<p class="prose"><strong>Key leverage points:</strong></p>
+<ul class="prose">
+  <li><strong>Traffic Volume:</strong> Organic + paid visits are the top-of-funnel driver for all segments. Management targets replacing organic traffic losses with paid traffic at 18-month CAC payback.</li>
+  <li><strong>Monetization Rate (Revenue per Visit):</strong> Varies by vertical — insurance and credit cards have highest CPAs. Improving match rate (connecting users to relevant products) directly increases RPV.</li>
+  <li><strong>Partner Appetite:</strong> External factor — carrier/issuer marketing budgets set the ceiling on monetization regardless of NerdWallet's traffic.</li>
+</ul>
+
+<!-- SECTION 7: SENSITIVITIES -->
+<div class="memo-section">7. Sensitivities on Core Business Drivers</div>
+
+<p class="prose" style="font-weight:600;">Sensitivity 1: Annual Revenue vs. Total Site Visits and Revenue per Visit</p>
+<p class="prose" style="font-size:9px; color:#666;">Current: ~200M annual visits × ~$4.20 RPV = ~$837M revenue</p>
+<table class="sensitivity">
+  <tr><th></th><th>$3.50 RPV</th><th>$3.80 RPV</th><th>$4.20 RPV</th><th>$4.50 RPV</th><th>$5.00 RPV</th></tr>
+  <tr><td><strong>150M Visits</strong></td><td>$525M</td><td>$570M</td><td>$630M</td><td>$675M</td><td>$750M</td></tr>
+  <tr><td><strong>175M Visits</strong></td><td>$613M</td><td>$665M</td><td>$735M</td><td>$788M</td><td>$875M</td></tr>
+  <tr><td><strong>200M Visits</strong></td><td>$700M</td><td>$760M</td><td class="base">$840M</td><td>$900M</td><td>$1,000M</td></tr>
+  <tr><td><strong>225M Visits</strong></td><td>$788M</td><td>$855M</td><td>$945M</td><td>$1,013M</td><td>$1,125M</td></tr>
+  <tr><td><strong>250M Visits</strong></td><td>$875M</td><td>$950M</td><td>$1,050M</td><td>$1,125M</td><td>$1,250M</td></tr>
+</table>
+
+<p class="prose" style="font-weight:600; margin-top:12px;">Sensitivity 2: Insurance Revenue vs. Carrier Marketing Spend and Market Share</p>
+<p class="prose" style="font-size:9px; color:#666;">Current: ~$8B carrier digital marketing TAM × ~3.5% market share = ~$281M</p>
+<table class="sensitivity">
+  <tr><th></th><th>2.5% Share</th><th>3.0% Share</th><th>3.5% Share</th><th>4.0% Share</th><th>4.5% Share</th></tr>
+  <tr><td><strong>$6B TAM</strong></td><td>$150M</td><td>$180M</td><td>$210M</td><td>$240M</td><td>$270M</td></tr>
+  <tr><td><strong>$7B TAM</strong></td><td>$175M</td><td>$210M</td><td>$245M</td><td>$280M</td><td>$315M</td></tr>
+  <tr><td><strong>$8B TAM</strong></td><td>$200M</td><td>$240M</td><td class="base">$280M</td><td>$320M</td><td>$360M</td></tr>
+  <tr><td><strong>$9B TAM</strong></td><td>$225M</td><td>$270M</td><td>$315M</td><td>$360M</td><td>$405M</td></tr>
+  <tr><td><strong>$10B TAM</strong></td><td>$250M</td><td>$300M</td><td>$350M</td><td>$400M</td><td>$450M</td></tr>
+</table>
+
+<p class="prose" style="font-weight:600; margin-top:12px;">Sensitivity 3: EBITDA vs. Revenue and EBITDA Margin</p>
+<p class="prose" style="font-size:9px; color:#666;">Current: $837M revenue × 13.9% EBITDA margin = $116M EBITDA</p>
+<table class="sensitivity">
+  <tr><th></th><th>10% Margin</th><th>12% Margin</th><th>14% Margin</th><th>16% Margin</th><th>18% Margin</th></tr>
+  <tr><td><strong>$750M Rev</strong></td><td>$75M</td><td>$90M</td><td>$105M</td><td>$120M</td><td>$135M</td></tr>
+  <tr><td><strong>$850M Rev</strong></td><td>$85M</td><td>$102M</td><td class="base">$119M</td><td>$136M</td><td>$153M</td></tr>
+  <tr><td><strong>$950M Rev</strong></td><td>$95M</td><td>$114M</td><td>$133M</td><td>$152M</td><td>$171M</td></tr>
+  <tr><td><strong>$1,050M Rev</strong></td><td>$105M</td><td>$126M</td><td>$147M</td><td>$168M</td><td>$189M</td></tr>
+  <tr><td><strong>$1,150M Rev</strong></td><td>$115M</td><td>$138M</td><td>$161M</td><td>$184M</td><td>$207M</td></tr>
+</table>
+
+<!-- SECTION 8: 3-YEAR MODEL -->
+<div class="memo-section">8. 3-Year Model (FY2026-FY2028)</div>
+
+<div class="case-block">
+  <div class="case-name">Bear Case (Severe) — AI Disruption Accelerates</div>
+  <div class="case-desc">AI search continues to erode organic traffic (-25% from current levels); paid marketing CAC payback extends to 24+ months; insurance carriers pull back on marketing spend; credit card issuers remain cautious.</div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>FY28 Revenue</span><span>$780M (-8% vs. FY25)</span></div>
+  <div class="driver-row"><span>EBITDA Margin (FY28)</span><span>10.0%</span></div>
+  <div class="driver-row"><span>EPS (FY28)</span><span>$0.45</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$780M</td></tr>
+    <tr><td>Gross Income</td><td>$702M</td></tr>
+    <tr><td>EBITDA</td><td>$78M</td></tr>
+    <tr><td>EBIT</td><td>$35M</td></tr>
+    <tr><td>Net Income</td><td>$26M</td></tr>
+    <tr><td>EPS</td><td>$0.45</td></tr>
+    <tr><td>EBITDA Margin</td><td>10.0%</td></tr>
+    <tr><td>FCF</td><td>$50M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:9px; color:#666;">Exit Multiple: 8x P/E (distressed)</div>
+    <div class="exit-price">$3.60</div>
+    <div class="exit-upside" style="color:#c0392b;">-64% from current</div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bear Case (Mild) — Slower Recovery</div>
+  <div class="case-desc">Organic traffic declines stabilize but don't recover; paid marketing works but at higher cost; verticals grow at low-single-digit rates; margins compress slightly due to higher CAC.</div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>FY28 Revenue</span><span>$920M (+10% vs. FY25)</span></div>
+  <div class="driver-row"><span>EBITDA Margin (FY28)</span><span>14.0%</span></div>
+  <div class="driver-row"><span>EPS (FY28)</span><span>$0.75</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$920M</td></tr>
+    <tr><td>Gross Income</td><td>$848M</td></tr>
+    <tr><td>EBITDA</td><td>$129M</td></tr>
+    <tr><td>EBIT</td><td>$80M</td></tr>
+    <tr><td>Net Income</td><td>$57M</td></tr>
+    <tr><td>EPS</td><td>$0.75</td></tr>
+    <tr><td>EBITDA Margin</td><td>14.0%</td></tr>
+    <tr><td>FCF</td><td>$85M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:9px; color:#666;">Exit Multiple: 10x P/E (below historical avg)</div>
+    <div class="exit-price">$7.50</div>
+    <div class="exit-upside" style="color:#c0392b;">-26% from current</div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Base Case — Consensus</div>
+  <div class="case-desc">FactSet consensus: successful paid marketing pivot replaces organic traffic; revenue grows at mid-single-digit rate; margins expand as operating leverage kicks in; Next Door Lending contributes modestly.</div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>FY28 Revenue</span><span>$1,010M (+21% vs. FY25)</span></div>
+  <div class="driver-row"><span>EBITDA Margin (FY28)</span><span>17.9%</span></div>
+  <div class="driver-row"><span>EPS (FY28)</span><span>$1.20 (est.)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$1,010M</td></tr>
+    <tr><td>Gross Income</td><td>$920M</td></tr>
+    <tr><td>EBITDA</td><td>$181M</td></tr>
+    <tr><td>EBIT</td><td>$115M</td></tr>
+    <tr><td>Net Income</td><td>$90M</td></tr>
+    <tr><td>EPS</td><td>$1.20</td></tr>
+    <tr><td>EBITDA Margin</td><td>17.9%</td></tr>
+    <tr><td>FCF</td><td>$120M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:9px; color:#666;">Exit Multiple: 12x P/E (historical avg)</div>
+    <div class="exit-price">$14.40</div>
+    <div class="exit-upside" style="color:#27ae60;">+43% from current</div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bull Case (Mild) — Paid Pivot Outperforms</div>
+  <div class="case-desc">Paid marketing drives 15%+ annual revenue growth; insurance vertical continues strong momentum; credit card issuer spend recovers; AI headwinds stabilize as Google monetizes AI answers with affiliate links.</div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>FY28 Revenue</span><span>$1,150M (+37% vs. FY25)</span></div>
+  <div class="driver-row"><span>EBITDA Margin (FY28)</span><span>19.0%</span></div>
+  <div class="driver-row"><span>EPS (FY28)</span><span>$1.50</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$1,150M</td></tr>
+    <tr><td>Gross Income</td><td>$1,058M</td></tr>
+    <tr><td>EBITDA</td><td>$219M</td></tr>
+    <tr><td>EBIT</td><td>$155M</td></tr>
+    <tr><td>Net Income</td><td>$113M</td></tr>
+    <tr><td>EPS</td><td>$1.50</td></tr>
+    <tr><td>EBITDA Margin</td><td>19.0%</td></tr>
+    <tr><td>FCF</td><td>$150M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:9px; color:#666;">Exit Multiple: 15x P/E (re-rating on growth)</div>
+    <div class="exit-price">$22.50</div>
+    <div class="exit-upside" style="color:#27ae60;">+123% from current</div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bull Case (Severe) — Platform Transformation</div>
+  <div class="case-desc">NerdWallet successfully transforms into a vertically integrated financial services platform; Next Door Lending scales to $50M+ revenue; Google reaches affiliate deals for AI Overviews; insurance and loans verticals both grow 20%+.</div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>FY28 Revenue</span><span>$1,350M (+61% vs. FY25)</span></div>
+  <div class="driver-row"><span>EBITDA Margin (FY28)</span><span>22.0%</span></div>
+  <div class="driver-row"><span>EPS (FY28)</span><span>$2.00</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$1,350M</td></tr>
+    <tr><td>Gross Income</td><td>$1,242M</td></tr>
+    <tr><td>EBITDA</td><td>$297M</td></tr>
+    <tr><td>EBIT</td><td>$225M</td></tr>
+    <tr><td>Net Income</td><td>$152M</td></tr>
+    <tr><td>EPS</td><td>$2.00</td></tr>
+    <tr><td>EBITDA Margin</td><td>22.0%</td></tr>
+    <tr><td>FCF</td><td>$200M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:9px; color:#666;">Exit Multiple: 18x P/E (premium for platform business)</div>
+    <div class="exit-price">$36.00</div>
+    <div class="exit-upside" style="color:#27ae60;">+257% from current</div>
+  </div>
+</div>
+
+<div class="case-chart">
+  <svg viewBox="0 0 700 180">
+    <defs>
+      <pattern id="diagonalHatch" patternUnits="userSpaceOnUse" width="4" height="4">
+        <path d="M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2" style="stroke:#888; stroke-width:1"/>
+      </pattern>
+    </defs>
+    <!-- Y-axis labels -->
+    <text x="30" y="25" font-size="9" fill="#888">$40</text>
+    <text x="30" y="65" font-size="9" fill="#888">$30</text>
+    <text x="30" y="105" font-size="9" fill="#888">$20</text>
+    <text x="30" y="145" font-size="9" fill="#888">$10</text>
+    <!-- Bars -->
+    <rect x="80" y="145" width="80" height="9" fill="#aaa"/>
+    <text x="120" y="165" font-size="9" fill="#333" text-anchor="middle">Bear Severe</text>
+    <text x="120" y="140" font-size="10" font-weight="600" fill="#333" text-anchor="middle">$3.60</text>
+
+    <rect x="180" y="125" width="80" height="29" fill="#aaa"/>
+    <text x="220" y="165" font-size="9" fill="#333" text-anchor="middle">Bear Mild</text>
+    <text x="220" y="120" font-size="10" font-weight="600" fill="#333" text-anchor="middle">$7.50</text>
+
+    <rect x="280" y="100" width="80" height="54" fill="#aaa"/>
+    <text x="320" y="165" font-size="9" fill="#333" text-anchor="middle">Base</text>
+    <text x="320" y="95" font-size="10" font-weight="600" fill="#333" text-anchor="middle">$14.40</text>
+
+    <rect x="380" y="73" width="80" height="81" fill="#aaa"/>
+    <text x="420" y="165" font-size="9" fill="#333" text-anchor="middle">Bull Mild</text>
+    <text x="420" y="68" font-size="10" font-weight="600" fill="#333" text-anchor="middle">$22.50</text>
+
+    <rect x="480" y="36" width="80" height="118" fill="#aaa"/>
+    <text x="520" y="165" font-size="9" fill="#333" text-anchor="middle">Bull Severe</text>
+    <text x="520" y="31" font-size="10" font-weight="600" fill="#333" text-anchor="middle">$36.00</text>
+
+    <!-- Current price line -->
+    <line x1="60" y1="127" x2="600" y2="127" stroke="#1a1a2e" stroke-width="2" stroke-dasharray="5,3"/>
+    <text x="605" y="130" font-size="9" fill="#1a1a2e">Current: $10.09</text>
+  </svg>
+</div>
+
+<!-- SECTION 9: COMPS -->
+<div class="memo-section">9. Comps</div>
+
+<div class="section-title">Named Competitors</div>
+<table class="data">
+  <tr><th>Company</th><th>Ticker</th><th>Mkt Cap ($M)</th><th>EV ($M)</th><th>EV/EBITDA</th><th>EV/Sales</th><th>P/E (FY1)</th></tr>
+  <tr class="bold-row"><td>NerdWallet A</td><td>NRDS-US</td><td>725</td><td>624</td><td>5.4x</td><td>0.7x</td><td>10.3x</td></tr>
+  <tr><td>LendingTree</td><td>TREE-US</td><td>590</td><td>900</td><td>8.7x</td><td>0.8x</td><td>12.0x</td></tr>
+  <tr><td>Zillow Group C</td><td>Z-US</td><td>10,554</td><td>9,618</td><td>36.9x</td><td>3.7x</td><td>19.3x</td></tr>
+  <tr><td>New York Times A</td><td>NYT-US</td><td>13,205</td><td>12,127</td><td>21.2x</td><td>4.3x</td><td>29.6x</td></tr>
+  <tr><td>Intuit</td><td>INTU-US</td><td>128,529</td><td>131,714</td><td>21.0x</td><td>6.5x</td><td>19.5x</td></tr>
+  <tr style="font-weight:600; background:#fafbfc;"><td>Average</td><td>—</td><td>—</td><td>—</td><td>18.6x</td><td>3.2x</td><td>18.1x</td></tr>
+  <tr style="font-weight:600; background:#fafbfc;"><td>Median</td><td>—</td><td>—</td><td>—</td><td>21.0x</td><td>3.7x</td><td>19.3x</td></tr>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Internet & Data Services Comps</div>
+<table class="data">
+  <tr><th>Company</th><th>Ticker</th><th>Mkt Cap ($M)</th><th>EV ($M)</th><th>EV/EBITDA</th><th>EV/EBIT</th><th>Gross Margin</th></tr>
+  <tr class="bold-row"><td>NerdWallet A</td><td>NRDS-US</td><td>725</td><td>624</td><td>5.4x</td><td>9.0x</td><td>92.4%</td></tr>
+  <tr><td>Groupon</td><td>GRPN-US</td><td>492</td><td>510</td><td>16.2x</td><td>39.3x</td><td>89.0%</td></tr>
+  <tr><td>Getty Images</td><td>GETY-US</td><td>326</td><td>1,616</td><td>6.4x</td><td>8.5x</td><td>66.2%</td></tr>
+  <tr><td>Nextdoor</td><td>NXDR-US</td><td>665</td><td>261</td><td>NM</td><td>NM</td><td>83.3%</td></tr>
+  <tr style="font-weight:600; background:#fafbfc;"><td>Average</td><td>—</td><td>—</td><td>—</td><td>9.3x</td><td>18.9x</td><td>82.7%</td></tr>
+  <tr style="font-weight:600; background:#fafbfc;"><td>Median</td><td>—</td><td>—</td><td>—</td><td>6.4x</td><td>9.0x</td><td>86.2%</td></tr>
+</table>
+
+<p class="prose" style="margin-top:10px;">
+<strong>Comp Commentary:</strong> NerdWallet trades at a significant discount to both comp sets on EV/EBITDA (5.4x vs. 18-21x median for named comps) and EV/Sales (0.7x vs. 3.7x). This discount reflects legitimate concerns about AI-driven disruption to organic traffic. However, if NerdWallet successfully executes its paid marketing pivot and maintains profitability, the current valuation implies minimal credit for future growth — potential re-rating opportunity if execution proves out.
+</p>
+
+<!-- SECTION 10: IS THIS A THEIA INVESTMENT? -->
+<div class="memo-section">10. Is This a Theia Investment?</div>
+
+<p class="prose" style="font-size:9px; color:#666; font-style:italic; margin-bottom:10px;">
+Theia seeks small cap companies that aren't well covered and are strongly aligned on core internet finance thesis with wide outcome dispersion.
+</p>
+
+<div class="verdict">
+<strong>(i) Market Cap Bucket: $674M</strong> <span class="fw-rating strong">Strong</span><br/>
+Small Cap ($1B-$5B bucket, but actually microcap-adjacent at sub-$700M). This is ideal Theia territory — too small for most institutional coverage, large enough to be liquid.
+</div>
+
+<div class="verdict">
+<strong>(ii) Analyst Coverage: 7 brokers</strong> <span class="fw-rating moderate">Moderate</span><br/>
+Moderately covered. Not completely orphaned, but far from consensus-crowded. Room for variant perception to generate alpha.
+</div>
+
+<div class="verdict">
+<strong>(iii) Blockchain / Internet Finance Thesis Alignment</strong> <span class="fw-rating moderate">Adjacent</span><br/>
+NerdWallet is core "internet finance" — a digital-native financial marketplace. However, it has no blockchain exposure and isn't directly participating in crypto/DeFi. Adjacent to Theia's thesis via fintech disruption angle, but not core.
+</div>
+
+<div class="verdict">
+<strong>(iv) Outcome Dispersion</strong> <span class="fw-rating strong">Wide</span><br/>
+Very wide outcome range. Bear case severe: $3.60 (-64%). Bull case severe: $36.00 (+257%). The 10x spread between extreme outcomes reflects genuine uncertainty about AI's impact on the business model. This is exactly the type of asymmetry Theia seeks.
+</div>
+
+<div class="verdict" style="border-left-color:#27ae60; background:#e8f5e9;">
+<strong>Verdict: Maybe — Wide Dispersion + Small Cap, but Thesis Alignment is Adjacent</strong><br/>
+NerdWallet scores well on market cap (small/micro), outcome dispersion (very wide), and coverage (moderate). The hesitation is thesis alignment — this is internet finance but not blockchain-native. If Theia's mandate includes "fintech disruption" broadly, this is a compelling situation. The stock trades at distressed multiples (5x EBITDA, 10x earnings) with genuine optionality on (a) AI search resolution, (b) paid marketing success, and (c) vertical integration via Next Door Lending. Worth a deeper dive if thesis fit is confirmed.
+</div>
+
+<!-- SECTION 11: APPENDIX -->
+<div class="memo-section">11. Appendix — Python Code</div>
+
+<div class="appendix">
+<p class="prose">Parameterized Python code for sensitivity analysis and scenario modeling:</p>
+
+<div class="code-block"># Sensitivity Table Generator
+import numpy as np
+
+def generate_sensitivity_table(
+    row_variable_name: str,
+    row_values: list,
+    col_variable_name: str,
+    col_values: list,
+    output_name: str,
+    formula  # function(row_val, col_val) -> output
+):
+    """Generate a 2D sensitivity table."""
+    print(f"\n{output_name} = f({row_variable_name}, {col_variable_name})")
+    print("-" * 60)
+
+    # Header
+    header = f"{'':>15}" + "".join(f"{v:>12}" for v in col_values)
+    print(header)
+
+    # Rows
+    for row_val in row_values:
+        row_str = f"{row_val:>15}"
+        for col_val in col_values:
+            result = formula(row_val, col_val)
+            row_str += f"{result:>12,.0f}"
+        print(row_str)
+
+# Example: Revenue = Visits × RPV
+generate_sensitivity_table(
+    row_variable_name="Visits (M)",
+    row_values=[150, 175, 200, 225, 250],
+    col_variable_name="RPV ($)",
+    col_values=[3.50, 3.80, 4.20, 4.50, 5.00],
+    output_name="Revenue ($M)",
+    formula=lambda visits, rpv: visits * rpv
+)
+</div>
+
+<div class="code-block"># 5-Case Model Generator
+def generate_scenario_model(
+    base_revenue: float,
+    base_ebitda_margin: float,
+    base_net_margin: float,
+    shares_out: float,
+    current_price: float,
+    historical_pe: float = 12.0
+):
+    """Generate 5-case scenario model."""
+
+    cases = {
+        "Bear Severe": {"rev_mult": 0.75, "margin_adj": -0.04, "pe_mult": 0.67},
+        "Bear Mild":   {"rev_mult": 0.90, "margin_adj": -0.02, "pe_mult": 0.83},
+        "Base":        {"rev_mult": 1.00, "margin_adj": 0.00, "pe_mult": 1.00},
+        "Bull Mild":   {"rev_mult": 1.15, "margin_adj": 0.02, "pe_mult": 1.25},
+        "Bull Severe": {"rev_mult": 1.35, "margin_adj": 0.05, "pe_mult": 1.50},
+    }
+
+    print("\n" + "=" * 80)
+    print("5-CASE SCENARIO MODEL")
+    print("=" * 80)
+
+    for case_name, params in cases.items():
+        revenue = base_revenue * params["rev_mult"]
+        ebitda_margin = base_ebitda_margin + params["margin_adj"]
+        net_margin = base_net_margin + params["margin_adj"]
+        ebitda = revenue * ebitda_margin
+        net_income = revenue * net_margin
+        eps = net_income / shares_out
+        exit_pe = historical_pe * params["pe_mult"]
+        implied_price = eps * exit_pe
+        upside = (implied_price / current_price - 1) * 100
+
+        print(f"\n{case_name}")
+        print(f"  Revenue:       ${revenue:,.0f}M")
+        print(f"  EBITDA:        ${ebitda:,.0f}M ({ebitda_margin:.1%} margin)")
+        print(f"  Net Income:    ${net_income:,.0f}M ({net_margin:.1%} margin)")
+        print(f"  EPS:           ${eps:.2f}")
+        print(f"  Exit P/E:      {exit_pe:.1f}x")
+        print(f"  Implied Price: ${implied_price:.2f}")
+        print(f"  Upside:        {upside:+.0f}%")
+
+# Run for NRDS
+generate_scenario_model(
+    base_revenue=1010,      # FY28E consensus
+    base_ebitda_margin=0.18,
+    base_net_margin=0.09,
+    shares_out=75.0,
+    current_price=10.09,
+    historical_pe=12.0
+)
+</div>
+</div>
+
+<div class="source-note" style="margin-top:24px; font-size:9px;">
+Sources: FactSet (March 17, 2026), Company filings, AlphaSense, NerdWallet Q4 2025 Earnings Call, NerdWallet Investor Presentation (March 2025).<br/>
+Memo generated by Claude for Theia Capital.
+</div>
+
+</body>
+</html>
