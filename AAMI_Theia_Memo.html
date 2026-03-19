@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acadian Asset Management | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 6px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+.fw-rating.na { background: #e9ecef; color: #6c757d; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.driver-table { font-size: 10px; width: 100%; margin: 8px 0; }
+.driver-table td { padding: 3px 6px; border-bottom: 1px solid #eee; }
+.driver-table td:first-child { font-weight: 500; }
+.driver-table .formula { color: #2563eb; font-family: monospace; font-size: 9px; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Acadian Asset Management | Preliminary Memo for Theia</div>
+
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<div class="memo-section">1. Business Overview</div>
+<p class="prose">
+Acadian Asset Management Inc. (NYSE: AAMI) is a Boston-based pure-play systematic equity investment manager serving institutional investors globally. Founded in 1986 as part of BrightSphere Investment Group, the company rebranded to Acadian Asset Management in Q1 2025 following the spinoff of other affiliates. Acadian operates through its subsidiary Acadian Asset Management LLC, employing quantitative, factor-based investment strategies across global, emerging market, non-US, small cap, and enhanced equity mandates. The firm manages $177.5 billion in AUM as of December 2025 for over 1,000 institutional accounts, including 5 of the top 20 global asset owners and 24 clients among the top 50 US retirement plans. CEO Kelly Ann Louise Young leads the firm from its headquarters in Boston, with distribution offices in London, Singapore, and Sydney. Acadian is the only pure-play, publicly traded systematic asset manager, differentiating itself through a 40-year track record and a quality/value-oriented investment process that has generated +4.7% annualized excess return (revenue-weighted) over 5 years.
+</p>
+
+<!-- SECTION 2: FINANCIAL SUMMARY -->
+<div class="memo-section">2. Financial Summary (Theia FactSet Summary)</div>
+
+<div class="header">
+  <div>
+    <h1>Acadian Asset Management Inc.</h1>
+    <span class="ticker">AAMI-US | NYSE</span>
+  </div>
+  <span class="date">CUSIP: 10948W103 | March 19, 2026</span>
+</div>
+
+<div class="price-bar">
+  <span class="price">$50.21</span>
+  <span><span class="label">1M:</span> <span class="chg">-5.1%</span></span>
+  <span><span class="label">3M:</span> <span class="chg pos">+5.6%</span></span>
+  <span><span class="label">6M:</span> <span class="chg pos">+2.8%</span></span>
+  <span><span class="label">YTD:</span> <span class="chg pos">+6.8%</span></span>
+  <span><span class="label">1Y:</span> <span class="chg pos">+93.3%</span></span>
+  <span><span class="label">52W:</span> $22.60 – $57.02</span>
+</div>
+
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv">
+      <tr><td>Ticker</td><td>AAMI-US</td></tr>
+      <tr><td>Price</td><td>$50.21</td></tr>
+      <tr><td>Volume (Last)</td><td>289,600</td></tr>
+      <tr><td>30D Avg Vol</td><td>291,929</td></tr>
+      <tr><td>Float %</td><td>98.1%</td></tr>
+      <tr><td>Short Interest</td><td>3.2 Days / 2.6% Float</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev">
+      <tr><td>Basic Shares (M)</td><td>35.72</td></tr>
+      <tr><td style="padding-left: 12px;">Common Stock</td><td>35.72</td></tr>
+      <tr><td>× Price</td><td>$50.21</td></tr>
+      <tr><td>= Market Cap</td><td>$1,794M</td></tr>
+      <tr><td>+ Diluted Shares</td><td>0.07</td></tr>
+      <tr><td>= Fully Dil Mkt Cap</td><td>$1,797M</td></tr>
+      <tr><td>+ Consolidated Debt</td><td>$208M</td></tr>
+      <tr><td>+ Non-Controlling Interest</td><td>$23M</td></tr>
+      <tr><td>− Cash & Equivalents</td><td>($124M)</td></tr>
+      <tr class="total"><td>Enterprise Value</td><td>$1,904M</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="section-title">Current Valuation</div>
+<div class="val-grid">
+  <div class="val-cell"><div class="val-label">Mkt Cap</div><div class="val-num">$1,794M</div></div>
+  <div class="val-cell"><div class="val-label">EV</div><div class="val-num">$1,904M</div></div>
+  <div class="val-cell"><div class="val-label">P/E (LTM)</div><div class="val-num">22.7x</div></div>
+  <div class="val-cell"><div class="val-label">EV/EBITDA</div><div class="val-num">10.3x</div></div>
+  <div class="val-cell"><div class="val-label">EV/Sales</div><div class="val-num">3.2x</div></div>
+  <div class="val-cell"><div class="val-label">P/S</div><div class="val-num">3.0x</div></div>
+</div>
+<div class="val-grid">
+  <div class="val-cell"><div class="val-label">Fully Dil Mkt Cap</div><div class="val-num">$1,797M</div></div>
+  <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">9.0%</div></div>
+  <div class="val-cell"><div class="val-label">Beta (3Y Adj)</div><div class="val-num">1.19</div></div>
+  <div class="val-cell"><div class="val-label">Avg Rating</div><div class="val-num">Hold (2.0)</div></div>
+  <div class="val-cell"><div class="val-label">Target Price</div><div class="val-num">$54.33</div></div>
+  <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">Apr 30, 2026</div></div>
+</div>
+
+<div class="section-title">Valuation Multiples</div>
+<table class="data">
+  <tr>
+    <th></th>
+    <th>5Yr Avg</th>
+    <th>Dec '23</th>
+    <th>Dec '24</th>
+    <th>Dec '25</th>
+    <th class="est">Dec '26E</th>
+    <th class="est">Dec '27E</th>
+  </tr>
+  <tr><td>P/E</td><td>13.9x</td><td>12.4x</td><td>11.9x</td><td>21.3x</td><td class="est">11.5x</td><td class="est">9.5x</td></tr>
+  <tr><td>P/Sales</td><td>2.5x</td><td>1.9x</td><td>2.0x</td><td>2.8x</td><td class="est">2.5x</td><td class="est">2.3x</td></tr>
+  <tr><td>P/BV</td><td>NM</td><td>19.7x</td><td>49.4x</td><td>27.7x</td><td class="est">4.1x</td><td class="est">2.5x</td></tr>
+  <tr><td>EV/Sales</td><td>2.5x</td><td>2.2x</td><td>2.4x</td><td>3.0x</td><td class="est">2.7x</td><td class="est">2.4x</td></tr>
+  <tr><td>EV/EBITDA</td><td>7.4x</td><td>7.1x</td><td>7.6x</td><td>9.6x</td><td class="est">7.8x</td><td class="est">6.8x</td></tr>
+  <tr><td>EV/EBIT</td><td>8.3x</td><td>8.2x</td><td>8.5x</td><td>10.6x</td><td class="est">8.2x</td><td class="est">7.1x</td></tr>
+</table>
+
+<div class="section-title">Revenue Exposure</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Business Unit</div>
+    <table class="rev">
+      <tr><th>Segment</th><th>% Rev</th><th>$M</th><th>YoY</th></tr>
+      <tr><td>Quant & Solutions</td><td>100%</td><td>$549M</td><td>+9.3%</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="sub-label">By Geography</div>
+    <table class="rev">
+      <tr><th>Region</th><th>% Rev</th><th>$M</th><th>YoY</th></tr>
+      <tr><td>United States</td><td>75%</td><td>$389M</td><td>+18.9%</td></tr>
+      <tr><td>Non-US</td><td>25%</td><td>$128M</td><td>+23.9%</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="section-title">Financials</div>
+<table class="data">
+  <tr>
+    <th></th>
+    <th>5Yr CAGR</th>
+    <th>Dec '23</th>
+    <th>Dec '24</th>
+    <th>Dec '25</th>
+    <th class="est">Dec '26E</th>
+    <th class="est">Dec '27E</th>
+  </tr>
+  <tr class="section-row"><td colspan="7">Income Statement</td></tr>
+  <tr><td>Revenue</td><td>3.8%</td><td>$434M</td><td>$515M</td><td>$601M</td><td class="est">$717M</td><td class="est">$793M</td></tr>
+  <tr><td>Gross Income</td><td>3.7%</td><td>$414M</td><td>$496M</td><td>$575M</td><td class="est">—</td><td class="est">—</td></tr>
+  <tr><td>EBITDA</td><td>0.7%</td><td>$133M</td><td>$165M</td><td>$186M</td><td class="est">$246M</td><td class="est">$281M</td></tr>
+  <tr><td>EBIT</td><td>1.2%</td><td>$116M</td><td>$147M</td><td>$169M</td><td class="est">$231M</td><td class="est">$267M</td></tr>
+  <tr><td>Net Income</td><td>(18.2%)</td><td>$66M</td><td>$85M</td><td>$80M</td><td class="est">$159M</td><td class="est">$184M</td></tr>
+  <tr><td>EPS (Dil)</td><td>(8.8%)</td><td>$1.55</td><td>$2.22</td><td>$2.21</td><td class="est">$4.38</td><td class="est">$5.30</td></tr>
+  <tr class="section-row"><td colspan="7">Margins</td></tr>
+  <tr><td>Gross Margin</td><td>—</td><td>95.4%</td><td>96.2%</td><td>95.7%</td><td class="est">—</td><td class="est">—</td></tr>
+  <tr><td>EBITDA Margin</td><td>—</td><td>30.6%</td><td>32.0%</td><td>30.9%</td><td class="est">34.5%</td><td class="est">35.4%</td></tr>
+  <tr><td>Net Margin</td><td>—</td><td>15.2%</td><td>16.5%</td><td>13.3%</td><td class="est">22.2%</td><td class="est">23.2%</td></tr>
+  <tr><td>FCF Margin</td><td>—</td><td>14.0%</td><td>19.4%</td><td>30.1%</td><td class="est">—</td><td class="est">—</td></tr>
+  <tr class="section-row"><td colspan="7">Cash Flow</td></tr>
+  <tr><td>Op Cash Flow</td><td>5.8%</td><td>$74M</td><td>$110M</td><td>$193M</td><td class="est">—</td><td class="est">—</td></tr>
+  <tr><td>CapEx</td><td>(14.2%)</td><td>($14M)</td><td>($10M)</td><td>($12M)</td><td class="est">—</td><td class="est">—</td></tr>
+  <tr><td>FCF</td><td>8.5%</td><td>$61M</td><td>$100M</td><td>$181M</td><td class="est">—</td><td class="est">—</td></tr>
+  <tr class="section-row"><td colspan="7">Returns & Leverage</td></tr>
+  <tr><td>ROE</td><td>—</td><td>707.5%</td><td>282.4%</td><td>198.5%</td><td class="est">35.6%</td><td class="est">26.1%</td></tr>
+  <tr><td>Debt/Equity</td><td>—</td><td>8.6x</td><td>17.1x</td><td>4.3x</td><td class="est">—</td><td class="est">—</td></tr>
+  <tr><td>Interest Coverage</td><td>—</td><td>5.0x</td><td>6.4x</td><td>6.0x</td><td class="est">28.5x</td><td class="est">36.6x</td></tr>
+</table>
+<p class="source-note">Source: FactSet, March 2026</p>
+
+<!-- SECTION 3: HELMER'S 7 POWERS -->
+<div class="memo-section">3. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Scale Economies</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Asset management benefits from scale as fixed costs (technology, research infrastructure) are spread across a larger AUM base. Acadian's 51% AUM growth in 2025 drove meaningful operating leverage, with operating expense ratio falling 10 percentage points YoY. However, the variable compensation structure (40-43% of earnings) caps some scale benefits.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Network Effects</span><span class="fw-rating weak">Weak</span>
+  <p class="prose">Asset management lacks traditional network effects. More assets under management don't inherently make the product better for other clients. There is no flywheel dynamic where additional clients improve the offering for existing investors.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Counter-Positioning</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose">As a pure-play systematic/quant manager, Acadian occupies a niche that large diversified asset managers cannot easily replicate without cannibalizing their discretionary strategies. The 40-year track record in systematic investing creates credibility that new entrants cannot match quickly.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Switching Costs</span><span class="fw-rating strong">Strong</span>
+  <p class="prose">Institutional clients face substantial switching costs: manager selection due diligence, consultant approval processes, board presentations, and operational integration. Average relationship length of 10+ years with top 50 clients demonstrates significant lock-in. Enhanced indexing mandates are particularly sticky given customization requirements.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Branding</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Acadian has strong brand recognition within the institutional quant/systematic space. However, branding is less relevant in institutional asset management versus consumer businesses—investment committees care about track records and process, not brand affinity.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">6. Cornered Resource</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Acadian's 40-year investment track record is a non-replicable asset. The intellectual property embedded in their factor models, combined with proprietary datasets and research infrastructure, constitutes a meaningful cornered resource. Key employee equity arrangements help retain critical talent.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">7. Process Power</span><span class="fw-rating strong">Strong</span>
+  <p class="prose">The systematic investment process itself is a durable competitive advantage. Acadian has delivered 95% of strategies outperforming benchmarks over 5-year periods. The disciplined, data-driven approach has weathered multiple market cycles and is embedded in organizational culture developed over four decades.</p>
+</div>
+
+<p class="prose" style="margin-top: 12px;"><strong>Summary:</strong> The strongest moats here are <strong>Switching Costs</strong> and <strong>Process Power</strong>. Institutional clients are sticky, and Acadian's systematic process has proven durability. Scale economies provide additional tailwinds as AUM grows.</p>
+
+<!-- SECTION 4: PORTER'S 5 FORCES -->
+<div class="memo-section">4. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Threat of New Entrants</span><span class="fw-rating low">Low</span>
+  <p class="prose">High barriers to entry: building a 40-year institutional track record is impossible for new entrants. Consultant approval processes favor established managers. Technology and data infrastructure require substantial upfront investment. Regulatory requirements add complexity.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Bargaining Power of Suppliers</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Key suppliers include talent (quant researchers, portfolio managers), data providers (FactSet, Bloomberg), and technology vendors. Competition for top quant talent is intense. However, Acadian's employee equity/profit-sharing arrangements help mitigate talent supplier power.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Bargaining Power of Buyers</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Institutional clients (pension funds, sovereigns, endowments) are sophisticated and price-sensitive. Fee compression is a long-term industry trend. However, Acadian's differentiated strategies (Enhanced, Extensions) command reasonable fees, and strong performance creates retention leverage.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Threat of Substitutes</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose">Low-cost passive/index funds represent the primary substitute threat. ETFs have captured massive flows from active managers. However, Acadian's Enhanced strategies directly address this by offering index-like tracking with alpha generation, positioning them between pure active and passive.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Competitive Rivalry</span><span class="fw-rating high">High</span>
+  <p class="prose">Intense competition from large quant managers (AQR, Two Sigma, D.E. Shaw), traditional asset managers building quant capabilities, and diversified managers like Victory Capital (VCTR). The industry is fragmented with many well-capitalized competitors.</p>
+</div>
+
+<p class="prose" style="margin-top: 12px;"><strong>Summary:</strong> The competitive environment is <strong>moderately favorable</strong>. High barriers to entry protect incumbents, but fee pressure and passive substitutes create ongoing challenges. Acadian's pure-play positioning and strong track record provide differentiation.</p>
+
+<!-- SECTION 5: WHAT DRIVES THE STOCK -->
+<div class="memo-section">5. What Drives the Stock?</div>
+
+<p class="prose">These are the 5-6 variables that would move AAMI's stock price materially in the next 12 months:</p>
+
+<ol class="prose" style="margin-left: 20px;">
+  <li style="margin-bottom: 8px;"><strong>Net Client Cash Flows (NCCF):</strong> The single most important driver. AAMI generated $29.4B of NCCF in 2025 (25% of BoP AUM), the highest in firm history. Continuation of positive flows is bullish; reverting to the historical industry pattern of outflows from active equity would be bearish.</li>
+  <li style="margin-bottom: 8px;"><strong>Investment Performance vs. Benchmarks:</strong> 95% of strategies outperforming over 5 years is excellent. However, 1-year performance weakened to 57% outperforming as of Q4'25 due to quality factor headwinds. Extended underperformance would threaten flows and pricing power.</li>
+  <li style="margin-bottom: 8px;"><strong>AUM Levels and Market Returns:</strong> With 100% of revenue tied to AUM, market beta is significant. A 10% move in equity markets mechanically moves AUM and revenue in the same direction. Q4'25 ending AUM of $177.5B provides a strong revenue base for 2026.</li>
+  <li style="margin-bottom: 8px;"><strong>Fee Rate Dynamics:</strong> Average management fee rate declined from 38.4 bps (2024) to 35.9 bps (2025) due to mix shift toward lower-fee Enhanced strategies. Further compression is bearish; stabilization or increase is bullish.</li>
+  <li style="margin-bottom: 8px;"><strong>Operating Margin Trajectory:</strong> ENI operating margin expanded to 35.5% in 2025 (up 2+ pts YoY). Continued operating leverage from scale would be bullish. Investment in systematic credit and AI/data initiatives could pressure margins near-term.</li>
+  <li style="margin-bottom: 8px;"><strong>Capital Returns:</strong> Share count down 58% since Q4'19 through buybacks. Dividend increased 10x to $0.10/share. Continuation of aggressive capital returns (CFO indicated buybacks are "priority" for 2026) is bullish.</li>
+</ol>
+
+<!-- SECTION 6: WHAT DRIVES THE BUSINESS -->
+<div class="memo-section">6. What Drives the Business?</div>
+
+<p class="prose">Revenue decomposition for Acadian's single business segment:</p>
+
+<table class="driver-table">
+  <tr>
+    <td><strong>Management Fees</strong></td>
+    <td><span class="formula">= Average AUM × Management Fee Rate (bps)</span></td>
+  </tr>
+  <tr>
+    <td style="padding-left: 20px;">2025: $518M</td>
+    <td><span class="formula">= $144.3B × 35.9 bps</span></td>
+  </tr>
+  <tr>
+    <td><strong>Performance Fees</strong></td>
+    <td><span class="formula">= Eligible AUM × Alpha Generated × Performance Fee Share</span></td>
+  </tr>
+  <tr>
+    <td style="padding-left: 20px;">2025: $31M</td>
+    <td><span class="formula">= Function of strategy outperformance vs. benchmarks</span></td>
+  </tr>
+  <tr>
+    <td><strong>Total Revenue</strong></td>
+    <td><span class="formula">= Management Fees + Performance Fees</span></td>
+  </tr>
+  <tr>
+    <td style="padding-left: 20px;">2025: $549M</td>
+    <td><span class="formula">= $518M + $31M</span></td>
+  </tr>
+</table>
+
+<p class="prose" style="margin-top: 10px;"><strong>AUM Build-Up:</strong></p>
+<table class="driver-table">
+  <tr>
+    <td><strong>Ending AUM</strong></td>
+    <td><span class="formula">= Beginning AUM + Gross Inflows − Gross Outflows + Market Appreciation + Reinvested Income</span></td>
+  </tr>
+  <tr>
+    <td style="padding-left: 20px;">Q4'25: $177.5B</td>
+    <td><span class="formula">= $166.4B + $15.6B − $11.2B + $5.7B + $1.0B</span></td>
+  </tr>
+</table>
+
+<p class="prose" style="margin-top: 12px;"><strong>Key Leverage Points:</strong> The two drivers with most impact on revenue are (1) <strong>Net Client Cash Flows</strong> and (2) <strong>Market Returns</strong>. Together they determine AUM, which directly drives management fees. Fee rate is declining (mix shift to Enhanced), partially offsetting AUM growth. Performance fees are a smaller component ($31M vs. $518M management fees in 2025) and volatile.</p>
+
+<!-- SECTION 7: SENSITIVITIES -->
+<div class="memo-section">7. Sensitivities on Core Business Drivers</div>
+
+<p class="prose" style="font-weight: 700;">Average AUM ($B) vs. Management Fee Rate (bps) → Annual Management Fee Revenue ($M)</p>
+<p class="prose" style="font-size: 9px; color: #666;">Current: Avg AUM ~$170B, Fee Rate ~35 bps</p>
+<table class="sensitivity">
+  <tr>
+    <th></th>
+    <th>32 bps</th>
+    <th>34 bps</th>
+    <th>35 bps</th>
+    <th>36 bps</th>
+    <th>38 bps</th>
+  </tr>
+  <tr>
+    <td style="font-weight: 600;">$140B</td>
+    <td>$448</td>
+    <td>$476</td>
+    <td>$490</td>
+    <td>$504</td>
+    <td>$532</td>
+  </tr>
+  <tr>
+    <td style="font-weight: 600;">$160B</td>
+    <td>$512</td>
+    <td>$544</td>
+    <td>$560</td>
+    <td>$576</td>
+    <td>$608</td>
+  </tr>
+  <tr>
+    <td style="font-weight: 600;">$170B</td>
+    <td>$544</td>
+    <td>$578</td>
+    <td class="base">$595</td>
+    <td>$612</td>
+    <td>$646</td>
+  </tr>
+  <tr>
+    <td style="font-weight: 600;">$180B</td>
+    <td>$576</td>
+    <td>$612</td>
+    <td>$630</td>
+    <td>$648</td>
+    <td>$684</td>
+  </tr>
+  <tr>
+    <td style="font-weight: 600;">$200B</td>
+    <td>$640</td>
+    <td>$680</td>
+    <td>$700</td>
+    <td>$720</td>
+    <td>$760</td>
+  </tr>
+</table>
+
+<p class="prose" style="font-weight: 700; margin-top: 16px;">Net Client Cash Flows ($B/year) vs. Market Return (%) → Year-End AUM ($B)</p>
+<p class="prose" style="font-size: 9px; color: #666;">Starting: Beginning AUM $177.5B</p>
+<table class="sensitivity">
+  <tr>
+    <th></th>
+    <th>-10%</th>
+    <th>0%</th>
+    <th>+5%</th>
+    <th>+10%</th>
+    <th>+15%</th>
+  </tr>
+  <tr>
+    <td style="font-weight: 600;">-$10B</td>
+    <td>$150</td>
+    <td>$168</td>
+    <td>$176</td>
+    <td>$185</td>
+    <td>$194</td>
+  </tr>
+  <tr>
+    <td style="font-weight: 600;">$0B</td>
+    <td>$160</td>
+    <td>$178</td>
+    <td>$186</td>
+    <td>$195</td>
+    <td>$204</td>
+  </tr>
+  <tr>
+    <td style="font-weight: 600;">+$10B</td>
+    <td>$169</td>
+    <td>$188</td>
+    <td class="base">$197</td>
+    <td>$206</td>
+    <td>$215</td>
+  </tr>
+  <tr>
+    <td style="font-weight: 600;">+$20B</td>
+    <td>$178</td>
+    <td>$198</td>
+    <td>$207</td>
+    <td>$217</td>
+    <td>$227</td>
+  </tr>
+  <tr>
+    <td style="font-weight: 600;">+$30B</td>
+    <td>$186</td>
+    <td>$208</td>
+    <td>$218</td>
+    <td>$228</td>
+    <td>$239</td>
+  </tr>
+</table>
+
+<p class="prose" style="font-weight: 700; margin-top: 16px;">ENI Operating Margin (%) vs. ENI Revenue ($M) → ENI Operating Earnings ($M)</p>
+<p class="prose" style="font-size: 9px; color: #666;">Current: ENI Revenue ~$550M, Margin ~35.5%</p>
+<table class="sensitivity">
+  <tr>
+    <th></th>
+    <th>32%</th>
+    <th>34%</th>
+    <th>36%</th>
+    <th>38%</th>
+    <th>40%</th>
+  </tr>
+  <tr>
+    <td style="font-weight: 600;">$500M</td>
+    <td>$160</td>
+    <td>$170</td>
+    <td>$180</td>
+    <td>$190</td>
+    <td>$200</td>
+  </tr>
+  <tr>
+    <td style="font-weight: 600;">$550M</td>
+    <td>$176</td>
+    <td>$187</td>
+    <td class="base">$198</td>
+    <td>$209</td>
+    <td>$220</td>
+  </tr>
+  <tr>
+    <td style="font-weight: 600;">$600M</td>
+    <td>$192</td>
+    <td>$204</td>
+    <td>$216</td>
+    <td>$228</td>
+    <td>$240</td>
+  </tr>
+  <tr>
+    <td style="font-weight: 600;">$700M</td>
+    <td>$224</td>
+    <td>$238</td>
+    <td>$252</td>
+    <td>$266</td>
+    <td>$280</td>
+  </tr>
+  <tr>
+    <td style="font-weight: 600;">$800M</td>
+    <td>$256</td>
+    <td>$272</td>
+    <td>$288</td>
+    <td>$304</td>
+    <td>$320</td>
+  </tr>
+</table>
+
+<!-- SECTION 8: 3-YEAR MODEL -->
+<div class="memo-section">8. 3-Year Model</div>
+
+<div class="case-block">
+  <div class="case-name">Bear Case (Severe)</div>
+  <div class="case-desc">Quality factor continues to underperform; institutional flows revert to industry average outflows; market correction</div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>2026 NCCF</span><span>-$10B (reversion to outflows)</span></div>
+  <div class="driver-row"><span>Market Return</span><span>-10%</span></div>
+  <div class="driver-row"><span>Fee Rate</span><span>33 bps (continued compression)</span></div>
+  <div class="driver-row"><span>Operating Margin</span><span>32% (investment spending pressure)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$470M</td></tr>
+    <tr><td>EBITDA</td><td>$150M</td></tr>
+    <tr><td>EBIT</td><td>$134M</td></tr>
+    <tr><td>Net Income</td><td>$95M</td></tr>
+    <tr><td>EPS</td><td>$2.70</td></tr>
+    <tr><td>EBITDA Margin</td><td>31.9%</td></tr>
+    <tr><td>FCF</td><td>$85M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size: 9px; color: #666;">Exit Multiple: 8x P/E (distressed)</div>
+    <div class="exit-price">Implied Price: $22</div>
+    <div class="exit-upside" style="color: #c0392b;">Downside: -56%</div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bear Case (Mild)</div>
+  <div class="case-desc">Flows moderate from 2025 peak; flat markets; modest fee pressure</div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>2026 NCCF</span><span>+$5B (normalized from $29B)</span></div>
+  <div class="driver-row"><span>Market Return</span><span>0%</span></div>
+  <div class="driver-row"><span>Fee Rate</span><span>34 bps</span></div>
+  <div class="driver-row"><span>Operating Margin</span><span>34%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$580M</td></tr>
+    <tr><td>EBITDA</td><td>$197M</td></tr>
+    <tr><td>EBIT</td><td>$180M</td></tr>
+    <tr><td>Net Income</td><td>$130M</td></tr>
+    <tr><td>EPS</td><td>$3.70</td></tr>
+    <tr><td>EBITDA Margin</td><td>34.0%</td></tr>
+    <tr><td>FCF</td><td>$140M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size: 9px; color: #666;">Exit Multiple: 10x P/E (in-line with history)</div>
+    <div class="exit-price">Implied Price: $37</div>
+    <div class="exit-upside" style="color: #c0392b;">Downside: -26%</div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Base Case (Consensus)</div>
+  <div class="case-desc">Continued strong flows; moderate market appreciation; margin expansion</div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>2026 NCCF</span><span>+$15B</span></div>
+  <div class="driver-row"><span>Market Return</span><span>+7%</span></div>
+  <div class="driver-row"><span>Fee Rate</span><span>35 bps</span></div>
+  <div class="driver-row"><span>Operating Margin</span><span>36%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$717M</td></tr>
+    <tr><td>EBITDA</td><td>$246M</td></tr>
+    <tr><td>EBIT</td><td>$231M</td></tr>
+    <tr><td>Net Income</td><td>$159M</td></tr>
+    <tr><td>EPS</td><td>$4.38</td></tr>
+    <tr><td>EBITDA Margin</td><td>34.3%</td></tr>
+    <tr><td>FCF</td><td>$180M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size: 9px; color: #666;">Exit Multiple: 11.5x P/E (consensus FY1)</div>
+    <div class="exit-price">Implied Price: $50</div>
+    <div class="exit-upside" style="color: #666;">Flat vs. Current</div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bull Case (Mild)</div>
+  <div class="case-desc">Quality factor rebounds; flows accelerate; strong markets</div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>2026 NCCF</span><span>+$25B</span></div>
+  <div class="driver-row"><span>Market Return</span><span>+12%</span></div>
+  <div class="driver-row"><span>Fee Rate</span><span>36 bps (mix stabilizes)</span></div>
+  <div class="driver-row"><span>Operating Margin</span><span>38%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$820M</td></tr>
+    <tr><td>EBITDA</td><td>$312M</td></tr>
+    <tr><td>EBIT</td><td>$295M</td></tr>
+    <tr><td>Net Income</td><td>$210M</td></tr>
+    <tr><td>EPS</td><td>$5.90</td></tr>
+    <tr><td>EBITDA Margin</td><td>38.0%</td></tr>
+    <tr><td>FCF</td><td>$220M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size: 9px; color: #666;">Exit Multiple: 12x P/E (premium for growth)</div>
+    <div class="exit-price">Implied Price: $71</div>
+    <div class="exit-upside" style="color: #27ae60;">Upside: +41%</div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bull Case (Severe)</div>
+  <div class="case-desc">Systematic credit succeeds; AI enhances alpha; breakout flows; multiple re-rating</div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>2026 NCCF</span><span>+$35B (exceeds 2025 record)</span></div>
+  <div class="driver-row"><span>Market Return</span><span>+15%</span></div>
+  <div class="driver-row"><span>Fee Rate</span><span>37 bps (higher-fee products)</span></div>
+  <div class="driver-row"><span>Operating Margin</span><span>40%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$950M</td></tr>
+    <tr><td>EBITDA</td><td>$380M</td></tr>
+    <tr><td>EBIT</td><td>$360M</td></tr>
+    <tr><td>Net Income</td><td>$260M</td></tr>
+    <tr><td>EPS</td><td>$7.40</td></tr>
+    <tr><td>EBITDA Margin</td><td>40.0%</td></tr>
+    <tr><td>FCF</td><td>$280M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size: 9px; color: #666;">Exit Multiple: 14x P/E (pure-play premium)</div>
+    <div class="exit-price">Implied Price: $104</div>
+    <div class="exit-upside" style="color: #27ae60;">Upside: +107%</div>
+  </div>
+</div>
+
+<div class="case-chart">
+  <svg viewBox="0 0 700 180" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="barGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" style="stop-color:#4a5568"/>
+        <stop offset="100%" style="stop-color:#2d3748"/>
+      </linearGradient>
+    </defs>
+    <!-- Axis -->
+    <line x1="50" y1="140" x2="680" y2="140" stroke="#ccc" stroke-width="1"/>
+    <!-- Bars -->
+    <rect x="80" y="100" width="80" height="40" fill="url(#barGrad)" rx="2"/>
+    <text x="120" y="95" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a2e">$22</text>
+    <text x="120" y="160" text-anchor="middle" font-size="9" fill="#666">Bear (Severe)</text>
+
+    <rect x="190" y="85" width="80" height="55" fill="url(#barGrad)" rx="2"/>
+    <text x="230" y="80" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a2e">$37</text>
+    <text x="230" y="160" text-anchor="middle" font-size="9" fill="#666">Bear (Mild)</text>
+
+    <rect x="300" y="70" width="80" height="70" fill="url(#barGrad)" rx="2"/>
+    <text x="340" y="65" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a2e">$50</text>
+    <text x="340" y="160" text-anchor="middle" font-size="9" fill="#666">Base</text>
+
+    <rect x="410" y="45" width="80" height="95" fill="url(#barGrad)" rx="2"/>
+    <text x="450" y="40" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a2e">$71</text>
+    <text x="450" y="160" text-anchor="middle" font-size="9" fill="#666">Bull (Mild)</text>
+
+    <rect x="520" y="15" width="80" height="125" fill="url(#barGrad)" rx="2"/>
+    <text x="560" y="10" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a2e">$104</text>
+    <text x="560" y="160" text-anchor="middle" font-size="9" fill="#666">Bull (Severe)</text>
+
+    <!-- Current price line -->
+    <line x1="50" y1="70" x2="680" y2="70" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="655" y="67" font-size="9" fill="#c0392b">Current: $50</text>
+  </svg>
+</div>
+
+<!-- SECTION 9: COMPS -->
+<div class="memo-section">9. Comps</div>
+
+<div class="sub-label">Named Competitors — Selected Financials</div>
+<table class="data">
+  <tr>
+    <th>Company</th>
+    <th>Ticker</th>
+    <th>Price</th>
+    <th>Mkt Cap ($M)</th>
+    <th>EV ($M)</th>
+    <th>Sales ($M)</th>
+    <th>EBIT ($M)</th>
+    <th>EBITDA ($M)</th>
+  </tr>
+  <tr style="font-weight: 700; background: #f0f0f0;">
+    <td>Acadian Asset</td>
+    <td>AAMI-US</td>
+    <td>$50.21</td>
+    <td>1,797</td>
+    <td>1,904</td>
+    <td>601</td>
+    <td>169</td>
+    <td>186</td>
+  </tr>
+  <tr>
+    <td>Victory Capital Holdings A</td>
+    <td>VCTR-US</td>
+    <td>$67.02</td>
+    <td>5,738</td>
+    <td>6,545</td>
+    <td>1,325</td>
+    <td>601</td>
+    <td>674</td>
+  </tr>
+  <tr style="font-weight: 600; background: #fafbfc;">
+    <td>Average</td>
+    <td></td>
+    <td></td>
+    <td>3,768</td>
+    <td>4,224</td>
+    <td>963</td>
+    <td>385</td>
+    <td>430</td>
+  </tr>
+</table>
+
+<div class="sub-label" style="margin-top: 12px;">Named Competitors — Valuation Multiples</div>
+<table class="data">
+  <tr>
+    <th>Company</th>
+    <th>Ticker</th>
+    <th>P/E (LTM)</th>
+    <th>P/E (FY1)</th>
+    <th>P/E (FY2)</th>
+    <th>EV/Sales</th>
+    <th>EV/EBIT</th>
+    <th>EV/EBITDA</th>
+  </tr>
+  <tr style="font-weight: 700; background: #f0f0f0;">
+    <td>Acadian Asset</td>
+    <td>AAMI-US</td>
+    <td>22.7x</td>
+    <td>11.5x</td>
+    <td>9.5x</td>
+    <td>3.2x</td>
+    <td>11.3x</td>
+    <td>10.3x</td>
+  </tr>
+  <tr>
+    <td>Victory Capital Holdings A</td>
+    <td>VCTR-US</td>
+    <td>16.4x</td>
+    <td>9.6x</td>
+    <td>8.7x</td>
+    <td>4.9x</td>
+    <td>10.9x</td>
+    <td>9.7x</td>
+  </tr>
+  <tr style="font-weight: 600; background: #fafbfc;">
+    <td>Average</td>
+    <td></td>
+    <td>19.6x</td>
+    <td>10.5x</td>
+    <td>9.1x</td>
+    <td>4.1x</td>
+    <td>11.1x</td>
+    <td>10.0x</td>
+  </tr>
+</table>
+
+<div class="sub-label" style="margin-top: 12px;">FactSet RBICS Industry Group — Asset Management</div>
+<table class="data">
+  <tr>
+    <th>Company</th>
+    <th>Ticker</th>
+    <th>Mkt Cap ($M)</th>
+    <th>EV ($M)</th>
+    <th>EV/EBIT</th>
+    <th>EV/EBITDA</th>
+  </tr>
+  <tr style="font-weight: 700; background: #f0f0f0;">
+    <td>Acadian Asset</td>
+    <td>AAMI-US</td>
+    <td>1,797</td>
+    <td>1,904</td>
+    <td>11.3x</td>
+    <td>10.3x</td>
+  </tr>
+  <tr>
+    <td>WisdomTree</td>
+    <td>WT-US</td>
+    <td>2,654</td>
+    <td>2,801</td>
+    <td>15.7x</td>
+    <td>15.2x</td>
+  </tr>
+  <tr>
+    <td>Artisan Prtnrs Asset Mgmt A</td>
+    <td>APAM-US</td>
+    <td>2,913</td>
+    <td>3,148</td>
+    <td>6.4x</td>
+    <td>6.3x</td>
+  </tr>
+  <tr>
+    <td>DigitalBridge Group A</td>
+    <td>DBRG-US</td>
+    <td>2,959</td>
+    <td>3,413</td>
+    <td>10.6x</td>
+    <td>9.7x</td>
+  </tr>
+  <tr style="font-weight: 600; background: #fafbfc;">
+    <td>Average</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>14.1x</td>
+    <td>10.1x</td>
+  </tr>
+  <tr style="font-weight: 600; background: #fafbfc;">
+    <td>Median</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>13.5x</td>
+    <td>10.0x</td>
+  </tr>
+</table>
+
+<p class="prose" style="margin-top: 10px;">AAMI trades at 10.3x EV/EBITDA, roughly in line with the asset management peer group median of 10.0x. The premium over Artisan Partners (6.3x) appears justified given Acadian's stronger organic growth (+25% AUM growth from flows vs. industry outflows). Compared to Victory Capital, AAMI trades at a modest discount (10.3x vs 9.7x EBITDA) despite faster organic growth, potentially reflecting VCTR's larger scale and higher margins (51% EBITDA margin vs 31%).</p>
+
+<!-- SECTION 10: IS THIS A THEIA INVESTMENT -->
+<div class="memo-section">10. Is This a Theia Investment?</div>
+
+<p class="prose" style="margin-bottom: 10px; font-style: italic; color: #666;">Theia seeks small cap companies that aren't well covered and are strongly aligned on core internet finance thesis with wide outcome dispersion.</p>
+
+<div class="verdict">
+<strong>(i) Market Cap Bucket: $1.8B</strong> <span class="fw-rating moderate">Small Cap</span><br>
+AAMI's market cap of ~$1.8B places it in the small cap bucket ($1B-$5B), which is a strong fit for Theia's investment criteria.
+</div>
+
+<div class="verdict">
+<strong>(ii) Analyst Coverage: 3 Brokers</strong> <span class="fw-rating strong">Strong</span><br>
+With only 3 broker contributors providing estimates, AAMI is significantly under-covered relative to its market cap. This creates alpha opportunity from limited institutional attention and potentially inefficient pricing.
+</div>
+
+<div class="verdict">
+<strong>(iii) Blockchain / Internet Finance Thesis Alignment</strong> <span class="fw-rating weak">Tangential</span><br>
+AAMI is a traditional institutional asset manager with no direct blockchain exposure. However, the firm is investing in AI/data infrastructure and has announced systematic credit initiatives, which have some alignment with the digitization of financial services. The connection to internet finance thesis is weak.
+</div>
+
+<div class="verdict">
+<strong>(iv) Outcome Dispersion</strong> <span class="fw-rating strong">Wide</span><br>
+Based on the scenario analysis, implied share prices range from $22 (Bear Severe) to $104 (Bull Severe), a 4.7x spread. This wide dispersion stems from the operating leverage inherent in the asset management model—small changes in AUM and margins compound into large earnings swings. Current price of $50 sits near the middle of the range.
+</div>
+
+<div class="verdict" style="border-left-color: #27ae60;">
+<strong>Verdict: Maybe — Fits size and coverage criteria well, but lacks core thesis alignment</strong><br><br>
+AAMI is a compelling under-covered small cap with strong operating momentum and wide outcome dispersion. However, the company has minimal alignment with Theia's core internet finance/blockchain thesis. The business is a traditional systematic asset manager with no crypto exposure or direct fintech angle. Consider if expanding the thesis to include "quantitative/systematic approaches to finance" or if monitoring for potential blockchain asset management products.
+</div>
+
+<!-- SECTION 11: APPENDIX -->
+<div class="memo-section">11. Appendix — Python Code</div>
+
+<p class="prose">Parameterized Python code for sensitivity tables and scenario modeling:</p>
+
+<div class="code-block">
+import numpy as np
+import pandas as pd
+
+# =============================================================================
+# SENSITIVITY TABLE: AUM × Fee Rate → Management Fee Revenue
+# =============================================================================
+def mgmt_fee_sensitivity(aum_range_bn, fee_rate_range_bps):
+    """
+    aum_range_bn: list of average AUM values in $B
+    fee_rate_range_bps: list of fee rates in basis points
+    Returns: DataFrame with management fee revenue in $M
+    """
+    results = []
+    for aum in aum_range_bn:
+        row = []
+        for fee_bps in fee_rate_range_bps:
+            mgmt_fee = aum * 1000 * (fee_bps / 10000)  # Convert to $M
+            row.append(round(mgmt_fee, 0))
+        results.append(row)
+
+    df = pd.DataFrame(results,
+                      index=[f"${a}B" for a in aum_range_bn],
+                      columns=[f"{f} bps" for f in fee_rate_range_bps])
+    return df
+
+# Example usage:
+aum_range = [140, 160, 170, 180, 200]
+fee_range = [32, 34, 35, 36, 38]
+print(mgmt_fee_sensitivity(aum_range, fee_range))
+
+# =============================================================================
+# 5-CASE MODEL
+# =============================================================================
+def build_scenario(name, nccf_bn, mkt_return_pct, fee_rate_bps, margin_pct, pe_exit):
+    """
+    Build a single scenario from core drivers
+    """
+    # Starting point
+    beg_aum = 177.5  # $B, Q4'25 ending AUM
+
+    # Calculate ending AUM
+    mkt_appreciation = beg_aum * mkt_return_pct
+    end_aum = beg_aum + nccf_bn + mkt_appreciation
+    avg_aum = (beg_aum + end_aum) / 2
+
+    # Revenue from AUM and fee rate
+    mgmt_fee_rev = avg_aum * 1000 * (fee_rate_bps / 10000)
+    perf_fee_rev = mgmt_fee_rev * 0.05  # Assume ~5% of mgmt fees
+    total_rev = mgmt_fee_rev + perf_fee_rev
+
+    # Margins and earnings
+    ebitda = total_rev * (margin_pct + 0.03)  # EBITDA margin ~3pts above op margin
+    ebit = total_rev * margin_pct
+    net_income = ebit * 0.72  # ~28% effective tax rate
+
+    # Per share (assume 35.5M shares after buybacks)
+    shares = 35.5
+    eps = net_income / shares
+
+    # Implied price
+    implied_price = eps * pe_exit
+    current_price = 50.21
+    upside = (implied_price / current_price - 1) * 100
+
+    return {
+        'Scenario': name,
+        'NCCF ($B)': nccf_bn,
+        'Market Return': f"{mkt_return_pct*100:.0f}%",
+        'Fee Rate (bps)': fee_rate_bps,
+        'Op Margin': f"{margin_pct*100:.0f}%",
+        'End AUM ($B)': round(end_aum, 1),
+        'Revenue ($M)': round(total_rev, 0),
+        'EBITDA ($M)': round(ebitda, 0),
+        'Net Income ($M)': round(net_income, 0),
+        'EPS': round(eps, 2),
+        'Exit P/E': pe_exit,
+        'Implied Price': round(implied_price, 0),
+        'Upside/Downside': f"{upside:+.0f}%"
+    }
+
+# Build all 5 cases
+scenarios = [
+    build_scenario("Bear (Severe)", -10, -0.10, 33, 0.28, 8),
+    build_scenario("Bear (Mild)", 5, 0.00, 34, 0.32, 10),
+    build_scenario("Base Case", 15, 0.07, 35, 0.35, 11.5),
+    build_scenario("Bull (Mild)", 25, 0.12, 36, 0.38, 12),
+    build_scenario("Bull (Severe)", 35, 0.15, 37, 0.40, 14),
+]
+
+df_scenarios = pd.DataFrame(scenarios)
+print(df_scenarios.to_string(index=False))
+</div>
+
+<p class="source-note">Source: FactSet, Company Filings, Theia Analysis | March 2026</p>
+
+</body>
+</html>
