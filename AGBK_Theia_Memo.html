@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=816px">
+<title>AGI Inc (Agibank) | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 28px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+table.ev tr.indent td:first-child { padding-left: 12px; font-size: 9.5px; color: #777; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; border: 1px solid #eee; border-radius: 3px; }
+.val-grid .val-cell { padding: 5px 6px; border-right: 1px solid #eee; border-bottom: 1px solid #eee; }
+.val-grid .val-cell:nth-child(6), .val-grid .val-cell:nth-child(12) { border-right: none; }
+.val-grid .val-cell:nth-child(7), .val-grid .val-cell:nth-child(8), .val-grid .val-cell:nth-child(9), .val-grid .val-cell:nth-child(10), .val-grid .val-cell:nth-child(11), .val-grid .val-cell:nth-child(12) { border-bottom: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.65; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 10px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+.fw-rating.na { background: #e9ecef; color: #6c757d; }
+.fw-summary { margin-top: 10px; padding: 8px 12px; background: #f4f6f9; border-left: 3px solid #1a1a2e; font-size: 10.5px; font-style: italic; color: #444; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; border: 1px solid #e0e0e0; }
+table.sensitivity th:first-child { text-align: left; }
+table.sensitivity td { text-align: center; padding: 3px 6px; border: 1px solid #f0f0f0; }
+table.sensitivity td:first-child { text-align: left; font-weight: 600; background: #f4f6f9; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; color: #1a1a2e; }
+.sens-title { font-size: 10px; font-weight: 700; margin: 14px 0 2px 0; color: #1a1a2e; }
+.sens-current { font-size: 9px; color: #888; margin-bottom: 4px; font-style: italic; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 14px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 6px; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 10px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 8px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 700; color: #1a1a2e; }
+.fermi-narrative { background: #f0f4f8; border-radius: 3px; padding: 8px 10px; margin-bottom: 10px; font-size: 9.5px; line-height: 1.55; border-left: 3px solid #93c5fd; }
+.fermi-narrative .scenario-text { font-style: italic; color: #444; margin-bottom: 5px; font-size: 10px; font-weight: 500; }
+.fermi-narrative ul { margin: 0; padding-left: 16px; color: #333; }
+.fermi-narrative li { margin-bottom: 2px; }
+.fermi-narrative .reconcile { margin-top: 6px; font-weight: 600; color: #1a1a2e; border-top: 1px solid #c7d9ec; padding-top: 4px; font-size: 9.5px; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 10px 0 4px 0; }
+.case-block table.scenario-mini th { text-align: right; font-weight: 600; color: #888; padding: 2px 5px; border-bottom: 1px solid #ddd; font-size: 8.5px; }
+.case-block table.scenario-mini th:first-child { text-align: left; }
+.case-block table.scenario-mini td { padding: 2.5px 5px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even):not(.margin-row) { background: #f5f5f5; }
+.case-block table.scenario-mini tr.margin-row td { font-size: 8px; color: #999; font-style: italic; background: transparent !important; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 8px; margin-top: 8px; }
+.case-block .exit-line1 { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-bottom: 6px; }
+.case-block .exit-price { font-size: 15px; font-weight: 700; color: #1a1a2e; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; color: #555; }
+.case-block .exit-line2 { display: flex; gap: 24px; font-size: 9.5px; color: #555; border-top: 1px solid #eee; padding-top: 5px; flex-wrap: wrap; }
+
+.case-chart { margin-top: 16px; padding: 12px 12px 8px 12px; background: #f9f9f9; border-radius: 4px; border: 1px solid #eee; }
+.case-chart svg { width: 100%; height: auto; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.6; }
+.screen-item { margin-bottom: 10px; }
+.screen-item .screen-label { font-weight: 700; }
+.screen-item .screen-detail { color: #444; margin-top: 2px; font-size: 10.5px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 8.5px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.driver-table { font-size: 10px; width: 100%; margin: 8px 0; }
+.driver-table td { padding: 3px 6px; border-bottom: 1px solid #eee; }
+.driver-table td:first-child { font-weight: 500; }
+.driver-table .formula { color: #2563eb; font-family: monospace; font-size: 9px; }
+
+.num-list { padding-left: 0; list-style: none; }
+.num-list li { margin-bottom: 8px; padding-left: 0; }
+.num-list li strong { color: #1a1a2e; }
+
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1.5px solid #ddd; white-space: nowrap; }
+table.comps th:first-child { text-align: left; min-width: 110px; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child { text-align: left; font-weight: 400; color: #333; white-space: nowrap; font-size: 8px; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-weight: 600; background: #fafbfc; border-top: 1px solid #eee; font-style: italic; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">AGI Inc (Agibank) | Preliminary Memo for Theia</div>
+
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<div class="memo-section">1. Business Overview</div>
+
+<div class="prose">
+AGI Inc (NYSE: AGBK), operating as Agibank in Brazil, is a hybrid digital bank focused on democratizing financial services for "Deep Brazil"—approximately 107 million underserved individuals with monthly incomes typically up to R$4,000, including retirees, social security beneficiaries, and public/private sector workers. Founded by Marciano Testa, who remains Chairman and CEO, the company completed its US IPO in January 2026, raising $240 million. Agibank operates from Brazil with a unique omnichannel model combining a proprietary network of over 1,100 asset-light "Smart Hubs" with a comprehensive digital app, serving nearly 6.4 million active clients as of September 2025.
+</div>
+
+<div class="prose">
+The business model centers on secured consumer lending, particularly payroll-deductible loans (consignado) where repayments are automatically deducted from borrowers' salaries, pensions, or social security benefits. This secured lending approach—with 86.2% of loans backed by dedicated income streams—results in structurally low credit risk with >90-day NPL of just 2.6%. Revenue is primarily net interest income from the loan portfolio, supplemented by banking fees, insurance distribution, and credit card income. The company achieved a remarkable 39.1% annualized ROAE for the nine months ended September 2025, positioning it among Brazil's most profitable financial institutions.
+</div>
+
+<div class="prose">
+Agibank's competitive differentiation comes from bridging the gap between legacy incumbent banks (which struggle with digital transformation) and pure digital fintechs (which fail to reach non-digital-native demographics requiring in-person assistance). The Smart Hub model enables physical onboarding with subsequent digital transition—customers are welcomed in-person, establish primary banking relationships, then migrate to self-service digital channels. This creates a flywheel effect: declining marginal cost-to-serve, high customer retention, and deep cross-selling (average client holds 6+ products, with 75%+ using 5 or more products). The resulting monthly ARPAC of R$168 is more than 3x the median for Brazilian digital banks.
+</div>
+
+<div class="prose">
+<strong>One-line thesis:</strong> Agibank is a highly profitable Brazilian hybrid digital bank serving the underserved "Deep Brazil" market with exceptional unit economics (LTV/CAC >20x, 39% ROAE), strong AI integration, and significant growth optionality—but concentrated INSS regulatory risk and Brazilian macro volatility create meaningful downside scenarios.
+</div>
+
+<div class="prose">
+<strong>Headquarters:</strong> Porto Alegre, Brazil &nbsp;|&nbsp; <strong>CEO:</strong> Marciano Testa &nbsp;|&nbsp; <strong>CFO:</strong> Marcello Winik Dubeux &nbsp;|&nbsp; <strong>Employees:</strong> ~4,700 &nbsp;|&nbsp; <strong>Founded:</strong> 1999 &nbsp;|&nbsp; <strong>Ticker:</strong> NYSE: AGBK (IPO Jan 2026)
+</div>
+
+<!-- SECTION 2: FINANCIAL SUMMARY -->
+<div class="memo-section">2. Financial Summary (Theia FactSet Summary)</div>
+
+<div class="header">
+  <div>
+    <h1>AGI Inc (Agibank)</h1>
+    <span class="ticker">AGBK-US | NYSE | CUSIP G0118C105</span>
+  </div>
+  <span class="date">March 19, 2026 | Source: FactSet</span>
+</div>
+
+<div class="price-bar">
+  <span class="price">$9.61</span>
+  <span><span class="label">1M:</span> <span class="chg">-17.7%</span></span>
+  <span><span class="label">3M:</span> <span class="chg">—</span></span>
+  <span><span class="label">6M:</span> <span class="chg">—</span></span>
+  <span><span class="label">YTD:</span> <span class="chg">—</span></span>
+  <span><span class="label">IPO:</span> <span class="chg">Jan 2026</span></span>
+  <span><span class="label">52W:</span> $9.00 – $12.21</span>
+</div>
+
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv">
+      <tr><td>Ticker</td><td>AGBK-US</td></tr>
+      <tr><td>Price</td><td>$9.61</td></tr>
+      <tr><td>Volume (Last)</td><td>173,223</td></tr>
+      <tr><td>30D Avg Vol</td><td>846,410</td></tr>
+      <tr><td>Float %</td><td>41.3%</td></tr>
+      <tr><td>Short Interest</td><td>0.7 Days / 2.0% Float</td></tr>
+      <tr><td>Fiscal Year End</td><td>December</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev">
+      <tr><td>Basic Shares (M)</td><td>101.23</td></tr>
+      <tr class="indent"><td>AGI, Inc. Class A</td><td>101.23</td></tr>
+      <tr><td>× Price</td><td>$9.61</td></tr>
+      <tr><td>= Market Cap</td><td>$973M</td></tr>
+      <tr><td>+ Consolidated Debt</td><td>$203M</td></tr>
+      <tr><td>+ Non-Controlling Interest</td><td>$19M</td></tr>
+      <tr><td>− Cash & Equivalents</td><td>($101M)</td></tr>
+      <tr class="total"><td>Enterprise Value</td><td>$1,094M</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="section-title">Current Valuation</div>
+<div class="val-grid">
+  <div class="val-cell"><div class="val-label">Mkt Cap</div><div class="val-num">$973M</div></div>
+  <div class="val-cell"><div class="val-label">EV</div><div class="val-num">$1,094M</div></div>
+  <div class="val-cell"><div class="val-label">P/E (LTM)</div><div class="val-num">12.0x</div></div>
+  <div class="val-cell"><div class="val-label">P/E (FY1)</div><div class="val-num">7.3x</div></div>
+  <div class="val-cell"><div class="val-label">P/Sales</div><div class="val-num">0.73x</div></div>
+  <div class="val-cell"><div class="val-label">P/BV</div><div class="val-num">2.5x</div></div>
+  <div class="val-cell"><div class="val-label">Beta (3Y Adj)</div><div class="val-num">4.71</div><div class="val-sub">Very high</div></div>
+  <div class="val-cell"><div class="val-label">ROAE</div><div class="val-num">39.1%</div><div class="val-sub">9M annualized</div></div>
+  <div class="val-cell"><div class="val-label">NPL (>90d)</div><div class="val-num">2.6%</div></div>
+  <div class="val-cell"><div class="val-label">Avg Rating</div><div class="val-num">Buy (1.0)</div><div class="val-sub">8 brokers</div></div>
+  <div class="val-cell"><div class="val-label">Target Price</div><div class="val-num">$17.27</div><div class="val-sub">+80% upside</div></div>
+  <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">Jun 03, 2026</div><div class="val-sub">Q1 2026</div></div>
+</div>
+
+<div class="section-title">Valuation Multiples</div>
+<table class="data">
+  <tr>
+    <th></th>
+    <th>5Yr Avg</th>
+    <th>Dec '23</th>
+    <th>Dec '24</th>
+    <th class="est">Dec '26E</th>
+    <th class="est">Dec '27E</th>
+    <th class="est">Dec '28E</th>
+  </tr>
+  <tr><td>P/E</td><td>—</td><td>—</td><td>12.0x</td><td class="est">7.3x</td><td class="est">5.3x</td><td class="est">3.5x</td></tr>
+  <tr><td>P/Sales</td><td>—</td><td>—</td><td>0.73x</td><td class="est">0.95x</td><td class="est">0.74x</td><td class="est">0.54x</td></tr>
+  <tr><td>P/BV</td><td>—</td><td>—</td><td>2.5x</td><td class="est">1.4x</td><td class="est">1.1x</td><td class="est">0.9x</td></tr>
+</table>
+
+<div class="section-title">Revenue Exposure</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Business Unit (FY2024)</div>
+    <table class="rev">
+      <tr><th>Segment</th><th>% Rev</th><th>$M</th><th>YoY</th></tr>
+      <tr><td>Banking (Net Interest Income + Fees)</td><td>100%</td><td>$1,334M</td><td>+35.8%</td></tr>
+    </table>
+    <div style="font-size:8px;color:#aaa;margin-top:4px;">Single-segment business. Revenue: Payroll Loans ~70%, FGTS Loans ~15%, Banking/Cards/Insurance ~15%.</div>
+  </div>
+  <div>
+    <div class="sub-label">By Geography (FY2024)</div>
+    <table class="rev">
+      <tr><th>Region</th><th>% Rev</th><th>$M</th><th>YoY</th></tr>
+      <tr><td>Brazil</td><td>100%</td><td>$1,334M</td><td>+35.8%</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="section-title">Financials (USD Millions, except EPS)</div>
+<table class="data">
+  <tr>
+    <th></th>
+    <th>5Yr CAGR</th>
+    <th>Dec '23</th>
+    <th>Dec '24</th>
+    <th class="est">Dec '26E</th>
+    <th class="est">Dec '27E</th>
+    <th class="est">Dec '28E</th>
+  </tr>
+  <tr class="section-row"><td colspan="7">Income Statement</td></tr>
+  <tr><td>Revenue</td><td>—</td><td>$982</td><td>$1,334</td><td class="est">$1,612</td><td class="est">$2,066</td><td class="est">$2,857</td></tr>
+  <tr><td>Gross Income</td><td>—</td><td>$578</td><td>$798</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+  <tr><td>EBITDA</td><td>—</td><td>$304</td><td>$450</td><td class="est">$270</td><td class="est">$389</td><td class="est">—</td></tr>
+  <tr><td>EBIT</td><td>—</td><td>$277</td><td>$420</td><td class="est">$425</td><td class="est">$575</td><td class="est">$1,231</td></tr>
+  <tr><td>Net Income</td><td>—</td><td>$84</td><td>$147</td><td class="est">$235</td><td class="est">$320</td><td class="est">$416</td></tr>
+  <tr><td>EPS (Diluted)</td><td>—</td><td>$0.46</td><td>$0.80</td><td class="est">$1.11</td><td class="est">$1.45</td><td class="est">$2.87</td></tr>
+  <tr class="section-row"><td colspan="7">Margins</td></tr>
+  <tr><td>Gross Margin</td><td>—</td><td>58.8%</td><td>59.8%</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+  <tr><td>Operating Margin</td><td>—</td><td>12.2%</td><td>15.7%</td><td class="est">26.3%</td><td class="est">27.8%</td><td class="est">43.1%</td></tr>
+  <tr><td>Net Margin</td><td>—</td><td>8.6%</td><td>11.0%</td><td class="est">14.6%</td><td class="est">15.5%</td><td class="est">14.5%</td></tr>
+  <tr><td>ROAE</td><td>—</td><td>—</td><td>76.8%</td><td class="est">19.9%</td><td class="est">21.3%</td><td class="est">25.8%</td></tr>
+  <tr class="section-row"><td colspan="7">Balance Sheet & Credit</td></tr>
+  <tr><td>Total Assets</td><td>—</td><td>$3,985</td><td>$4,778</td><td class="est">$11,050</td><td class="est">$13,406</td><td class="est">$17,594</td></tr>
+  <tr><td>Total SH Equity</td><td>—</td><td>$0</td><td>$382</td><td class="est">$1,072</td><td class="est">$1,345</td><td class="est">$1,713</td></tr>
+  <tr><td>Total Debt/Equity</td><td>—</td><td>NM</td><td>53.2%</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+</table>
+<p class="source-note">Source: FactSet Fundamentals & Estimates, March 2026. FY2024 ROAE elevated by minimal pre-IPO equity base. Note: Beta of 4.71 reflects limited trading history and EM volatility.</p>
+
+<!-- SECTION 3: HELMER'S 7 POWERS -->
+<div class="memo-section">3. Helmer's 7 Powers Analysis</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Scale Economies</span><span class="fw-rating strong">Strong</span>
+  <div class="prose" style="margin-top:4px;">Agibank exhibits powerful scale economies across multiple dimensions. The Smart Hub network operates at 90% greater efficiency than traditional bank branches, with new locations reaching breakeven in under four months. Fixed costs—technology infrastructure, AI systems, compliance, and corporate overhead—are spread across a growing customer base, driving the efficiency ratio from 59.3% in 2022 to 41.5% in 9M 2025. Revenue per headcount reached R$2.1 million annualized in 2025, a 33.9% year-over-year increase, demonstrating operating leverage. The AI-powered sales funnel processes 30,000+ interactions monthly at R$2.99 per interaction (down from R$7.50), embedding scale advantages into customer acquisition. As the loan portfolio grows, the same underwriting infrastructure, risk management systems, and compliance framework serve larger volumes with minimal incremental cost. The 51% year-over-year AUM growth in 2025 would not have been possible without these scale economies. However, the Brazil-specific nature of the business (payroll lending tied to INSS/government systems) creates geographic constraints on scale—international expansion would require rebuilding regulatory relationships and product infrastructure.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Network Effects</span><span class="fw-rating weak">Weak</span>
+  <div class="prose" style="margin-top:4px;">Traditional consumer banking exhibits minimal network effects—a customer's decision to use Agibank does not inherently increase value for other Agibank customers. Unlike payment networks (where merchant acceptance matters) or social platforms (where user density drives engagement), lending is fundamentally a bilateral relationship between bank and borrower. There are no cross-side network effects creating reinforcing flywheels. The closest analogue would be geographic density effects: more Smart Hubs in a municipality create convenience and visibility, potentially increasing customer adoption in that area. However, this is better characterized as distribution advantage than true network effects. The "Jeito Agi" cultural training and word-of-mouth within communities could create modest social proof effects, but these are localized and not scalable network dynamics. Agibank's competitive advantage comes from process, scale, and switching costs rather than network effects.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Counter-Positioning</span><span class="fw-rating strong">Strong</span>
+  <div class="prose" style="margin-top:4px;">Agibank possesses genuine counter-positioning against both incumbent banks and digital fintechs. Traditional Brazilian banks (Itaú, Bradesco, Santander) operate legacy mainframe systems, union-constrained branch networks, and universal banking models poorly suited to serving Deep Brazil's demographics profitably. Replicating Agibank's asset-light Smart Hub model would cannibalize their existing branch economics and require organizational transformation their structures cannot easily accommodate. Meanwhile, pure digital fintechs like Nubank, despite their technology sophistication, struggle to reach non-digital-native populations who require in-person onboarding and support. Nubank's strategy of prioritizing digital-native, urban consumers creates a structural gap that Agibank exploits. The hybrid model—physical acquisition with digital transition—is difficult for either competitive set to replicate without contradicting their core positioning. This counter-positioning is particularly strong given the target market: retirees and pensioners who are less likely to adopt purely digital banking but represent a massive, stable income pool for secured lending. The new Law 15,327/2026 actually reinforces counter-positioning by requiring contract-by-contract activation, favoring banks with established customer relationships and physical presence.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Switching Costs</span><span class="fw-rating strong">Strong</span>
+  <div class="prose" style="margin-top:4px;">Switching costs in Agibank's model are exceptionally high for several structural reasons. First, payroll-deductible loans (consignado) require active employer/INSS integration—switching banks means re-establishing payroll deduction arrangements, a bureaucratic process particularly challenging for retirees. Second, Agibank captures primary banking relationships by having customers port their salary or benefit payments directly to Agibank accounts—once income flows through Agibank, the friction of switching is substantial. Third, the average customer holds 6+ financial products (credit, insurance, cards, banking), creating bundling that makes switching require multiple simultaneous decisions. Fourth, the physical Smart Hub relationship creates personal connections—Agi Agents know customers by name and provide ongoing support that pure digital competitors cannot replicate. The 10+ year average relationship tenure with major clients (institutional comparison) and the minimal client churn in 2025 demonstrate these switching costs empirically. AI-driven behavioral models further increase retention by predicting churn risk and enabling proactive intervention, reducing customer departure by 25%. For the Deep Brazil demographic, switching to a new financial provider represents substantial cognitive and administrative burden.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Branding</span><span class="fw-rating moderate">Moderate</span>
+  <div class="prose" style="margin-top:4px;">Brand power in Helmer's framework refers to pricing power and habitual purchasing driven by brand affinity. Agibank has built meaningful brand equity within its target demographic through consistent messaging around financial inclusion and the "Jeito Agi" (The Agi Way) culture—"Viver pelo cliente" (Live for the customer). The brand resonates with Deep Brazil's underserved population who feel ignored by traditional banks and intimidated by pure digital platforms. Community presence through Smart Hubs creates local visibility and trust. However, Agibank's brand does not command pricing premium—consignado rates are regulated and competitive, limiting brand-driven pricing power. The brand functions more as trust/access enabler (getting customers to consider Agibank) rather than premium driver (charging more than competitors). Brand loyalty exists but is reinforced by switching costs rather than irrational brand attachment. Compared to global consumer brands that command substantial price premiums (Apple, Nike), Agibank's brand power is functional rather than aspirational. The moderate rating reflects meaningful brand equity within the target segment balanced against limited pricing power.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">6. Cornered Resource</span><span class="fw-rating moderate">Moderate</span>
+  <div class="prose" style="margin-top:4px;">Agibank possesses several differentiated but not fully exclusive resources. First, the regulatory relationships with INSS and government payroll systems—established over 25+ years—create institutional access that new entrants cannot quickly replicate. The January 2026 settlement with INSS, while costly (R$1M fine, $6-8M refunds), actually demonstrates the depth of this relationship: Agibank was suspended but then reinstated under enhanced supervision, suggesting regulatory dependency flows both ways. Second, the proprietary Smart Hub operating model represents accumulated process knowledge—site selection, agent training, customer transition protocols—refined over years. Third, the AI/ML underwriting models trained on 25+ years of Brazilian credit data provide credit decisioning capabilities that newer entrants lack. Fourth, founder Marciano Testa's relationships and institutional knowledge represent key person resources that would be difficult to replicate. However, none of these resources are fully cornered: INSS relationships can eventually be built by competitors, technology can be developed or acquired, and key personnel can depart. The moderate rating reflects meaningful but not impregnable resource advantages.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">7. Process Power</span><span class="fw-rating strong">Strong</span>
+  <div class="prose" style="margin-top:4px;">Process power is Agibank's strongest moat—decades of institutional learning embedded in operational systems that competitors cannot simply replicate by hiring talent or licensing technology. The hybrid engagement model represents profound process power: the specific sequencing of physical onboarding → relationship establishment → digital transition → ongoing engagement has been refined across millions of customer interactions. The "Jeito Agi" training program—mandatory curriculum at headquarters followed by field mentorship—systematically transfers institutional knowledge to new employees, creating consistent customer experience across 1,100+ Smart Hubs. The AI integration is particularly noteworthy: AI models are embedded directly into production workflows (not optional add-ons), managing lead prioritization, eligibility assessment, document validation, fraud detection, and churn prediction as core operational systems. The credit engine has reduced >90-day NPLs by 64% over four years through continuous learning and refinement—process improvement that compounds over time. Even the incentive structure (rewarding customer education and digital transition success rather than raw sales volume) represents cultural process that aligns employee behavior with long-term value creation. A competitor could hire Agibank executives, license similar technology, and open Smart Hubs, but they could not replicate decades of accumulated process refinement that makes Agibank's unit economics superior.</div>
+</div>
+
+<div class="fw-summary">The strongest moats are <strong>Process Power</strong> (25+ years of embedded operational refinement), <strong>Switching Costs</strong> (payroll integration, product bundling, personal relationships), <strong>Counter-Positioning</strong> (hybrid model neither incumbents nor fintechs can easily replicate), and <strong>Scale Economies</strong> (90% more efficient than traditional branches). The weakest element is <strong>Network Effects</strong>—consumer banking fundamentally lacks network dynamics. <strong>Branding</strong> and <strong>Cornered Resource</strong> provide moderate protection but are not defining moats.</div>
+
+<!-- SECTION 4: PORTER'S 5 FORCES -->
+<div class="memo-section">4. Porter's 5 Forces Analysis</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Threat of New Entrants</span><span class="fw-rating low">Low</span>
+  <div class="prose" style="margin-top:4px;">Barriers to entry in Brazilian payroll-deductible lending are substantial, protecting Agibank from new competition. The most critical barrier is regulatory: operating as a bank in Brazil requires Central Bank licensing, INSS agreements for benefit payment access, and integration with government payroll systems—processes requiring years of relationship building and compliance investment. New foreign entrants face additional complexity navigating Brazilian regulatory frameworks, currency controls, and local labor laws. Capital requirements are meaningful: the loan book approach requires substantial funding capacity, and Agibank's diversified funding sources (deposits, FIDCs, wholesale funding) took years to develop. The hybrid model creates execution barriers: building a Smart Hub network requires real estate expertise, agent recruitment/training infrastructure, and physical operations capabilities that pure technology plays lack. The AI/ML infrastructure for credit decisioning requires Brazilian-specific data sets that take years to accumulate. Distribution barriers are significant: reaching Deep Brazil's demographics requires physical presence in thousands of municipalities, not just digital marketing. New entrants would need to simultaneously execute on regulatory, capital, technology, and distribution dimensions—a multi-year, capital-intensive process with uncertain outcomes. The more likely competitive threat comes from existing players (banks, fintechs) expanding into Agibank's segments rather than de novo entrants.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Bargaining Power of Suppliers</span><span class="fw-rating moderate">Moderate</span>
+  <div class="prose" style="margin-top:4px;">Agibank's key "suppliers" include funding sources (depositors, wholesale lenders, FIDC investors), technology infrastructure (AWS, Microsoft Azure, IBM Security), and talent (particularly technology and credit professionals). Funding supplier power is meaningful but manageable: Agibank has diversified funding sources and the IPO proceeds provide additional capital cushion. However, Brazilian interest rate volatility (Selic rate fluctuations) can impact funding costs, and the bank's negative free cash flow position historically means continued dependence on external funding. Technology suppliers operate in competitive markets—AWS, Azure, and IBM alternatives exist, limiting individual supplier power. However, migration between cloud providers involves switching costs and operational risk. Talent is the highest-leverage supplier: competition for quantitative analysts, AI/ML engineers, and credit professionals is fierce in Brazil's growing fintech sector. Nubank, PagSeguro, and other fintechs compete for similar talent pools. Agibank's equity-based compensation and "growth journey" culture help retention, but key talent departure remains a risk. The INSS and government payroll systems could be characterized as critical suppliers of access—the August 2025 suspension demonstrated this dependency acutely. The moderate rating reflects diversified supply base with manageable but real concentration in regulatory access.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Bargaining Power of Buyers</span><span class="fw-rating low">Low</span>
+  <div class="prose" style="margin-top:4px;">Agibank's customers—Deep Brazil's underserved demographic—have relatively low bargaining power for several reasons. First, this population has historically been ignored or poorly served by traditional banks, limiting their alternatives. Second, consignado loan rates are regulated by the government, creating a pricing ceiling that applies to all competitors equally—customers cannot negotiate below regulated rates. Third, the target demographic (retirees, pensioners, lower-income workers) typically lacks financial sophistication to shop aggressively between providers or negotiate terms. Fourth, switching costs (documented above) reduce customer mobility once relationships are established. Fifth, the emotional dimension of finally being served by a bank that "treats them with respect" (Jeito Agi positioning) creates loyalty that transcends pure economic comparison. However, buyer power is not zero: competition from Nubank's digital offerings, BMG, and other consignado specialists does create some pressure on service quality and ancillary fees. The new Crédito do Trabalhador program's digital onboarding option gives private sector workers more choices. Customer complaints and regulatory scrutiny (the INSS suspension was partially triggered by customer complaints) create reputational constraints on pricing/service decisions. The low rating reflects generally weak buyer power balanced by regulatory and competitive constraints.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Threat of Substitutes</span><span class="fw-rating moderate">Moderate</span>
+  <div class="prose" style="margin-top:4px;">The primary substitutes for Agibank's secured lending products include: (1) personal loans from traditional banks (higher rates, less accessible), (2) credit cards (higher rates, revolving debt trap), (3) informal lending (loan sharks, family borrowing), (4) FGTS withdrawals (limited to specific circumstances), and (5) pawn shops/asset-based lending. For the Deep Brazil demographic, formal bank credit has historically been difficult to access, making informal alternatives the primary substitutes. Agibank's value proposition—regulated rates, formal banking relationship, respectful treatment—is genuinely differentiated from these substitutes. However, digital bank competition represents growing substitute threat: Nubank's ease-of-use, PicPay's payment integration, and other fintech offerings compete for customer wallet share even if not directly for consignado. The secular digitalization of Brazilian banking (Pix adoption) creates long-term substitute pressure as non-digital-native customers become more comfortable with digital-first alternatives. The new Law 15,327/2026 introducing contract-by-contract activation may encourage some customers to reconsider whether consignado is the right product, potentially shifting demand to other credit forms. The moderate rating reflects meaningful differentiation from traditional substitutes balanced against growing digital competition.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Competitive Rivalry</span><span class="fw-rating high">High</span>
+  <div class="prose" style="margin-top:4px;">Competition in Brazilian consumer banking and lending is intense. Agibank competes against multiple well-resourced players across categories: (1) traditional banks—Itaú, Bradesco, Santander, and Banco do Brasil have massive distribution, funding advantages, and are increasingly focused on digital transformation and underserved segments; (2) digital banks—Nubank (100M+ customers), Inter, C6 Bank have technology advantages and are expanding product suites; (3) payroll lending specialists—BMG, Banco Pan, BRB focus specifically on consignado with established INSS relationships; (4) fintech lenders—Creditas, PicPay, and others offer consumer credit through digital channels. The industry is characterized by: (1) aggressive pricing from players subsidizing growth over profitability (company filings specifically note this dynamic), (2) marketing spending competition for customer acquisition, (3) regulatory complexity creating barriers but also compliance costs, and (4) talent competition inflating compensation costs. Management acknowledges that sustained engagement in competitive behavior could compress margins and trigger a "race to the bottom." The August 2025 INSS suspension created competitive opportunity for rivals to capture Agibank's share during the disruption. The high rating reflects genuine competitive intensity from well-capitalized, well-positioned rivals across multiple competitive dimensions.</div>
+</div>
+
+<div class="fw-summary">The competitive environment is <strong>mixed but navigable</strong> with structural protections. <strong>Low threat of new entrants</strong> (regulatory barriers, capital requirements, distribution complexity) and <strong>low buyer power</strong> (underserved demographic, regulated pricing, switching costs) are favorable. <strong>Moderate supplier power</strong> and <strong>substitute threats</strong> are manageable through diversification and differentiation. <strong>High competitive rivalry</strong> is the primary structural challenge, requiring continued investment in process improvement, technology, and customer experience to maintain advantage. The INSS concentration creates regulatory dependency that transcends traditional Porter analysis.</div>
+
+<!-- SECTION 5: WHAT DRIVES THE STOCK -->
+<div class="memo-section">5. What Drives the Stock?</div>
+
+<div class="prose">As a hedge fund analyst covering AGBK, these are the 6 key variables that would move the stock price materially:</div>
+
+<ol class="num-list">
+  <li><strong>1. INSS Regulatory Relationship — The Existential Variable</strong><br>
+  <span class="prose">The August 2025 INSS suspension and January 2026 settlement demonstrated that Agibank's business model is fundamentally dependent on government regulatory relationships. The INSS controls access to 41+ million social security beneficiaries—Agibank's core customer base. Any suspension, restriction, or termination of INSS agreements would "materially and adversely affect" operations. The new Law 15,327/2026 transforms payroll lending into a contract-by-contract activation model, adding operational friction. Management must demonstrate sustained compliance to avoid repeat suspensions. Bulls view the settlement as clearing an overhang; bears see it as evidence of structural vulnerability. Watch for: customer complaints trends, regulatory commentary, any news of renewed suspension or investigation, and implementation of the new activation requirements.</span></li>
+
+  <li><strong>2. Net Interest Margin (NIM) and Funding Costs</strong><br>
+  <span class="prose">As a lending-focused bank, Agibank's profitability is directly tied to the spread between loan yields and funding costs. Brazil's Selic rate volatility creates both opportunity and risk: high rates increase loan yields but also funding costs, with the net impact depending on asset-liability matching. The bank's funding mix (deposits, FIDCs, wholesale) has different rate sensitivities. With 86% secured lending, credit losses are structurally low, making NIM the primary earnings driver. Watch for: Selic rate decisions by Brazil's Central Bank, funding cost trends in earnings releases, and commentary on spread compression or expansion.</span></li>
+
+  <li><strong>3. Loan Book Growth and Customer Acquisition</strong><br>
+  <span class="prose">The recent CAC decline to R$65 (from R$156) drove exceptional unit economics, but management attributes this partially to favorable regulatory tailwinds (Crédito do Trabalhador program) that may normalize. Loan book growth drives revenue; customer growth at attractive CAC drives future value. The expansion into public sector (2024) and private sector (2025) payroll loans expanded TAM significantly. Geographic expansion to 350+ additional municipalities by 2030 is a long-term growth vector. Watch for: quarterly active customer counts, loan origination volumes, CAC trends, and commentary on private sector payroll loan traction.</span></li>
+
+  <li><strong>4. Credit Quality and NPL Trends</strong><br>
+  <span class="prose">While current NPLs are exceptionally low (2.6% >90-day), Brazil's macroeconomic volatility could stress credit quality. Real depreciation, unemployment spikes, or inflation could impact borrower repayment capacity despite secured lending structure. The 86% income-secured loan mix provides protection but is not immunity—severe economic stress would still increase defaults. Credit quality deterioration would compress NIM (through provisioning), damage ROAE, and potentially trigger regulatory scrutiny. Watch for: NPL trend direction, provisioning expense changes, unemployment data, and real exchange rate movements.</span></li>
+
+  <li><strong>5. Operating Efficiency and Margin Expansion</strong><br>
+  <span class="prose">The efficiency ratio improvement (59.3% to 41.5%) and revenue per headcount growth (33.9% YoY) demonstrate operating leverage. Continued scale should drive further efficiency gains toward management's implied 35-40% efficiency ratio target. AI integration provides structural cost advantages that compound over time. However, competition for talent, technology investment needs, and regulatory compliance costs could offset efficiency gains. Operating margin expansion from 15.7% (FY24) toward 25%+ (FY26E) is embedded in estimates—execution risk exists. Watch for: efficiency ratio trends, headcount growth relative to revenue growth, and technology investment commentary.</span></li>
+
+  <li><strong>6. Brazilian Macroeconomic Conditions</strong><br>
+  <span class="prose">Agibank is 100% Brazil-exposed with a high-beta (4.71) stock. Brazilian real depreciation, inflation, political instability, or economic recession would impact the stock regardless of company-specific performance. Brazil's credit cycles (3-4 year frequency) create structural earnings volatility. The Deep Brazil demographic is particularly sensitive to inflation eroding purchasing power and economic stress impacting employment. Currency translation also affects USD-reported financials. Watch for: BRL/USD exchange rate, Brazil GDP growth, inflation data, and political developments affecting economic policy.</span></li>
+</ol>
+
+<!-- SECTION 6: WHAT DRIVES THE BUSINESS -->
+<div class="memo-section">6. What Drives the Business?</div>
+
+<div class="prose">Every revenue line can be decomposed into fundamental drivers. Here is the unit economics breakdown for Agibank's lending-focused model:</div>
+
+<table class="data" style="margin-top:10px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;width:25%;">Revenue Line</th>
+      <th style="text-align:left;width:50%;">Driver Decomposition</th>
+      <th style="text-align:right;width:25%;">FY2024</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="3">Net Interest Income (~85% of Total Revenue)</td></tr>
+    <tr>
+      <td>Net Interest Income</td>
+      <td style="text-align:left;"><span class="formula">= Average Loan Book × Net Interest Margin (NIM)</span></td>
+      <td>~$1,135M</td>
+    </tr>
+    <tr>
+      <td style="padding-left:20px;color:#666;">— Avg Loan Book</td>
+      <td style="text-align:left;color:#666;">Consignado + FGTS + Other secured loans</td>
+      <td style="color:#666;">~R$18B</td>
+    </tr>
+    <tr>
+      <td style="padding-left:20px;color:#666;">— Gross Yield</td>
+      <td style="text-align:left;color:#666;">Regulated consignado rates + FGTS pricing</td>
+      <td style="color:#666;">~25-30%</td>
+    </tr>
+    <tr>
+      <td style="padding-left:20px;color:#666;">— Funding Cost</td>
+      <td style="text-align:left;color:#666;">Deposits + FIDCs + Wholesale (Selic-linked)</td>
+      <td style="color:#666;">~14-18%</td>
+    </tr>
+    <tr class="section-row"><td colspan="3">Fee & Service Income (~15% of Total Revenue)</td></tr>
+    <tr>
+      <td>Banking Fees + Insurance + Cards</td>
+      <td style="text-align:left;"><span class="formula">= Active Clients × ARPAC × Fee Component %</span></td>
+      <td>~$200M</td>
+    </tr>
+    <tr>
+      <td style="padding-left:20px;color:#666;">— Active Clients</td>
+      <td style="text-align:left;color:#666;">Customers with recent transactions</td>
+      <td style="color:#666;">6.4M</td>
+    </tr>
+    <tr>
+      <td style="padding-left:20px;color:#666;">— Products per Client</td>
+      <td style="text-align:left;color:#666;">Cross-sell success metric</td>
+      <td style="color:#666;">6+</td>
+    </tr>
+    <tr class="section-row"><td colspan="3">Total Revenue</td></tr>
+    <tr>
+      <td><strong>Total Revenue</strong></td>
+      <td style="text-align:left;"><span class="formula">= NII + Fee Income</span></td>
+      <td><strong>$1,334M</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="prose" style="margin-top:14px;"><strong>Unit Economics (The Agibank Flywheel):</strong></div>
+<table class="data" style="margin-top:6px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Metric</th>
+      <th style="text-align:left;">Description</th>
+      <th style="text-align:right;">9M 2025</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Customer Acquisition Cost (CAC)</td>
+      <td style="text-align:left;">Marketing + Smart Hub + Agent cost per new customer</td>
+      <td>R$65</td>
+    </tr>
+    <tr>
+      <td>Monthly ARPAC</td>
+      <td style="text-align:left;">Revenue per active client per month</td>
+      <td>R$168</td>
+    </tr>
+    <tr>
+      <td>LTV/CAC Ratio</td>
+      <td style="text-align:left;">Lifetime value relative to acquisition cost</td>
+      <td>>20x</td>
+    </tr>
+    <tr>
+      <td>Products per Client</td>
+      <td style="text-align:left;">Cross-sell depth</td>
+      <td>6+</td>
+    </tr>
+    <tr>
+      <td>NPL Rate (>90 days)</td>
+      <td style="text-align:left;">Non-performing loans as % of portfolio</td>
+      <td>2.6%</td>
+    </tr>
+    <tr>
+      <td>Efficiency Ratio</td>
+      <td style="text-align:left;">Operating expenses / Revenue</td>
+      <td>41.5%</td>
+    </tr>
+    <tr style="font-weight:700;background:#f0f0f0;">
+      <td>ROAE (Annualized)</td>
+      <td style="text-align:left;">Return on average equity</td>
+      <td>39.1%</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="prose" style="margin-top:14px;"><strong>Key Leverage Points:</strong></div>
+<div class="prose">
+The two drivers with most leverage on profitability are (1) <strong>Loan Book Growth</strong> and (2) <strong>Net Interest Margin</strong>—together they determine net interest income, which is 85% of revenue. The Smart Hub model enables efficient customer acquisition (R$65 CAC) which funds loan book expansion. NIM is influenced by funding costs (Selic-linked) and loan yields (partially regulated).
+</div>
+<div class="prose">
+<strong>Operating leverage is powerful:</strong> The efficiency ratio decline from 59.3% to 41.5% demonstrates that fixed costs (technology, compliance, corporate) are spread across a larger revenue base. Each incremental customer generates R$168/month ARPAC with minimal marginal cost once onboarded and transitioned to digital channels.
+</div>
+<div class="prose">
+<strong>Credit quality is the protection mechanism:</strong> The 86% secured lending model (payroll deduction) creates structural credit protection. Unlike unsecured lenders who face severe NPL spikes in economic stress, Agibank's income-secured portfolio maintains low defaults. This allows operating leverage without proportional credit risk expansion.
+</div>
+
+<!-- SECTION 7: SENSITIVITIES -->
+<div class="memo-section">7. Sensitivities on Core Business Drivers</div>
+
+<div class="sens-title">Loan Book (R$B) vs. Net Interest Margin (%) → Net Interest Income ($M USD)</div>
+<div class="sens-current">Current: Loan Book ~R$20B, NIM ~8%, implies ~$320M NII per quarter (at 5 BRL/USD)</div>
+<table class="sensitivity">
+  <tr>
+    <th></th>
+    <th>6.0%</th>
+    <th>7.0%</th>
+    <th>8.0%</th>
+    <th>9.0%</th>
+    <th>10.0%</th>
+  </tr>
+  <tr>
+    <td>R$15B</td>
+    <td>$180</td>
+    <td>$210</td>
+    <td>$240</td>
+    <td>$270</td>
+    <td>$300</td>
+  </tr>
+  <tr>
+    <td>R$20B</td>
+    <td>$240</td>
+    <td>$280</td>
+    <td class="base">$320</td>
+    <td>$360</td>
+    <td>$400</td>
+  </tr>
+  <tr>
+    <td>R$25B</td>
+    <td>$300</td>
+    <td>$350</td>
+    <td>$400</td>
+    <td>$450</td>
+    <td>$500</td>
+  </tr>
+  <tr>
+    <td>R$30B</td>
+    <td>$360</td>
+    <td>$420</td>
+    <td>$480</td>
+    <td>$540</td>
+    <td>$600</td>
+  </tr>
+  <tr>
+    <td>R$35B</td>
+    <td>$420</td>
+    <td>$490</td>
+    <td>$560</td>
+    <td>$630</td>
+    <td>$700</td>
+  </tr>
+</table>
+<div class="prose" style="font-size:9px;color:#666;margin-top:4px;">Note: NIM compression from 8% to 6% at constant R$20B book reduces quarterly NII by $80M (25%). Loan book growth from R$20B to R$35B at constant 8% NIM increases quarterly NII by $240M (75%). Loan growth matters more than NIM within reasonable ranges.</div>
+
+<div class="sens-title">Active Clients (M) vs. Monthly ARPAC (R$) → Annual Revenue (R$B)</div>
+<div class="sens-current">Current: 6.4M active clients, R$168 ARPAC, implies ~R$12.9B annual revenue</div>
+<table class="sensitivity">
+  <tr>
+    <th></th>
+    <th>R$140</th>
+    <th>R$155</th>
+    <th>R$168</th>
+    <th>R$180</th>
+    <th>R$200</th>
+  </tr>
+  <tr>
+    <td>5.0M</td>
+    <td>R$8.4B</td>
+    <td>R$9.3B</td>
+    <td>R$10.1B</td>
+    <td>R$10.8B</td>
+    <td>R$12.0B</td>
+  </tr>
+  <tr>
+    <td>6.4M</td>
+    <td>R$10.8B</td>
+    <td>R$11.9B</td>
+    <td class="base">R$12.9B</td>
+    <td>R$13.8B</td>
+    <td>R$15.4B</td>
+  </tr>
+  <tr>
+    <td>8.0M</td>
+    <td>R$13.4B</td>
+    <td>R$14.9B</td>
+    <td>R$16.1B</td>
+    <td>R$17.3B</td>
+    <td>R$19.2B</td>
+  </tr>
+  <tr>
+    <td>10.0M</td>
+    <td>R$16.8B</td>
+    <td>R$18.6B</td>
+    <td>R$20.2B</td>
+    <td>R$21.6B</td>
+    <td>R$24.0B</td>
+  </tr>
+  <tr>
+    <td>12.0M</td>
+    <td>R$20.2B</td>
+    <td>R$22.3B</td>
+    <td>R$24.2B</td>
+    <td>R$25.9B</td>
+    <td>R$28.8B</td>
+  </tr>
+</table>
+<div class="prose" style="font-size:9px;color:#666;margin-top:4px;">Note: Customer growth from 6.4M to 10M at constant ARPAC increases revenue by 56%. ARPAC expansion from R$168 to R$200 at constant clients increases revenue by 19%. Both matter, but customer growth is the primary lever given the large underserved TAM.</div>
+
+<div class="sens-title">NPL Rate (%) vs. ROAE Impact → Estimated ROAE (%)</div>
+<div class="sens-current">Current: NPL 2.6%, ROAE 39.1%. Baseline assumes ~3% NPL, 35-40% ROAE range.</div>
+<table class="sensitivity">
+  <tr>
+    <th>NPL Rate</th>
+    <th>Provision Impact</th>
+    <th>Est. ROAE</th>
+    <th>Commentary</th>
+  </tr>
+  <tr>
+    <td>1.5%</td>
+    <td>Minimal</td>
+    <td>42-45%</td>
+    <td>Exceptional credit quality</td>
+  </tr>
+  <tr>
+    <td>2.6%</td>
+    <td>Baseline</td>
+    <td class="base">39.1%</td>
+    <td>Current state</td>
+  </tr>
+  <tr>
+    <td>4.0%</td>
+    <td>Moderate stress</td>
+    <td>32-35%</td>
+    <td>Manageable given secured model</td>
+  </tr>
+  <tr>
+    <td>6.0%</td>
+    <td>Significant stress</td>
+    <td>22-28%</td>
+    <td>Economic recession scenario</td>
+  </tr>
+  <tr>
+    <td>8.0%+</td>
+    <td>Severe stress</td>
+    <td>15-20%</td>
+    <td>System-wide crisis</td>
+  </tr>
+</table>
+
+<!-- SECTION 8: 3-YEAR MODEL -->
+<div class="memo-section">8. 3-Year Model (5 Scenarios)</div>
+
+<div class="case-block">
+  <div class="case-name">Bear Case (Severe) — INSS Crisis + Brazilian Recession</div>
+  <div class="fermi-narrative">
+    <div class="scenario-text">Scenario: INSS suspends Agibank's operations again due to compliance failures or regulatory policy shift. Brazilian recession drives unemployment spike and real depreciation. NPLs rise significantly despite secured lending. Competitive pressure intensifies as competitors exploit Agibank's regulatory weakness.</div>
+    <ul>
+      <li>INSS relationship suspended for 6+ months → material customer attrition</li>
+      <li>NPL rate rises to 6%+ as economic stress impacts even secured borrowers</li>
+      <li>NIM compresses to 6% as funding costs spike in risk-off environment</li>
+      <li>Customer growth stalls; CAC rises as trust erodes</li>
+      <li>BRL/USD depreciation to 6.5+ impacts USD-reported earnings</li>
+    </ul>
+    <div class="reconcile">Result: Revenue flat to declining, ROAE falls to 15-18%, stock re-rates to 3x P/E on existential risk premium.</div>
+  </div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>INSS Status</span><span>Suspended / Restricted</span></div>
+  <div class="driver-row"><span>NPL Rate</span><span>6.0%+</span></div>
+  <div class="driver-row"><span>Net Interest Margin</span><span>6.0%</span></div>
+  <div class="driver-row"><span>BRL/USD</span><span>6.5+</span></div>
+  <table class="scenario-mini">
+    <tr><th></th><th>2026E</th><th>2027E</th><th>2028E</th></tr>
+    <tr><td>Active Clients (M)</td><td>5.5</td><td>5.0</td><td>4.5</td></tr>
+    <tr><td>Revenue ($M)</td><td>$1,200</td><td>$1,050</td><td>$950</td></tr>
+    <tr><td>Net Income ($M)</td><td>$100</td><td>$75</td><td>$60</td></tr>
+    <tr><td>EPS</td><td>$0.55</td><td>$0.41</td><td>$0.33</td></tr>
+    <tr class="margin-row"><td>ROAE</td><td>15%</td><td>12%</td><td>10%</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-line1">
+      <div class="exit-price">Implied Price: $1.65</div>
+      <div class="exit-upside" style="color:#c0392b;">Downside: -83%</div>
+    </div>
+    <div class="exit-line2">
+      <span>Exit Multiple: 3x P/E (distressed EM bank)</span>
+      <span>Terminal EPS: $0.55</span>
+    </div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bear Case (Mild) — Normalization + Macro Headwinds</div>
+  <div class="fermi-narrative">
+    <div class="scenario-text">Scenario: INSS relationship stable but new regulations add operational friction. CAC normalizes higher as Crédito do Trabalhador tailwinds fade. Brazilian economy muddles through with elevated rates. Competition intensifies, compressing unit economics.</div>
+    <ul>
+      <li>Law 15,327/2026 implementation creates operational drag</li>
+      <li>CAC rises back to R$120-150 as tailwinds normalize</li>
+      <li>NPL rate stable at 3-4%</li>
+      <li>Customer growth slows to 10% annually</li>
+      <li>NIM compresses modestly to 7.0%</li>
+    </ul>
+    <div class="reconcile">Result: Revenue grows 15-20% but margins compress. ROAE moderates to 22-25%. Stock trades at 5-6x P/E reflecting slower growth.</div>
+  </div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Customer Growth</span><span>10% annually</span></div>
+  <div class="driver-row"><span>NPL Rate</span><span>3.5%</span></div>
+  <div class="driver-row"><span>Net Interest Margin</span><span>7.0%</span></div>
+  <div class="driver-row"><span>CAC</span><span>R$130</span></div>
+  <table class="scenario-mini">
+    <tr><th></th><th>2026E</th><th>2027E</th><th>2028E</th></tr>
+    <tr><td>Active Clients (M)</td><td>7.0</td><td>7.7</td><td>8.5</td></tr>
+    <tr><td>Revenue ($M)</td><td>$1,550</td><td>$1,800</td><td>$2,100</td></tr>
+    <tr><td>Net Income ($M)</td><td>$180</td><td>$220</td><td>$270</td></tr>
+    <tr><td>EPS</td><td>$0.98</td><td>$1.20</td><td>$1.47</td></tr>
+    <tr class="margin-row"><td>ROAE</td><td>22%</td><td>23%</td><td>24%</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-line1">
+      <div class="exit-price">Implied Price: $5.40</div>
+      <div class="exit-upside" style="color:#c0392b;">Downside: -44%</div>
+    </div>
+    <div class="exit-line2">
+      <span>Exit Multiple: 5.5x P/E (moderate growth EM bank)</span>
+      <span>Terminal EPS: $0.98</span>
+    </div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Base Case (Consensus) — Execution Continues</div>
+  <div class="fermi-narrative">
+    <div class="scenario-text">Scenario: Agibank executes on current trajectory. INSS relationship stable post-settlement. Private sector payroll expansion gains traction. AI efficiencies continue driving operating leverage. Brazil economy stabilizes with moderate growth.</div>
+    <ul>
+      <li>Customer base grows 15-20% annually toward 10M+ by 2028</li>
+      <li>CAC stabilizes at R$80-100 (above 9M25 low, below historical)</li>
+      <li>NPL rate stable at 2.5-3.0%</li>
+      <li>NIM maintained at 7.5-8.0%</li>
+      <li>ROAE sustained at 25-30%</li>
+    </ul>
+    <div class="reconcile">Result: Revenue grows 25%+ CAGR, EPS grows faster on operating leverage. Stock trades at consensus 7x P/E.</div>
+  </div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Customer Growth</span><span>18% annually</span></div>
+  <div class="driver-row"><span>NPL Rate</span><span>2.8%</span></div>
+  <div class="driver-row"><span>Net Interest Margin</span><span>7.8%</span></div>
+  <div class="driver-row"><span>CAC</span><span>R$90</span></div>
+  <table class="scenario-mini">
+    <tr><th></th><th>2026E</th><th>2027E</th><th>2028E</th></tr>
+    <tr><td>Active Clients (M)</td><td>7.5</td><td>8.9</td><td>10.5</td></tr>
+    <tr><td>Revenue ($M)</td><td>$1,612</td><td>$2,066</td><td>$2,600</td></tr>
+    <tr><td>Net Income ($M)</td><td>$235</td><td>$320</td><td>$420</td></tr>
+    <tr><td>EPS</td><td>$1.11</td><td>$1.45</td><td>$2.30</td></tr>
+    <tr class="margin-row"><td>ROAE</td><td>26%</td><td>27%</td><td>28%</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-line1">
+      <div class="exit-price">Implied Price: $7.77</div>
+      <div class="exit-upside" style="color:#c0392b;">Downside: -19%</div>
+    </div>
+    <div class="exit-line2">
+      <span>Exit Multiple: 7.0x P/E (consensus FY1)</span>
+      <span>Terminal EPS: $1.11</span>
+    </div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bull Case (Mild) — TAM Expansion + Efficiency Gains</div>
+  <div class="fermi-narrative">
+    <div class="scenario-text">Scenario: Private sector payroll (Crédito do Trabalhador) drives accelerated customer acquisition. Smart Hub expansion to 350+ municipalities succeeds. AI integration deepens, driving further efficiency. Brazilian economy strengthens, supporting credit demand.</div>
+    <ul>
+      <li>Customer base grows 25%+ annually toward 12M+ by 2028</li>
+      <li>CAC remains low at R$70-80 on digital acquisition tailwinds</li>
+      <li>NPL rate improves to 2.0-2.5% as credit models refine</li>
+      <li>Efficiency ratio drops below 38%</li>
+      <li>ROAE expands to 35%+</li>
+    </ul>
+    <div class="reconcile">Result: Revenue grows 30%+ CAGR, significant EPS upside. Stock re-rates to 9x P/E on growth acceleration.</div>
+  </div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Customer Growth</span><span>25% annually</span></div>
+  <div class="driver-row"><span>NPL Rate</span><span>2.2%</span></div>
+  <div class="driver-row"><span>Efficiency Ratio</span><span>37%</span></div>
+  <div class="driver-row"><span>ROAE</span><span>35%</span></div>
+  <table class="scenario-mini">
+    <tr><th></th><th>2026E</th><th>2027E</th><th>2028E</th></tr>
+    <tr><td>Active Clients (M)</td><td>8.0</td><td>10.0</td><td>12.5</td></tr>
+    <tr><td>Revenue ($M)</td><td>$1,800</td><td>$2,400</td><td>$3,200</td></tr>
+    <tr><td>Net Income ($M)</td><td>$300</td><td>$420</td><td>$580</td></tr>
+    <tr><td>EPS</td><td>$1.45</td><td>$2.10</td><td>$3.20</td></tr>
+    <tr class="margin-row"><td>ROAE</td><td>32%</td><td>35%</td><td>38%</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-line1">
+      <div class="exit-price">Implied Price: $13.05</div>
+      <div class="exit-upside" style="color:#27ae60;">Upside: +36%</div>
+    </div>
+    <div class="exit-line2">
+      <span>Exit Multiple: 9x P/E (premium for growth)</span>
+      <span>Terminal EPS: $1.45</span>
+    </div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bull Case (Severe) — Platform Dominance</div>
+  <div class="fermi-narrative">
+    <div class="scenario-text">Scenario: Agibank becomes the dominant financial platform for Deep Brazil. Agi Asset launch succeeds, opening wholesale banking vertical. AI capabilities create structural cost advantages competitors cannot replicate. Multiple re-rates as investors recognize franchise quality.</div>
+    <ul>
+      <li>Customer base exceeds 15M by 2028</li>
+      <li>Agi Asset adds wholesale revenue stream</li>
+      <li>ARPAC expands to R$200+ on product innovation</li>
+      <li>ROAE approaches 40%+</li>
+      <li>Global EM investors discover the story post-IPO</li>
+    </ul>
+    <div class="reconcile">Result: Revenue grows 35%+ CAGR, platform value recognized. Stock re-rates to 12x+ P/E on franchise scarcity.</div>
+  </div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Customer Growth</span><span>30%+ annually</span></div>
+  <div class="driver-row"><span>ARPAC</span><span>R$200+</span></div>
+  <div class="driver-row"><span>Agi Asset AUM</span><span>R$5B+</span></div>
+  <div class="driver-row"><span>ROAE</span><span>40%+</span></div>
+  <table class="scenario-mini">
+    <tr><th></th><th>2026E</th><th>2027E</th><th>2028E</th></tr>
+    <tr><td>Active Clients (M)</td><td>8.5</td><td>11.0</td><td>15.0</td></tr>
+    <tr><td>Revenue ($M)</td><td>$2,000</td><td>$2,800</td><td>$4,000</td></tr>
+    <tr><td>Net Income ($M)</td><td>$380</td><td>$560</td><td>$800</td></tr>
+    <tr><td>EPS</td><td>$1.85</td><td>$2.80</td><td>$4.40</td></tr>
+    <tr class="margin-row"><td>ROAE</td><td>38%</td><td>42%</td><td>45%</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-line1">
+      <div class="exit-price">Implied Price: $22.20</div>
+      <div class="exit-upside" style="color:#27ae60;">Upside: +131%</div>
+    </div>
+    <div class="exit-line2">
+      <span>Exit Multiple: 12x P/E (platform premium)</span>
+      <span>Terminal EPS: $1.85</span>
+    </div>
+  </div>
+</div>
+
+<div class="case-chart">
+  <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="barGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" style="stop-color:#4a5568"/>
+        <stop offset="100%" style="stop-color:#2d3748"/>
+      </linearGradient>
+    </defs>
+    <!-- Axis -->
+    <line x1="50" y1="160" x2="680" y2="160" stroke="#ccc" stroke-width="1"/>
+    <!-- Y-axis labels -->
+    <text x="45" y="165" text-anchor="end" font-size="8" fill="#888">$0</text>
+    <text x="45" y="85" text-anchor="end" font-size="8" fill="#888">$12</text>
+    <text x="45" y="15" text-anchor="end" font-size="8" fill="#888">$24</text>
+
+    <!-- Bars (scaled: $24 = full height 150px) -->
+    <!-- Bear Severe: $1.65 = 10px height -->
+    <rect x="80" y="150" width="80" height="10" fill="url(#barGrad)" rx="2"/>
+    <text x="120" y="145" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a2e">$1.65</text>
+    <text x="120" y="178" text-anchor="middle" font-size="9" fill="#666">Bear (Severe)</text>
+
+    <!-- Bear Mild: $5.40 = 34px height -->
+    <rect x="190" y="126" width="80" height="34" fill="url(#barGrad)" rx="2"/>
+    <text x="230" y="121" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a2e">$5.40</text>
+    <text x="230" y="178" text-anchor="middle" font-size="9" fill="#666">Bear (Mild)</text>
+
+    <!-- Base: $7.77 = 49px height -->
+    <rect x="300" y="111" width="80" height="49" fill="url(#barGrad)" rx="2"/>
+    <text x="340" y="106" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a2e">$7.77</text>
+    <text x="340" y="178" text-anchor="middle" font-size="9" fill="#666">Base</text>
+
+    <!-- Bull Mild: $13.05 = 82px height -->
+    <rect x="410" y="78" width="80" height="82" fill="url(#barGrad)" rx="2"/>
+    <text x="450" y="73" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a2e">$13.05</text>
+    <text x="450" y="178" text-anchor="middle" font-size="9" fill="#666">Bull (Mild)</text>
+
+    <!-- Bull Severe: $22.20 = 139px height -->
+    <rect x="520" y="21" width="80" height="139" fill="url(#barGrad)" rx="2"/>
+    <text x="560" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a2e">$22.20</text>
+    <text x="560" y="178" text-anchor="middle" font-size="9" fill="#666">Bull (Severe)</text>
+
+    <!-- Current price line: $9.61 = 60px from bottom → y = 160 - 60 = 100 -->
+    <line x1="50" y1="100" x2="680" y2="100" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="655" y="97" font-size="9" fill="#c0392b">Current: $9.61</text>
+  </svg>
+</div>
+
+<div class="prose" style="margin-top:12px;"><strong>Scenario Summary:</strong> Implied prices range from $1.65 (Bear Severe, -83%) to $22.20 (Bull Severe, +131%), a 13x spread reflecting the high-beta, high-uncertainty nature of this EM fintech IPO. Current price of $9.61 sits between Base ($7.77) and Bull Mild ($13.05), suggesting the market is pricing modest upside with regulatory concerns. The INSS regulatory relationship is the primary swing factor—resolution provides upside optionality, deterioration creates existential risk. The wide outcome dispersion is characteristic of Theia-style investment opportunities.</div>
+
+<!-- SECTION 9: COMPS -->
+<div class="memo-section">9. Comparable Company Analysis</div>
+
+<div class="sub-label">Named Competitors — Selected Financials (Brazilian Regional Banks)</div>
+<table class="comps">
+  <tr>
+    <th>Company</th>
+    <th>Ticker</th>
+    <th>Price</th>
+    <th>Mkt Cap ($M)</th>
+    <th>Revenue ($M)</th>
+    <th>P/E (LTM)</th>
+    <th>P/E (FY1)</th>
+    <th>Net Margin</th>
+  </tr>
+  <tr class="subject">
+    <td>AGI Inc (Agibank)</td>
+    <td>AGBK-US</td>
+    <td>$9.61</td>
+    <td>973</td>
+    <td>1,334</td>
+    <td>12.0x</td>
+    <td>7.3x</td>
+    <td>11.0%</td>
+  </tr>
+  <tr>
+    <td>Republic Financial Holdings</td>
+    <td>RFHL-TT</td>
+    <td>$15.81</td>
+    <td>2,592</td>
+    <td>1,302</td>
+    <td>7.9x</td>
+    <td>—</td>
+    <td>25.0%</td>
+  </tr>
+  <tr>
+    <td>Banco da Amazonia</td>
+    <td>BAZA3-BR</td>
+    <td>$16.06</td>
+    <td>900</td>
+    <td>1,598</td>
+    <td>4.8x</td>
+    <td>—</td>
+    <td>11.8%</td>
+  </tr>
+  <tr>
+    <td>Grupo Supervielle</td>
+    <td>SUPV-AR</td>
+    <td>$1.71</td>
+    <td>781</td>
+    <td>1,644</td>
+    <td>—</td>
+    <td>12.8x</td>
+    <td>-2.4%</td>
+  </tr>
+  <tr>
+    <td>BRB Banco</td>
+    <td>BSLI4-BR</td>
+    <td>$0.81</td>
+    <td>422</td>
+    <td>1,823</td>
+    <td>3.9x</td>
+    <td>—</td>
+    <td>4.9%</td>
+  </tr>
+  <tr>
+    <td>ABC Brasil</td>
+    <td>ABCB4-BR</td>
+    <td>$4.96</td>
+    <td>1,246</td>
+    <td>1,465</td>
+    <td>6.4x</td>
+    <td>5.6x</td>
+    <td>12.2%</td>
+  </tr>
+  <tr class="stat-row">
+    <td>Average (ex-AGBK)</td>
+    <td></td>
+    <td></td>
+    <td>1,188</td>
+    <td>1,566</td>
+    <td>5.8x</td>
+    <td>9.2x</td>
+    <td>10.3%</td>
+  </tr>
+  <tr class="stat-row">
+    <td>Median (ex-AGBK)</td>
+    <td></td>
+    <td></td>
+    <td>923</td>
+    <td>1,554</td>
+    <td>5.6x</td>
+    <td>9.2x</td>
+    <td>11.8%</td>
+  </tr>
+</table>
+
+<div class="sub-label" style="margin-top:14px;">Valuation Commentary</div>
+<div class="prose">
+<strong>Comps Assessment:</strong> AGBK trades at 7.3x FY1 P/E, a modest premium to the peer median of ~5.6x but justified by significantly higher growth (35% YoY revenue growth vs. peers) and superior ROAE (39% vs. peer average ~15%). The LTM P/E of 12.0x is elevated by pre-IPO equity base normalization—forward P/E is more relevant. The analyst consensus target of $17.27 (80% upside, 1.0 Buy rating) suggests significant Street optimism despite recent price weakness.
+</div>
+<div class="prose">
+<strong>Key comparisons:</strong> ABC Brasil (ABCB4) is the closest comp—similar profitability metrics, Brazilian focus, payroll lending exposure—trading at 5.6x FY1 P/E. AGBK's premium is justified by faster growth and better unit economics but faces execution risk as a recent IPO. Banco da Amazonia (BAZA3) trades cheapest at 4.8x LTM P/E, reflecting government ownership and lower growth profile. Republic Financial (RFHL) trades higher at 7.9x with Caribbean diversification.
+</div>
+<div class="prose">
+<strong>Valuation conclusion:</strong> At 7.3x FY1 P/E, AGBK is fairly valued relative to growth-adjusted comps if execution continues. The 4.71 beta reflects genuine EM/regulatory volatility rather than mispricing. If INSS risks fully resolve and growth accelerates, the stock could re-rate to 9-12x. If regulatory concerns persist or Brazilian macro deteriorates, 4-5x is possible. The consensus $17.27 target implies 12x+ forward P/E, which requires sustained execution and regulatory clarity.
+</div>
+
+<!-- SECTION 10: IS THIS A THEIA INVESTMENT -->
+<div class="memo-section">10. Is This a Theia Investment?</div>
+
+<div class="prose" style="margin-bottom:12px;font-style:italic;color:#666;">Theia seeks small cap companies that aren't well covered and are strongly aligned on core internet finance/blockchain thesis with wide outcome dispersion.</div>
+
+<div class="screen-item">
+  <div class="screen-label">(i) Market Cap Bucket: $973M <span class="fw-rating strong">Small Cap — Excellent Fit</span></div>
+  <div class="screen-detail">AGBK's market cap of ~$1 billion places it at the smaller end of Theia's small cap target range. As a recent IPO (January 2026), the company has limited US institutional ownership and is still building its investor base. The $240M IPO raise and 41% float create potential for significant price volatility as ownership stabilizes. This is prime territory for fundamental investors who can develop differentiated views before broader institutional discovery.</div>
+</div>
+
+<div class="screen-item">
+  <div class="screen-label">(ii) Analyst Coverage: 8 Brokers <span class="fw-rating moderate">Moderate Coverage</span></div>
+  <div class="screen-detail">With 8 broker contributors providing estimates, AGBK has more coverage than typical Theia targets but is still meaningfully under-researched for its growth profile and complexity. Most coverage appears to be from Brazilian/LatAm specialists rather than US generalists—the story is not yet widely known in US fundamental circles. The recent IPO means track record of estimate accuracy is limited, creating potential for consensus to be systematically wrong. The unanimous Buy rating (1.0) with $17.27 target suggests limited bear case analysis by the Street.</div>
+</div>
+
+<div class="screen-item">
+  <div class="screen-label">(iii) Blockchain / Internet Finance Thesis Alignment <span class="fw-rating strong">Strong Fit</span></div>
+  <div class="screen-detail">Unlike traditional banks, Agibank is fundamentally a fintech company serving the underserved through digital-first infrastructure. The business model directly addresses financial inclusion for Deep Brazil—a core internet finance thesis about democratizing access to financial services. Key alignments include: (1) AI-embedded operations across customer service, underwriting, fraud detection, and retention—30,000+ AI interactions monthly; (2) digital-first customer transition model that bridges physical acquisition to digital engagement; (3) mobile app as primary customer interface post-onboarding; (4) real-time payment integration via Pix; (5) cloud-native infrastructure (AWS, Azure) enabling rapid scaling. While not blockchain-specific, Agibank represents the internet finance transformation of banking in emerging markets—exactly the type of disruption Theia seeks. The hybrid model serving non-digital-native populations is actually more aligned than pure digital plays, as it addresses a harder problem (inclusion of the excluded) rather than easier digital-native capture.</div>
+</div>
+
+<div class="screen-item">
+  <div class="screen-label">(iv) Outcome Dispersion <span class="fw-rating strong">Wide — Excellent</span></div>
+  <div class="screen-detail">Based on the scenario analysis, implied share prices range from $1.65 (Bear Severe, -83%) to $22.20 (Bull Severe, +131%)—a 13x spread representing exceptional outcome dispersion. This dispersion stems from multiple compounding uncertainties: INSS regulatory relationship (binary risk), Brazilian macroeconomic volatility, CAC normalization dynamics, competitive intensity, and execution on growth vectors. The 4.71 beta reflects this volatility empirically. For Theia-style investing, this dispersion is ideal: if one can develop conviction on regulatory resolution and execution trajectory, the payoff from being right is substantial. The recent -17.7% one-month decline suggests market uncertainty that fundamental research could resolve.</div>
+</div>
+
+<div class="verdict" style="border-left-color:#155724;">
+<strong>Verdict: Yes — Strong fit on all four Theia criteria</strong>
+
+<div class="prose" style="margin-top:8px;">
+AGBK scores excellently across Theia's investment criteria. Market cap (~$1B) is appropriately small with limited US institutional ownership. Coverage (8 brokers) is moderate but LatAm-focused with limited US awareness. Internet finance thesis alignment is strong—Agibank is fundamentally a fintech serving the underserved through AI-embedded digital infrastructure, directly addressing financial inclusion. Outcome dispersion (13x scenario range) is exceptional, creating asymmetric payoff potential.
+</div>
+<div class="prose">
+The key risk is INSS regulatory concentration—this is genuine existential risk that must be monitored continuously. However, the January 2026 settlement suggests working relationship can be maintained. The recent -17.7% price decline creates potential entry point if thesis conviction develops.
+</div>
+<div class="prose">
+<strong>Recommendation:</strong> Initiate further diligence with focus on: (1) INSS relationship stability post-settlement—any signals of renewed regulatory tension; (2) CAC trajectory as Crédito do Trabalhador matures; (3) private sector payroll loan traction; (4) Q1 2026 earnings (June 3) for execution validation. Consider position sizing appropriately for EM regulatory risk and high beta (4.71). This is a high-conviction, high-volatility opportunity aligned with Theia's fintech/financial inclusion thesis.
+</div>
+</div>
+
+<!-- SECTION 11: APPENDIX -->
+<div class="memo-section">11. Appendix — Key Risk Summary</div>
+
+<div class="prose"><strong>Top 5 Risks to Thesis:</strong></div>
+<ol class="num-list">
+  <li><strong>1. INSS Concentration Risk:</strong> Regulatory dependency on Brazilian Social Security Institute for core customer access. Suspension/termination would materially impair operations. Mitigant: January 2026 settlement demonstrates relationship can be maintained; diversification into public/private sector payroll reduces INSS concentration over time.</li>
+
+  <li><strong>2. Brazilian Macroeconomic Volatility:</strong> Currency depreciation, interest rate spikes, or recession would impact funding costs, credit quality, and USD-reported earnings. High beta (4.71) reflects this sensitivity. Mitigant: Secured lending model provides credit protection; diversified funding sources reduce rate sensitivity.</li>
+
+  <li><strong>3. Key Person Risk:</strong> Founder Marciano Testa is Chairman, CEO, and controlling shareholder with no key man insurance. Departure would create significant disruption. Mitigant: Deep management team with experienced COO, CFO, CTO; process power embedded in organization rather than individuals.</li>
+
+  <li><strong>4. Competitive Intensity:</strong> Well-funded fintechs (Nubank) and traditional banks (Itaú) competing for similar customer segments with aggressive pricing. Mitigant: Counter-positioning creates structural barriers; unit economics advantage (LTV/CAC >20x) provides competitive cushion.</li>
+
+  <li><strong>5. Execution Risk on New Verticals:</strong> Agi Asset launch, geographic expansion, private sector payroll—all require successful execution in new domains. Mitigant: Disciplined capital allocation philosophy; focus on AI/technology rather than legacy infrastructure; experienced management team.</li>
+</ol>
+
+<p class="source-note">Source: FactSet, Company Filings (F-1/A, 424B1, DRS/A), AlphaSense Expert Transcripts, Theia Analysis | March 2026</p>
+
+</body>
+</html>
