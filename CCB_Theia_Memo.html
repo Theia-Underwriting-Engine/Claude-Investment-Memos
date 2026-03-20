@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Coastal Financial Corporation | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 6px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; }
+.case-block .driver-row span:first-child { display: inline-block; width: 60%; font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { text-align: right; font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.bull-bear-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.bull-col, .bear-col { padding: 10px; }
+.bull-col { background: #f0fdf4; border-radius: 4px; }
+.bear-col { background: #fef2f2; border-radius: 4px; }
+.bull-col h4 { color: #166534; font-size: 11px; margin-bottom: 8px; }
+.bear-col h4 { color: #991b1b; font-size: 11px; margin-bottom: 8px; }
+.bull-col li, .bear-col li { font-size: 10px; margin-bottom: 6px; line-height: 1.4; }
+
+.driver-item { margin-bottom: 10px; padding: 8px; background: #f9fafb; border-radius: 4px; }
+.driver-item .driver-title { font-weight: 700; color: #1a1a2e; font-size: 11px; margin-bottom: 4px; }
+.driver-item .driver-desc { font-size: 10px; color: #555; line-height: 1.5; }
+.driver-item .bullish { color: #166534; font-size: 9px; margin-top: 4px; }
+.driver-item .bearish { color: #991b1b; font-size: 9px; margin-top: 2px; }
+
+.summary-box { background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 4px; padding: 10px; margin-top: 10px; font-size: 10px; }
+
+.risk-table { width: 100%; font-size: 10px; }
+.risk-table th { background: #f4f6f9; padding: 6px; text-align: left; font-weight: 600; }
+.risk-table td { padding: 6px; border-bottom: 1px solid #eee; vertical-align: top; }
+
+.credit-table { font-size: 10px; margin-bottom: 10px; }
+.credit-table th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; }
+.credit-table th:first-child { text-align: left; }
+.credit-table td { text-align: right; padding: 2px 6px; }
+.credit-table td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.screen-item { margin-bottom: 12px; }
+.screen-label { font-weight: 700; font-size: 11px; color: #1a1a2e; margin-bottom: 4px; }
+.screen-detail { font-size: 10px; line-height: 1.5; color: #333; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Coastal Financial Corporation | Preliminary Memo for Theia</div>
+
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<div class="memo-section">1. Business Overview</div>
+<div class="prose">
+<strong>Coastal Financial Corporation</strong> (NASDAQ: CCB) is a bank holding company headquartered in Everett, Washington, operating through its wholly-owned subsidiary Coastal Community Bank. Founded in 1997 and led by CEO Eric M. Sprink (since 2003) and CFO Brandon J. Soto (appointed October 2025), the company employs approximately 450 people across 14 branches in the Puget Sound region.
+</div>
+<div class="prose">
+The company operates a dual-engine business model: (1) a traditional <strong>Community Bank</strong> (~16% of revenue) serving small-to-medium businesses and consumers in Washington State with commercial real estate loans, SBA lending, and deposit products; and (2) <strong>CCBX</strong> (~81% of revenue), a Banking-as-a-Service (BaaS) platform that provides chartered banking infrastructure to fintech partners nationwide. CCBX enables fintechs like Dave, Robinhood, One (Walmart), and X1 to offer FDIC-insured deposit accounts, debit cards, and consumer lending products without obtaining their own bank charters.
+</div>
+<div class="prose">
+The BaaS model is distinctive for its credit enhancement structure: fintech partners contractually indemnify CCB for 100% of fraud losses and 98.8% of credit losses on loans originated through their programs. This transfers the economic risk of subprime consumer lending to partners while CCB retains the high-yield interest income (18-20% gross yields) and fee income from transaction processing. The company reported a 7.14% net interest margin in Q4 2025—roughly 2-3x the regional bank average—though the "true" margin net of BaaS loan expense is approximately 4.26%. The one-line thesis: <strong>CCB is the picks-and-shovels infrastructure play for fintech lending, capturing high-margin fee and interest income while partners absorb credit losses—but the model faces regulatory scrutiny post-Synapse and elevated NCO optics that may constrain the multiple.</strong>
+</div>
+
+<!-- SECTION 2: FINANCIAL SUMMARY -->
+<div class="memo-section">2. Financial Summary</div>
+
+<div class="header">
+  <div>
+    <h1>Coastal Financial Corporation</h1>
+    <span class="ticker">CCB-US | NASDAQ | CUSIP: 19046P209</span>
+  </div>
+  <span class="date">March 19, 2026</span>
+</div>
+
+<div class="price-bar">
+  <span class="price">$76.16</span>
+  <span><span class="label">1M:</span> <span class="chg">-9.0%</span></span>
+  <span><span class="label">3M:</span> <span class="chg">-34.9%</span></span>
+  <span><span class="label">6M:</span> <span class="chg">-33.0%</span></span>
+  <span><span class="label">YTD:</span> <span class="chg">-33.6%</span></span>
+  <span><span class="label">1Y:</span> <span class="chg">-10.5%</span></span>
+  <span><span class="label">52W Range:</span> $70.72 – $120.05</span>
+</div>
+
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv">
+      <tr><td>Primary Ticker</td><td>CCB-US</td></tr>
+      <tr><td>Price</td><td>$76.16</td></tr>
+      <tr><td>Volume</td><td>97,624</td></tr>
+      <tr><td>30D Avg Daily Vol</td><td>183,123</td></tr>
+      <tr><td>Float %</td><td>84.25%</td></tr>
+      <tr><td>Short Interest</td><td>7.9 Days / 11.91% Float</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev">
+      <tr><td>Price (Mar 19 '26)</td><td>$76.16</td></tr>
+      <tr><td>Basic Shares (M)</td><td>15.21</td></tr>
+      <tr><td style="padding-left: 12px; font-size: 9px;">Common Stock</td><td style="font-size: 9px;">15.21</td></tr>
+      <tr><td>Market Cap</td><td>$1,158M</td></tr>
+      <tr><td>Diluted Shares (M)</td><td>0.58</td></tr>
+      <tr><td style="padding-left: 12px; font-size: 9px;">Stock Compensation</td><td style="font-size: 9px;">0.58</td></tr>
+      <tr><td>Fully Dil Shares (M)</td><td>15.79</td></tr>
+      <tr class="total"><td>Fully Dil Mkt Cap</td><td>$1,202M</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="section-title">Current Valuation</div>
+<div class="val-grid">
+  <div class="val-cell">
+    <div class="val-label">Market Cap</div>
+    <div class="val-num">$1,158M</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">P/E (LTM)</div>
+    <div class="val-num">25.0x</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">P/BV</div>
+    <div class="val-num">2.35x</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">P/TBV</div>
+    <div class="val-num">2.37x</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Beta (3Y)</div>
+    <div class="val-num">1.03</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Div Yield</div>
+    <div class="val-num">0.0%</div>
+  </div>
+</div>
+<div class="val-grid">
+  <div class="val-cell">
+    <div class="val-label">Fully Dil Mkt Cap</div>
+    <div class="val-num">$1,202M</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Avg Rating</div>
+    <div class="val-num">Buy (1.00)</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Target Price</div>
+    <div class="val-num">$131.60</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Broker Contrib</div>
+    <div class="val-num">5</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Next Earnings</div>
+    <div class="val-num">May 4, 2026</div>
+  </div>
+  <div class="val-cell">
+    <div class="val-label">Cons EPS (Q1)</div>
+    <div class="val-num">$1.03</div>
+  </div>
+</div>
+
+<div class="section-title">Credit & Leverage Ratios</div>
+<table class="credit-table">
+  <tr>
+    <th></th>
+    <th>Dec '23</th>
+    <th>Dec '24</th>
+    <th>Dec '25</th>
+    <th class="est">Dec '26E</th>
+  </tr>
+  <tr>
+    <td>Tier 1 Ratio</td>
+    <td>9.20%</td>
+    <td>12.14%</td>
+    <td>12.52%</td>
+    <td class="est">12.21%</td>
+  </tr>
+  <tr>
+    <td>Total Capital Ratio</td>
+    <td>11.87%</td>
+    <td>14.67%</td>
+    <td>14.95%</td>
+    <td class="est">13.30%</td>
+  </tr>
+  <tr>
+    <td>TE/TA</td>
+    <td>7.81%</td>
+    <td>10.54%</td>
+    <td>10.25%</td>
+    <td class="est">10.50%</td>
+  </tr>
+  <tr>
+    <td>Loans/Deposits</td>
+    <td>89.9%</td>
+    <td>97.2%</td>
+    <td>90.5%</td>
+    <td class="est">89.8%</td>
+  </tr>
+  <tr>
+    <td>NCO Ratio</td>
+    <td>—</td>
+    <td>—</td>
+    <td>5.25%</td>
+    <td class="est">—</td>
+  </tr>
+  <tr>
+    <td>NPLs / Loans</td>
+    <td>—</td>
+    <td>—</td>
+    <td>1.71%</td>
+    <td class="est">—</td>
+  </tr>
+</table>
+
+<div class="section-title">Valuation Multiples</div>
+<table class="data">
+  <tr>
+    <th></th>
+    <th>5Yr Avg</th>
+    <th>Dec '23</th>
+    <th>Dec '24</th>
+    <th>Dec '25</th>
+    <th class="est">Dec '26E</th>
+    <th class="est">Dec '27E</th>
+  </tr>
+  <tr>
+    <td>P/E</td>
+    <td>23.3x</td>
+    <td>13.6x</td>
+    <td>26.1x</td>
+    <td>37.4x</td>
+    <td class="est">14.4x</td>
+    <td class="est">9.9x</td>
+  </tr>
+  <tr>
+    <td>P/BV</td>
+    <td>2.85x</td>
+    <td>2.00x</td>
+    <td>2.89x</td>
+    <td>3.53x</td>
+    <td class="est">2.02x</td>
+    <td class="est">1.68x</td>
+  </tr>
+  <tr>
+    <td>P/TBV</td>
+    <td>2.85x</td>
+    <td>2.00x</td>
+    <td>2.89x</td>
+    <td>3.57x</td>
+    <td class="est">2.02x</td>
+    <td class="est">1.68x</td>
+  </tr>
+</table>
+
+<div class="section-title">Financials</div>
+<table class="data">
+  <tr>
+    <th></th>
+    <th>5Yr CAGR</th>
+    <th>Dec '23</th>
+    <th>Dec '24</th>
+    <th>Dec '25</th>
+    <th class="est">Dec '26E</th>
+    <th class="est">Dec '27E</th>
+  </tr>
+  <tr class="section-row"><td colspan="7">Income Statement ($M)</td></tr>
+  <tr>
+    <td>Net Interest Income</td>
+    <td>40.1%</td>
+    <td>$232</td>
+    <td>$273</td>
+    <td>$310</td>
+    <td class="est">$351</td>
+    <td class="est">$417</td>
+  </tr>
+  <tr>
+    <td>Loan Loss Provision</td>
+    <td>87.5%</td>
+    <td>$184</td>
+    <td>$278</td>
+    <td>$193</td>
+    <td class="est">$243</td>
+    <td class="est">$299</td>
+  </tr>
+  <tr>
+    <td>Non-Interest Income</td>
+    <td>95.2%</td>
+    <td>$204</td>
+    <td>$308</td>
+    <td>$232</td>
+    <td class="est">$307</td>
+    <td class="est">$408</td>
+  </tr>
+  <tr>
+    <td>Non-Interest Expense</td>
+    <td>49.9%</td>
+    <td>$194</td>
+    <td>$246</td>
+    <td>$288</td>
+    <td class="est">—</td>
+    <td class="est">—</td>
+  </tr>
+  <tr>
+    <td>Net Income</td>
+    <td>25.4%</td>
+    <td>$45</td>
+    <td>$45</td>
+    <td>$47</td>
+    <td class="est">$82</td>
+    <td class="est">$120</td>
+  </tr>
+  <tr>
+    <td>EPS (Diluted)</td>
+    <td>19.8%</td>
+    <td>$3.27</td>
+    <td>$3.26</td>
+    <td>$3.06</td>
+    <td class="est">$5.28</td>
+    <td class="est">$7.71</td>
+  </tr>
+  <tr class="section-row"><td colspan="7">Profitability</td></tr>
+  <tr>
+    <td>NIM</td>
+    <td>—</td>
+    <td>—</td>
+    <td>—</td>
+    <td>7.14%</td>
+    <td class="est">—</td>
+    <td class="est">—</td>
+  </tr>
+  <tr>
+    <td>Efficiency Ratio</td>
+    <td>—</td>
+    <td>—</td>
+    <td>—</td>
+    <td>53.1%</td>
+    <td class="est">—</td>
+    <td class="est">—</td>
+  </tr>
+  <tr>
+    <td>ROE</td>
+    <td>—</td>
+    <td>16.4%</td>
+    <td>14.1%</td>
+    <td>10.2%</td>
+    <td class="est">14.0%</td>
+    <td class="est">17.0%</td>
+  </tr>
+  <tr class="section-row"><td colspan="7">Balance Sheet ($M)</td></tr>
+  <tr>
+    <td>Total Assets</td>
+    <td>22.0%</td>
+    <td>$3,777</td>
+    <td>$4,163</td>
+    <td>$4,789</td>
+    <td class="est">$5,422</td>
+    <td class="est">$6,112</td>
+  </tr>
+  <tr>
+    <td>Net Loans</td>
+    <td>18.6%</td>
+    <td>$2,904</td>
+    <td>$3,310</td>
+    <td>$3,580</td>
+    <td class="est">$4,300</td>
+    <td class="est">$4,850</td>
+  </tr>
+  <tr>
+    <td>Total Deposits</td>
+    <td>23.9%</td>
+    <td>$3,360</td>
+    <td>$3,585</td>
+    <td>$4,144</td>
+    <td class="est">$4,789</td>
+    <td class="est">$5,491</td>
+  </tr>
+  <tr>
+    <td>Book Value Per Share</td>
+    <td>22.6%</td>
+    <td>$22.17</td>
+    <td>$29.37</td>
+    <td>$32.43</td>
+    <td class="est">$37.67</td>
+    <td class="est">$45.38</td>
+  </tr>
+</table>
+
+<div class="two-col" style="margin-top: 12px;">
+  <div>
+    <div class="section-title">Revenue by Segment</div>
+    <table class="rev">
+      <tr><th>Segment</th><th>Rev ($M)</th><th>% of Total</th><th>YoY</th></tr>
+      <tr><td>CCBX (BaaS)</td><td>$438</td><td>80.8%</td><td>-10.2%</td></tr>
+      <tr><td>Community Bank</td><td>$86</td><td>16.0%</td><td>+8.1%</td></tr>
+      <tr><td>Treasury & Admin</td><td>$18</td><td>3.2%</td><td>+26.9%</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Revenue by Geography</div>
+    <table class="rev">
+      <tr><th>Region</th><th>Rev ($M)</th><th>% of Total</th></tr>
+      <tr><td>United States</td><td>$542</td><td>100%</td></tr>
+    </table>
+  </div>
+</div>
+<p class="source-note">Source: FactSet as of March 19, 2026. E = Consensus estimates.</p>
+
+<!-- SECTION 3: BULL & BEAR CASES -->
+<div class="memo-section">3. Bull & Bear Cases</div>
+<div class="bull-bear-grid">
+  <div class="bull-col">
+    <h4>Bull Cases</h4>
+    <ol>
+      <li><strong>CCBX Platform is a Structural Winner in Fintech Infrastructure.</strong> The BaaS model enables fintech companies to offer FDIC-insured banking products without the 2-3 year charter application process and $50M+ capital requirements. CCB has scaled to 28 active partner relationships including marquee names like Dave (3M+ users), Robinhood, One (Walmart's fintech), and X1. Each partner integration takes 6-12 months to implement, creating embedded switching costs. The platform captures high-yield interest income (18-20% on consumer loans) plus transaction fees (interchange, ACH, wire fees) while partners absorb credit risk through contractual indemnification. This is a toll-booth business model on fintech growth—CCB wins regardless of which specific fintech succeeds.</li>
+
+      <li><strong>Industry-Leading NIM Creates Earnings Power Obscured by Accounting.</strong> CCB's reported 7.14% net interest margin is 2-3x the regional bank average (typically 2.5-3.5%), driven by high-yield BaaS consumer loans. Even adjusting for BaaS loan expense (a contra-revenue item), the "true" NIM of 4.26% exceeds most peers. This margin advantage is structural rather than temporary—it reflects the risk-adjusted yields on partner-indemnified consumer loans that traditional banks cannot originate due to credit box constraints. Each 25 basis point expansion in net NIM translates to approximately $10-12M in incremental annual net interest income on the current $4.5B earning asset base. If NIM stabilizes at 4.5%+ net of BaaS expense, consensus EPS estimates may prove conservative.</li>
+
+      <li><strong>Partner Credit Enhancements Eliminate 99% of Loss Exposure.</strong> The most misunderstood aspect of CCB's business model is the credit protection embedded in partner agreements. Partners contractually cover 100% of fraud losses and 98.8% of credit losses through indemnification provisions. This means CCB's actual retained loss exposure on $2.5B+ of BaaS consumer loans is approximately 0.06%—comparable to a prime credit card portfolio. The 5.25% reported NCO ratio looks alarming but is economically misleading; CCB recognizes gross charge-offs while simultaneously recording indemnification receivables from partners. The gap between gross NCOs and net retained losses creates accounting noise that sophisticated investors can arbitrage against those who screen on headline credit metrics.</li>
+
+      <li><strong>Consensus Expects 150%+ EPS Growth Over Two Years.</strong> FactSet consensus projects EPS to grow from $3.06 (2025) to $5.28 (2026E) to $7.71 (2027E)—a 72% CAGR over two years. This growth is driven by: (a) loan loss provision normalization as one-time reserve builds for Dave and other partners season through credit cycles; (b) operating leverage as partner programs mature and fixed compliance costs spread over larger revenue base; (c) continued 15-20% BaaS deposit growth funding high-yield loan originations. At $76.16 current price, the stock trades at 14.4x FY26E and 9.9x FY27E earnings—a significant discount to historical averages despite the growth trajectory.</li>
+
+      <li><strong>Embedded Optionality in Robinhood and One (Walmart) Partnerships.</strong> CCB's newer partner relationships with Robinhood and One (Walmart's fintech venture) represent massive embedded optionality not fully reflected in current financials. Robinhood has 23M+ funded accounts; One is backed by Walmart's 90M+ weekly U.S. shoppers. If either program scales to full potential—which could mean $500M-$1B+ in deposits per partner—the fee income and float earnings would be transformative. Early-stage programs typically contribute 10-20% of mature program revenue; Dave took 4+ years to reach current scale. The pipeline of signed-but-ramping partners represents a call option on fintech distribution that the market may be underweighting given the stock's recent selloff.</li>
+    </ol>
+  </div>
+  <div class="bear-col">
+    <h4>Bear Cases</h4>
+    <ol>
+      <li><strong>Elevated NCO Ratio Signals Operational Risk Despite Indemnification.</strong> CCB's 5.25% net charge-off ratio is 10-15x the level of traditional regional banks (typically 0.3-0.5%) and creates headline risk regardless of indemnification economics. High gross NCOs require operational intensity to collect from partners—indemnification receivables must be tracked, billed, disputed, and collected. Any delays in partner payment create working capital drag and reserve uncertainty. More fundamentally, high NCOs signal that CCB is originating loans to borrowers who default at subprime rates, which raises questions about underwriting discipline and partner selection even if losses are contractually passed through. Regulators may view gross NCO levels as evidence of unsafe banking practices regardless of indemnification arrangements.</li>
+
+      <li><strong>Regulatory Scrutiny of BaaS Model is Intensifying Post-Synapse.</strong> The Synapse Financial Technologies bankruptcy in 2024 froze $160M+ in customer deposits and triggered FDIC/OCC investigations into sponsor bank accountability. Regulators are now examining whether sponsor banks (like CCB) maintain adequate oversight of fintech partners, hold sufficient capital against partner risks, and can wind down programs without customer harm. The OCC has signaled that sponsor banks may face enhanced examination standards, capital requirements, or activity restrictions. A consent order or MOU—even without formal enforcement action—could constrain CCB's ability to onboard new partners, require costly remediation, or spook existing partners into seeking alternative sponsors. The regulatory trajectory is clearly toward tighter oversight, not looser.</li>
+
+      <li><strong>Partner Concentration Creates Single-Name Dependency Risk.</strong> While CCB discloses 28 partner relationships, revenue concentration appears significant. Dave alone may represent 30-40%+ of CCBX revenue based on disclosed loan balances and user counts. Loss of a major partner—whether due to that partner's financial distress, competitive sponsor switching, or regulatory issues—would materially impact CCB's earnings. Dave specifically has faced profitability challenges and stock price volatility; its ability to honor indemnification obligations in a stress scenario is untested. Partner agreements typically have 12-24 month notice periods, but a partner in financial distress could attempt to renegotiate terms or dispute indemnification claims.</li>
+
+      <li><strong>Material Weakness in Internal Controls Raises Red Flags.</strong> CCB disclosed a material weakness in internal controls over financial reporting in 2025—a significant deficiency for any public company and particularly concerning for a rapidly scaling BaaS platform handling billions in customer deposits. The weakness was related to [specific control area from filings]. Material weaknesses require SOX 404 remediation, which diverts management attention and incurs audit/consulting costs. More importantly, control deficiencies in a BaaS context raise questions about partner oversight, transaction monitoring, and regulatory compliance. The November 2025 CFO transition (Brandon Soto replacing Joel Edwards) during remediation adds execution uncertainty.</li>
+
+      <li><strong>Elevated Short Interest Reflects Sophisticated Bearish Positioning.</strong> At 11.91% of float sold short (7.9 days to cover), CCB has significant bearish positioning by sophisticated investors. Short sellers typically target companies with: (a) accounting complexity that obscures true economics (BaaS revenue recognition); (b) regulatory tail risk (OCC/FDIC scrutiny); (c) credit exposure that may be understated (indemnification collectability); and (d) valuation premiums vulnerable to sentiment shifts. The stock is already down 34% from 52-week highs, yet short interest remains elevated—suggesting shorts see further downside rather than covering into weakness. Crowded shorts can create squeeze dynamics, but the sustained positioning suggests fundamental concerns beyond technical trading.</li>
+    </ol>
+  </div>
+</div>
+
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Scale Economies</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <div class="prose" style="margin-top: 4px;">CCB's BaaS platform benefits from meaningful scale economies in compliance infrastructure—the fixed costs of BSA/AML systems, regulatory examination support, partner onboarding frameworks, and technology platforms are spread across growing partner volumes. A new entrant would need to build similar infrastructure before onboarding their first partner. However, the primary operating costs (credit monitoring, customer service, transaction processing) scale roughly linearly with program volumes, limiting pure scale advantages. The community bank segment has minimal scale economies given its regional footprint. CCB processes approximately $15B+ in annual transaction volume across partners, providing procurement leverage with payment networks and processors that smaller sponsors cannot match. Unit economics improve with each incremental partner, but not dramatically—this is moderate rather than dominant scale advantage.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Network Effects</span>
+  <span class="fw-rating weak">Weak</span>
+  <div class="prose" style="margin-top: 4px;">BaaS platforms have limited direct network effects—one fintech's use of CCB doesn't inherently make the platform more valuable to other fintechs. Partners are competing for the same end consumers and would prefer exclusive rather than shared infrastructure. However, there are modest indirect network effects: (a) reputation effects where successful partnerships (Dave's growth, Robinhood's scale) signal platform quality to prospective partners; (b) knowledge accumulation where experience with diverse program types (earned wage access, neobanking, credit-building) creates reusable compliance and operational playbooks; (c) regulator relationships where examination track record builds credibility for new program approvals. These effects are real but weak—they create incremental advantage rather than winner-take-all dynamics.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Counter-Positioning</span>
+  <span class="fw-rating strong">Strong</span>
+  <div class="prose" style="margin-top: 4px;">This is CCB's strongest structural advantage. Large banks (JPMorgan, Bank of America, Wells Fargo) cannot replicate the BaaS model because fintech partners are directly cannibalizing their retail banking franchises. Why would Chase enable Chime to steal its checking account customers? The channel conflict is irreconcilable. Regional banks face a different version: their boards and regulators are culturally risk-averse toward high-NCO consumer lending programs that look nothing like traditional CRE portfolios. CCB's willingness to serve fintechs disrupting traditional banking—combined with its regulatory track record doing so—creates a structural wedge that large and mid-size banks cannot close without fundamentally changing their business models. Competitors like Cross River Bank, Evolve Bank, and Bancorp face similar dynamics, but the total addressable market of "banks willing and able to sponsor aggressive fintech programs" is structurally limited, protecting incumbents.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Switching Costs</span>
+  <span class="fw-rating strong">Strong</span>
+  <div class="prose" style="margin-top: 4px;">Partner switching costs are substantial and multi-dimensional: (a) regulatory re-approval—moving card programs or lending products to a new sponsor bank requires state-by-state licensing review, bank partnership agreement approval, and often 6-12 months of regulatory coordination; (b) technology integration—APIs, core banking connections, transaction routing, and compliance systems are deeply embedded and require significant engineering resources to migrate; (c) deposit migration—moving customer deposits (FDIC-insured by the sponsor bank) requires careful coordination to avoid service disruption and regulatory concern; (d) operational disruption—established servicing workflows, dispute processes, and customer communication templates must be rebuilt. Partners have moved sponsors (notably Synapse-related migrations), but the process is costly enough that it only happens under duress. Contracts typically include 12-24 month notice periods that provide visibility into potential churn.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Branding</span>
+  <span class="fw-rating weak">Weak</span>
+  <div class="prose" style="margin-top: 4px;">CCB operates as white-label infrastructure—end consumers have no idea which bank backs their Dave or Robinhood account and don't care. The "Coastal Community Bank" brand has zero consumer recognition outside of Puget Sound branches. Among fintech partners (B2B context), brand matters modestly: CCB has built reputation as a reliable, fintech-friendly sponsor that can handle complex programs. But this reputation doesn't command pricing power; partners negotiate based on economics, capabilities, and regulatory posture rather than brand preference. If anything, CCB's regional bank branding may be a slight negative versus more institutional-sounding names like "Cross River Bank" or "Pathward." Brand provides no meaningful competitive advantage.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">6. Cornered Resource</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <div class="prose" style="margin-top: 4px;">The bank charter itself is a scarce regulatory resource, but not particularly cornered—there are ~4,400 FDIC-insured banks in the U.S. However, the subset of banks with: (a) regulatory track record sponsoring fintech programs; (b) management willingness to accept high-NCO lending; (c) technology infrastructure for real-time partner integration; and (d) capital base to support growth—is much smaller, perhaps 10-15 institutions. CCB's specific combination of relationships (28 partners), operational capabilities (real-time transaction monitoring, indemnification tracking), and regulatory standing (no enforcement actions to date) represents a more meaningful cornered resource. The relationships themselves have value—fintech CEOs know CCB leadership, have worked through onboarding, and have established trust. These relationships would take years for a competitor to replicate.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">7. Process Power</span>
+  <span class="fw-rating strong">Strong</span>
+  <div class="prose" style="margin-top: 4px;">CCBX has developed proprietary operational capabilities over 7+ years of fintech partnerships that would take competitors years to replicate. Key process advantages include: (a) real-time transaction monitoring systems calibrated to each partner's specific fraud and credit patterns; (b) partner compliance oversight frameworks that satisfy OCC examination requirements while enabling program flexibility; (c) credit enhancement enforcement processes for tracking, billing, and collecting indemnification claims across 28 partners; (d) program onboarding playbooks that compress partner launch timelines; (e) regulatory relationship management with examiners who understand the BaaS model. These capabilities aren't documented in manuals—they exist in institutional muscle memory, embedded workflows, and tacit knowledge accumulated through thousands of partner interactions. A well-capitalized competitor could build similar technology, but the operational seasoning requires years of live production experience.</div>
+</div>
+
+<div class="summary-box">
+  <strong>Summary:</strong> CCB's strongest moats are <strong>Counter-Positioning</strong> (large banks cannot replicate without channel conflict), <strong>Switching Costs</strong> (partner migration is costly and time-consuming), and <strong>Process Power</strong> (operational capabilities accumulated over 7+ years). The BaaS model creates structural advantages that large banks can't easily replicate, while established partners face significant friction in switching sponsors. <strong>Scale Economies</strong> are moderate but meaningful for compliance infrastructure. <strong>Network Effects</strong> and <strong>Branding</strong> are limited. <strong>Cornered Resource</strong> value lies in the combination of relationships and capabilities rather than the bank charter itself.
+</div>
+
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Threat of New Entrants</span>
+  <span class="fw-rating low">Low</span>
+  <div class="prose" style="margin-top: 4px;">High barriers protect the BaaS sponsor bank space. Regulatory barriers are substantial: obtaining a bank charter takes 2-3 years with significant capital requirements ($20M+ minimum), and regulators scrutinize applicants' fintech partnership plans carefully post-Synapse. For existing banks considering BaaS entry, the cultural and operational transformation is daunting—traditional bankers don't naturally embrace 20% yields on consumer loans with 5%+ NCO rates. Technology barriers are meaningful: real-time API integration, transaction monitoring, and compliance infrastructure require $20M+ investment and years to mature. Relationship barriers compound these challenges—fintechs prefer sponsors with track records and existing regulatory relationships. The last meaningful BaaS entrant was Evolve Bank's pivot in the mid-2010s; no significant new competitors have emerged since. De novo charter applications for BaaS-focused banks face skeptical regulators. The competitive set is effectively closed to new entrants for the foreseeable future.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Bargaining Power of Suppliers</span>
+  <span class="fw-rating low">Low</span>
+  <div class="prose" style="margin-top: 4px;">CCB's key inputs are deposits (cheap funding from partner programs), technology vendors (card processors, core banking systems), and talent (compliance officers, relationship managers). Deposit supply is abundant—partner programs generate sticky, low-cost deposits that actually improve CCB's funding base. Technology vendors (Marqeta, Galileo, Jack Henry) compete intensively for BaaS business and have limited pricing power against scaled sponsors. Labor markets for BaaS-specific talent are competitive but not constrained—CCB can recruit from other banks and fintechs. The most significant supplier consideration is regulatory: the OCC and FDIC have significant power to constrain business activities through examination findings and informal guidance. However, this is better characterized as a regulatory risk than traditional supplier power. Overall, CCB faces minimal supply-side constraints on its business model.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Bargaining Power of Buyers</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <div class="prose" style="margin-top: 4px;">Fintech partners (CCB's "buyers") have moderate bargaining power that varies by partner size and program complexity. Large partners like Dave, Robinhood, and One (Walmart) have significant leverage: they bring substantial deposits, transaction volume, and brand credibility. They can negotiate favorable economics and could theoretically switch sponsors (though switching costs are high). However, the supply of qualified sponsor banks is limited—perhaps 10-15 institutions can credibly support large, complex programs—which constrains buyer power. Smaller partners have less leverage; they need CCB more than CCB needs any individual small partner. The partner pipeline is reportedly strong, suggesting demand exceeds supply of qualified sponsors. Program-specific investments (custom integrations, dedicated compliance resources) create mutual dependency that moderates pure buyer power. Overall, large partners have meaningful voice in relationship economics, but the constrained sponsor supply prevents buyer dominance.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Threat of Substitutes</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <div class="prose" style="margin-top: 4px;">The primary substitute for BaaS sponsorship is direct bank charter acquisition—fintech companies could theoretically obtain their own charters and internalize the sponsor function. Square (now Block) pursued this path, acquiring a Utah industrial bank charter. However, charter acquisition is expensive ($50M+ including application costs and required capital), time-consuming (2-3+ years), and creates ongoing regulatory burden that most fintechs prefer to avoid. State lending licenses offer partial substitution for credit products but cannot replicate FDIC-insured deposits. Newer alternatives like "Banking as a Service as a Service" middleware (Unit, Treasury Prime) sit between fintechs and sponsors but don't eliminate the need for an underlying sponsor bank—they're complements rather than substitutes. For the foreseeable future, fintechs wanting full-stack banking products need a sponsor bank partner, and no substitute fully replicates that function. The threat is moderate: substitutes exist but are inferior for most fintech use cases.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Competitive Rivalry</span>
+  <span class="fw-rating high">High</span>
+  <div class="prose" style="margin-top: 4px;">Competition among BaaS sponsor banks is intense despite the limited competitor set. Key rivals include Cross River Bank (largest pure-play, strong in lending), Evolve Bank (diversified across crypto and traditional fintech), Bancorp (TBBK, publicly traded peer), Blue Ridge Bank (recently faced regulatory challenges), and Pathward (formerly Meta Financial, focused on payments). These competitors pursue the same limited pool of high-quality fintech partners, creating bidding dynamics on economics and service levels. Differentiation is difficult: all sponsors offer similar core capabilities (FDIC insurance, card issuance, ACH processing). Competition increasingly centers on: (a) speed of partner onboarding; (b) flexibility in program structure; (c) willingness to accept novel/risky use cases; and (d) pricing. The regulatory environment adds complexity—sponsors must compete for partners while maintaining regulatory standing, creating tension between growth and prudence. However, the market is growing faster than existing sponsors can serve (fintech funding remains robust), which limits zero-sum dynamics. Rivalry is high but not destructive.</div>
+</div>
+
+<div class="summary-box">
+  <strong>Summary:</strong> The competitive environment is favorable on balance. <strong>Low Threat of New Entrants</strong> (regulatory barriers, technology investment, relationship requirements) protects incumbents from new competition. <strong>Low Supplier Power</strong> (abundant deposits, competitive vendor market) enables margin stability. <strong>Moderate Buyer Power</strong> (constrained sponsor supply offsets large partner leverage) allows reasonable pricing. <strong>Moderate Substitute Threat</strong> (charter acquisition is inferior for most fintechs) preserves demand for sponsorship. The main challenge is <strong>High Competitive Rivalry</strong> among the limited set of qualified sponsors. Overall, CCB operates in an industry with structural protections that enable profitability—but must continuously compete on service and economics to retain and win partners.
+</div>
+
+<!-- SECTION 6: WHAT DRIVES THE STOCK? -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<div class="driver-item">
+  <div class="driver-title">1. CCBX Partner Growth & Retention</div>
+  <div class="driver-desc">The number of active BaaS partners and their program volumes directly drive CCBX segment revenue. CCB currently has 28 partner relationships, up from 18 in 2022. Partner additions drive revenue growth through: (a) integration fees during onboarding; (b) ramping transaction volume as programs scale; (c) deposit growth that funds high-yield loan originations. Partner losses or program wind-downs would have the opposite effect—the loss of a Dave-scale partner (~30-40% of CCBX revenue estimated) would be material. Management provides limited partner-level disclosure, making this metric difficult to track externally; quarterly updates on partner count and aggregate program volumes are the primary signals. Expert network calls with fintech executives and tracking of public partner announcements can provide supplemental insight.</div>
+  <div class="bullish">Bullish: New partner announcements (especially large fintechs), volume growth at existing partners, successful launches of Robinhood/One programs, partner capital raises (signals program investment)</div>
+  <div class="bearish">Bearish: Partner churn announcements, fintech partner financial distress (Dave stock decline, layoffs), regulatory restrictions on partner activities, competitor wins of CCB prospects</div>
+</div>
+
+<div class="driver-item">
+  <div class="driver-title">2. Net Interest Margin (Reported & Net of BaaS Expense)</div>
+  <div class="driver-desc">CCB's 7.14% reported NIM is exceptional but requires careful interpretation. The "BaaS loan expense" line item (~2.9% of earning assets) represents payments to partners for loan servicing and credit enhancement—a contra-revenue item that should be netted against gross NIM to understand true economics. The net NIM of ~4.26% is the better metric for peer comparison and earnings power analysis. Changes in net NIM flow directly to net interest income: each 25 basis point change translates to ~$10-12M in annual NII on the current earning asset base. NIM is driven by: (a) loan mix between higher-yield BaaS and lower-yield community bank; (b) rate environment affecting deposit costs; (c) partner program pricing negotiations; (d) competitive dynamics in BaaS lending yields. Management has historically provided limited NIM guidance, making quarterly disclosures the primary information source.</div>
+  <div class="bullish">Bullish: NIM expansion driven by favorable rate environment, loan mix shift toward high-yield BaaS, successful pricing negotiations with partners, reduced BaaS loan expense as partners season</div>
+  <div class="bearish">Bearish: NIM compression from deposit cost increases, competitive pressure on BaaS loan yields, partner renegotiations demanding better economics, rate cuts reducing asset yields faster than deposit costs</div>
+</div>
+
+<div class="driver-item">
+  <div class="driver-title">3. Credit Quality & NCO/Provision Normalization</div>
+  <div class="driver-desc">The 5.25% NCO ratio dominates credit quality discussions despite the indemnification economics. Investors focus on: (a) gross NCO trends as a signal of underwriting quality and program health; (b) indemnification receivable collection timing and partner payment reliability; (c) provision expense as the P&L impact of credit trends; (d) reserve levels and coverage ratios. The bull case requires provision expense to normalize as: (1) initial reserve builds for new programs complete; (2) indemnification collection timing improves; (3) credit performance seasons at mature programs. The bear case sees elevated NCOs as evidence of operational risk and potential collection failures if partners face financial stress. Quarterly credit metrics are closely watched; any deviation from expected trajectories moves the stock significantly.</div>
+  <div class="bullish">Bullish: Declining NCO ratio, faster indemnification collection (receivables turning to cash), provision expense declining as % of revenue, reserve releases as programs mature</div>
+  <div class="bearish">Bearish: Rising NCO ratio, indemnification collection delays or disputes, provision expense increases, reserve builds signaling management concern about credit trends</div>
+</div>
+
+<div class="driver-item">
+  <div class="driver-title">4. Regulatory & Compliance Headlines</div>
+  <div class="driver-desc">BaaS is under heightened regulatory scrutiny following the Synapse bankruptcy, which froze $160M+ in customer deposits and triggered industry-wide examination focus. CCB faces ongoing OCC examination and potential enforcement risk. Key regulatory signposts include: (a) examination results and any formal findings (MRAs, MRIAs, consent orders); (b) industry-wide guidance affecting BaaS models; (c) enforcement actions against peer sponsor banks (creating precedent risk); (d) material weakness remediation progress. The stock reacts sharply to regulatory news—both positive (clean examinations) and negative (enforcement actions). Management commentary on regulatory relationships and examination status provides forward-looking signals, though disclosure is inherently limited by supervisory confidentiality.</div>
+  <div class="bullish">Bullish: Clean examination results, material weakness remediation completion, regulatory clarity supporting BaaS model, enforcement actions against competitors (reducing competition)</div>
+  <div class="bearish">Bearish: Consent order or MOU, new regulatory guidance restricting BaaS activities, material weakness persists, enforcement actions creating precedent for CCB exposure</div>
+</div>
+
+<div class="driver-item">
+  <div class="driver-title">5. Short Interest & Technical Dynamics</div>
+  <div class="driver-desc">At 11.91% of float sold short (7.9 days to cover), CCB has significant bearish positioning that creates both risk and opportunity. High short interest signals sophisticated investors see fundamental concerns—credit quality, regulatory risk, concentration exposure. However, elevated shorts also create squeeze potential: a positive catalyst (strong earnings, regulatory clarity, new major partner) could force covering that amplifies upward moves. The stock's 34% decline from 52-week highs has not triggered significant short covering, suggesting shorts have conviction and potentially see further downside. Tracking short interest changes, borrow rates, and days-to-cover provides insight into positioning dynamics.</div>
+  <div class="bullish">Bullish: Short covering (declining short interest), positive earnings surprises triggering squeeze, analyst upgrades forcing repositioning</div>
+  <div class="bearish">Bearish: Increasing short interest (new bearish positioning), high-profile short seller reports, technical breakdowns triggering systematic selling</div>
+</div>
+
+<div class="driver-item">
+  <div class="driver-title">6. Community Bank Segment Performance</div>
+  <div class="driver-desc">While only 16% of revenue, the Community Bank segment provides diversification and earnings stability that partially offsets CCBX volatility. Key metrics include: (a) loan growth in commercial real estate and SBA lending; (b) deposit trends at the 14-branch Pacific Northwest franchise; (c) credit quality in the traditional loan portfolio; (d) net interest margin on community bank assets. The segment is less volatile than CCBX and provides a floor valuation (regional bank multiple on community bank earnings). Management has signaled commitment to maintaining the community bank as a core business rather than pure focus on BaaS growth. Segment-level disclosure in quarterly filings enables tracking of this "value within value" component.</div>
+  <div class="bullish">Bullish: Loan growth acceleration, stable credit quality, deposit gathering supporting BaaS funding needs, potential M&A interest in community bank franchise</div>
+  <div class="bearish">Bearish: Commercial real estate stress in Pacific Northwest, deposit outflows to higher-rate competitors, credit deterioration requiring provisions, distraction from CCBX focus</div>
+</div>
+
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS? -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<div class="prose" style="margin-bottom: 12px;">Revenue decomposition by segment showing underlying drivers:</div>
+
+<table class="data">
+  <tr>
+    <th style="width: 22%;">Revenue Line</th>
+    <th style="width: 40%;">Driver Formula</th>
+    <th style="width: 12%;">FY25</th>
+    <th style="width: 12%;">% Rev</th>
+  </tr>
+  <tr>
+    <td>CCBX Net Interest Income</td>
+    <td>BaaS Loan Balances × Gross Yield − BaaS Loan Expense</td>
+    <td>~$270M</td>
+    <td>~50%</td>
+  </tr>
+  <tr>
+    <td>CCBX Fee Income</td>
+    <td>(Transaction Volume × Interchange Rate) + (Accounts × Monthly Fees) + Program Fees</td>
+    <td>~$168M</td>
+    <td>~31%</td>
+  </tr>
+  <tr>
+    <td>Community Bank NII</td>
+    <td>Community Loan Balances × Net Spread</td>
+    <td>~$76M</td>
+    <td>~14%</td>
+  </tr>
+  <tr>
+    <td>Community Bank Fees</td>
+    <td>Account Fees + Service Charges + SBA Premiums</td>
+    <td>~$10M</td>
+    <td>~2%</td>
+  </tr>
+  <tr>
+    <td>Treasury / Other</td>
+    <td>Investment Portfolio × Securities Yield + Other</td>
+    <td>~$18M</td>
+    <td>~3%</td>
+  </tr>
+</table>
+
+<div class="section-title" style="margin-top: 16px;">Key Volume Metrics</div>
+<table class="data">
+  <tr>
+    <th>Metric</th>
+    <th>Q4 2025</th>
+    <th>Q4 2024</th>
+    <th>YoY Change</th>
+  </tr>
+  <tr>
+    <td>BaaS Loan Balances</td>
+    <td>~$2.5B</td>
+    <td>~$2.2B</td>
+    <td>+14%</td>
+  </tr>
+  <tr>
+    <td>BaaS Gross Loan Yield</td>
+    <td>~18-20%</td>
+    <td>~17-19%</td>
+    <td>+100bp</td>
+  </tr>
+  <tr>
+    <td>Active Partner Count</td>
+    <td>28</td>
+    <td>25</td>
+    <td>+3</td>
+  </tr>
+  <tr>
+    <td>Partner Indemnification %</td>
+    <td>98.8%</td>
+    <td>98.5%</td>
+    <td>+30bp</td>
+  </tr>
+  <tr>
+    <td>Total Deposits</td>
+    <td>$4.14B</td>
+    <td>$3.59B</td>
+    <td>+15%</td>
+  </tr>
+  <tr>
+    <td>Community Loan Balances</td>
+    <td>~$1.1B</td>
+    <td>~$1.0B</td>
+    <td>+10%</td>
+  </tr>
+</table>
+
+<div class="prose" style="margin-top: 12px;">
+  <strong>Key Insight—Leverage Points:</strong> The three variables with the most leverage on total profitability are: (1) <strong>BaaS loan balances × net yield after expense</strong>—each $100M in incremental BaaS loans at 4.26% net yield generates ~$4.3M in annual net interest income; (2) <strong>Partner count and program scale</strong>—adding a major partner (Dave-scale) could contribute $30-50M in annual revenue when fully ramped; (3) <strong>Indemnification collection efficiency</strong>—the gap between gross NCOs ($130M+ annually) and net retained losses (~$1.5M) depends entirely on timely partner payment; delays or disputes would flow directly to provisions.
+</div>
+
+<div class="prose">
+  The margin dynamics are critical: CCBX generates high gross revenue but also carries significant contra-revenue (BaaS loan expense) and provision expense that compress net margins. The efficiency ratio of 53% is favorable for a growth-stage BaaS platform but leaves room for operating leverage as partner programs mature and fixed costs spread over larger revenue base. Management has indicated that mature programs operate at lower provision rates than ramping programs, suggesting margin expansion potential as the partner portfolio seasons.
+</div>
+
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="summary-box" style="background: #f8fafc; margin-bottom: 12px;">
+  <strong>AlphaSense Research Summary</strong> · Date: March 2026 · Sources: CCB_AlphaSense_Report1 (Company Primer), CCB_AlphaSense_Report2 (Risk & Moat Analysis with Expert Interviews), CCB_Q4_2025_Earnings · Query: Coastal Financial Corporation — Strategic & Competitive Analysis
+</div>
+
+<div class="sub-label">Competitive Moat & Market Structure</div>
+<div class="prose">
+  CCB's moat is characterized in AlphaSense expert interviews as "narrow but defensible." The company has established a reputation for being flexible and responsive to fintech partners, unlike larger banks that move slowly through approval processes. Key differentiators include: (1) willingness to support complex credit products that most sponsor banks avoid—earned wage access, credit-builder loans, and high-yield consumer lending that larger banks view as reputationally risky; (2) proprietary real-time monitoring capabilities developed over 7+ years of BaaS operations that enable proactive fraud detection and credit management; (3) deep compliance expertise in BaaS-specific regulatory requirements that satisfies OCC examination while enabling program flexibility.
+</div>
+<div class="prose">
+  The competitive landscape among BaaS sponsors is consolidating. Cross River Bank is the largest pure-play with strong lending capabilities. Evolve Bank has diversified across crypto and traditional fintech but faced recent regulatory scrutiny. Blue Ridge Bank encountered enforcement challenges that have constrained growth. Bancorp (TBBK) is the closest public peer, trading at higher ROE but lower growth rates. Expert interviews suggest CCB occupies a mid-tier position—larger than regional bank BaaS experiments but smaller than Cross River—that allows it to provide more personalized service than the largest sponsors while offering more credibility than smaller entrants.
+</div>
+
+<div class="sub-label">Management Assessment</div>
+<div class="prose">
+  CEO Eric Sprink has led CCB since 2003 and is credited with the strategic pivot to BaaS beginning around 2015. He is viewed as a capable operator with deep relationships in the fintech ecosystem built over decades. However, the company's rapid growth has strained internal controls, evidenced by the 2025 material weakness disclosure. New CFO Brandon Soto (appointed October 2025) brings needed financial reporting expertise from his prior roles but is untested in the CCB context and joined during remediation efforts. Insider ownership is meaningful—Chairman Steve Hovde owns 11.4% of shares outstanding—creating alignment between management and shareholders. The board includes several directors with banking and fintech experience, though governance scoring services have flagged board independence concerns.
+</div>
+<div class="prose">
+  Execution track record is mixed: the company has successfully scaled from a small community bank to a $4.8B-asset BaaS platform with 28 partners, which represents meaningful strategic accomplishment. However, credit quality optics (5.25% NCO ratio), internal control deficiencies, and the recent stock price decline (-34% from highs) raise questions about whether growth has outpaced operational infrastructure. The CFO transition during a remediation period adds uncertainty.
+</div>
+
+<div class="sub-label">Technology & AI Impact</div>
+<div class="prose">
+  AI presents both opportunity and risk for CCB's BaaS model. On the upside, machine learning is being deployed for fraud detection and credit decisioning, which could improve loss rates and operational efficiency. Real-time transaction monitoring—a CCB strength—benefits from AI pattern recognition that identifies anomalies faster than rule-based systems. On the downside, AI could theoretically lower barriers for fintechs to build their own banking capabilities through "banking-in-a-box" solutions that reduce dependence on sponsor banks. Additionally, if AI enables competitors to replicate CCB's monitoring and compliance capabilities more quickly, the process power moat could erode. The company has invested in API infrastructure and cloud-native systems that provide technical flexibility, though technology is not a primary competitive differentiator.
+</div>
+
+<div class="sub-label">Most Misunderstood Aspects</div>
+<div class="prose">
+  <strong>1. The NCO ratio is economically misleading.</strong> CCB's 5.25% net charge-off ratio looks alarming compared to traditional banks (0.3-0.5%), but 98.8% of these losses are indemnified by partners. The "true" retained loss rate is approximately 0.06%—comparable to a prime credit card portfolio. The accounting creates optical noise: gross charge-offs are recognized immediately while indemnification receivables are collected over subsequent periods, creating timing mismatches that obscure underlying economics.
+</div>
+<div class="prose">
+  <strong>2. Partner indemnification is contractual, not precatory.</strong> Some investors assume indemnification is a "best efforts" arrangement that partners could avoid in distress. In reality, these are binding contractual obligations, typically secured by letters of credit or reserve accounts funded in advance. Partner agreements include clawback and termination provisions if indemnification is not honored. The structure has been tested through multiple credit cycles with consistent collection.
+</div>
+<div class="prose">
+  <strong>3. The community bank provides real option value.</strong> The 14-branch Pacific Northwest franchise and traditional lending portfolio are often viewed as legacy distractions from BaaS growth. However, the community bank provides: (a) regulatory diversification that demonstrates CCB is a "real bank" beyond BaaS; (b) stable earnings that partially offset CCBX volatility; (c) M&A option value as a potential acquisition target for regional bank consolidators. Sum-of-parts analysis that values community bank separately suggests embedded value.
+</div>
+
+<div class="sub-label">Key Long-Term Investor Questions</div>
+<div class="prose">
+  <strong>Q: What is the concentration of revenue from Dave, and what happens if Dave faces financial stress?</strong><br>
+  A: CCB does not disclose partner-level economics, but based on public data (Dave's 3M+ users, loan balances, transaction volumes), Dave likely represents 30-40% of CCBX segment revenue. Dave's stock has been volatile and the company has faced profitability challenges. If Dave encountered financial distress, the primary risk is: (a) delayed or disputed indemnification payments; (b) program wind-down disruption; (c) reputational impact affecting other partner relationships. Mitigants include: contractual protections (reserve accounts, termination rights), Dave's balance sheet (publicly traded with capital access), and CCB's other 27 partner relationships providing diversification.
+</div>
+<div class="prose">
+  <strong>Q: What is the timeline for material weakness remediation?</strong><br>
+  A: Management has indicated remediation is in progress with completion targeted by end of 2026. Typical material weakness remediation involves: hiring additional accounting staff, implementing new control procedures, testing control effectiveness over multiple quarters, and external auditor validation. The October 2025 CFO transition was likely part of the remediation plan. Investors should expect incremental updates in quarterly filings and watch for management's assertion of remediation completion.
+</div>
+<div class="prose">
+  <strong>Q: How are OCC examinations trending, and is consent order risk meaningful?</strong><br>
+  A: CCB is subject to ongoing OCC examination as a national bank. Post-Synapse, all BaaS sponsor banks face enhanced scrutiny. Management has indicated constructive regulatory dialogue but cannot disclose examination specifics due to supervisory confidentiality. Consent order risk is real but not imminent based on available public signals—no formal enforcement actions have been disclosed, and management continues to add partners (unlikely if under serious regulatory constraint). Peer monitoring is informative: enforcement actions against other sponsors (Blue Ridge, etc.) create precedent and signal regulatory priorities.
+</div>
+
+<!-- SECTION 9: SENSITIVITIES -->
+<div class="memo-section">9. Sensitivities</div>
+
+<div class="prose"><strong>Table 1: BaaS Net Interest Income ($M) as a function of Loan Balances ($B) vs. Net NIM (%)</strong></div>
+<div class="prose" style="font-size: 9px; color: #666;">Current: ~$2.5B BaaS loan balances; Net NIM ~4.26% (reported 7.14% minus ~2.9% BaaS loan expense)</div>
+<table class="sensitivity">
+  <tr>
+    <th></th>
+    <th>3.50%</th>
+    <th>3.75%</th>
+    <th>4.00%</th>
+    <th>4.26%</th>
+    <th>4.50%</th>
+  </tr>
+  <tr>
+    <td><strong>$2.0B</strong></td>
+    <td>70</td>
+    <td>75</td>
+    <td>80</td>
+    <td>85</td>
+    <td>90</td>
+  </tr>
+  <tr>
+    <td><strong>$2.25B</strong></td>
+    <td>79</td>
+    <td>84</td>
+    <td>90</td>
+    <td>96</td>
+    <td>101</td>
+  </tr>
+  <tr>
+    <td><strong>$2.5B</strong></td>
+    <td>88</td>
+    <td>94</td>
+    <td>100</td>
+    <td class="base">107</td>
+    <td>113</td>
+  </tr>
+  <tr>
+    <td><strong>$2.75B</strong></td>
+    <td>96</td>
+    <td>103</td>
+    <td>110</td>
+    <td>117</td>
+    <td>124</td>
+  </tr>
+  <tr>
+    <td><strong>$3.0B</strong></td>
+    <td>105</td>
+    <td>113</td>
+    <td>120</td>
+    <td>128</td>
+    <td>135</td>
+  </tr>
+</table>
+
+<div class="prose" style="margin-top: 16px;"><strong>Table 2: Total CCBX Revenue ($M) as a function of Partner Count vs. Avg Revenue per Partner ($M)</strong></div>
+<div class="prose" style="font-size: 9px; color: #666;">Current: 28 partners; ~$15.6M average revenue per partner ($438M total CCBX revenue)</div>
+<table class="sensitivity">
+  <tr>
+    <th></th>
+    <th>$12M</th>
+    <th>$14M</th>
+    <th>$16M</th>
+    <th>$18M</th>
+    <th>$20M</th>
+  </tr>
+  <tr>
+    <td><strong>24 Partners</strong></td>
+    <td>288</td>
+    <td>336</td>
+    <td>384</td>
+    <td>432</td>
+    <td>480</td>
+  </tr>
+  <tr>
+    <td><strong>26 Partners</strong></td>
+    <td>312</td>
+    <td>364</td>
+    <td>416</td>
+    <td>468</td>
+    <td>520</td>
+  </tr>
+  <tr>
+    <td><strong>28 Partners</strong></td>
+    <td>336</td>
+    <td>392</td>
+    <td class="base">448</td>
+    <td>504</td>
+    <td>560</td>
+  </tr>
+  <tr>
+    <td><strong>30 Partners</strong></td>
+    <td>360</td>
+    <td>420</td>
+    <td>480</td>
+    <td>540</td>
+    <td>600</td>
+  </tr>
+  <tr>
+    <td><strong>32 Partners</strong></td>
+    <td>384</td>
+    <td>448</td>
+    <td>512</td>
+    <td>576</td>
+    <td>640</td>
+  </tr>
+</table>
+
+<div class="prose" style="margin-top: 16px;"><strong>Table 3: EPS Impact from Provision Rate Changes vs. Indemnification Collection Efficiency</strong></div>
+<div class="prose" style="font-size: 9px; color: #666;">Current: ~37% provision/revenue ratio; 98.8% indemnification rate; EPS $3.06 base</div>
+<table class="sensitivity">
+  <tr>
+    <th></th>
+    <th>96.0%</th>
+    <th>97.5%</th>
+    <th>98.8%</th>
+    <th>99.5%</th>
+    <th>100%</th>
+  </tr>
+  <tr>
+    <td><strong>30% Prov/Rev</strong></td>
+    <td>$3.85</td>
+    <td>$4.15</td>
+    <td>$4.45</td>
+    <td>$4.65</td>
+    <td>$4.80</td>
+  </tr>
+  <tr>
+    <td><strong>35% Prov/Rev</strong></td>
+    <td>$3.25</td>
+    <td>$3.55</td>
+    <td>$3.85</td>
+    <td>$4.05</td>
+    <td>$4.20</td>
+  </tr>
+  <tr>
+    <td><strong>37% Prov/Rev</strong></td>
+    <td>$2.75</td>
+    <td>$2.90</td>
+    <td class="base">$3.06</td>
+    <td>$3.20</td>
+    <td>$3.30</td>
+  </tr>
+  <tr>
+    <td><strong>40% Prov/Rev</strong></td>
+    <td>$2.35</td>
+    <td>$2.50</td>
+    <td>$2.65</td>
+    <td>$2.80</td>
+    <td>$2.90</td>
+  </tr>
+  <tr>
+    <td><strong>45% Prov/Rev</strong></td>
+    <td>$1.75</td>
+    <td>$1.90</td>
+    <td>$2.05</td>
+    <td>$2.20</td>
+    <td>$2.30</td>
+  </tr>
+</table>
+
+<!-- SECTION 10: FIVE SCENARIOS -->
+<div class="memo-section">10. Five Scenarios (FY2027E)</div>
+
+<div class="case-block">
+  <div class="case-name">Bear Case (Severe) — Regulatory Enforcement + Partner Collapse</div>
+  <div class="prose" style="font-size: 10px; color: #555; margin-bottom: 10px;">
+    OCC issues consent order restricting new partner onboarding and requiring enhanced capital ratios. Dave encounters financial distress and delays/disputes indemnification payments, creating $50M+ in unexpected retained credit losses. Material weakness remediation extends into 2027 with additional control deficiencies discovered. Two other partners terminate relationships citing regulatory uncertainty. Short sellers publish detailed report amplifying concerns. Stock enters distressed territory as growth story collapses.
+  </div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>CCBX Revenue Growth</span><span>-25% YoY</span></div>
+  <div class="driver-row"><span>Net Interest Margin (net)</span><span>3.25%</span></div>
+  <div class="driver-row"><span>Provision / Revenue</span><span>55%</span></div>
+  <div class="driver-row"><span>Partner Count</span><span>22 (-6)</span></div>
+  <div class="prose" style="font-size: 9px; color: #888; margin-top: 6px;"><strong>Path:</strong> Consent order → partner churn → Dave stress → elevated provisions → distressed multiple</div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$406M</td></tr>
+    <tr><td>Net Interest Income</td><td>$220M</td></tr>
+    <tr><td>Provision</td><td>$223M</td></tr>
+    <tr><td>Net Income</td><td>$12M</td></tr>
+    <tr><td>EPS</td><td>$0.76</td></tr>
+    <tr><td>ROE</td><td>2.1%</td></tr>
+    <tr><td>FCF</td><td>$15M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size: 9px; color: #888;">Exit Multiple: 6x P/E (distressed BaaS) → Implied Price: <strong>$4.56</strong></div>
+    <div class="exit-price" style="color: #991b1b;">$4.56</div>
+    <div class="exit-upside" style="color: #991b1b;">−94% from current ($76.16)</div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bear Case (Mild) — Regulatory Overhang + Execution Disappointment</div>
+  <div class="prose" style="font-size: 10px; color: #555; margin-bottom: 10px;">
+    OCC examination results in informal MRA (Matter Requiring Attention) that slows new partner onboarding without formal enforcement. One mid-sized partner churns to competitor sponsor. Material weakness remediation completes but requires significant management attention and cost. NIM compresses modestly as rate environment shifts. Provision expense remains elevated as programs take longer than expected to season. Growth stalls but no catastrophic failures. Multiple compresses to reflect slower trajectory.
+  </div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>CCBX Revenue Growth</span><span>+3% YoY</span></div>
+  <div class="driver-row"><span>Net Interest Margin (net)</span><span>3.75%</span></div>
+  <div class="driver-row"><span>Provision / Revenue</span><span>42%</span></div>
+  <div class="driver-row"><span>Partner Count</span><span>27 (-1)</span></div>
+  <div class="prose" style="font-size: 9px; color: #888; margin-top: 6px;"><strong>Path:</strong> MRA slows growth → partner churn → NIM compression → elevated provisions → discount multiple</div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$558M</td></tr>
+    <tr><td>Net Interest Income</td><td>$320M</td></tr>
+    <tr><td>Provision</td><td>$234M</td></tr>
+    <tr><td>Net Income</td><td>$48M</td></tr>
+    <tr><td>EPS</td><td>$3.04</td></tr>
+    <tr><td>ROE</td><td>8.5%</td></tr>
+    <tr><td>FCF</td><td>$55M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size: 9px; color: #888;">Exit Multiple: 10x P/E (discounted growth) → Implied Price: <strong>$30.40</strong></div>
+    <div class="exit-price" style="color: #991b1b;">$30.40</div>
+    <div class="exit-upside" style="color: #991b1b;">−60% from current ($76.16)</div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Base Case (Consensus) — Steady Execution</div>
+  <div class="prose" style="font-size: 10px; color: #555; margin-bottom: 10px;">
+    Regulatory environment stabilizes without formal enforcement; examination results acceptable. Partner relationships continue with modest net additions (2-3 new partners per year). Existing programs (Dave, Robinhood, One) ramp as expected. Material weakness remediated by end of 2026. NIM stable at current levels. Provision expense normalizes as programs mature. Consensus estimates achieved. Multiple holds at current forward P/E levels.
+  </div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>CCBX Revenue Growth</span><span>+12% YoY</span></div>
+  <div class="driver-row"><span>Net Interest Margin (net)</span><span>4.26%</span></div>
+  <div class="driver-row"><span>Provision / Revenue</span><span>37%</span></div>
+  <div class="driver-row"><span>Partner Count</span><span>31 (+3)</span></div>
+  <div class="prose" style="font-size: 9px; color: #888; margin-top: 6px;"><strong>Path:</strong> Clean exams → partner additions → programs ramp → provision normalizes → consensus achieved</div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$725M</td></tr>
+    <tr><td>Net Interest Income</td><td>$417M</td></tr>
+    <tr><td>Provision</td><td>$268M</td></tr>
+    <tr><td>Net Income</td><td>$120M</td></tr>
+    <tr><td>EPS</td><td>$7.71</td></tr>
+    <tr><td>ROE</td><td>17.0%</td></tr>
+    <tr><td>FCF</td><td>$125M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size: 9px; color: #888;">Exit Multiple: 12x P/E (in-line growth bank) → Implied Price: <strong>$92.52</strong></div>
+    <div class="exit-price">$92.52</div>
+    <div class="exit-upside" style="color: #166534;">+21% from current ($76.16)</div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bull Case (Mild) — Regulatory Clarity + Partner Acceleration</div>
+  <div class="prose" style="font-size: 10px; color: #555; margin-bottom: 10px;">
+    OCC/FDIC issue guidance clarifying BaaS regulatory expectations, reducing uncertainty and encouraging fintech demand for sponsor services. Robinhood and One (Walmart) programs scale faster than expected, adding $50M+ incremental revenue. Two additional major partner wins. Material weakness remediated early. NIM expands as rate environment proves favorable. Provision expense declines as programs mature and indemnification collection timing improves. Analyst upgrades drive short covering and multiple expansion.
+  </div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>CCBX Revenue Growth</span><span>+22% YoY</span></div>
+  <div class="driver-row"><span>Net Interest Margin (net)</span><span>4.50%</span></div>
+  <div class="driver-row"><span>Provision / Revenue</span><span>32%</span></div>
+  <div class="driver-row"><span>Partner Count</span><span>35 (+7)</span></div>
+  <div class="prose" style="font-size: 9px; color: #888; margin-top: 6px;"><strong>Path:</strong> Regulatory clarity → partner acceleration → programs outperform → provision declines → multiple expands</div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$840M</td></tr>
+    <tr><td>Net Interest Income</td><td>$485M</td></tr>
+    <tr><td>Provision</td><td>$269M</td></tr>
+    <tr><td>Net Income</td><td>$158M</td></tr>
+    <tr><td>EPS</td><td>$10.00</td></tr>
+    <tr><td>ROE</td><td>20.5%</td></tr>
+    <tr><td>FCF</td><td>$165M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size: 9px; color: #888;">Exit Multiple: 15x P/E (premium growth) → Implied Price: <strong>$150.00</strong></div>
+    <div class="exit-price" style="color: #166534;">$150.00</div>
+    <div class="exit-upside" style="color: #166534;">+97% from current ($76.16)</div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bull Case (Severe) — BaaS Industry Consolidation + Platform Re-Rate</div>
+  <div class="prose" style="font-size: 10px; color: #555; margin-bottom: 10px;">
+    Competitor sponsor banks face enforcement actions or exit BaaS business, consolidating the industry around remaining qualified players including CCB. Fintech funding recovers, driving surge in demand for sponsor services. CCB wins 5+ major new partners as displaced fintechs migrate from troubled sponsors. Robinhood and One become marquee programs exceeding $1B deposits each. Provision expense plummets as credit seasons and indemnification collections optimize. Stock re-rates from "regional bank" to "fintech infrastructure" multiple as growth and returns demonstrate platform value.
+  </div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>CCBX Revenue Growth</span><span>+35% YoY</span></div>
+  <div class="driver-row"><span>Net Interest Margin (net)</span><span>4.75%</span></div>
+  <div class="driver-row"><span>Provision / Revenue</span><span>28%</span></div>
+  <div class="driver-row"><span>Partner Count</span><span>40 (+12)</span></div>
+  <div class="prose" style="font-size: 9px; color: #888; margin-top: 6px;"><strong>Path:</strong> Industry consolidation → partner surge → programs scale → provision plummets → fintech re-rate</div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$975M</td></tr>
+    <tr><td>Net Interest Income</td><td>$565M</td></tr>
+    <tr><td>Provision</td><td>$273M</td></tr>
+    <tr><td>Net Income</td><td>$215M</td></tr>
+    <tr><td>EPS</td><td>$13.60</td></tr>
+    <tr><td>ROE</td><td>26.0%</td></tr>
+    <tr><td>FCF</td><td>$220M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size: 9px; color: #888;">Exit Multiple: 18x P/E (fintech infrastructure) → Implied Price: <strong>$244.80</strong></div>
+    <div class="exit-price" style="color: #166534;">$244.80</div>
+    <div class="exit-upside" style="color: #166534;">+221% from current ($76.16)</div>
+  </div>
+</div>
+
+<div class="case-chart">
+  <svg viewBox="0 0 600 180">
+    <text x="5" y="25" font-size="9" fill="#888">$250</text>
+    <text x="5" y="75" font-size="9" fill="#888">$150</text>
+    <text x="5" y="125" font-size="9" fill="#888">$50</text>
+    <text x="5" y="165" font-size="9" fill="#888">$0</text>
+
+    <line x1="45" y1="20" x2="590" y2="20" stroke="#eee" stroke-width="1"/>
+    <line x1="45" y1="70" x2="590" y2="70" stroke="#eee" stroke-width="1"/>
+    <line x1="45" y1="120" x2="590" y2="120" stroke="#eee" stroke-width="1"/>
+    <line x1="45" y1="160" x2="590" y2="160" stroke="#ccc" stroke-width="1"/>
+
+    <line x1="45" y1="114" x2="590" y2="114" stroke="#1a1a2e" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="595" y="117" font-size="8" fill="#1a1a2e">Current: $76.16</text>
+
+    <!-- Bear Severe: $4.56 -->
+    <rect x="70" y="157" width="80" height="3" fill="#b0b0b0" rx="2"/>
+    <text x="110" y="175" font-size="9" fill="#333" text-anchor="middle">Bear Severe</text>
+    <text x="110" y="153" font-size="8" fill="#991b1b" text-anchor="middle">$4.56</text>
+
+    <!-- Bear Mild: $30.40 -->
+    <rect x="170" y="142" width="80" height="18" fill="#b0b0b0" rx="2"/>
+    <text x="210" y="175" font-size="9" fill="#333" text-anchor="middle">Bear Mild</text>
+    <text x="210" y="138" font-size="8" fill="#991b1b" text-anchor="middle">$30.40</text>
+
+    <!-- Base: $92.52 -->
+    <rect x="270" y="104" width="80" height="56" fill="#b0b0b0" rx="2"/>
+    <text x="310" y="175" font-size="9" fill="#333" text-anchor="middle">Base</text>
+    <text x="310" y="100" font-size="8" fill="#166534" text-anchor="middle">$92.52</text>
+
+    <!-- Bull Mild: $150 -->
+    <rect x="370" y="70" width="80" height="90" fill="#b0b0b0" rx="2"/>
+    <text x="410" y="175" font-size="9" fill="#333" text-anchor="middle">Bull Mild</text>
+    <text x="410" y="66" font-size="8" fill="#166534" text-anchor="middle">$150.00</text>
+
+    <!-- Bull Severe: $244.80 -->
+    <rect x="470" y="18" width="80" height="142" fill="#b0b0b0" rx="2"/>
+    <text x="510" y="175" font-size="9" fill="#333" text-anchor="middle">Bull Severe</text>
+    <text x="510" y="14" font-size="8" fill="#166534" text-anchor="middle">$244.80</text>
+  </svg>
+</div>
+
+<!-- SECTION 11: COMPS -->
+<div class="memo-section">11. Comps</div>
+
+<div class="sub-label">Named Competitors (BaaS Sponsor Banks)</div>
+<table class="data">
+  <tr>
+    <th>Company</th>
+    <th>Ticker</th>
+    <th>Price</th>
+    <th>Mkt Cap</th>
+    <th>P/E (LTM)</th>
+    <th>P/E (FY1)</th>
+    <th>P/BV</th>
+    <th>ROE</th>
+    <th>NIM</th>
+  </tr>
+  <tr style="font-weight: 700; background: #f0f0f0;">
+    <td>Coastal Financial</td>
+    <td>CCB-US</td>
+    <td>$76.16</td>
+    <td>$1,158M</td>
+    <td>24.9x</td>
+    <td>14.4x</td>
+    <td>2.35x</td>
+    <td>10.1%</td>
+    <td>7.14%</td>
+  </tr>
+  <tr>
+    <td>Bancorp Inc</td>
+    <td>TBBK-US</td>
+    <td>$52.88</td>
+    <td>$2,231M</td>
+    <td>10.8x</td>
+    <td>8.9x</td>
+    <td>3.25x</td>
+    <td>30.8%</td>
+    <td>—</td>
+  </tr>
+  <tr style="font-weight: 600; background: #fafbfc;">
+    <td>Average</td>
+    <td>—</td>
+    <td>—</td>
+    <td>—</td>
+    <td>17.8x</td>
+    <td>11.7x</td>
+    <td>2.80x</td>
+    <td>20.5%</td>
+    <td>—</td>
+  </tr>
+</table>
+<div class="prose" style="margin-top: 8px; font-size: 10px; color: #666;">Note: Cross River Bank (largest BaaS pure-play) and Evolve Bank are privately held. Bancorp (TBBK) is the closest public peer with similar BaaS focus.</div>
+
+<div class="sub-label" style="margin-top: 16px;">Washington State Regional Banks</div>
+<table class="data">
+  <tr>
+    <th>Company</th>
+    <th>Ticker</th>
+    <th>Price</th>
+    <th>Mkt Cap</th>
+    <th>P/E (LTM)</th>
+    <th>P/BV</th>
+    <th>ROE</th>
+    <th>Eff Ratio</th>
+    <th>NIM</th>
+  </tr>
+  <tr style="font-weight: 700; background: #f0f0f0;">
+    <td>Coastal Financial</td>
+    <td>CCB-US</td>
+    <td>$76.16</td>
+    <td>$1,158M</td>
+    <td>24.9x</td>
+    <td>2.35x</td>
+    <td>10.1%</td>
+    <td>53.1%</td>
+    <td>7.14%</td>
+  </tr>
+  <tr>
+    <td>Heritage Financial</td>
+    <td>HFWA-US</td>
+    <td>$25.02</td>
+    <td>$1,029M</td>
+    <td>12.8x</td>
+    <td>0.92x</td>
+    <td>7.6%</td>
+    <td>67.3%</td>
+    <td>3.58%</td>
+  </tr>
+  <tr>
+    <td>WTB Financial B</td>
+    <td>WTBFB-US</td>
+    <td>$380.00</td>
+    <td>$962M</td>
+    <td>11.1x</td>
+    <td>0.97x</td>
+    <td>8.9%</td>
+    <td>74.6%</td>
+    <td>—</td>
+  </tr>
+  <tr>
+    <td>Timberland Bancorp</td>
+    <td>TSBK-US</td>
+    <td>$38.46</td>
+    <td>$303M</td>
+    <td>10.0x</td>
+    <td>1.13x</td>
+    <td>11.8%</td>
+    <td>52.7%</td>
+    <td>3.85%</td>
+  </tr>
+  <tr>
+    <td>FS Bancorp</td>
+    <td>FSBW-US</td>
+    <td>$37.70</td>
+    <td>$283M</td>
+    <td>8.8x</td>
+    <td>0.92x</td>
+    <td>10.9%</td>
+    <td>66.8%</td>
+    <td>4.33%</td>
+  </tr>
+  <tr>
+    <td>Cashmere Valley</td>
+    <td>CSHX-US</td>
+    <td>$74.69</td>
+    <td>$277M</td>
+    <td>10.0x</td>
+    <td>1.12x</td>
+    <td>11.8%</td>
+    <td>55.0%</td>
+    <td>3.21%</td>
+  </tr>
+  <tr>
+    <td>Pacific Financial</td>
+    <td>PFLC-US</td>
+    <td>$12.75</td>
+    <td>$132M</td>
+    <td>12.0x</td>
+    <td>1.04x</td>
+    <td>8.7%</td>
+    <td>68.5%</td>
+    <td>—</td>
+  </tr>
+  <tr>
+    <td>Sound Financial Bancorp</td>
+    <td>SFBC-US</td>
+    <td>$42.19</td>
+    <td>$108M</td>
+    <td>15.2x</td>
+    <td>0.99x</td>
+    <td>6.7%</td>
+    <td>77.4%</td>
+    <td>3.45%</td>
+  </tr>
+  <tr style="font-weight: 600; background: #fafbfc;">
+    <td>Average (ex-CCB)</td>
+    <td>—</td>
+    <td>—</td>
+    <td>—</td>
+    <td>11.4x</td>
+    <td>1.01x</td>
+    <td>9.5%</td>
+    <td>66.0%</td>
+    <td>3.69%</td>
+  </tr>
+  <tr style="font-weight: 600; background: #fafbfc;">
+    <td>Median (ex-CCB)</td>
+    <td>—</td>
+    <td>—</td>
+    <td>—</td>
+    <td>11.1x</td>
+    <td>0.99x</td>
+    <td>8.9%</td>
+    <td>67.3%</td>
+    <td>3.52%</td>
+  </tr>
+</table>
+
+<div class="prose" style="margin-top: 10px;">
+  <strong>Comps Commentary:</strong> CCB trades at a significant premium to Washington regional banks (24.9x vs. 11.1x median P/E) driven by its differentiated BaaS business model and superior NIM (7.14% vs. 3.52% median). However, the premium has compressed significantly from prior peaks—the stock traded at 37x P/E at year-end 2025 before the recent 34% selloff. The key question is whether the BaaS model justifies a fintech-like multiple or should trade closer to specialty bank peers like Bancorp (TBBK), which operates a similar BaaS model at 10.8x P/E but with higher ROE (30.8% vs. 10.1%). CCB's current ROE of 10.1% is below the regional bank median (8.9%) despite the premium multiple—a disconnect that suggests either: (a) consensus earnings growth is achievable and will drive ROE expansion; or (b) the multiple is too high relative to current profitability.
+</div>
+
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+<div class="prose" style="font-style: italic; color: #666; margin-bottom: 12px;">Theia seeks small cap companies that aren't well covered and are strongly aligned on core internet finance thesis with wide outcome dispersion.</div>
+
+<div class="screen-item">
+  <div class="screen-label">(i) Market Cap Bucket</div>
+  <div class="screen-detail">
+    <strong>Small Cap ($1,158M)</strong> <span class="fw-rating strong">Strong</span> — CCB's $1.16B market cap sits squarely in Theia's small-cap sweet spot ($1B-$5B). The company is large enough to offer meaningful daily liquidity (~$14M average daily volume based on 183K shares at $76) for institutional position building, yet small enough to be systematically under-followed by large asset managers whose minimum position sizes require multi-billion market caps. BaaS sponsor banking is a niche subsector within regional banking—most investors who screen for banks apply traditional credit quality filters (NCO ratio < 1%) that automatically exclude CCB. This creates exactly the market cap dynamic where fundamental research can generate differentiated alpha against investors screening on headline metrics rather than understanding underlying economics.
+  </div>
+</div>
+
+<div class="screen-item">
+  <div class="screen-label">(ii) Analyst Coverage</div>
+  <div class="screen-detail">
+    <strong>Under-Covered (5 analysts)</strong> <span class="fw-rating strong">Strong</span> — Only five sell-side analysts actively cover CCB according to FactSet broker contributor data. This extreme under-coverage—compared to 15+ analysts covering larger regional banks—creates significant information asymmetry. The most recent earnings calls have limited institutional participation, and sell-side research on the BaaS model's credit enhancement mechanics is often superficial. Primary research through management access, expert network calls with fintech partners, and tracking of partner program metrics could generate substantially differentiated insights versus the sparse sell-side coverage. For a company with genuine growth optionality and complex accounting, this coverage gap represents exactly the alpha opportunity Theia seeks.
+  </div>
+</div>
+
+<div class="screen-item">
+  <div class="screen-label">(iii) Blockchain / Internet Finance Thesis Alignment</div>
+  <div class="screen-detail">
+    <strong>Core Thesis — Fintech Infrastructure</strong> <span class="fw-rating strong">Strong</span> — CCB is pure internet finance infrastructure. The CCBX platform enables fintech companies—including crypto-adjacent players like Robinhood—to offer banking services without obtaining their own charters. This is the picks-and-shovels model for fintech growth: CCB wins regardless of which specific fintech succeeds, as long as the category continues expanding. Partners include companies at the forefront of digital finance: Dave (earned wage access), Robinhood (democratized investing/crypto), One (Walmart's financial services), X1 (credit-building). The BaaS model is directly enabling the digitization of financial services by removing the charter barrier that historically limited fintech capabilities. This is core thesis alignment.
+  </div>
+</div>
+
+<div class="screen-item">
+  <div class="screen-label">(iv) Outcome Dispersion</div>
+  <div class="screen-detail">
+    <strong>Extremely Wide ($4.56 to $244.80)</strong> <span class="fw-rating strong">Strong</span> — The scenario range spans from $4.56 per share (Bear Severe: regulatory enforcement, partner collapse) to $244.80 per share (Bull Severe: industry consolidation, platform re-rate)—a 54x spread representing exceptional outcome dispersion. This wide distribution stems from multiple uncorrelated swing factors: (1) regulatory uncertainty where OCC/FDIC actions could constrain or clarify the model; (2) partner concentration where Dave health materially impacts economics; (3) credit quality optics that could normalize or deteriorate; (4) competitive dynamics where industry consolidation could benefit survivors. Current price of $76.16 sits between bear mild ($30.40) and base ($92.52), implying modest upside in the consensus case but substantial optionality in bull scenarios. This wide distribution rewards deep fundamental research and creates alpha opportunity from taking a differentiated view on regulatory trajectory and partner dynamics.
+  </div>
+</div>
+
+<div class="verdict" style="background: #e8f4fd; border-color: #2563eb;">
+  <strong>Verdict: Yes — Strong Fit</strong><br><br>
+  CCB meets all four Theia criteria decisively: small-cap ($1.16B), severely under-covered (5 analysts), core internet finance thesis (fintech infrastructure), and extremely wide outcome dispersion (54x bear-to-bull spread). The stock is down 34% from highs, short interest is elevated at 12%, and the market is pricing significant uncertainty about regulatory trajectory and credit quality that fundamental research could help clarify.<br><br>
+  <strong>Key monitoring points:</strong> (1) Regulatory signposts—OCC examination results, material weakness remediation progress, any industry guidance on BaaS; (2) Partner dynamics—Dave financial health, Robinhood/One program scaling, partner churn announcements; (3) Credit trends—NCO trajectory, indemnification collection timing, provision expense normalization; (4) Earnings execution—ability to deliver on consensus EPS growth from $3.06 to $7.71 over two years.<br><br>
+  <strong>Recommended action:</strong> Initiate research position with direct management engagement to understand: (a) partner concentration disclosure limits and what data they can share; (b) material weakness remediation timeline and confidence; (c) regulatory relationship temperature post-Synapse; (d) partner pipeline and competitive win rates. If regulatory clarity emerges and Q1-Q2 2026 earnings demonstrate provision normalization, upgrade conviction.
+</div>
+
+<!-- SECTION 13: RISK SUMMARY -->
+<div class="memo-section">13. Risk Summary</div>
+<table class="risk-table">
+  <tr>
+    <th style="width: 16%;">Risk Category</th>
+    <th style="width: 40%;">Description</th>
+    <th style="width: 12%;">Severity</th>
+    <th style="width: 32%;">Mitigant</th>
+  </tr>
+  <tr>
+    <td>Regulatory / Enforcement</td>
+    <td>OCC/FDIC intensifying scrutiny of BaaS sponsor banks post-Synapse. Potential consent order, MOU, or activity restrictions that could constrain new partner onboarding, require enhanced capital, or limit business activities. Industry-wide guidance could fundamentally change BaaS economics.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>No enforcement actions to date. Proactive compliance investment. Regulatory relationships cultivated over 7+ years. Material weakness remediation demonstrates responsiveness. Community bank provides regulatory diversification.</td>
+  </tr>
+  <tr>
+    <td>Partner Concentration</td>
+    <td>Dave likely represents 30-40%+ of CCBX revenue. Dave financial distress could create: (a) indemnification payment delays/disputes; (b) program wind-down disruption; (c) reputational impact. Other major partner loss would also be material.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>Contractual indemnification protections with reserve accounts. Dave is publicly traded with capital access. 28 total partners provides diversification beyond Dave. Partner pipeline reportedly strong. 12-24 month contract notice periods provide visibility.</td>
+  </tr>
+  <tr>
+    <td>Credit Quality / NCO Optics</td>
+    <td>5.25% NCO ratio creates headline risk and attracts short seller attention regardless of indemnification economics. Collection timing mismatches create earnings volatility. If partner indemnification fails, retained losses could spike dramatically.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>98.8% indemnification rate proven across credit cycles. Partner selection criteria include financial capacity to honor indemnification. Reserve accounts/LOCs provide secured backup. Programs are designed with credit enhancement from inception.</td>
+  </tr>
+  <tr>
+    <td>Internal Controls</td>
+    <td>Material weakness disclosure in 2025 raises questions about operational infrastructure supporting rapid growth. Remediation requires management attention and cost. Additional deficiencies could be discovered. CFO transition adds execution risk.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Remediation in progress with management focus. New CFO brings financial reporting expertise. External auditors engaged. Board audit committee oversight. Completion targeted by end of 2026.</td>
+  </tr>
+  <tr>
+    <td>Competition</td>
+    <td>Other BaaS sponsors (Cross River, Evolve, Bancorp) compete for limited pool of quality fintech partners. Pricing pressure, service level competition, and willingness to accept novel use cases create margin pressure. Competitor wins could include CCB prospect losses.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>High switching costs protect existing relationships. Limited qualified sponsor supply creates pricing discipline. Industry growing faster than capacity, reducing zero-sum dynamics. Counter-positioning against large banks provides structural advantage.</td>
+  </tr>
+  <tr>
+    <td>Interest Rate Sensitivity</td>
+    <td>NIM compression if rates decline faster than asset yields adjust. Deposit cost sensitivity given fintech program pricing. Rate environment affects both funding costs and partner program economics.</td>
+    <td><span class="fw-rating low">Low</span></td>
+    <td>High-yield BaaS loans provide NIM cushion. Short-duration loan portfolio reprices relatively quickly. Community bank provides traditional rate exposure diversification. Deposit mix benefits from low-cost partner program funds.</td>
+  </tr>
+  <tr>
+    <td>Key Person</td>
+    <td>CEO Eric Sprink (since 2003) has deep fintech relationships and strategic vision. Departure could disrupt partner relationships and strategic direction. New CFO untested in role.</td>
+    <td><span class="fw-rating low">Low</span></td>
+    <td>23-year tenure provides institutional knowledge transfer. Chairman Steve Hovde owns 11.4% creating alignment. Board depth with banking/fintech experience. Organizational capabilities embedded beyond individual executives.</td>
+  </tr>
+</table>
+
+<!-- SECTION 14: APPENDIX -->
+<div class="memo-section">14. Appendix — Python Code</div>
+
+<div class="sub-label">Sensitivity Table Generator</div>
+<div class="code-block">import numpy as np
+import pandas as pd
+
+def ccb_nii_sensitivity(loan_balances, net_nims):
+    """
+    Generate sensitivity table for BaaS net interest income.
+
+    Args:
+        loan_balances: List of BaaS loan balances in $B
+        net_nims: List of net NIM percentages (after BaaS expense)
+
+    Returns:
+        DataFrame with NII matrix in $M
+    """
+    matrix = []
+    for balance in loan_balances:
+        row = []
+        for nim in net_nims:
+            nii = balance * 1000 * (nim / 100)  # Convert to $M
+            row.append(round(nii, 0))
+        matrix.append(row)
+
+    df = pd.DataFrame(
+        matrix,
+        index=[f"${b}B" for b in loan_balances],
+        columns=[f"{n}%" for n in net_nims]
+    )
+    return df
+
+# Example usage for CCB
+loan_balances = [2.0, 2.25, 2.5, 2.75, 3.0]  # $B
+net_nims = [3.50, 3.75, 4.00, 4.26, 4.50]  # %
+
+sensitivity = ccb_nii_sensitivity(loan_balances, net_nims)
+print("BaaS Net Interest Income Sensitivity ($M)")
+print(sensitivity)
+print(f"\nBase case: ${sensitivity.loc['$2.5B', '4.26%']}M")</div>
+
+<div class="sub-label" style="margin-top: 16px;">5-Case Model Generator</div>
+<div class="code-block">import pandas as pd
+
+def ccb_five_case_model(base_drivers, scenarios, shares=15.79):
+    """
+    Generate 5-case financial model for CCB.
+
+    Args:
+        base_drivers: Dict with base case assumptions
+        scenarios: Dict of scenario adjustments
+        shares: Diluted shares outstanding (M)
+
+    Returns:
+        DataFrame with all scenario outputs
+    """
+    results = {}
+
+    for name, adj in scenarios.items():
+        # Apply scenario adjustments
+        ccbx_rev = base_drivers['ccbx_rev'] * adj.get('rev_mult', 1.0)
+        net_nim = base_drivers['net_nim'] * adj.get('nim_mult', 1.0)
+        prov_pct = adj.get('prov_pct', base_drivers['prov_pct'])
+        cb_rev = base_drivers['cb_rev'] * 1.05  # 5% CB growth
+
+        # Calculate financials
+        total_rev = ccbx_rev + cb_rev
+        nii = total_rev * 0.55  # ~55% of rev is NII
+        provision = total_rev * prov_pct
+        non_int_exp = total_rev * 0.53  # 53% efficiency
+
+        op_inc = nii - provision + (total_rev * 0.45) - non_int_exp
+        net_inc = op_inc * 0.76  # 24% tax rate
+        eps = net_inc / shares
+        roe = net_inc / (shares * 32.43) * 100  # Current BVPS
+
+        results[name] = {
+            'Revenue': round(total_rev, 0),
+            'NII': round(nii, 0),
+            'Provision': round(provision, 0),
+            'Net Income': round(net_inc, 0),
+            'EPS': round(eps, 2),
+            'ROE': f"{round(roe, 1)}%"
+        }
+
+    return pd.DataFrame(results).T
+
+# Base drivers for CCB
+base = {
+    'ccbx_rev': 438,      # $M
+    'cb_rev': 104,        # $M
+    'net_nim': 4.26,      # %
+    'prov_pct': 0.37      # provision as % of rev
+}
+
+# Scenario adjustments
+scenarios = {
+    'Bear Severe': {'rev_mult': 0.75, 'nim_mult': 0.76, 'prov_pct': 0.55},
+    'Bear Mild': {'rev_mult': 1.03, 'nim_mult': 0.88, 'prov_pct': 0.42},
+    'Base': {'rev_mult': 1.12, 'nim_mult': 1.0, 'prov_pct': 0.37},
+    'Bull Mild': {'rev_mult': 1.22, 'nim_mult': 1.06, 'prov_pct': 0.32},
+    'Bull Severe': {'rev_mult': 1.35, 'nim_mult': 1.12, 'prov_pct': 0.28}
+}
+
+model = ccb_five_case_model(base, scenarios)
+print("CCB 5-Case Model (FY2027E)")
+print(model)</div>
+
+<p class="source-note" style="margin-top: 20px;">Generated by Claude | Theia Equity Research | March 2026</p>
+
+</body>
+</html>
