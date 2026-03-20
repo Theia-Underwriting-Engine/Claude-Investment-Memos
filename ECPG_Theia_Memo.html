@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ECPG | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 6px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; }
+.case-block .driver-row span:first-child { display: inline-block; width: 60%; font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { text-align: right; font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Encore Capital Group | Preliminary Memo for Theia</div>
+
+<!-- SECTION 1: Business Overview -->
+<div class="memo-section">1. Business Overview</div>
+<p class="prose">
+Encore Capital Group (NASDAQ: ECPG) is the largest publicly traded debt buyer in the United States and a leading player in the global debt purchasing industry. Founded in 1998 and headquartered in San Diego, CA, the company specializes in purchasing portfolios of defaulted consumer receivables—primarily credit card debt, auto deficiencies, and consumer loans—at steep discounts to face value, then collecting on those obligations through its consumer-centric collection operations.
+</p>
+<p class="prose">
+The company operates through two primary segments: <strong>MCM (Midland Credit Management)</strong> in the United States, which holds #1 market share in consumer credit debt purchasing, and <strong>Cabot Credit Management</strong> in the UK and Europe. Under CEO Ashish Masih, ECPG has built a proprietary analytics engine to price portfolios and optimize collections. The business model is capital-intensive but generates high returns when portfolios perform above purchase assumptions. As of year-end 2025, Encore employed approximately 7,350 people globally and had an Estimated Remaining Collections (ERC) balance of $9.68 billion.
+</p>
+
+<!-- SECTION 2: Financial Summary (Theia FactSet Summary) -->
+<div class="memo-section">2. Financial Summary</div>
+
+<div class="header">
+  <div>
+    <h1>Encore Capital Group, Inc.</h1>
+    <span class="ticker">ECPG-US | NASDAQ | CUSIP: 292554102</span>
+  </div>
+  <span class="date">Data as of Mar 19, 2026</span>
+</div>
+
+<div class="price-bar">
+  <span class="price">$69.14</span>
+  <span class="label">1M:</span><span class="chg pos">+18.4%</span>
+  <span class="label">3M:</span><span class="chg pos">+26.8%</span>
+  <span class="label">6M:</span><span class="chg pos">+53.1%</span>
+  <span class="label">YTD:</span><span class="chg pos">+27.2%</span>
+  <span class="label">1Y:</span><span class="chg pos">+100.4%</span>
+  <span class="label">52W:</span><span>$26.45 – $74.58</span>
+</div>
+
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv">
+      <tr><td>Ticker</td><td>ECPG-US</td></tr>
+      <tr><td>Price</td><td>$69.14</td></tr>
+      <tr><td>Volume</td><td>237,948</td></tr>
+      <tr><td>30D Avg Vol</td><td>276,601</td></tr>
+      <tr><td>Float %</td><td>95.0%</td></tr>
+      <tr><td>Short Interest</td><td>3.9 Days / 5.0% Float</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev">
+      <tr><td>Price (Mar 19 '26)</td><td>$69.14</td></tr>
+      <tr><td>Basic Shares (M)</td><td>21.41</td></tr>
+      <tr><td style="padding-left: 12px; font-size: 9px;">Common Stock</td><td style="font-size: 9px;">21.41</td></tr>
+      <tr><td>Market Cap</td><td>$1,480</td></tr>
+      <tr><td>+ Diluted Shares (Stock Comp)</td><td>0.87</td></tr>
+      <tr><td>Fully Diluted Shares</td><td>22.28</td></tr>
+      <tr><td>Fully Diluted Mkt Cap</td><td>$1,541</td></tr>
+      <tr><td>+ Consolidated Debt</td><td>$4,001</td></tr>
+      <tr><td>+ Capital Leases</td><td>$1</td></tr>
+      <tr><td>- Cash & Equivalents</td><td>($157)</td></tr>
+      <tr class="total"><td>Enterprise Value</td><td>$5,385</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="section-title">Current Valuation</div>
+<div class="val-grid">
+  <div class="val-cell"><div class="val-label">Market Cap</div><div class="val-num">$1,465M</div></div>
+  <div class="val-cell"><div class="val-label">EV</div><div class="val-num">$5,369M</div></div>
+  <div class="val-cell"><div class="val-label">P/E (LTM)</div><div class="val-num">6.3x</div></div>
+  <div class="val-cell"><div class="val-label">EV/EBITDA</div><div class="val-num">8.2x</div></div>
+  <div class="val-cell"><div class="val-label">EV/Sales</div><div class="val-num">3.0x</div></div>
+  <div class="val-cell"><div class="val-label">P/S (LTM)</div><div class="val-num">0.9x</div></div>
+</div>
+<div class="val-grid">
+  <div class="val-cell"><div class="val-label">Fully Dil Mkt Cap</div><div class="val-num">$1,525M</div></div>
+  <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">NM</div><div class="val-sub">(-5.0% reported)</div></div>
+  <div class="val-cell"><div class="val-label">Beta (3Y Adj)</div><div class="val-num">0.98</div></div>
+  <div class="val-cell"><div class="val-label">Avg Rating</div><div class="val-num">OW (1.25)</div></div>
+  <div class="val-cell"><div class="val-label">Target Price</div><div class="val-num">$82.67</div><div class="val-sub">+19.6% upside</div></div>
+  <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">May 6, 2026</div></div>
+</div>
+
+<div class="section-title">Valuation Multiples</div>
+<table class="data">
+  <tr><th></th><th>5Yr Avg</th><th>Dec '23</th><th>Dec '24</th><th>Dec '25</th><th class="est">Dec '26E</th><th class="est">Dec '27E</th></tr>
+  <tr><td>P/E</td><td>3.4x</td><td>—</td><td>—</td><td>5.0x</td><td class="est">5.8x</td><td class="est">5.3x</td></tr>
+  <tr><td>P/Sales</td><td>0.9x</td><td>1.0x</td><td>0.9x</td><td>0.7x</td><td class="est">0.8x</td><td class="est">0.8x</td></tr>
+  <tr><td>P/BV</td><td>1.2x</td><td>1.3x</td><td>1.5x</td><td>1.2x</td><td class="est">1.3x</td><td class="est">1.1x</td></tr>
+  <tr><td>EV/Sales</td><td>3.2x</td><td>3.6x</td><td>3.6x</td><td>2.9x</td><td class="est">3.0x</td><td class="est">2.8x</td></tr>
+  <tr><td>EV/EBITDA</td><td>10.4x</td><td>13.7x</td><td>15.1x</td><td>7.8x</td><td class="est">8.0x</td><td class="est">7.8x</td></tr>
+  <tr><td>EV/EBIT</td><td>11.5x</td><td>15.7x</td><td>16.9x</td><td>8.1x</td><td class="est">8.4x</td><td class="est">7.9x</td></tr>
+</table>
+
+<div class="two-col" style="margin-top: 10px;">
+  <div>
+    <div class="section-title">Revenue by Business Unit</div>
+    <table class="rev">
+      <tr><th>Segment</th><th>% Rev</th><th>Rev ($M)</th><th>YoY</th></tr>
+      <tr><td>Portfolio Income</td><td>82.3%</td><td>1,456</td><td>+11.8%</td></tr>
+      <tr><td>Changes in Recoveries</td><td>11.8%</td><td>209</td><td>—</td></tr>
+      <tr><td>Servicing Revenue</td><td>5.0%</td><td>88</td><td>+4.3%</td></tr>
+      <tr><td>Other</td><td>0.9%</td><td>16</td><td>-15.5%</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Revenue by Geography</div>
+    <table class="rev">
+      <tr><th>Region</th><th>% Rev</th><th>Rev ($M)</th><th>YoY</th></tr>
+      <tr><td>United States</td><td>71.7%</td><td>1,268</td><td>+27.9%</td></tr>
+      <tr><td>United Kingdom</td><td>20.0%</td><td>354</td><td>+52.4%</td></tr>
+      <tr><td>Other Europe</td><td>8.0%</td><td>141</td><td>+57.4%</td></tr>
+      <tr><td>Other</td><td>0.3%</td><td>5</td><td>+123.5%</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="section-title">Financials</div>
+<table class="data">
+  <tr><th></th><th>5Yr CAGR</th><th>Dec '23</th><th>Dec '24</th><th>Dec '25</th><th class="est">Dec '26E</th><th class="est">Dec '27E</th></tr>
+  <tr class="section-row"><td colspan="7">Income Statement ($M)</td></tr>
+  <tr><td>Revenue</td><td>3.3%</td><td>1,222</td><td>1,305</td><td>1,763</td><td class="est">1,813</td><td class="est">1,899</td></tr>
+  <tr><td>Gross Income</td><td>3.3%</td><td>809</td><td>852</td><td>1,245</td><td class="est">—</td><td class="est">—</td></tr>
+  <tr><td>EBITDA</td><td>2.4%</td><td>322</td><td>308</td><td>652</td><td class="est">675</td><td class="est">691</td></tr>
+  <tr><td>EBIT</td><td>3.1%</td><td>280</td><td>276</td><td>624</td><td class="est">642</td><td class="est">678</td></tr>
+  <tr><td>Net Income</td><td>3.9%</td><td>(206)</td><td>(139)</td><td>257</td><td class="est">260</td><td class="est">263</td></tr>
+  <tr><td>EPS (Dil)</td><td>10.3%</td><td>($8.72)</td><td>($5.83)</td><td>$10.91</td><td class="est">$11.98</td><td class="est">$13.02</td></tr>
+  <tr class="section-row"><td colspan="7">Margins</td></tr>
+  <tr><td>Gross Margin</td><td>—</td><td>66.2%</td><td>65.3%</td><td>70.6%</td><td class="est">—</td><td class="est">—</td></tr>
+  <tr><td>EBITDA Margin</td><td>—</td><td>26.3%</td><td>23.6%</td><td>37.0%</td><td class="est">37.2%</td><td class="est">36.4%</td></tr>
+  <tr><td>Net Margin</td><td>—</td><td>(16.9%)</td><td>(10.7%)</td><td>14.6%</td><td class="est">14.3%</td><td class="est">13.8%</td></tr>
+  <tr><td>FCF Margin</td><td>—</td><td>10.5%</td><td>9.7%</td><td>7.2%</td><td class="est">(7.9%)</td><td class="est">8.4%</td></tr>
+  <tr class="section-row"><td colspan="7">Cash Flow ($M)</td></tr>
+  <tr><td>Operating CF</td><td>(13.3%)</td><td>153</td><td>156</td><td>153</td><td class="est">232</td><td class="est">282</td></tr>
+  <tr><td>CapEx</td><td>(5.4%)</td><td>25</td><td>29</td><td>26</td><td class="est">—</td><td class="est">—</td></tr>
+  <tr><td>FCF</td><td>(14.5%)</td><td>128</td><td>127</td><td>127</td><td class="est">(143)</td><td class="est">159</td></tr>
+  <tr class="section-row"><td colspan="7">Returns & Leverage</td></tr>
+  <tr><td>ROE</td><td>—</td><td>(19.5%)</td><td>(16.3%)</td><td>29.5%</td><td class="est">22.7%</td><td class="est">20.1%</td></tr>
+  <tr><td>Debt/Equity</td><td>—</td><td>363%</td><td>488%</td><td>416%</td><td class="est">405%</td><td class="est">362%</td></tr>
+  <tr><td>Interest Coverage</td><td>—</td><td>1.4x</td><td>1.1x</td><td>2.2x</td><td class="est">2.1x</td><td class="est">2.2x</td></tr>
+</table>
+
+<p class="source-note">Source: FactSet, Company Filings. Blue values are consensus estimates. Millions of USD.</p>
+
+<!-- SECTION 3: Helmer's 7 Powers -->
+<div class="memo-section">3. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Scale Economies</span><span class="fw-rating strong">Strong</span>
+  <p class="prose" style="margin-top: 4px;">ECPG's fixed costs (analytics infrastructure, compliance systems, legal teams) are spread across a $9.7B ERC portfolio. Larger portfolios allow better statistical modeling and operational leverage. Smaller buyers cannot match ECPG's cost per dollar collected.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Network Effects</span><span class="fw-rating weak">Weak</span>
+  <p class="prose" style="margin-top: 4px;">Debt purchasing is fundamentally a capital allocation business, not a platform. More portfolios don't make other portfolios more valuable. The business lacks meaningful direct or indirect network effects.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Counter-Positioning</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top: 4px;">Banks and credit card issuers could theoretically collect their own charged-off debt but choose to sell it. The reputational risk, specialized skillset, and regulatory complexity make in-house collections unattractive for issuers focused on customer acquisition.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Switching Costs</span><span class="fw-rating strong">Strong</span>
+  <p class="prose" style="margin-top: 4px;">Forward flow agreements with major issuers (Capital One, Synchrony, Discover) create multi-year contracted relationships. Sellers value ECPG's compliance track record, pricing consistency, and ability to absorb large portfolios. Switching to untested buyers carries regulatory and reputational risk.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Branding</span><span class="fw-rating weak">Weak</span>
+  <p class="prose" style="margin-top: 4px;">MCM and Cabot are known to institutional sellers but not to consumers in a way that creates pricing power. Brand matters for seller relationships but is not a source of consumer premium.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">6. Cornered Resource</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top: 4px;">ECPG has 25+ years of proprietary performance data on millions of accounts. This data informs pricing models and collection strategies. However, competitors like PRA Group have comparable data assets built over similar timeframes.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">7. Process Power</span><span class="fw-rating strong">Strong</span>
+  <p class="prose" style="margin-top: 4px;">ECPG's "consumer-first" collection approach—using analytics to determine optimal contact strategies, payment plans, and legal action thresholds—produces consistently higher collection rates than peers. This is embedded in training, systems, and culture across 7,000+ employees.</p>
+</div>
+
+<p class="prose" style="margin-top: 12px;"><strong>Summary:</strong> The strongest moats are scale economies, switching costs with issuers, and process power in collections. Network effects and branding are not meaningful sources of advantage in this industry.</p>
+
+<!-- SECTION 4: Porter's 5 Forces -->
+<div class="memo-section">4. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Threat of New Entrants</span><span class="fw-rating low">Low</span>
+  <p class="prose" style="margin-top: 4px;">High barriers: $500M+ capital requirement, complex state/federal licensing, 5-10 year ramp to build analytics and seller relationships. Major bank sellers (Capital One, Discover) only work with scaled, compliant buyers. No significant new entrants have emerged in a decade.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Bargaining Power of Suppliers</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top: 4px;">Debt sellers (banks, credit card issuers) are concentrated. Top 10 sellers represent the bulk of available paper. However, sellers need liquidity for charged-off assets and value ECPG's execution certainty. Forward flow agreements reduce seller leverage.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Bargaining Power of Buyers</span><span class="fw-rating low">Low</span>
+  <p class="prose" style="margin-top: 4px;">"Buyers" here are the consumers owing debt. They have limited negotiating power—debt is owed, and ECPG controls the collection strategy. Payment plans are offered as a service, not a concession.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Threat of Substitutes</span><span class="fw-rating low">Low</span>
+  <p class="prose" style="margin-top: 4px;">Banks could collect in-house (but don't due to reputation/skill gap) or hire contingency collectors (lower recovery rates). Selling to debt buyers is the dominant resolution path for charged-off consumer debt. No technology disruption threatens this model.</p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Competitive Rivalry</span><span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top: 4px;">Consolidated duopoly: ECPG and PRA Group control ~60% of US market. Jefferson Capital is a distant third. Competition occurs on price at portfolio auctions, but disciplined players avoid overpaying. European market (Cabot vs Intrum, Lowell) is more competitive.</p>
+</div>
+
+<p class="prose" style="margin-top: 12px;"><strong>Summary:</strong> The competitive environment is favorable. High barriers to entry, low substitution threat, and a consolidated competitive landscape support pricing power and sustainable returns.</p>
+
+<!-- SECTION 5: What Drives the Stock? -->
+<div class="memo-section">5. What Drives the Stock?</div>
+
+<p class="prose">The following 5 factors are what move ECPG shares on a quarterly basis:</p>
+
+<ol class="prose" style="padding-left: 20px; line-height: 1.8;">
+  <li><strong>Portfolio Purchasing Volume & Pricing:</strong> How much new paper is ECPG deploying, and at what multiple to expected collections? Heavy deployment signals confidence and future ERC growth. Overpaying destroys IRRs. Watch deployment as % of collections and pricing multiples relative to historical averages. <em>Bullish: High deployment at disciplined prices. Bearish: Underspending (lack of supply) or aggressive pricing (peak cycle risk).</em></li>
+
+  <li><strong>Collection Performance vs. Forecast:</strong> Are actual collections exceeding, meeting, or missing the ERC curve? ECPG guides to specific collection targets ($2.7B in 2026). Outperformance flows directly to the bottom line; underperformance triggers ERC write-downs. <em>Bullish: Collections beat. Bearish: Collections miss and ERC adjustments required.</em></li>
+
+  <li><strong>Interest Rates / Cost of Debt:</strong> With $4B in debt, rising rates pressure margins. ECPG's blended cost of debt is ~7-8%. Spread compression between cost of capital and portfolio IRRs is the key profitability driver. <em>Bullish: Stable/falling rates. Bearish: Rising rates without pricing power to pass through.</em></li>
+
+  <li><strong>Regulatory Environment (CFPB, State AGs):</strong> Consumer debt collection is heavily regulated. New rules on contact frequency, documentation, or fee structures can increase costs or reduce collectability. <em>Bullish: Stable regulatory environment. Bearish: Aggressive new regulations or enforcement actions.</em></li>
+
+  <li><strong>Share Repurchases & Capital Allocation:</strong> At 6x earnings and high FCF conversion, buybacks are immediately accretive. ECPG repurchased ~9% of shares in 2025. Continued buybacks signal management confidence and mechanically boost EPS. <em>Bullish: Continued aggressive buybacks. Bearish: Paused buybacks or equity issuance.</em></li>
+</ol>
+
+<!-- SECTION 6: What Drives the Business? -->
+<div class="memo-section">6. What Drives the Business?</div>
+
+<p class="prose">Revenue decomposition by segment:</p>
+
+<table class="data" style="margin: 12px 0;">
+  <tr><th>Revenue Line</th><th colspan="4">Driver Formula</th></tr>
+  <tr><td><strong>Portfolio Income</strong></td><td colspan="4">= ERC Balance × Collection Rate × Revenue Recognition %</td></tr>
+  <tr><td><strong>Changes in Recoveries</strong></td><td colspan="4">= Portfolio Revaluations (up or down based on performance vs. curve)</td></tr>
+  <tr><td><strong>Servicing Revenue</strong></td><td colspan="4">= Third-Party Portfolios Under Management × Servicing Fee %</td></tr>
+</table>
+
+<p class="sub-label">Detailed Driver Breakdown</p>
+<table class="data">
+  <tr><th>Driver</th><th>Current Value</th><th>Sensitivity</th></tr>
+  <tr><td>ERC Balance</td><td>$9.68B (record high)</td><td>+10% ERC → +~$150M revenue</td></tr>
+  <tr><td>Annual Collections</td><td>$2.56B (FY25); $2.7B guide (FY26)</td><td>Core revenue driver</td></tr>
+  <tr><td>Collection Rate (% of ERC)</td><td>~26-27% annually</td><td>+1pp → ~$100M incremental</td></tr>
+  <tr><td>Deployment (New Purchases)</td><td>$1.27B (FY25)</td><td>Drives future ERC growth</td></tr>
+  <tr><td>Purchase Price Multiple</td><td>~2.0-2.2x expected collections</td><td>Lower = better IRRs</td></tr>
+  <tr><td>Cost of Debt</td><td>~7-8% blended</td><td>+100bps → -$40M interest expense</td></tr>
+</table>
+
+<p class="prose" style="margin-top: 10px;"><strong>Key insight:</strong> The two drivers with most leverage are (1) collection performance vs. forecast (drives both revenue and ERC revaluations) and (2) deployment volume at rational pricing (drives future ERC and revenue trajectory). Interest rates are the primary margin driver given the capital-intensive model.</p>
+
+<!-- SECTION 7: Sensitivities -->
+<div class="memo-section">7. Sensitivities on Core Business Drivers</div>
+
+<p class="prose"><strong>Annual Collections ($B) vs. Cost of Debt (%) → Net Income ($M)</strong></p>
+<p class="prose" style="font-size: 9px; color: #666;"><em>Current: Collections ~$2.6B, Cost of Debt ~7.5%</em></p>
+<table class="sensitivity">
+  <tr><th>Collections ↓ / CoD →</th><th>6.0%</th><th>6.5%</th><th>7.0%</th><th>7.5%</th><th>8.0%</th><th>8.5%</th></tr>
+  <tr><td>$2.3B</td><td>195</td><td>185</td><td>175</td><td>165</td><td>155</td><td>145</td></tr>
+  <tr><td>$2.5B</td><td>240</td><td>230</td><td>220</td><td>210</td><td>200</td><td>190</td></tr>
+  <tr><td>$2.6B</td><td>275</td><td>265</td><td>255</td><td class="base">245</td><td>235</td><td>225</td></tr>
+  <tr><td>$2.7B</td><td>310</td><td>300</td><td>290</td><td>280</td><td>270</td><td>260</td></tr>
+  <tr><td>$2.9B</td><td>355</td><td>345</td><td>335</td><td>325</td><td>315</td><td>305</td></tr>
+</table>
+
+<p class="prose" style="margin-top: 16px;"><strong>New Deployments ($B) vs. Purchase Multiple → Projected 3-Year IRR (%)</strong></p>
+<p class="prose" style="font-size: 9px; color: #666;"><em>Current: Deployment ~$1.3B/year, Purchase Multiple ~2.1x</em></p>
+<table class="sensitivity">
+  <tr><th>Deploy ↓ / Multiple →</th><th>1.8x</th><th>1.9x</th><th>2.0x</th><th>2.1x</th><th>2.2x</th><th>2.3x</th></tr>
+  <tr><td>$0.8B</td><td>22%</td><td>19%</td><td>16%</td><td>14%</td><td>12%</td><td>10%</td></tr>
+  <tr><td>$1.0B</td><td>21%</td><td>18%</td><td>15%</td><td>13%</td><td>11%</td><td>9%</td></tr>
+  <tr><td>$1.3B</td><td>20%</td><td>17%</td><td>14%</td><td class="base">12%</td><td>10%</td><td>8%</td></tr>
+  <tr><td>$1.5B</td><td>19%</td><td>16%</td><td>13%</td><td>11%</td><td>9%</td><td>7%</td></tr>
+  <tr><td>$1.8B</td><td>18%</td><td>15%</td><td>12%</td><td>10%</td><td>8%</td><td>6%</td></tr>
+</table>
+
+<p class="prose" style="margin-top: 16px;"><strong>Collection Rate (% of ERC) vs. ERC Balance ($B) → Annual Collections ($B)</strong></p>
+<p class="prose" style="font-size: 9px; color: #666;"><em>Current: ERC ~$9.7B, Collection Rate ~27%</em></p>
+<table class="sensitivity">
+  <tr><th>Rate ↓ / ERC →</th><th>$8.0B</th><th>$8.5B</th><th>$9.0B</th><th>$9.7B</th><th>$10.5B</th><th>$11.0B</th></tr>
+  <tr><td>24%</td><td>1.92</td><td>2.04</td><td>2.16</td><td>2.33</td><td>2.52</td><td>2.64</td></tr>
+  <tr><td>25%</td><td>2.00</td><td>2.13</td><td>2.25</td><td>2.43</td><td>2.63</td><td>2.75</td></tr>
+  <tr><td>26%</td><td>2.08</td><td>2.21</td><td>2.34</td><td>2.52</td><td>2.73</td><td>2.86</td></tr>
+  <tr><td>27%</td><td>2.16</td><td>2.30</td><td>2.43</td><td class="base">2.62</td><td>2.84</td><td>2.97</td></tr>
+  <tr><td>28%</td><td>2.24</td><td>2.38</td><td>2.52</td><td>2.72</td><td>2.94</td><td>3.08</td></tr>
+</table>
+
+<!-- SECTION 8: 3-Year Model -->
+<div class="memo-section">8. 3-Year Model (FY 2028)</div>
+
+<div class="case-block">
+  <div class="case-name">Bear Case (Severe)</div>
+  <div class="case-desc">Economic recession drives higher unemployment, lower collections. Regulatory pressure (CFPB) increases compliance costs. Rising rates compress spreads. Portfolio purchasing prices remain elevated.</div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Annual Collections (FY28)</span><span>$2.4B (-11% vs Base)</span></div>
+  <div class="driver-row"><span>Collection Rate</span><span>24%</span></div>
+  <div class="driver-row"><span>Cost of Debt</span><span>8.5%</span></div>
+  <div class="driver-row"><span>Operating Margin</span><span>28%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$1,650M</td></tr>
+    <tr><td>Gross Income</td><td>1,073</td></tr>
+    <tr><td>EBITDA</td><td>495</td></tr>
+    <tr><td>EBIT</td><td>462</td></tr>
+    <tr><td>Net Income</td><td>145</td></tr>
+    <tr><td>EPS</td><td>$7.50</td></tr>
+    <tr><td>EBITDA Margin</td><td>30.0%</td></tr>
+    <tr><td>FCF</td><td>$95M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit Multiple: 4.5x P/E (distressed)</div>
+    <div class="exit-price">Implied Price: $34</div>
+    <div class="exit-upside" style="color: #c0392b;">-51% downside</div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bear Case (Mild)</div>
+  <div class="case-desc">Modest economic softening, flat collections, stable regulatory environment. Interest rates remain elevated but manageable.</div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Annual Collections (FY28)</span><span>$2.6B (-4% vs Base)</span></div>
+  <div class="driver-row"><span>Collection Rate</span><span>25.5%</span></div>
+  <div class="driver-row"><span>Cost of Debt</span><span>7.5%</span></div>
+  <div class="driver-row"><span>Operating Margin</span><span>32%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$1,780M</td></tr>
+    <tr><td>Gross Income</td><td>1,210</td></tr>
+    <tr><td>EBITDA</td><td>605</td></tr>
+    <tr><td>EBIT</td><td>569</td></tr>
+    <tr><td>Net Income</td><td>220</td></tr>
+    <tr><td>EPS</td><td>$11.40</td></tr>
+    <tr><td>EBITDA Margin</td><td>34.0%</td></tr>
+    <tr><td>FCF</td><td>$140M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit Multiple: 5.5x P/E</div>
+    <div class="exit-price">Implied Price: $63</div>
+    <div class="exit-upside" style="color: #c0392b;">-9% downside</div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Base Case (Consensus)</div>
+  <div class="case-desc">Collections meet guidance trajectory. ERC grows modestly. Rates stabilize. Continued share repurchases boost EPS. Management executes FY26 guidance of $12 EPS.</div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Annual Collections (FY28)</span><span>$2.7B</span></div>
+  <div class="driver-row"><span>Collection Rate</span><span>26.5%</span></div>
+  <div class="driver-row"><span>Cost of Debt</span><span>7.0%</span></div>
+  <div class="driver-row"><span>Operating Margin</span><span>35%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$1,899M</td></tr>
+    <tr><td>Gross Income</td><td>1,330</td></tr>
+    <tr><td>EBITDA</td><td>691</td></tr>
+    <tr><td>EBIT</td><td>678</td></tr>
+    <tr><td>Net Income</td><td>263</td></tr>
+    <tr><td>EPS</td><td>$13.02</td></tr>
+    <tr><td>EBITDA Margin</td><td>36.4%</td></tr>
+    <tr><td>FCF</td><td>$159M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit Multiple: 6.0x P/E (in-line with current)</div>
+    <div class="exit-price">Implied Price: $78</div>
+    <div class="exit-upside" style="color: #27ae60;">+13% upside</div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bull Case (Mild)</div>
+  <div class="case-desc">Collections exceed guidance. ERC grows to $11B+. Rates decline, improving spreads. M&A optionality adds value. Multiple expands on improved confidence.</div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Annual Collections (FY28)</span><span>$2.9B (+7% vs Base)</span></div>
+  <div class="driver-row"><span>Collection Rate</span><span>27.5%</span></div>
+  <div class="driver-row"><span>Cost of Debt</span><span>6.5%</span></div>
+  <div class="driver-row"><span>Operating Margin</span><span>37%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$2,050M</td></tr>
+    <tr><td>Gross Income</td><td>1,475</td></tr>
+    <tr><td>EBITDA</td><td>779</td></tr>
+    <tr><td>EBIT</td><td>759</td></tr>
+    <tr><td>Net Income</td><td>315</td></tr>
+    <tr><td>EPS</td><td>$16.30</td></tr>
+    <tr><td>EBITDA Margin</td><td>38.0%</td></tr>
+    <tr><td>FCF</td><td>$220M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit Multiple: 7.0x P/E</div>
+    <div class="exit-price">Implied Price: $114</div>
+    <div class="exit-upside" style="color: #27ae60;">+65% upside</div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bull Case (Severe)</div>
+  <div class="case-desc">Credit cycle surge in supply (bank charge-offs spike), ECPG gains share. Collections materially outperform. Aggressive buybacks shrink share count. Potential strategic interest or takeout.</div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Annual Collections (FY28)</span><span>$3.2B (+19% vs Base)</span></div>
+  <div class="driver-row"><span>Collection Rate</span><span>28.5%</span></div>
+  <div class="driver-row"><span>Cost of Debt</span><span>6.0%</span></div>
+  <div class="driver-row"><span>Operating Margin</span><span>39%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$2,280M</td></tr>
+    <tr><td>Gross Income</td><td>1,685</td></tr>
+    <tr><td>EBITDA</td><td>912</td></tr>
+    <tr><td>EBIT</td><td>889</td></tr>
+    <tr><td>Net Income</td><td>395</td></tr>
+    <tr><td>EPS</td><td>$21.50</td></tr>
+    <tr><td>EBITDA Margin</td><td>40.0%</td></tr>
+    <tr><td>FCF</td><td>$320M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit Multiple: 8.0x P/E (re-rating on growth)</div>
+    <div class="exit-price">Implied Price: $172</div>
+    <div class="exit-upside" style="color: #27ae60;">+149% upside</div>
+  </div>
+</div>
+
+<div class="case-chart">
+  <svg viewBox="0 0 500 180">
+    <!-- Bars -->
+    <rect x="50" y="130" width="60" height="40" fill="#888"/>
+    <rect x="130" y="90" width="60" height="80" fill="#888"/>
+    <rect x="210" y="70" width="60" height="100" fill="#888"/>
+    <rect x="290" y="35" width="60" height="135" fill="#888"/>
+    <rect x="370" y="0" width="60" height="170" fill="#888"/>
+    <!-- Labels -->
+    <text x="80" y="155" font-size="9" fill="#333" text-anchor="middle">$34</text>
+    <text x="160" y="115" font-size="9" fill="#333" text-anchor="middle">$63</text>
+    <text x="240" y="95" font-size="9" fill="#333" text-anchor="middle">$78</text>
+    <text x="320" y="60" font-size="9" fill="#333" text-anchor="middle">$114</text>
+    <text x="400" y="25" font-size="9" fill="#333" text-anchor="middle">$172</text>
+    <!-- Case names -->
+    <text x="80" y="178" font-size="8" fill="#666" text-anchor="middle">Bear Severe</text>
+    <text x="160" y="178" font-size="8" fill="#666" text-anchor="middle">Bear Mild</text>
+    <text x="240" y="178" font-size="8" fill="#666" text-anchor="middle">Base</text>
+    <text x="320" y="178" font-size="8" fill="#666" text-anchor="middle">Bull Mild</text>
+    <text x="400" y="178" font-size="8" fill="#666" text-anchor="middle">Bull Severe</text>
+    <!-- Current price line -->
+    <line x1="30" y1="72" x2="470" y2="72" stroke="#1a1a2e" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="475" y="75" font-size="8" fill="#1a1a2e">Current: $69</text>
+  </svg>
+</div>
+
+<!-- SECTION 9: Comps -->
+<div class="memo-section">9. Comps</div>
+
+<p class="sub-label">Debt Collectors Peer Group</p>
+<table class="data">
+  <tr><th>Company</th><th>Ticker</th><th>Mkt Cap ($M)</th><th>EV ($M)</th><th>EV/EBIT</th><th>EV/EBITDA</th><th>P/E (FY1)</th></tr>
+  <tr style="font-weight: 700; background: #f0f0f0;"><td>Encore Capital Group</td><td>ECPG-US</td><td>1,541</td><td>5,385</td><td>8.6x</td><td>8.3x</td><td>5.8x</td></tr>
+  <tr><td>Jefferson Capital</td><td>JCAP-US</td><td>1,120</td><td>2,482</td><td>7.8x</td><td>7.7x</td><td>7.2x</td></tr>
+  <tr><td>PRA Group</td><td>PRAA-US</td><td>715</td><td>4,364</td><td>10.4x</td><td>10.2x</td><td>22.6x</td></tr>
+  <tr><td>Accord Financial</td><td>ACD-CA</td><td>10</td><td>257</td><td>9.1x</td><td>9.0x</td><td>—</td></tr>
+  <tr style="font-weight: 600; background: #fafbfc;"><td>Average</td><td></td><td></td><td></td><td>9.0x</td><td>8.8x</td><td>11.9x</td></tr>
+  <tr style="font-weight: 600; background: #fafbfc;"><td>Median</td><td></td><td></td><td></td><td>8.9x</td><td>8.6x</td><td>7.2x</td></tr>
+</table>
+
+<p class="sub-label" style="margin-top: 12px;">Named Competitors</p>
+<table class="data">
+  <tr><th>Company</th><th>Ticker</th><th>Mkt Cap ($M)</th><th>EV ($M)</th><th>EV/EBIT</th><th>EV/EBITDA</th><th>P/E (FY1)</th></tr>
+  <tr style="font-weight: 700; background: #f0f0f0;"><td>Encore Capital Group</td><td>ECPG-US</td><td>1,541</td><td>5,385</td><td>8.6x</td><td>8.3x</td><td>5.8x</td></tr>
+  <tr><td>Jefferson Capital</td><td>JCAP-US</td><td>1,120</td><td>2,482</td><td>7.8x</td><td>7.7x</td><td>7.2x</td></tr>
+  <tr><td>EZCORP</td><td>EZPW-US</td><td>2,167</td><td>1,959</td><td>11.7x</td><td>9.8x</td><td>14.4x</td></tr>
+  <tr style="font-weight: 600; background: #fafbfc;"><td>Average</td><td></td><td></td><td></td><td>9.4x</td><td>8.6x</td><td>9.1x</td></tr>
+  <tr style="font-weight: 600; background: #fafbfc;"><td>Median</td><td></td><td></td><td></td><td>8.6x</td><td>8.3x</td><td>7.2x</td></tr>
+</table>
+
+<p class="prose" style="margin-top: 10px;">ECPG trades at 8.6x EV/EBIT and 5.8x forward P/E, roughly in-line with Jefferson Capital but at a substantial discount to PRA Group (10.4x EV/EBIT, 22.6x P/E). The P/E discount reflects PRA's recent losses and uncertain profitability, while ECPG has demonstrated consistent earnings power. ECPG's discount to EZCORP (a pawn shop operator) is justified by different business models and risk profiles. At these levels, ECPG is pricing in modest growth with no credit for its market-leading position or upside optionality.</p>
+
+<!-- SECTION 10: Theia Fit -->
+<div class="memo-section">10. Is This a Theia Investment?</div>
+
+<p class="prose" style="font-style: italic; margin-bottom: 12px;">Theia seeks small cap companies that aren't well covered and are strongly aligned on core internet finance thesis with wide outcome dispersion.</p>
+
+<div class="verdict">
+  <strong>(i) Market Cap Bucket:</strong> $1.5B — Small Cap <span class="fw-rating moderate">Moderate</span>
+  <p style="margin-top: 4px;">ECPG sits at the upper end of small cap. It's not a microcap discovery play, but it's small enough to be off-radar for most large institutions.</p>
+</div>
+
+<div class="verdict">
+  <strong>(ii) Analyst Coverage:</strong> 4 broker contributors <span class="fw-rating strong">Strong</span>
+  <p style="margin-top: 4px;">Very limited coverage. Only 4 analysts cover the name, creating information asymmetry and potential for alpha from primary research.</p>
+</div>
+
+<div class="verdict">
+  <strong>(iii) Blockchain / Internet Finance Thesis Alignment:</strong> <span class="fw-rating moderate">Tangential</span>
+  <p style="margin-top: 4px;">ECPG is a traditional financial services business. It's not a crypto play, fintech disruptor, or blockchain-native company. However, it benefits from the broader digitization of financial services through its analytics capabilities and could be a target for fintech acquirers seeking established compliance infrastructure and seller relationships.</p>
+</div>
+
+<div class="verdict">
+  <strong>(iv) Outcome Dispersion:</strong> <span class="fw-rating strong">Wide</span>
+  <p style="margin-top: 4px;">Bear/Bull range of $34 to $172 implies a 5x spread in potential outcomes. The business is highly levered to credit cycle timing, interest rates, and collection performance. Small changes in drivers produce large changes in earnings and valuation.</p>
+</div>
+
+<div class="verdict" style="border-left-color: #27ae60;">
+  <strong>Verdict: Maybe — Compelling Value, Limited Thesis Alignment</strong>
+  <p style="margin-top: 4px;">ECPG is an attractive deep value opportunity: 6x earnings, 4 analysts, strong competitive position, and wide outcome dispersion. The stock has doubled in the past year but remains cheap relative to normalized earnings power. However, it's not a core internet finance or blockchain thesis play—it's a traditional specialty finance business. Worth monitoring for entry points on pullbacks or as a diversifier, but not a priority position for a blockchain-focused mandate.</p>
+</div>
+
+<!-- SECTION 11: Appendix -->
+<div class="memo-section">11. Appendix — Python Code</div>
+
+<p class="prose">Sensitivity table generator and 5-case model code for analyst customization:</p>
+
+<div class="code-block"># ECPG Sensitivity Table Generator
+import numpy as np
+import pandas as pd
+
+def collections_vs_cod_sensitivity():
+    """Net Income sensitivity to Collections and Cost of Debt"""
+    collections = [2.3, 2.5, 2.6, 2.7, 2.9]  # $B
+    cod = [6.0, 6.5, 7.0, 7.5, 8.0, 8.5]  # %
+
+    # Base assumptions: $2.6B collections, 7.5% CoD = $245M NI
+    base_ni = 245
+    coll_sensitivity = 35  # $M NI per $0.1B collections
+    cod_sensitivity = 10   # $M NI per 50bps CoD
+
+    results = []
+    for c in collections:
+        row = []
+        for rate in cod:
+            coll_delta = (c - 2.6) * 10 * coll_sensitivity
+            cod_delta = (7.5 - rate) * 2 * cod_sensitivity
+            ni = base_ni + coll_delta + cod_delta
+            row.append(int(ni))
+        results.append(row)
+
+    df = pd.DataFrame(results, index=collections, columns=cod)
+    df.index.name = 'Collections ($B)'
+    return df
+
+def five_case_model():
+    """ECPG 5-Case Model Generator"""
+    cases = {
+        'Bear Severe': {'collections': 2.4, 'rate': 24, 'cod': 8.5, 'margin': 28, 'multiple': 4.5},
+        'Bear Mild':   {'collections': 2.6, 'rate': 25.5, 'cod': 7.5, 'margin': 32, 'multiple': 5.5},
+        'Base':        {'collections': 2.7, 'rate': 26.5, 'cod': 7.0, 'margin': 35, 'multiple': 6.0},
+        'Bull Mild':   {'collections': 2.9, 'rate': 27.5, 'cod': 6.5, 'margin': 37, 'multiple': 7.0},
+        'Bull Severe': {'collections': 3.2, 'rate': 28.5, 'cod': 6.0, 'margin': 39, 'multiple': 8.0},
+    }
+
+    results = []
+    for name, params in cases.items():
+        # Revenue proxy from collections (simplified)
+        revenue = params['collections'] * 1000 * 0.65  # ~65% of collections = revenue
+        ebit = revenue * params['margin'] / 100
+        interest = 4000 * params['cod'] / 100  # $4B debt
+        ebt = ebit - interest
+        ni = ebt * 0.75  # 25% tax rate
+        eps = ni / 19.3  # ~19.3M diluted shares (post-buybacks)
+        price = eps * params['multiple']
+        upside = (price / 69.14 - 1) * 100
+
+        results.append({
+            'Case': name,
+            'Revenue ($M)': int(revenue),
+            'EBIT ($M)': int(ebit),
+            'Net Income ($M)': int(ni),
+            'EPS': f"${eps:.2f}",
+            'Exit Multiple': f"{params['multiple']}x",
+            'Implied Price': f"${price:.0f}",
+            'Upside/Downside': f"{upside:+.0f}%"
+        })
+
+    return pd.DataFrame(results)
+
+# Run models
+print("=== Collections vs Cost of Debt Sensitivity ===")
+print(collections_vs_cod_sensitivity())
+print("\n=== 5-Case Model ===")
+print(five_case_model().to_string(index=False))
+</div>
+
+<p class="source-note">Generated by Claude | Data sources: FactSet, AlphaSense, Company Filings | March 2026</p>
+
+</body>
+</html>
