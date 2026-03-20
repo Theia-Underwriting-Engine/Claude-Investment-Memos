@@ -1,117 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>CTOS Digital Bhd | Preliminary Memo for Theia</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Inter', Arial, sans-serif;
-      background: #fff;
-      color: #1a1a2e;
-      width: 816px;
-      margin: 0 auto;
-      padding: 32px 40px;
-      font-size: 11px;
-      line-height: 1.45;
-    }
-    .title-bar {
-      font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
-      color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
-      padding-bottom: 10px; margin-bottom: 20px; text-align: center;
-    }
-    .header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
-    .header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
-    .header .ticker { font-size: 13px; font-weight: 600; color: #555; }
-    .header .date { font-size: 10px; color: #888; }
-    .price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
-    .price-bar .price { font-size: 20px; font-weight: 700; }
-    .price-bar .chg { color: #c0392b; font-weight: 600; }
-    .price-bar .chg.pos { color: #27ae60; }
-    .price-bar .label { color: #888; font-weight: 500; }
-    .section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
-    .memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
-    table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
-    table.kv td { padding: 2px 0; }
-    table.kv td:first-child { color: #555; width: 45%; }
-    table.kv td:last-child { text-align: right; font-weight: 600; }
-    table.data { font-size: 10px; }
-    table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
-    table.data th:first-child { text-align: left; }
-    table.data td { text-align: right; padding: 2px 6px; }
-    table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
-    table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
-    table.data tr:nth-child(even) { background: #fafbfc; }
-    table.data tr.section-row { background: transparent !important; }
-    .est { color: #2563eb; }
-    .two-col { display: flex; gap: 24px; }
-    .two-col > div { flex: 1; }
-    table.ev td { padding: 1.5px 0; }
-    table.ev td:first-child { color: #555; }
-    table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
-    table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
-    table.rev { font-size: 10px; }
-    table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
-    table.rev th:first-child { text-align: left; }
-    table.rev td { text-align: right; padding: 2px 4px; }
-    table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
-    .val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; background: #f4f6f9; border-radius: 4px; }
-    .val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #ddd; }
-    .val-grid .val-cell:last-child { border-right: none; }
-    .val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
-    .val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
-    .val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
-    .source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
-    .sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
-    .prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
-    .fw-item { margin-bottom: 6px; }
-    .fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
-    .fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
-    .fw-rating.strong { background: #d4edda; color: #155724; }
-    .fw-rating.moderate { background: #fff3cd; color: #856404; }
-    .fw-rating.weak { background: #f8d7da; color: #721c24; }
-    .fw-rating.high { background: #f8d7da; color: #721c24; }
-    .fw-rating.low { background: #d4edda; color: #155724; }
-    table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
-    table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
-    table.sensitivity td { text-align: center; padding: 3px 6px; }
-    table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
-    .case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
-    .case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
-    .case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
-    .case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
-    .case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; }
-    .case-block .driver-row span:first-child { display: inline-block; width: 60%; font-weight: 500; color: #333; }
-    .case-block .driver-row span:last-child { text-align: right; font-weight: 600; color: #1a1a2e; }
-    .case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
-    .case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
-    .case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
-    .case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
-    .case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
-    .case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
-    .case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
-    .case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
-    .case-chart svg { width: 100%; height: auto; }
-    .verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
-    .appendix { margin-top: 24px; }
-    .code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
-    .bull-bear { display: flex; gap: 16px; }
-    .bull-bear > div { flex: 1; }
-    .bull-bear h4 { font-size: 11px; font-weight: 700; margin-bottom: 6px; }
-    .bull-bear ul { padding-left: 16px; font-size: 10px; }
-    .bull-bear li { margin-bottom: 4px; }
-    .summary-box { background: #f4f6f9; border-radius: 4px; padding: 10px; margin-top: 8px; font-size: 10px; }
-    .risk-table { width: 100%; font-size: 10px; }
-    .risk-table th { background: #f4f6f9; padding: 4px 6px; text-align: left; font-weight: 600; }
-    .risk-table td { padding: 4px 6px; border-bottom: 1px solid #eee; }
-    .severity-high { background: #f8d7da; color: #721c24; padding: 1px 6px; border-radius: 3px; font-size: 9px; font-weight: 600; }
-    .severity-moderate { background: #fff3cd; color: #856404; padding: 1px 6px; border-radius: 3px; font-size: 9px; font-weight: 600; }
-    .severity-low { background: #d4edda; color: #155724; padding: 1px 6px; border-radius: 3px; font-size: 9px; font-weight: 600; }
-    .driver-table { width: 100%; font-size: 10px; margin: 8px 0; }
-    .driver-table th { background: #f4f6f9; padding: 4px 6px; text-align: left; font-weight: 600; border-bottom: 1px solid #ddd; }
-    .driver-table td { padding: 4px 6px; border-bottom: 1px solid #eee; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=816px">
+<title>CTOS Digital Bhd | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 28px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+table.ev tr.indent td:first-child { padding-left: 12px; font-size: 9.5px; color: #777; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; border: 1px solid #eee; border-radius: 3px; }
+.val-grid .val-cell { padding: 5px 6px; border-right: 1px solid #eee; border-bottom: 1px solid #eee; }
+.val-grid .val-cell:nth-child(6), .val-grid .val-cell:nth-child(12) { border-right: none; }
+.val-grid .val-cell:nth-child(7), .val-grid .val-cell:nth-child(8), .val-grid .val-cell:nth-child(9), .val-grid .val-cell:nth-child(10), .val-grid .val-cell:nth-child(11), .val-grid .val-cell:nth-child(12) { border-bottom: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.65; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 10px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+.fw-rating.na { background: #e9ecef; color: #6c757d; }
+.fw-summary { margin-top: 10px; padding: 8px 12px; background: #f4f6f9; border-left: 3px solid #1a1a2e; font-size: 10.5px; font-style: italic; color: #444; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; border: 1px solid #e0e0e0; }
+table.sensitivity th:first-child { text-align: left; }
+table.sensitivity td { text-align: center; padding: 3px 6px; border: 1px solid #f0f0f0; }
+table.sensitivity td:first-child { text-align: left; font-weight: 600; background: #f4f6f9; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; color: #1a1a2e; }
+.sens-title { font-size: 10px; font-weight: 700; margin: 14px 0 2px 0; color: #1a1a2e; }
+.sens-current { font-size: 9px; color: #888; margin-bottom: 4px; font-style: italic; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 14px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 6px; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 10px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 8px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 700; color: #1a1a2e; }
+.fermi-narrative { background: #f0f4f8; border-radius: 3px; padding: 8px 10px; margin-bottom: 10px; font-size: 9.5px; line-height: 1.55; border-left: 3px solid #93c5fd; }
+.fermi-narrative .scenario-text { font-style: italic; color: #444; margin-bottom: 5px; font-size: 10px; font-weight: 500; }
+.fermi-narrative ul { margin: 0; padding-left: 16px; color: #333; }
+.fermi-narrative li { margin-bottom: 2px; }
+.fermi-narrative .reconcile { margin-top: 6px; font-weight: 600; color: #1a1a2e; border-top: 1px solid #c7d9ec; padding-top: 4px; font-size: 9.5px; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 10px 0 4px 0; }
+.case-block table.scenario-mini th { text-align: right; font-weight: 600; color: #888; padding: 2px 5px; border-bottom: 1px solid #ddd; font-size: 8.5px; }
+.case-block table.scenario-mini th:first-child { text-align: left; }
+.case-block table.scenario-mini td { padding: 2.5px 5px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even):not(.margin-row) { background: #f5f5f5; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 8px; margin-top: 8px; }
+.case-block .exit-line1 { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-bottom: 6px; }
+.case-block .exit-price { font-size: 15px; font-weight: 700; color: #1a1a2e; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; color: #555; }
+.case-block .exit-line2 { display: flex; gap: 24px; font-size: 9.5px; color: #555; border-top: 1px solid #eee; padding-top: 5px; flex-wrap: wrap; }
+
+.case-chart { margin-top: 16px; padding: 12px 12px 8px 12px; background: #f9f9f9; border-radius: 4px; border: 1px solid #eee; }
+.case-chart svg { width: 100%; height: auto; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.6; }
+.screen-item { margin-bottom: 10px; }
+.screen-item .screen-label { font-weight: 700; }
+.screen-item .screen-detail { color: #444; margin-top: 2px; font-size: 10.5px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 8.5px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.num-list { padding-left: 0; list-style: none; }
+.num-list li { margin-bottom: 8px; padding-left: 0; }
+.num-list li strong { color: #1a1a2e; }
+
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1.5px solid #ddd; white-space: nowrap; }
+table.comps th:first-child { text-align: left; min-width: 110px; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child { text-align: left; font-weight: 400; color: #333; white-space: nowrap; font-size: 8px; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-weight: 600; background: #fafbfc; border-top: 1px solid #eee; font-style: italic; }
+
+table.risk-table { font-size: 10px; width: 100%; margin: 8px 0; }
+table.risk-table th { text-align: left; font-weight: 600; padding: 4px 6px; background: #f4f6f9; border-bottom: 1px solid #ddd; }
+table.risk-table td { padding: 4px 6px; border-bottom: 1px solid #eee; vertical-align: top; }
+table.risk-table td:first-child { font-weight: 600; width: 25%; }
+
+.alphasense-box { background: #e8f4fd; border-left: 4px solid #2563eb; padding: 10px 14px; margin: 10px 0; font-size: 10px; line-height: 1.5; }
+.alphasense-box strong { color: #1a1a2e; }
+.as-section { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: #1a1a2e; border-bottom: 1px solid #ddd; padding-bottom: 3px; margin: 16px 0 8px 0; }
+
+.bull-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #155724; border-bottom: 1.5px solid #c3e6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #721c24; border-bottom: 1.5px solid #f5c6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bull-item, .bear-item { margin-bottom: 8px; }
+</style>
 </head>
 <body>
 
@@ -119,167 +169,222 @@
 
 <!-- SECTION 1: BUSINESS OVERVIEW -->
 <div class="memo-section">1. Business Overview</div>
-<p class="prose">
-<strong>CTOS Digital Berhad</strong> (KLSE: 5301) is Malaysia's dominant credit reporting agency (CRA) and a leading provider of digital credit management solutions across ASEAN. Founded in 1990, the company has evolved from a traditional credit bureau into a comprehensive data analytics and insights platform serving the financial ecosystem. Headquartered in Petaling Jaya, Malaysia, CTOS employs approximately 570 people and is led by Interim Group CEO Loh Kok Leong (effective May 2025) and CFO Tan Ming Yew.
-</p>
-<p class="prose">
-The company operates a highly scalable "build once, sell many times" business model, aggregating vast amounts of traditional and alternative data—including court records, legal actions, newspaper clippings, and telco data—into a single big-data platform. This proprietary database, accumulated over three decades, provides deep financial and trade credit histories that are highly predictive of creditworthiness and cannot be replicated by competitors or central banks.
-</p>
-<p class="prose">
-CTOS serves four primary segments: (1) <strong>Key Accounts</strong> serving ~500 major financial institutions with digital reports, portfolio analytics, eKYC, and fraud solutions; (2) <strong>Commercial</strong> supporting 22,000+ SMEs with credit management tools; (3) <strong>Direct-to-Consumer (D2C)</strong> with 5+ million registered users accessing credit scores and monitoring; and (4) <strong>International</strong> operations in Indonesia and the Philippines focused on alternative data scoring for fintechs and digital lenders. The company commands an estimated 71% market share among private credit reporting agencies in Malaysia.
-</p>
-<p class="prose">
-<strong>One-line thesis:</strong> CTOS is the mission-critical infrastructure layer for credit decisioning in Malaysia's rapidly digitizing financial system, with embedded competitive moats from proprietary data assets and expanding regional optionality through alternative data scoring in underbanked ASEAN markets.
-</p>
+
+<div class="prose">
+CTOS Digital Berhad (KLSE: 5301) is Malaysia's dominant credit reporting agency (CRA) and the leading provider of digital credit risk management solutions across ASEAN. Founded in 1990 and headquartered in Petaling Jaya, Malaysia, the company has evolved from a traditional credit bureau into a comprehensive data analytics and insights platform serving the entire financial ecosystem. With approximately 570 employees and three decades of proprietary data aggregation, CTOS operates the most extensive credit information database in Malaysia—covering consumer credit histories, business trade references, court records, legal actions, and alternative data sources that cannot be replicated by competitors or central banks.
+</div>
+
+<div class="prose">
+The company operates a highly scalable "build once, sell many times" business model. CTOS aggregates vast amounts of traditional and alternative data—including court records, legal actions, newspaper clippings, bankruptcy filings, and telco payment patterns—into a single big-data platform. This proprietary database, accumulated over three decades, provides deep financial and trade credit histories that are highly predictive of creditworthiness. The marginal cost of serving an additional credit report is near zero once the infrastructure is built, creating substantial operating leverage as volume grows. This explains why CTOS commands an estimated 71% market share among private credit reporting agencies in Malaysia—scale begets more scale in this business.
+</div>
+
+<div class="prose">
+CTOS serves four primary customer segments through distinct go-to-market motions: (1) <strong>Key Accounts</strong> serving approximately 500 major financial institutions including all commercial banks, digital banks, and large insurers with digital reports, portfolio analytics, eKYC verification, and fraud detection solutions—this segment generates 88% recurring revenue with multi-year contracts; (2) <strong>Commercial</strong> supporting over 22,000 SMEs with credit management tools, trade reference data, and business verification services; (3) <strong>Direct-to-Consumer (D2C)</strong> with 5+ million registered users accessing personal credit scores, monitoring services, and identity protection through the MyCTOS platform; and (4) <strong>International</strong> operations in Indonesia and the Philippines focused on alternative data scoring for fintechs, digital lenders, and underbanked populations using telco and behavioral data rather than traditional credit bureau records.
+</div>
+
+<div class="prose">
+The company is led by Interim Group CEO Loh Kok Leong, who assumed the role in May 2025 following the departure of CEO Erick Hamburger. CFO Tan Ming Yew continues to oversee financial operations. Under prior management, CTOS completed its IPO in July 2021 at MYR 1.10 per share, raising approximately MYR 1.2 billion in Malaysia's largest IPO that year. The stock has since declined significantly from its post-IPO highs, trading at MYR 0.69 as of March 2026—down 37% over the past year—creating a potential entry point if the digital bank catalyst materializes as expected.
+</div>
+
+<div class="prose">
+<strong>One-line thesis:</strong> CTOS is the mission-critical infrastructure layer for credit decisioning in Malaysia's rapidly digitizing financial system, with embedded competitive moats from proprietary data assets, strong switching costs from deep workflow integration, and expanding regional optionality through alternative data scoring in underbanked ASEAN markets—but near-term margin compression and leadership transition create uncertainty that the market may be over-discounting.
+</div>
+
+<div class="prose">
+<strong>Headquarters:</strong> Petaling Jaya, Malaysia &nbsp;|&nbsp; <strong>CEO:</strong> Loh Kok Leong (Interim) &nbsp;|&nbsp; <strong>CFO:</strong> Tan Ming Yew &nbsp;|&nbsp; <strong>Employees:</strong> ~570 &nbsp;|&nbsp; <strong>Founded:</strong> 1990 &nbsp;|&nbsp; <strong>IPO:</strong> July 2021 &nbsp;|&nbsp; <strong>Ticker:</strong> KLSE: 5301-MY
+</div>
 
 <!-- SECTION 2: FINANCIAL SUMMARY -->
-<div class="memo-section">2. Financial Summary</div>
+<div class="memo-section">2. Financial Summary (Theia FactSet Summary)</div>
 
 <div class="header">
   <div>
-    <h1>CTOS Digital Bhd</h1>
-    <span class="ticker">KLSE: 5301-MY | ISIN: MYL5301OO006</span>
+    <h1>CTOS Digital Berhad</h1>
+    <span class="ticker">5301-MY | Bursa Malaysia | ISIN: MYL5301OO006</span>
   </div>
-  <span class="date">As of Mar 19, 2026</span>
+  <span class="date">March 19, 2026 | Source: FactSet</span>
 </div>
 
 <div class="price-bar">
   <span class="price">MYR 0.69</span>
-  <span><span class="label">1M</span> <span class="chg">-17.9%</span></span>
-  <span><span class="label">3M</span> <span class="chg">-11.0%</span></span>
-  <span><span class="label">6M</span> <span class="chg">-23.3%</span></span>
-  <span><span class="label">YTD</span> <span class="chg">-14.3%</span></span>
-  <span><span class="label">1Y</span> <span class="chg">-36.7%</span></span>
-  <span><span class="label">52W Range</span> MYR 0.69 – 1.19</span>
+  <span><span class="label">1M:</span> <span class="chg">-17.9%</span></span>
+  <span><span class="label">3M:</span> <span class="chg">-11.0%</span></span>
+  <span><span class="label">6M:</span> <span class="chg">-23.3%</span></span>
+  <span><span class="label">YTD:</span> <span class="chg">-14.3%</span></span>
+  <span><span class="label">1Y:</span> <span class="chg">-36.7%</span></span>
+  <span><span class="label">52W:</span> MYR 0.69 – 1.19</span>
 </div>
 
+<div class="section-title">Key Stats — Trading</div>
 <div class="two-col">
-  <div>
-    <div class="section-title">Key Stats — Trading</div>
-    <table class="kv">
-      <tr><td>Primary Ticker</td><td>5301-MY</td></tr>
-      <tr><td>Price</td><td>MYR 0.69</td></tr>
-      <tr><td>Volume (Last)</td><td>10,748,300</td></tr>
-      <tr><td>30D Avg Daily Vol</td><td>4,918,813</td></tr>
-      <tr><td>Float (%)</td><td>49.85%</td></tr>
-      <tr><td>Short Interest</td><td>—</td></tr>
-    </table>
-  </div>
-  <div>
-    <div class="section-title">Enterprise Value Bridge</div>
-    <table class="ev">
-      <tr><td>Price (Mar 19 '26)</td><td>MYR 0.69</td></tr>
-      <tr><td>Basic Shares (M)</td><td>2,290.53</td></tr>
-      <tr><td>Market Cap</td><td>1,580.47</td></tr>
-      <tr><td>+ Consolidated Debt</td><td>104.05</td></tr>
-      <tr><td>- Cash & Equivalents</td><td>(60.26)</td></tr>
-      <tr><td>- Inv in Unconsolidated Subs</td><td>(497.69)</td></tr>
-      <tr><td>+ Non-Controlling Interest</td><td>(0.88)</td></tr>
-      <tr><td>+ Pension Liabilities</td><td>0.14</td></tr>
-      <tr class="total"><td>Enterprise Value</td><td>MYR 1,125.83</td></tr>
-    </table>
-  </div>
+  <table class="kv">
+    <tr><td>Primary Ticker</td><td>5301-MY</td></tr>
+    <tr><td>Price</td><td>MYR 0.69</td></tr>
+    <tr><td>Volume (Last)</td><td>10,748,300</td></tr>
+  </table>
+  <table class="kv">
+    <tr><td>30D Avg Daily Vol</td><td>4,918,813</td></tr>
+    <tr><td>Float %</td><td>49.85%</td></tr>
+    <tr><td>Short Interest</td><td>—</td></tr>
+  </table>
 </div>
+
+<div class="section-title">Enterprise Value Bridge</div>
+<table class="ev">
+  <tr><td>Market Capitalization</td><td>MYR 1,580M</td></tr>
+  <tr class="indent"><td>Basic Shares Outstanding</td><td>2,290.53M</td></tr>
+  <tr><td>(+) Consolidated Debt</td><td>MYR 104M</td></tr>
+  <tr><td>(-) Cash & Equivalents</td><td>(MYR 60M)</td></tr>
+  <tr><td>(-) Investment in Unconsolidated Subs</td><td>(MYR 498M)</td></tr>
+  <tr><td>(+/-) Non-Controlling Interest</td><td>(MYR 1M)</td></tr>
+  <tr><td>(+) Pension Liabilities</td><td>MYR 0.1M</td></tr>
+  <tr class="total"><td>Enterprise Value</td><td>MYR 1,126M</td></tr>
+</table>
 
 <div class="section-title">Current Valuation</div>
 <div class="val-grid">
   <div class="val-cell"><div class="val-label">Market Cap</div><div class="val-num">MYR 1,580M</div></div>
-  <div class="val-cell"><div class="val-label">EV</div><div class="val-num">MYR 1,126M</div></div>
+  <div class="val-cell"><div class="val-label">Enterprise Value</div><div class="val-num">MYR 1,126M</div></div>
   <div class="val-cell"><div class="val-label">P/E (LTM)</div><div class="val-num">15.1x</div></div>
+  <div class="val-cell"><div class="val-label">P/E (FY1)</div><div class="val-num">15.5x</div></div>
   <div class="val-cell"><div class="val-label">EV/EBITDA</div><div class="val-num">13.3x</div></div>
+  <div class="val-cell"><div class="val-label">P/BV</div><div class="val-num">2.4x</div></div>
   <div class="val-cell"><div class="val-label">EV/Sales</div><div class="val-num">3.5x</div></div>
-  <div class="val-cell"><div class="val-label">P/S</div><div class="val-num">4.8x</div></div>
-</div>
-<div class="val-grid">
-  <div class="val-cell"><div class="val-label">Fully Dil Mkt Cap</div><div class="val-num">MYR 1,580M</div></div>
-  <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">6.70%</div></div>
+  <div class="val-cell"><div class="val-label">P/Sales</div><div class="val-num">4.8x</div></div>
   <div class="val-cell"><div class="val-label">Beta (3Y Adj)</div><div class="val-num">0.54</div></div>
+  <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">6.70%</div></div>
   <div class="val-cell"><div class="val-label">Avg Rating</div><div class="val-num">OW (1.71)</div></div>
-  <div class="val-cell"><div class="val-label">Target Price</div><div class="val-num">MYR 0.95</div></div>
-  <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">Apr 22, 2026</div></div>
+  <div class="val-cell"><div class="val-label">Target Price</div><div class="val-num">MYR 0.95</div><div class="val-sub">+38% upside</div></div>
 </div>
 
-<div class="section-title">Valuation Multiples</div>
-<table class="data">
-  <tr><th></th><th>5Yr Avg</th><th>Dec '23</th><th>Dec '24</th><th>Dec '25</th><th class="est">Dec '26E</th><th class="est">Dec '27E</th><th class="est">Dec '28E</th></tr>
-  <tr><td>P/E</td><td>41.8x</td><td>27.6x</td><td>26.1x</td><td>17.7x</td><td class="est">15.5x</td><td class="est">15.1x</td><td class="est">13.9x</td></tr>
-  <tr><td>P/Sales</td><td>14.0x</td><td>12.5x</td><td>9.1x</td><td>5.7x</td><td class="est">4.5x</td><td class="est">4.1x</td><td class="est">3.9x</td></tr>
-  <tr><td>P/BV</td><td>6.5x</td><td>5.5x</td><td>4.6x</td><td>3.0x</td><td class="est">2.4x</td><td class="est">2.3x</td><td class="est">2.3x</td></tr>
-  <tr><td>EV/Sales</td><td>3.7x</td><td>10.8x</td><td>7.6x</td><td>—</td><td class="est">3.2x</td><td class="est">2.9x</td><td class="est">2.7x</td></tr>
-  <tr><td>EV/EBITDA</td><td>10.0x</td><td>28.4x</td><td>21.7x</td><td>—</td><td class="est">11.7x</td><td class="est">10.3x</td><td class="est">9.4x</td></tr>
-  <tr><td>EV/EBIT</td><td>11.5x</td><td>31.8x</td><td>25.7x</td><td>—</td><td class="est">13.3x</td><td class="est">11.5x</td><td class="est">10.4x</td></tr>
-</table>
-
+<div class="section-title">Credit & Leverage Ratios</div>
 <div class="two-col">
   <div>
-    <div class="section-title">Revenue by Business Unit</div>
-    <table class="rev">
-      <tr><th>Segment</th><th>Revenue (M)</th><th>% of Rev</th><th>YoY</th></tr>
-      <tr><td>Digital Reports</td><td>159.3</td><td>52.3%</td><td>+38.2%</td></tr>
-      <tr><td>Subscriptions & Monitoring</td><td>93.8</td><td>30.8%</td><td>+0.1%</td></tr>
-      <tr><td>Portfolio Analytics</td><td>30.9</td><td>10.1%</td><td>+11.4%</td></tr>
-      <tr><td>Digital Solutions</td><td>20.9</td><td>6.8%</td><td>-15.6%</td></tr>
+    <div class="sub-label">Leverage</div>
+    <table class="kv">
+      <tr><td>Gross Gearing</td><td>0.17x</td></tr>
+      <tr><td>Total Debt</td><td>MYR 104M</td></tr>
+      <tr><td>Net Debt</td><td>MYR 44M</td></tr>
     </table>
   </div>
   <div>
-    <div class="section-title">Revenue by Geography</div>
-    <table class="rev">
-      <tr><th>Region</th><th>Revenue (M)</th><th>% of Rev</th><th>YoY</th></tr>
-      <tr><td>Malaysia</td><td>265.6</td><td>87.1%</td><td>+4.0%</td></tr>
-      <tr><td>International</td><td>39.2</td><td>12.9%</td><td>+558%</td></tr>
+    <div class="sub-label">Coverage & Returns</div>
+    <table class="kv">
+      <tr><td>Interest Coverage</td><td>7.4x</td></tr>
+      <tr><td>ROE (FY25)</td><td>13.6%</td></tr>
+      <tr><td>Debt/Equity</td><td>20.4%</td></tr>
     </table>
   </div>
 </div>
 
-<div class="section-title">Financials</div>
+<div class="section-title">Income Statement (Financials)</div>
 <table class="data">
-  <tr><th></th><th>5Yr CAGR</th><th>Dec '23</th><th>Dec '24</th><th>Dec '25</th><th class="est">Dec '26E</th><th class="est">Dec '27E</th><th class="est">Dec '28E</th></tr>
-  <tr class="section-row"><td colspan="8">INCOME STATEMENT (MYR M)</td></tr>
+  <tr>
+    <th></th>
+    <th>5Yr CAGR</th>
+    <th>FY2023</th>
+    <th>FY2024</th>
+    <th>FY2025</th>
+    <th class="est">FY2026E</th>
+    <th class="est">FY2027E</th>
+    <th class="est">FY2028E</th>
+  </tr>
+  <tr class="section-row"><td colspan="8">Revenue &amp; Income (MYR M)</td></tr>
   <tr><td>Revenue</td><td>19.6%</td><td>261</td><td>305</td><td>326</td><td class="est">354</td><td class="est">384</td><td class="est">410</td></tr>
   <tr><td>Gross Income</td><td>13.9%</td><td>201</td><td>221</td><td>222</td><td class="est">249</td><td class="est">261</td><td class="est">282</td></tr>
   <tr><td>EBITDA</td><td>11.6%</td><td>99</td><td>107</td><td>85</td><td class="est">96</td><td class="est">110</td><td class="est">120</td></tr>
   <tr><td>EBIT</td><td>10.9%</td><td>88</td><td>91</td><td>70</td><td class="est">85</td><td class="est">98</td><td class="est">108</td></tr>
   <tr><td>Net Income</td><td>15.3%</td><td>118</td><td>106</td><td>82</td><td class="est">103</td><td class="est">100</td><td class="est">114</td></tr>
   <tr><td>EPS (Diluted)</td><td>20.7%</td><td>0.051</td><td>0.046</td><td>0.046</td><td class="est">0.042</td><td class="est">0.042</td><td class="est">0.046</td></tr>
-  <tr class="section-row"><td colspan="8">MARGINS</td></tr>
-  <tr><td>Gross Margin</td><td></td><td>76.8%</td><td>72.5%</td><td>67.9%</td><td class="est">70.3%</td><td class="est">68.0%</td><td class="est">68.8%</td></tr>
-  <tr><td>EBITDA Margin</td><td></td><td>37.8%</td><td>35.2%</td><td>26.0%</td><td class="est">27.1%</td><td class="est">28.6%</td><td class="est">29.2%</td></tr>
-  <tr><td>Net Margin</td><td></td><td>45.2%</td><td>34.9%</td><td>25.3%</td><td class="est">29.0%</td><td class="est">26.1%</td><td class="est">27.7%</td></tr>
-  <tr><td>FCF Margin</td><td></td><td>40.3%</td><td>30.1%</td><td>67.0%</td><td class="est">17.0%</td><td class="est">21.5%</td><td class="est">22.4%</td></tr>
-  <tr class="section-row"><td colspan="8">CASH FLOW (MYR M)</td></tr>
+  <tr class="section-row"><td colspan="8">Margins</td></tr>
+  <tr><td>Gross Margin</td><td>—</td><td>76.8%</td><td>72.5%</td><td>67.9%</td><td class="est">70.3%</td><td class="est">68.0%</td><td class="est">68.8%</td></tr>
+  <tr><td>EBITDA Margin</td><td>—</td><td>37.8%</td><td>35.2%</td><td>26.0%</td><td class="est">27.1%</td><td class="est">28.6%</td><td class="est">29.2%</td></tr>
+  <tr><td>Net Margin</td><td>—</td><td>45.2%</td><td>34.9%</td><td>25.3%</td><td class="est">29.0%</td><td class="est">26.1%</td><td class="est">27.7%</td></tr>
+  <tr><td>FCF Margin</td><td>—</td><td>40.3%</td><td>30.1%</td><td>67.0%</td><td class="est">17.0%</td><td class="est">21.5%</td><td class="est">22.4%</td></tr>
+  <tr class="section-row"><td colspan="8">Cash Flow (MYR M)</td></tr>
   <tr><td>Operating CF</td><td>36.3%</td><td>106</td><td>96</td><td>221</td><td class="est">96</td><td class="est">101</td><td class="est">112</td></tr>
   <tr><td>CapEx</td><td>18.7%</td><td>20</td><td>34</td><td>16</td><td class="est">27</td><td class="est">26</td><td class="est">27</td></tr>
   <tr><td>Free Cash Flow</td><td>38.9%</td><td>105</td><td>92</td><td>219</td><td class="est">60</td><td class="est">82</td><td class="est">92</td></tr>
-  <tr class="section-row"><td colspan="8">RETURNS & LEVERAGE</td></tr>
-  <tr><td>ROE</td><td></td><td>21.3%</td><td>17.7%</td><td>13.6%</td><td class="est">15.6%</td><td class="est">15.4%</td><td class="est">16.6%</td></tr>
-  <tr><td>Debt/Equity</td><td></td><td>25.4%</td><td>31.0%</td><td>20.4%</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
-  <tr><td>Interest Coverage</td><td></td><td>13.2x</td><td>9.2x</td><td>7.4x</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+  <tr class="section-row"><td colspan="8">Returns & Leverage</td></tr>
+  <tr><td>ROE</td><td>—</td><td>21.3%</td><td>17.7%</td><td>13.6%</td><td class="est">15.6%</td><td class="est">15.4%</td><td class="est">16.6%</td></tr>
+  <tr><td>Debt/Equity</td><td>—</td><td>25.4%</td><td>31.0%</td><td>20.4%</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+  <tr><td>Interest Coverage</td><td>—</td><td>13.2x</td><td>9.2x</td><td>7.4x</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
 </table>
 
-<p class="source-note">Source: FactSet. Estimates follow broker majority. All figures standardized IFRS.</p>
-
-<!-- SECTION 3: BULL & BEAR CASES -->
-<div class="memo-section">3. Bull & Bear Cases</div>
-<div class="bull-bear">
+<div class="section-title">Revenue by Business Unit</div>
+<div class="two-col">
   <div>
-    <h4 style="color: #27ae60;">Bull Cases</h4>
-    <ul>
-      <li><strong>Digital bank catalyst:</strong> Three of five licensed digital banks onboarded; one major client tripled transaction volumes YoY. As digital banks scale lending, CTOS revenue should accelerate materially.</li>
-      <li><strong>International inflection:</strong> Indonesia operations achieved ~40% monthly revenue growth in Q4 2025; Philippines at 100% telco coverage. International segment profit surged 48.1% YoY.</li>
-      <li><strong>AI/fraud products:</strong> MultiFace ID and Digital Footprint increasing fraud detection 20x for some banks, preventing hundreds of millions RM in fraud—commanding premium pricing.</li>
-      <li><strong>Cost optimization realized:</strong> RM10M annual run-rate savings identified; cloud migration and automation driving operating leverage as revenue scales.</li>
-      <li><strong>Valuation reset:</strong> At 11.7x EV/EBITDA '26E vs. 5-year avg 10x, stock trading near historical lows after 37% decline. Target price implies 38% upside.</li>
-    </ul>
+    <div class="sub-label">By Product Segment</div>
+    <table class="rev">
+      <tr><th>Segment</th><th>% Rev</th><th>(MYR M)</th><th>YoY</th></tr>
+      <tr><td>Digital Reports</td><td>52.3%</td><td>159</td><td>+38.2%</td></tr>
+      <tr><td>Subscriptions & Monitoring</td><td>30.8%</td><td>94</td><td>+0.1%</td></tr>
+      <tr><td>Portfolio Analytics</td><td>10.1%</td><td>31</td><td>+11.4%</td></tr>
+      <tr><td>Digital Solutions</td><td>6.8%</td><td>21</td><td>-15.6%</td></tr>
+    </table>
   </div>
   <div>
-    <h4 style="color: #c0392b;">Bear Cases</h4>
-    <ul>
-      <li><strong>Margin compression:</strong> Gross margins declined from 77% to 68%; EBITDA margins from 38% to 26%. Enterprise digital solutions carry lower margins than legacy products.</li>
-      <li><strong>Regulatory risk:</strong> Consumer Credit Act could restrict high-margin lending products; Credit Reporting Agencies Act imposes compliance burdens.</li>
-      <li><strong>D2C growth ceiling:</strong> Consumer awareness low—customers rely on banks for credit checks rather than purchasing reports directly, structurally limiting D2C velocity.</li>
-      <li><strong>Leadership transition:</strong> CEO Erick Hamburger departed May 2025; interim CEO Loh Kok Leong managing transition. Execution risk during leadership change.</li>
-      <li><strong>Cybersecurity exposure:</strong> As central repository of sensitive data, a breach would be catastrophic. "Project Elevate" cybersecurity program still ongoing.</li>
-    </ul>
+    <div class="sub-label">By Geography</div>
+    <table class="rev">
+      <tr><th>Region</th><th>% Rev</th><th>(MYR M)</th><th>YoY</th></tr>
+      <tr><td>Malaysia</td><td>87.1%</td><td>266</td><td>+4.0%</td></tr>
+      <tr><td>International</td><td>12.9%</td><td>39</td><td>+558%</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="source-note">Source: FactSet, Company Filings as of March 19, 2026</div>
+
+<!-- SECTION 3: BULL & BEAR CASES -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Cases</div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Digital Bank Catalyst Accelerates.</span> Three of Malaysia's five licensed digital banks have already onboarded with CTOS, with one major client tripling transaction volumes year-over-year. As digital banks scale their lending operations beyond initial deposit-gathering phases, CTOS transaction volumes should inflect materially. Digital banks represent less than 5% of current revenue but could reach 10-15% by 2027 if lending scales as expected. Each digital bank ramping to full lending capacity represents MYR 5-10M in incremental annual revenue at premium margins.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">International Segment Reaches Profitability Inflection.</span> The Indonesia and Philippines operations delivered 48.1% profit growth year-over-year in FY2025, reaching MYR 6.9M in segment profit. Indonesia achieved approximately 40% monthly revenue growth in Q4 2025, while the Philippines reached 100% telco data coverage. The international segment is now profitable and growing rapidly in markets with 400M+ underbanked consumers who lack traditional credit histories. Alternative data scoring models using telco and behavioral data could become a significant value driver as ASEAN fintechs scale.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">AI/Fraud Products Command Premium Pricing.</span> CTOS's MultiFace ID and Digital Footprint products are delivering measurable ROI for banking clients—some banks report 20x improvement in fraud detection coverage, preventing hundreds of millions of ringgit in fraudulent loan applications. These products command premium pricing (estimated 3-5x typical credit report fees) and create deeper client integration. As fraud sophistication increases and regulatory pressure on KYC/AML intensifies, demand for AI-driven fraud solutions should accelerate across the banking sector.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Cost Optimization Drives Operating Leverage.</span> Management has identified MYR 10M in annual run-rate cost savings through cloud migration, automation initiatives, and organizational efficiency. As revenue scales from digital bank volumes and international expansion while costs remain controlled, EBITDA margins should recover from the current 26% trough toward the historical 35%+ range. The "build once, sell many times" model has inherent operating leverage that should manifest as volumes grow.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Valuation Reset from Historical Lows.</span> At 13.3x EV/EBITDA on FY26 estimates versus a 5-year average of 10x, the stock has compressed significantly. The 37% decline over the past year reflects margin concerns and leadership transition uncertainty that may be overdone. Consensus target price of MYR 0.95 implies 38% upside. If digital bank volumes accelerate and margins stabilize, a re-rating toward MYR 1.00+ is achievable—representing 45%+ upside from current levels.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="bear-header">Bear Cases</div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Margin Compression Continues.</span> Gross margins have declined from 77% in FY2023 to 68% in FY2025; EBITDA margins from 38% to 26%. The shift toward enterprise digital solutions—eKYC, fraud detection, CAD products—carries lower margins than legacy credit report products. If the product mix continues tilting toward lower-margin enterprise solutions without volume leverage kicking in, profitability could remain depressed. Bears argue management is sacrificing margins for growth that may not materialize at scale.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Regulatory Risk from Consumer Credit Act.</span> Malaysia's proposed Consumer Credit Act could impose new standards on lending assessments and credit reporting that increase compliance burdens or restrict certain high-margin products. The Credit Reporting Agencies Act already requires licensing and compliance infrastructure. If regulation becomes more restrictive on data usage or lending practices, CTOS could face both higher costs and reduced addressable market for certain products.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">D2C Growth Ceiling is Structural.</span> Despite 5M+ registered users on MyCTOS, conversion to paid subscriptions remains low. Expert interviews reveal that Malaysian consumer awareness of credit scores is limited—customers rely on banks to check credit during loan applications rather than proactively purchasing their own reports. This structural behavior pattern may cap D2C growth potential regardless of marketing spend. The D2C segment (12% of revenue) may never reach the scale management originally projected.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Leadership Transition Creates Execution Risk.</span> CEO Erick Hamburger departed in May 2025, with Board member Loh Kok Leong stepping in as Interim CEO. While Loh has tenure since IPO and provides continuity, an interim leadership structure creates uncertainty around strategic execution. Expert calls note a disconnect between polished investor roadmaps and actual frontline sales engagement—clients desire more proactive communication on new product rollouts. This execution gap could widen during leadership transition.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Cybersecurity Exposure is Catastrophic Risk.</span> As the central repository of sensitive credit data for millions of Malaysians, a data breach would be catastrophic for CTOS's reputation and operations. "Project Elevate"—the company's 3-year cybersecurity transformation program—is ongoing but not complete. While CTOS has ISO 27001:2022 certification and 24/7 SOC monitoring, the asymmetric risk of a breach (low probability, extremely high impact) remains a tail risk that could destroy significant shareholder value.</p>
+    </div>
   </div>
 </div>
 
@@ -288,41 +393,41 @@ CTOS serves four primary segments: (1) <strong>Key Accounts</strong> serving ~50
 
 <div class="fw-item">
   <span class="fw-name">1. Scale Economies</span><span class="fw-rating strong">Strong</span>
-  <p class="prose" style="margin-top: 4px;">CTOS operates a "build once, sell many times" model with high fixed costs (data aggregation, tech infrastructure) and near-zero marginal cost per credit report. As volume grows, unit costs decline substantially. Challengers would need comparable scale to compete on cost.</p>
+  <div class="prose">CTOS operates a "build once, sell many times" model with high fixed costs (data aggregation infrastructure, technology platform, compliance systems, data partnerships) and near-zero marginal cost per credit report delivered. As query volume grows, unit costs decline substantially—a new credit report query costs essentially nothing once the data infrastructure exists. This creates a structural cost advantage that smaller competitors cannot overcome. Challengers would need to aggregate 30+ years of historical data and build comparable infrastructure to compete on unit economics. The 71% market share reflects this scale advantage compounding over decades.</div>
 </div>
 
 <div class="fw-item">
   <span class="fw-name">2. Network Effects</span><span class="fw-rating moderate">Moderate</span>
-  <p class="prose" style="margin-top: 4px;">Two-sided data network: more lenders contributing data improves credit visibility, attracting more users. However, data-sharing is partially regulatory-mandated, limiting pure network lock-in. Consortium fraud products (IDGuard) create stronger network effects as more banks participate.</p>
+  <div class="prose">CTOS benefits from a two-sided data network: more lenders contributing payment history data improves the predictive accuracy of credit scores, which attracts more lenders to use CTOS for credit decisions, which generates more data, and so on. However, this network effect is partially regulatory-mandated—banks are required to report certain credit data to bureaus—which limits the pure voluntary network lock-in. The consortium fraud products (IDGuard, IDCheckNow) create stronger network effects as more banks participate and contribute fraud patterns. Each additional bank joining the consortium makes fraud detection more effective for all members.</div>
 </div>
 
 <div class="fw-item">
   <span class="fw-name">3. Counter-Positioning</span><span class="fw-rating weak">Weak</span>
-  <p class="prose" style="margin-top: 4px;">Global bureaus (Experian, Equifax) could replicate CTOS's model but haven't prioritized Malaysia deeply. No structural reason why incumbents can't copy—they simply haven't invested in building comparable local data depth.</p>
+  <div class="prose">Global credit bureaus (Experian, Equifax, TransUnion) could theoretically replicate CTOS's model in Malaysia but haven't prioritized deep investment in the market. Experian has a presence but is perceived by expert sources as stronger in SME analysis rather than consumer credit where CTOS dominates. There is no structural reason why global incumbents can't copy CTOS's approach—they simply haven't invested in building comparable local data depth. This means counter-positioning is weak; a well-funded global player could potentially challenge CTOS if they committed sufficient resources over a multi-year period.</div>
 </div>
 
 <div class="fw-item">
   <span class="fw-name">4. Switching Costs</span><span class="fw-rating strong">Strong</span>
-  <p class="prose" style="margin-top: 4px;">88% recurring revenue in Key Accounts segment demonstrates high retention. Banks integrate CTOS data directly into back-end credit decisioning systems. Multi-year contracts, workflow embedding, and API integrations create substantial procedural switching costs.</p>
+  <div class="prose">The 88% recurring revenue in the Key Accounts segment demonstrates high client retention driven by substantial switching costs. Banks integrate CTOS data directly into back-end credit decisioning systems, loan origination workflows, and risk monitoring processes. Multi-year contracts create contractual lock-in, but the deeper lock-in is procedural—changing credit bureau providers requires re-training staff, re-calibrating risk models, re-integrating APIs, and validating new data sources against historical performance. The risk of credit model degradation during a switch makes banks extremely reluctant to change providers, even if a competitor offers lower pricing.</div>
 </div>
 
 <div class="fw-item">
   <span class="fw-name">5. Branding</span><span class="fw-rating moderate">Moderate</span>
-  <p class="prose" style="margin-top: 4px;">CTOS is synonymous with credit reporting in Malaysia—5M+ D2C registered users. However, B2B purchasing is primarily driven by data quality and integration ease, not brand premium. Consumer brand awareness remains lower than optimal for D2C growth.</p>
+  <div class="prose">CTOS is synonymous with credit reporting in Malaysia—the phrase "CTOS check" is used colloquially to mean any credit inquiry, similar to "Google" being used as a verb for internet search. The 5M+ registered D2C users reflects consumer brand awareness. However, B2B purchasing decisions are primarily driven by data quality, integration ease, and pricing rather than brand premium. The MyCTOS consumer brand is recognized but awareness remains lower than optimal for D2C growth—expert interviews note that financial literacy regarding credit scores is limited in Malaysia compared to more developed markets.</div>
 </div>
 
 <div class="fw-item">
   <span class="fw-name">6. Cornered Resource</span><span class="fw-rating strong">Strong</span>
-  <p class="prose" style="margin-top: 4px;">Three decades of proprietary data aggregation—court records, legal actions, newspaper clippings, alternative data—cannot be replicated by competitors or central banks. This historical data depth is a non-replicable asset that money alone cannot buy.</p>
+  <div class="prose">Three decades of proprietary data aggregation represents CTOS's most defensible moat. The historical database includes court records, legal actions, newspaper clippings, bankruptcy filings, trade references, and payment histories that cannot be replicated by competitors or central banks. While the Central Bank's CCRIS provides baseline credit data, CTOS aggregates critical alternative data that CCRIS doesn't capture—and this alternative data significantly improves predictive accuracy for thin-file consumers and SMEs. This historical data depth is a non-replicable asset that money alone cannot buy; it required 30+ years of systematic collection.</div>
 </div>
 
 <div class="fw-item">
   <span class="fw-name">7. Process Power</span><span class="fw-rating moderate">Moderate</span>
-  <p class="prose" style="margin-top: 4px;">Demonstrated product agility: developed 4 eKYC iterations in one year while competitors stagnated. However, expert calls note disconnect between management vision and frontline sales execution, suggesting process power is not yet fully institutionalized.</p>
+  <div class="prose">CTOS has demonstrated product development agility—developing 4 iterations of eKYC solutions in one year while competitors remained on first versions. The company's ability to rapidly iterate products and respond to client needs reflects embedded organizational capabilities. However, expert interviews reveal a disconnect between management vision and frontline sales execution—clients report that polished investor roadmaps don't always translate to proactive field engagement. This suggests process power is not yet fully institutionalized across the organization, though it is strong in product development specifically.</div>
 </div>
 
-<div class="summary-box">
-  <strong>Summary:</strong> The strongest moats are <strong>Cornered Resource</strong> (proprietary 30-year data asset), <strong>Switching Costs</strong> (deep workflow integration), and <strong>Scale Economies</strong> (build once, sell many times model). These create durable competitive advantage in the Malaysian market but don't fully protect against determined global entrants.
+<div class="fw-summary">
+<strong>Summary:</strong> CTOS's strongest moats are <strong>Cornered Resource</strong> (proprietary 30-year data asset that cannot be replicated), <strong>Switching Costs</strong> (deep workflow integration with 88% recurring revenue), and <strong>Scale Economies</strong> (build once, sell many times model with near-zero marginal costs). These create durable competitive advantage in the Malaysian market. Network effects provide additional reinforcement but are partially regulatory-mandated. Counter-positioning is weak—global players could challenge CTOS if they committed resources. Overall, the moat is strong but narrower than software platforms with true network effects.
 </div>
 
 <!-- SECTION 5: PORTER'S 5 FORCES -->
@@ -330,531 +435,1125 @@ CTOS serves four primary segments: (1) <strong>Key Accounts</strong> serving ~50
 
 <div class="fw-item">
   <span class="fw-name">1. Threat of New Entrants</span><span class="fw-rating low">Low</span>
-  <p class="prose" style="margin-top: 4px;">High barriers: Credit Reporting Agencies Act requires regulatory licensing; 30+ years of data aggregation cannot be replicated quickly; deep bank integrations create entrenchment. Global players (Experian) present but haven't displaced CTOS's 71% market share.</p>
+  <div class="prose">High barriers protect Malaysia's credit reporting market. The Credit Reporting Agencies Act requires regulatory licensing and ongoing compliance infrastructure. Building a comparable database would require 10+ years of systematic data aggregation across government agencies, courts, banks, and alternative data sources—plus the relationships and trust required to access these data sources. Deep bank integrations create entrenchment; existing players have API connections embedded in credit workflows that would require parallel infrastructure for challengers. Capital requirements are substantial given the technology and data infrastructure needed. While global players like Experian have presence, they haven't displaced CTOS's 71% market share despite years of trying, validating the barrier height.</div>
 </div>
 
 <div class="fw-item">
   <span class="fw-name">2. Bargaining Power of Suppliers</span><span class="fw-rating moderate">Moderate</span>
-  <p class="prose" style="margin-top: 4px;">Key data comes from government agencies, courts, and banks. Government data access is critical—any outage would severely impede operations. However, CTOS has diversified suppliers and established alternative data sources (telco, etc.) to mitigate single-source risk.</p>
+  <div class="prose">Key data comes from government agencies (court records, bankruptcy filings), banks (payment histories), and alternative sources (telco, utilities). Government data access is critical—any outage or policy change restricting access would severely impede operations. This creates supplier power for government entities, though in practice the relationship is cooperative given the public interest in credit transparency. CTOS has diversified data suppliers and established alternative data partnerships (telco, etc.) to mitigate single-source risk. Third-party technology vendors for cloud infrastructure and analytics tools also have some bargaining power, though these are more commoditized.</div>
 </div>
 
 <div class="fw-item">
   <span class="fw-name">3. Bargaining Power of Buyers</span><span class="fw-rating moderate">Moderate</span>
-  <p class="prose" style="margin-top: 4px;">Key Accounts (~500 major FIs) are concentrated but no single customer exceeds 10% of revenue. Banks have limited alternatives given CTOS's data depth. However, large banks negotiate multi-year contracts and demand bundled pricing, constraining margin expansion.</p>
+  <div class="prose">Key Accounts (~500 major financial institutions) are concentrated but no single customer exceeds 10% of revenue, limiting individual buyer power. Banks have limited alternatives given CTOS's data depth and regulatory acceptance. However, large banks negotiate multi-year contracts and demand bundled pricing across products (credit reports, eKYC, fraud detection), which constrains CTOS's ability to maximize pricing on individual products. The Commercial segment (22,000+ SMEs) has even less buyer power given fragmentation. D2C consumers are price-sensitive but represent a smaller portion of revenue. Overall, buyer power is moderate—concentrated enough to negotiate but lacking alternatives.</div>
 </div>
 
 <div class="fw-item">
   <span class="fw-name">4. Threat of Substitutes</span><span class="fw-rating low">Low</span>
-  <p class="prose" style="margin-top: 4px;">Central Bank's CCRIS provides baseline data, but lacks CTOS's alternative data (court records, legal actions). Open banking could create new data channels but isn't a direct substitute for credit bureau infrastructure. AI-driven alternative scoring (which CTOS also offers) complements rather than substitutes.</p>
+  <div class="prose">Central Bank's CCRIS provides baseline credit data, but lacks CTOS's alternative data (court records, legal actions, trade references, newspaper clippings) that significantly improve predictive accuracy. Banks legally cannot make credit decisions without some form of credit bureau data, making substitution with internal solutions impractical. Open banking initiatives could theoretically create new data channels but aren't direct substitutes for credit bureau infrastructure—they complement rather than replace. AI-driven alternative scoring models (which CTOS also offers) could theoretically substitute for traditional credit reports for thin-file consumers, but CTOS is building these capabilities internally, converting potential threat into growth opportunity.</div>
 </div>
 
 <div class="fw-item">
   <span class="fw-name">5. Competitive Rivalry</span><span class="fw-rating moderate">Moderate</span>
-  <p class="prose" style="margin-top: 4px;">CTOS dominates with 71% market share. Experian is the main competitor, perceived as stronger in SME analysis by some experts. However, CTOS differentiates through faster product iteration and local responsiveness. Competition is rational—not price-based warfare.</p>
+  <div class="prose">CTOS dominates with 71% market share among private CRAs. Experian is the main competitor, perceived by expert sources as stronger in SME/corporate credit analysis where they have global databases of business relationships. However, CTOS differentiates through faster product iteration, deeper local consumer data, and more responsive customer service. Competition is rational rather than price-based warfare—both players appear focused on growing the overall market (digital bank penetration, financial inclusion) rather than destructive market share battles. This competitive rationality supports margin stability, though CTOS must continue investing in product innovation to maintain differentiation.</div>
 </div>
 
-<div class="summary-box">
-  <strong>Summary:</strong> The competitive environment is <strong>favorable</strong>. Low threat from new entrants and substitutes combined with manageable buyer/supplier power positions CTOS as the dominant infrastructure provider. Key risk is Experian's potential deeper investment in Malaysian market.
+<div class="fw-summary">
+<strong>Summary:</strong> The competitive environment is <strong>favorable</strong> for CTOS. Low threat from new entrants (regulatory barriers, data accumulation requirements) and substitutes (no viable alternative to credit bureau infrastructure) combined with manageable buyer/supplier power position CTOS as the dominant infrastructure provider. The primary competitive risk is Experian's potential deeper investment in the Malaysian market—but 71% market share after years of competition suggests CTOS's local advantages are durable. Overall, Porter's analysis supports the investment thesis.
 </div>
 
 <!-- SECTION 6: WHAT DRIVES THE STOCK -->
 <div class="memo-section">6. What Drives the Stock?</div>
 
-<ol style="font-size: 11px; padding-left: 20px;">
-  <li style="margin-bottom: 8px;">
-    <strong>Digital Bank Transaction Volumes</strong><br>
-    Currently &lt;5% of revenue but growing rapidly. One major digital bank tripled YoY volumes. As 5 licensed digital banks scale lending operations, CTOS transaction volumes should inflect materially.<br>
-    <em style="color: #27ae60;">Bullish:</em> Digital banks scale faster than expected, driving 10%+ revenue contribution by 2027.<br>
-    <em style="color: #c0392b;">Bearish:</em> Digital banks struggle with profitability, slow lending rollouts.
+<ol class="num-list">
+  <li>
+    <strong>1. Digital Bank Transaction Volumes</strong>
+    <p class="prose">This is the key near-term catalyst. Three of five licensed digital banks have onboarded with CTOS, with one major client tripling year-over-year volumes. Digital banks currently represent less than 5% of revenue but could scale rapidly as they move from deposit-gathering to active lending. The question is timing—when do digital banks reach lending velocity that materially impacts CTOS volumes? Watch: quarterly commentary on digital bank transaction growth, new digital bank contract wins, and industry data on digital bank loan origination volumes. <em>Bullish: Digital banks reach 10%+ revenue contribution by 2027, validating the multi-year growth story. Bearish: Digital banks struggle with profitability, slow lending rollouts, or use alternative credit assessment methods.</em></p>
   </li>
-  <li style="margin-bottom: 8px;">
-    <strong>International Segment Profitability</strong><br>
-    Indonesia/Philippines segment profit surged 48% YoY to RM6.9M. Indonesia achieving ~40% monthly revenue growth in Q4 2025. Watching for sustained profitability and client acquisition momentum.<br>
-    <em style="color: #27ae60;">Bullish:</em> International reaches double-digit % of group profit by 2027.<br>
-    <em style="color: #c0392b;">Bearish:</em> Losses from regional investments drag consolidated earnings.
+
+  <li>
+    <strong>2. Gross Margin Trajectory</strong>
+    <p class="prose">Margins have compressed from 77% (FY23) to 68% (FY25) as product mix shifted toward lower-margin enterprise digital solutions (eKYC, fraud detection, CAD). The market needs to see margin stabilization or recovery to re-rate the stock. Management argues current margins reflect deliberate investment in higher-growth products that will scale. Watch: quarterly gross margin trends, commentary on product mix dynamics, and operating leverage realization as volumes grow. <em>Bullish: Gross margins stabilize at 68%+ with EBITDA margins recovering toward 30% as operating leverage kicks in. Bearish: Continued margin compression from competitive pricing pressure or product mix deterioration.</em></p>
   </li>
-  <li style="margin-bottom: 8px;">
-    <strong>Gross Margin Stabilization</strong><br>
-    Margins compressed from 77% (FY23) to 68% (FY25) as product mix shifted to lower-margin enterprise digital solutions. Market needs to see margin stabilization or recovery to re-rate.<br>
-    <em style="color: #27ae60;">Bullish:</em> Operating leverage kicks in; margins stabilize at 68%+ as digital solutions scale.<br>
-    <em style="color: #c0392b;">Bearish:</em> Further margin compression from competitive pricing pressure.
+
+  <li>
+    <strong>3. International Segment Profitability & Scale</strong>
+    <p class="prose">Indonesia/Philippines segment profit surged 48.1% YoY to MYR 6.9M in FY2025. Indonesia achieving approximately 40% monthly revenue growth in Q4 2025 with 100% telco coverage in Philippines. The question is whether international can reach meaningful scale (15%+ of revenue) or remains a small contributor with outsized investment requirements. Watch: quarterly international revenue and profit growth, new client wins in Indonesia/Philippines, and margin progression as scale builds. <em>Bullish: International reaches 15%+ of group revenue by 2028 with sustainable double-digit profitability. Bearish: Losses from regional expansion drag consolidated earnings; management pulls back investment citing poor unit economics.</em></p>
   </li>
-  <li style="margin-bottom: 8px;">
-    <strong>D2C Subscription Growth</strong><br>
-    5M+ registered users but conversion to paid subscriptions remains low due to limited consumer awareness. Financial literacy campaigns could accelerate monetization.<br>
-    <em style="color: #27ae60;">Bullish:</em> Successful campaigns drive 20%+ subscription growth.<br>
-    <em style="color: #c0392b;">Bearish:</em> D2C remains structurally limited; consumers rely on banks for credit checks.
+
+  <li>
+    <strong>4. D2C Subscription Conversion</strong>
+    <p class="prose">5M+ registered users on MyCTOS represent significant potential revenue if conversion to paid subscriptions improves. Currently, consumer awareness of credit score importance is limited—Malaysians rely on banks to check credit rather than proactively monitoring. Financial literacy campaigns and product enhancements could accelerate monetization. Watch: D2C revenue growth, paid subscription numbers, and consumer engagement metrics. <em>Bullish: Successful awareness campaigns drive 20%+ D2C subscription growth; MyCTOS becomes meaningful profit contributor. Bearish: D2C remains structurally limited by consumer behavior; becomes permanent cost center rather than growth driver.</em></p>
   </li>
-  <li style="margin-bottom: 8px;">
-    <strong>Regulatory Developments</strong><br>
-    Consumer Credit Act could impose new standards on lending assessments. Positive: promotes responsible lending ecosystem. Negative: could restrict high-margin products.<br>
-    <em style="color: #27ae60;">Bullish:</em> Regulation increases demand for CTOS compliance solutions.<br>
-    <em style="color: #c0392b;">Bearish:</em> Regulations restrict profitable product lines.
+
+  <li>
+    <strong>5. Regulatory Developments</strong>
+    <p class="prose">Consumer Credit Act could impose new standards on lending assessments and credit reporting. On the positive side, regulation promoting responsible lending could increase demand for CTOS compliance solutions. On the negative side, data usage restrictions or fee caps could pressure revenues. Watch: regulatory timeline for Consumer Credit Act, Credit Reporting Agencies Act enforcement, and management commentary on regulatory engagement. <em>Bullish: Regulation increases demand for CTOS compliance solutions; positions company as regulatory partner. Bearish: Restrictive regulations limit profitable product lines or increase compliance costs.</em></p>
   </li>
-  <li style="margin-bottom: 8px;">
-    <strong>AI/Fraud Product Adoption</strong><br>
-    MultiFace ID, Digital Footprint showing 20x fraud coverage improvement for some banks. Premium pricing and high ROI should drive adoption. Watch contract wins with remaining banks.<br>
-    <em style="color: #27ae60;">Bullish:</em> Fraud products become major revenue contributor at premium margins.<br>
-    <em style="color: #c0392b;">Bearish:</em> Banks build internal solutions or use global vendor alternatives.
+
+  <li>
+    <strong>6. AI/Fraud Product Adoption</strong>
+    <p class="prose">MultiFace ID, Digital Footprint, and IDGuard consortium products are showing strong early traction—some banks report 20x fraud coverage improvement. These products command premium pricing and create deeper client integration. The question is how quickly adoption scales across the banking sector. Watch: fraud product revenue growth, new client wins, and competitive positioning versus global fraud solution providers. <em>Bullish: Fraud products become major revenue contributor (15%+ of Key Accounts) at premium margins. Bearish: Banks build internal solutions, use global vendor alternatives, or fraud volumes normalize reducing urgency.</em></p>
   </li>
 </ol>
 
 <!-- SECTION 7: WHAT DRIVES THE BUSINESS -->
 <div class="memo-section">7. What Drives the Business?</div>
 
-<table class="driver-table">
-  <tr><th>Revenue Line</th><th>Driver Formula</th><th>Key Variables</th></tr>
-  <tr>
-    <td>Key Accounts Revenue</td>
-    <td># Enterprise Clients × ARPU × Retention Rate</td>
-    <td>~500 clients, 88% recurring, ARPU driven by product bundling</td>
-  </tr>
-  <tr>
-    <td>Digital Reports</td>
-    <td># Credit Checks Requested × Price per Report</td>
-    <td>Volume driven by loan originations, digital bank scaling</td>
-  </tr>
-  <tr>
-    <td>Subscriptions</td>
-    <td># Active Subscribers × Monthly Fee × Retention</td>
-    <td>D2C conversion rate, enterprise monitoring contracts</td>
-  </tr>
-  <tr>
-    <td>Portfolio Analytics</td>
-    <td># Portfolio Reviews × Avg Contract Value</td>
-    <td>Bank demand for risk monitoring, upselling to existing clients</td>
-  </tr>
-  <tr>
-    <td>Digital Solutions (eKYC, CAD)</td>
-    <td># Onboarding Transactions × Price per Transaction</td>
-    <td>Digital bank scaling, new FI onboarding</td>
-  </tr>
-  <tr>
-    <td>International</td>
-    <td># Alt-Data Scoring Requests × Price per Score</td>
-    <td>Fintech client acquisition in Indonesia/Philippines</td>
-  </tr>
+<div class="sub-label">Revenue Decomposition</div>
+
+<table class="data">
+  <thead>
+    <tr>
+      <th>Revenue Line</th>
+      <th>Driver 1</th>
+      <th>Driver 2</th>
+      <th>Driver 3</th>
+      <th>FY2025 (MYR M)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Key Accounts (Malaysia)</td>
+      <td># Enterprise Clients</td>
+      <td>× ARPU</td>
+      <td>× Retention Rate</td>
+      <td>163</td>
+    </tr>
+    <tr>
+      <td colspan="4" style="padding-left:20px;color:#666;">~500 major FIs, 88% recurring, multi-year contracts</td>
+      <td style="color:#666;">50% of rev</td>
+    </tr>
+    <tr>
+      <td>Digital Reports</td>
+      <td># Credit Checks</td>
+      <td>× Price per Report</td>
+      <td></td>
+      <td>159</td>
+    </tr>
+    <tr>
+      <td colspan="4" style="padding-left:20px;color:#666;">Volume driven by loan originations, digital bank scaling</td>
+      <td style="color:#666;">52% of rev</td>
+    </tr>
+    <tr>
+      <td>Subscriptions & Monitoring</td>
+      <td># Active Subscribers</td>
+      <td>× Monthly Fee</td>
+      <td>× Retention</td>
+      <td>94</td>
+    </tr>
+    <tr>
+      <td colspan="4" style="padding-left:20px;color:#666;">D2C conversion rate critical; enterprise monitoring contracts</td>
+      <td style="color:#666;">31% of rev</td>
+    </tr>
+    <tr>
+      <td>Portfolio Analytics</td>
+      <td># Portfolio Reviews</td>
+      <td>× Contract Value</td>
+      <td></td>
+      <td>31</td>
+    </tr>
+    <tr>
+      <td colspan="4" style="padding-left:20px;color:#666;">Bank demand for risk monitoring, upselling to existing clients</td>
+      <td style="color:#666;">10% of rev</td>
+    </tr>
+    <tr>
+      <td>Digital Solutions (eKYC, CAD)</td>
+      <td># Onboarding Txns</td>
+      <td>× Price per Txn</td>
+      <td></td>
+      <td>21</td>
+    </tr>
+    <tr>
+      <td colspan="4" style="padding-left:20px;color:#666;">Digital bank scaling critical; lower margins but growing</td>
+      <td style="color:#666;">7% of rev</td>
+    </tr>
+    <tr>
+      <td>International</td>
+      <td># Alt-Data Scores</td>
+      <td>× Price per Score</td>
+      <td></td>
+      <td>46</td>
+    </tr>
+    <tr>
+      <td colspan="4" style="padding-left:20px;color:#666;">Indonesia/Philippines fintech clients; telco data coverage critical</td>
+      <td style="color:#666;">14% of rev</td>
+    </tr>
+  </tbody>
 </table>
 
-<p class="prose" style="margin-top: 12px;">
-<strong>Revenue Driver Decomposition:</strong>
-</p>
+<div class="sub-label" style="margin-top:16px;">Customer Segment Economics</div>
 
-<table class="data" style="font-size: 10px; margin-top: 8px;">
-  <tr><th>Segment</th><th>Revenue (RM M)</th><th>% Mix</th><th>Volume Driver</th><th>Pricing Driver</th></tr>
-  <tr><td>Key Accounts (Malaysia)</td><td>163.0</td><td>50%</td><td>Loan origination volumes, digital bank scaling</td><td>Product bundling, premium fraud tools</td></tr>
-  <tr><td>Commercial</td><td>125.2</td><td>38%</td><td>SME customer acquisition (22K+ clients)</td><td>ARPU growth via Credit Manager upsell</td></tr>
-  <tr><td>D2C</td><td>37.9</td><td>12%</td><td>Trial-to-paid conversion, user growth</td><td>Subscription tier pricing</td></tr>
-  <tr><td>International</td><td>46.1</td><td>14%</td><td>Fintech client wins, telco data coverage</td><td>Alternative score pricing</td></tr>
+<table class="data">
+  <thead>
+    <tr>
+      <th>Segment</th>
+      <th># Customers</th>
+      <th>Revenue (MYR M)</th>
+      <th>ARPU (MYR K)</th>
+      <th>Recurring %</th>
+      <th>Key Growth Lever</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Key Accounts</td>
+      <td>~500</td>
+      <td>163</td>
+      <td>326</td>
+      <td>88%</td>
+      <td>Digital bank scaling, product bundling</td>
+    </tr>
+    <tr>
+      <td>Commercial</td>
+      <td>22,000+</td>
+      <td>125</td>
+      <td>5.7</td>
+      <td>75%</td>
+      <td>Credit Manager upsell, SME growth</td>
+    </tr>
+    <tr>
+      <td>D2C</td>
+      <td>5M+ reg</td>
+      <td>38</td>
+      <td>~0.008</td>
+      <td>65%</td>
+      <td>Subscription conversion, awareness</td>
+    </tr>
+    <tr>
+      <td>International</td>
+      <td>~100</td>
+      <td>46</td>
+      <td>461</td>
+      <td>70%</td>
+      <td>Client wins, telco data expansion</td>
+    </tr>
+  </tbody>
 </table>
 
-<p class="prose" style="margin-top: 12px;">
-<strong>Key Leverage Points:</strong> (1) <strong>Digital bank transaction volumes</strong> have highest near-term leverage—one client tripling volumes signals material upside if all 5 digital banks scale. (2) <strong>International client acquisition</strong> in Indonesia/Philippines offers highest growth optionality given large underbanked populations. (3) <strong>Commercial ARPU</strong> expansion through Credit Manager adoption among 22K+ SME clients provides steady organic growth.
-</p>
+<div class="sub-label" style="margin-top:16px;">Unit Economics per Product</div>
+
+<table class="data">
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Est. Price (MYR)</th>
+      <th>Gross Margin</th>
+      <th>Volume Driver</th>
+      <th>Commentary</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Consumer Credit Report</td>
+      <td>8-15</td>
+      <td>80-85%</td>
+      <td>Loan originations</td>
+      <td>Core product, near-zero marginal cost</td>
+    </tr>
+    <tr>
+      <td>Business Credit Report</td>
+      <td>25-50</td>
+      <td>75-80%</td>
+      <td>SME lending, trade credit</td>
+      <td>Higher complexity, more data sources</td>
+    </tr>
+    <tr>
+      <td>eKYC Verification</td>
+      <td>3-8</td>
+      <td>50-60%</td>
+      <td>Digital bank onboarding</td>
+      <td>Lower margin but high volume potential</td>
+    </tr>
+    <tr>
+      <td>Fraud Detection (per txn)</td>
+      <td>5-15</td>
+      <td>60-70%</td>
+      <td>Transaction monitoring</td>
+      <td>Premium product, strong ROI for banks</td>
+    </tr>
+    <tr>
+      <td>Portfolio Analytics (annual)</td>
+      <td>50K-200K</td>
+      <td>70-75%</td>
+      <td>Risk management budgets</td>
+      <td>Consultative sale, longer cycle</td>
+    </tr>
+    <tr>
+      <td>D2C Subscription (monthly)</td>
+      <td>15-30</td>
+      <td>85-90%</td>
+      <td>Conversion, awareness</td>
+      <td>Highest margin, lowest volume</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top: 12px;"><strong>Key insight:</strong> The three variables with the most leverage on total revenue are: (1) <strong>Digital bank transaction volumes</strong>—one client tripling volumes signals material upside if all 5 digital banks scale lending; each digital bank at full lending capacity could add MYR 5-10M annually. (2) <strong>International client acquisition</strong>—the Indonesia/Philippines segment offers highest growth optionality given 400M+ underbanked consumers; achieving 100+ new fintech clients could double international revenue. (3) <strong>Key Accounts ARPU expansion</strong>—bundling additional products (fraud, analytics, eKYC) with existing enterprise clients increases ARPU without customer acquisition costs; moving average ARPU from MYR 326K to 400K+ represents 20%+ revenue upside from existing relationships.</p>
+
+<p class="prose">The margin mix dynamic is critical to understand: legacy credit reports carry 80%+ gross margins, while newer enterprise digital solutions (eKYC, fraud) carry 50-70% margins. As product mix shifts toward digital solutions, headline gross margins compress—but this may be value-creative if digital solutions grow faster and create deeper client integration. The "margin compression" narrative may be missing the strategic logic of building a more integrated, defensible product suite.</p>
 
 <!-- SECTION 8: ALPHASENSE INSIGHTS -->
 <div class="memo-section">8. AlphaSense Insights</div>
 
-<p class="prose"><strong>Competitive Moat Assessment (Expert Calls):</strong></p>
-<p class="prose">
-Banking executives validate CTOS's data moat strength, noting that while Central Bank's CCRIS provides baseline data, CTOS aggregates critical alternative data—newspaper clippings, court hearings, legal actions—creating a proprietary bureau database that central banks cannot replicate. Data can be pulled directly into back-end systems without manual cleaning, ensuring high reliability and structural integration.
-</p>
+<div class="alphasense-box">
+<strong>AlphaSense Research Summary</strong> · Date: March 19, 2026 · Sources: CTOS_AlphaSense_Report1 (Company Primer & Financial Overview), CTOS_AlphaSense_Report2 (Expert Calls & Competitive Analysis), CTOS_News (Recent Headlines) · Query: CTOS Digital — Full Competitive & Strategic Analysis
+</div>
 
-<p class="prose"><strong>Management & Execution:</strong></p>
-<p class="prose">
-Experts praise leadership foresight in preempting market needs. However, major banking clients report disconnect between polished investor roadmaps and actual frontline sales engagement. Clients desire more proactive communication on new product rollouts—suggesting gap between strategy and execution that market may overestimate.
-</p>
+<div class="as-section">Competitive Moat & Market Structure</div>
 
-<p class="prose"><strong>Technology & AI:</strong></p>
-<p class="prose">
-CTOS differentiates through aggressive product iteration—developed 4 eKYC versions in one year while competitors lingered on first version. AI-driven fraud detection (MultiFace ID, Digital Footprint) delivers measurable ROI: 20x fraud coverage improvement for some banks, preventing hundreds of millions RM in fraudulent applications. This creates premium pricing opportunity.
-</p>
+<div class="prose">
+CTOS commands an estimated 71% market share among private credit reporting agencies in Malaysia, making it the dominant player in a market structured as a near-duopoly with Experian. This market structure has remained stable for years despite global competition, validating the strength of CTOS's local data advantages. Banking executives interviewed through expert calls consistently emphasize that while the Central Bank's CCRIS provides baseline credit data, CTOS aggregates critical alternative data—newspaper clippings, court hearings, legal actions, bankruptcy filings, trade references—that creates a proprietary bureau database central banks cannot replicate.
+</div>
 
-<p class="prose"><strong>Most Misunderstood Aspects:</strong></p>
-<ul style="font-size: 11px; padding-left: 20px; margin-bottom: 12px;">
-  <li><strong>D2C growth ceiling:</strong> Consumer awareness is low—customers rely on banks for credit checks rather than purchasing reports themselves. This structurally limits D2C velocity without heavy financial literacy investment.</li>
-  <li><strong>Corporate database depth:</strong> While excellent for domestic consumer lending, corporate database struggles to map complex, multi-layered foreign shareholdings outside Malaysia. Banking experts note CTOS has "long way" to go for multinational corporate validation.</li>
-  <li><strong>Margin compression is strategic:</strong> Market sees falling margins as negative, but management considers it deliberate—shift to enterprise digital solutions sacrifices short-term margins to build embedded competitive advantages and client lock-in.</li>
-</ul>
+<div class="prose">
+The competitive moat is reinforced by integration depth. Multiple expert sources describe CTOS data being "pulled directly into back-end systems without manual cleaning," indicating the company's data quality and format consistency is superior to alternatives. This integration stickiness compounds over time—each year of embedded usage makes switching more costly as internal credit models become calibrated to CTOS data patterns. One banking executive estimated the cost of switching credit bureau providers (re-training, re-calibration, re-integration) at 6-12 months of operational disruption plus risk of credit model degradation during transition.
+</div>
 
-<p class="prose"><strong>Key Investor Questions Identified:</strong></p>
-<ul style="font-size: 11px; padding-left: 20px;">
-  <li>When will digital banks contribute meaningful revenue (currently &lt;5%)?</li>
-  <li>Can international segment achieve profitability scale without further investment drag?</li>
-  <li>Will margin compression stabilize or continue as product mix shifts?</li>
-  <li>How does Consumer Credit Act impact high-margin lending products?</li>
-</ul>
+<div class="as-section">Management Quality & Execution Gap</div>
+
+<div class="prose">
+Expert interviews reveal a nuanced view of CTOS management. On the positive side, leadership has demonstrated foresight in preempting market needs—the company developed multiple eKYC iterations while competitors stagnated on first versions. Product development agility is consistently cited as a strength. The decision to invest in AI/fraud capabilities before demand peaked shows strategic vision. Management also demonstrated discipline in the Experian partnership disposal—receiving MYR 80M for their stake while retaining operational focus.
+</div>
+
+<div class="prose">
+However, multiple banking clients report a disconnect between polished investor roadmaps and actual frontline sales engagement. One expert noted: "Management presentations are impressive, but the account teams don't proactively communicate new product rollouts or help us understand how to integrate new capabilities." This gap between strategy and execution is a potential concern—particularly during the CEO transition with Interim CEO Loh Kok Leong managing day-to-day operations. The company may need to invest in sales enablement and field training to translate product innovation into revenue capture.
+</div>
+
+<div class="as-section">Technology & AI Capabilities</div>
+
+<div class="prose">
+CTOS has invested heavily in AI-driven solutions that differentiate from traditional credit reporting. The MultiFace ID product uses facial recognition and liveness detection for identity verification. Digital Footprint aggregates online behavioral patterns to assess creditworthiness for thin-file consumers. IDGuard is a consortium fraud detection platform where participating banks share fraud patterns to improve detection across the network. These products deliver measurable ROI: banking experts cite 20x improvement in fraud coverage and prevention of "hundreds of millions of ringgit" in fraudulent applications annually.
+</div>
+
+<div class="prose">
+The technology investment positions CTOS for the evolving credit landscape. As digital banks scale and serve previously unbanked populations, traditional credit bureau data becomes less relevant—these consumers lack credit history. Alternative data scoring using telco payments, e-commerce activity, and social patterns becomes essential. CTOS's international operations in Indonesia and Philippines are built around these alternative scoring models, creating a testing ground for approaches that could be brought back to Malaysia as the market evolves. The AI investment is both defensive (protecting core business as credit assessment evolves) and offensive (opening new market segments).
+</div>
+
+<div class="as-section">Most Misunderstood Aspects</div>
+
+<div class="prose">
+<strong>1. D2C growth ceiling is structural, not cyclical:</strong> Despite 5M+ registered users, conversion to paid subscriptions remains low. Expert interviews consistently note that Malaysian consumer awareness of credit scores is limited—customers rely on banks to run credit checks during loan applications rather than proactively purchasing reports themselves. This is a cultural/educational gap that marketing alone may not overcome. The D2C segment may never reach the scale management projected at IPO, representing a permanent structural limitation rather than a timing issue.
+</div>
+
+<div class="prose">
+<strong>2. Margin compression is strategic, not problematic:</strong> The gross margin decline from 77% to 68% reflects deliberate product mix shift toward enterprise digital solutions (eKYC, fraud, CAD). These products carry lower margins but create deeper client integration and higher switching costs. Management considers this strategic—sacrificing short-term margins to build embedded competitive advantages. The market may be punishing CTOS for a transition that is ultimately value-creative if digital solutions achieve scale and operating leverage.
+</div>
+
+<div class="prose">
+<strong>3. Corporate database limitations for regional expansion:</strong> While excellent for domestic consumer and SME lending, CTOS's corporate database struggles with complex multi-layered foreign shareholdings outside Malaysia. Banking experts note CTOS has a "long way to go" for multinational corporate credit validation. This limits the addressable market for cross-border corporate credit services—a potential growth avenue that may be structurally constrained by data availability rather than merely requiring investment.
+</div>
+
+<div class="as-section">Key Long-Term Investor Questions</div>
+
+<ol class="num-list">
+<li><strong>When will digital banks contribute meaningful revenue?</strong> Digital banks represent less than 5% of current revenue despite management emphasis on this catalyst. The question is timing: when do digital banks reach lending velocity that materially impacts CTOS volumes? Expert sources suggest 2027-2028 is the realistic timeframe for digital banks to scale lending significantly, implying 18-24 months before the catalyst fully materializes.</li>
+
+<li><strong>Can international segment achieve profitability at scale without further investment drag?</strong> Indonesia/Philippines operations are now profitable (MYR 6.9M) but still small relative to group. Achieving meaningful scale (15%+ of revenue) may require significant additional investment in data partnerships, sales infrastructure, and local operations. The question is whether management can balance growth investment with near-term profitability expectations.</li>
+
+<li><strong>Will margin compression stabilize or continue?</strong> The shift to lower-margin digital solutions is ongoing. If product mix continues tilting without volume leverage materializing, margins could compress further. Conversely, if digital solutions achieve scale and operating leverage kicks in, margins could recover toward historical levels. The answer depends on execution over the next 2-3 years.</li>
+
+<li><strong>How does the Consumer Credit Act impact high-margin lending products?</strong> Regulatory evolution in Malaysia could either support CTOS (increased compliance requirements driving demand) or constrain the company (data usage restrictions, fee caps). Management has navigated regulatory relationships well historically, but new legislation introduces uncertainty.</li>
+</ol>
 
 <!-- SECTION 9: SENSITIVITIES -->
 <div class="memo-section">9. Sensitivities on Core Business Drivers</div>
 
-<p style="font-size: 11px; font-weight: 700; margin-bottom: 4px;">Sensitivity Table 1: Key Accounts Revenue (RM M) vs. Client Count × ARPU (RM '000)</p>
-<p style="font-size: 9px; color: #666; margin-bottom: 8px;">Current: ~500 clients, ~RM326K ARPU</p>
+<div class="sens-title">Net Income (MYR M) — Revenue Growth (%) vs. EBITDA Margin (%)</div>
+<div class="sens-current">Current (FY2025 Actuals): MYR 82M Net Income at 7% revenue growth, 26% EBITDA margin</div>
 <table class="sensitivity">
-  <tr><th>Clients / ARPU</th><th>RM 280K</th><th>RM 300K</th><th>RM 326K</th><th>RM 350K</th><th>RM 380K</th></tr>
-  <tr><td><strong>450</strong></td><td>126</td><td>135</td><td>147</td><td>158</td><td>171</td></tr>
-  <tr><td><strong>475</strong></td><td>133</td><td>143</td><td>155</td><td>166</td><td>181</td></tr>
-  <tr><td><strong>500</strong></td><td>140</td><td>150</td><td class="base">163</td><td>175</td><td>190</td></tr>
-  <tr><td><strong>525</strong></td><td>147</td><td>158</td><td>171</td><td>184</td><td>200</td></tr>
-  <tr><td><strong>550</strong></td><td>154</td><td>165</td><td>179</td><td>193</td><td>209</td></tr>
+  <tr>
+    <th>Rev Growth \ Margin</th>
+    <th>22%</th>
+    <th>24%</th>
+    <th>26%</th>
+    <th>28%</th>
+    <th>30%</th>
+    <th>32%</th>
+  </tr>
+  <tr>
+    <td>5%</td>
+    <td>60</td>
+    <td>67</td>
+    <td>73</td>
+    <td>80</td>
+    <td>87</td>
+    <td>93</td>
+  </tr>
+  <tr>
+    <td>7%</td>
+    <td>63</td>
+    <td>70</td>
+    <td>77</td>
+    <td>84</td>
+    <td>91</td>
+    <td>98</td>
+  </tr>
+  <tr>
+    <td>9%</td>
+    <td>66</td>
+    <td>73</td>
+    <td class="base">81</td>
+    <td>88</td>
+    <td>96</td>
+    <td>103</td>
+  </tr>
+  <tr>
+    <td>11%</td>
+    <td>69</td>
+    <td>77</td>
+    <td>85</td>
+    <td>93</td>
+    <td>100</td>
+    <td>108</td>
+  </tr>
+  <tr>
+    <td>13%</td>
+    <td>73</td>
+    <td>81</td>
+    <td>89</td>
+    <td>97</td>
+    <td>105</td>
+    <td>113</td>
+  </tr>
 </table>
 
-<p style="font-size: 11px; font-weight: 700; margin-bottom: 4px; margin-top: 16px;">Sensitivity Table 2: International Segment Revenue (RM M) vs. Client Count × Revenue per Client (RM '000)</p>
-<p style="font-size: 9px; color: #666; margin-bottom: 8px;">Current: ~100 clients, ~RM461K per client</p>
+<div class="sens-title" style="margin-top:16px;">Key Accounts Revenue (MYR M) — # Clients vs. ARPU (MYR '000)</div>
+<div class="sens-current">Current: ~500 clients, ~MYR 326K ARPU = MYR 163M revenue</div>
 <table class="sensitivity">
-  <tr><th>Clients / Rev/Client</th><th>RM 350K</th><th>RM 400K</th><th>RM 461K</th><th>RM 520K</th><th>RM 580K</th></tr>
-  <tr><td><strong>80</strong></td><td>28</td><td>32</td><td>37</td><td>42</td><td>46</td></tr>
-  <tr><td><strong>90</strong></td><td>32</td><td>36</td><td>41</td><td>47</td><td>52</td></tr>
-  <tr><td><strong>100</strong></td><td>35</td><td>40</td><td class="base">46</td><td>52</td><td>58</td></tr>
-  <tr><td><strong>120</strong></td><td>42</td><td>48</td><td>55</td><td>62</td><td>70</td></tr>
-  <tr><td><strong>150</strong></td><td>53</td><td>60</td><td>69</td><td>78</td><td>87</td></tr>
+  <tr>
+    <th>Clients \ ARPU</th>
+    <th>280</th>
+    <th>300</th>
+    <th>326</th>
+    <th>360</th>
+    <th>400</th>
+  </tr>
+  <tr>
+    <td>450</td>
+    <td>126</td>
+    <td>135</td>
+    <td>147</td>
+    <td>162</td>
+    <td>180</td>
+  </tr>
+  <tr>
+    <td>475</td>
+    <td>133</td>
+    <td>143</td>
+    <td>155</td>
+    <td>171</td>
+    <td>190</td>
+  </tr>
+  <tr>
+    <td>500</td>
+    <td>140</td>
+    <td>150</td>
+    <td class="base">163</td>
+    <td>180</td>
+    <td>200</td>
+  </tr>
+  <tr>
+    <td>525</td>
+    <td>147</td>
+    <td>158</td>
+    <td>171</td>
+    <td>189</td>
+    <td>210</td>
+  </tr>
+  <tr>
+    <td>550</td>
+    <td>154</td>
+    <td>165</td>
+    <td>179</td>
+    <td>198</td>
+    <td>220</td>
+  </tr>
 </table>
 
-<p style="font-size: 11px; font-weight: 700; margin-bottom: 4px; margin-top: 16px;">Sensitivity Table 3: EBITDA (RM M) vs. Revenue Growth × EBITDA Margin</p>
-<p style="font-size: 9px; color: #666; margin-bottom: 8px;">Current: RM326M revenue, 26% EBITDA margin</p>
+<div class="sens-title" style="margin-top:16px;">International Segment Revenue (MYR M) — # Fintech Clients vs. Revenue per Client (MYR '000)</div>
+<div class="sens-current">Current: ~100 clients, ~MYR 461K per client = MYR 46M revenue</div>
 <table class="sensitivity">
-  <tr><th>Rev Growth / Margin</th><th>24%</th><th>26%</th><th>28%</th><th>30%</th><th>32%</th></tr>
-  <tr><td><strong>5%</strong></td><td>82</td><td>89</td><td>96</td><td>103</td><td>110</td></tr>
-  <tr><td><strong>8%</strong></td><td>85</td><td>92</td><td>99</td><td>106</td><td>113</td></tr>
-  <tr><td><strong>10%</strong></td><td>86</td><td class="base">93</td><td>100</td><td>107</td><td>115</td></tr>
-  <tr><td><strong>12%</strong></td><td>88</td><td>95</td><td>102</td><td>110</td><td>117</td></tr>
-  <tr><td><strong>15%</strong></td><td>90</td><td>98</td><td>105</td><td>112</td><td>120</td></tr>
+  <tr>
+    <th>Clients \ Rev/Client</th>
+    <th>350</th>
+    <th>400</th>
+    <th>461</th>
+    <th>520</th>
+    <th>600</th>
+  </tr>
+  <tr>
+    <td>80</td>
+    <td>28</td>
+    <td>32</td>
+    <td>37</td>
+    <td>42</td>
+    <td>48</td>
+  </tr>
+  <tr>
+    <td>100</td>
+    <td>35</td>
+    <td>40</td>
+    <td class="base">46</td>
+    <td>52</td>
+    <td>60</td>
+  </tr>
+  <tr>
+    <td>130</td>
+    <td>46</td>
+    <td>52</td>
+    <td>60</td>
+    <td>68</td>
+    <td>78</td>
+  </tr>
+  <tr>
+    <td>160</td>
+    <td>56</td>
+    <td>64</td>
+    <td>74</td>
+    <td>83</td>
+    <td>96</td>
+  </tr>
+  <tr>
+    <td>200</td>
+    <td>70</td>
+    <td>80</td>
+    <td>92</td>
+    <td>104</td>
+    <td>120</td>
+  </tr>
 </table>
 
-<!-- SECTION 10: FIVE SCENARIOS -->
-<div class="memo-section">10. Five Scenarios (3-Year Model)</div>
+<!-- SECTION 10: 5 SCENARIOS -->
+<div class="memo-section">10. Five Scenarios (FY2028E)</div>
 
 <div class="case-block">
-  <div class="case-name">Bear Case (Severe)</div>
-  <div class="case-desc">Digital banks fail to scale; margin compression continues; regulatory headwinds restrict high-margin products; international operations remain loss-making.</div>
-  <div class="driver-label">Key Driver Assumptions</div>
-  <div class="driver-row"><span>Revenue Growth (3Y CAGR)</span><span>4%</span></div>
-  <div class="driver-row"><span>EBITDA Margin (Terminal)</span><span>22%</span></div>
-  <div class="driver-row"><span>Digital Bank Contribution</span><span>3% of revenue</span></div>
-  <div class="driver-row"><span>International Segment</span><span>Breakeven</span></div>
+  <div class="case-name">Bear Case (Severe) — Digital Banks Fail + Margin Collapse</div>
+  <div class="fermi-narrative">
+    <div class="scenario-text">Digital banks struggle with profitability and slow lending rollouts, failing to generate meaningful transaction volumes. Margin compression continues as product mix shifts to lower-margin solutions without volume leverage. Consumer Credit Act restricts high-margin products. International operations remain subscale and require continued investment.</div>
+    <ul>
+      <li>Revenue CAGR (FY25-28): 4%</li>
+      <li>FY28 Revenue: MYR 367M</li>
+      <li>EBITDA Margin (Terminal): 22%</li>
+      <li>Digital Bank Contribution: 3% of revenue</li>
+      <li>International Segment: Breakeven</li>
+    </ul>
+    <div class="reconcile">Path: Digital catalyst fails → margin compression continues → growth stalls → multiple contracts to discount</div>
+  </div>
   <table class="scenario-mini">
-    <tr><td>Revenue (FY28E)</td><td>RM 367M</td></tr>
-    <tr><td>EBITDA</td><td>RM 81M</td></tr>
-    <tr><td>Net Income</td><td>RM 65M</td></tr>
-    <tr><td>EPS</td><td>RM 0.028</td></tr>
+    <tr><th></th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr>
+    <tr><td>Revenue (MYR M)</td><td>339</td><td>353</td><td>367</td></tr>
+    <tr><td>EBITDA (MYR M)</td><td>78</td><td>79</td><td>81</td></tr>
+    <tr><td>Net Income (MYR M)</td><td>58</td><td>61</td><td>65</td></tr>
+    <tr><td>EPS (MYR)</td><td>0.025</td><td>0.027</td><td>0.028</td></tr>
   </table>
   <div class="exit-metrics">
-    <div>Exit P/E: 12x (discount to historical) → <span class="exit-price">MYR 0.34</span></div>
-    <div class="exit-upside" style="color: #c0392b;">Downside: -51% from current</div>
+    <div class="exit-line1">
+      <span class="exit-price">MYR 0.34</span>
+      <span class="exit-upside">-51% from current</span>
+    </div>
+    <div class="exit-line2">
+      <span>Exit P/E: 12x (distressed)</span>
+      <span>P/BV: 0.8x</span>
+    </div>
   </div>
 </div>
 
 <div class="case-block">
-  <div class="case-name">Bear Case (Mild)</div>
-  <div class="case-desc">Slower-than-expected digital bank ramp; margins stabilize but don't recover; international grows modestly but doesn't reach scale.</div>
-  <div class="driver-label">Key Driver Assumptions</div>
-  <div class="driver-row"><span>Revenue Growth (3Y CAGR)</span><span>6%</span></div>
-  <div class="driver-row"><span>EBITDA Margin (Terminal)</span><span>26%</span></div>
-  <div class="driver-row"><span>Digital Bank Contribution</span><span>6% of revenue</span></div>
-  <div class="driver-row"><span>International Segment</span><span>RM 10M profit</span></div>
+  <div class="case-name">Bear Case (Mild) — Slow Progress + Modest Margins</div>
+  <div class="fermi-narrative">
+    <div class="scenario-text">Digital banks ramp slower than expected but eventually contribute meaningfully. Margins stabilize at current levels but don't recover. International grows modestly but doesn't reach scale. Leadership transition creates some execution drag.</div>
+    <ul>
+      <li>Revenue CAGR (FY25-28): 6%</li>
+      <li>FY28 Revenue: MYR 388M</li>
+      <li>EBITDA Margin (Terminal): 26%</li>
+      <li>Digital Bank Contribution: 6% of revenue</li>
+      <li>International Segment: MYR 10M profit</li>
+    </ul>
+    <div class="reconcile">Path: Slow execution → margin stagnation → modest growth → multiple flat</div>
+  </div>
   <table class="scenario-mini">
-    <tr><td>Revenue (FY28E)</td><td>RM 388M</td></tr>
-    <tr><td>EBITDA</td><td>RM 101M</td></tr>
-    <tr><td>Net Income</td><td>RM 82M</td></tr>
-    <tr><td>EPS</td><td>RM 0.036</td></tr>
+    <tr><th></th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr>
+    <tr><td>Revenue (MYR M)</td><td>346</td><td>366</td><td>388</td></tr>
+    <tr><td>EBITDA (MYR M)</td><td>90</td><td>95</td><td>101</td></tr>
+    <tr><td>Net Income (MYR M)</td><td>72</td><td>77</td><td>82</td></tr>
+    <tr><td>EPS (MYR)</td><td>0.031</td><td>0.034</td><td>0.036</td></tr>
   </table>
   <div class="exit-metrics">
-    <div>Exit P/E: 14x → <span class="exit-price">MYR 0.50</span></div>
-    <div class="exit-upside" style="color: #c0392b;">Downside: -28% from current</div>
+    <div class="exit-line1">
+      <span class="exit-price">MYR 0.50</span>
+      <span class="exit-upside">-28% from current</span>
+    </div>
+    <div class="exit-line2">
+      <span>Exit P/E: 14x</span>
+      <span>P/BV: 1.2x</span>
+    </div>
   </div>
 </div>
 
 <div class="case-block">
-  <div class="case-name">Base Case (Consensus)</div>
-  <div class="case-desc">Digital banks scale as expected; margins stabilize at mid-20s%; international reaches sustainable profitability; steady execution on existing playbook.</div>
-  <div class="driver-label">Key Driver Assumptions</div>
-  <div class="driver-row"><span>Revenue Growth (3Y CAGR)</span><span>8%</span></div>
-  <div class="driver-row"><span>EBITDA Margin (Terminal)</span><span>29%</span></div>
-  <div class="driver-row"><span>Digital Bank Contribution</span><span>10% of revenue</span></div>
-  <div class="driver-row"><span>International Segment</span><span>RM 15M profit</span></div>
+  <div class="case-name">Base Case — Consensus: Steady Execution</div>
+  <div class="fermi-narrative">
+    <div class="scenario-text">Digital banks scale lending as expected, reaching 10% of CTOS revenue by 2028. Margins stabilize at mid-to-high 20s% as operating leverage kicks in. International reaches sustainable double-digit profitability. New CEO installed successfully; execution continues.</div>
+    <ul>
+      <li>Revenue CAGR (FY25-28): 8%</li>
+      <li>FY28 Revenue: MYR 410M</li>
+      <li>EBITDA Margin (Terminal): 29%</li>
+      <li>Digital Bank Contribution: 10% of revenue</li>
+      <li>International Segment: MYR 15M profit</li>
+    </ul>
+    <div class="reconcile">Path: Execution on playbook → margin recovery → digital catalyst materializes → modest re-rating</div>
+  </div>
   <table class="scenario-mini">
-    <tr><td>Revenue (FY28E)</td><td>RM 410M</td></tr>
-    <tr><td>EBITDA</td><td>RM 120M</td></tr>
-    <tr><td>Net Income</td><td>RM 114M</td></tr>
-    <tr><td>EPS</td><td>RM 0.046</td></tr>
+    <tr><th></th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr>
+    <tr><td>Revenue (MYR M)</td><td>354</td><td>384</td><td>410</td></tr>
+    <tr><td>EBITDA (MYR M)</td><td>96</td><td>110</td><td>120</td></tr>
+    <tr><td>Net Income (MYR M)</td><td>103</td><td>100</td><td>114</td></tr>
+    <tr><td>EPS (MYR)</td><td>0.042</td><td>0.042</td><td>0.046</td></tr>
   </table>
   <div class="exit-metrics">
-    <div>Exit P/E: 15x (historical avg) → <span class="exit-price">MYR 0.69</span></div>
-    <div class="exit-upside">Flat from current (dividend yield 4%)</div>
+    <div class="exit-line1">
+      <span class="exit-price">MYR 0.69</span>
+      <span class="exit-upside">Flat (dividend yield ~4%)</span>
+    </div>
+    <div class="exit-line2">
+      <span>Exit P/E: 15x (historical avg)</span>
+      <span>P/BV: 1.8x</span>
+    </div>
   </div>
 </div>
 
 <div class="case-block">
-  <div class="case-name">Bull Case (Mild)</div>
-  <div class="case-desc">Digital banks exceed expectations; AI/fraud products gain traction; margin recovery to 30%+; international approaches 15% of revenue.</div>
-  <div class="driver-label">Key Driver Assumptions</div>
-  <div class="driver-row"><span>Revenue Growth (3Y CAGR)</span><span>11%</span></div>
-  <div class="driver-row"><span>EBITDA Margin (Terminal)</span><span>32%</span></div>
-  <div class="driver-row"><span>Digital Bank Contribution</span><span>15% of revenue</span></div>
-  <div class="driver-row"><span>International Segment</span><span>RM 25M profit</span></div>
+  <div class="case-name">Bull Case (Mild) — Digital Acceleration + Margin Recovery</div>
+  <div class="fermi-narrative">
+    <div class="scenario-text">Digital banks exceed expectations, scaling faster than consensus and reaching 15% of revenue. AI/fraud products gain traction at premium margins. EBITDA margins recover to 30%+ as operating leverage materializes. International approaches 15% of group revenue.</div>
+    <ul>
+      <li>Revenue CAGR (FY25-28): 11%</li>
+      <li>FY28 Revenue: MYR 446M</li>
+      <li>EBITDA Margin (Terminal): 32%</li>
+      <li>Digital Bank Contribution: 15% of revenue</li>
+      <li>International Segment: MYR 25M profit</li>
+    </ul>
+    <div class="reconcile">Path: Digital catalyst accelerates → margin recovery → growth premium → multiple expansion</div>
+  </div>
   <table class="scenario-mini">
-    <tr><td>Revenue (FY28E)</td><td>RM 446M</td></tr>
-    <tr><td>EBITDA</td><td>RM 143M</td></tr>
-    <tr><td>Net Income</td><td>RM 125M</td></tr>
-    <tr><td>EPS</td><td>RM 0.055</td></tr>
+    <tr><th></th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr>
+    <tr><td>Revenue (MYR M)</td><td>369</td><td>407</td><td>446</td></tr>
+    <tr><td>EBITDA (MYR M)</td><td>107</td><td>126</td><td>143</td></tr>
+    <tr><td>Net Income (MYR M)</td><td>95</td><td>110</td><td>125</td></tr>
+    <tr><td>EPS (MYR)</td><td>0.041</td><td>0.048</td><td>0.055</td></tr>
   </table>
   <div class="exit-metrics">
-    <div>Exit P/E: 18x (growth premium) → <span class="exit-price">MYR 0.99</span></div>
-    <div class="exit-upside" style="color: #27ae60;">Upside: +43% from current</div>
+    <div class="exit-line1">
+      <span class="exit-price">MYR 0.99</span>
+      <span class="exit-upside">+43% from current</span>
+    </div>
+    <div class="exit-line2">
+      <span>Exit P/E: 18x (growth premium)</span>
+      <span>P/BV: 2.5x</span>
+    </div>
   </div>
 </div>
 
 <div class="case-block">
-  <div class="case-name">Bull Case (Severe)</div>
-  <div class="case-desc">Digital bank catalyst exceeds all expectations; ASEAN expansion achieves scale; AI/fraud products become industry standard; multiple re-rating to global peer levels.</div>
-  <div class="driver-label">Key Driver Assumptions</div>
-  <div class="driver-row"><span>Revenue Growth (3Y CAGR)</span><span>15%</span></div>
-  <div class="driver-row"><span>EBITDA Margin (Terminal)</span><span>35%</span></div>
-  <div class="driver-row"><span>Digital Bank Contribution</span><span>20% of revenue</span></div>
-  <div class="driver-row"><span>International Segment</span><span>RM 40M profit</span></div>
+  <div class="case-name">Bull Case (Severe) — Regional Champion + Multiple Re-Rating</div>
+  <div class="fermi-narrative">
+    <div class="scenario-text">Digital bank catalyst exceeds all expectations with all 5 digital banks at full lending velocity. ASEAN expansion achieves scale with Indonesia/Philippines combined reaching 20%+ of revenue. AI/fraud products become industry standard. Multiple re-rates toward global CRA peer levels.</div>
+    <ul>
+      <li>Revenue CAGR (FY25-28): 15%</li>
+      <li>FY28 Revenue: MYR 496M</li>
+      <li>EBITDA Margin (Terminal): 35%</li>
+      <li>Digital Bank Contribution: 20% of revenue</li>
+      <li>International Segment: MYR 40M profit (20% of group)</li>
+    </ul>
+    <div class="reconcile">Path: All catalysts fire → regional expansion success → market leadership → strategic value recognized → re-rating to global peer levels</div>
+  </div>
   <table class="scenario-mini">
-    <tr><td>Revenue (FY28E)</td><td>RM 496M</td></tr>
-    <tr><td>EBITDA</td><td>RM 174M</td></tr>
-    <tr><td>Net Income</td><td>RM 145M</td></tr>
-    <tr><td>EPS</td><td>RM 0.063</td></tr>
+    <tr><th></th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr>
+    <tr><td>Revenue (MYR M)</td><td>388</td><td>442</td><td>496</td></tr>
+    <tr><td>EBITDA (MYR M)</td><td>124</td><td>153</td><td>174</td></tr>
+    <tr><td>Net Income (MYR M)</td><td>110</td><td>130</td><td>145</td></tr>
+    <tr><td>EPS (MYR)</td><td>0.048</td><td>0.057</td><td>0.063</td></tr>
   </table>
   <div class="exit-metrics">
-    <div>Exit P/E: 22x (global CRA peer level) → <span class="exit-price">MYR 1.39</span></div>
-    <div class="exit-upside" style="color: #27ae60;">Upside: +101% from current</div>
+    <div class="exit-line1">
+      <span class="exit-price">MYR 1.39</span>
+      <span class="exit-upside">+101% from current</span>
+    </div>
+    <div class="exit-line2">
+      <span>Exit P/E: 22x (global CRA peer level)</span>
+      <span>P/BV: 3.5x</span>
+    </div>
   </div>
 </div>
 
 <div class="case-chart">
-  <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">
-    <rect x="50" y="150" width="80" height="80" fill="#888"/>
-    <text x="90" y="145" text-anchor="middle" font-size="10" fill="#333">Bear Severe</text>
-    <text x="90" y="175" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">MYR 0.34</text>
+  <svg viewBox="0 0 700 140">
+    <defs>
+      <linearGradient id="barGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" style="stop-color:#c0392b"/>
+        <stop offset="30%" style="stop-color:#e67e22"/>
+        <stop offset="50%" style="stop-color:#3498db"/>
+        <stop offset="70%" style="stop-color:#27ae60"/>
+        <stop offset="100%" style="stop-color:#16a085"/>
+      </linearGradient>
+    </defs>
+    <rect x="50" y="50" width="600" height="24" rx="4" fill="url(#barGrad)"/>
+    <line x1="248" y1="42" x2="248" y2="82" stroke="#1a1a2e" stroke-width="3"/>
+    <text x="248" y="35" text-anchor="middle" font-size="9" font-weight="700" fill="#1a1a2e">Current: MYR 0.69</text>
 
-    <rect x="160" y="110" width="80" height="120" fill="#aaa"/>
-    <text x="200" y="105" text-anchor="middle" font-size="10" fill="#333">Bear Mild</text>
-    <text x="200" y="145" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">MYR 0.50</text>
+    <text x="50" y="95" text-anchor="start" font-size="8" fill="#c0392b">Bear Severe</text>
+    <text x="50" y="108" text-anchor="start" font-size="11" font-weight="700" fill="#c0392b">MYR 0.34</text>
+    <text x="50" y="120" text-anchor="start" font-size="8" fill="#888">-51%</text>
 
-    <rect x="270" y="80" width="80" height="150" fill="#1a1a2e"/>
-    <text x="310" y="75" text-anchor="middle" font-size="10" fill="#333">Base</text>
-    <text x="310" y="130" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">MYR 0.69</text>
+    <text x="170" y="95" text-anchor="middle" font-size="8" fill="#e67e22">Bear Mild</text>
+    <text x="170" y="108" text-anchor="middle" font-size="11" font-weight="700" fill="#e67e22">MYR 0.50</text>
+    <text x="170" y="120" text-anchor="middle" font-size="8" fill="#888">-28%</text>
 
-    <rect x="380" y="40" width="80" height="190" fill="#27ae60"/>
-    <text x="420" y="35" text-anchor="middle" font-size="10" fill="#333">Bull Mild</text>
-    <text x="420" y="100" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">MYR 0.99</text>
+    <text x="350" y="95" text-anchor="middle" font-size="8" fill="#3498db">Base</text>
+    <text x="350" y="108" text-anchor="middle" font-size="11" font-weight="700" fill="#3498db">MYR 0.69</text>
+    <text x="350" y="120" text-anchor="middle" font-size="8" fill="#888">0%</text>
 
-    <rect x="490" y="10" width="80" height="220" fill="#155724"/>
-    <text x="530" y="5" text-anchor="middle" font-size="10" fill="#333">Bull Severe</text>
-    <text x="530" y="80" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">MYR 1.39</text>
+    <text x="510" y="95" text-anchor="middle" font-size="8" fill="#27ae60">Bull Mild</text>
+    <text x="510" y="108" text-anchor="middle" font-size="11" font-weight="700" fill="#27ae60">MYR 0.99</text>
+    <text x="510" y="120" text-anchor="middle" font-size="8" fill="#888">+43%</text>
 
-    <line x1="40" y1="80" x2="580" y2="80" stroke="#c0392b" stroke-dasharray="5,5" stroke-width="2"/>
-    <text x="600" y="83" font-size="9" fill="#c0392b">Current: MYR 0.69</text>
+    <text x="650" y="95" text-anchor="end" font-size="8" fill="#16a085">Bull Severe</text>
+    <text x="650" y="108" text-anchor="end" font-size="11" font-weight="700" fill="#16a085">MYR 1.39</text>
+    <text x="650" y="120" text-anchor="end" font-size="8" fill="#888">+101%</text>
   </svg>
 </div>
 
 <!-- SECTION 11: COMPS -->
 <div class="memo-section">11. Comps</div>
 
-<div class="section-title">Credit & Information Services Peers - Selected Financials</div>
-<table class="data">
-  <tr><th>Company</th><th>Ticker</th><th>Price</th><th>Mkt Cap (RM M)</th><th>EV (RM M)</th><th>Sales (RM M)</th><th>EBIT (RM M)</th><th>EBITDA (RM M)</th></tr>
-  <tr style="font-weight: 700; background: #f0f0f0;"><td>CTOS Digital</td><td>5301-MY</td><td>0.69</td><td>1,580</td><td>1,126</td><td>315</td><td>74</td><td>91</td></tr>
-  <tr><td>NICE Holdings</td><td>034310-KR</td><td>37.99</td><td>1,311</td><td>3,283</td><td>9,844</td><td>567</td><td>1,184</td></tr>
-  <tr><td>Korea Ratings</td><td>034950-KR</td><td>264.37</td><td>1,179</td><td>882</td><td>331</td><td>104</td><td>111</td></tr>
-  <tr><td>CARE Ratings</td><td>534804-IN</td><td>66.13</td><td>2,002</td><td>1,869</td><td>222</td><td>84</td><td>91</td></tr>
-  <tr><td>ICRA Limited</td><td>532835-IN</td><td>222.56</td><td>2,151</td><td>1,684</td><td>276</td><td>89</td><td>101</td></tr>
-  <tr><td>Credit Bureau Asia</td><td>TCU-SG</td><td>3.75</td><td>864</td><td>689</td><td>201</td><td>93</td><td>108</td></tr>
-  <tr><td>coocon Corp</td><td>294570-KR</td><td>77.71</td><td>773</td><td>356</td><td>209</td><td>57</td><td>73</td></tr>
-  <tr><td>PRONEXUS</td><td>7893-JP</td><td>27.65</td><td>705</td><td>521</td><td>925</td><td>78</td><td>157</td></tr>
-  <tr style="font-weight: 600; background: #fafbfc;"><td>Average</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-  <tr style="font-weight: 600; background: #fafbfc;"><td>Median</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<div class="sub-label">Credit & Data Services — Selected Financials</div>
+<table class="comps">
+  <tr>
+    <th>Company</th>
+    <th>Ticker</th>
+    <th>Price</th>
+    <th>Mkt Cap (M)</th>
+    <th>EV (M)</th>
+    <th>Sales (M)</th>
+    <th>EBIT (M)</th>
+    <th>EBITDA (M)</th>
+  </tr>
+  <tr class="subject">
+    <td>CTOS Digital</td>
+    <td>5301-MY</td>
+    <td>MYR 0.69</td>
+    <td>1,580</td>
+    <td>1,126</td>
+    <td>315</td>
+    <td>74</td>
+    <td>91</td>
+  </tr>
+  <tr>
+    <td>NICE Holdings</td>
+    <td>034310-KR</td>
+    <td>KRW 37.99</td>
+    <td>1,311</td>
+    <td>3,283</td>
+    <td>9,844</td>
+    <td>567</td>
+    <td>1,184</td>
+  </tr>
+  <tr>
+    <td>Korea Ratings</td>
+    <td>034950-KR</td>
+    <td>KRW 264.37</td>
+    <td>1,179</td>
+    <td>882</td>
+    <td>331</td>
+    <td>104</td>
+    <td>111</td>
+  </tr>
+  <tr>
+    <td>CARE Ratings</td>
+    <td>534804-IN</td>
+    <td>INR 66.13</td>
+    <td>2,002</td>
+    <td>1,869</td>
+    <td>222</td>
+    <td>84</td>
+    <td>91</td>
+  </tr>
+  <tr>
+    <td>ICRA Limited</td>
+    <td>532835-IN</td>
+    <td>INR 222.56</td>
+    <td>2,151</td>
+    <td>1,684</td>
+    <td>276</td>
+    <td>89</td>
+    <td>101</td>
+  </tr>
+  <tr>
+    <td>Credit Bureau Asia</td>
+    <td>TCU-SG</td>
+    <td>SGD 3.75</td>
+    <td>864</td>
+    <td>689</td>
+    <td>201</td>
+    <td>93</td>
+    <td>108</td>
+  </tr>
+  <tr>
+    <td>coocon Corp</td>
+    <td>294570-KR</td>
+    <td>KRW 77.71</td>
+    <td>773</td>
+    <td>356</td>
+    <td>209</td>
+    <td>57</td>
+    <td>73</td>
+  </tr>
+  <tr>
+    <td>PRONEXUS</td>
+    <td>7893-JP</td>
+    <td>JPY 27.65</td>
+    <td>705</td>
+    <td>521</td>
+    <td>925</td>
+    <td>78</td>
+    <td>157</td>
+  </tr>
+  <tr class="stat-row">
+    <td>Average</td>
+    <td></td>
+    <td></td>
+    <td>1,320</td>
+    <td>1,301</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr class="stat-row">
+    <td>Median</td>
+    <td></td>
+    <td></td>
+    <td>1,179</td>
+    <td>882</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
 </table>
 
-<div class="section-title" style="margin-top: 16px;">Valuation Multiples</div>
-<table class="data">
-  <tr><th>Company</th><th>Ticker</th><th>P/E (Actual)</th><th>P/E (FY1)</th><th>EV/Sales</th><th>EV/EBIT</th><th>EV/EBITDA</th></tr>
-  <tr style="font-weight: 700; background: #f0f0f0;"><td>CTOS Digital</td><td>5301-MY</td><td>17.2x</td><td>15.5x</td><td>3.6x</td><td>15.2x</td><td>12.4x</td></tr>
-  <tr><td>NICE Holdings</td><td>034310-KR</td><td>7.4x</td><td>—</td><td>0.3x</td><td>5.8x</td><td>2.8x</td></tr>
-  <tr><td>Korea Ratings</td><td>034950-KR</td><td>15.5x</td><td>—</td><td>2.7x</td><td>8.5x</td><td>8.0x</td></tr>
-  <tr><td>CARE Ratings</td><td>534804-IN</td><td>25.1x</td><td>28.6x</td><td>8.4x</td><td>22.2x</td><td>20.6x</td></tr>
-  <tr><td>ICRA Limited</td><td>532835-IN</td><td>23.6x</td><td>27.0x</td><td>6.1x</td><td>18.8x</td><td>16.7x</td></tr>
-  <tr><td>Credit Bureau Asia</td><td>TCU-SG</td><td>24.2x</td><td>—</td><td>3.4x</td><td>7.4x</td><td>6.4x</td></tr>
-  <tr><td>coocon Corp</td><td>294570-KR</td><td>12.1x</td><td>14.3x</td><td>1.7x</td><td>6.3x</td><td>4.9x</td></tr>
-  <tr><td>PRONEXUS</td><td>7893-JP</td><td>—</td><td>—</td><td>0.6x</td><td>6.7x</td><td>3.3x</td></tr>
-  <tr style="font-weight: 600; background: #fafbfc;"><td>Average</td><td></td><td>17.9x</td><td>21.3x</td><td>3.4x</td><td>11.4x</td><td>9.4x</td></tr>
-  <tr style="font-weight: 600; background: #fafbfc;"><td>Median</td><td></td><td>17.2x</td><td>21.2x</td><td>3.1x</td><td>8.0x</td><td>7.2x</td></tr>
+<div class="sub-label" style="margin-top: 12px;">Valuation Multiples</div>
+<table class="comps">
+  <tr>
+    <th>Company</th>
+    <th>Ticker</th>
+    <th>P/E (LTM)</th>
+    <th>P/E (FY1)</th>
+    <th>EV/Sales</th>
+    <th>EV/EBIT</th>
+    <th>EV/EBITDA</th>
+    <th>Gross Margin</th>
+  </tr>
+  <tr class="subject">
+    <td>CTOS Digital</td>
+    <td>5301-MY</td>
+    <td>17.2x</td>
+    <td>15.5x</td>
+    <td>3.6x</td>
+    <td>15.2x</td>
+    <td>12.4x</td>
+    <td>68%</td>
+  </tr>
+  <tr>
+    <td>NICE Holdings</td>
+    <td>034310-KR</td>
+    <td>7.4x</td>
+    <td>—</td>
+    <td>0.3x</td>
+    <td>5.8x</td>
+    <td>2.8x</td>
+    <td>52%</td>
+  </tr>
+  <tr>
+    <td>Korea Ratings</td>
+    <td>034950-KR</td>
+    <td>15.5x</td>
+    <td>—</td>
+    <td>2.7x</td>
+    <td>8.5x</td>
+    <td>8.0x</td>
+    <td>71%</td>
+  </tr>
+  <tr>
+    <td>CARE Ratings</td>
+    <td>534804-IN</td>
+    <td>25.1x</td>
+    <td>28.6x</td>
+    <td>8.4x</td>
+    <td>22.2x</td>
+    <td>20.6x</td>
+    <td>65%</td>
+  </tr>
+  <tr>
+    <td>ICRA Limited</td>
+    <td>532835-IN</td>
+    <td>23.6x</td>
+    <td>27.0x</td>
+    <td>6.1x</td>
+    <td>18.8x</td>
+    <td>16.7x</td>
+    <td>70%</td>
+  </tr>
+  <tr>
+    <td>Credit Bureau Asia</td>
+    <td>TCU-SG</td>
+    <td>24.2x</td>
+    <td>—</td>
+    <td>3.4x</td>
+    <td>7.4x</td>
+    <td>6.4x</td>
+    <td>75%</td>
+  </tr>
+  <tr>
+    <td>coocon Corp</td>
+    <td>294570-KR</td>
+    <td>12.1x</td>
+    <td>14.3x</td>
+    <td>1.7x</td>
+    <td>6.3x</td>
+    <td>4.9x</td>
+    <td>58%</td>
+  </tr>
+  <tr>
+    <td>PRONEXUS</td>
+    <td>7893-JP</td>
+    <td>—</td>
+    <td>—</td>
+    <td>0.6x</td>
+    <td>6.7x</td>
+    <td>3.3x</td>
+    <td>45%</td>
+  </tr>
+  <tr class="stat-row">
+    <td>Average</td>
+    <td></td>
+    <td>17.9x</td>
+    <td>21.3x</td>
+    <td>3.4x</td>
+    <td>11.4x</td>
+    <td>9.4x</td>
+    <td>63%</td>
+  </tr>
+  <tr class="stat-row">
+    <td>Median</td>
+    <td></td>
+    <td>17.2x</td>
+    <td>21.2x</td>
+    <td>3.1x</td>
+    <td>8.0x</td>
+    <td>7.2x</td>
+    <td>67%</td>
+  </tr>
 </table>
 
-<p class="prose" style="margin-top: 12px;">
-<strong>Commentary:</strong> CTOS trades at 12.4x EV/EBITDA vs. peer median of 7.2x—a 72% premium. This premium is partially justified by (1) dominant 71% market share in Malaysia, (2) higher growth profile from digital bank catalyst and international expansion, and (3) more conservative leverage (0.17x gross gearing vs. 1.05x peer average). However, recent margin compression and leadership transition may warrant some discount. Indian peers (CARE, ICRA) trade at higher multiples reflecting faster growth economies. Credit Bureau Asia (Singapore) offers closest regional comp at 6.4x EV/EBITDA—CTOS's premium may compress if growth doesn't materialize.
-</p>
+<div class="prose" style="margin-top: 10px;">
+<strong>Comps Commentary:</strong> CTOS trades at 12.4x EV/EBITDA versus peer median of 7.2x—a 72% premium. This premium is partially justified by: (1) dominant 71% market share in Malaysia versus fragmented competition elsewhere, (2) higher growth profile from digital bank catalyst and ASEAN expansion optionality, and (3) more conservative leverage (0.17x gross gearing versus 1.05x peer average per expert interviews). However, recent margin compression (EBITDA margin declined from 38% to 26%) and leadership transition may warrant some discount to historical premium. Indian peers (CARE, ICRA) trade at higher multiples reflecting faster-growth economy exposure. Credit Bureau Asia (Singapore) offers closest regional comp at 6.4x EV/EBITDA—CTOS's premium may compress if growth catalysts don't materialize. At current levels, CTOS appears to price in modest execution but offers significant upside if digital bank and international catalysts accelerate.
+</div>
 
-<!-- SECTION 12: IS THIS A THEIA INVESTMENT -->
+<!-- SECTION 12: THEIA FIT ASSESSMENT -->
 <div class="memo-section">12. Is This a Theia Investment?</div>
 
-<p class="prose"><strong>(i) Market Cap Bucket:</strong> MYR 1,580M (~USD 355M) <span class="fw-rating moderate">Moderate</span></p>
-<p class="prose" style="margin-left: 20px;">Small Cap ($1B-$5B range in USD terms)—strong fit for Theia's sweet spot. However, liquidity may be constrained given Malaysian market dynamics.</p>
+<div class="screen-item">
+  <div class="screen-label">(i) Market Cap Bucket</div>
+  <div class="screen-detail">
+    <strong>Small Cap (~USD 355M)</strong> <span class="fw-rating moderate">Moderate</span> — MYR 1,580M market cap translates to approximately USD 355M at current exchange rates. This sits in the small cap range ($100M-$1B) that represents Theia's sweet spot—large enough to have meaningful liquidity but small enough to be under-followed by institutional investors. However, Malaysian market dynamics may constrain trading liquidity relative to US small caps of similar size.
+  </div>
+</div>
 
-<p class="prose"><strong>(ii) Analyst Coverage:</strong> 7 broker contributors <span class="fw-rating moderate">Moderate</span></p>
-<p class="prose" style="margin-left: 20px;">Moderately covered. Not heavily followed by global institutions, creating potential for analytical edge. Local coverage dominates.</p>
+<div class="screen-item">
+  <div class="screen-label">(ii) Analyst Coverage</div>
+  <div class="screen-detail">
+    <strong>Moderately Covered (7 analysts)</strong> <span class="fw-rating moderate">Moderate</span> — Seven broker contributors cover CTOS, creating meaningful information asymmetry relative to large caps but not the extreme under-coverage Theia prefers. Coverage is dominated by local Malaysian brokers; global institutions have limited involvement. Primary research through expert networks and management access could generate differentiated insights given the local market dynamics and digital bank catalyst complexity.
+  </div>
+</div>
 
-<p class="prose"><strong>(iii) Blockchain / Internet Finance Thesis Alignment:</strong> <span class="fw-rating strong">Strong</span></p>
-<p class="prose" style="margin-left: 20px;"><strong>Adjacent</strong> to core thesis. CTOS is critical infrastructure for digital banking/fintech ecosystem—all 5 Malaysian digital banks are clients. Alternative data scoring for underbanked populations aligns with financial inclusion theme. Not blockchain-native but deeply embedded in internet finance digitization.</p>
+<div class="screen-item">
+  <div class="screen-label">(iii) Blockchain / Internet Finance Thesis Alignment</div>
+  <div class="screen-detail">
+    <strong>Adjacent</strong> <span class="fw-rating strong">Strong</span> — CTOS is not blockchain-native but is deeply embedded in the internet finance ecosystem as the critical infrastructure layer for credit decisioning. All five Malaysian digital banks are CTOS clients; the company is essential infrastructure for digital financial services expansion. Alternative data scoring for underbanked populations using telco and behavioral data aligns with financial inclusion themes. AI/fraud detection capabilities position CTOS at the intersection of fintech and traditional banking. While not a core blockchain play, CTOS represents the enabling infrastructure for Southeast Asia's digital finance transformation.
+  </div>
+</div>
 
-<p class="prose"><strong>(iv) Outcome Dispersion:</strong> <span class="fw-rating strong">Strong</span></p>
-<p class="prose" style="margin-left: 20px;"><strong>Wide dispersion.</strong> Bear case implies MYR 0.34 (-51%); bull case implies MYR 1.39 (+101%). Key swing factors—digital bank scaling, international profitability, margin trajectory—have binary characteristics that create meaningful alpha opportunity from differentiated view.</p>
+<div class="screen-item">
+  <div class="screen-label">(iv) Outcome Dispersion</div>
+  <div class="screen-detail">
+    <strong>Wide Dispersion</strong> <span class="fw-rating strong">Strong</span> — The scenario range spans from MYR 0.34 (-51%) to MYR 1.39 (+101%), a 4x spread between bear severe and bull severe outcomes. Key swing factors—digital bank transaction velocity, margin trajectory, international scaling—have binary characteristics that create meaningful alpha opportunity from differentiated fundamental view. The stock has already declined 37% over the past year, suggesting significant pessimism is priced in. If catalysts materialize, re-rating potential is substantial; if they don't, further downside exists. This wide distribution rewards deep research.
+  </div>
+</div>
 
 <div class="verdict">
-  <strong>Verdict: Maybe — Adjacent thesis fit with wide outcome dispersion, but execution risk requires monitoring</strong><br><br>
-  CTOS fits Theia's criteria on market cap (small cap), coverage (moderately followed), and outcome dispersion (wide). Thesis alignment is strong as adjacent play on internet finance/digital banking infrastructure. However, margin compression, leadership transition, and gap between management vision vs. execution create near-term uncertainty. <strong>Recommended action:</strong> Monitor Q1 2026 results for digital bank volume acceleration and margin stabilization before initiating position. If digital bank catalyst materializes and margins stabilize, upgrade to "Yes."
-  <br><br>
-  <em>Note: Theia seeks small cap companies that aren't well covered and are strongly aligned on core internet finance thesis with wide outcome dispersion.</em>
+<strong>Verdict: Maybe — Adjacent Thesis Fit with Wide Outcome Dispersion, but Execution Uncertainty Requires Monitoring</strong><br><br>
+CTOS fits Theia's criteria on market cap (small cap at ~USD 355M), coverage (moderately followed with local bias), and outcome dispersion (wide range from -51% to +101%). Thesis alignment is strong as an adjacent play on internet finance infrastructure and digital banking enablement in ASEAN. The 71% market share, 30-year proprietary data asset, and digital bank catalyst create a compelling long-term investment case.<br><br>
+However, near-term uncertainty warrants caution: (1) margin compression from 38% to 26% EBITDA margins raises profitability concerns, (2) CEO transition creates execution risk during strategic inflection, (3) digital bank catalyst timing is uncertain (2027-2028 realistic but not guaranteed), and (4) the 37% YTD decline may reflect fundamental deterioration rather than just sentiment. These factors suggest monitoring rather than immediate initiation.<br><br>
+<strong>Recommended action:</strong> Monitor Q1-Q2 2026 results for digital bank volume acceleration, margin stabilization, and new CEO appointment. If digital bank transaction growth exceeds 50% YoY and EBITDA margins stabilize at 27%+, upgrade to "Yes" and consider initiating position. Entry at MYR 0.60-0.65 (if available) would provide additional margin of safety.<br><br>
+<em>Note: Theia seeks small cap companies that aren't well covered and are strongly aligned on core internet finance thesis with wide outcome dispersion.</em>
 </div>
 
 <!-- SECTION 13: RISK SUMMARY -->
 <div class="memo-section">13. Risk Summary</div>
 
 <table class="risk-table">
-  <tr><th>Risk Category</th><th>Description</th><th>Severity</th><th>Mitigant</th></tr>
   <tr>
-    <td><strong>Regulatory</strong></td>
-    <td>Consumer Credit Act could restrict high-margin lending products; Credit Reporting Agencies Act compliance burden</td>
-    <td><span class="severity-moderate">Moderate</span></td>
-    <td>CTOS compliance solutions could benefit; regulatory licensing creates barriers</td>
+    <th>Risk Category</th>
+    <th>Description</th>
+    <th>Severity</th>
+    <th>Mitigant</th>
   </tr>
   <tr>
-    <td><strong>Cybersecurity</strong></td>
-    <td>Central repository of sensitive data; breach would be catastrophic to reputation and operations</td>
-    <td><span class="severity-high">High</span></td>
-    <td>"Project Elevate" 3-year cybersecurity transformation; ISO 27001:2022 certified; 24/7 SOC</td>
+    <td>Margin Compression</td>
+    <td>Shift to enterprise digital solutions (eKYC, fraud) carrying lower margins than legacy credit reports. Gross margins declined from 77% to 68%; EBITDA margins from 38% to 26%. If mix shift continues without volume leverage, profitability may remain depressed indefinitely.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>MYR 10M cost savings program underway; operating leverage should materialize as digital solutions scale; premium fraud products command higher margins than average enterprise solutions.</td>
   </tr>
   <tr>
-    <td><strong>Third-Party Data</strong></td>
-    <td>Reliance on government agencies for court/legal data; outage would impede service delivery</td>
-    <td><span class="severity-moderate">Moderate</span></td>
-    <td>Alternative data sources (telco, etc.) diversify dependency; vendor due diligence</td>
+    <td>Leadership Transition</td>
+    <td>CEO departed May 2025; Interim CEO managing operations during strategic inflection point. Execution gap noted between management vision and frontline sales engagement. Risk of strategic drift or execution stumbles during transition.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Interim CEO Loh Kok Leong has board tenure since IPO; continuity of strategy expected. Search for permanent CEO underway. Core operational teams intact.</td>
   </tr>
   <tr>
-    <td><strong>Margin Compression</strong></td>
-    <td>Shift to enterprise digital solutions carrying lower margins; gross margin declined from 77% to 68%</td>
-    <td><span class="severity-moderate">Moderate</span></td>
-    <td>RM10M cost savings realized; operating leverage should kick in as volume scales</td>
+    <td>Digital Bank Catalyst Timing</td>
+    <td>Digital banks represent <5% of current revenue despite management emphasis. If digital banks struggle with profitability or slow lending rollouts, the key growth catalyst fails to materialize within expected timeframe.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Three of five digital banks already onboarded; one tripled volumes YoY. Regulatory support for digital banking remains strong. 2027-2028 timeline realistic for meaningful contribution.</td>
   </tr>
   <tr>
-    <td><strong>Leadership</strong></td>
-    <td>CEO transition in 2025; Interim CEO managing strategic execution</td>
-    <td><span class="severity-moderate">Moderate</span></td>
-    <td>Interim CEO Loh Kok Leong has board tenure since IPO; continuity of strategy</td>
+    <td>Regulatory (Consumer Credit Act)</td>
+    <td>New legislation could impose standards that increase compliance costs or restrict high-margin products. Credit Reporting Agencies Act already requires licensing and ongoing compliance investment.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>CTOS positioned as regulatory partner; compliance solutions could benefit from increased requirements. Management has navigated regulatory relationships well historically.</td>
   </tr>
   <tr>
-    <td><strong>D2C Growth Ceiling</strong></td>
-    <td>Consumer awareness low; structural reliance on banks for credit checks limits D2C velocity</td>
-    <td><span class="severity-low">Low</span></td>
-    <td>Financial literacy campaigns; D2C is 12% of revenue—not critical to thesis</td>
+    <td>Cybersecurity</td>
+    <td>Central repository of sensitive credit data for millions of Malaysians. A data breach would be catastrophic for reputation and operations—potentially existential given trust-based business model.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>"Project Elevate" 3-year cybersecurity transformation ongoing; ISO 27001:2022 certified; 24/7 SOC monitoring. Industry-standard defenses but asymmetric risk remains.</td>
   </tr>
   <tr>
-    <td><strong>Currency</strong></td>
-    <td>International revenue exposed to IDR/PHP fluctuations; associate BOL exposed to THB</td>
-    <td><span class="severity-low">Low</span></td>
-    <td>International currently 13% of revenue; natural hedge as expenses also local</td>
+    <td>D2C Growth Ceiling</td>
+    <td>Structural consumer behavior limits D2C velocity—Malaysians rely on banks for credit checks rather than proactively purchasing reports. 5M+ registered users but low conversion to paid subscriptions.</td>
+    <td><span class="fw-rating low">Low</span></td>
+    <td>D2C represents 12% of revenue; not critical to investment thesis. Financial literacy campaigns may improve conversion over time. Core value in B2B segments.</td>
+  </tr>
+  <tr>
+    <td>Currency / Emerging Market</td>
+    <td>Malaysian Ringgit volatility affects USD-denominated returns. Emerging market political/economic risks could impact business environment.</td>
+    <td><span class="fw-rating low">Low</span></td>
+    <td>Malaysia has stable political/economic environment; Central Bank maintains orderly currency management. MYR correlation to USD provides natural hedge for export-oriented economy.</td>
   </tr>
 </table>
 
 <!-- SECTION 14: APPENDIX -->
 <div class="memo-section">14. Appendix — Python Code</div>
 
-<p style="font-size: 10px; margin-bottom: 8px;"><strong>Sensitivity Table Generator</strong></p>
-<div class="code-block">import numpy as np
+<p class="prose">Sensitivity table generator and scenario model code for analyst customization:</p>
+
+<div class="code-block"># CTOS Sensitivity Table Generator
+import numpy as np
 import pandas as pd
 
-def sensitivity_table(base_x, base_y, x_range, y_range, func, x_label, y_label, output_label):
-    """
-    Generate 2D sensitivity table
+def revenue_margin_sensitivity():
+    """Net Income sensitivity to Revenue Growth and EBITDA Margin"""
+    rev_growth = [0.05, 0.07, 0.09, 0.11, 0.13]
+    margins = [0.22, 0.24, 0.26, 0.28, 0.30, 0.32]
 
-    Parameters:
-    - base_x, base_y: base case values
-    - x_range: list of x-axis values (e.g., client counts)
-    - y_range: list of y-axis values (e.g., ARPU values)
-    - func: function(x, y) -> output value
-    """
-    results = pd.DataFrame(index=x_range, columns=y_range)
-    for x in x_range:
-        for y in y_range:
-            results.loc[x, y] = func(x, y)
+    base_rev = 326  # FY25 revenue MYR M
+    tax_rate = 0.24
+    da_pct = 0.03  # D&A as % of revenue
+    interest = 10  # MYR M annual interest
 
-    results.index.name = x_label
-    results.columns.name = y_label
-    print(f"\n{output_label}")
-    print(f"Base case: {x_label}={base_x}, {y_label}={base_y}")
-    print(results.to_string())
-    return results
-
-# Example: Key Accounts Revenue sensitivity
-clients = [450, 475, 500, 525, 550]
-arpu = [280, 300, 326, 350, 380]  # in RM '000
-
-def key_accounts_revenue(clients, arpu):
-    return round(clients * arpu / 1000, 0)  # RM millions
-
-sensitivity_table(
-    base_x=500, base_y=326,
-    x_range=clients, y_range=arpu,
-    func=key_accounts_revenue,
-    x_label="Clients",
-    y_label="ARPU (RM '000)",
-    output_label="Key Accounts Revenue (RM M)"
-)</div>
-
-<p style="font-size: 10px; margin-bottom: 8px; margin-top: 16px;"><strong>5-Case Model Generator</strong></p>
-<div class="code-block">import pandas as pd
-
-def five_case_model(base_revenue, base_margin, cases):
-    """
-    Generate 5-case scenario model
-
-    Parameters:
-    - base_revenue: FY25 revenue (RM M)
-    - base_margin: FY25 EBITDA margin (%)
-    - cases: dict with case name -> (revenue_cagr, terminal_margin, exit_pe)
-    """
     results = []
+    for growth in rev_growth:
+        row = []
+        for margin in margins:
+            fy28_rev = base_rev * (1 + growth) ** 3
+            ebitda = fy28_rev * margin
+            ebit = ebitda - (fy28_rev * da_pct)
+            ebt = ebit - interest
+            ni = ebt * (1 - tax_rate)
+            row.append(int(ni))
+        results.append(row)
 
-    for case_name, (cagr, margin, pe) in cases.items():
-        fy28_revenue = base_revenue * (1 + cagr) ** 3
-        fy28_ebitda = fy28_revenue * margin
-        fy28_net_income = fy28_ebitda * 0.75  # Simplified
-        fy28_eps = fy28_net_income / 2290.53  # Shares in millions
-        implied_price = fy28_eps * pe
-        upside = (implied_price / 0.69 - 1) * 100
+    df = pd.DataFrame(results,
+                      index=[f"{g:.0%}" for g in rev_growth],
+                      columns=[f"{m:.0%}" for m in margins])
+    df.index.name = 'Rev Growth'
+    return df
+
+def key_accounts_sensitivity():
+    """Key Accounts Revenue sensitivity to Clients and ARPU"""
+    clients = [450, 475, 500, 525, 550]
+    arpu = [280, 300, 326, 360, 400]  # MYR '000
+
+    results = []
+    for c in clients:
+        row = []
+        for a in arpu:
+            rev = c * a / 1000  # MYR M
+            row.append(int(rev))
+        results.append(row)
+
+    df = pd.DataFrame(results, index=clients, columns=arpu)
+    df.index.name = '# Clients'
+    df.columns.name = 'ARPU (MYR K)'
+    return df
+
+def five_case_model():
+    """CTOS 5-Case Model"""
+    cases = {
+        'Bear Severe':  {'cagr': 0.04, 'margin': 0.22, 'pe': 12},
+        'Bear Mild':    {'cagr': 0.06, 'margin': 0.26, 'pe': 14},
+        'Base':         {'cagr': 0.08, 'margin': 0.29, 'pe': 15},
+        'Bull Mild':    {'cagr': 0.11, 'margin': 0.32, 'pe': 18},
+        'Bull Severe':  {'cagr': 0.15, 'margin': 0.35, 'pe': 22},
+    }
+
+    base_rev = 326
+    shares = 2290.53  # M
+    current_price = 0.69
+
+    results = []
+    for name, p in cases.items():
+        fy28_rev = base_rev * (1 + p['cagr']) ** 3
+        ebitda = fy28_rev * p['margin']
+        ni = ebitda * 0.75  # Simplified
+        eps = ni / shares
+        price = eps * p['pe']
+        upside = (price / current_price - 1) * 100
 
         results.append({
-            'Case': case_name,
-            'Revenue CAGR': f"{cagr:.0%}",
-            'EBITDA Margin': f"{margin:.0%}",
-            'FY28 Revenue': f"RM {fy28_revenue:.0f}M",
-            'FY28 EBITDA': f"RM {fy28_ebitda:.0f}M",
-            'FY28 EPS': f"RM {fy28_eps:.3f}",
-            'Exit P/E': f"{pe}x",
-            'Implied Price': f"MYR {implied_price:.2f}",
+            'Case': name,
+            'Revenue CAGR': f"{p['cagr']:.0%}",
+            'EBITDA Margin': f"{p['margin']:.0%}",
+            'FY28 Revenue': f"MYR {fy28_rev:.0f}M",
+            'FY28 EBITDA': f"MYR {ebitda:.0f}M",
+            'FY28 EPS': f"MYR {eps:.3f}",
+            'Exit P/E': f"{p['pe']}x",
+            'Price': f"MYR {price:.2f}",
             'Upside': f"{upside:+.0f}%"
         })
 
     return pd.DataFrame(results)
 
-cases = {
-    'Bear Severe': (0.04, 0.22, 12),
-    'Bear Mild': (0.06, 0.26, 14),
-    'Base': (0.08, 0.29, 15),
-    'Bull Mild': (0.11, 0.32, 18),
-    'Bull Severe': (0.15, 0.35, 22),
-}
+# Run models
+print("=== Revenue Growth vs EBITDA Margin ===")
+print(revenue_margin_sensitivity())
+print("\n=== Key Accounts Sensitivity ===")
+print(key_accounts_sensitivity())
+print("\n=== 5-Case Model ===")
+print(five_case_model().to_string(index=False))
+</div>
 
-model = five_case_model(base_revenue=326, base_margin=0.26, cases=cases)
-print(model.to_string(index=False))</div>
-
-<p class="source-note" style="margin-top: 24px;">
-  Generated by Theia Underwriting Engine | Data as of March 20, 2026<br>
-  Sources: FactSet, AlphaSense, Company Filings
-</p>
+<p class="source-note">Generated by Claude | Data: FactSet, AlphaSense, Company Filings | March 2026</p>
 
 </body>
 </html>
