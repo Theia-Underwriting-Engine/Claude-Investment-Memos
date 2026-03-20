@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hippo Holdings | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 6px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; }
+.case-block .driver-row span:first-child { display: inline-block; width: 60%; font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { text-align: right; font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.bull-bear-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.bull-col, .bear-col { }
+.bull-col h4 { color: #155724; margin-bottom: 8px; }
+.bear-col h4 { color: #721c24; margin-bottom: 8px; }
+.bull-item, .bear-item { margin-bottom: 8px; padding-left: 12px; border-left: 3px solid; font-size: 10px; line-height: 1.5; }
+.bull-item { border-color: #27ae60; }
+.bear-item { border-color: #c0392b; }
+
+.risk-table { font-size: 10px; width: 100%; }
+.risk-table th { background: #f4f6f9; text-align: left; padding: 4px 6px; font-weight: 600; }
+.risk-table td { padding: 4px 6px; border-bottom: 1px solid #eee; vertical-align: top; }
+.severity-high { background: #f8d7da; color: #721c24; padding: 1px 6px; border-radius: 3px; font-size: 9px; font-weight: 600; }
+.severity-med { background: #fff3cd; color: #856404; padding: 1px 6px; border-radius: 3px; font-size: 9px; font-weight: 600; }
+.severity-low { background: #d4edda; color: #155724; padding: 1px 6px; border-radius: 3px; font-size: 9px; font-weight: 600; }
+
+.driver-table { font-size: 10px; margin: 8px 0; }
+.driver-table th { background: #f4f6f9; text-align: left; padding: 3px 6px; }
+.driver-table td { padding: 3px 6px; border-bottom: 1px solid #eee; }
+
+.insight-box { background: #f9f9f9; border-radius: 4px; padding: 10px; margin: 8px 0; }
+.insight-box h5 { font-size: 10px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+.insight-box p { font-size: 10px; line-height: 1.5; color: #333; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Hippo Holdings | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">
+<strong>Hippo Holdings Inc.</strong> (NYSE: HIPO) is a Palo Alto-based insurtech company transforming residential property insurance through technology-enabled underwriting and a hybrid fronting platform model. Founded in 2015 by Assaf Wand and Eyal Navon, Hippo initially launched as a direct-to-consumer homeowners insurance MGA (Managing General Agent), leveraging AI and smart home data to underwrite policies more accurately than traditional carriers. The company went public via SPAC merger in August 2021 at an implied $5 billion valuation, though shares have since declined significantly as the insurtech sector de-rated. As of March 2026, Hippo has a market cap of approximately $666 million with 26 million basic shares outstanding.
+</p>
+
+<p class="prose">
+The pivotal transformation came in June 2020 when Hippo acquired <strong>Spinnaker Insurance Company</strong>, a Texas-domiciled admitted carrier with surplus lines capabilities. This acquisition fundamentally shifted Hippo's business model from a capital-light MGA to a "hybrid fronting platform" — the company now generates revenue from three sources: (1) its own Hippo Home Insurance Program where it retains underwriting risk, (2) third-party programs where Spinnaker provides paper and Hippo earns fees, and (3) Insurance-as-a-Service (IaaS) where Spinnaker fronts for other MGAs. This platform model has driven gross written premiums to <strong>$1.1 billion in 2025</strong> (up 24% YoY) while reducing Hippo's own catastrophe exposure by 80% through strategic reinsurance and program mix shifts.
+</p>
+
+<p class="prose">
+The company is led by <strong>CEO Richard L. McCathron</strong>, a former Travelers executive who joined as President in 2019, and <strong>CFO Guy Zeltser</strong>. McCathron has driven a disciplined pivot away from volatile personal lines homeowners toward a more diversified, fee-heavy model. Key recent milestones include: (1) the $100 million sale of Hippo's homebuilder distribution network to Baldwin Insurance Group in June 2025, which also provided access to Baldwin's Westwood platform and 20 of the top 25 homebuilders; (2) the sale of a majority stake in First Connect Insurance Services to Centana for $60 million in November 2024; and (3) the relaunch of Hippo homeowners insurance outside the builder channel in late 2025. Hippo achieved <strong>GAAP net income of $58 million in 2025</strong> — its first profitable year — after losses of $273 million (2023) and $40 million (2024).
+</p>
+
+<p class="prose">
+<strong>One-line thesis:</strong> Hippo is a de-risked insurtech platform trading at 1.5x book value with a path to $125M+ adjusted net income by 2028, but execution remains uncertain given its history of losses and geographic concentration in catastrophe-prone states.
+</p>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 2: FINANCIAL SUMMARY (THEIA FACTSET SUMMARY) -->
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+
+<div class="memo-section">2. Theia FactSet Summary</div>
+
+<div class="header">
+  <h1>Hippo Holdings Inc</h1>
+  <span class="ticker">HIPO-US | NYSE</span>
+  <span class="date">March 19, 2026</span>
+</div>
+
+<div class="price-bar">
+  <span class="price">$25.65</span>
+  <span><span class="label">1M</span> <span class="chg">-9.8%</span></span>
+  <span><span class="label">3M</span> <span class="chg">-17.1%</span></span>
+  <span><span class="label">6M</span> <span class="chg">-31.4%</span></span>
+  <span><span class="label">YTD</span> <span class="chg">-14.9%</span></span>
+  <span><span class="label">1Y</span> <span class="chg">-2.6%</span></span>
+  <span><span class="label">52W Range</span> $19.92 - $38.98</span>
+</div>
+
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv">
+      <tr><td>Primary Ticker</td><td>HIPO-US</td></tr>
+      <tr><td>CUSIP</td><td>433539202</td></tr>
+      <tr><td>ISIN</td><td>US4335392027</td></tr>
+      <tr><td>Volume (Last)</td><td>109,373</td></tr>
+      <tr><td>30D Avg Daily Vol</td><td>145,978</td></tr>
+      <tr><td>Float (%)</td><td>68.3%</td></tr>
+      <tr><td>Short Interest</td><td>3.2 Days / 3.5% Float</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev">
+      <tr><td>Price (Mar 19 '26)</td><td>$25.65</td></tr>
+      <tr><td>Basic Shares (M)</td><td>25.97</td></tr>
+      <tr><td style="padding-left: 12px; font-size: 9px;">Common Stock</td><td style="font-size: 9px;">25.97</td></tr>
+      <tr><td>Market Cap</td><td>$666.2M</td></tr>
+      <tr><td>Diluted Shares (Stock Comp)</td><td>1.57</td></tr>
+      <tr><td>Fully Diluted Shares</td><td>27.54</td></tr>
+      <tr><td>Fully Diluted Mkt Cap</td><td>$706.5M</td></tr>
+      <tr><td>+ Total Debt</td><td>$52.4M</td></tr>
+      <tr><td>– Cash & Investments</td><td>($696.0M)</td></tr>
+      <tr class="total"><td>Enterprise Value</td><td>$834.8M</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="section-title">Current Valuation</div>
+<div class="val-grid">
+  <div class="val-cell"><div class="val-label">Market Cap</div><div class="val-num">$666M</div></div>
+  <div class="val-cell"><div class="val-label">EV</div><div class="val-num">$835M</div></div>
+  <div class="val-cell"><div class="val-label">P/E (LTM)</div><div class="val-num">12.0x</div></div>
+  <div class="val-cell"><div class="val-label">P/BV</div><div class="val-num">1.51x</div></div>
+  <div class="val-cell"><div class="val-label">P/TBV</div><div class="val-num">2.04x</div></div>
+  <div class="val-cell"><div class="val-label">Combined Ratio</div><div class="val-num">100.3%</div></div>
+</div>
+<div class="val-grid">
+  <div class="val-cell"><div class="val-label">Fully Dil Mkt Cap</div><div class="val-num">$707M</div></div>
+  <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">9.9%</div></div>
+  <div class="val-cell"><div class="val-label">Beta (3Y Adj)</div><div class="val-num">1.41</div></div>
+  <div class="val-cell"><div class="val-label">Avg Rating</div><div class="val-num">OW (1.50)</div></div>
+  <div class="val-cell"><div class="val-label">Target Price</div><div class="val-num">$38.67</div></div>
+  <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">May 7, 2026</div></div>
+</div>
+
+<div class="section-title">Valuation Multiples</div>
+<table class="data">
+  <tr>
+    <th></th>
+    <th>5Yr Avg</th>
+    <th>Dec '23</th>
+    <th>Dec '24</th>
+    <th>Dec '25</th>
+    <th class="est">Dec '26E</th>
+    <th class="est">Dec '27E</th>
+  </tr>
+  <tr><td>Price / Book</td><td>1.32x</td><td>0.58x</td><td>1.84x</td><td>1.77x</td><td class="est">1.45x</td><td class="est">1.38x</td></tr>
+  <tr><td>Price / Book ex-AOCI</td><td>1.31x</td><td>0.58x</td><td>1.82x</td><td>1.78x</td><td class="est">1.45x</td><td class="est">1.38x</td></tr>
+  <tr><td>Price / Tangible Book</td><td>1.55x</td><td>0.73x</td><td>2.24x</td><td>2.04x</td><td>—</td><td>—</td></tr>
+  <tr><td>Price / Earnings</td><td>2.7x</td><td>NM</td><td>NM</td><td>13.6x</td><td class="est">110.6x</td><td class="est">27.5x</td></tr>
+  <tr><td>Return on Equity</td><td>(33.7%)</td><td>(56.4%)</td><td>(10.9%)</td><td>14.5%</td><td class="est">1.3%</td><td class="est">5.0%</td></tr>
+  <tr><td>Combined Ratio</td><td>468.1%</td><td>421.3%</td><td>162.3%</td><td>100.3%</td><td class="est">113.6%</td><td class="est">108.9%</td></tr>
+</table>
+
+<div class="two-col" style="margin-top: 10px;">
+  <div>
+    <div class="sub-label">Revenue by Business Unit (Dec '25)</div>
+    <table class="rev">
+      <tr><th>Segment</th><th>% Rev</th><th>$M</th></tr>
+      <tr><td>Property & Casualty Insurance</td><td>100%</td><td>$469</td></tr>
+    </table>
+    <div class="sub-label" style="margin-top: 8px;">GWP by Line (2025 Est.)</div>
+    <table class="rev">
+      <tr><th>Line</th><th>% GWP</th></tr>
+      <tr><td>Homeowners</td><td>34%</td></tr>
+      <tr><td>Commercial Multi-Peril</td><td>24%</td></tr>
+      <tr><td>Casualty</td><td>24%</td></tr>
+      <tr><td>Renters</td><td>16%</td></tr>
+      <tr><td>Other</td><td>2%</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="sub-label">Revenue by Geography (Dec '25)</div>
+    <table class="rev">
+      <tr><th>Region</th><th>% Rev</th><th>Growth</th></tr>
+      <tr><td>United States</td><td>100%</td><td>+25.9%</td></tr>
+    </table>
+    <div class="sub-label" style="margin-top: 8px;">Key Metrics (Management Guidance)</div>
+    <table class="rev">
+      <tr><th>Metric</th><th>2025A</th><th>2026E</th><th>2028 Target</th></tr>
+      <tr><td>Gross Written Premium</td><td>$1.1B</td><td>$1.4-1.5B</td><td>>$2.0B</td></tr>
+      <tr><td>Net Written Premium</td><td>$422M</td><td>$500-540M</td><td>—</td></tr>
+      <tr><td>Adj. Net Income</td><td>$58M</td><td>$45-55M</td><td>$125M</td></tr>
+      <tr><td>Adj. ROE</td><td>~14%</td><td>—</td><td>18%</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="section-title">Financial Summary</div>
+<table class="data">
+  <tr>
+    <th></th>
+    <th>5Yr CAGR</th>
+    <th>Dec '23</th>
+    <th>Dec '24</th>
+    <th>Dec '25</th>
+    <th class="est">Dec '26E</th>
+    <th class="est">Dec '27E</th>
+  </tr>
+  <tr class="section-row"><td colspan="7">Income Statement</td></tr>
+  <tr><td>Net Premiums Earned</td><td>—</td><td>$108</td><td>$273</td><td>$380</td><td class="est">$484</td><td class="est">$608</td></tr>
+  <tr><td>Operating Income</td><td>87.9%</td><td>($258)</td><td>($78)</td><td>($26)</td><td>—</td><td>—</td></tr>
+  <tr><td>Net Income</td><td>—</td><td>($273)</td><td>($41)</td><td>$58</td><td class="est">$6</td><td class="est">$26</td></tr>
+  <tr><td>EPS (Diluted)</td><td>—</td><td>($11.58)</td><td>($1.64)</td><td>$2.22</td><td class="est">$0.23</td><td class="est">$0.93</td></tr>
+  <tr class="section-row"><td colspan="7">Book Value</td></tr>
+  <tr><td>Book Value Per Share</td><td>(37.8%)</td><td>$15.65</td><td>$14.56</td><td>$16.97</td><td class="est">$17.63</td><td class="est">$18.60</td></tr>
+  <tr><td>BVPS ex-AOCI</td><td>—</td><td>$15.77</td><td>$14.67</td><td>$16.90</td><td>—</td><td>—</td></tr>
+  <tr class="section-row"><td colspan="7">Balance Sheet</td></tr>
+  <tr><td>Cash & Investments</td><td>24.7%</td><td>$544</td><td>$606</td><td>$696</td><td>—</td><td>—</td></tr>
+  <tr><td>Total Assets</td><td>39.1%</td><td>$908</td><td>$984</td><td>$1,205</td><td class="est">$2,127</td><td class="est">$2,491</td></tr>
+  <tr><td>Total Debt</td><td>—</td><td>$15</td><td>$10</td><td>$52</td><td>—</td><td>—</td></tr>
+  <tr><td>Total Shareholders' Equity</td><td>15.8%</td><td>$378</td><td>$362</td><td>$436</td><td>—</td><td>—</td></tr>
+  <tr class="section-row"><td colspan="7">Key Insurance Ratios</td></tr>
+  <tr><td>Loss Ratio</td><td>—</td><td>169.0%</td><td>76.7%</td><td>60.5%</td><td class="est">56.0%</td><td class="est">54.8%</td></tr>
+  <tr><td>Expense Ratio</td><td>—</td><td>252.3%</td><td>85.6%</td><td>39.8%</td><td class="est">52.0%</td><td class="est">47.8%</td></tr>
+  <tr><td>Combined Ratio</td><td>—</td><td>421.3%</td><td>162.3%</td><td>100.3%</td><td class="est">113.6%</td><td class="est">108.9%</td></tr>
+  <tr class="section-row"><td colspan="7">Leverage & Returns</td></tr>
+  <tr><td>Total Debt / Total Equity</td><td>—</td><td>3.9%</td><td>2.8%</td><td>12.0%</td><td>—</td><td>—</td></tr>
+  <tr><td>Assets / Equity (Leverage)</td><td>—</td><td>2.40x</td><td>2.72x</td><td>2.76x</td><td>—</td><td>—</td></tr>
+  <tr><td>Net Investment Yield</td><td>—</td><td>2.5%</td><td>2.6%</td><td>2.3%</td><td>—</td><td>—</td></tr>
+</table>
+
+<p class="source-note">Source: FactSet, Company Filings. Estimates follow broker majority. All figures in USD millions unless noted.</p>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 3: BULL & BEAR CASES -->
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+
+<div class="memo-section">3. Bull & Bear Cases</div>
+
+<div class="bull-bear-grid">
+  <div class="bull-col">
+    <h4>Bull Case</h4>
+    <div class="bull-item"><strong>1. Platform model de-risks the business.</strong> The Spinnaker fronting platform generates fee income from third-party programs without taking underwriting risk. As IaaS and Services revenue grows, Hippo's earnings become less volatile and more predictable, justifying a higher multiple.</div>
+    <div class="bull-item"><strong>2. Baldwin partnership unlocks massive distribution.</strong> The $100M transaction gave Hippo access to 20 of the top 25 homebuilders through Baldwin's Westwood network, while retaining renewal economics on existing builder policies. This creates embedded premium growth without customer acquisition cost.</div>
+    <div class="bull-item"><strong>3. Combined ratio inflection is sustainable.</strong> The improvement from 421% (2023) to 100% (2025) reflects structural changes — reduced wind/hail exposure, better reinsurance, and tech-enabled claims management — not just favorable weather. Further improvement to ~90% would drive substantial earnings upside.</div>
+    <div class="bull-item"><strong>4. Valuation is compelling vs. profitability trajectory.</strong> At 1.5x book value and ~12x trailing earnings, HIPO trades at a fraction of the multiples accorded to profitable specialty insurers (2-3x book) and well below its 2028 targets ($125M adj. net income, 18% ROE).</div>
+    <div class="bull-item"><strong>5. Smart home / IoT differentiation creates moat.</strong> Hippo's integration with smart home devices for leak detection, fire prevention, and proactive maintenance reduces loss frequency. This data advantage compounds over time and is difficult for traditional carriers to replicate.</div>
+  </div>
+  <div class="bear-col">
+    <h4>Bear Case</h4>
+    <div class="bear-item"><strong>1. Catastrophe risk concentration remains.</strong> Despite efforts to reduce exposure, Hippo still has meaningful concentration in Texas, California, and other CAT-prone states. A severe hurricane season or California wildfire could wipe out multiple years of underwriting profit.</div>
+    <div class="bear-item"><strong>2. 2026 guidance implies earnings step-down.</strong> Management guides to $45-55M adjusted net income in 2026 vs. $58M in 2025. This reflects continued investment in growth and reinstatement of growth spend — raising questions about the durability of 2025 profitability.</div>
+    <div class="bear-item"><strong>3. Insurtech track record is poor.</strong> Lemonade, Root, and other insurtechs have failed to achieve sustainable profitability despite years of investment. Hippo's SPAC origins and historical losses create skepticism about management's ability to execute the transformation.</div>
+    <div class="bear-item"><strong>4. Regulatory headwinds in key states.</strong> California DOI has been restrictive on rate increases, and Texas regulators scrutinize surplus lines activity. Regulatory friction could constrain growth or force Hippo to exit markets.</div>
+    <div class="bear-item"><strong>5. Small float and limited analyst coverage.</strong> With only 4 broker contributors and $666M market cap, HIPO is thinly traded and under-researched. This creates liquidity risk and limited institutional sponsorship for the stock.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Scale Economies</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top: 4px;">
+  Hippo benefits from technology scale economies — its cloud-native underwriting platform, claims automation, and data infrastructure have high fixed costs but low marginal costs per policy. As premium volume grows, these fixed costs are spread across more policies. However, insurance distribution and claims handling retain significant variable cost components, and Hippo lacks the reinsurance purchasing power of large carriers like Progressive or Allstate. The Spinnaker platform creates some operating leverage as third-party program volume grows without proportional headcount. Overall, scale benefits exist but are less pronounced than in pure software businesses.
+  </p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Network Effects</span>
+  <span class="fw-rating weak">Weak</span>
+  <p class="prose" style="margin-top: 4px;">
+  Direct network effects are limited in insurance — more policyholders don't inherently make the product more valuable for existing customers. However, Hippo has weak indirect network effects: (1) more data from policies improves underwriting algorithms; (2) a larger smart home device footprint creates better loss prevention intelligence; (3) more MGA partners on the Spinnaker platform could create a two-sided marketplace dynamic. These effects are nascent and unproven at scale. The homebuilder relationship (now via Baldwin) creates distribution lock-in but isn't a true network effect.
+  </p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Counter-Positioning</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top: 4px;">
+  Hippo's original counter-positioning thesis was that legacy carriers couldn't match its tech-enabled, direct-to-consumer model without cannibalizing agent relationships. This has partially played out — large carriers have been slow to adopt instant quote/bind and smart home integrations. However, the hybrid fronting model is less differentiated; traditional carriers could build or acquire similar capabilities. The counter-positioning is strongest in the homebuilder channel, where Hippo's embedded insurance workflow is tailored to builder timelines and integrates with proptech systems. Incumbents would need to rebuild their entire policy admin stack to match this, creating meaningful response lag.
+  </p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Switching Costs</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top: 4px;">
+  For end policyholders, switching costs are low — homeowners insurance is annual and relatively commoditized. However, Hippo has built switching costs at the distribution level: (1) homebuilder integrations require technical work to embed in purchase workflows; (2) MGA partners on Spinnaker have policy admin, claims, and compliance dependencies; (3) smart home device integrations create ongoing service relationships. The Baldwin partnership embeds Hippo into long-term builder renewal economics, creating 5-7 year customer lifetime value regardless of whether the builder switches primary carriers. Platform-level switching costs are meaningful; policyholder-level costs are minimal.
+  </p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Branding</span>
+  <span class="fw-rating weak">Weak</span>
+  <p class="prose" style="margin-top: 4px;">
+  Insurance is largely a grudge purchase with limited brand loyalty. Hippo has some brand equity among new homeowners and tech-savvy consumers who value the modern UX, but this doesn't command pricing power. The company has pulled back on direct-to-consumer marketing spend, focusing instead on embedded distribution where Hippo's brand is secondary to the builder or partner brand. Spinnaker has no consumer brand recognition. Unlike GEICO or Progressive, Hippo cannot rely on brand to drive customer acquisition cost advantages.
+  </p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">6. Cornered Resource</span>
+  <span class="fw-rating weak">Weak</span>
+  <p class="prose" style="margin-top: 4px;">
+  Hippo does not control any truly scarce, non-replicable assets. Its data (property characteristics, claims history, smart home telemetry) is valuable but not exclusive — competitors can acquire similar datasets. The Spinnaker insurance licenses are valuable but not unique; other carriers have equivalent admitted and surplus lines authority. The homebuilder relationships were a cornered resource of sorts, but Hippo sold its builder distribution network to Baldwin, retaining only renewal economics. Talent (particularly in insurtech engineering) is competitive but not proprietary to Hippo.
+  </p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">7. Process Power</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top: 4px;">
+  Hippo has invested heavily in operational capabilities that are difficult to replicate quickly: (1) cloud-native policy administration that enables rapid product launches; (2) AI-driven claims triage and settlement automation; (3) smart home device integration and monitoring infrastructure; (4) embedded insurance APIs for builder and partner integrations. These process capabilities compound over time as the organization learns. Management's insurance industry experience (McCathron from Travelers, deep bench of insurance veterans) adds institutional knowledge. However, these processes are replicable with sufficient investment — there's no secret sauce that couldn't eventually be copied.
+  </p>
+</div>
+
+<div class="verdict">
+<strong>Summary:</strong> Hippo's competitive advantages are real but narrow. The strongest moats are in <strong>switching costs at the distribution/platform level</strong> and <strong>process power from its tech stack</strong>. The company lacks the scale economies, network effects, or cornered resources that would create durable long-term dominance. This is a business that can succeed through execution but is unlikely to achieve monopolistic returns.
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Threat of New Entrants</span>
+  <span class="fw-rating low">Low</span>
+  <p class="prose" style="margin-top: 4px;">
+  Barriers to entry in insurance are substantial: state-by-state licensing requirements, significant capital/surplus needs, reinsurance relationships, regulatory compliance infrastructure, and the time required to build actuarial credibility. New insurtech entrants face a 5-7 year path to profitability even with venture backing, as Hippo's own journey demonstrates. The SPAC window for insurtech funding has closed, limiting capital availability for new competitors. Established carriers with distribution relationships and decades of loss data have significant incumbency advantages. New entrants are unlikely to threaten Hippo's position in the near term.
+  </p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Bargaining Power of Suppliers</span>
+  <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top: 4px;">
+  Hippo's key suppliers are (1) reinsurers, (2) technology vendors, and (3) third-party service providers (claims adjusters, repair networks). Reinsurer power is significant — global reinsurance capacity has tightened post-COVID, driving up cession rates, particularly for CAT-exposed homeowners lines. Hippo is a small player that lacks the scale to command favorable reinsurance terms; it depends on a handful of reinsurance partners. Technology suppliers (cloud infrastructure, data providers) have alternatives, limiting their power. Claims service providers are fragmented. Overall, reinsurer concentration creates moderate supplier power.
+  </p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Bargaining Power of Buyers</span>
+  <span class="fw-rating high">High</span>
+  <p class="prose" style="margin-top: 4px;">
+  Homeowners insurance is price-sensitive and comparison-shopped, particularly through aggregators and agents. Customers face low switching costs and can easily compare quotes online. Hippo's embedded distribution through builders reduces direct price comparison at point of sale, but renewal competition is fierce. Commercial lines (through Spinnaker) have more sophisticated buyers with professional procurement processes. The Baldwin partnership shifts some buyer power to a concentrated distribution partner. Overall, buyer power is high, constraining pricing flexibility and pressuring combined ratios.
+  </p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Threat of Substitutes</span>
+  <span class="fw-rating low">Low</span>
+  <p class="prose" style="margin-top: 4px;">
+  Homeowners insurance is legally required for mortgaged properties, limiting substitution risk. Self-insurance is impractical for most homeowners. Alternative risk transfer mechanisms (captives, parametric insurance) are not applicable to residential property. The only meaningful substitution threat is from non-traditional coverage structures (e.g., warranty products that overlap with insurance), but these are complementary rather than substitutive. The threat of substitutes is minimal.
+  </p>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Competitive Rivalry</span>
+  <span class="fw-rating high">High</span>
+  <p class="prose" style="margin-top: 4px;">
+  The property insurance market is intensely competitive. Hippo faces rivalry from (1) national carriers (State Farm, Allstate, Progressive, Travelers) with massive distribution and brand recognition; (2) regional specialists with deep local knowledge; (3) other insurtechs (Lemonade, Root, Kin) competing for the same "modern homeowner" segment; and (4) MGAs competing for Spinnaker fronting capacity. Industry growth is modest (~3-5% annually), intensifying competition for market share. Differentiation is difficult as coverage is largely commoditized. Price competition erodes margins, and customer acquisition costs are high. Competitive rivalry is the most challenging force facing Hippo.
+  </p>
+</div>
+
+<div class="verdict">
+<strong>Summary:</strong> The competitive environment is <strong>challenging</strong>. High buyer power and intense competitive rivalry constrain profitability, while tight reinsurance markets create supplier pressure. The saving graces are high barriers to entry and minimal substitution threats. Success requires operational excellence and distribution advantages rather than industry-level tailwinds.
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 6: WHAT DRIVES THE STOCK? -->
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<div class="prose">
+<strong>1. Combined Ratio Trajectory</strong><br>
+The combined ratio (loss ratio + expense ratio) is the single most important metric for insurance stock valuation. Hippo's combined ratio improved from 421% (2023) to 100.3% (2025) — a dramatic turnaround. Any quarter that shows deterioration back above 100% will pressure the stock; continued improvement toward 90% would drive re-rating. <em>Bullish: CR <95%</em> | <em>Bearish: CR >110%</em>
+</div>
+
+<div class="prose">
+<strong>2. Catastrophe Losses & Hurricane Season</strong><br>
+Despite efforts to reduce CAT exposure, Hippo remains vulnerable to severe weather events. A major hurricane making landfall in Texas or Florida, or another California wildfire season, could generate outsized losses that overwhelm reinsurance coverage. Stock price is highly correlated with weather headlines during storm season. <em>Bullish: Benign CAT year</em> | <em>Bearish: Major named storm / wildfire</em>
+</div>
+
+<div class="prose">
+<strong>3. Gross Written Premium Growth</strong><br>
+Management has guided to $1.4-1.5B GWP in 2026 (up 27-36% YoY) and >$2B by 2028. Achieving these targets validates the platform model and distribution partnerships. Missing growth guidance would raise concerns about competitive positioning and Baldwin partnership execution. <em>Bullish: GWP >$1.5B in 2026</em> | <em>Bearish: GWP <$1.3B</em>
+</div>
+
+<div class="prose">
+<strong>4. Services & IaaS Revenue Mix</strong><br>
+Fee-based revenue from third-party programs (Services/IaaS) is higher margin and less volatile than retained underwriting risk. As this revenue grows as a percentage of total revenue, Hippo's earnings quality improves and multiple should expand. Track the Services contribution to operating income. <em>Bullish: Services >40% of revenue</em> | <em>Bearish: Services mix declines</em>
+</div>
+
+<div class="prose">
+<strong>5. Analyst Ratings & Institutional Ownership</strong><br>
+With only 4 broker contributors and limited institutional ownership, HIPO is under-researched. New analyst coverage initiations or meaningful institutional buying could drive price appreciation independent of fundamentals. Conversely, any existing coverage downgrades or selling would pressure the stock disproportionately given thin float. <em>Bullish: New coverage initiation / 13F filings</em> | <em>Bearish: Coverage drops / large holder exit</em>
+</div>
+
+<div class="prose">
+<strong>6. Capital Allocation & M&A</strong><br>
+Hippo has demonstrated willingness to transact (First Connect sale, Baldwin partnership). Additional divestitures that monetize non-core assets or strategic acquisitions that enhance the platform could be catalysts. However, dilutive equity issuance or ill-advised M&A would damage credibility. <em>Bullish: Accretive deals / buybacks</em> | <em>Bearish: Equity raise / expensive acquisition</em>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS? -->
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+
+<div class="memo-section">7. What Drives the Business?</div>
+
+<p class="prose">Hippo's revenue can be decomposed into three core components, each with distinct unit economics:</p>
+
+<table class="driver-table">
+  <tr>
+    <th>Revenue Line</th>
+    <th>Formula</th>
+    <th>2025 Estimate</th>
+  </tr>
+  <tr>
+    <td><strong>Hippo Home Insurance (Retained)</strong></td>
+    <td>Policies-in-Force × Average Premium × Retention Rate</td>
+    <td>~$180M NWP</td>
+  </tr>
+  <tr>
+    <td><strong>Spinnaker Programs (Fronting Fees)</strong></td>
+    <td>Third-Party GWP × Fronting Fee % (typically 5-8%)</td>
+    <td>~$60M fee income</td>
+  </tr>
+  <tr>
+    <td><strong>Services & IaaS</strong></td>
+    <td>Program Count × Average Program Revenue × Admin Fee %</td>
+    <td>~$120M service revenue</td>
+  </tr>
+</table>
+
+<div class="sub-label" style="margin-top: 12px;">Key Driver Deep-Dive: Hippo Home Insurance</div>
+<table class="driver-table">
+  <tr><th>Driver</th><th>Current Value</th><th>Sensitivity</th></tr>
+  <tr><td>Policies-in-Force</td><td>~95,000 (est.)</td><td>+10K PIF = +$18M premium</td></tr>
+  <tr><td>Average Annual Premium</td><td>~$1,900</td><td>+$100 = +$9.5M premium</td></tr>
+  <tr><td>Retention Rate</td><td>~82%</td><td>+5 pts = higher LTV, lower CAC payback</td></tr>
+  <tr><td>Loss Ratio</td><td>60.5% (2025)</td><td>-5 pts = ~$19M more underwriting income</td></tr>
+</table>
+
+<div class="sub-label" style="margin-top: 12px;">Key Driver Deep-Dive: Spinnaker Platform</div>
+<table class="driver-table">
+  <tr><th>Driver</th><th>Current Value</th><th>Sensitivity</th></tr>
+  <tr><td>Third-Party GWP on Platform</td><td>~$750M (est.)</td><td>+$100M GWP = +$6M fee income</td></tr>
+  <tr><td>Average Fronting Fee</td><td>~6% of GWP</td><td>+50 bps = +$3.75M fee income</td></tr>
+  <tr><td>Number of MGA Programs</td><td>~25 programs (est.)</td><td>+5 programs = $80-100M incremental GWP</td></tr>
+  <tr><td>Ceding Commission Recovery</td><td>Varies by program</td><td>Better reinsurance terms flow through</td></tr>
+</table>
+
+<div class="sub-label" style="margin-top: 12px;">Leverage Analysis</div>
+<p class="prose">
+The highest-leverage drivers for Hippo's profitability are: (1) <strong>Loss Ratio</strong> — each 1 point improvement in loss ratio on $380M net earned premium flows $3.8M to underwriting income; (2) <strong>Third-Party GWP Growth</strong> — capital-light fee income that scales with minimal incremental cost; (3) <strong>Expense Ratio</strong> — operating leverage from spreading fixed costs across growing premium base. The business model is designed to shift mix toward fee-based revenue while improving combined ratio on retained risk — success on both vectors would drive earnings upside disproportionate to top-line growth.
+</p>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="insight-box">
+  <h5>Competitive Moat Assessment</h5>
+  <p>Expert network calls characterize Hippo's moat as "narrow but defensible." The strongest competitive advantages are: (1) cloud-native technology stack that enables rapid product iteration — one expert noted "Hippo can launch a new state in weeks versus months for legacy carriers"; (2) smart home data integration that reduces loss frequency by 10-15% for actively monitored homes; (3) homebuilder relationships that create captive distribution at point of sale. However, experts caution that "the technology advantage is eroding as incumbents modernize" and "reinsurance is the real constraint, not technology."</p>
+</div>
+
+<div class="insight-box">
+  <h5>Management Quality & Culture</h5>
+  <p>Sources describe CEO Rick McCathron as "operationally focused" with "deep insurance credibility" from his Travelers tenure. The culture is described as "scrappy" and "aggressive" — traits that helped navigate the 2022-2023 crisis but also contributed to over-expansion. CFO Guy Zeltser is viewed as "disciplined" with a track record of managing cash burn during the transformation. Concerns include: high executive turnover in early years, founder Assaf Wand's reduced role, and questions about whether the team can execute the $2B GWP target without sacrificing underwriting discipline.</p>
+</div>
+
+<div class="insight-box">
+  <h5>Technology & AI Opportunity</h5>
+  <p>Hippo's "Home Intelligence Platform" uses computer vision, IoT sensor data, and machine learning for underwriting and claims. Experts see AI opportunity primarily in (1) claims processing automation — "Hippo could reduce claims handling costs by 30-40% with full automation"; (2) fraud detection; (3) predictive maintenance alerts. However, regulatory constraints on algorithmic underwriting in California and other states limit deployment. One expert noted: "The AI story is real but years from material earnings impact."</p>
+</div>
+
+<div class="insight-box">
+  <h5>What the Market May Misunderstand</h5>
+  <p>Several insights suggest the market may underappreciate: (1) the quality of the Baldwin partnership — "Westwood gives Hippo access to premium builder clients that would take years to build organically"; (2) the sustainability of combined ratio improvement — "these aren't one-time gains, the book has fundamentally changed"; (3) the optionality in Spinnaker — "fronting is a $50B+ market and Hippo has a top-5 platform." Bears counter that the market correctly discounts execution risk and CAT exposure.</p>
+</div>
+
+<div class="sub-label" style="margin-top: 12px;">Key Long-Term Investor Questions</div>
+<ol class="prose" style="padding-left: 16px;">
+  <li>Can Hippo achieve the 2028 targets ($2B+ GWP, $125M adj. net income, 18% ROE) given competitive dynamics and CAT risk?</li>
+  <li>How durable is the Baldwin partnership — what happens at contract renewal?</li>
+  <li>Will California regulatory headwinds force Hippo to exit or constrain growth in a key market?</li>
+  <li>Can Spinnaker attract more MGA partners given competition from other fronting carriers?</li>
+  <li>What is the probability of a severe CAT event causing existential damage to equity value?</li>
+</ol>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 9: SENSITIVITIES -->
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+
+<div class="memo-section">9. Sensitivities</div>
+
+<p class="prose"><strong>Sensitivity 1: Net Earned Premium vs. Combined Ratio → Underwriting Income ($M)</strong></p>
+<p class="prose" style="font-size: 9px; color: #666;">Current: Net Earned Premium ~$484M (2026E), Combined Ratio ~113.6%</p>
+<table class="sensitivity">
+  <tr>
+    <th></th>
+    <th>CR 95%</th>
+    <th>CR 100%</th>
+    <th>CR 105%</th>
+    <th>CR 110%</th>
+    <th>CR 115%</th>
+  </tr>
+  <tr>
+    <td><strong>NEP $400M</strong></td>
+    <td>$20</td>
+    <td>$0</td>
+    <td>($20)</td>
+    <td>($40)</td>
+    <td>($60)</td>
+  </tr>
+  <tr>
+    <td><strong>NEP $450M</strong></td>
+    <td>$23</td>
+    <td>$0</td>
+    <td>($23)</td>
+    <td>($45)</td>
+    <td>($68)</td>
+  </tr>
+  <tr>
+    <td><strong>NEP $484M</strong></td>
+    <td>$24</td>
+    <td>$0</td>
+    <td>($24)</td>
+    <td class="base">($48)</td>
+    <td>($73)</td>
+  </tr>
+  <tr>
+    <td><strong>NEP $520M</strong></td>
+    <td>$26</td>
+    <td>$0</td>
+    <td>($26)</td>
+    <td>($52)</td>
+    <td>($78)</td>
+  </tr>
+  <tr>
+    <td><strong>NEP $560M</strong></td>
+    <td>$28</td>
+    <td>$0</td>
+    <td>($28)</td>
+    <td>($56)</td>
+    <td>($84)</td>
+  </tr>
+</table>
+
+<p class="prose" style="margin-top: 16px;"><strong>Sensitivity 2: Third-Party GWP vs. Fronting Fee Rate → Fee Income ($M)</strong></p>
+<p class="prose" style="font-size: 9px; color: #666;">Current: ~$750M third-party GWP, ~6% average fronting fee</p>
+<table class="sensitivity">
+  <tr>
+    <th></th>
+    <th>Fee 5.0%</th>
+    <th>Fee 5.5%</th>
+    <th>Fee 6.0%</th>
+    <th>Fee 6.5%</th>
+    <th>Fee 7.0%</th>
+  </tr>
+  <tr>
+    <td><strong>GWP $600M</strong></td>
+    <td>$30</td>
+    <td>$33</td>
+    <td>$36</td>
+    <td>$39</td>
+    <td>$42</td>
+  </tr>
+  <tr>
+    <td><strong>GWP $700M</strong></td>
+    <td>$35</td>
+    <td>$39</td>
+    <td>$42</td>
+    <td>$46</td>
+    <td>$49</td>
+  </tr>
+  <tr>
+    <td><strong>GWP $750M</strong></td>
+    <td>$38</td>
+    <td>$41</td>
+    <td class="base">$45</td>
+    <td>$49</td>
+    <td>$53</td>
+  </tr>
+  <tr>
+    <td><strong>GWP $850M</strong></td>
+    <td>$43</td>
+    <td>$47</td>
+    <td>$51</td>
+    <td>$55</td>
+    <td>$60</td>
+  </tr>
+  <tr>
+    <td><strong>GWP $1,000M</strong></td>
+    <td>$50</td>
+    <td>$55</td>
+    <td>$60</td>
+    <td>$65</td>
+    <td>$70</td>
+  </tr>
+</table>
+
+<p class="prose" style="margin-top: 16px;"><strong>Sensitivity 3: Book Value Per Share vs. P/BV Multiple → Implied Share Price ($)</strong></p>
+<p class="prose" style="font-size: 9px; color: #666;">Current: BVPS ~$17.00, P/BV ~1.51x, Share Price $25.65</p>
+<table class="sensitivity">
+  <tr>
+    <th></th>
+    <th>P/BV 1.0x</th>
+    <th>P/BV 1.25x</th>
+    <th>P/BV 1.5x</th>
+    <th>P/BV 1.75x</th>
+    <th>P/BV 2.0x</th>
+  </tr>
+  <tr>
+    <td><strong>BVPS $15.00</strong></td>
+    <td>$15.00</td>
+    <td>$18.75</td>
+    <td>$22.50</td>
+    <td>$26.25</td>
+    <td>$30.00</td>
+  </tr>
+  <tr>
+    <td><strong>BVPS $17.00</strong></td>
+    <td>$17.00</td>
+    <td>$21.25</td>
+    <td class="base">$25.50</td>
+    <td>$29.75</td>
+    <td>$34.00</td>
+  </tr>
+  <tr>
+    <td><strong>BVPS $18.50</strong></td>
+    <td>$18.50</td>
+    <td>$23.13</td>
+    <td>$27.75</td>
+    <td>$32.38</td>
+    <td>$37.00</td>
+  </tr>
+  <tr>
+    <td><strong>BVPS $20.00</strong></td>
+    <td>$20.00</td>
+    <td>$25.00</td>
+    <td>$30.00</td>
+    <td>$35.00</td>
+    <td>$40.00</td>
+  </tr>
+  <tr>
+    <td><strong>BVPS $22.00</strong></td>
+    <td>$22.00</td>
+    <td>$27.50</td>
+    <td>$33.00</td>
+    <td>$38.50</td>
+    <td>$44.00</td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 10: FIVE SCENARIOS -->
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+
+<div class="memo-section">10. Five Scenarios (3-Year Model)</div>
+
+<div class="case-block">
+  <div class="case-name">Bear Severe</div>
+  <div class="case-desc">Major hurricane or wildfire causes $150M+ in net CAT losses; California exits; combined ratio spikes to 130%+; equity raise required</div>
+  <div class="driver-label">Key Drivers (2028)</div>
+  <div class="driver-row"><span>Gross Written Premium</span><span>$1.2B</span></div>
+  <div class="driver-row"><span>Net Earned Premium</span><span>$450M</span></div>
+  <div class="driver-row"><span>Combined Ratio</span><span>125%</span></div>
+  <div class="driver-row"><span>Fee Income</span><span>$50M</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$500M</td></tr>
+    <tr><td>Underwriting Loss</td><td>($113M)</td></tr>
+    <tr><td>Fee & Service Income</td><td>$50M</td></tr>
+    <tr><td>Operating Expenses</td><td>($80M)</td></tr>
+    <tr><td>Net Income</td><td>($143M)</td></tr>
+    <tr><td>EPS</td><td>($4.50)</td></tr>
+    <tr><td>Book Value / Share</td><td>$10.00</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size: 9px; color: #666;">Exit: 0.7x P/BV (distressed)</div>
+    <div class="exit-price">$7.00</div>
+    <div class="exit-upside" style="color: #c0392b;">−73% from current</div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bear Mild</div>
+  <div class="case-desc">Elevated CAT activity; growth slows; combined ratio remains above 100%; profitability stalls</div>
+  <div class="driver-label">Key Drivers (2028)</div>
+  <div class="driver-row"><span>Gross Written Premium</span><span>$1.6B</span></div>
+  <div class="driver-row"><span>Net Earned Premium</span><span>$550M</span></div>
+  <div class="driver-row"><span>Combined Ratio</span><span>108%</span></div>
+  <div class="driver-row"><span>Fee Income</span><span>$70M</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$620M</td></tr>
+    <tr><td>Underwriting Loss</td><td>($44M)</td></tr>
+    <tr><td>Fee & Service Income</td><td>$70M</td></tr>
+    <tr><td>Operating Expenses</td><td>($65M)</td></tr>
+    <tr><td>Net Income</td><td>($10M)</td></tr>
+    <tr><td>EPS</td><td>($0.35)</td></tr>
+    <tr><td>Book Value / Share</td><td>$16.00</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size: 9px; color: #666;">Exit: 1.0x P/BV (no premium for unprofitable insurer)</div>
+    <div class="exit-price">$16.00</div>
+    <div class="exit-upside" style="color: #c0392b;">−38% from current</div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Base Case</div>
+  <div class="case-desc">Executes on guidance; GWP reaches ~$2B; combined ratio ~105%; moderate profitability</div>
+  <div class="driver-label">Key Drivers (2028)</div>
+  <div class="driver-row"><span>Gross Written Premium</span><span>$2.0B</span></div>
+  <div class="driver-row"><span>Net Earned Premium</span><span>$700M</span></div>
+  <div class="driver-row"><span>Combined Ratio</span><span>102%</span></div>
+  <div class="driver-row"><span>Fee Income</span><span>$100M</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$800M</td></tr>
+    <tr><td>Underwriting Loss</td><td>($14M)</td></tr>
+    <tr><td>Fee & Service Income</td><td>$100M</td></tr>
+    <tr><td>Operating Expenses</td><td>($50M)</td></tr>
+    <tr><td>Net Income</td><td>$36M</td></tr>
+    <tr><td>EPS</td><td>$1.30</td></tr>
+    <tr><td>Book Value / Share</td><td>$20.00</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size: 9px; color: #666;">Exit: 1.5x P/BV (market rate for marginally profitable insurer)</div>
+    <div class="exit-price">$30.00</div>
+    <div class="exit-upside" style="color: #27ae60;">+17% from current</div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bull Mild</div>
+  <div class="case-desc">Benign CAT; strong fee growth; combined ratio <100%; achieves management targets</div>
+  <div class="driver-label">Key Drivers (2028)</div>
+  <div class="driver-row"><span>Gross Written Premium</span><span>$2.3B</span></div>
+  <div class="driver-row"><span>Net Earned Premium</span><span>$800M</span></div>
+  <div class="driver-row"><span>Combined Ratio</span><span>97%</span></div>
+  <div class="driver-row"><span>Fee Income</span><span>$130M</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$930M</td></tr>
+    <tr><td>Underwriting Profit</td><td>$24M</td></tr>
+    <tr><td>Fee & Service Income</td><td>$130M</td></tr>
+    <tr><td>Operating Expenses</td><td>($55M)</td></tr>
+    <tr><td>Net Income</td><td>$99M</td></tr>
+    <tr><td>EPS</td><td>$3.60</td></tr>
+    <tr><td>Book Value / Share</td><td>$24.00</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size: 9px; color: #666;">Exit: 1.75x P/BV (premium for consistent profitability)</div>
+    <div class="exit-price">$42.00</div>
+    <div class="exit-upside" style="color: #27ae60;">+64% from current</div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bull Severe</div>
+  <div class="case-desc">Perfect execution; Spinnaker becomes top-3 fronting platform; combined ratio <95%; multiple re-rates</div>
+  <div class="driver-label">Key Drivers (2028)</div>
+  <div class="driver-row"><span>Gross Written Premium</span><span>$2.8B</span></div>
+  <div class="driver-row"><span>Net Earned Premium</span><span>$950M</span></div>
+  <div class="driver-row"><span>Combined Ratio</span><span>93%</span></div>
+  <div class="driver-row"><span>Fee Income</span><span>$180M</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$1,130M</td></tr>
+    <tr><td>Underwriting Profit</td><td>$67M</td></tr>
+    <tr><td>Fee & Service Income</td><td>$180M</td></tr>
+    <tr><td>Operating Expenses</td><td>($60M)</td></tr>
+    <tr><td>Net Income</td><td>$187M</td></tr>
+    <tr><td>EPS</td><td>$6.80</td></tr>
+    <tr><td>Book Value / Share</td><td>$30.00</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size: 9px; color: #666;">Exit: 2.25x P/BV (specialty insurer premium)</div>
+    <div class="exit-price">$67.50</div>
+    <div class="exit-upside" style="color: #27ae60;">+163% from current</div>
+  </div>
+</div>
+
+<div class="case-chart">
+  <svg viewBox="0 0 600 180">
+    <!-- Background -->
+    <rect x="0" y="0" width="600" height="180" fill="#f9f9f9"/>
+
+    <!-- Y-axis labels -->
+    <text x="35" y="25" font-size="9" fill="#888" text-anchor="end">$70</text>
+    <text x="35" y="65" font-size="9" fill="#888" text-anchor="end">$45</text>
+    <text x="35" y="105" font-size="9" fill="#888" text-anchor="end">$20</text>
+    <text x="35" y="145" font-size="9" fill="#888" text-anchor="end">$0</text>
+
+    <!-- Grid lines -->
+    <line x1="40" y1="20" x2="580" y2="20" stroke="#ddd" stroke-width="0.5"/>
+    <line x1="40" y1="60" x2="580" y2="60" stroke="#ddd" stroke-width="0.5"/>
+    <line x1="40" y1="100" x2="580" y2="100" stroke="#ddd" stroke-width="0.5"/>
+    <line x1="40" y1="140" x2="580" y2="140" stroke="#ddd" stroke-width="0.5"/>
+
+    <!-- Current price line -->
+    <line x1="40" y1="98" x2="580" y2="98" stroke="#1a1a2e" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <text x="585" y="101" font-size="8" fill="#1a1a2e">$25.65</text>
+
+    <!-- Bars -->
+    <rect x="60" y="128" width="80" height="12" fill="#c0392b" rx="2"/>
+    <text x="100" y="155" font-size="9" fill="#333" text-anchor="middle">Bear Severe</text>
+    <text x="100" y="125" font-size="9" fill="#c0392b" text-anchor="middle" font-weight="600">$7</text>
+
+    <rect x="160" y="110" width="80" height="30" fill="#e74c3c" rx="2"/>
+    <text x="200" y="155" font-size="9" fill="#333" text-anchor="middle">Bear Mild</text>
+    <text x="200" y="107" font-size="9" fill="#e74c3c" text-anchor="middle" font-weight="600">$16</text>
+
+    <rect x="260" y="82" width="80" height="58" fill="#95a5a6" rx="2"/>
+    <text x="300" y="155" font-size="9" fill="#333" text-anchor="middle">Base</text>
+    <text x="300" y="79" font-size="9" fill="#555" text-anchor="middle" font-weight="600">$30</text>
+
+    <rect x="360" y="60" width="80" height="80" fill="#27ae60" rx="2"/>
+    <text x="400" y="155" font-size="9" fill="#333" text-anchor="middle">Bull Mild</text>
+    <text x="400" y="57" font-size="9" fill="#27ae60" text-anchor="middle" font-weight="600">$42</text>
+
+    <rect x="460" y="23" width="80" height="117" fill="#155724" rx="2"/>
+    <text x="500" y="155" font-size="9" fill="#333" text-anchor="middle">Bull Severe</text>
+    <text x="500" y="20" font-size="9" fill="#155724" text-anchor="middle" font-weight="600">$68</text>
+  </svg>
+</div>
+
+<div class="verdict">
+<strong>Expected Value Analysis:</strong> Assigning probabilities of 10% / 20% / 40% / 20% / 10% to the five scenarios yields a probability-weighted price of ~<strong>$30</strong>, approximately 17% above current. At a 25% cost of capital over 3 years, the risk-adjusted expected return is modest but positive. The asymmetry favors bulls — tail upside ($42-68) exceeds tail downside ($7-16) in dollar magnitude, but the left tail carries existential risk.
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 11: COMPS -->
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+
+<div class="memo-section">11. Comps</div>
+
+<div class="sub-label">Peer Group: U.S. P&C (Tiny)</div>
+<table class="data">
+  <tr>
+    <th>Company</th>
+    <th>Ticker</th>
+    <th>Mkt Cap ($M)</th>
+    <th>P/BV</th>
+    <th>P/TBV</th>
+    <th>P/E NTM</th>
+    <th>ROE</th>
+    <th>Combined Ratio</th>
+  </tr>
+  <tr style="font-weight: 700; background: #f0f0f0;">
+    <td>Hippo Holdings</td>
+    <td>HIPO-US</td>
+    <td>$707</td>
+    <td>1.51x</td>
+    <td>1.74x</td>
+    <td>67.2x</td>
+    <td>14.5%</td>
+    <td>100.3%</td>
+  </tr>
+  <tr>
+    <td>United Fire Group</td>
+    <td>UFCS-US</td>
+    <td>$965</td>
+    <td>0.99x</td>
+    <td>0.99x</td>
+    <td>9.5x</td>
+    <td>13.7%</td>
+    <td>94.9%</td>
+  </tr>
+  <tr>
+    <td>Employers Holdings</td>
+    <td>EIG-US</td>
+    <td>$774</td>
+    <td>0.83x</td>
+    <td>0.88x</td>
+    <td>18.5x</td>
+    <td>1.1%</td>
+    <td>110.9%</td>
+  </tr>
+  <tr>
+    <td>Bowhead Specialty</td>
+    <td>BOW-US</td>
+    <td>$737</td>
+    <td>1.56x</td>
+    <td>1.58x</td>
+    <td>10.5x</td>
+    <td>13.1%</td>
+    <td>95.8%</td>
+  </tr>
+  <tr>
+    <td>Root Inc (Class A)</td>
+    <td>ROOT-US</td>
+    <td>$755</td>
+    <td>2.44x</td>
+    <td>2.74x</td>
+    <td>21.3x</td>
+    <td>11.3%</td>
+    <td>96.0%</td>
+  </tr>
+  <tr>
+    <td>Donegal Group</td>
+    <td>DGICA-US</td>
+    <td>$621</td>
+    <td>0.96x</td>
+    <td>0.96x</td>
+    <td>8.2x</td>
+    <td>13.4%</td>
+    <td>95.0%</td>
+  </tr>
+  <tr>
+    <td>AMERISAFE</td>
+    <td>AMSF-US</td>
+    <td>$611</td>
+    <td>2.42x</td>
+    <td>2.39x</td>
+    <td>14.7x</td>
+    <td>18.5%</td>
+    <td>90.4%</td>
+  </tr>
+  <tr>
+    <td>Tiptree (Class A)</td>
+    <td>TIPT-US</td>
+    <td>$679</td>
+    <td>1.17x</td>
+    <td>1.15x</td>
+    <td>NM</td>
+    <td>(8.1%)</td>
+    <td>59.3%</td>
+  </tr>
+  <tr style="font-weight: 600; background: #fafbfc;">
+    <td>Average</td>
+    <td></td>
+    <td>$731</td>
+    <td>1.49x</td>
+    <td>1.55x</td>
+    <td>21.4x</td>
+    <td>9.7%</td>
+    <td>92.8%</td>
+  </tr>
+  <tr style="font-weight: 600; background: #fafbfc;">
+    <td>Median</td>
+    <td></td>
+    <td>$717</td>
+    <td>1.34x</td>
+    <td>1.37x</td>
+    <td>14.7x</td>
+    <td>13.3%</td>
+    <td>95.4%</td>
+  </tr>
+</table>
+
+<div class="sub-label" style="margin-top: 12px;">Named Competitors & StreetAccount Comps</div>
+<table class="data">
+  <tr>
+    <th>Company</th>
+    <th>Ticker</th>
+    <th>Mkt Cap ($M)</th>
+    <th>P/BV</th>
+    <th>P/E NTM</th>
+    <th>ROE</th>
+    <th>Combined Ratio</th>
+  </tr>
+  <tr style="font-weight: 700; background: #f0f0f0;">
+    <td>Hippo Holdings</td>
+    <td>HIPO-US</td>
+    <td>$707</td>
+    <td>1.51x</td>
+    <td>67.2x</td>
+    <td>14.5%</td>
+    <td>100.3%</td>
+  </tr>
+  <tr>
+    <td>Allstate</td>
+    <td>ALL-US</td>
+    <td>$53,724</td>
+    <td>1.85x</td>
+    <td>8.0x</td>
+    <td>39.5%</td>
+    <td>90.6%</td>
+  </tr>
+  <tr>
+    <td>Travelers</td>
+    <td>TRV-US</td>
+    <td>$65,618</td>
+    <td>1.96x</td>
+    <td>10.8x</td>
+    <td>20.7%</td>
+    <td>92.5%</td>
+  </tr>
+  <tr>
+    <td>Progressive</td>
+    <td>PGR-US</td>
+    <td>$118,751</td>
+    <td>NM</td>
+    <td>NM</td>
+    <td>NM</td>
+    <td>NM</td>
+  </tr>
+  <tr>
+    <td>Lemonade</td>
+    <td>LMND-US</td>
+    <td>$4,930</td>
+    <td>NM</td>
+    <td>NM</td>
+    <td>NM</td>
+    <td>NM</td>
+  </tr>
+  <tr>
+    <td>Root (Class A)</td>
+    <td>ROOT-US</td>
+    <td>$755</td>
+    <td>2.44x</td>
+    <td>21.3x</td>
+    <td>11.3%</td>
+    <td>96.0%</td>
+  </tr>
+  <tr>
+    <td>Baldwin Insurance</td>
+    <td>BWIN-US</td>
+    <td>$2,043</td>
+    <td>NM</td>
+    <td>14.6x</td>
+    <td>NM</td>
+    <td>NM</td>
+  </tr>
+  <tr>
+    <td>HCI Group</td>
+    <td>HCI-US</td>
+    <td>$2,001</td>
+    <td>NM</td>
+    <td>NM</td>
+    <td>NM</td>
+    <td>NM</td>
+  </tr>
+</table>
+
+<p class="prose" style="margin-top: 8px;">
+<strong>Commentary:</strong> Hippo trades at 1.51x P/BV, roughly in line with the small P&C peer median (1.34x) but at a discount to the insurtech comparables (Root at 2.44x). The elevated P/E (67x NTM) reflects consensus expectations for depressed 2026 earnings due to growth investment. Relative to profitability-proven peers like AMERISAFE (2.42x P/BV, 90% combined ratio) and Allstate (1.85x P/BV, 91% combined ratio), Hippo's valuation assumes continued combined ratio improvement. The premium to traditional small P&C insurers is justified only if Hippo can sustain sub-100% combined ratios and grow fee income — the base case implies convergence toward peer multiples as earnings normalize.
+</p>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<p class="prose" style="font-style: italic; color: #666; margin-bottom: 12px;">
+Theia seeks small cap companies that aren't well covered and are strongly aligned on core internet finance thesis with wide outcome dispersion.
+</p>
+
+<div class="fw-item">
+  <strong>(i) Market Cap Bucket:</strong> $666M <span class="fw-rating strong">Strong</span>
+  <p class="prose" style="margin-top: 4px;">Hippo is firmly in Theia's small-cap sweet spot. At $666M market cap (fully diluted $707M), the company is large enough to have institutional liquidity but small enough to be under-owned by large funds that cannot take meaningful positions.</p>
+</div>
+
+<div class="fw-item">
+  <strong>(ii) Analyst Coverage:</strong> 4 brokers <span class="fw-rating strong">Strong</span>
+  <p class="prose" style="margin-top: 4px;">Only 4 broker contributors provide coverage — well below the threshold for comprehensive institutional research. This under-coverage creates potential for information edge and mispricing. Average rating is Overweight (1.50) with $38.67 target price, but limited sample size.</p>
+</div>
+
+<div class="fw-item">
+  <strong>(iii) Thesis Alignment — Internet Finance:</strong> <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top: 4px;">Hippo is a fintech/insurtech company using technology to disrupt a traditional financial services industry. The smart home IoT integration, AI-driven underwriting, and embedded insurance APIs are aligned with the digitization of finance. However, Hippo is not directly blockchain-related and its business model (property insurance) is less "internet finance" than payments, lending, or trading platforms. Classification: <strong>Adjacent</strong> to core thesis.</p>
+</div>
+
+<div class="fw-item">
+  <strong>(iv) Outcome Dispersion:</strong> <span class="fw-rating strong">Strong</span>
+  <p class="prose" style="margin-top: 4px;">The 5-scenario analysis shows implied prices ranging from $7 (Bear Severe) to $68 (Bull Severe) — a 10x spread. This wide dispersion reflects genuine uncertainty about catastrophe risk, execution, and competitive positioning. The asymmetry creates opportunity for active management to generate alpha through superior analysis of probability weights.</p>
+</div>
+
+<div class="verdict">
+<strong>Verdict: MAYBE — Conditional on Catalyst Timing</strong><br><br>
+Hippo checks three of four Theia criteria strongly (Market Cap, Coverage, Dispersion) but is only adjacent on Thesis Alignment. The investment case depends on: (1) 2026 hurricane season passing without major losses; (2) Q1-Q2 2026 earnings demonstrating continued combined ratio discipline; (3) evidence of Baldwin partnership contribution to GWP. <br><br>
+<strong>Recommended Action:</strong> Add to watchlist. Revisit after May 2026 earnings (guidance update) and post-hurricane season (October 2026). Entry at $20 or below would provide more attractive risk/reward.<br><br>
+<strong>Checklist:</strong> Market Cap ✓ | Coverage ✓ | Thesis ◐ | Dispersion ✓
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 13: RISK SUMMARY -->
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+
+<div class="memo-section">13. Risk Summary</div>
+
+<table class="risk-table">
+  <tr>
+    <th style="width: 18%;">Risk Category</th>
+    <th style="width: 42%;">Description</th>
+    <th style="width: 12%;">Severity</th>
+    <th style="width: 28%;">Mitigant</th>
+  </tr>
+  <tr>
+    <td><strong>Catastrophe / Weather</strong></td>
+    <td>Major hurricane (Texas/Florida) or California wildfire could generate losses exceeding reinsurance coverage, causing material equity impairment</td>
+    <td><span class="severity-high">HIGH</span></td>
+    <td>80% reduction in wind/hail exposure; quota share reinsurance; geographic diversification through Spinnaker programs</td>
+  </tr>
+  <tr>
+    <td><strong>Execution / Integration</strong></td>
+    <td>Failure to execute Baldwin partnership, relaunch Hippo homeowners, or grow Spinnaker programs at targeted pace</td>
+    <td><span class="severity-high">HIGH</span></td>
+    <td>Experienced management team; conservative 2026 guidance allows for miss; multiple growth vectors</td>
+  </tr>
+  <tr>
+    <td><strong>Regulatory</strong></td>
+    <td>California DOI rate restrictions or surplus lines scrutiny in Texas could constrain growth or force market exits</td>
+    <td><span class="severity-med">MEDIUM</span></td>
+    <td>Diversified state footprint; Spinnaker surplus lines flexibility; ongoing regulatory engagement</td>
+  </tr>
+  <tr>
+    <td><strong>Reinsurance</strong></td>
+    <td>Hardening reinsurance market could increase cession costs, compressing underwriting margins</td>
+    <td><span class="severity-med">MEDIUM</span></td>
+    <td>Multi-year reinsurance treaties; reduced CAT exposure minimizes renewal risk; fee income less sensitive</td>
+  </tr>
+  <tr>
+    <td><strong>Competitive</strong></td>
+    <td>Large carriers (Progressive, Allstate) or well-funded insurtechs could intensify price competition, eroding market share</td>
+    <td><span class="severity-med">MEDIUM</span></td>
+    <td>Embedded distribution (builders) creates captive channel; Spinnaker platform stickiness; technology differentiation</td>
+  </tr>
+  <tr>
+    <td><strong>Liquidity / Financing</strong></td>
+    <td>Thin float and limited institutional ownership create liquidity risk; adverse scenario could require equity raise</td>
+    <td><span class="severity-med">MEDIUM</span></td>
+    <td>$696M cash/investments; minimal debt ($52M); no near-term financing needs under base case</td>
+  </tr>
+  <tr>
+    <td><strong>Key Person</strong></td>
+    <td>Departure of CEO McCathron or CFO Zeltser could disrupt transformation execution</td>
+    <td><span class="severity-low">LOW</span></td>
+    <td>Deep bench of insurance veterans; institutional processes in place; board continuity</td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 14: APPENDIX — PYTHON CODE -->
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+
+<div class="memo-section">14. Appendix — Python Code</div>
+
+<p class="prose">The following code generates sensitivity tables for Hippo's key drivers:</p>
+
+<div class="code-block">import numpy as np
+import pandas as pd
+
+# Sensitivity 1: Net Earned Premium vs Combined Ratio → Underwriting Income
+def underwriting_income_sensitivity():
+    nep_range = [400, 450, 484, 520, 560]  # Net Earned Premium ($M)
+    cr_range = [0.95, 1.00, 1.05, 1.10, 1.15]  # Combined Ratio
+
+    results = []
+    for nep in nep_range:
+        row = []
+        for cr in cr_range:
+            uw_income = nep * (1 - cr)
+            row.append(round(uw_income, 0))
+        results.append(row)
+
+    df = pd.DataFrame(results,
+                      index=[f'NEP ${n}M' for n in nep_range],
+                      columns=[f'CR {int(c*100)}%' for c in cr_range])
+    return df
+
+# Sensitivity 2: Third-Party GWP vs Fronting Fee → Fee Income
+def fee_income_sensitivity():
+    gwp_range = [600, 700, 750, 850, 1000]  # Third-Party GWP ($M)
+    fee_range = [0.050, 0.055, 0.060, 0.065, 0.070]  # Fronting Fee %
+
+    results = []
+    for gwp in gwp_range:
+        row = []
+        for fee in fee_range:
+            fee_income = gwp * fee
+            row.append(round(fee_income, 0))
+        results.append(row)
+
+    df = pd.DataFrame(results,
+                      index=[f'GWP ${g}M' for g in gwp_range],
+                      columns=[f'Fee {f*100:.1f}%' for f in fee_range])
+    return df
+
+# Sensitivity 3: BVPS vs P/BV Multiple → Implied Share Price
+def valuation_sensitivity():
+    bvps_range = [15.00, 17.00, 18.50, 20.00, 22.00]
+    pbv_range = [1.00, 1.25, 1.50, 1.75, 2.00]
+
+    results = []
+    for bvps in bvps_range:
+        row = []
+        for pbv in pbv_range:
+            price = bvps * pbv
+            row.append(f'${price:.2f}')
+        results.append(row)
+
+    df = pd.DataFrame(results,
+                      index=[f'BVPS ${b:.2f}' for b in bvps_range],
+                      columns=[f'P/BV {p:.2f}x' for p in pbv_range])
+    return df
+
+# Generate all tables
+print("=== Underwriting Income Sensitivity ===")
+print(underwriting_income_sensitivity())
+print("\n=== Fee Income Sensitivity ===")
+print(fee_income_sensitivity())
+print("\n=== Valuation Sensitivity ===")
+print(valuation_sensitivity())</div>
+
+<p class="prose" style="margin-top: 12px;">Five-scenario model generation:</p>
+
+<div class="code-block">import numpy as np
+
+def five_scenario_model(current_price=25.65):
+    """
+    Generate 5-scenario model for HIPO with probability-weighted expected value.
+    """
+    scenarios = {
+        'Bear Severe': {
+            'gwp': 1200, 'nep': 450, 'cr': 1.25, 'fee_income': 50,
+            'opex': 80, 'bvps': 10.00, 'pbv_exit': 0.70, 'prob': 0.10
+        },
+        'Bear Mild': {
+            'gwp': 1600, 'nep': 550, 'cr': 1.08, 'fee_income': 70,
+            'opex': 65, 'bvps': 16.00, 'pbv_exit': 1.00, 'prob': 0.20
+        },
+        'Base': {
+            'gwp': 2000, 'nep': 700, 'cr': 1.02, 'fee_income': 100,
+            'opex': 50, 'bvps': 20.00, 'pbv_exit': 1.50, 'prob': 0.40
+        },
+        'Bull Mild': {
+            'gwp': 2300, 'nep': 800, 'cr': 0.97, 'fee_income': 130,
+            'opex': 55, 'bvps': 24.00, 'pbv_exit': 1.75, 'prob': 0.20
+        },
+        'Bull Severe': {
+            'gwp': 2800, 'nep': 950, 'cr': 0.93, 'fee_income': 180,
+            'opex': 60, 'bvps': 30.00, 'pbv_exit': 2.25, 'prob': 0.10
+        }
+    }
+
+    results = []
+    weighted_price = 0
+
+    for name, s in scenarios.items():
+        uw_income = s['nep'] * (1 - s['cr'])
+        net_income = uw_income + s['fee_income'] - s['opex']
+        shares = 27.54  # Fully diluted
+        eps = net_income / shares
+        implied_price = s['bvps'] * s['pbv_exit']
+        upside = (implied_price / current_price - 1) * 100
+
+        weighted_price += implied_price * s['prob']
+
+        results.append({
+            'Scenario': name,
+            'GWP ($M)': s['gwp'],
+            'Net Income ($M)': round(net_income, 1),
+            'EPS': f'${eps:.2f}',
+            'BVPS': f'${s["bvps"]:.2f}',
+            'Exit Multiple': f'{s["pbv_exit"]:.2f}x P/BV',
+            'Implied Price': f'${implied_price:.2f}',
+            'Upside': f'{upside:+.0f}%',
+            'Probability': f'{s["prob"]*100:.0f}%'
+        })
+
+    print(f"Probability-Weighted Expected Price: ${weighted_price:.2f}")
+    print(f"Expected Return: {(weighted_price/current_price - 1)*100:+.1f}%")
+
+    return pd.DataFrame(results)
+
+# Run model
+print(five_scenario_model())</div>
+
+<p class="source-note" style="margin-top: 20px;">
+Memo generated March 20, 2026. Data sources: FactSet, company filings, AlphaSense expert transcripts, management guidance.<br>
+This document is for informational purposes only and does not constitute investment advice.
+</p>
+
+</body>
+</html>
