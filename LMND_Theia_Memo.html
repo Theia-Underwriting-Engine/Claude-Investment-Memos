@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lemonade, Inc. | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 8px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child, table.comps td:nth-child(2) { text-align: left; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-style: italic; background: #fafbfc; font-weight: 600; }
+table.comps th.est-col { color: #2563eb; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.alphasense-box { background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 4px; padding: 8px 12px; margin-bottom: 14px; font-size: 10px; color: #1e3a5f; }
+
+.bull-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #155724; border-bottom: 1.5px solid #c3e6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #721c24; border-bottom: 1.5px solid #f5c6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+
+.bull-item, .bear-item { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Lemonade, Inc. | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">Lemonade, Inc. (NYSE: LMND) is an AI-native, full-stack insurance company founded in 2015 and headquartered in New York City. Unlike traditional insurers operating on decades-old legacy systems, Lemonade was built from the ground up with artificial intelligence at its core, fundamentally reimagining the insurance experience for digital-native consumers. The company offers renters, homeowners, pet, life, and car insurance products across the United States and Europe, operating as a licensed insurance carrier that assumes underwriting risk on its own balance sheet while ceding portions to reinsurers through quota share arrangements. The strategic thesis is straightforward: leverage AI to achieve structural cost advantages in customer acquisition, underwriting, and claims processing that compound over time, enabling profitable growth in a $600B+ U.S. P&C market dominated by legacy incumbents. Management has demonstrated aggressive execution — In Force Premium (IFP) grew 31% year-over-year to $1.24B in Q4 2025, the 8th consecutive quarter of accelerating growth, while adjusted EBITDA losses narrowed dramatically from ($35M) to ($5M). The stock trades at 10.13x book value vs. 2.5x peer median, reflecting the market's recognition of AI platform optionality and growth trajectory, but also embedding significant execution risk around the path to profitability.</p>
+
+<p class="prose">The autonomous vehicle insurance catalyst represents the most significant long-term opportunity for Lemonade's platform. In Q4 2025, the company launched the first insurance product specifically designed for autonomous driving, partnering with Tesla to offer a 50% premium discount when vehicles operate in full self-driving (FSD) mode. This positions Lemonade as the first-mover in a category that could represent the majority of auto insurance premiums as AV adoption accelerates over the next decade. The company's AI-native architecture enables real-time telemetry integration and per-mile pricing that legacy insurers cannot easily replicate without complete technology transformation. Management has guided to EBITDA profitability by Q4 2026, supported by loss ratio improvement (from 79% to 64.7% gross loss ratio), expense leverage as IFP scales, and cross-selling economics (5% of customers are multi-line but generate ~20% of IFP). The $529M book value ($6.35/share) and improving cash generation (positive adjusted free cash flow of $37M in Q4 2025) provide adequate cushion, though the company remains in investment mode with a 130.4% combined ratio that must compress materially to achieve sustainable profitability.</p>
+
+<p class="prose"><strong>Key facts:</strong> Founded 2015 · Headquarters New York, NY · CEO Daniel Schreiber · CFO Tim Bixby · Employees ~1,282 · Listed NYSE · FY end December · Market Cap $5.35B · CUSIP 52567D107</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 2: THEIA FACTSET SUMMARY -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Theia FactSet Summary</div>
+
+<div class="header">
+  <div>
+    <h1>Lemonade, Inc.</h1>
+    <span class="ticker">LMND · NYSE · CUSIP 52567D107</span>
+  </div>
+  <div class="date">FactSet Snapshot · March 20, 2026</div>
+</div>
+
+<!-- Price Bar -->
+<div class="price-bar">
+  <div>
+    <span class="label">Price (Mar 19, 2026) </span>
+    <span class="price">$64.18</span>
+  </div>
+  <div><span class="label">1M </span><span class="chg pos">+8.2%</span></div>
+  <div><span class="label">3M </span><span class="chg pos">+22.4%</span></div>
+  <div><span class="label">6M </span><span class="chg pos">+45.3%</span></div>
+  <div><span class="label">YTD </span><span class="chg pos">+31.7%</span></div>
+  <div><span class="label">1Y </span><span class="chg pos">+89.2%</span></div>
+  <div><span class="label">52-Wk Range </span><span style="font-weight:600;">$28.45 – $72.80</span></div>
+</div>
+
+<!-- Key Stats + EV Bridge -->
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv" style="font-size:10px;">
+      <tr><td>Exchange / Ticker</td><td>NYSE · LMND</td></tr>
+      <tr><td>Price (Mar 19, 2026)</td><td>$64.18</td></tr>
+      <tr><td>Volume (last)</td><td>1,245,000 shares</td></tr>
+      <tr><td>30-Day Avg Volume</td><td>~1,520K shares/day</td></tr>
+      <tr><td>Float %</td><td>92.4%</td></tr>
+      <tr><td>Short Interest (Days/Float)</td><td>4.2 / 12.3%</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev" style="font-size:10px;">
+      <tr><td>Basic Shares (Common)</td><td>83.4M</td></tr>
+      <tr><td>Share Price</td><td>$64.18</td></tr>
+      <tr><td>= Market Cap</td><td>$5,353M</td></tr>
+      <tr><td>+ Total Debt</td><td>$565M</td></tr>
+      <tr><td>+ Preferred Stock</td><td>$0</td></tr>
+      <tr><td>− Cash & Equivalents</td><td>($1,021M)</td></tr>
+      <tr class="total"><td>= Enterprise Value</td><td>$4,897M</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- Current Valuation — horizontal 6×2 grid -->
+<div class="section-title">Current Valuation</div>
+<div style="border: 1px solid #eee; border-radius: 4px; margin-bottom: 8px;">
+  <div class="val-grid">
+    <div class="val-cell"><div class="val-label">Mkt Cap</div><div class="val-num">$5.35B</div><div class="val-sub">Basic shares</div></div>
+    <div class="val-cell"><div class="val-label">EV</div><div class="val-num">$4.90B</div><div class="val-sub">Net cash position</div></div>
+    <div class="val-cell"><div class="val-label">P/E (LTM)</div><div class="val-num">NM</div><div class="val-sub">FY25 NI ($195M)</div></div>
+    <div class="val-cell"><div class="val-label">P/E (FY1E)</div><div class="val-num">NM</div><div class="val-sub">FY26E EPS ($0.85)</div></div>
+    <div class="val-cell"><div class="val-label">P/BV</div><div class="val-num">10.13x</div><div class="val-sub">BV $6.35/sh</div></div>
+    <div class="val-cell"><div class="val-label">Beta</div><div class="val-num">2.15</div><div class="val-sub">3-year adj.</div></div>
+  </div>
+  <div style="border-top: 1px solid #eee;">
+    <div class="val-grid">
+      <div class="val-cell"><div class="val-label">P/E (FY2E)</div><div class="val-num">107x</div><div class="val-sub">FY27E EPS $0.60</div></div>
+      <div class="val-cell"><div class="val-label">P/TBV</div><div class="val-num">12.95x</div><div class="val-sub">TBV $4.96/sh</div></div>
+      <div class="val-cell"><div class="val-label">ROE</div><div class="val-num">(29.4%)</div><div class="val-sub">Investment phase</div></div>
+      <div class="val-cell"><div class="val-label">Avg Analyst Rating</div><div class="val-num">Hold</div><div class="val-sub">14 brokers · 2.64</div></div>
+      <div class="val-cell"><div class="val-label">Cons. Target Price</div><div class="val-num">$58.00</div><div class="val-sub">−10% downside</div></div>
+      <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">May 6</div><div class="val-sub">Q1 2026</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Valuation Multiples Table -->
+<div class="section-title">Valuation Multiples</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Metric</th>
+      <th>5Yr Avg</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th class="est" style="color:#2563eb;">FY2026E</th>
+      <th class="est" style="color:#2563eb;">FY2027E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">PRICE MULTIPLES</td></tr>
+    <tr><td>P/E</td><td>NM</td><td>NM</td><td>NM</td><td>NM</td><td class="est">NM</td><td class="est">107x</td></tr>
+    <tr><td>P/Sales</td><td>8.5x</td><td>12.2x</td><td>9.8x</td><td>6.2x</td><td class="est">4.8x</td><td class="est">3.9x</td></tr>
+    <tr><td>P/Book Value</td><td>8.2x</td><td>7.5x</td><td>6.8x</td><td>9.1x</td><td class="est">10.13x</td><td class="est">9.2x</td></tr>
+    <tr><td>P/Tang Book Value</td><td>10.5x</td><td>9.8x</td><td>8.9x</td><td>11.8x</td><td class="est">12.95x</td><td class="est">11.6x</td></tr>
+    <tr class="section-row"><td colspan="7">INSURANCE MULTIPLES</td></tr>
+    <tr><td>P/IFP</td><td>5.8x</td><td>7.2x</td><td>5.5x</td><td>4.8x</td><td class="est">4.3x</td><td class="est">3.5x</td></tr>
+    <tr><td>P/GWP</td><td>6.2x</td><td>7.8x</td><td>6.1x</td><td>5.2x</td><td class="est">4.6x</td><td class="est">3.8x</td></tr>
+  </tbody>
+</table>
+
+<!-- Revenue Exposure -->
+<div class="section-title">Revenue Exposure (FY2025 Actuals)</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Product Line</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Product</th><th>IFP $M</th><th>% IFP</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Homeowners</td><td>$496</td><td>40.0%</td><td>+35%</td></tr>
+        <tr><td>Renters</td><td>$347</td><td>28.0%</td><td>+18%</td></tr>
+        <tr><td>Pet</td><td>$260</td><td>21.0%</td><td>+42%</td></tr>
+        <tr><td>Car</td><td>$99</td><td>8.0%</td><td>+125%</td></tr>
+        <tr><td>Life</td><td>$37</td><td>3.0%</td><td>+15%</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total IFP</td><td>$1,240</td><td>100%</td><td>+31%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <div class="sub-label">By Geography</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Region</th><th>% IFP</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>United States</td><td>82%</td><td>+28%</td></tr>
+        <tr><td>Europe</td><td>18%</td><td>+200%</td></tr>
+      </tbody>
+    </table>
+    <div class="sub-label" style="margin-top: 10px;">Key Operating Metrics</div>
+    <table class="kv" style="font-size: 9px;">
+      <tr><td>In Force Premium</td><td>$1.24B</td></tr>
+      <tr><td>Gross Loss Ratio</td><td>64.7%</td></tr>
+      <tr><td>Combined Ratio</td><td>130.4%</td></tr>
+      <tr><td>LAE Ratio</td><td>7.0%</td></tr>
+      <tr><td>Annual Dollar Retention</td><td>88%</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- Financials Table -->
+<div class="section-title">Financials</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">$M (FY Dec)</th>
+      <th>FY2022</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th class="est" style="color:#2563eb;">FY2026E</th>
+      <th class="est" style="color:#2563eb;">FY2027E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">INCOME STATEMENT</td></tr>
+    <tr><td>Total Revenue</td><td>$256</td><td>$463</td><td>$595</td><td>$865</td><td class="est">$1,120</td><td class="est">$1,380</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Revenue Growth %</td><td>+64%</td><td>+81%</td><td>+29%</td><td>+45%</td><td class="est">+29%</td><td class="est">+23%</td></tr>
+    <tr><td>Net Premiums Earned</td><td>$195</td><td>$345</td><td>$420</td><td>$536</td><td class="est">$720</td><td class="est">$920</td></tr>
+    <tr><td>Gross Profit</td><td>$52</td><td>$98</td><td>$185</td><td>$320</td><td class="est">$450</td><td class="est">$580</td></tr>
+    <tr><td>Net Income</td><td>($297)</td><td>($268)</td><td>($225)</td><td>($195)</td><td class="est">($70)</td><td class="est">$50</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Net Income Margin %</td><td>NM</td><td>NM</td><td>NM</td><td>NM</td><td class="est">NM</td><td class="est">3.6%</td></tr>
+    <tr><td>EPS (Dil)</td><td>($4.52)</td><td>($3.85)</td><td>($3.08)</td><td>($2.34)</td><td class="est">($0.85)</td><td class="est">$0.60</td></tr>
+    <tr class="section-row"><td colspan="7">INSURANCE METRICS</td></tr>
+    <tr><td>Gross Loss Ratio</td><td>90%</td><td>79%</td><td>72%</td><td>64.7%</td><td class="est">58%</td><td class="est">55%</td></tr>
+    <tr><td>LAE Ratio</td><td>12%</td><td>9%</td><td>8%</td><td>7%</td><td class="est">7%</td><td class="est">6%</td></tr>
+    <tr><td>Combined Ratio</td><td>185%</td><td>158%</td><td>142%</td><td>130%</td><td class="est">108%</td><td class="est">96%</td></tr>
+    <tr><td>In Force Premium ($M)</td><td>$540</td><td>$719</td><td>$948</td><td>$1,240</td><td class="est">$1,612</td><td class="est">$2,015</td></tr>
+    <tr class="section-row"><td colspan="7">BALANCE SHEET</td></tr>
+    <tr><td>Total Assets</td><td>$1,285</td><td>$1,420</td><td>$1,580</td><td>$1,750</td><td class="est">$1,950</td><td class="est">$2,200</td></tr>
+    <tr><td>Total Equity</td><td>$625</td><td>$542</td><td>$498</td><td>$529</td><td class="est">$580</td><td class="est">$650</td></tr>
+    <tr><td>Book Value / Share</td><td>$9.50</td><td>$7.80</td><td>$6.82</td><td>$6.35</td><td class="est">$6.95</td><td class="est">$7.80</td></tr>
+  </tbody>
+</table>
+
+<!-- Valuation Summary -->
+<div class="section-title">Valuation Summary</div>
+<p class="prose">Lemonade currently trades at 10.13x book value and 12.95x tangible book value — a massive premium to P&C insurance peers (median 2.46x P/BV). The market is pricing in: (1) AI platform optionality that legacy insurers cannot replicate, (2) 30%+ IFP growth trajectory vs. low-single-digit industry growth, (3) first-mover position in autonomous vehicle insurance, and (4) path to profitability with combined ratio compression from 130% toward sub-100%. The premium valuation is justified only if Lemonade achieves GAAP profitability and demonstrates sustainable underwriting margins. The 12.3% short interest reflects meaningful bearish positioning from investors skeptical of the profitability timeline and auto insurance execution risk. The negative ROE (-29.4%) and lack of earnings make traditional P/E-based valuation impossible; P/IFP (4.3x current, declining to 3.5x on 2027E IFP) provides more relevant valuation context for growth-stage insurers.</p>
+
+<div class="source-note">Source: FactSet snapshot export, March 20, 2026. Estimates reflect consensus of 14 broker contributors.</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 3: BULL & BEAR CASES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Bull & Bear Cases</div>
+
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Cases</div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">AI Moat Compounds Over Time.</span> Lemonade's 10+ years of proprietary training data creates an insurmountable advantage as AI capabilities accelerate. Maya (AI sales bot) handles 98% of policy sales autonomously; Jim (AI claims bot) processes 96% of FNOL and settles 55% of claims in under 3 seconds. The Customer Cortex analyzes 1,700+ data points per policy. As the platform processes more policies, underwriting precision improves, loss ratios decline, and customer acquisition becomes more efficient. Legacy insurers would need complete technology transformation to replicate — a multi-year, multi-billion dollar endeavor that cannibalizes existing agent networks.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Profitability Inflection Imminent.</span> Management has guided to EBITDA profitability by Q4 2026, and the trajectory supports this target. Q4 2025 showed positive adjusted free cash flow of $37M — a critical milestone. Gross loss ratio improved from 79% to 64.7%; LAE ratio at 7% is 2-3 points better than industry average. Operating leverage kicks in above $1.5B IFP as fixed costs (technology, G&A) spread across larger premium base. If 2026 guidance is achieved, the stock re-rates materially as the "will they ever make money?" overhang lifts.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Autonomous Vehicle Insurance Option Value.</span> Lemonade launched the first autonomous vehicle insurance product with Tesla FSD integration — a 50% premium discount on AI-driven miles with real-time telemetry pricing. If AV adoption accelerates (Tesla, Waymo, Cruise), this positions Lemonade as the dominant player in a category that could represent the majority of auto insurance premiums in 10-15 years. First-mover data accumulation on AV claims patterns creates a cornered resource that cannot be replicated without similar early positioning.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Cross-Sell Flywheel Economics.</span> Multi-line customers represent only 5% of the base but generate ~20% of IFP — demonstrating 4x higher lifetime value at similar CAC. As renters age into homeowners, pet insurance bundles with home policies, and car insurance integrates with existing relationships, the cross-sell flywheel accelerates. Management's Synthetic Agents program (General Catalyst partnership) enables inorganic customer book acquisitions with immediate cross-sell opportunity. Expanding multi-line penetration from 5% to 15% would drive substantial LTV uplift.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">European Outperformance as Proof Point.</span> International operations (18% of IFP) grew 200%+ year-over-year with loss ratios running 20 points better than U.S. operations. European markets have worse incumbent UX, less competition, and more favorable regulatory environments for digital-first insurers. If Europe demonstrates that the Lemonade model achieves profitable underwriting, it provides a roadmap for U.S. loss ratio improvement and expands the addressable market materially.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="bear-header">Bear Cases</div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Auto Insurance Profitability Unproven.</span> Personal auto is notoriously difficult with thin margins and intense competition. InsurTech peers (Root, Metromile) have struggled with auto; Metromile was acquired at distressed valuation. Lemonade's autonomous vehicle thesis is compelling but requires Tesla FSD to achieve wide adoption — a timeline management doesn't control. If auto loss ratios remain elevated, the product line becomes a drag on profitability and dilutes the attractive homeowners/renters economics.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Technology Moat Narrowing.</span> Legacy insurers are investing aggressively in AI/ML capabilities. Progressive's Snapshot telematics, State Farm's digital platforms, and Allstate's Arity data business demonstrate that incumbents can deploy advanced pricing algorithms. As AI tools commoditize (GPT-4, Claude, etc. available to all), Lemonade's proprietary models may lose relative advantage. The 10-year head start matters, but the gap may narrow faster than bulls expect.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Combined Ratio Requires Material Improvement.</span> 130% combined ratio means Lemonade loses $0.30 on every dollar of premium written. Achieving sub-100% requires 30+ point improvement — a substantial compression that has never been demonstrated at scale. Loss ratio improvement depends on rate increases (regulatory approval required), mix shift (toward lower-loss products), and underwriting precision (AI model performance). Any of these can disappoint.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Catastrophe Exposure Creates Tail Risk.</span> Homeowners insurance (40% of IFP) exposes Lemonade to CAT events — California wildfire, Florida hurricane, Texas freeze. Climate change is increasing frequency and severity of these events. A single bad CAT season could wipe out a year of underwriting progress and require reserve strengthening. The reinsurance quota share provides protection but limits profit potential in good years.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Valuation Premium Embeds Significant Execution.</span> At 10.13x P/BV vs. 2.5x peer median, the stock prices in successful execution. Any stumble — profitability delayed to 2027, auto losses worse than expected, CAT event, growth deceleration — could trigger meaningful derating. Progressive (PGR) at 6.65x P/BV has proven profitability; LMND trades at a 50% premium to a demonstrably profitable business. The asymmetry may favor the downside from current levels.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Scale Economies</span> <span class="fw-rating moderate">Emerging</span><br>
+  Lemonade's AI platform costs are largely fixed; incremental policies add minimal marginal cost. Maya and Jim bots scale infinitely without proportional expense. As IFP scales from $1.2B toward $2B+, the expense ratio compresses materially — the same technology infrastructure serves 2x the premium base. Currently at 130% combined ratio targeting sub-100% at scale. This is genuine scale advantage, but the company hasn't yet demonstrated profitable unit economics at scale. Rating: Emerging (demonstrable leverage, not yet proven).</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Network Effects</span> <span class="fw-rating moderate">Moderate</span><br>
+  Data network effects strengthen underwriting precision. Each policy processed, each claim filed, each fraud detected improves the AI models for all future policies. The Customer Cortex becomes more predictive with more data. Cross-selling across products creates relationship density that increases value per customer. However, these are data network effects (one-sided) rather than marketplace network effects (two-sided). Competitors can build similar datasets given sufficient scale and time. Rating: Moderate (real but replicable with investment).</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Counter-Positioning</span> <span class="fw-rating strong">Strong</span><br>
+  Legacy insurers cannot replicate Lemonade's tech-first model without cannibalizing existing agent networks and abandoning decades of infrastructure investment. State Farm has 19,000 agents who earn commissions on policy sales — migrating to a Maya-style AI bot destroys that channel. Allstate's claims organization employs thousands of adjusters who would be displaced by Jim-style automation. The structural conflict prevents legacy response. Incumbents are investing in digital, but incremental improvements to legacy systems cannot match purpose-built AI architecture. Rating: Strong (genuine structural barrier).</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Switching Costs</span> <span class="fw-rating moderate">Moderate</span><br>
+  Insurance inherently has low switching costs — annual policy cycles invite shopping. However, Lemonade builds stickiness through: (1) bundled multi-product discounts (home + pet + car = 15% savings), (2) superior UX that creates habit formation, (3) annual policy renewal inertia, (4) Giveback program creates emotional connection (unclaimed premiums donated to customer-selected charities). The 88% annual dollar retention rate is strong but not exceptional. Multi-line customers have meaningfully higher retention. Rating: Moderate (friction, not lock-in).</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Branding</span> <span class="fw-rating strong">Strong</span><br>
+  Strong brand affinity with younger demographics (median customer age 34); NPS scores dramatically exceed industry averages. The Giveback program (donating unclaimed premiums to charity) creates emotional connection unique in insurance — a category typically associated with adversarial relationships. The pink brand aesthetic and conversational AI tone differentiate from stodgy incumbents. Customer acquisition cost <0.3% of originations is exceptional for consumer finance, reflecting organic brand pull. Rating: Strong (measurable CAC advantage, emotional differentiation).</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">6. Cornered Resource</span> <span class="fw-rating moderate">Moderate</span><br>
+  Proprietary AI/ML models (Maya, Jim, Customer Cortex, Blender OS) trained on 10+ years of unique dataset represent cornered resource. However, the underlying technology (machine learning, NLP, computer vision) is widely available. First-mover in autonomous vehicle insurance with Tesla partnership provides exclusive data advantage in emerging category that could become truly cornered. Rating: Moderate (proprietary today, durability uncertain; AV data could strengthen to Strong).</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">7. Process Power</span> <span class="fw-rating strong">Strong</span><br>
+  Maya and Jim AI bots enable 98% automated policy sales and 55% automated claims settlement. The 7% LAE ratio vs. industry 9-10% demonstrates 20-30% structural cost advantage in claims handling. Policies are issued in 90 seconds; claims are paid in 3 seconds (for approved automated claims). These processes cannot be easily replicated by incumbents with legacy systems and organizational structures. The efficiency is measurable, demonstrated, and improving over time. Rating: Strong (proven operational advantage).</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Competitive Rivalry</span> <span class="fw-rating high">High</span><br>
+  Intensely competitive market with well-capitalized incumbents (Progressive, Allstate, State Farm, GEICO) and well-funded InsurTechs (Root, Hippo, Metromile, Kin). Marketing spend is substantial — competitors outspend Lemonade 10:1 on advertising. Price transparency enables easy comparison shopping, putting constant pressure on margins. The P&C market grows at low single digits, making it largely zero-sum for share gains. However, Lemonade's differentiation through AI, UX, and autonomous vehicle insurance provides some insulation. European expansion offers lower-competition growth avenue.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Threat of New Entrants</span> <span class="fw-rating moderate">Moderate</span><br>
+  High regulatory barriers (state-by-state licensing takes 2-3 years), capital requirements (surplus requirements vary by state), and reinsurance relationships protect incumbents. However, other InsurTech entrants have navigated these successfully. The commoditization of AI tools lowers technology barriers. Embedded insurance (distribution through retailers, OEMs, platforms) creates new entry vectors. Lemonade's 10-year head start in AI provides meaningful advantage, but the door is not closed to determined entrants with capital.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Bargaining Power of Suppliers</span> <span class="fw-rating low">Low</span><br>
+  Reinsurers provide capacity but face competitive market; Lemonade has diversified reinsurance panel. Cloud infrastructure (AWS) is commoditized with multiple alternatives. Technology vendors (data providers, fraud detection, etc.) are competitive. The full-stack model reduces dependency on third-party administrators, MGAs, or agents. Labor market for AI/ML talent is competitive but not constrained. Overall, supplier dynamics favor Lemonade.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Bargaining Power of Buyers</span> <span class="fw-rating high">High</span><br>
+  Insurance is largely commoditized; customers price-shop aggressively using aggregators and comparison sites. Switching costs are low — annual policy cycles invite competition. The premium borrower segment Lemonade targets (young professionals) is sophisticated and digitally savvy. However, Lemonade's UX differentiation, bundling, and Giveback program reduce pure price competition for retained customers. Multi-line customers have lower price sensitivity given bundle economics.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Threat of Substitutes</span> <span class="fw-rating low">Low</span><br>
+  Insurance is legally required for mortgages and auto registration; self-insurance is impractical for most consumers. No material substitutes exist for core P&C products. Peer-to-peer insurance models have failed to gain traction. Captives and risk retention groups serve commercial, not personal lines. The fundamental risk transfer function of insurance has no viable substitute for individual consumers.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 6: STOCK PRICE DRIVERS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">6. Stock Price Drivers</div>
+
+<p class="prose"><strong>In Force Premium Growth:</strong> The single most watched metric. Q4 2025 showed +31% YoY IFP growth to $1.24B — the 8th consecutive quarter of accelerating growth. Market expects continuation of 25-30% growth trajectory. Any deceleration below 25% would raise concerns about TAM penetration limits or competitive pressure; acceleration above 35% would likely drive multiple expansion.</p>
+
+<p class="prose"><strong>Loss Ratio Trajectory:</strong> Gross loss ratio improved from 79% to 64.7% over two years. Further improvement toward 55-60% is necessary for profitability. Quarterly loss ratio prints are binary events — significant beats or misses move the stock 10%+. CAT events (hurricanes, wildfires) can distort quarterly loss ratios; trailing 12-month loss ratio (67%) provides better signal.</p>
+
+<p class="prose"><strong>Combined Ratio and EBITDA Profitability:</strong> Management's Q4 2026 EBITDA profitability guidance is the key catalyst. Combined ratio must compress from 130% toward 100% — requiring both loss ratio improvement and expense leverage. Each quarterly earnings provides incremental data on trajectory. EBITDA positive would be a major sentiment shift; any delay to 2027+ would trigger meaningful derating.</p>
+
+<p class="prose"><strong>Autonomous Vehicle Insurance Traction:</strong> Tesla FSD integration is early stage but high-optionality. Market will watch for: policy count growth, loss ratio data on AV policies, expansion to other AV platforms (Waymo, Cruise), and competitive response from incumbents. Any indication of meaningful market share in AV insurance would drive significant re-rating.</p>
+
+<p class="prose"><strong>Cross-Sell and Multi-Line Penetration:</strong> Multi-line customers (5% of base, ~20% of IFP) are the highest-LTV segment. Quarterly disclosures on multi-line penetration, average policies per customer, and customer lifetime value trends will inform the cross-sell thesis. Expansion of multi-line from 5% toward 15% would be a material positive catalyst.</p>
+
+<p class="prose"><strong>European Expansion Metrics:</strong> International operations (18% of IFP, 200%+ growth, 20-point better loss ratios) provide a proof point for the model. Quarterly updates on European growth rate, loss ratio stability, and country expansion would inform the international TAM thesis.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 7: BUSINESS DRIVERS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">7. Business Drivers</div>
+
+<p class="prose"><strong>AI/ML Model Performance:</strong> The core of Lemonade's competitive advantage is AI-driven underwriting, pricing, and claims processing. Model improvements drive loss ratio compression, fraud detection, and customer acquisition efficiency. Each year of additional training data improves model performance. The GenAI revolution (GPT-4, Claude, etc.) provides new capabilities that Lemonade is integrating into its platform.</p>
+
+<p class="prose"><strong>Autonomous Vehicle Adoption:</strong> Lemonade's AV insurance product is a call option on autonomous driving adoption. Tesla FSD V13+ is achieving meaningful adoption; Waymo is expanding robotaxi service; Cruise is resuming operations. If AV adoption accelerates faster than expected, Lemonade's first-mover positioning becomes extremely valuable. Conversely, if AV adoption stalls (regulatory, technical, or safety issues), the thesis loses urgency.</p>
+
+<p class="prose"><strong>Climate Change and CAT Events:</strong> Homeowners insurance (40% of IFP) is exposed to increasing climate-related losses. Wildfire in California, hurricanes in Florida, severe convective storms in Midwest — all are becoming more frequent and severe. Lemonade's AI models attempt to price this risk accurately, but CAT events create earnings volatility. Reinsurance provides protection but increases costs.</p>
+
+<p class="prose"><strong>Interest Rates and Investment Income:</strong> Insurance float (premiums collected before claims paid) generates investment income. Higher rates improve investment returns, providing a tailwind to profitability. Rate cuts would reduce this benefit. Lemonade's growing premium base increases float, amplifying interest rate sensitivity.</p>
+
+<p class="prose"><strong>Regulatory Environment:</strong> State insurance departments regulate rates, claims practices, and capital requirements. Rate increase approvals can be delayed or denied, affecting profitability timeline. AI-based pricing faces potential future scrutiny for fairness and discrimination. Any new regulations specifically targeting InsurTech or AI underwriting would be headwinds.</p>
+
+<p class="prose"><strong>Reinsurance Market Dynamics:</strong> Lemonade cedes a significant portion of premiums to reinsurers through quota share arrangements. Reinsurance market hardening (tighter capacity, higher prices) pressures margins. Conversely, soft reinsurance markets provide favorable terms. The reinsurance relationship also limits profit potential — quota share means sharing underwriting profits with reinsurers.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+  <strong>Expert Network Perspective — InsurTech Industry Specialist (March 2026):</strong> "Lemonade's AI advantage is real but potentially overstated. The Maya and Jim bots are impressive — 98% automated sales, 55% automated claims — but the underlying models are not magic. They've trained on 10 years of data, which matters, but transformer-based AI is commoditizing fast. Progressive, Allstate, State Farm are all deploying advanced ML now. The gap may be 2-3 years, not permanent. The AV insurance play is brilliant positioning though — no one else has that Tesla integration. If FSD works, they own that market."
+</div>
+
+<div class="alphasense-box">
+  <strong>Management Commentary — Q4 2025 Earnings Call (February 2026):</strong> CEO Daniel Schreiber: "Q4 marked our 8th consecutive quarter of accelerating IFP growth and our first quarter of positive adjusted free cash flow. We achieved $37 million of adjusted free cash flow, demonstrating that our AI-native platform can generate cash while maintaining 30%+ growth. Looking to 2026, we expect to achieve EBITDA profitability by Q4 as loss ratios continue improving and operating leverage compounds. The autonomous vehicle insurance launch with Tesla FSD is early but the customer response has exceeded expectations — drivers are excited about a product that recognizes autonomous driving is fundamentally safer than human driving."
+</div>
+
+<div class="alphasense-box">
+  <strong>Competitive Intelligence — P&C Insurance Market (Q1 2026):</strong> Legacy insurers are responding to InsurTech competition with significant technology investment. Progressive's Snapshot 3.0 incorporates advanced telematics and AI-based pricing. State Farm has partnered with autonomous vehicle companies on data sharing. Allstate's Arity platform processes billions of miles of driving data for risk assessment. However, these are incremental improvements to legacy systems, not ground-up AI architecture. The response confirms the threat Lemonade poses but also narrows the technology gap over time.
+</div>
+
+<div class="alphasense-box">
+  <strong>Credit Quality Assessment — Underwriting Performance (Q4 2025):</strong> Lemonade's gross loss ratio improved from 79% (FY2023) to 64.7% (FY2025) — a 14-point improvement driven by: (1) rate increases averaging 15-20% in loss-affected states, (2) AI model refinement improving risk selection, (3) mix shift toward higher-margin products, (4) improved claims management and fraud detection. The trailing 12-month loss ratio of 67% suggests Q4 benefited from favorable CAT experience. European operations show loss ratios 20 points better than U.S., suggesting the model works better in less competitive markets with less adverse selection.
+</div>
+
+<div class="alphasense-box">
+  <strong>Analyst Note — Morgan Stanley Equity Research (March 2026):</strong> "We rate LMND Equal-Weight with a $60 price target. The AI platform is differentiated and the AV insurance positioning is compelling, but 10x P/BV embeds significant execution. We need to see: (1) EBITDA profitability achieved on schedule in Q4 2026, (2) auto insurance loss ratios improving toward viable levels, (3) CAT exposure managed through a full hurricane season. The European outperformance (20-point better loss ratios) is encouraging but the U.S. remains the majority of the business. We'd become more constructive on demonstrated profitability."
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 9: SENSITIVITY ANALYSIS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Sensitivity Analysis</div>
+
+<p class="prose">The sensitivity tables below illustrate how key assumptions affect estimated 2027 combined ratio and EPS. Base case assumes $2.0B IFP, 55% gross loss ratio, 7% LAE ratio, and 34% expense ratio.</p>
+
+<div class="sub-label">IFP Growth Sensitivity (2027E Combined Ratio)</div>
+<table class="sensitivity">
+  <thead>
+    <tr><th></th><th>$1.6B IFP</th><th>$1.8B IFP</th><th class="base">$2.0B IFP (Base)</th><th>$2.2B IFP</th><th>$2.5B IFP</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Loss Ratio 60%</td><td>105%</td><td>102%</td><td class="base">99%</td><td>97%</td><td>94%</td></tr>
+    <tr><td>Loss Ratio 55% (Base)</td><td>100%</td><td>97%</td><td class="base">96%</td><td>94%</td><td>91%</td></tr>
+    <tr><td>Loss Ratio 50%</td><td>95%</td><td>93%</td><td class="base">91%</td><td>89%</td><td>86%</td></tr>
+  </tbody>
+</table>
+
+<div class="sub-label">Loss Ratio Sensitivity (2027E EPS)</div>
+<table class="sensitivity">
+  <thead>
+    <tr><th></th><th>70% Loss</th><th>65% Loss</th><th class="base">55% Loss (Base)</th><th>50% Loss</th><th>45% Loss</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>$1.8B IFP</td><td>($1.50)</td><td>($0.80)</td><td class="base">$0.25</td><td>$0.85</td><td>$1.45</td></tr>
+    <tr><td>$2.0B IFP (Base)</td><td>($1.20)</td><td>($0.45)</td><td class="base">$0.60</td><td>$1.25</td><td>$1.90</td></tr>
+    <tr><td>$2.2B IFP</td><td>($0.85)</td><td>($0.10)</td><td class="base">$0.95</td><td>$1.65</td><td>$2.35</td></tr>
+  </tbody>
+</table>
+
+<div class="sub-label">Expense Ratio Sensitivity (2027E EPS)</div>
+<table class="sensitivity">
+  <thead>
+    <tr><th></th><th>40% Exp</th><th>37% Exp</th><th class="base">34% Exp (Base)</th><th>31% Exp</th><th>28% Exp</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>55% Loss Ratio</td><td>($0.15)</td><td>$0.25</td><td class="base">$0.60</td><td>$1.00</td><td>$1.40</td></tr>
+    <tr><td>50% Loss Ratio</td><td>$0.45</td><td>$0.85</td><td class="base">$1.25</td><td>$1.65</td><td>$2.05</td></tr>
+    <tr><td>45% Loss Ratio</td><td>$1.10</td><td>$1.50</td><td class="base">$1.90</td><td>$2.30</td><td>$2.70</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 10: 3-YEAR MODEL — 5 SCENARIOS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios</div>
+
+<p class="prose">All figures in $M unless stated. Modeled FY2026E, FY2027E, FY2028E. Exit multiple applied to FY2028E metrics. Current share price: $64.18. Diluted shares: 83M. Cash (FY25): $1,021M.</p>
+
+<!-- CASE 1: BEAR SEVERE -->
+<div class="case-block">
+  <div class="case-name">🐻 AI Moat Collapse — Competition Catches Up, Auto Fails</div>
+  <div class="case-desc">Legacy insurers close AI gap; auto insurance losses persist; CAT event hits homeowners book; growth decelerates; profitability delayed indefinitely; valuation re-rates to distressed InsurTech levels.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>2026</strong> — Auto insurance losses worse than expected (80%+ loss ratio); Q4 EBITDA profitability missed; IFP growth slows to 20%. <strong>2027</strong> — Major CAT event (California wildfire or Florida hurricane) drives $150M loss; combined ratio spikes to 145%; cash burn accelerates. <strong>2028</strong> — Strategic review; potential sale at distressed valuation or capital raise at dilutive terms.</p>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>In Force Premium</span><span>$1.8B (−28% vs. base)</span></div>
+  <div class="driver-row"><span>Gross Loss Ratio</span><span>75% (deterioration)</span></div>
+  <div class="driver-row"><span>Combined Ratio</span><span>135%</span></div>
+  <div class="driver-row"><span>Net Income</span><span>($250M)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$980</td><td>$1,050</td><td>$1,100</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+13%</td><td>+7%</td><td>+5%</td></tr>
+    <tr><td>Net Premiums Earned</td><td>$620</td><td>$680</td><td>$720</td></tr>
+    <tr><td>Gross Profit</td><td>$180</td><td>$150</td><td>$120</td></tr>
+    <tr><td>Net Income</td><td>($120)</td><td>($180)</td><td>($250)</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>85</td><td>90</td><td>95</td></tr>
+    <tr><td>EPS ($)</td><td>($1.41)</td><td>($2.00)</td><td>($2.63)</td></tr>
+    <tr class="valuation-row"><td>Exit P/BV Multiple</td><td>—</td><td>—</td><td>1.5x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>—</td><td>—</td><td>$12.00</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 1.5x FY2028E BV of $8.00 = Implied share price</div>
+    <div class="exit-price">Implied Share Price: $12.00</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: −81% from $64.18</div>
+  </div>
+</div>
+
+<!-- CASE 2: BEAR MILD -->
+<div class="case-block">
+  <div class="case-name">📉 Profitability Delayed — Execution Takes Longer</div>
+  <div class="case-desc">IFP growth continues but profitability pushed to 2028; auto remains challenging; combined ratio improves slowly; valuation compressed to peer-average InsurTech levels.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>2026</strong> — Q4 EBITDA profitability missed by one quarter; combined ratio 115%; IFP grows 25%. <strong>2027</strong> — Gradual improvement continues; combined ratio reaches 105%; auto loss ratio remains elevated at 70%. <strong>2028</strong> — GAAP profitability achieved but modest; combined ratio at 98%; stock re-rated to more reasonable growth InsurTech multiple.</p>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>In Force Premium</span><span>$2.2B (−12% vs. base)</span></div>
+  <div class="driver-row"><span>Gross Loss Ratio</span><span>60%</span></div>
+  <div class="driver-row"><span>Combined Ratio</span><span>98%</span></div>
+  <div class="driver-row"><span>Net Income</span><span>$45M</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$1,080</td><td>$1,280</td><td>$1,480</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+25%</td><td>+19%</td><td>+16%</td></tr>
+    <tr><td>Net Premiums Earned</td><td>$690</td><td>$850</td><td>$1,020</td></tr>
+    <tr><td>Gross Profit</td><td>$380</td><td>$480</td><td>$580</td></tr>
+    <tr><td>Net Income</td><td>($50)</td><td>$15</td><td>$45</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>84</td><td>85</td><td>86</td></tr>
+    <tr><td>EPS ($)</td><td>($0.60)</td><td>$0.18</td><td>$0.52</td></tr>
+    <tr class="valuation-row"><td>Exit P/BV Multiple</td><td>—</td><td>—</td><td>4.5x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>—</td><td>—</td><td>$38.00</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 4.5x FY2028E BV of $8.50</div>
+    <div class="exit-price">Implied Share Price: $38.00</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: −41% from $64.18</div>
+  </div>
+</div>
+
+<!-- CASE 3: BASE CASE -->
+<div class="case-block">
+  <div class="case-name">📊 Consensus Execution — Profitability Achieved On Schedule</div>
+  <div class="case-desc">Q4 2026 EBITDA positive as guided; IFP growth 28-30%; combined ratio reaches 96% by 2028; AV insurance gains traction; cross-sell improves; valuation maintained at growth premium.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>2026</strong> — Q4 EBITDA positive; full-year combined ratio 108%; IFP reaches $1.6B; auto loss ratio improves to 65%. <strong>2027</strong> — Full-year GAAP profitability; combined ratio 100%; IFP reaches $2.0B; AV insurance reaches $200M IFP. <strong>2028</strong> — Profitable scale achieved; combined ratio 94%; European expansion accelerates; multiple maintained on growth trajectory.</p>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>In Force Premium</span><span>$2.5B</span></div>
+  <div class="driver-row"><span>Gross Loss Ratio</span><span>55%</span></div>
+  <div class="driver-row"><span>Combined Ratio</span><span>94%</span></div>
+  <div class="driver-row"><span>Net Income</span><span>$120M</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$1,120</td><td>$1,380</td><td>$1,680</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+29%</td><td>+23%</td><td>+22%</td></tr>
+    <tr><td>Net Premiums Earned</td><td>$720</td><td>$920</td><td>$1,180</td></tr>
+    <tr><td>Gross Profit</td><td>$450</td><td>$580</td><td>$750</td></tr>
+    <tr><td>Net Income</td><td>($70)</td><td>$50</td><td>$120</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>84</td><td>85</td><td>86</td></tr>
+    <tr><td>EPS ($)</td><td>($0.85)</td><td>$0.60</td><td>$1.40</td></tr>
+    <tr class="valuation-row"><td>Exit P/BV Multiple</td><td>—</td><td>—</td><td>7.5x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>—</td><td>—</td><td>$75.00</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 7.5x FY2028E BV of $10.00</div>
+    <div class="exit-price">Implied Share Price: $75.00</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +17% from $64.18</div>
+  </div>
+</div>
+
+<!-- CASE 4: BULL MILD -->
+<div class="case-block">
+  <div class="case-name">📈 AI Outperformance — Loss Ratios Beat, AV Gains Traction</div>
+  <div class="case-desc">AI models outperform expectations; loss ratio reaches industry-leading levels; AV insurance captures significant market share; cross-sell flywheel accelerates; combined ratio well below 90%.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>2026</strong> — Q2 EBITDA positive (one quarter early); combined ratio 102%; auto loss ratio beats at 58%; Tesla FSD adoption accelerates. <strong>2027</strong> — Combined ratio 92%; AV insurance reaches $400M IFP; multi-line customers reach 10% of base. <strong>2028</strong> — Industry-leading combined ratio 86%; AV insurance platform value recognized; multiple expansion on profitability demonstration.</p>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>In Force Premium</span><span>$3.0B (+20% vs. base)</span></div>
+  <div class="driver-row"><span>Gross Loss Ratio</span><span>50%</span></div>
+  <div class="driver-row"><span>Combined Ratio</span><span>86%</span></div>
+  <div class="driver-row"><span>Net Income</span><span>$280M</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$1,250</td><td>$1,580</td><td>$2,000</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+44%</td><td>+26%</td><td>+27%</td></tr>
+    <tr><td>Net Premiums Earned</td><td>$820</td><td>$1,080</td><td>$1,420</td></tr>
+    <tr><td>Gross Profit</td><td>$550</td><td>$750</td><td>$980</td></tr>
+    <tr><td>Net Income</td><td>$20</td><td>$140</td><td>$280</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>84</td><td>85</td><td>86</td></tr>
+    <tr><td>EPS ($)</td><td>$0.24</td><td>$1.65</td><td>$3.26</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>—</td><td>—</td><td>35x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>—</td><td>—</td><td>$114.00</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 35x FY2028E EPS of $3.26</div>
+    <div class="exit-price">Implied Share Price: $114.00</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +78% from $64.18</div>
+  </div>
+</div>
+
+<!-- CASE 5: BULL SEVERE -->
+<div class="case-block">
+  <div class="case-name">🚀 Platform Transformation — AV Dominance, Strategic Premium</div>
+  <div class="case-desc">Tesla FSD achieves mass adoption; Lemonade dominates AV insurance market; platform valued as tech company, not insurer; strategic interest from Alphabet/Amazon/Tesla; takeout or re-rating to tech multiples.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>2026</strong> — Tesla FSD V14 achieves supervised autonomy; AV insurance demand surges; LMND becomes exclusive AV partner. <strong>2027</strong> — AV insurance reaches $800M IFP; strategic partnership with Waymo/Cruise announced; platform value recognized. <strong>2028</strong> — AV insurance >30% of IFP; combined ratio 82% (best-in-class); acquisition interest from Alphabet or Tesla at tech premium.</p>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>In Force Premium</span><span>$4.0B (+60% vs. base)</span></div>
+  <div class="driver-row"><span>AV Insurance IFP</span><span>$1.2B (30% of total)</span></div>
+  <div class="driver-row"><span>Gross Loss Ratio</span><span>45%</span></div>
+  <div class="driver-row"><span>Combined Ratio</span><span>82%</span></div>
+  <div class="driver-row"><span>Net Income</span><span>$480M</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$1,450</td><td>$2,000</td><td>$2,700</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+68%</td><td>+38%</td><td>+35%</td></tr>
+    <tr><td>Net Premiums Earned</td><td>$980</td><td>$1,400</td><td>$1,950</td></tr>
+    <tr><td>Gross Profit</td><td>$720</td><td>$1,050</td><td>$1,450</td></tr>
+    <tr><td>Net Income</td><td>$120</td><td>$280</td><td>$480</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>84</td><td>85</td><td>86</td></tr>
+    <tr><td>EPS ($)</td><td>$1.43</td><td>$3.29</td><td>$5.58</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>—</td><td>—</td><td>45x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>—</td><td>—</td><td>$251.00</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 45x FY2028E EPS of $5.58 (or strategic takeout at 15x P/BV)</div>
+    <div class="exit-price">Implied Share Price: $251.00</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +291% from $64.18</div>
+  </div>
+</div>
+
+<!-- SVG Bar Chart -->
+<div class="case-chart">
+  <p style="font-size:9px; font-weight:600; margin-bottom:8px;">Implied Share Price by Scenario (FY2028E Exit) vs. Current Price $64.18</p>
+  <svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg" style="width:100%; font-family:Inter,Arial,sans-serif;">
+    <!-- Axes -->
+    <line x1="80" y1="20" x2="80" y2="180" stroke="#ccc" stroke-width="1"/>
+    <line x1="80" y1="180" x2="680" y2="180" stroke="#ccc" stroke-width="1"/>
+    <!-- Y-axis labels -->
+    <text x="75" y="184" text-anchor="end" font-size="9" fill="#888">$0</text>
+    <text x="75" y="148" text-anchor="end" font-size="9" fill="#888">$75</text>
+    <text x="75" y="112" text-anchor="end" font-size="9" fill="#888">$150</text>
+    <text x="75" y="76" text-anchor="end" font-size="9" fill="#888">$225</text>
+    <text x="75" y="40" text-anchor="end" font-size="9" fill="#888">$300</text>
+    <!-- Gridlines -->
+    <line x1="80" y1="148" x2="680" y2="148" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="112" x2="680" y2="112" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="76" x2="680" y2="76" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="40" x2="680" y2="40" stroke="#eee" stroke-width="0.5"/>
+    <!-- Bar scale: $75 = 32px (so $1 = 0.427px) -->
+    <!-- Bear Severe: $12 → height 5.1px -->
+    <rect x="110" y="174.9" width="80" height="5.1" fill="#ff6b6b"/>
+    <text x="150" y="170" text-anchor="middle" font-size="9" fill="#333">$12</text>
+    <text x="150" y="196" text-anchor="middle" font-size="9" fill="#555">AI Collapse</text>
+    <!-- Bear Mild: $38 → height 16.2px -->
+    <rect x="220" y="163.8" width="80" height="16.2" fill="#ffa94d"/>
+    <text x="260" y="159" text-anchor="middle" font-size="9" fill="#333">$38</text>
+    <text x="260" y="196" text-anchor="middle" font-size="9" fill="#555">Delayed</text>
+    <!-- Base: $75 → height 32px -->
+    <rect x="330" y="148" width="80" height="32" fill="#2563eb"/>
+    <text x="370" y="144" text-anchor="middle" font-size="9" fill="#333">$75</text>
+    <text x="370" y="196" text-anchor="middle" font-size="9" fill="#555">Consensus</text>
+    <!-- Bull Mild: $114 → height 48.6px -->
+    <rect x="440" y="131.4" width="80" height="48.6" fill="#51cf66"/>
+    <text x="480" y="127" text-anchor="middle" font-size="9" fill="#333">$114</text>
+    <text x="480" y="196" text-anchor="middle" font-size="9" fill="#555">AI Beats</text>
+    <!-- Bull Severe: $251 → height 107px -->
+    <rect x="550" y="73" width="80" height="107" fill="#37b24d"/>
+    <text x="590" y="69" text-anchor="middle" font-size="9" fill="#333">$251</text>
+    <text x="590" y="196" text-anchor="middle" font-size="9" fill="#555">AV Platform</text>
+    <!-- Current price line: $64.18 = 27.4px from bottom → y = 180 - 27.4 = 152.6 -->
+    <line x1="80" y1="152.6" x2="680" y2="152.6" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="685" y="157" font-size="9" fill="#e74c3c">$64.18 (Current)</text>
+    <!-- Prob-wtd price line: 5%×12 + 20%×38 + 50%×75 + 20%×114 + 5%×251 = $79.95; ÷1.30 = $61.50 -->
+    <line x1="80" y1="153.8" x2="680" y2="153.8" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="3,2"/>
+    <text x="685" y="149" font-size="8" fill="#f39c12">$61.50 PV@30%</text>
+  </svg>
+  <p style="font-size:8px; color:#888; margin-top:4px;">Probability weights: 5% / 20% / 50% / 20% / 5% · Prob-wtd avg $79.95 discounted @30% CoC → $61.50 · Current: $64.18</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 11: COMPARABLE COMPANIES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">11. Comparable Companies</div>
+
+<div class="section-title">Selected Financials</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th class="est-col">IFP FY1</th>
+      <th class="est-col">IFP Gr %</th>
+      <th class="est-col">Loss Ratio</th>
+      <th class="est-col">Comb Ratio</th>
+      <th class="est-col">Rev FY1</th>
+      <th class="est-col">Rev FY2</th>
+      <th class="est-col">Net Inc FY1</th>
+      <th class="est-col">Net Inc FY2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Lemonade, Inc.</td><td>LMND-US</td>
+      <td>$1,612M</td><td>+30%</td>
+      <td>58%</td><td>108%</td>
+      <td>$1,120</td><td>$1,380</td>
+      <td>($70)</td><td>$50</td>
+    </tr>
+    <tr>
+      <td>Progressive Corp</td><td>PGR-US</td>
+      <td>$72,500M</td><td>+12%</td>
+      <td>62%</td><td>88%</td>
+      <td>$68,200</td><td>$74,500</td>
+      <td>$8,950</td><td>$9,800</td>
+    </tr>
+    <tr>
+      <td>Allstate Corp</td><td>ALL-US</td>
+      <td>$52,800M</td><td>+8%</td>
+      <td>65%</td><td>92%</td>
+      <td>$58,400</td><td>$62,100</td>
+      <td>$4,850</td><td>$5,400</td>
+    </tr>
+    <tr>
+      <td>Root, Inc.</td><td>ROOT-US</td>
+      <td>$1,280M</td><td>+45%</td>
+      <td>72%</td><td>125%</td>
+      <td>$920</td><td>$1,150</td>
+      <td>($85)</td><td>($40)</td>
+    </tr>
+    <tr>
+      <td>Hippo Holdings</td><td>HIPO-US</td>
+      <td>$980M</td><td>+25%</td>
+      <td>85%</td><td>145%</td>
+      <td>$380</td><td>$480</td>
+      <td>($180)</td><td>($120)</td>
+    </tr>
+    <tr>
+      <td>Trupanion Inc</td><td>TRUP-US</td>
+      <td>$1,450M</td><td>+18%</td>
+      <td>71%</td><td>98%</td>
+      <td>$1,380</td><td>$1,580</td>
+      <td>$45</td><td>$68</td>
+    </tr>
+    <tr class="stat-row">
+      <td>InsurTech Median</td><td>—</td>
+      <td>—</td><td>+30%</td>
+      <td>72%</td><td>125%</td>
+      <td>—</td><td>—</td>
+      <td>—</td><td>—</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Valuation Multiples</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>Price</th>
+      <th>PT</th>
+      <th>Mkt Cap</th>
+      <th>P/IFP</th>
+      <th>P/BV</th>
+      <th>P/TBV</th>
+      <th>ROE</th>
+      <th class="est-col">P/E FY2</th>
+      <th>Rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Lemonade, Inc.</td><td>LMND-US</td>
+      <td>$64.18</td><td>$58.00</td>
+      <td>$5,353M</td>
+      <td>4.3x</td>
+      <td>10.13x</td>
+      <td>12.95x</td>
+      <td>(29.4%)</td>
+      <td>107x</td>
+      <td>Hold</td>
+    </tr>
+    <tr>
+      <td>Progressive Corp</td><td>PGR-US</td>
+      <td>$242.50</td><td>$265.00</td>
+      <td>$142,800M</td>
+      <td>2.0x</td>
+      <td>6.65x</td>
+      <td>7.49x</td>
+      <td>32.8%</td>
+      <td>14.6x</td>
+      <td>Buy</td>
+    </tr>
+    <tr>
+      <td>Allstate Corp</td><td>ALL-US</td>
+      <td>$198.20</td>
+      <td>$215.00</td>
+      <td>$52,500M</td>
+      <td>1.0x</td>
+      <td>2.46x</td>
+      <td>3.20x</td>
+      <td>25.1%</td>
+      <td>9.7x</td>
+      <td>Buy</td>
+    </tr>
+    <tr>
+      <td>Root, Inc.</td><td>ROOT-US</td>
+      <td>$82.50</td>
+      <td>$95.00</td>
+      <td>$1,280M</td>
+      <td>1.0x</td>
+      <td>3.85x</td>
+      <td>4.50x</td>
+      <td>(45.2%)</td>
+      <td>NM</td>
+      <td>Hold</td>
+    </tr>
+    <tr>
+      <td>Hippo Holdings</td><td>HIPO-US</td>
+      <td>$18.50</td>
+      <td>$22.00</td>
+      <td>$1,150M</td>
+      <td>1.2x</td>
+      <td>2.80x</td>
+      <td>3.40x</td>
+      <td>(55.8%)</td>
+      <td>NM</td>
+      <td>Hold</td>
+    </tr>
+    <tr>
+      <td>Trupanion Inc</td><td>TRUP-US</td>
+      <td>$38.20</td>
+      <td>$45.00</td>
+      <td>$1,620M</td>
+      <td>1.1x</td>
+      <td>7.62x</td>
+      <td>27.22x</td>
+      <td>5.9%</td>
+      <td>23.8x</td>
+      <td>Buy</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Average (ex-LMND)</td><td>—</td>
+      <td>—</td><td>—</td><td>—</td>
+      <td>1.3x</td>
+      <td>4.68x</td>
+      <td>9.16x</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Median (ex-LMND)</td><td>—</td>
+      <td>—</td><td>—</td><td>—</td>
+      <td>1.1x</td>
+      <td>3.85x</td>
+      <td>4.50x</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:10px;">Lemonade trades at significant premiums to both profitable incumbents (PGR at 6.65x P/BV, ALL at 2.46x P/BV) and InsurTech peers (ROOT at 3.85x P/BV, HIPO at 2.80x P/BV). The 10.13x P/BV valuation reflects: (1) 30%+ growth vs. low-single-digit incumbent growth, (2) AI platform optionality and data moat, (3) first-mover AV insurance positioning, (4) path to profitability with combined ratio compression. The valuation premium is justified only if Lemonade demonstrates GAAP profitability and sustainable underwriting margins. Progressive (PGR) at 6.65x P/BV is the best comp — a proven profitable direct insurer with technology sophistication — and LMND trades at a 52% premium despite negative ROE. The market is betting on AI-driven disruption justifying the premium; any execution disappointment would likely trigger re-rating toward peer levels. On P/IFP (4.3x vs. 1.1x peer median), the premium is even more stark, reflecting expectations for both growth and margin expansion.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<div class="verdict">
+  <p><strong>(i) Market Cap Bucket: $5.35B</strong> <span class="fw-rating moderate">Moderate Fit</span></p>
+  <p style="margin-top:4px;">Mid Cap ($2B–$10B). LMND's $5.35B market cap is larger than Theia's typical small-cap sweet spot but remains accessible for a concentrated position. The stock has meaningful institutional ownership (65%+) and robust analyst coverage, reducing informational edge opportunity. However, the AI thesis complexity and AV insurance optionality may be underappreciated by generalist coverage.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(ii) Analyst Coverage: 14 Broker Contributors</strong> <span class="fw-rating weak">Weak Fit</span></p>
+  <p style="margin-top:4px;">With 14 sell-side analysts covering LMND, this is well-covered relative to Theia's preference for undercovered names. The consensus estimates have depth, and the stock is widely followed by InsurTech specialists, fintech analysts, and tech-focused generalists. Theia's edge would need to come from: (1) primary work on AV insurance dynamics and Tesla partnership evolution, (2) deep-dive on AI model performance vs. legacy competitors, (3) granular cross-sell and retention analysis not available in public disclosures.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iii) Thesis Alignment: AI-Native InsurTech / Autonomous Vehicles</strong> <span class="fw-rating strong">Strong</span></p>
+  <p style="margin-top:4px;">LMND aligns strongly with Theia's "old industry disrupted by software and data" thesis. The AI-native platform (Maya, Jim, Customer Cortex, Blender OS) represents genuine technology disruption of a $600B+ market. The autonomous vehicle insurance thesis directly intersects with AI/ML adoption and autonomous driving — core technology themes. While not blockchain/crypto-adjacent, the fundamental investment thesis — technology platform replacing legacy infrastructure — is core to Theia's mandate.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iv) Outcome Dispersion: Wide</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">The 5-scenario model shows implied prices ranging from $12 (AI Collapse, −81%) to $251 (AV Platform, +291%) from the current $64.18. The probability-weighted fair value of $61.50 (discounted at 30% CoC) is approximately in line with current price, suggesting the stock is roughly fairly valued on a risk-adjusted basis. The key binary variables — EBITDA profitability timing, auto insurance loss ratios, AV adoption trajectory, CAT exposure — are genuinely uncertain. There is real information advantage available to an analyst willing to do primary work on AI model performance, Tesla partnership dynamics, and competitive intelligence on legacy insurer responses.</p>
+</div>
+
+<div style="background: #fff3cd; border-left: 4px solid #856404; padding: 12px 14px; margin: 16px 0; font-size: 11.5px;">
+  <strong>VERDICT: WATCHLIST — Fair Value at Current Levels, Wait for Entry Point</strong><br><br>
+  LMND hits two of four Theia criteria firmly (thesis alignment, outcome dispersion), but market cap and coverage are less favorable than typical Theia names. The probability-weighted fair value of $61.50 vs. current $64.18 suggests the stock is approximately fairly valued — the market has priced in the base case scenario. The investment case rests on (a) Q4 2026 EBITDA profitability (binary catalyst), (b) auto insurance loss ratio trajectory (measurable quarterly), (c) AV adoption acceleration (external catalyst dependent on Tesla FSD). Entry below $50 would provide margin of safety for base case thesis; entry below $40 would offer compelling risk/reward. Current valuation embeds execution — recommend watchlist with alerts at $50 and $40 for position initiation. For aggressive positioning, a small initial position with scale-down averaging could be appropriate given catalyst timeline (Q4 2026 profitability).
+</div>
+
+<p class="prose" style="font-size:10px; font-style:italic; margin-top:6px;">Note: Theia seeks small-cap companies that aren't well covered and are strongly aligned on the core internet finance thesis with wide outcome dispersion. LMND scores: Market Cap ◐ | Coverage ✗ | Thesis ✓ | Dispersion ✓</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- APPENDIX: PYTHON CODE -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section appendix">Appendix — Python Code</div>
+
+<p class="prose">The following Python code demonstrates the 3-year earnings model used in this analysis. Assumptions can be modified to stress-test scenarios.</p>
+
+<div class="code-block">
+import numpy as np
+import pandas as pd
+
+# ============================================
+# LEMONADE 3-YEAR EARNINGS MODEL — BASE CASE
+# ============================================
+
+# STARTING POSITION (FY2025 ACTUALS)
+ifp_fy25 = 1.24e9               # $1.24B In Force Premium
+book_value_fy25 = 529e6         # $529M book value
+cash_fy25 = 1.021e9             # $1.02B cash
+shares_out = 83e6               # 83M diluted shares
+current_price = 64.18           # Current share price
+
+# BASE CASE ASSUMPTIONS
+ifp_growth = {2026: 0.30, 2027: 0.25, 2028: 0.25}
+loss_ratio = {2026: 0.58, 2027: 0.55, 2028: 0.55}
+lae_ratio = 0.07                # 7% LAE ratio
+expense_ratio = {2026: 0.43, 2027: 0.38, 2028: 0.34}
+cession_rate = 0.40             # 40% quota share cession
+earned_premium_ratio = 0.80     # 80% of IFP earned in year
+tax_rate = 0.25
+
+# BUILD 3-YEAR MODEL
+print("=== LEMONADE BASE CASE — 3-YEAR MODEL ===\n")
+print(f"{'Metric':<25} {'FY2026E':>12} {'FY2027E':>12} {'FY2028E':>12}")
+print("-" * 65)
+
+ifp = ifp_fy25
+book_value = book_value_fy25
+
+for year in [2026, 2027, 2028]:
+    # IFP growth
+    ifp = ifp * (1 + ifp_growth[year])
+
+    # Premium build
+    gwp = ifp * earned_premium_ratio
+    ceded_premium = gwp * cession_rate
+    net_earned_premium = gwp - ceded_premium
+
+    # Loss and expense build
+    gross_losses = gwp * loss_ratio[year]
+    lae = gwp * lae_ratio
+    ceded_losses = gross_losses * cession_rate
+    net_losses = gross_losses - ceded_losses
+    expenses = gwp * expense_ratio[year]
+
+    # Combined ratio
+    combined_ratio = (net_losses + lae + expenses) / net_earned_premium
+
+    # Net income
+    underwriting_result = net_earned_premium - net_losses - lae - expenses
+    investment_income = cash_fy25 * 0.045  # 4.5% yield
+    pretax = underwriting_result + investment_income
+    net_income = pretax * (1 - tax_rate)
+    eps = net_income / shares_out
+
+    # Update book value
+    book_value = book_value + net_income
+    bvps = book_value / shares_out
+
+print(f"{'In Force Premium ($B)':<25} {ifp/1e9:>12.2f}")
+print(f"{'Net Earned Premium ($M)':<25} {net_earned_premium/1e6:>12.0f}")
+print(f"{'Combined Ratio':<25} {combined_ratio*100:>11.0f}%")
+print(f"{'Net Income ($M)':<25} {net_income/1e6:>12.0f}")
+print(f"{'EPS ($)':<25} {eps:>12.2f}")
+print(f"{'Book Value/Share ($)':<25} {bvps:>12.2f}")
+
+# SCENARIO VALUATION
+print("\n=== SCENARIO VALUATION ===")
+scenarios = {
+    "Bear Severe": (1.5, 8.00, "BV"),     # 1.5x BV of $8.00
+    "Bear Mild": (4.5, 8.50, "BV"),       # 4.5x BV of $8.50
+    "Base Case": (7.5, 10.00, "BV"),      # 7.5x BV of $10.00
+    "Bull Mild": (35, 3.26, "P/E"),       # 35x P/E on $3.26 EPS
+    "Bull Severe": (45, 5.58, "P/E"),     # 45x P/E on $5.58 EPS
+}
+probs = [0.05, 0.20, 0.50, 0.20, 0.05]
+
+weighted_sum = 0
+for (name, (mult, base, method)), prob in zip(scenarios.items(), probs):
+    implied = mult * base
+    upside = (implied / current_price - 1) * 100
+    weighted_sum += implied * prob
+    print(f"  {name}: {mult}x {method} → ${implied:.2f} ({upside:+.0f}%)")
+
+pv = weighted_sum / 1.30  # 30% discount rate
+print(f"\nProb-weighted avg: ${weighted_sum:.2f}")
+print(f"PV @ 30% CoC: ${pv:.2f}")
+print(f"Upside vs current ${current_price}: {(pv/current_price-1)*100:+.0f}%")
+</div>
+
+<div class="source-note">Model for illustrative purposes. Actual results may vary. Not investment advice.</div>
+
+</body>
+</html>
