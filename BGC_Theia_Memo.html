@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BGC Group | Preliminary Memo for Theia</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: #fff;
+            color: #1a1a2e;
+            width: 816px;
+            margin: 0 auto;
+            padding: 32px 40px;
+            font-size: 11px;
+            line-height: 1.45;
+        }
+
+        .title-bar {
+            font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+            color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+        }
+
+        .header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+        .header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+        .header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+        .header .date { font-size: 10px; color: #888; }
+
+        .price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+        .price-bar .price { font-size: 20px; font-weight: 700; }
+        .price-bar .chg { color: #c0392b; font-weight: 600; }
+        .price-bar .chg.pos { color: #27ae60; }
+        .price-bar .label { color: #888; font-weight: 500; }
+
+        .section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+        .memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+        table.kv td { padding: 2px 0; }
+        table.kv td:first-child { color: #555; width: 45%; }
+        table.kv td:last-child { text-align: right; font-weight: 600; }
+
+        table.data { font-size: 10px; }
+        table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+        table.data th:first-child { text-align: left; }
+        table.data td { text-align: right; padding: 2px 6px; }
+        table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+        table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+        table.data tr:nth-child(even) { background: #fafbfc; }
+        table.data tr.section-row { background: transparent !important; }
+        .est { color: #2563eb; }
+
+        .two-col { display: flex; gap: 24px; }
+        .two-col > div { flex: 1; }
+
+        table.ev td { padding: 1.5px 0; }
+        table.ev td:first-child { color: #555; }
+        table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+        table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+        table.rev { font-size: 10px; }
+        table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+        table.rev th:first-child { text-align: left; }
+        table.rev td { text-align: right; padding: 2px 4px; }
+        table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+        .val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; border: 1px solid #eee; border-radius: 4px; }
+        .val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+        .val-grid .val-cell:last-child { border-right: none; }
+        .val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+        .val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+        .val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+        .source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+        .sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+        .prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+        .fw-item { margin-bottom: 6px; }
+        .fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+        .fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+        .fw-rating.strong { background: #d4edda; color: #155724; }
+        .fw-rating.moderate { background: #fff3cd; color: #856404; }
+        .fw-rating.weak { background: #f8d7da; color: #721c24; }
+        .fw-rating.high { background: #f8d7da; color: #721c24; }
+        .fw-rating.low { background: #d4edda; color: #155724; }
+
+        table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+        table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+        table.sensitivity td { text-align: center; padding: 3px 6px; }
+        table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+        .case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+        .case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+        .case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+        .case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+        .case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+        .case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+        .case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+        .case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+        .case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+        .case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+        .case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+        .case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+        .case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+        .case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+        .case-chart svg { width: 100%; height: auto; }
+
+        .verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+        .appendix { margin-top: 24px; }
+        .code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+        .bull-bear-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 10px 0; }
+        .bull-col { border-left: 3px solid #27ae60; padding-left: 12px; }
+        .bear-col { border-left: 3px solid #c0392b; padding-left: 12px; }
+        .bull-header { font-weight: 700; color: #27ae60; margin-bottom: 8px; font-size: 12px; }
+        .bear-header { font-weight: 700; color: #c0392b; margin-bottom: 8px; font-size: 12px; }
+        .case-item { margin-bottom: 8px; font-size: 10px; line-height: 1.5; }
+        .case-item strong { color: #1a1a2e; }
+
+        .alphasense-box { background: #e8f4fd; border-radius: 4px; padding: 10px 12px; margin: 8px 0; font-size: 10px; line-height: 1.5; }
+
+        .summary-box { background: #f4f6f9; border-radius: 4px; padding: 10px 12px; margin: 8px 0; font-size: 10px; line-height: 1.5; }
+
+        table.comps { font-size: 9px; }
+        table.comps th { text-align: right; font-weight: 600; color: #888; padding: 3px 6px; border-bottom: 1px solid #ddd; }
+        table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
+        table.comps td { text-align: right; padding: 3px 6px; }
+        table.comps td:first-child, table.comps td:nth-child(2) { text-align: left; }
+        table.comps tr.subject { font-weight: 700; background: #f0f0f0; }
+        table.comps tr.summary { font-weight: 600; background: #fafbfc; }
+
+        table.risk { font-size: 10px; width: 100%; }
+        table.risk th { text-align: left; font-weight: 600; color: #888; padding: 4px 6px; border-bottom: 1px solid #ddd; }
+        table.risk td { padding: 4px 6px; vertical-align: top; }
+        table.risk tr:nth-child(even) { background: #fafbfc; }
+
+        .driver-table { font-size: 10px; margin: 8px 0; }
+        .driver-table th { text-align: left; font-weight: 600; color: #888; padding: 3px 6px; border-bottom: 1px solid #ddd; }
+        .driver-table td { padding: 3px 6px; }
+    </style>
+</head>
+<body>
+    <div class="title-bar">BGC Group | Preliminary Memo for Theia</div>
+
+    <!-- Section 1: Business Overview -->
+    <div class="memo-section">1. Business Overview</div>
+    <p class="prose">
+        <strong>BGC Group, Inc. (NASDAQ: BGC)</strong> is a leading global marketplace, data, and financial technology company operating across the energy, commodities, and shipping (ECS) and financial markets. The company specializes in the brokerage and trade execution of a broad range of products including fixed income securities, interest rate derivatives, credit derivatives, foreign exchange, equities, futures, and physical commodities. BGC's integrated platform provides customers with flexible options for price discovery, trade execution, and transaction processing across Voice, Hybrid, and Fully Electronic brokerage.
+    </p>
+    <p class="prose">
+        Founded in 2004 as a spin-out from Cantor Fitzgerald (which commenced operations in 1972), BGC is headquartered in <strong>New York, NY</strong> with principal offices in London. The company operates out of dozens of regional hubs across financial centers including Beijing, Chicago, Dubai, Frankfurt, Hong Kong, Paris, Singapore, Sydney, and Tokyo. As of December 2025, BGC employed approximately <strong>2,510 front-office professionals</strong> including brokers, salespeople, managers, and technology specialists.
+    </p>
+    <p class="prose">
+        In February 2025, former Chairman and CEO <strong>Howard W. Lutnick</strong> was confirmed as the 41st U.S. Secretary of Commerce and stepped down from all corporate positions. The Board appointed a leadership triad of Co-CEOs: <strong>John Abularrage, JP Aubin, and Sean Windeatt</strong>, with <strong>Stephen Merkel</strong> as Chairman. CFO is <strong>Jason Hauf</strong>.
+    </p>
+    <p class="prose">
+        <strong>One-line thesis:</strong> BGC is transforming from a legacy voice broker into a high-margin financial technology and electronic exchange operator, with its FMX Futures Exchange representing the most credible challenge to CME's monopoly in U.S. interest rate futures in decades.
+    </p>
+
+    <!-- Section 2: Financial Summary -->
+    <div class="memo-section">2. Theia FactSet Summary</div>
+
+    <div class="header">
+        <div>
+            <h1>BGC Group, Inc. Class A</h1>
+            <span class="ticker">BGC-US | NASDAQ | CUSIP: 088929104</span>
+        </div>
+        <span class="date">As of March 22, 2026</span>
+    </div>
+
+    <div class="price-bar">
+        <span class="price">$9.39</span>
+        <span><span class="label">1M</span> <span class="chg">-2.2%</span></span>
+        <span><span class="label">3M</span> <span class="chg pos">+4.6%</span></span>
+        <span><span class="label">6M</span> <span class="chg">-2.7%</span></span>
+        <span><span class="label">YTD</span> <span class="chg pos">+5.2%</span></span>
+        <span><span class="label">1Y</span> <span class="chg pos">+0.4%</span></span>
+        <span><span class="label">52W Range</span> $7.24 - $10.96</span>
+    </div>
+
+    <div class="two-col">
+        <div>
+            <div class="section-title">Key Stats — Trading</div>
+            <table class="kv">
+                <tr><td>Primary Ticker</td><td>BGC-US</td></tr>
+                <tr><td>Price</td><td>$9.39</td></tr>
+                <tr><td>Volume</td><td>2,077,213</td></tr>
+                <tr><td>30D Avg Daily Vol</td><td>2,755,330</td></tr>
+                <tr><td>Float (%)</td><td>98.7%</td></tr>
+                <tr><td>Short Interest</td><td>4.9 Days / 2.6% Float</td></tr>
+            </table>
+        </div>
+        <div>
+            <div class="section-title">Enterprise Value Bridge</div>
+            <table class="ev">
+                <tr><td>Price (Mar 20 '26)</td><td>$9.39</td></tr>
+                <tr><td>Basic Shares (M)</td><td>474.3</td></tr>
+                <tr><td style="padding-left: 12px; font-size: 9px;">Class A Common</td><td style="font-size: 9px;">364.8</td></tr>
+                <tr><td style="padding-left: 12px; font-size: 9px;">Class B Convertible</td><td style="font-size: 9px;">109.5</td></tr>
+                <tr><td>Market Cap</td><td>$4,453</td></tr>
+                <tr><td>+ Stock Compensation</td><td>77.6</td></tr>
+                <tr><td>Fully Diluted Shares (M)</td><td>551.9</td></tr>
+                <tr><td>Fully Diluted Mkt Cap</td><td>$5,182</td></tr>
+                <tr><td>+ Total Debt</td><td>$1,796</td></tr>
+                <tr><td>- Cash & Equivalents</td><td>($852)</td></tr>
+                <tr><td>- Investments in Subs</td><td>($38)</td></tr>
+                <tr><td>+ Non-Controlling Interest</td><td>$173</td></tr>
+                <tr class="total"><td>Enterprise Value</td><td>$6,262</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="section-title">Current Valuation</div>
+    <div class="val-grid">
+        <div class="val-cell"><div class="val-label">Mkt Cap</div><div class="val-num">$4.5B</div></div>
+        <div class="val-cell"><div class="val-label">EV</div><div class="val-num">$6.3B</div></div>
+        <div class="val-cell"><div class="val-label">P/E (LTM)</div><div class="val-num">30.5x</div></div>
+        <div class="val-cell"><div class="val-label">EV/EBITDA</div><div class="val-num">18.1x</div></div>
+        <div class="val-cell"><div class="val-label">EV/Sales</div><div class="val-num">2.1x</div></div>
+        <div class="val-cell"><div class="val-label">P/S</div><div class="val-num">1.5x</div></div>
+    </div>
+    <div class="val-grid">
+        <div class="val-cell"><div class="val-label">Dil Mkt Cap</div><div class="val-num">$5.2B</div></div>
+        <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">7.5%</div></div>
+        <div class="val-cell"><div class="val-label">Beta (3Y)</div><div class="val-num">1.00</div></div>
+        <div class="val-cell"><div class="val-label">Avg Rating</div><div class="val-num">Buy (1.00)</div></div>
+        <div class="val-cell"><div class="val-label">Target Price</div><div class="val-num">$14.50</div></div>
+        <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">May 6, 2026</div></div>
+    </div>
+
+    <div class="section-title">Valuation Multiples</div>
+    <table class="data">
+        <tr>
+            <th></th>
+            <th>5Yr Avg</th>
+            <th>Dec '23</th>
+            <th>Dec '24</th>
+            <th>Dec '25</th>
+            <th class="est">Dec '26E</th>
+            <th class="est">Dec '27E</th>
+        </tr>
+        <tr><td>P/E</td><td>42.6x</td><td>104.2x</td><td>35.8x</td><td>28.9x</td><td class="est">6.7x</td><td class="est">5.9x</td></tr>
+        <tr><td>P/Sales</td><td>1.5x</td><td>1.7x</td><td>1.9x</td><td>1.5x</td><td class="est">1.3x</td><td class="est">1.2x</td></tr>
+        <tr><td>P/BV</td><td>3.6x</td><td>4.1x</td><td>4.9x</td><td>4.3x</td><td>—</td><td>—</td></tr>
+        <tr><td>P/FCF</td><td>11.2x</td><td>10.1x</td><td>11.2x</td><td>16.0x</td><td>—</td><td>—</td></tr>
+        <tr><td>EV/Sales</td><td>1.9x</td><td>2.3x</td><td>2.6x</td><td>2.0x</td><td class="est">1.9x</td><td class="est">1.7x</td></tr>
+        <tr><td>EV/EBITDA</td><td>NM</td><td>22.5x</td><td>22.2x</td><td>17.1x</td><td class="est">6.7x</td><td class="est">6.2x</td></tr>
+        <tr><td>EV/EBIT</td><td>15.8x</td><td>37.4x</td><td>32.3x</td><td>24.2x</td><td class="est">8.1x</td><td class="est">7.2x</td></tr>
+    </table>
+
+    <div class="section-title">Financials</div>
+    <table class="data">
+        <tr>
+            <th></th>
+            <th>5Yr CAGR</th>
+            <th>Dec '23</th>
+            <th>Dec '24</th>
+            <th>Dec '25</th>
+            <th class="est">Dec '26E</th>
+            <th class="est">Dec '27E</th>
+        </tr>
+        <tr class="section-row"><td colspan="7">Income Statement</td></tr>
+        <tr><td>Revenue</td><td>7.4%</td><td>$2,024</td><td>$2,262</td><td>$2,936</td><td class="est">$3,357</td><td class="est">$3,639</td></tr>
+        <tr><td>Gross Income</td><td>7.7%</td><td>$1,849</td><td>$2,077</td><td>$2,725</td><td>—</td><td>—</td></tr>
+        <tr><td>EBIT</td><td>11.3%</td><td>$122</td><td>$179</td><td>$247</td><td class="est">$774</td><td class="est">$871</td></tr>
+        <tr><td>EBITDA</td><td>8.7%</td><td>$202</td><td>$261</td><td>$350</td><td class="est">$933</td><td class="est">$1,015</td></tr>
+        <tr><td>Net Income</td><td>28.0%</td><td>$36</td><td>$127</td><td>$155</td><td class="est">$690</td><td class="est">$765</td></tr>
+        <tr><td>EPS (Diluted)</td><td>21.1%</td><td>$0.07</td><td>$0.25</td><td>$0.31</td><td>—</td><td>—</td></tr>
+        <tr class="section-row"><td colspan="7">Margins</td></tr>
+        <tr><td>Gross Margin</td><td>—</td><td>91.4%</td><td>91.8%</td><td>92.8%</td><td>—</td><td>—</td></tr>
+        <tr><td>Operating Margin</td><td>—</td><td>6.0%</td><td>7.9%</td><td>8.4%</td><td class="est">23.1%</td><td class="est">23.9%</td></tr>
+        <tr><td>Net Margin</td><td>—</td><td>1.8%</td><td>5.6%</td><td>5.3%</td><td class="est">20.5%</td><td class="est">21.0%</td></tr>
+        <tr><td>FCF Margin</td><td>—</td><td>17.3%</td><td>17.1%</td><td>9.1%</td><td>—</td><td>—</td></tr>
+        <tr class="section-row"><td colspan="7">Cash Flow</td></tr>
+        <tr><td>Op Cash Flow</td><td>1.0%</td><td>$411</td><td>$459</td><td>$334</td><td>—</td><td>—</td></tr>
+        <tr><td>CapEx</td><td>-5.1%</td><td>$60</td><td>$73</td><td>$67</td><td>—</td><td>—</td></tr>
+        <tr><td>FCF</td><td>2.9%</td><td>$351</td><td>$387</td><td>$268</td><td>—</td><td>—</td></tr>
+        <tr class="section-row"><td colspan="7">Returns & Leverage</td></tr>
+        <tr><td>ROE</td><td>—</td><td>4.7%</td><td>14.2%</td><td>16.6%</td><td>—</td><td>—</td></tr>
+        <tr><td>ROA</td><td>—</td><td>1.2%</td><td>3.8%</td><td>3.9%</td><td>—</td><td>—</td></tr>
+        <tr><td>Debt/Equity</td><td>—</td><td>151.2%</td><td>164.3%</td><td>204.9%</td><td>—</td><td>—</td></tr>
+        <tr><td>Interest Coverage</td><td>—</td><td>1.6x</td><td>2.0x</td><td>2.0x</td><td>—</td><td>—</td></tr>
+    </table>
+
+    <div class="section-title">Revenue Exposure</div>
+    <div class="two-col">
+        <div>
+            <div class="sub-label">By Business Unit (Dec '25)</div>
+            <table class="rev">
+                <tr><th>Segment</th><th>% Rev</th><th>$M</th><th>YoY</th></tr>
+                <tr><td>Brokerage - ECS</td><td>31.0%</td><td>$911</td><td>+88.4%</td></tr>
+                <tr><td>Brokerage - Rates</td><td>27.0%</td><td>$794</td><td>+15.7%</td></tr>
+                <tr><td>Brokerage - FX</td><td>14.6%</td><td>$428</td><td>+20.3%</td></tr>
+                <tr><td>Brokerage - Credit</td><td>10.0%</td><td>$296</td><td>+2.7%</td></tr>
+                <tr><td>Brokerage - Equities</td><td>9.2%</td><td>$270</td><td>+20.0%</td></tr>
+                <tr><td>Data, Software & Post-trade</td><td>4.7%</td><td>$139</td><td>+9.5%</td></tr>
+                <tr><td>Interest & Dividend</td><td>1.8%</td><td>$54</td><td>-4.3%</td></tr>
+                <tr><td>Other / Fees</td><td>1.7%</td><td>$50</td><td>—</td></tr>
+            </table>
+        </div>
+        <div>
+            <div class="sub-label">By Geography (Dec '25)</div>
+            <table class="rev">
+                <tr><th>Region</th><th>% Rev</th><th>$M</th><th>YoY</th></tr>
+                <tr><td>United Kingdom</td><td>36.0%</td><td>$1,058</td><td>+35.5%</td></tr>
+                <tr><td>United States</td><td>33.5%</td><td>$987</td><td>+31.1%</td></tr>
+                <tr><td>EMEA (ex-UK)</td><td>16.4%</td><td>$482</td><td>+31.7%</td></tr>
+                <tr><td>APAC</td><td>11.6%</td><td>$341</td><td>+15.4%</td></tr>
+                <tr><td>Americas (ex-US)</td><td>2.5%</td><td>$74</td><td>+8.9%</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <p class="source-note">Source: FactSet as of March 22, 2026. Monetary values in millions USD.</p>
+
+    <!-- Section 3: Bull & Bear Cases -->
+    <div class="memo-section">3. Bull & Bear Cases</div>
+    <div class="bull-bear-grid">
+        <div class="bull-col">
+            <div class="bull-header">Bull Case</div>
+            <div class="case-item"><strong>1. FMX Futures Exchange:</strong> FMX represents the most credible challenge to CME's monopoly in decades, backed by $172M from 10 major banks at a $667M valuation. Already captured 39% of cash UST CLOB share and 1%+ SOFR futures. LCH clearing partnership unlocks $225B in cross-margin efficiencies competitors can't match.</div>
+            <div class="case-item"><strong>2. ECS Dominance:</strong> OTC Global acquisition ($325M at 0.75x revenue) instantly established BGC as the world's largest energy, commodities & shipping broker with $450M+ annualized ECS revenue. Diversifies beyond financial volatility to global energy demand.</div>
+            <div class="case-item"><strong>3. Margin Expansion via Electronification:</strong> Fenics platform converting voice to electronic execution at dramatically higher margins. Same workforce handles exponentially more volume. Pre-tax margins ex-OTC dilution hit 23.7% in Q4 '25.</div>
+            <div class="case-item"><strong>4. Massive Valuation Disconnect:</strong> Despite 30% revenue growth in 2025, BGC trades at ~10x earnings vs. 30x for pure electronic platforms. If market re-rates the Fenics/FMX businesses at exchange multiples, significant upside.</div>
+            <div class="case-item"><strong>5. Lutnick Overhang Removed:</strong> Howard Lutnick's complete divestiture to become Commerce Secretary eliminates the historical "Howard discount." Simplified C-Corp structure attracts passive index funds.</div>
+        </div>
+        <div class="bear-col">
+            <div class="bear-header">Bear Case</div>
+            <div class="case-item"><strong>1. Cyclicality Risk:</strong> BGC's revenues are overwhelmingly correlated to trading volumes and interest rate volatility. If central banks revert to ZIRP, core Rates and FX revenues could contract 30-50%.</div>
+            <div class="case-item"><strong>2. FMX Execution Risk:</strong> Challenging CME's $70B+ monopoly is notoriously difficult. CME's Globex platform has decades of stress-testing. FMX must prove latency advantages and resilience under extreme market conditions.</div>
+            <div class="case-item"><strong>3. OTC Integration Drag:</strong> OTC Global operates at low-teens margins vs. BGC's 20%+ legacy margins. $25M cost synergy target must be executed to avoid sustained margin dilution.</div>
+            <div class="case-item"><strong>4. Customer Concentration:</strong> Top 10 clients represent 23.6% of revenue. Continued banking consolidation could give major clients pricing leverage, compressing commission spreads.</div>
+            <div class="case-item"><strong>5. Leadership Transition:</strong> New tri-CEO structure untested in crisis. While the three co-CEOs managed day-to-day operations previously, proving strategic vision without Lutnick is an open question.</div>
+        </div>
+    </div>
+
+    <!-- Section 4: Helmer's 7 Powers -->
+    <div class="memo-section">4. Helmer's 7 Powers</div>
+
+    <div class="fw-item">
+        <span class="fw-name">1. Scale Economies</span><span class="fw-rating strong">Strong</span>
+        <p class="prose" style="margin-top:4px;">BGC's global infrastructure and technology platform create significant scale advantages. Fixed costs for trading technology, regulatory compliance, and data infrastructure are spread across massive trading volumes. Revenue per front-office employee increased 16.4% YoY to $1.2M in 2025, demonstrating operational leverage. The OTC Global and Sage acquisitions add volume over an already-scaled cost base.</p>
+    </div>
+
+    <div class="fw-item">
+        <span class="fw-name">2. Network Effects</span><span class="fw-rating strong">Strong</span>
+        <p class="prose" style="margin-top:4px;">BGC's liquidity pools create powerful two-sided network effects. The more dealers and buy-side firms trading on BGC platforms, the tighter the spreads and the more attractive the venue becomes. FMX UST has grown to 39% CLOB market share specifically because ten major banks are committed partners incentivized to route liquidity. This "liquidity begets liquidity" dynamic is exceptionally hard to replicate.</p>
+    </div>
+
+    <div class="fw-item">
+        <span class="fw-name">3. Counter-Positioning</span><span class="fw-rating moderate">Moderate</span>
+        <p class="prose" style="margin-top:4px;">FMX's LCH clearing partnership represents counter-positioning vs. CME. CME clearing at its own clearinghouse and cannot offer the $225B cross-margining benefits FMX provides through LCH. However, CME could theoretically respond with clearing partnerships, though this would cannibalize their vertically integrated model.</p>
+    </div>
+
+    <div class="fw-item">
+        <span class="fw-name">4. Switching Costs</span><span class="fw-rating moderate">Moderate</span>
+        <p class="prose" style="margin-top:4px;">Institutional clients have meaningful procedural switching costs: integration with trading systems, established broker relationships, workflow familiarity. However, multi-homing is common in wholesale markets—clients often use multiple brokers simultaneously. The switching costs are higher for data products (Fenics Market Data) where integration is deeper.</p>
+    </div>
+
+    <div class="fw-item">
+        <span class="fw-name">5. Branding</span><span class="fw-rating weak">Weak</span>
+        <p class="prose" style="margin-top:4px;">B2B wholesale brokerage is not a brand-driven business. Institutional clients choose venues based on liquidity, pricing, and execution quality—not brand affinity. BGC has reputation for aggressive culture and innovation but this doesn't command a price premium.</p>
+    </div>
+
+    <div class="fw-item">
+        <span class="fw-name">6. Cornered Resource</span><span class="fw-rating strong">Strong</span>
+        <p class="prose" style="margin-top:4px;">BGC owns proprietary, real-time tradable market data generated from its own global brokerage desks—data that competitors cannot replicate. Fenics Market Data monetizes this through subscription feeds distributed via Bloomberg and LSEG. Additionally, the FMX consortium of ten major banks represents a cornered resource: these specific institutions have equity ownership and volume incentives that lock them into the platform.</p>
+    </div>
+
+    <div class="fw-item">
+        <span class="fw-name">7. Process Power</span><span class="fw-rating moderate">Moderate</span>
+        <p class="prose" style="margin-top:4px;">BGC has demonstrated consistent execution in M&A integration (Trident, Sage, OTC Global) and technology buildout (Fenics, FMX). The company's "acquire, build, monetize" playbook (eSpeed sale to Nasdaq for $1.2B, Newmark spin-off for $1.9B, Insurance sale for $535M) suggests embedded organizational capability. However, the tri-CEO structure is new and untested at scale.</p>
+    </div>
+
+    <div class="summary-box">
+        <strong>Summary:</strong> BGC's strongest moats are Scale Economies, Network Effects, and Cornered Resources (proprietary data + FMX consortium). The liquidity network effects and proprietary data ownership are particularly durable. The key vulnerability is cyclicality—these moats don't protect against a structural decline in trading volumes.
+    </div>
+
+    <!-- Section 5: Porter's 5 Forces -->
+    <div class="memo-section">5. Porter's 5 Forces</div>
+
+    <div class="fw-item">
+        <span class="fw-name">1. Threat of New Entrants</span><span class="fw-rating low">Low</span>
+        <p class="prose" style="margin-top:4px;">Massive barriers to entry: regulatory licensing across dozens of jurisdictions, technology infrastructure requiring years of development, established liquidity pools that new entrants cannot replicate, and deep broker relationships built over decades. The inter-dealer broker industry has consolidated to 3 major players (BGC, TP ICAP, Tradition) precisely because new entry is nearly impossible.</p>
+    </div>
+
+    <div class="fw-item">
+        <span class="fw-name">2. Bargaining Power of Suppliers</span><span class="fw-rating moderate">Moderate</span>
+        <p class="prose" style="margin-top:4px;">BGC's primary "suppliers" are its brokers and technology talent. Top-producing brokers have bargaining power and can move between firms (broker poaching is common). Compensation is BGC's largest expense. However, BGC's scale and equity-based retention (significant deferred stakes) help mitigate broker flight risk.</p>
+    </div>
+
+    <div class="fw-item">
+        <span class="fw-name">3. Bargaining Power of Buyers</span><span class="fw-rating moderate">Moderate</span>
+        <p class="prose" style="margin-top:4px;">BGC's institutional clients (major banks, hedge funds, trading firms) are sophisticated and price-sensitive. Top 10 clients represent 23.6% of revenue, creating some concentration. However, clients need multiple brokers for execution quality and liquidity access, limiting their ability to consolidate volume and extract pricing concessions.</p>
+    </div>
+
+    <div class="fw-item">
+        <span class="fw-name">4. Threat of Substitutes</span><span class="fw-rating moderate">Moderate</span>
+        <p class="prose" style="margin-top:4px;">For some products, direct electronic trading on exchanges or all-to-all platforms could substitute for BGC's brokerage. However, for bespoke OTC products where price discovery is complex, there's no true substitute for the broker network. The threat is higher in standardized, liquid products (which BGC is addressing through Fenics electronification) and lower in complex, illiquid products.</p>
+    </div>
+
+    <div class="fw-item">
+        <span class="fw-name">5. Competitive Rivalry</span><span class="fw-rating moderate">Moderate</span>
+        <p class="prose" style="margin-top:4px;">The inter-dealer broker market is an oligopoly (BGC, TP ICAP, Tradition). Competition for broker talent and client relationships is intense, but the market is large enough for all three to grow. In the exchange space, FMX vs. CME is highly competitive, but CME's dominance means BGC is fighting for share gains, not defending a position.</p>
+    </div>
+
+    <div class="summary-box">
+        <strong>Summary:</strong> The competitive environment is favorable for BGC. High barriers to entry protect the established players, and the oligopolistic market structure limits destructive price competition. The key risk is buyer bargaining power if banking consolidation continues.
+    </div>
+
+    <!-- Section 6: What Drives the Stock? -->
+    <div class="memo-section">6. What Drives the Stock?</div>
+
+    <p class="prose"><strong>1. FMX Futures Exchange Volume & Market Share</strong><br>
+    The most important catalyst for BGC. FMX reaching 5-10% SOFR futures market share would validate the CME-challenger thesis and potentially justify exchange-like multiples for this segment. Currently at 1%+ share as of January 2026. Watch: monthly volume disclosures, FCM onboarding, Treasury futures traction.<br>
+    <em>Bullish:</em> Share gains accelerate; major banks shift meaningful volume. <em>Bearish:</em> Stagnation at low share; CME competitive response.</p>
+
+    <p class="prose"><strong>2. Trading Volumes & Volatility</strong><br>
+    BGC's brokerage revenues are directly correlated to secondary market trading volumes across Rates, FX, Credit, and Equities. Periods of elevated volatility (like 2022-2023) drive outperformance; suppressed volatility (like 2012-2021 ZIRP era) compresses revenues.<br>
+    <em>Bullish:</em> Continued macro uncertainty, central bank policy shifts. <em>Bearish:</em> Prolonged low-volatility environment.</p>
+
+    <p class="prose"><strong>3. ECS Integration & Energy Markets</strong><br>
+    OTC Global acquisition must deliver the promised $25M cost synergies and close the margin gap. ECS now represents 31% of brokerage revenue. Energy market volatility and energy transition trading are secular tailwinds.<br>
+    <em>Bullish:</em> Synergies realized ahead of schedule; ECS margins improve. <em>Bearish:</em> Integration challenges; commodity price stability reduces trading.</p>
+
+    <p class="prose"><strong>4. Fenics Revenue Mix Shift</strong><br>
+    Investors watch Fenics revenue as a percentage of total—higher Fenics mix implies higher margins and justifies a higher multiple. Fenics generated $659.5M (22.4% of total) in 2025.<br>
+    <em>Bullish:</em> Fenics mix approaches 30%+; margin expansion accelerates. <em>Bearish:</em> Voice brokerage remains dominant; electronification stalls.</p>
+
+    <p class="prose"><strong>5. Capital Return & Multiple Re-Rating</strong><br>
+    BGC's aggressive buyback program ($400M authorization) and simplified C-Corp structure should attract passive flows. The stock trades at ~10x earnings despite 30% revenue growth—any multiple expansion drives material upside.<br>
+    <em>Bullish:</em> Index inclusion; re-rating toward exchange peers. <em>Bearish:</em> Persistent "legacy broker" perception.</p>
+
+    <p class="prose"><strong>6. Leadership Execution</strong><br>
+    The tri-CEO structure is untested. Markets will monitor for strategic coherence, M&A discipline, and crisis management ability. Stephen Merkel as Chairman provides continuity.<br>
+    <em>Bullish:</em> Seamless transition; continued deal execution. <em>Bearish:</em> Strategic drift; internal conflict.</p>
+
+    <!-- Section 7: What Drives the Business? -->
+    <div class="memo-section">7. What Drives the Business?</div>
+
+    <p class="prose">Every revenue line can be decomposed into fundamental unit economics. Below is BGC's revenue driver framework:</p>
+
+    <table class="driver-table">
+        <tr><th>Revenue Line</th><th>Driver Formula</th></tr>
+        <tr><td>Brokerage - ECS ($911M)</td><td>Energy/Commodity Trading Volume × Commission Rate per Contract</td></tr>
+        <tr><td>Brokerage - Rates ($794M)</td><td>Interest Rate Swap/Treasury Volume × Basis Points per Trade</td></tr>
+        <tr><td>Brokerage - FX ($428M)</td><td>FX Spot/Options Volume × Spread Capture (bps)</td></tr>
+        <tr><td>Brokerage - Credit ($296M)</td><td>Corporate Bond/CDS Volume × Spread per Trade</td></tr>
+        <tr><td>Brokerage - Equities ($270M)</td><td>Equity Derivatives Volume × Commission per Contract</td></tr>
+        <tr><td>Data, Software & Post-trade ($139M)</td><td>Data Subscribers × Annual Subscription Price + Transaction Fees</td></tr>
+        <tr><td>FMX Futures (embedded in Rates)</td><td>SOFR/Treasury Futures Contracts × Exchange Fee per Contract</td></tr>
+    </table>
+
+    <p class="prose" style="margin-top:10px;"><strong>Key leverage points:</strong></p>
+    <ul class="prose" style="margin-left: 20px; margin-top: 5px;">
+        <li><strong>Volume:</strong> The dominant driver. Trading volumes across all asset classes drive the top line. Volume is correlated to volatility, monetary policy uncertainty, and market structure changes.</li>
+        <li><strong>Commission/Spread Capture:</strong> Relatively stable for Voice/Hybrid execution but compresses in electronic (offset by volume gains). ECS tends to have higher spreads than Rates.</li>
+        <li><strong>Mix Shift to Electronic:</strong> Fully Electronic has near-zero marginal cost, so the same volume generates higher profit. Every 1% shift from Voice to Electronic improves EBITDA margin.</li>
+        <li><strong>Front-Office Productivity:</strong> Revenue per employee ($1.2M in 2025) measures broker efficiency. Technology investments drive this higher.</li>
+    </ul>
+
+    <!-- Section 8: AlphaSense Insights -->
+    <div class="memo-section">8. AlphaSense Insights</div>
+
+    <div class="alphasense-box">
+        <strong>Competitive Moat:</strong> Industry experts describe BGC's moat as rooted in vast liquidity pools and entrenched relationships with the world's largest banks. The FMX clearing partnership with LCH provides unique portfolio-margining capabilities that unlock $225B in capital efficiencies competitors cannot match. The proprietary data ownership through Fenics Market Data—real-time tradable data generated from BGC's own desks—is described as "practically impossible for outside competitors to replicate."
+    </div>
+
+    <div class="alphasense-box">
+        <strong>Management & Culture:</strong> Experts describe BGC's culture as "deeply entrepreneurial and aggressive" and a "punchy bunch" that makes rapid, difficult decisions. The firm is quick to execute bold acquisitions but equally ruthless in restructuring and cutting personnel when metrics dictate. Compensation structure ties executive net worth to long-term performance through significant deferred equity stakes. The tri-CEO structure brings continuity as all three previously managed day-to-day operations and executed the recent M&A strategy.
+    </div>
+
+    <div class="alphasense-box">
+        <strong>Technology & AI:</strong> BGC is aggressively deploying AI to drive margin expansion. The Fenics platform systematically converts Voice/Hybrid trading to Fully Electronic execution, allowing brokers to manage exponentially greater volumes at near-zero marginal cost. The Macro Hive acquisition (October 2025) integrates AI-driven global macro analytics into Rates and FX platforms. However, AI also poses disruption risks if competitors implement these technologies more effectively, while cybersecurity threats intensify.
+    </div>
+
+    <div class="alphasense-box">
+        <strong>What's Misunderstood:</strong> The market fundamentally misunderstands BGC as a "legacy voice broker" when it's actually undergoing a massive transformation into a high-margin fintech and electronic exchange operator. Unlike investment banks whose trading revenues are tied to balance sheet usage, BGC's revenues are driven by secondary market volumes and actually benefit from market dislocations and extreme volatility.
+    </div>
+
+    <div class="alphasense-box">
+        <strong>Key Investor Questions:</strong>
+        <ol style="margin-left: 16px; margin-top: 5px;">
+            <li>Can FMX achieve 5%+ SOFR futures market share, and what's the timeline?</li>
+            <li>Will the tri-CEO structure maintain strategic coherence without Lutnick?</li>
+            <li>How quickly can OTC Global margins be improved to BGC legacy levels?</li>
+            <li>What's the sustainable Fenics revenue mix, and can it reach 30%+?</li>
+            <li>How will new SEC Treasury clearing mandates impact BGC's business?</li>
+        </ol>
+    </div>
+
+    <!-- Section 9: Sensitivities -->
+    <div class="memo-section">9. Sensitivities on Core Business Drivers</div>
+
+    <p class="prose"><strong>Table 1: Total Brokerage Revenue Sensitivity ($M) — Trading Volume Growth vs. Commission Rate Change</strong><br>
+    <em>Current: Volume Growth ~12% organic, Commission Rate stable (0% change)</em></p>
+    <table class="sensitivity">
+        <tr>
+            <th></th>
+            <th colspan="5">Trading Volume Growth (YoY %)</th>
+        </tr>
+        <tr>
+            <th>Commission Δ</th>
+            <th>0%</th>
+            <th>5%</th>
+            <th>10%</th>
+            <th>15%</th>
+            <th>20%</th>
+        </tr>
+        <tr>
+            <td>-5%</td>
+            <td>2,563</td>
+            <td>2,691</td>
+            <td>2,820</td>
+            <td>2,948</td>
+            <td>3,076</td>
+        </tr>
+        <tr>
+            <td>-2.5%</td>
+            <td>2,631</td>
+            <td>2,763</td>
+            <td>2,894</td>
+            <td>3,026</td>
+            <td>3,157</td>
+        </tr>
+        <tr>
+            <td>0%</td>
+            <td>2,698</td>
+            <td>2,833</td>
+            <td class="base">2,968</td>
+            <td>3,103</td>
+            <td>3,238</td>
+        </tr>
+        <tr>
+            <td>+2.5%</td>
+            <td>2,766</td>
+            <td>2,904</td>
+            <td>3,042</td>
+            <td>3,180</td>
+            <td>3,318</td>
+        </tr>
+        <tr>
+            <td>+5%</td>
+            <td>2,833</td>
+            <td>2,975</td>
+            <td>3,116</td>
+            <td>3,258</td>
+            <td>3,399</td>
+        </tr>
+    </table>
+
+    <p class="prose" style="margin-top:16px;"><strong>Table 2: EBITDA Sensitivity ($M) — Fenics Mix vs. Margin Improvement</strong><br>
+    <em>Current: Fenics Mix 22%, Incremental Fenics Margin ~35%</em></p>
+    <table class="sensitivity">
+        <tr>
+            <th></th>
+            <th colspan="5">Fenics Revenue Mix (%)</th>
+        </tr>
+        <tr>
+            <th>Fenics Margin</th>
+            <th>20%</th>
+            <th>25%</th>
+            <th>30%</th>
+            <th>35%</th>
+            <th>40%</th>
+        </tr>
+        <tr>
+            <td>25%</td>
+            <td>380</td>
+            <td>405</td>
+            <td>430</td>
+            <td>455</td>
+            <td>480</td>
+        </tr>
+        <tr>
+            <td>30%</td>
+            <td>410</td>
+            <td>443</td>
+            <td>475</td>
+            <td>508</td>
+            <td>540</td>
+        </tr>
+        <tr>
+            <td>35%</td>
+            <td>440</td>
+            <td class="base">480</td>
+            <td>520</td>
+            <td>560</td>
+            <td>600</td>
+        </tr>
+        <tr>
+            <td>40%</td>
+            <td>470</td>
+            <td>518</td>
+            <td>565</td>
+            <td>613</td>
+            <td>660</td>
+        </tr>
+        <tr>
+            <td>45%</td>
+            <td>500</td>
+            <td>555</td>
+            <td>610</td>
+            <td>665</td>
+            <td>720</td>
+        </tr>
+    </table>
+
+    <p class="prose" style="margin-top:16px;"><strong>Table 3: FMX Implied Valuation ($M) — SOFR Market Share vs. Exchange Multiple</strong><br>
+    <em>Current: FMX ~1% SOFR share, Implied separate valuation $667M (per equity raise)</em></p>
+    <table class="sensitivity">
+        <tr>
+            <th></th>
+            <th colspan="5">SOFR Futures Market Share (%)</th>
+        </tr>
+        <tr>
+            <th>EV/Revenue Multiple</th>
+            <th>1%</th>
+            <th>3%</th>
+            <th>5%</th>
+            <th>7%</th>
+            <th>10%</th>
+        </tr>
+        <tr>
+            <td>10x</td>
+            <td>150</td>
+            <td>450</td>
+            <td>750</td>
+            <td>1,050</td>
+            <td>1,500</td>
+        </tr>
+        <tr>
+            <td>15x</td>
+            <td>225</td>
+            <td>675</td>
+            <td>1,125</td>
+            <td>1,575</td>
+            <td>2,250</td>
+        </tr>
+        <tr>
+            <td>20x</td>
+            <td>300</td>
+            <td>900</td>
+            <td class="base">1,500</td>
+            <td>2,100</td>
+            <td>3,000</td>
+        </tr>
+        <tr>
+            <td>25x</td>
+            <td>375</td>
+            <td>1,125</td>
+            <td>1,875</td>
+            <td>2,625</td>
+            <td>3,750</td>
+        </tr>
+        <tr>
+            <td>30x</td>
+            <td>450</td>
+            <td>1,350</td>
+            <td>2,250</td>
+            <td>3,150</td>
+            <td>4,500</td>
+        </tr>
+    </table>
+    <p class="prose" style="font-size:9px; color:#888;">Note: Assumes FMX revenue scales linearly with market share. CME SOFR futures revenue estimated at ~$1.5B annually.</p>
+
+    <!-- Section 10: Five Scenarios -->
+    <div class="memo-section">10. Five Scenarios — 3-Year Model</div>
+
+    <div class="case-block">
+        <div class="case-name">Bear Case (Severe)</div>
+        <div class="case-desc">ZIRP returns; trading volumes collapse 25%; FMX fails to gain traction; OTC integration stumbles; multiple compresses</div>
+        <div class="driver-label">Key Driver Assumptions</div>
+        <div class="driver-row"><span>Revenue Growth (CAGR)</span><span>-5%</span></div>
+        <div class="driver-row"><span>EBITDA Margin (Terminal)</span><span>10%</span></div>
+        <div class="driver-row"><span>FMX Market Share</span><span>0.5%</span></div>
+        <div class="driver-row"><span>Fenics Mix</span><span>20%</span></div>
+        <table class="scenario-mini">
+            <tr><td>Revenue (Y3)</td><td>$2,500M</td></tr>
+            <tr><td>EBITDA</td><td>250M</td></tr>
+            <tr><td>Net Income</td><td>100M</td></tr>
+            <tr><td>EPS</td><td>$0.20</td></tr>
+        </table>
+        <div class="exit-metrics">
+            <div style="font-size:9px; color:#888;">Exit Multiple: 6x P/E</div>
+            <div class="exit-price">Implied Price: $1.20</div>
+            <div class="exit-upside" style="color:#c0392b;">Downside: -87%</div>
+        </div>
+    </div>
+
+    <div class="case-block">
+        <div class="case-name">Bear Case (Mild)</div>
+        <div class="case-desc">Modest volatility decline; volume growth slows to 5%; FMX captures 2% share; margin expansion stalls</div>
+        <div class="driver-label">Key Driver Assumptions</div>
+        <div class="driver-row"><span>Revenue Growth (CAGR)</span><span>5%</span></div>
+        <div class="driver-row"><span>EBITDA Margin (Terminal)</span><span>14%</span></div>
+        <div class="driver-row"><span>FMX Market Share</span><span>2%</span></div>
+        <div class="driver-row"><span>Fenics Mix</span><span>25%</span></div>
+        <table class="scenario-mini">
+            <tr><td>Revenue (Y3)</td><td>$3,400M</td></tr>
+            <tr><td>EBITDA</td><td>476M</td></tr>
+            <tr><td>Net Income</td><td>250M</td></tr>
+            <tr><td>EPS</td><td>$0.50</td></tr>
+        </table>
+        <div class="exit-metrics">
+            <div style="font-size:9px; color:#888;">Exit Multiple: 8x P/E</div>
+            <div class="exit-price">Implied Price: $4.00</div>
+            <div class="exit-upside" style="color:#c0392b;">Downside: -57%</div>
+        </div>
+    </div>
+
+    <div class="case-block">
+        <div class="case-name">Base Case</div>
+        <div class="case-desc">Consensus estimates; 10% organic growth; FMX reaches 5% SOFR share; OTC synergies realized; gradual multiple re-rating</div>
+        <div class="driver-label">Key Driver Assumptions</div>
+        <div class="driver-row"><span>Revenue Growth (CAGR)</span><span>10%</span></div>
+        <div class="driver-row"><span>EBITDA Margin (Terminal)</span><span>18%</span></div>
+        <div class="driver-row"><span>FMX Market Share</span><span>5%</span></div>
+        <div class="driver-row"><span>Fenics Mix</span><span>30%</span></div>
+        <table class="scenario-mini">
+            <tr><td>Revenue (Y3)</td><td>$3,900M</td></tr>
+            <tr><td>EBITDA</td><td>702M</td></tr>
+            <tr><td>Net Income</td><td>420M</td></tr>
+            <tr><td>EPS</td><td>$0.85</td></tr>
+        </table>
+        <div class="exit-metrics">
+            <div style="font-size:9px; color:#888;">Exit Multiple: 12x P/E</div>
+            <div class="exit-price">Implied Price: $10.20</div>
+            <div class="exit-upside" style="color:#27ae60;">Upside: +9%</div>
+        </div>
+    </div>
+
+    <div class="case-block">
+        <div class="case-name">Bull Case (Mild)</div>
+        <div class="case-desc">Elevated volatility persists; 15% revenue growth; FMX reaches 7% share; Fenics mix expands; partial re-rating to fintech multiple</div>
+        <div class="driver-label">Key Driver Assumptions</div>
+        <div class="driver-row"><span>Revenue Growth (CAGR)</span><span>15%</span></div>
+        <div class="driver-row"><span>EBITDA Margin (Terminal)</span><span>22%</span></div>
+        <div class="driver-row"><span>FMX Market Share</span><span>7%</span></div>
+        <div class="driver-row"><span>Fenics Mix</span><span>35%</span></div>
+        <table class="scenario-mini">
+            <tr><td>Revenue (Y3)</td><td>$4,500M</td></tr>
+            <tr><td>EBITDA</td><td>990M</td></tr>
+            <tr><td>Net Income</td><td>600M</td></tr>
+            <tr><td>EPS</td><td>$1.20</td></tr>
+        </table>
+        <div class="exit-metrics">
+            <div style="font-size:9px; color:#888;">Exit Multiple: 18x P/E</div>
+            <div class="exit-price">Implied Price: $21.60</div>
+            <div class="exit-upside" style="color:#27ae60;">Upside: +130%</div>
+        </div>
+    </div>
+
+    <div class="case-block">
+        <div class="case-name">Bull Case (Severe)</div>
+        <div class="case-desc">FMX becomes a real CME competitor (10%+ share); market re-rates FMX/Fenics at exchange multiples; BGC seen as fintech platform, not legacy broker</div>
+        <div class="driver-label">Key Driver Assumptions</div>
+        <div class="driver-row"><span>Revenue Growth (CAGR)</span><span>20%</span></div>
+        <div class="driver-row"><span>EBITDA Margin (Terminal)</span><span>26%</span></div>
+        <div class="driver-row"><span>FMX Market Share</span><span>10%+</span></div>
+        <div class="driver-row"><span>Fenics Mix</span><span>40%</span></div>
+        <table class="scenario-mini">
+            <tr><td>Revenue (Y3)</td><td>$5,100M</td></tr>
+            <tr><td>EBITDA</td><td>1,326M</td></tr>
+            <tr><td>Net Income</td><td>850M</td></tr>
+            <tr><td>EPS</td><td>$1.70</td></tr>
+        </table>
+        <div class="exit-metrics">
+            <div style="font-size:9px; color:#888;">Exit Multiple: 25x P/E</div>
+            <div class="exit-price">Implied Price: $42.50</div>
+            <div class="exit-upside" style="color:#27ae60;">Upside: +353%</div>
+        </div>
+    </div>
+
+    <div class="case-chart">
+        <svg viewBox="0 0 700 200">
+            <!-- Bars -->
+            <rect x="50" y="170" width="100" height="20" fill="#e74c3c" />
+            <text x="100" y="185" text-anchor="middle" fill="white" font-size="10" font-weight="600">$1.20</text>
+            <text x="100" y="195" text-anchor="middle" fill="#666" font-size="8">Bear Severe</text>
+
+            <rect x="170" y="140" width="100" height="50" fill="#e67e22" />
+            <text x="220" y="170" text-anchor="middle" fill="white" font-size="10" font-weight="600">$4.00</text>
+            <text x="220" y="195" text-anchor="middle" fill="#666" font-size="8">Bear Mild</text>
+
+            <rect x="290" y="100" width="100" height="90" fill="#3498db" />
+            <text x="340" y="150" text-anchor="middle" fill="white" font-size="10" font-weight="600">$10.20</text>
+            <text x="340" y="195" text-anchor="middle" fill="#666" font-size="8">Base</text>
+
+            <rect x="410" y="50" width="100" height="140" fill="#27ae60" />
+            <text x="460" y="125" text-anchor="middle" fill="white" font-size="10" font-weight="600">$21.60</text>
+            <text x="460" y="195" text-anchor="middle" fill="#666" font-size="8">Bull Mild</text>
+
+            <rect x="530" y="10" width="100" height="180" fill="#16a085" />
+            <text x="580" y="105" text-anchor="middle" fill="white" font-size="10" font-weight="600">$42.50</text>
+            <text x="580" y="195" text-anchor="middle" fill="#666" font-size="8">Bull Severe</text>
+
+            <!-- Current Price Line -->
+            <line x1="30" y1="98" x2="650" y2="98" stroke="#1a1a2e" stroke-width="2" stroke-dasharray="5,3" />
+            <text x="655" y="101" fill="#1a1a2e" font-size="9" font-weight="600">Current: $9.39</text>
+        </svg>
+    </div>
+
+    <!-- Section 11: Comps -->
+    <div class="memo-section">11. Comparable Companies</div>
+
+    <p class="prose"><strong>Peer Group — Execution Services</strong></p>
+    <table class="comps">
+        <tr>
+            <th>Company</th>
+            <th>Ticker</th>
+            <th>Mkt Cap ($M)</th>
+            <th>EV ($M)</th>
+            <th>EV/Sales</th>
+            <th>EV/EBIT</th>
+            <th>EV/EBITDA</th>
+            <th>P/E (FY1)</th>
+        </tr>
+        <tr class="subject">
+            <td>BGC Group Class A</td>
+            <td>BGC-US</td>
+            <td>5,182</td>
+            <td>6,262</td>
+            <td>2.1x</td>
+            <td>25.4x</td>
+            <td>17.9x</td>
+            <td>6.7x</td>
+        </tr>
+        <tr>
+            <td>Cohen & Company</td>
+            <td>COHN-US</td>
+            <td>38</td>
+            <td>397</td>
+            <td>0.9x</td>
+            <td>4.1x</td>
+            <td>4.0x</td>
+            <td>—</td>
+        </tr>
+        <tr>
+            <td>GoldMoney</td>
+            <td>XAU-CA</td>
+            <td>152</td>
+            <td>201</td>
+            <td>1.3x</td>
+            <td>6.2x</td>
+            <td>6.1x</td>
+            <td>—</td>
+        </tr>
+        <tr>
+            <td>TP ICAP Group</td>
+            <td>TCAP-GB</td>
+            <td>2,717</td>
+            <td>690</td>
+            <td>0.2x</td>
+            <td>2.0x</td>
+            <td>1.4x</td>
+            <td>7.9x</td>
+        </tr>
+        <tr>
+            <td>Compagnie Fin. Tradition</td>
+            <td>CFT-CH</td>
+            <td>2,698</td>
+            <td>2,373</td>
+            <td>1.9x</td>
+            <td>14.1x</td>
+            <td>12.2x</td>
+            <td>14.9x</td>
+        </tr>
+        <tr>
+            <td>mwb fairtrade Wertpapier</td>
+            <td>MWB0-DE</td>
+            <td>85</td>
+            <td>84</td>
+            <td>1.7x</td>
+            <td>6.7x</td>
+            <td>6.6x</td>
+            <td>—</td>
+        </tr>
+        <tr class="summary">
+            <td>Average</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>1.2x</td>
+            <td>6.6x</td>
+            <td>6.0x</td>
+            <td>9.8x</td>
+        </tr>
+        <tr class="summary">
+            <td>Median</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>1.3x</td>
+            <td>6.2x</td>
+            <td>6.1x</td>
+            <td>7.9x</td>
+        </tr>
+    </table>
+
+    <p class="prose" style="margin-top:16px;"><strong>Named Competitors — Electronic Exchanges & Fintech</strong></p>
+    <table class="comps">
+        <tr>
+            <th>Company</th>
+            <th>Ticker</th>
+            <th>Mkt Cap ($M)</th>
+            <th>EV ($M)</th>
+            <th>EV/Sales</th>
+            <th>EV/EBIT</th>
+            <th>EV/EBITDA</th>
+            <th>P/E (FY1)</th>
+        </tr>
+        <tr class="subject">
+            <td>BGC Group Class A</td>
+            <td>BGC-US</td>
+            <td>5,182</td>
+            <td>6,262</td>
+            <td>2.1x</td>
+            <td>25.4x</td>
+            <td>17.9x</td>
+            <td>6.7x</td>
+        </tr>
+        <tr>
+            <td>MarketAxess</td>
+            <td>MKTX-US</td>
+            <td>6,249</td>
+            <td>5,905</td>
+            <td>7.0x</td>
+            <td>16.9x</td>
+            <td>13.6x</td>
+            <td>21.4x</td>
+        </tr>
+        <tr>
+            <td>Tradeweb Markets</td>
+            <td>TW-US</td>
+            <td>29,839</td>
+            <td>27,749</td>
+            <td>13.5x</td>
+            <td>33.5x</td>
+            <td>25.8x</td>
+            <td>31.0x</td>
+        </tr>
+        <tr>
+            <td>Intercontinental Exchange</td>
+            <td>ICE-US</td>
+            <td>90,658</td>
+            <td>107,750</td>
+            <td>8.8x</td>
+            <td>21.3x</td>
+            <td>16.3x</td>
+            <td>20.6x</td>
+        </tr>
+        <tr>
+            <td>Cboe Global Markets</td>
+            <td>CBOE-US</td>
+            <td>29,876</td>
+            <td>29,066</td>
+            <td>6.2x</td>
+            <td>19.2x</td>
+            <td>17.8x</td>
+            <td>24.1x</td>
+        </tr>
+        <tr>
+            <td>CME Group</td>
+            <td>CME-US</td>
+            <td>110,213</td>
+            <td>97,602</td>
+            <td>—</td>
+            <td>—</td>
+            <td>21.3x</td>
+            <td>—</td>
+        </tr>
+        <tr>
+            <td>Nasdaq</td>
+            <td>NDAQ-US</td>
+            <td>49,080</td>
+            <td>64,916</td>
+            <td>—</td>
+            <td>—</td>
+            <td>21.0x</td>
+            <td>—</td>
+        </tr>
+        <tr class="summary">
+            <td>Average (ex-BGC)</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>8.9x</td>
+            <td>22.7x</td>
+            <td>19.3x</td>
+            <td>24.3x</td>
+        </tr>
+        <tr class="summary">
+            <td>Median (ex-BGC)</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>7.9x</td>
+            <td>20.3x</td>
+            <td>17.8x</td>
+            <td>22.4x</td>
+        </tr>
+    </table>
+
+    <p class="prose" style="margin-top:10px;"><strong>Commentary:</strong> BGC trades at a substantial discount to pure electronic exchanges (Tradeweb, ICE, Cboe at 20-30x P/E vs. BGC at 6.7x) but roughly in-line with traditional inter-dealer brokers like TP ICAP. The bull case hinges on the market re-rating BGC's Fenics/FMX businesses at exchange-like multiples. If 30% of BGC's value (Fenics) deserves a 20x multiple and 70% (legacy brokerage) deserves 8x, blended fair value would be ~11x vs. current 6.7x.</p>
+
+    <!-- Section 12: Is This a Theia Investment? -->
+    <div class="memo-section">12. Is This a Theia Investment?</div>
+
+    <p class="prose" style="font-style:italic; color:#666; margin-bottom:12px;">Theia seeks small cap companies that aren't well covered and are strongly aligned on core internet finance thesis with wide outcome dispersion.</p>
+
+    <p class="prose"><strong>(i) Market Cap Bucket:</strong> $4.5B market cap <span class="fw-rating weak">Mid Cap</span></p>
+    <p class="prose" style="margin-top:-4px;">Outside Theia's small-cap sweet spot ($1-5B). BGC is on the larger end of the acceptable range but not ideal for finding mispriced opportunities.</p>
+
+    <p class="prose"><strong>(ii) Analyst Coverage:</strong> 1 broker contributor <span class="fw-rating strong">Strong</span></p>
+    <p class="prose" style="margin-top:-4px;">Extremely under-covered for a company of this size. Only 1 broker contributing estimates on FactSet—this is unusually thin coverage that creates potential for mispricing.</p>
+
+    <p class="prose"><strong>(iii) Blockchain / Internet Finance Thesis Alignment:</strong> <span class="fw-rating strong">Adjacent</span></p>
+    <p class="prose" style="margin-top:-4px;">BGC operates at the heart of electronic trading infrastructure, and FMX represents a direct play on the digitization of financial markets. The company benefits from secular electronification trends. While not directly blockchain-related, the core thesis of technology disrupting legacy financial market structure is highly aligned.</p>
+
+    <p class="prose"><strong>(iv) Outcome Dispersion:</strong> <span class="fw-rating strong">Wide</span></p>
+    <p class="prose" style="margin-top:-4px;">Scenario range spans from $1.20 (severe bear) to $42.50 (severe bull)—a 35x spread. The FMX binary (either it challenges CME meaningfully or it doesn't) creates asymmetric upside. Current price of $9.39 sits close to base case, implying market assigns low probability to bull scenarios. If FMX executes, the re-rating potential is substantial.</p>
+
+    <div class="verdict">
+        <strong>Verdict: Maybe — Worth a Deeper Look</strong><br><br>
+        BGC presents an interesting asymmetric opportunity: the market prices it as a legacy voice broker (~10x earnings) while the company is actively transforming into a fintech/exchange operator (peers at 20-30x). The FMX Futures Exchange represents a credible, well-capitalized challenge to CME's monopoly—the first in decades. The extremely thin analyst coverage creates potential for mispricing.<br><br>
+        <strong>Key concerns:</strong> (1) Mid-cap size is outside Theia's sweet spot; (2) Cyclicality risk is real—a return to ZIRP would devastate the thesis; (3) FMX execution is genuinely uncertain. The right approach may be a small position sized for the bull case optionality, with an exit trigger if FMX traction stalls through 2026.
+    </div>
+
+    <!-- Section 13: Risk Summary -->
+    <div class="memo-section">13. Risk Summary</div>
+
+    <table class="risk">
+        <tr>
+            <th style="width:20%;">Risk Category</th>
+            <th style="width:40%;">Description</th>
+            <th style="width:15%;">Severity</th>
+            <th style="width:25%;">Mitigant</th>
+        </tr>
+        <tr>
+            <td>Macro / Cyclicality</td>
+            <td>Revenue highly correlated to trading volumes and rate volatility. ZIRP environment would compress revenues 30-50%.</td>
+            <td><span class="fw-rating high">High</span></td>
+            <td>ECS diversification ties revenue to energy demand, not just financial volatility. Data/network revenues provide some stability.</td>
+        </tr>
+        <tr>
+            <td>FMX Execution</td>
+            <td>Challenging CME's $70B+ monopoly is extremely difficult. FMX must prove technology resilience under market stress.</td>
+            <td><span class="fw-rating high">High</span></td>
+            <td>$172M investment from 10 major banks creates aligned partners. LCH clearing partnership provides unique competitive advantage.</td>
+        </tr>
+        <tr>
+            <td>OTC Integration</td>
+            <td>OTC Global's low-teens margins dilute consolidated profitability. $25M synergy target must be executed.</td>
+            <td><span class="fw-rating moderate">Moderate</span></td>
+            <td>Management has track record of acquisition integration (Trident, Sage). First phase of cost cuts completed in Q4 '25.</td>
+        </tr>
+        <tr>
+            <td>Leadership Transition</td>
+            <td>Tri-CEO structure is untested. Loss of Lutnick's vision and dealmaking could slow strategic execution.</td>
+            <td><span class="fw-rating moderate">Moderate</span></td>
+            <td>Co-CEOs managed day-to-day operations for years. Stephen Merkel as Chairman provides continuity. Lutnick departure removes overhang.</td>
+        </tr>
+        <tr>
+            <td>Customer Concentration</td>
+            <td>Top 10 clients = 23.6% of revenue. Banking consolidation could increase pricing pressure.</td>
+            <td><span class="fw-rating moderate">Moderate</span></td>
+            <td>Multi-homing is standard in brokerage—clients need multiple venues. FMX equity ownership aligns major banks.</td>
+        </tr>
+        <tr>
+            <td>Regulatory</td>
+            <td>SEC Treasury clearing mandates may increase costs for certain clients, potentially reducing volumes.</td>
+            <td><span class="fw-rating moderate">Moderate</span></td>
+            <td>BGC already operates in highly regulated environment. FMX benefits from clearing mandates pushing toward electronic venues.</td>
+        </tr>
+        <tr>
+            <td>Technology / Cyber</td>
+            <td>AI-driven attacks on financial infrastructure intensifying. Any major outage damages reputation and regulatory standing.</td>
+            <td><span class="fw-rating moderate">Moderate</span></td>
+            <td>Decades of technology investment. Lucera provides secure network infrastructure. Multi-layered cybersecurity protocols.</td>
+        </tr>
+    </table>
+
+    <!-- Section 14: Appendix -->
+    <div class="memo-section">14. Appendix — Python Code</div>
+
+    <p class="prose">Parameterized code for sensitivity table generation and 5-case model:</p>
+
+    <div class="code-block">
+# BGC Sensitivity Table Generator
+
+import numpy as np
+import pandas as pd
+
+# Base assumptions
+BASE_REVENUE = 2936  # FY25 revenue in $M
+BASE_BROKERAGE_REV = 2698  # FY25 brokerage revenue
+BASE_EBITDA_MARGIN = 0.12  # FY25 EBITDA margin
+SHARES_OUT = 500  # Fully diluted shares (M)
+CURRENT_PRICE = 9.39
+
+def brokerage_revenue_sensitivity(volume_growth_range, commission_change_range):
+    """
+    Table 1: Brokerage revenue as function of volume growth and commission change
+    """
+    results = []
+    for comm_delta in commission_change_range:
+        row = []
+        for vol_growth in volume_growth_range:
+            revenue = BASE_BROKERAGE_REV * (1 + vol_growth) * (1 + comm_delta)
+            row.append(round(revenue, 0))
+        results.append(row)
+
+    df = pd.DataFrame(results,
+                      index=[f"{c*100:+.1f}%" for c in commission_change_range],
+                      columns=[f"{v*100:.0f}%" for v in volume_growth_range])
+    return df
+
+def ebitda_sensitivity(fenics_mix_range, fenics_margin_range):
+    """
+    Table 2: EBITDA as function of Fenics mix and Fenics margin
+    Assumes legacy brokerage margin = 12%, revenue = $3B
+    """
+    total_revenue = 3000  # Approximate Y1 revenue
+    legacy_margin = 0.12
+
+    results = []
+    for fenics_margin in fenics_margin_range:
+        row = []
+        for fenics_mix in fenics_mix_range:
+            legacy_rev = total_revenue * (1 - fenics_mix)
+            fenics_rev = total_revenue * fenics_mix
+            ebitda = legacy_rev * legacy_margin + fenics_rev * fenics_margin
+            row.append(round(ebitda, 0))
+        results.append(row)
+
+    df = pd.DataFrame(results,
+                      index=[f"{m*100:.0f}%" for m in fenics_margin_range],
+                      columns=[f"{m*100:.0f}%" for m in fenics_mix_range])
+    return df
+
+def five_case_model(cases):
+    """
+    Generate 5-case financial projections
+    cases: list of dicts with rev_cagr, ebitda_margin, exit_pe
+    """
+    results = []
+    for case in cases:
+        y3_revenue = BASE_REVENUE * (1 + case['rev_cagr']) ** 3
+        y3_ebitda = y3_revenue * case['ebitda_margin']
+        y3_net_income = y3_ebitda * 0.6  # Assume 60% flow-through
+        y3_eps = y3_net_income / SHARES_OUT
+        implied_price = y3_eps * case['exit_pe']
+        upside = (implied_price / CURRENT_PRICE - 1) * 100
+
+        results.append({
+            'Case': case['name'],
+            'Revenue Y3': round(y3_revenue, 0),
+            'EBITDA Y3': round(y3_ebitda, 0),
+            'Net Income Y3': round(y3_net_income, 0),
+            'EPS Y3': round(y3_eps, 2),
+            'Exit P/E': case['exit_pe'],
+            'Implied Price': round(implied_price, 2),
+            'Upside %': round(upside, 0)
+        })
+
+    return pd.DataFrame(results)
+
+# Example usage:
+cases = [
+    {'name': 'Bear Severe', 'rev_cagr': -0.05, 'ebitda_margin': 0.10, 'exit_pe': 6},
+    {'name': 'Bear Mild', 'rev_cagr': 0.05, 'ebitda_margin': 0.14, 'exit_pe': 8},
+    {'name': 'Base', 'rev_cagr': 0.10, 'ebitda_margin': 0.18, 'exit_pe': 12},
+    {'name': 'Bull Mild', 'rev_cagr': 0.15, 'ebitda_margin': 0.22, 'exit_pe': 18},
+    {'name': 'Bull Severe', 'rev_cagr': 0.20, 'ebitda_margin': 0.26, 'exit_pe': 25},
+]
+
+print(five_case_model(cases))
+    </div>
+
+    <p class="source-note" style="margin-top:24px;">
+        Prepared by Theia Research | Data as of March 22, 2026 | Sources: FactSet, AlphaSense, Company Filings
+    </p>
+
+</body>
+</html>
