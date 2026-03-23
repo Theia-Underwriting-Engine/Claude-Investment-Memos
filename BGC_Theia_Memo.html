@@ -81,7 +81,7 @@
 
         .prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
 
-        .fw-item { margin-bottom: 6px; }
+        .fw-item { margin-bottom: 10px; }
         .fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
         .fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
         .fw-rating.strong { background: #d4edda; color: #155724; }
@@ -97,7 +97,7 @@
 
         .case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
         .case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
-        .case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+        .case-block .case-desc { font-size: 10px; color: #555; margin-bottom: 10px; line-height: 1.5; }
         .case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
         .case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
         .case-block .driver-row span:first-child { font-weight: 500; color: #333; }
@@ -113,7 +113,8 @@
         .case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
         .case-chart svg { width: 100%; height: auto; }
 
-        .verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+        .verdict { background: #1a1a2e; color: #fff; padding: 12px 16px; margin: 12px 0; font-size: 11px; line-height: 1.6; border-radius: 4px; }
+        .verdict strong { color: #fff; }
 
         .appendix { margin-top: 24px; }
         .code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
@@ -123,7 +124,7 @@
         .bear-col { border-left: 3px solid #c0392b; padding-left: 12px; }
         .bull-header { font-weight: 700; color: #27ae60; margin-bottom: 8px; font-size: 12px; }
         .bear-header { font-weight: 700; color: #c0392b; margin-bottom: 8px; font-size: 12px; }
-        .case-item { margin-bottom: 8px; font-size: 10px; line-height: 1.5; }
+        .case-item { margin-bottom: 10px; font-size: 10px; line-height: 1.5; }
         .case-item strong { color: #1a1a2e; }
 
         .alphasense-box { background: #e8f4fd; border-radius: 4px; padding: 10px 12px; margin: 8px 0; font-size: 10px; line-height: 1.5; }
@@ -135,7 +136,7 @@
         table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
         table.comps td { text-align: right; padding: 3px 6px; }
         table.comps td:first-child, table.comps td:nth-child(2) { text-align: left; }
-        table.comps tr.subject { font-weight: 700; background: #f0f0f0; }
+        table.comps tr.subject { font-weight: 700; background: #e8f4fd; }
         table.comps tr.summary { font-weight: 600; background: #fafbfc; }
 
         table.risk { font-size: 10px; width: 100%; }
@@ -146,6 +147,16 @@
         .driver-table { font-size: 10px; margin: 8px 0; }
         .driver-table th { text-align: left; font-weight: 600; color: #888; padding: 3px 6px; border-bottom: 1px solid #ddd; }
         .driver-table td { padding: 3px 6px; }
+
+        .key-facts { background: #f4f6f9; border-radius: 4px; padding: 10px 12px; margin: 10px 0; font-size: 10px; }
+        .key-facts .fact-row { display: flex; justify-content: space-between; padding: 2px 0; }
+        .key-facts .fact-label { color: #666; }
+        .key-facts .fact-value { font-weight: 600; color: #1a1a2e; }
+
+        .scorecard { display: flex; gap: 8px; margin: 10px 0; flex-wrap: wrap; }
+        .scorecard .criterion { background: #f4f6f9; border-radius: 4px; padding: 8px 12px; flex: 1; min-width: 150px; }
+        .scorecard .criterion-name { font-size: 9px; color: #666; text-transform: uppercase; letter-spacing: 0.3px; }
+        .scorecard .criterion-value { font-size: 11px; font-weight: 600; color: #1a1a2e; margin-top: 2px; }
     </style>
 </head>
 <body>
@@ -153,17 +164,36 @@
 
     <!-- Section 1: Business Overview -->
     <div class="memo-section">1. Business Overview</div>
+
     <p class="prose">
-        <strong>BGC Group, Inc. (NASDAQ: BGC)</strong> is a leading global marketplace, data, and financial technology company operating across the energy, commodities, and shipping (ECS) and financial markets. The company specializes in the brokerage and trade execution of a broad range of products including fixed income securities, interest rate derivatives, credit derivatives, foreign exchange, equities, futures, and physical commodities. BGC's integrated platform provides customers with flexible options for price discovery, trade execution, and transaction processing across Voice, Hybrid, and Fully Electronic brokerage.
+        <strong>BGC Group, Inc. (NASDAQ: BGC)</strong> is a leading global marketplace, data, and financial technology company that operates at the intersection of traditional voice brokerage and electronic trading infrastructure. The company specializes in the brokerage and trade execution of a broad range of products spanning fixed income securities (government bonds, corporate bonds, asset-backed securities), interest rate derivatives (swaps, swaptions, caps/floors), credit derivatives (CDS, CLOs), foreign exchange (spot, forwards, options), equities and equity derivatives, commodity derivatives, and physical energy and shipping contracts. BGC's integrated platform provides institutional customers with flexible options for price discovery, trade execution, and transaction processing across three modalities: Voice (traditional broker-intermediated), Hybrid (technology-assisted voice), and Fully Electronic (automated matching and execution through the Fenics platform).
     </p>
+
     <p class="prose">
-        Founded in 2004 as a spin-out from Cantor Fitzgerald (which commenced operations in 1972), BGC is headquartered in <strong>New York, NY</strong> with principal offices in London. The company operates out of dozens of regional hubs across financial centers including Beijing, Chicago, Dubai, Frankfurt, Hong Kong, Paris, Singapore, Sydney, and Tokyo. As of December 2025, BGC employed approximately <strong>2,510 front-office professionals</strong> including brokers, salespeople, managers, and technology specialists.
+        The company's origins trace to Cantor Fitzgerald, which Howard Lutnick joined in 1983 and rebuilt after the September 11, 2001 attacks that killed 658 of its employees. BGC Partners was spun out in 2004 and became BGC Group, Inc. following a corporate restructuring in 2023 that converted the complex partnership structure into a traditional C-Corporation. The company is headquartered in <strong>New York, NY</strong> at 499 Park Avenue, with a major principal office in London at One Churchill Place, Canary Wharf. BGC operates through dozens of regional hubs across global financial centers including Beijing, Chicago, Dubai, Frankfurt, Hong Kong, Mumbai, Paris, São Paulo, Singapore, Sydney, Tel Aviv, and Tokyo—giving it 24-hour coverage across all major trading time zones.
     </p>
+
     <p class="prose">
-        In February 2025, former Chairman and CEO <strong>Howard W. Lutnick</strong> was confirmed as the 41st U.S. Secretary of Commerce and stepped down from all corporate positions. The Board appointed a leadership triad of Co-CEOs: <strong>John Abularrage, JP Aubin, and Sean Windeatt</strong>, with <strong>Stephen Merkel</strong> as Chairman. CFO is <strong>Jason Hauf</strong>.
+        In a significant leadership transition, former Chairman and CEO <strong>Howard W. Lutnick</strong> was confirmed as the 41st U.S. Secretary of Commerce in February 2025 and resigned from all positions with the company and its affiliates. The Board of Directors appointed a leadership triad of Co-Chief Executive Officers: <strong>John Abularrage</strong> (Americas), <strong>JP Aubin</strong> (EMEA), and <strong>Sean Windeatt</strong> (APAC and Global Technology), with <strong>Stephen M. Merkel</strong> serving as Chairman. The CFO is <strong>Jason Hauf</strong>. As of December 2025, BGC employed approximately <strong>2,510 front-office personnel</strong> including brokers, salespeople, managers, and technologists, with revenue per front-office employee reaching $1.17M—up 16.4% year-over-year, demonstrating the productivity gains from technology investment.
     </p>
+
     <p class="prose">
-        <strong>One-line thesis:</strong> BGC is transforming from a legacy voice broker into a high-margin financial technology and electronic exchange operator, with its FMX Futures Exchange representing the most credible challenge to CME's monopoly in U.S. interest rate futures in decades.
+        The strategic narrative at BGC has shifted dramatically over the past three years. Management has pivoted the business model from a traditional voice inter-dealer broker toward a technology-enabled financial infrastructure company with three distinct growth engines: (1) <strong>Fenics</strong>, the fully electronic trading and market data platform generating $659M in 2025 revenue at substantially higher margins than voice brokerage; (2) <strong>FMX</strong>, the newly-launched futures exchange backed by $172M in equity from ten major banks (valued at $667M) that represents the most credible challenge to CME Group's monopoly in U.S. interest rate futures in decades; and (3) <strong>ECS (Energy, Commodities & Shipping)</strong>, dramatically expanded through the $325M acquisition of OTC Global Holdings to create the world's largest OTC energy broker with $911M in 2025 revenue (+88% YoY). This transformation story is not yet reflected in BGC's valuation, which remains anchored to legacy inter-dealer broker peers despite the fundamentally different composition of the business.
+    </p>
+
+    <div class="key-facts">
+        <div class="fact-row"><span class="fact-label">Founded</span><span class="fact-value">2004 (spin-out from Cantor Fitzgerald, est. 1945)</span></div>
+        <div class="fact-row"><span class="fact-label">Headquarters</span><span class="fact-value">New York, NY</span></div>
+        <div class="fact-row"><span class="fact-label">Co-CEOs</span><span class="fact-value">John Abularrage, JP Aubin, Sean Windeatt</span></div>
+        <div class="fact-row"><span class="fact-label">CFO</span><span class="fact-value">Jason Hauf</span></div>
+        <div class="fact-row"><span class="fact-label">Chairman</span><span class="fact-value">Stephen M. Merkel</span></div>
+        <div class="fact-row"><span class="fact-label">Front-Office Employees</span><span class="fact-value">~2,510</span></div>
+        <div class="fact-row"><span class="fact-label">Market Cap</span><span class="fact-value">$4.5B</span></div>
+        <div class="fact-row"><span class="fact-label">FY25 Revenue</span><span class="fact-value">$2.94B (+30% YoY)</span></div>
+    </div>
+
+    <p class="prose">
+        <strong>One-line thesis:</strong> BGC is transforming from a legacy voice broker into a high-margin financial technology and electronic exchange operator, with its FMX Futures Exchange representing the most credible challenge to CME's interest rate futures monopoly in decades—yet trades at 10x earnings vs. 25x+ for pure electronic exchanges.
     </p>
 
     <!-- Section 2: Financial Summary -->
@@ -274,7 +304,7 @@
         <tr><td>EBIT</td><td>11.3%</td><td>$122</td><td>$179</td><td>$247</td><td class="est">$774</td><td class="est">$871</td></tr>
         <tr><td>EBITDA</td><td>8.7%</td><td>$202</td><td>$261</td><td>$350</td><td class="est">$933</td><td class="est">$1,015</td></tr>
         <tr><td>Net Income</td><td>28.0%</td><td>$36</td><td>$127</td><td>$155</td><td class="est">$690</td><td class="est">$765</td></tr>
-        <tr><td>EPS (Diluted)</td><td>21.1%</td><td>$0.07</td><td>$0.25</td><td>$0.31</td><td>—</td><td>—</td></tr>
+        <tr><td>EPS (Diluted)</td><td>21.1%</td><td>$0.07</td><td>$0.25</td><td>$0.31</td><td class="est">$1.40</td><td class="est">$1.59</td></tr>
         <tr class="section-row"><td colspan="7">Margins</td></tr>
         <tr><td>Gross Margin</td><td>—</td><td>91.4%</td><td>91.8%</td><td>92.8%</td><td>—</td><td>—</td></tr>
         <tr><td>Operating Margin</td><td>—</td><td>6.0%</td><td>7.9%</td><td>8.4%</td><td class="est">23.1%</td><td class="est">23.9%</td></tr>
@@ -320,6 +350,17 @@
         </div>
     </div>
 
+    <div class="section-title">Valuation Summary</div>
+    <p class="prose">
+        BGC currently trades at 6.7x FY26E P/E and 6.2x FY27E P/E—a significant discount to both pure-play electronic exchanges (Tradeweb at 31x, MarketAxess at 21x, ICE at 21x) and even traditional inter-dealer broker peers like Tradition (15x). The low multiple reflects the market's historical perception of BGC as a legacy voice broker with high cyclicality and complex corporate governance under Howard Lutnick's control. With the C-Corp conversion complete and Lutnick's complete divestiture following his Commerce Secretary appointment, the technical overhang that suppressed passive fund ownership has been removed.
+    </p>
+    <p class="prose">
+        The forward estimates imply a dramatic earnings inflection, with consensus expecting EPS to jump from $0.31 in FY25 to $1.40 in FY26E—driven by OTC Global synergies, Fenics margin expansion, and the annualization of recent acquisitions. If this earnings trajectory materializes and BGC achieves even partial re-rating toward fintech/exchange multiples, the stock offers substantial upside. Conversely, if trading volumes normalize and FMX fails to gain traction, the bear case involves reversion to historical broker multiples of 6-8x on lower earnings.
+    </p>
+    <p class="prose">
+        The Street's average target price of $14.50 implies 54% upside from current levels, though coverage is extremely thin with only 1 broker contributing estimates on FactSet. This sparse coverage is unusual for a $4.5B market cap company and creates potential for mispricing in either direction.
+    </p>
+
     <p class="source-note">Source: FactSet as of March 22, 2026. Monetary values in millions USD.</p>
 
     <!-- Section 3: Bull & Bear Cases -->
@@ -327,19 +368,27 @@
     <div class="bull-bear-grid">
         <div class="bull-col">
             <div class="bull-header">Bull Case</div>
-            <div class="case-item"><strong>1. FMX Futures Exchange:</strong> FMX represents the most credible challenge to CME's monopoly in decades, backed by $172M from 10 major banks at a $667M valuation. Already captured 39% of cash UST CLOB share and 1%+ SOFR futures. LCH clearing partnership unlocks $225B in cross-margin efficiencies competitors can't match.</div>
-            <div class="case-item"><strong>2. ECS Dominance:</strong> OTC Global acquisition ($325M at 0.75x revenue) instantly established BGC as the world's largest energy, commodities & shipping broker with $450M+ annualized ECS revenue. Diversifies beyond financial volatility to global energy demand.</div>
-            <div class="case-item"><strong>3. Margin Expansion via Electronification:</strong> Fenics platform converting voice to electronic execution at dramatically higher margins. Same workforce handles exponentially more volume. Pre-tax margins ex-OTC dilution hit 23.7% in Q4 '25.</div>
-            <div class="case-item"><strong>4. Massive Valuation Disconnect:</strong> Despite 30% revenue growth in 2025, BGC trades at ~10x earnings vs. 30x for pure electronic platforms. If market re-rates the Fenics/FMX businesses at exchange multiples, significant upside.</div>
-            <div class="case-item"><strong>5. Lutnick Overhang Removed:</strong> Howard Lutnick's complete divestiture to become Commerce Secretary eliminates the historical "Howard discount." Simplified C-Corp structure attracts passive index funds.</div>
+            <div class="case-item"><strong>1. FMX Futures Exchange Disrupts CME:</strong> FMX represents the most credible challenge to CME's monopoly in U.S. interest rate futures in decades. Backed by $172M equity investment from 10 major banks (Goldman, JPMorgan, Citadel, etc.) at a $667M valuation, FMX has unique structural advantages: its exclusive partnership with LCH clearinghouse enables $225B in cross-margin efficiencies that CME cannot match because CME clears at its own clearinghouse. FMX already captured 39% market share in cash U.S. Treasury CLOB and is scaling SOFR futures. If FMX reaches 5-10% SOFR share, the implied standalone valuation ($1-3B) would represent a substantial portion of BGC's current enterprise value.</div>
+
+            <div class="case-item"><strong>2. OTC Global Creates ECS Dominance:</strong> The $325M acquisition of OTC Global Holdings (at just 0.75x revenue) instantly established BGC as the world's largest energy, commodities, and shipping broker with $911M annualized ECS revenue (+88% YoY). This acquisition diversifies BGC beyond financial market volatility toward global energy demand—a structural growth theme driven by energy transition, LNG trading expansion, and commodity market volatility. Management targets $25M in cost synergies and believes ECS margins can converge toward legacy BGC levels over 18-24 months.</div>
+
+            <div class="case-item"><strong>3. Fenics Drives Margin Expansion:</strong> The Fenics platform systematically converts Voice/Hybrid brokerage to Fully Electronic execution at dramatically higher incremental margins. In FY25, Fenics generated $659M revenue (22% of total) but at estimated margins 20-25pp above voice brokerage. As Fenics mix grows toward 30-35%, consolidated margins should expand significantly. Pre-tax margin excluding OTC dilution reached 23.7% in Q4 2025. The "same workforce, exponentially more volume" operating leverage is the core of the margin expansion story.</div>
+
+            <div class="case-item"><strong>4. Massive Valuation Disconnect:</strong> Despite 30% revenue growth in 2025 and a clear transformation toward higher-margin electronic business, BGC trades at ~10x trailing earnings vs. 25-30x for pure electronic trading platforms. If the market re-rates the Fenics/FMX businesses at exchange-like multiples while applying legacy broker multiples to voice brokerage, a sum-of-the-parts analysis suggests fair value of $15-20+ per share. The arbitrage opportunity exists because sell-side coverage is thin and passive funds previously couldn't own the complex partnership structure.</div>
+
+            <div class="case-item"><strong>5. Lutnick Overhang Removed:</strong> Howard Lutnick's departure to become Commerce Secretary required complete divestiture of his BGC stake, eliminating the historical "Howard discount" that reflected concerns about governance, related-party transactions, and his outsized control. The simplified C-Corp structure now qualifies BGC for passive index inclusion, and the tri-CEO structure brings institutional-grade governance without losing the entrepreneurial culture Lutnick fostered.</div>
         </div>
         <div class="bear-col">
             <div class="bear-header">Bear Case</div>
-            <div class="case-item"><strong>1. Cyclicality Risk:</strong> BGC's revenues are overwhelmingly correlated to trading volumes and interest rate volatility. If central banks revert to ZIRP, core Rates and FX revenues could contract 30-50%.</div>
-            <div class="case-item"><strong>2. FMX Execution Risk:</strong> Challenging CME's $70B+ monopoly is notoriously difficult. CME's Globex platform has decades of stress-testing. FMX must prove latency advantages and resilience under extreme market conditions.</div>
-            <div class="case-item"><strong>3. OTC Integration Drag:</strong> OTC Global operates at low-teens margins vs. BGC's 20%+ legacy margins. $25M cost synergy target must be executed to avoid sustained margin dilution.</div>
-            <div class="case-item"><strong>4. Customer Concentration:</strong> Top 10 clients represent 23.6% of revenue. Continued banking consolidation could give major clients pricing leverage, compressing commission spreads.</div>
-            <div class="case-item"><strong>5. Leadership Transition:</strong> New tri-CEO structure untested in crisis. While the three co-CEOs managed day-to-day operations previously, proving strategic vision without Lutnick is an open question.</div>
+            <div class="case-item"><strong>1. Cyclicality & ZIRP Risk:</strong> BGC's revenues are overwhelmingly correlated to secondary market trading volumes and interest rate volatility. During the 2012-2021 ZIRP era, inter-dealer broker revenues stagnated as low volatility compressed trading activity. If central banks revert to sustained low-rate, low-volatility regimes, core Rates and FX revenues could contract 30-50% from current elevated levels. The 2022-2025 period benefited from exceptional volatility that may not persist.</div>
+
+            <div class="case-item"><strong>2. FMX Execution Risk:</strong> Challenging CME Group's $70B+ market cap monopoly is notoriously difficult—previous attempts (ELX, Eris Exchange) failed despite similar backing. CME's Globex platform has decades of stress-testing, latency optimization, and FCM integration. FMX must prove it can maintain sub-millisecond performance during extreme market dislocations while convincing FCMs to build connectivity and risk systems. The 1%+ SOFR share achieved so far is encouraging but far from proving the model works at scale.</div>
+
+            <div class="case-item"><strong>3. OTC Integration Dilutes Margins:</strong> OTC Global operates at low-teens EBITDA margins vs. BGC's legacy 20%+ pre-tax margins. The $325M acquisition (6.5x EBITDA) was accretive to revenue growth but dilutive to margins in the near term. Management's $25M synergy target is achievable but requires execution. If integration challenges emerge or ECS trading volumes normalize, the margin expansion thesis could stall. First phase cost cuts in Q4 2025 were completed but the full synergy realization timeline extends through 2026.</div>
+
+            <div class="case-item"><strong>4. Customer Concentration Risk:</strong> BGC's top 10 clients represent 23.6% of revenue, with the largest single client likely representing 4-5%. Continued consolidation in the banking industry (regional bank failures, bulge bracket M&A) could reduce the number of independent trading desks, giving surviving clients more pricing leverage. The OTC derivatives market is already concentrated among ~15 major dealers globally, creating structural bargaining power for the buy-side of BGC's services.</div>
+
+            <div class="case-item"><strong>5. Leadership Transition Uncertainty:</strong> The tri-CEO structure is untested in a crisis environment. While John Abularrage, JP Aubin, and Sean Windeatt each managed their respective regions under Lutnick and collectively executed the recent M&A strategy, the question of strategic vision without Lutnick remains open. Lutnick was known for bold, contrarian moves (FMX, aggressive acquisitions, the C-Corp conversion); whether the new leadership can maintain this entrepreneurial edge while satisfying institutional investors' governance expectations is uncertain.</div>
         </div>
     </div>
 
@@ -348,41 +397,76 @@
 
     <div class="fw-item">
         <span class="fw-name">1. Scale Economies</span><span class="fw-rating strong">Strong</span>
-        <p class="prose" style="margin-top:4px;">BGC's global infrastructure and technology platform create significant scale advantages. Fixed costs for trading technology, regulatory compliance, and data infrastructure are spread across massive trading volumes. Revenue per front-office employee increased 16.4% YoY to $1.2M in 2025, demonstrating operational leverage. The OTC Global and Sage acquisitions add volume over an already-scaled cost base.</p>
+        <p class="prose" style="margin-top:4px;">
+            BGC's global infrastructure creates significant scale advantages that new entrants cannot easily replicate. The company operates trading desks across every major financial center with 24-hour coverage, maintains regulatory licenses in dozens of jurisdictions (each requiring dedicated compliance infrastructure), and has built sophisticated trading technology platforms (Fenics, FMX) with substantial fixed development costs. These fixed costs are spread across massive trading volumes—BGC processed hundreds of thousands of trades daily across Rates, FX, Credit, and ECS in 2025.
+        </p>
+        <p class="prose">
+            The operating leverage is evident in productivity metrics: revenue per front-office employee increased 16.4% YoY to $1.17M in 2025, despite only modest headcount growth. The OTC Global and Sage acquisitions add significant incremental volume over an already-scaled cost base, with targeted synergies of $25M+ as redundant functions are consolidated. As Fenics electronic volumes grow, the incremental margin is exceptionally high—the technology platform handles exponentially more volume with near-zero marginal cost, unlike voice brokerage where revenue scales roughly linearly with broker headcount.
+        </p>
     </div>
 
     <div class="fw-item">
         <span class="fw-name">2. Network Effects</span><span class="fw-rating strong">Strong</span>
-        <p class="prose" style="margin-top:4px;">BGC's liquidity pools create powerful two-sided network effects. The more dealers and buy-side firms trading on BGC platforms, the tighter the spreads and the more attractive the venue becomes. FMX UST has grown to 39% CLOB market share specifically because ten major banks are committed partners incentivized to route liquidity. This "liquidity begets liquidity" dynamic is exceptionally hard to replicate.</p>
+        <p class="prose" style="margin-top:4px;">
+            BGC's liquidity pools create powerful two-sided network effects that are exceptionally difficult for competitors to replicate. The more dealers and buy-side firms routing orders through BGC platforms, the tighter the bid-ask spreads, the better the execution quality, and the more attractive the venue becomes for additional participants. This "liquidity begets liquidity" dynamic is the fundamental barrier to entry in electronic trading venues—it's why only 3-4 inter-dealer brokers have survived despite hundreds of attempts to enter the market.
+        </p>
+        <p class="prose">
+            The network effects are most visible in FMX, which has grown to 39% market share in cash U.S. Treasury central limit order book (CLOB) trading specifically because ten major banks (Goldman Sachs, JPMorgan, Citadel Securities, etc.) are equity owners with incentive-aligned volume commitments. These banks collectively represent the majority of U.S. Treasury trading activity, and their commitment to route liquidity through FMX creates a self-reinforcing cycle that no standalone startup could replicate. Fenics Market Data also benefits from network effects—the more trading flows through BGC desks, the more valuable and differentiated the market data becomes.
+        </p>
     </div>
 
     <div class="fw-item">
         <span class="fw-name">3. Counter-Positioning</span><span class="fw-rating moderate">Moderate</span>
-        <p class="prose" style="margin-top:4px;">FMX's LCH clearing partnership represents counter-positioning vs. CME. CME clearing at its own clearinghouse and cannot offer the $225B cross-margining benefits FMX provides through LCH. However, CME could theoretically respond with clearing partnerships, though this would cannibalize their vertically integrated model.</p>
+        <p class="prose" style="margin-top:4px;">
+            FMX's exclusive clearing partnership with LCH represents genuine counter-positioning against CME Group. CME clears derivatives through its own vertically-integrated clearinghouse, CME Clearing. This vertical integration is highly profitable for CME (clearing fees are a substantial revenue stream) but prevents CME from offering the portfolio margining benefits that FMX provides through LCH. The $225B in cross-margining efficiencies FMX advertises—allowing traders to offset futures positions against OTC swaps cleared at LCH—is a structural advantage CME cannot match without cannibalizing its own clearing business.
+        </p>
+        <p class="prose">
+            However, the counter-positioning is not absolute. CME could theoretically respond by partnering with external clearinghouses, though this would represent a fundamental strategic reversal and years of integration work. CME is more likely to compete on liquidity depth, technology, and aggressive pricing than to cede clearing economics. The counter-positioning gives FMX a durable competitive wedge but doesn't guarantee success—execution, technology resilience, and liquidity critical mass remain decisive.
+        </p>
     </div>
 
     <div class="fw-item">
         <span class="fw-name">4. Switching Costs</span><span class="fw-rating moderate">Moderate</span>
-        <p class="prose" style="margin-top:4px;">Institutional clients have meaningful procedural switching costs: integration with trading systems, established broker relationships, workflow familiarity. However, multi-homing is common in wholesale markets—clients often use multiple brokers simultaneously. The switching costs are higher for data products (Fenics Market Data) where integration is deeper.</p>
+        <p class="prose" style="margin-top:4px;">
+            Institutional clients face meaningful procedural switching costs when changing inter-dealer brokers. Integration with order management systems (OMS) and execution management systems (EMS) requires IT work; established credit lines and settlement arrangements must be replicated; workflow familiarity and broker relationships built over years have real value. For sophisticated trading operations, the time and attention cost of establishing new broker relationships is non-trivial.
+        </p>
+        <p class="prose">
+            That said, multi-homing is standard practice in wholesale markets—most institutional clients use multiple brokers simultaneously to ensure best execution, access diverse liquidity pools, and maintain competitive tension. This limits the pricing power that switching costs would otherwise provide. The switching costs are higher for Fenics Market Data, where integration with trading algorithms and risk systems is deeper—clients who build strategies around BGC's proprietary data feeds face more significant switching costs than those simply routing orders.
+        </p>
     </div>
 
     <div class="fw-item">
         <span class="fw-name">5. Branding</span><span class="fw-rating weak">Weak</span>
-        <p class="prose" style="margin-top:4px;">B2B wholesale brokerage is not a brand-driven business. Institutional clients choose venues based on liquidity, pricing, and execution quality—not brand affinity. BGC has reputation for aggressive culture and innovation but this doesn't command a price premium.</p>
+        <p class="prose" style="margin-top:4px;">
+            B2B wholesale brokerage is not a brand-driven business in the consumer sense. Institutional clients—bank trading desks, hedge funds, asset managers—choose execution venues based on liquidity depth, pricing, execution quality, and technology reliability, not brand affinity or emotional connection. There is no "premium" that BGC can charge for its name recognition; counterparties will instantly route orders to a competitor offering better pricing or deeper liquidity.
+        </p>
+        <p class="prose">
+            BGC has reputation and relationships—the company is known in the industry for its aggressive entrepreneurial culture, willingness to make bold acquisitions, and deep expertise in specific asset classes (particularly rates and credit). Howard Lutnick was personally a polarizing but recognized figure. However, this reputation doesn't translate to pricing power in the way that consumer brands (Apple, Nike) can charge premiums. At best, BGC's brand creates consideration and trust among potential clients; at worst, the "Howard era" reputation creates friction with institutionally-minded compliance departments.
+        </p>
     </div>
 
     <div class="fw-item">
         <span class="fw-name">6. Cornered Resource</span><span class="fw-rating strong">Strong</span>
-        <p class="prose" style="margin-top:4px;">BGC owns proprietary, real-time tradable market data generated from its own global brokerage desks—data that competitors cannot replicate. Fenics Market Data monetizes this through subscription feeds distributed via Bloomberg and LSEG. Additionally, the FMX consortium of ten major banks represents a cornered resource: these specific institutions have equity ownership and volume incentives that lock them into the platform.</p>
+        <p class="prose" style="margin-top:4px;">
+            BGC owns two genuinely cornered resources that competitors cannot replicate. First, the company generates proprietary, real-time tradable market data from its own global brokerage desks across rates, FX, credit, and equities. This data—prices, volumes, order flow patterns—reflects actual trading activity that no external vendor can observe. Fenics Market Data monetizes this through subscription feeds distributed via Bloomberg Terminal and LSEG Refinitiv. Clients building trading algorithms or risk models find this data uniquely valuable precisely because it reflects real executable prices rather than indicative quotes.
+        </p>
+        <p class="prose">
+            Second, the FMX consortium of ten major banks represents a cornered resource of a different type. These specific institutions—Goldman Sachs, JPMorgan, Citadel Securities, Jane Street, and six others—have made equity investments and volume commitments to FMX. Their alignment is locked in through ownership stakes; they are economically incentivized to route liquidity to FMX and help it succeed against CME. A competitor attempting to launch a rival futures exchange cannot simply "buy" this consortium—the relationships and commitments are proprietary to BGC.
+        </p>
     </div>
 
     <div class="fw-item">
         <span class="fw-name">7. Process Power</span><span class="fw-rating moderate">Moderate</span>
-        <p class="prose" style="margin-top:4px;">BGC has demonstrated consistent execution in M&A integration (Trident, Sage, OTC Global) and technology buildout (Fenics, FMX). The company's "acquire, build, monetize" playbook (eSpeed sale to Nasdaq for $1.2B, Newmark spin-off for $1.9B, Insurance sale for $535M) suggests embedded organizational capability. However, the tri-CEO structure is new and untested at scale.</p>
+        <p class="prose" style="margin-top:4px;">
+            BGC has demonstrated consistent execution in M&A integration, technology buildout, and strategic pivots over the past decade. The company successfully integrated Trident, GFI, Sunrise Brokers, and most recently OTC Global Holdings and Sage Energy Partners—each acquisition expanding capabilities without derailing operations. The Fenics electronic platform and FMX futures exchange represent substantial technology investments delivered on schedule. The "acquire, build, monetize" playbook has generated real value: the eSpeed platform was sold to Nasdaq for $1.2B, Newmark was spun off for $1.9B, and the insurance brokerage business was sold for $535M.
+        </p>
+        <p class="prose">
+            However, process power as a sustainable competitive advantage requires the organizational capability to persist beyond any individual leader. With Howard Lutnick's departure, the question is whether the entrepreneurial decision-making speed and strategic boldness were personal attributes or embedded organizational culture. The tri-CEO structure brings deep institutional knowledge but a different leadership dynamic. Early evidence is encouraging—the OTC Global integration is proceeding on schedule and the Q4 2025 results showed disciplined cost management—but the true test of process power will be the next major acquisition or strategic initiative executed under new leadership.
+        </p>
     </div>
 
     <div class="summary-box">
-        <strong>Summary:</strong> BGC's strongest moats are Scale Economies, Network Effects, and Cornered Resources (proprietary data + FMX consortium). The liquidity network effects and proprietary data ownership are particularly durable. The key vulnerability is cyclicality—these moats don't protect against a structural decline in trading volumes.
+        <strong>Summary:</strong> BGC's strongest moats are <strong>Scale Economies</strong>, <strong>Network Effects</strong>, and <strong>Cornered Resources</strong> (proprietary market data and the FMX bank consortium). The liquidity network effects and unique data ownership are particularly durable—these are structural advantages that compound over time as volumes grow. The key vulnerability is <strong>cyclicality</strong>: none of these moats protect against a structural decline in trading volumes during low-volatility regimes. The transformation to electronic execution (Fenics) and exchange infrastructure (FMX) is strategically sound because it shifts BGC toward higher-margin, more defensible businesses, but execution remains ongoing.
     </div>
 
     <!-- Section 5: Porter's 5 Forces -->
@@ -390,119 +474,163 @@
 
     <div class="fw-item">
         <span class="fw-name">1. Threat of New Entrants</span><span class="fw-rating low">Low</span>
-        <p class="prose" style="margin-top:4px;">Massive barriers to entry: regulatory licensing across dozens of jurisdictions, technology infrastructure requiring years of development, established liquidity pools that new entrants cannot replicate, and deep broker relationships built over decades. The inter-dealer broker industry has consolidated to 3 major players (BGC, TP ICAP, Tradition) precisely because new entry is nearly impossible.</p>
+        <p class="prose" style="margin-top:4px;">
+            The barriers to entry in inter-dealer brokerage are exceptionally high, which explains why the industry has consolidated to three major global players (BGC, TP ICAP, Tradition) despite the apparent attractiveness of transaction-based fee income. A new entrant would need to simultaneously: (1) obtain regulatory licenses across dozens of jurisdictions, each requiring dedicated compliance infrastructure, capital reserves, and ongoing supervision; (2) build or acquire trading technology platforms capable of sub-millisecond execution, multi-asset support, and integration with major order management systems; (3) recruit experienced brokers with established client relationships, which requires significant upfront compensation and "golden handcuff" retention packages; and (4) most critically, achieve liquidity critical mass in a market where clients will not trade on platforms without liquidity.
+        </p>
+        <p class="prose">
+            The liquidity bootstrapping problem is nearly insurmountable. New entrants cannot offer competitive execution without liquidity, but cannot attract liquidity without competitive execution. The FMX futures exchange is instructive: it required $172M in equity investment from 10 major banks who committed to provide liquidity—and even with this extraordinary backing, building market share against CME is a multi-year process. A startup without such backing would find it nearly impossible to achieve critical mass. The last successful new entrant of any scale in inter-dealer brokerage was over a decade ago, and consolidation has only accelerated since.
+        </p>
     </div>
 
     <div class="fw-item">
         <span class="fw-name">2. Bargaining Power of Suppliers</span><span class="fw-rating moderate">Moderate</span>
-        <p class="prose" style="margin-top:4px;">BGC's primary "suppliers" are its brokers and technology talent. Top-producing brokers have bargaining power and can move between firms (broker poaching is common). Compensation is BGC's largest expense. However, BGC's scale and equity-based retention (significant deferred stakes) help mitigate broker flight risk.</p>
+        <p class="prose" style="margin-top:4px;">
+            BGC's primary "suppliers" are its front-office employees—the brokers, salespeople, and technologists who generate revenue through client relationships and trade execution. Top-producing brokers have genuine bargaining power: they can move between firms (broker poaching is endemic in the industry), take client relationships with them, and demand substantial compensation packages including guaranteed bonuses, deferred equity, and revenue sharing. Compensation is BGC's largest operating expense, and star broker retention is a persistent challenge.
+        </p>
+        <p class="prose">
+            However, BGC has tools to mitigate supplier power. The company uses substantial deferred equity compensation that vests over multi-year periods, creating meaningful retention incentives. Non-compete and non-solicitation agreements (enforceable to varying degrees across jurisdictions) create friction for departures. BGC's scale and global platform also give brokers capabilities they couldn't replicate at smaller firms—access to diverse asset classes, technology infrastructure, and a global client base. The net effect is moderate supplier power: BGC must pay competitively but isn't hostage to any individual broker, and the technology transformation (Fenics) systematically reduces dependence on individual voice brokers over time.
+        </p>
     </div>
 
     <div class="fw-item">
         <span class="fw-name">3. Bargaining Power of Buyers</span><span class="fw-rating moderate">Moderate</span>
-        <p class="prose" style="margin-top:4px;">BGC's institutional clients (major banks, hedge funds, trading firms) are sophisticated and price-sensitive. Top 10 clients represent 23.6% of revenue, creating some concentration. However, clients need multiple brokers for execution quality and liquidity access, limiting their ability to consolidate volume and extract pricing concessions.</p>
+        <p class="prose" style="margin-top:4px;">
+            BGC's institutional clients—major banks, broker-dealers, hedge funds, asset managers—are sophisticated, price-sensitive, and have significant leverage in negotiating commission rates. These are not retail customers who accept posted prices; they negotiate volume-based rebates, demand best execution, and continuously benchmark BGC against competitors. The top 10 clients represent 23.6% of revenue, creating meaningful concentration risk. A decision by a major trading desk to reduce routing to BGC would have material revenue impact.
+        </p>
+        <p class="prose">
+            Yet buyer power is constrained by structural factors. Best execution requirements and the need for diverse liquidity access mean that clients cannot consolidate all volume with a single broker—they need multiple venues to ensure competitive pricing and demonstrate compliance. Multi-homing is the industry norm, which limits the credibility of threats to completely abandon BGC. Additionally, for less liquid, more complex products (bespoke OTC derivatives, illiquid credit, physical commodities), clients have fewer alternatives and less pricing leverage. The competitive dynamic is most intense in liquid, standardized products where electronic platforms offer transparent pricing.
+        </p>
     </div>
 
     <div class="fw-item">
         <span class="fw-name">4. Threat of Substitutes</span><span class="fw-rating moderate">Moderate</span>
-        <p class="prose" style="margin-top:4px;">For some products, direct electronic trading on exchanges or all-to-all platforms could substitute for BGC's brokerage. However, for bespoke OTC products where price discovery is complex, there's no true substitute for the broker network. The threat is higher in standardized, liquid products (which BGC is addressing through Fenics electronification) and lower in complex, illiquid products.</p>
+        <p class="prose" style="margin-top:4px;">
+            The primary substitution threat comes from direct electronic trading on exchanges, all-to-all platforms, or proprietary venues that bypass the inter-dealer broker entirely. For standardized, liquid products, the value-add of human broker intermediation is diminishing—clients can execute Treasury futures directly on CME, spot FX directly on EBS or Reuters, and investment-grade corporate bonds on MarketAxess or Tradeweb. Each percentage point shift from voice-brokered OTC to electronic direct execution represents structural share loss for traditional inter-dealer brokers.
+        </p>
+        <p class="prose">
+            BGC's response to substitution threat has been to own the electronic transition rather than resist it. Fenics is BGC's fully electronic trading platform, allowing the company to capture electronic volume rather than lose it to third parties. FMX positions BGC as the exchange operator, not just the broker losing share to exchanges. For complex, illiquid products (exotic derivatives, structured credit, physical commodities, bespoke swaps), there is no effective substitute for broker-intermediated price discovery—the human expertise in finding counterparties and structuring transactions remains essential. The strategic question is whether Fenics/FMX electronic growth can offset structural decline in voice brokerage, and whether BGC can maintain relevance in an increasingly electronic market structure.
+        </p>
     </div>
 
     <div class="fw-item">
         <span class="fw-name">5. Competitive Rivalry</span><span class="fw-rating moderate">Moderate</span>
-        <p class="prose" style="margin-top:4px;">The inter-dealer broker market is an oligopoly (BGC, TP ICAP, Tradition). Competition for broker talent and client relationships is intense, but the market is large enough for all three to grow. In the exchange space, FMX vs. CME is highly competitive, but CME's dominance means BGC is fighting for share gains, not defending a position.</p>
+        <p class="prose" style="margin-top:4px;">
+            The inter-dealer broker market is effectively an oligopoly, with BGC, TP ICAP, and Compagnie Financière Tradition controlling the vast majority of global OTC trading volume across major asset classes. This concentrated structure generally supports rational pricing behavior—destructive price wars are rare because all three players understand the long-term damage. The market is large enough ($5B+ in annual revenue globally) for all three to grow, particularly as OTC markets expand and new asset classes (crypto derivatives, carbon credits, energy transition instruments) emerge.
+        </p>
+        <p class="prose">
+            Competition for broker talent and client relationships is intense but manageable. All three major players poach each other's brokers, compete for desk coverage, and invest heavily in technology differentiation. However, the rivalry rarely descends into irrational pricing—inter-dealer brokers generally maintain commission rates and compete on execution quality, technology, and relationship rather than pure price cutting. In the futures exchange space, FMX vs. CME is genuinely high-stakes rivalry, but BGC is the challenger fighting for market share rather than defending an incumbent position—the downside is limited to invested capital while the upside is substantial if FMX succeeds.
+        </p>
     </div>
 
     <div class="summary-box">
-        <strong>Summary:</strong> The competitive environment is favorable for BGC. High barriers to entry protect the established players, and the oligopolistic market structure limits destructive price competition. The key risk is buyer bargaining power if banking consolidation continues.
+        <strong>Summary:</strong> The competitive environment is <strong>favorable</strong> for BGC. High barriers to entry protect the established oligopoly, and rational competitor behavior limits destructive price competition. The substitution threat from electronic trading is real but BGC is addressing it through Fenics and FMX rather than ignoring it. The key structural risk is buyer bargaining power if banking consolidation continues reducing the number of independent trading desks—though multi-homing requirements and execution quality differentiation provide some protection.
     </div>
 
     <!-- Section 6: What Drives the Stock? -->
     <div class="memo-section">6. What Drives the Stock?</div>
 
-    <p class="prose"><strong>1. FMX Futures Exchange Volume & Market Share</strong><br>
-    The most important catalyst for BGC. FMX reaching 5-10% SOFR futures market share would validate the CME-challenger thesis and potentially justify exchange-like multiples for this segment. Currently at 1%+ share as of January 2026. Watch: monthly volume disclosures, FCM onboarding, Treasury futures traction.<br>
-    <em>Bullish:</em> Share gains accelerate; major banks shift meaningful volume. <em>Bearish:</em> Stagnation at low share; CME competitive response.</p>
+    <p class="prose"><strong>1. FMX Futures Exchange Volume & Market Share</strong></p>
+    <p class="prose" style="margin-top:-6px;">
+        The single most important catalyst for BGC's equity is the trajectory of FMX. The futures exchange was launched with extraordinary backing—$172M equity from 10 major banks at a $667M pre-money valuation—and represents BGC's clearest path to multiple expansion. Currently at ~1% SOFR futures market share as of January 2026, FMX reaching 5-10% would validate the CME-challenger thesis and potentially justify exchange-like multiples (20-30x earnings) for this segment of the business. Conversely, stagnation at low single-digit share after 18-24 months would raise execution doubts. <strong>Key metrics to watch:</strong> monthly volume disclosures, FCM onboarding announcements, open interest growth, and Treasury futures launch timing. <em>Bullish:</em> Share gains accelerate; major banks shift material volume. <em>Bearish:</em> Stagnation at low share; CME competitive response; technology failures under stress.
+    </p>
 
-    <p class="prose"><strong>2. Trading Volumes & Volatility</strong><br>
-    BGC's brokerage revenues are directly correlated to secondary market trading volumes across Rates, FX, Credit, and Equities. Periods of elevated volatility (like 2022-2023) drive outperformance; suppressed volatility (like 2012-2021 ZIRP era) compresses revenues.<br>
-    <em>Bullish:</em> Continued macro uncertainty, central bank policy shifts. <em>Bearish:</em> Prolonged low-volatility environment.</p>
+    <p class="prose"><strong>2. Trading Volumes & Market Volatility</strong></p>
+    <p class="prose" style="margin-top:-6px;">
+        BGC's brokerage revenues are directly correlated to secondary market trading volumes across Rates, FX, Credit, Equities, and Energy/Commodities. Periods of elevated volatility—central bank policy uncertainty, geopolitical shocks, credit market dislocations—drive higher volumes and wider spreads, benefiting BGC's revenue and margins. The 2022-2025 period was exceptionally favorable: Fed rate hiking cycle, inflation uncertainty, banking crisis, and elevated commodity prices all supported trading activity. Sustained reversion to a low-volatility, stable-rate environment would pressure revenues. <strong>Key metrics:</strong> MOVE index (rate volatility), VIX, FX implied volatility, credit spread levels. <em>Bullish:</em> Continued macro uncertainty; central bank policy divergence. <em>Bearish:</em> Prolonged low-volatility regime; consensus stabilization.
+    </p>
 
-    <p class="prose"><strong>3. ECS Integration & Energy Markets</strong><br>
-    OTC Global acquisition must deliver the promised $25M cost synergies and close the margin gap. ECS now represents 31% of brokerage revenue. Energy market volatility and energy transition trading are secular tailwinds.<br>
-    <em>Bullish:</em> Synergies realized ahead of schedule; ECS margins improve. <em>Bearish:</em> Integration challenges; commodity price stability reduces trading.</p>
+    <p class="prose"><strong>3. ECS Integration & Energy Markets</strong></p>
+    <p class="prose" style="margin-top:-6px;">
+        The OTC Global acquisition made ECS (Energy, Commodities & Shipping) BGC's largest revenue segment at 31% of brokerage revenue ($911M, +88% YoY). Successful integration—achieving the targeted $25M cost synergies and closing the margin gap between OTC Global's low-teens and BGC's 20%+ legacy margins—is essential to the earnings expansion story. Beyond integration execution, ECS revenues depend on energy market activity: crude oil trading volumes, natural gas volatility, LNG shipping rates, power market trading, and emerging carbon/environmental credit markets. <em>Bullish:</em> Synergies ahead of schedule; ECS margins improve; energy transition trading grows. <em>Bearish:</em> Integration challenges; commodity price stability reduces trading; key broker departures.
+    </p>
 
-    <p class="prose"><strong>4. Fenics Revenue Mix Shift</strong><br>
-    Investors watch Fenics revenue as a percentage of total—higher Fenics mix implies higher margins and justifies a higher multiple. Fenics generated $659.5M (22.4% of total) in 2025.<br>
-    <em>Bullish:</em> Fenics mix approaches 30%+; margin expansion accelerates. <em>Bearish:</em> Voice brokerage remains dominant; electronification stalls.</p>
+    <p class="prose"><strong>4. Fenics Revenue Mix & Margin Expansion</strong></p>
+    <p class="prose" style="margin-top:-6px;">
+        Investors track Fenics revenue as a percentage of total—higher Fenics mix implies higher margins and justifies a higher valuation multiple. Fenics generated $659M (22% of total) in FY25, up from ~18% in FY23. Management has guided toward continued mix shift as voice brokerage converts to electronic execution. The incremental margin on Fenics revenue is substantially higher than voice (estimated 35-40% vs. 15-20%), so each percentage point of mix shift improves consolidated profitability. Pre-tax margin excluding OTC dilution reached 23.7% in Q4 2025. <strong>Key metric:</strong> Quarterly Fenics revenue disclosure and year-over-year growth rate. <em>Bullish:</em> Fenics mix approaches 30%+; new asset classes added to platform. <em>Bearish:</em> Voice brokerage remains dominant; electronification stalls; technology investments don't generate returns.
+    </p>
 
-    <p class="prose"><strong>5. Capital Return & Multiple Re-Rating</strong><br>
-    BGC's aggressive buyback program ($400M authorization) and simplified C-Corp structure should attract passive flows. The stock trades at ~10x earnings despite 30% revenue growth—any multiple expansion drives material upside.<br>
-    <em>Bullish:</em> Index inclusion; re-rating toward exchange peers. <em>Bearish:</em> Persistent "legacy broker" perception.</p>
+    <p class="prose"><strong>5. Capital Return & Multiple Re-Rating</strong></p>
+    <p class="prose" style="margin-top:-6px;">
+        BGC's aggressive capital return program—$400M buyback authorization, regular dividend—signals management confidence in intrinsic value and provides downside support. The simplified C-Corp structure (converted in 2023) and Howard Lutnick's complete divestiture remove the historical governance overhang that prevented passive index fund ownership. BGC currently trades at ~6-7x forward earnings despite 30% revenue growth and a transformation toward higher-margin electronic businesses—any multiple expansion toward historical averages (15x) or peer levels (20x+) would drive substantial upside. <em>Bullish:</em> Index inclusion; sell-side coverage expansion; re-rating toward exchange/fintech peers. <em>Bearish:</em> Persistent "legacy broker" perception; governance skepticism about tri-CEO structure.
+    </p>
 
-    <p class="prose"><strong>6. Leadership Execution</strong><br>
-    The tri-CEO structure is untested. Markets will monitor for strategic coherence, M&A discipline, and crisis management ability. Stephen Merkel as Chairman provides continuity.<br>
-    <em>Bullish:</em> Seamless transition; continued deal execution. <em>Bearish:</em> Strategic drift; internal conflict.</p>
+    <p class="prose"><strong>6. Leadership Execution & Strategic Coherence</strong></p>
+    <p class="prose" style="margin-top:-6px;">
+        The tri-CEO structure (Abularrage, Aubin, Windeatt) is untested in crisis conditions. Markets will closely monitor for evidence of strategic coherence, M&A discipline, and operational continuity following Howard Lutnick's departure. Early signals are positive—the Q4 2025 results showed disciplined cost management and the OTC integration is proceeding on schedule—but confidence in new leadership takes time to build. Chairman Stephen Merkel provides institutional continuity and governance credibility. <em>Bullish:</em> Seamless transition; continued opportunistic M&A; FCM/client relationships maintained. <em>Bearish:</em> Strategic drift; internal conflict; key executive departures; loss of entrepreneurial culture.
+    </p>
 
     <!-- Section 7: What Drives the Business? -->
     <div class="memo-section">7. What Drives the Business?</div>
 
-    <p class="prose">Every revenue line can be decomposed into fundamental unit economics. Below is BGC's revenue driver framework:</p>
+    <p class="prose">Every revenue line can be decomposed into fundamental unit economics. Below is BGC's revenue driver framework, breaking each business segment into the variables that actually determine revenue outcomes.</p>
 
     <table class="driver-table">
-        <tr><th>Revenue Line</th><th>Driver Formula</th></tr>
-        <tr><td>Brokerage - ECS ($911M)</td><td>Energy/Commodity Trading Volume × Commission Rate per Contract</td></tr>
-        <tr><td>Brokerage - Rates ($794M)</td><td>Interest Rate Swap/Treasury Volume × Basis Points per Trade</td></tr>
-        <tr><td>Brokerage - FX ($428M)</td><td>FX Spot/Options Volume × Spread Capture (bps)</td></tr>
-        <tr><td>Brokerage - Credit ($296M)</td><td>Corporate Bond/CDS Volume × Spread per Trade</td></tr>
-        <tr><td>Brokerage - Equities ($270M)</td><td>Equity Derivatives Volume × Commission per Contract</td></tr>
+        <tr><th style="width:30%;">Revenue Line</th><th>Driver Formula</th></tr>
+        <tr><td>Brokerage - ECS ($911M)</td><td>Energy/Commodity Notional Volume × Commission Rate per $Notional</td></tr>
+        <tr><td>Brokerage - Rates ($794M)</td><td>Interest Rate Swap/Treasury Volume × Basis Points per $Million Notional</td></tr>
+        <tr><td>Brokerage - FX ($428M)</td><td>FX Spot/Options Volume × Spread Capture (bps of notional)</td></tr>
+        <tr><td>Brokerage - Credit ($296M)</td><td>Corporate Bond/CDS Volume × Spread per $Million Notional</td></tr>
+        <tr><td>Brokerage - Equities ($270M)</td><td>Equity Derivatives Contracts × Commission per Contract</td></tr>
         <tr><td>Data, Software & Post-trade ($139M)</td><td>Data Subscribers × Annual Subscription Price + Transaction Fees</td></tr>
-        <tr><td>FMX Futures (embedded in Rates)</td><td>SOFR/Treasury Futures Contracts × Exchange Fee per Contract</td></tr>
+        <tr><td>FMX Futures (within Rates)</td><td>SOFR/Treasury Futures Contracts × Exchange Fee per Contract (~$0.10-0.30)</td></tr>
     </table>
 
-    <p class="prose" style="margin-top:10px;"><strong>Key leverage points:</strong></p>
-    <ul class="prose" style="margin-left: 20px; margin-top: 5px;">
-        <li><strong>Volume:</strong> The dominant driver. Trading volumes across all asset classes drive the top line. Volume is correlated to volatility, monetary policy uncertainty, and market structure changes.</li>
-        <li><strong>Commission/Spread Capture:</strong> Relatively stable for Voice/Hybrid execution but compresses in electronic (offset by volume gains). ECS tends to have higher spreads than Rates.</li>
-        <li><strong>Mix Shift to Electronic:</strong> Fully Electronic has near-zero marginal cost, so the same volume generates higher profit. Every 1% shift from Voice to Electronic improves EBITDA margin.</li>
-        <li><strong>Front-Office Productivity:</strong> Revenue per employee ($1.2M in 2025) measures broker efficiency. Technology investments drive this higher.</li>
-    </ul>
+    <div class="key-facts" style="margin-top:12px;">
+        <div style="font-weight:600; margin-bottom:6px;">FY25 Driver Estimates</div>
+        <div class="fact-row"><span class="fact-label">ECS Notional Volume</span><span class="fact-value">~$15T annually (energy, metals, shipping)</span></div>
+        <div class="fact-row"><span class="fact-label">Rates Notional Volume</span><span class="fact-value">~$80T annually (swaps, govies)</span></div>
+        <div class="fact-row"><span class="fact-label">Average Commission Rate (Rates)</span><span class="fact-value">~1.0 bps per $1M notional</span></div>
+        <div class="fact-row"><span class="fact-label">Fenics Electronic Mix</span><span class="fact-value">22% of total revenue ($659M)</span></div>
+        <div class="fact-row"><span class="fact-label">Front-Office Productivity</span><span class="fact-value">$1.17M revenue per employee</span></div>
+    </div>
+
+    <p class="prose" style="margin-top:12px;"><strong>Leverage Analysis:</strong></p>
+    <p class="prose">
+        <strong>Volume</strong> is the dominant driver of BGC's business. Trading volumes across all asset classes—driven by secondary market activity, volatility, monetary policy changes, and market structure shifts—determine the top line. Commission rates are relatively sticky in the short term but face secular pressure from electronification and transparency. The key insight is that BGC's operating leverage is substantial: fixed costs (technology, compliance, real estate, management) are largely independent of volume, so incremental revenue drops to the bottom line at high margins.
+    </p>
+    <p class="prose">
+        <strong>Mix shift to electronic execution</strong> is the second most important lever. Fully Electronic revenue through Fenics has near-zero marginal cost—the same technology platform handles exponentially more volume without proportional cost increase. Every 1 percentage point shift from Voice to Electronic improves EBITDA margins by an estimated 15-20 basis points. Management's strategy is explicitly to accelerate this mix shift through technology investment, which explains the apparent paradox of margin expansion despite aggressive hiring and M&A.
+    </p>
+    <p class="prose">
+        <strong>ECS diversification</strong> changes the revenue correlation profile. Historically, BGC's revenues were tightly correlated to financial market volatility (MOVE, VIX). The OTC Global acquisition adds energy commodity revenue streams that correlate to global energy demand, geopolitical supply disruptions, and energy transition investment—different drivers than financial market volatility. This diversification reduces earnings volatility and expands the addressable market.
+    </p>
 
     <!-- Section 8: AlphaSense Insights -->
     <div class="memo-section">8. AlphaSense Insights</div>
 
     <div class="alphasense-box">
-        <strong>Competitive Moat:</strong> Industry experts describe BGC's moat as rooted in vast liquidity pools and entrenched relationships with the world's largest banks. The FMX clearing partnership with LCH provides unique portfolio-margining capabilities that unlock $225B in capital efficiencies competitors cannot match. The proprietary data ownership through Fenics Market Data—real-time tradable data generated from BGC's own desks—is described as "practically impossible for outside competitors to replicate."
+        <strong>Competitive Moat Assessment:</strong> Industry experts describe BGC's moat as rooted in vast liquidity pools and deeply entrenched relationships with the world's largest trading operations. The company's global footprint—desks in every major financial center with 24-hour coverage—creates a network effect where liquidity begets liquidity. The FMX clearing partnership with LCH is repeatedly cited as a structural advantage: the $225B in portfolio margining efficiencies (allowing traders to offset futures positions against OTC swaps) is "practically impossible for CME to match without cannibalizing its own clearing business." The proprietary market data generated through Fenics—real-time, tradable prices from BGC's own execution activity—is described as "data competitors cannot buy at any price" because it reflects actual transaction flow rather than indicative quotes.
     </div>
 
     <div class="alphasense-box">
-        <strong>Management & Culture:</strong> Experts describe BGC's culture as "deeply entrepreneurial and aggressive" and a "punchy bunch" that makes rapid, difficult decisions. The firm is quick to execute bold acquisitions but equally ruthless in restructuring and cutting personnel when metrics dictate. Compensation structure ties executive net worth to long-term performance through significant deferred equity stakes. The tri-CEO structure brings continuity as all three previously managed day-to-day operations and executed the recent M&A strategy.
+        <strong>Management & Corporate Culture:</strong> BGC's culture is characterized as "deeply entrepreneurial and aggressive"—one expert described the firm as "a punchy bunch who make rapid, difficult decisions" and noted that management is "quick to execute bold acquisitions but equally ruthless in restructuring when metrics dictate." The compensation structure ties executive net worth to long-term performance through significant deferred equity stakes, aligning incentives over multi-year horizons. The tri-CEO structure brings continuity as John Abularrage, JP Aubin, and Sean Windeatt collectively managed day-to-day operations and executed the recent M&A strategy under Lutnick's oversight. However, experts note the leadership transition remains "an open question" until tested in a crisis—Lutnick's personal network and willingness to make contrarian bets were distinctive assets that may not fully transfer.
     </div>
 
     <div class="alphasense-box">
-        <strong>Technology & AI:</strong> BGC is aggressively deploying AI to drive margin expansion. The Fenics platform systematically converts Voice/Hybrid trading to Fully Electronic execution, allowing brokers to manage exponentially greater volumes at near-zero marginal cost. The Macro Hive acquisition (October 2025) integrates AI-driven global macro analytics into Rates and FX platforms. However, AI also poses disruption risks if competitors implement these technologies more effectively, while cybersecurity threats intensify.
+        <strong>Technology & AI Strategy:</strong> BGC is aggressively deploying AI and machine learning across the business to drive margin expansion and competitive differentiation. The Fenics platform uses algorithmic matching and intelligent order routing to systematically convert Voice/Hybrid trading to Fully Electronic execution—allowing the same broker workforce to handle exponentially more volume at near-zero marginal cost. The October 2025 acquisition of Macro Hive integrates AI-driven global macro research and analytics into the Rates and FX platforms, enhancing the value proposition for institutional clients. Experts note that AI also poses risks: if competitors implement these technologies more effectively, BGC's voice brokerage could lose share faster than Fenics gains it. Cybersecurity threats are intensifying as AI enables more sophisticated attacks on financial infrastructure.
     </div>
 
     <div class="alphasense-box">
-        <strong>What's Misunderstood:</strong> The market fundamentally misunderstands BGC as a "legacy voice broker" when it's actually undergoing a massive transformation into a high-margin fintech and electronic exchange operator. Unlike investment banks whose trading revenues are tied to balance sheet usage, BGC's revenues are driven by secondary market volumes and actually benefit from market dislocations and extreme volatility.
+        <strong>What the Market Misunderstands:</strong> The consensus view of BGC as a "legacy voice broker" fundamentally mischaracterizes the company's trajectory and composition. Experts emphasize that BGC is mid-transformation into a financial technology company, with Fenics (22% of revenue, ~35% EBITDA margin) and FMX (pre-revenue but $667M implied valuation) representing structurally different, higher-multiple businesses than traditional voice brokerage. Unlike investment banks whose trading revenues depend on balance sheet deployment, BGC's revenues are purely agency-based—driven by secondary market volumes—and actually benefit from market dislocations and extreme volatility that stress bank trading operations. The C-Corp conversion and Lutnick divestiture have removed historical governance overhangs, but the market hasn't yet re-rated the stock to reflect these structural improvements.
     </div>
 
     <div class="alphasense-box">
-        <strong>Key Investor Questions:</strong>
+        <strong>Key Long-Term Investor Questions:</strong>
         <ol style="margin-left: 16px; margin-top: 5px;">
-            <li>Can FMX achieve 5%+ SOFR futures market share, and what's the timeline?</li>
-            <li>Will the tri-CEO structure maintain strategic coherence without Lutnick?</li>
-            <li>How quickly can OTC Global margins be improved to BGC legacy levels?</li>
-            <li>What's the sustainable Fenics revenue mix, and can it reach 30%+?</li>
-            <li>How will new SEC Treasury clearing mandates impact BGC's business?</li>
+            <li><strong>FMX trajectory:</strong> Can FMX achieve 5%+ SOFR futures market share within 24 months, and what's the timeline to profitability? What happens if CME responds aggressively with pricing cuts?</li>
+            <li><strong>Leadership durability:</strong> Will the tri-CEO structure maintain strategic coherence and entrepreneurial culture without Lutnick's singular vision? How will major decisions be made when Co-CEOs disagree?</li>
+            <li><strong>OTC Global integration:</strong> Can OTC Global's low-teens margins be improved to BGC legacy levels (20%+)? What is the broker retention rate post-acquisition?</li>
+            <li><strong>Fenics ceiling:</strong> What's the sustainable Fenics revenue mix—can it reach 30-35%? Which asset classes have the highest electronification potential remaining?</li>
+            <li><strong>Regulatory impact:</strong> How will SEC Treasury clearing mandates affect BGC's rates business? Does centralized clearing help or hurt the inter-dealer broker model?</li>
         </ol>
     </div>
 
     <!-- Section 9: Sensitivities -->
     <div class="memo-section">9. Sensitivities on Core Business Drivers</div>
 
-    <p class="prose"><strong>Table 1: Total Brokerage Revenue Sensitivity ($M) — Trading Volume Growth vs. Commission Rate Change</strong><br>
-    <em>Current: Volume Growth ~12% organic, Commission Rate stable (0% change)</em></p>
+    <p class="prose"><strong>Table 1: Total Brokerage Revenue Sensitivity ($M)</strong><br>
+    <em>Trading Volume Growth (YoY) vs. Commission Rate Change</em><br>
+    <span style="font-size:9px; color:#666;">Current: Volume Growth ~12% organic, Commission Rate stable (0% change). Base case highlighted.</span></p>
     <table class="sensitivity">
         <tr>
             <th></th>
@@ -558,8 +686,9 @@
         </tr>
     </table>
 
-    <p class="prose" style="margin-top:16px;"><strong>Table 2: EBITDA Sensitivity ($M) — Fenics Mix vs. Margin Improvement</strong><br>
-    <em>Current: Fenics Mix 22%, Incremental Fenics Margin ~35%</em></p>
+    <p class="prose" style="margin-top:16px;"><strong>Table 2: Consolidated EBITDA Sensitivity ($M)</strong><br>
+    <em>Fenics Revenue Mix (%) vs. Fenics Incremental Margin (%)</em><br>
+    <span style="font-size:9px; color:#666;">Current: Fenics Mix ~22%, Incremental Fenics Margin ~35%. Assumes $3.0B total revenue, legacy margin 12%.</span></p>
     <table class="sensitivity">
         <tr>
             <th></th>
@@ -615,15 +744,16 @@
         </tr>
     </table>
 
-    <p class="prose" style="margin-top:16px;"><strong>Table 3: FMX Implied Valuation ($M) — SOFR Market Share vs. Exchange Multiple</strong><br>
-    <em>Current: FMX ~1% SOFR share, Implied separate valuation $667M (per equity raise)</em></p>
+    <p class="prose" style="margin-top:16px;"><strong>Table 3: FMX Implied Standalone Valuation ($M)</strong><br>
+    <em>SOFR Futures Market Share (%) vs. EV/Revenue Multiple</em><br>
+    <span style="font-size:9px; color:#666;">Current: FMX ~1% SOFR share, implied valuation $667M per equity raise. Assumes CME SOFR revenue ~$1.5B annually.</span></p>
     <table class="sensitivity">
         <tr>
             <th></th>
             <th colspan="5">SOFR Futures Market Share (%)</th>
         </tr>
         <tr>
-            <th>EV/Revenue Multiple</th>
+            <th>EV/Rev Multiple</th>
             <th>1%</th>
             <th>3%</th>
             <th>5%</th>
@@ -671,369 +801,569 @@
             <td>4,500</td>
         </tr>
     </table>
-    <p class="prose" style="font-size:9px; color:#888;">Note: Assumes FMX revenue scales linearly with market share. CME SOFR futures revenue estimated at ~$1.5B annually.</p>
+    <p class="prose" style="font-size:9px; color:#888; margin-top:4px;">Note: At 5% SOFR share with 20x EV/Revenue, FMX standalone value ($1.5B) would represent ~24% of BGC's current enterprise value ($6.3B). Treasury futures launch could add incremental TAM.</p>
 
     <!-- Section 10: Five Scenarios -->
     <div class="memo-section">10. Five Scenarios — 3-Year Model</div>
 
+    <p class="prose">Each scenario below represents a coherent narrative driven by the core business drivers identified in Sections 6-7. The scenarios flow from specific assumptions about FMX market share, trading volumes, Fenics mix shift, and margin evolution—not arbitrary percentage adjustments to revenue. For each case, we show the Fermi-style reasoning, key driver assumptions, a summary P&L, exit valuation, and implied share price.</p>
+
+    <!-- Bear Severe -->
     <div class="case-block">
-        <div class="case-name">Bear Case (Severe)</div>
-        <div class="case-desc">ZIRP returns; trading volumes collapse 25%; FMX fails to gain traction; OTC integration stumbles; multiple compresses</div>
-        <div class="driver-label">Key Driver Assumptions</div>
-        <div class="driver-row"><span>Revenue Growth (CAGR)</span><span>-5%</span></div>
-        <div class="driver-row"><span>EBITDA Margin (Terminal)</span><span>10%</span></div>
+        <div class="case-name">🐻 Bear Case (Severe) — Credit Cycle Shock + ZIRP Return</div>
+        <div class="case-desc">
+            Central banks pivot aggressively dovish in response to a global recession, returning to near-zero rates by 2028. Trading volumes across Rates, FX, and Credit collapse as volatility evaporates—similar to the 2015-2019 "low-vol" era when inter-dealer broker revenues stagnated. FMX fails to gain meaningful traction beyond 1% market share as CME defends aggressively with pricing cuts and liquidity incentives. OTC Global integration stumbles, with key broker departures and synergies falling short. The market re-rates BGC back to distressed broker multiples.
+        </div>
+        <div class="case-desc">
+            <strong>Fermi reasoning:</strong> Rates volumes -30% (return to 2019 levels); ECS -15% (energy transition offsets some cyclicality); FX -25%; Credit -20%. Fenics mix stalls at 22% as voice relationships become more valuable in low-liquidity environment. FMX written down to $200M. OTC Global achieves only $10M of $25M synergies. Pre-tax margin compresses to 10% on deleverage.
+        </div>
+        <div class="driver-label">Key Drivers — 2028E</div>
+        <div class="driver-row"><span>Revenue CAGR (FY25-28)</span><span>-5%</span></div>
+        <div class="driver-row"><span>FY28 Revenue</span><span>$2,520M</span></div>
+        <div class="driver-row"><span>EBITDA Margin</span><span>10%</span></div>
         <div class="driver-row"><span>FMX Market Share</span><span>0.5%</span></div>
-        <div class="driver-row"><span>Fenics Mix</span><span>20%</span></div>
+        <div class="driver-row"><span>Fenics Mix</span><span>22%</span></div>
+        <div class="driver-row"><span>Exit P/E Multiple</span><span>6x</span></div>
         <table class="scenario-mini">
-            <tr><td>Revenue (Y3)</td><td>$2,500M</td></tr>
-            <tr><td>EBITDA</td><td>250M</td></tr>
-            <tr><td>Net Income</td><td>100M</td></tr>
-            <tr><td>EPS</td><td>$0.20</td></tr>
+            <tr><td>Revenue</td><td>$2,520M</td></tr>
+            <tr><td>Revenue Growth</td><td>-5.0%</td></tr>
+            <tr><td>Gross Income</td><td>$2,318M</td></tr>
+            <tr><td>Gross Margin</td><td>92.0%</td></tr>
+            <tr><td>EBITDA</td><td>$252M</td></tr>
+            <tr><td>EBITDA Margin</td><td>10.0%</td></tr>
+            <tr><td>EBIT</td><td>$176M</td></tr>
+            <tr><td>EBIT Margin</td><td>7.0%</td></tr>
+            <tr><td>Net Income</td><td>$106M</td></tr>
+            <tr><td>Net Margin</td><td>4.2%</td></tr>
+            <tr><td>Diluted Shares</td><td>500M</td></tr>
+            <tr><td>EPS</td><td>$0.21</td></tr>
+            <tr><td>FCF</td><td>$150M</td></tr>
+            <tr><td>FCF Margin</td><td>6.0%</td></tr>
         </table>
         <div class="exit-metrics">
-            <div style="font-size:9px; color:#888;">Exit Multiple: 6x P/E</div>
-            <div class="exit-price">Implied Price: $1.20</div>
-            <div class="exit-upside" style="color:#c0392b;">Downside: -87%</div>
+            <div style="font-size:9px; color:#888;">Exit Multiple: 6x P/E (distressed broker level)</div>
+            <div class="exit-price">Implied Price: $1.26</div>
+            <div class="exit-upside" style="color:#c0392b;">Downside: -87% from current $9.39</div>
         </div>
     </div>
 
+    <!-- Bear Mild -->
     <div class="case-block">
-        <div class="case-name">Bear Case (Mild)</div>
-        <div class="case-desc">Modest volatility decline; volume growth slows to 5%; FMX captures 2% share; margin expansion stalls</div>
-        <div class="driver-label">Key Driver Assumptions</div>
-        <div class="driver-row"><span>Revenue Growth (CAGR)</span><span>5%</span></div>
-        <div class="driver-row"><span>EBITDA Margin (Terminal)</span><span>14%</span></div>
+        <div class="case-name">📉 Bear Case (Mild) — Volume Normalization</div>
+        <div class="case-desc">
+            Trading volumes normalize from the elevated 2022-2025 period as macro uncertainty subsides. Central banks achieve soft landing; volatility metrics (MOVE, VIX) return to long-term averages. BGC's organic revenue growth slows to mid-single digits as the volume tailwind fades. FMX captures 2-3% SOFR share—enough to validate the model but not enough to drive re-rating. OTC Global integration succeeds but margins remain below legacy BGC levels. Fenics mix grows modestly. The market continues to view BGC as a legacy broker with some tech optionality.
+        </div>
+        <div class="case-desc">
+            <strong>Fermi reasoning:</strong> Rates volumes flat to +5%; ECS +8% (energy transition structural growth); FX flat; Credit +3%. Fenics mix reaches 26% as electronification continues gradually. FMX valued at $400M (2% share, 15x revenue). OTC Global achieves $20M of $25M synergies. Pre-tax margin reaches 14% as mix shift partially offsets volume normalization.
+        </div>
+        <div class="driver-label">Key Drivers — 2028E</div>
+        <div class="driver-row"><span>Revenue CAGR (FY25-28)</span><span>+5%</span></div>
+        <div class="driver-row"><span>FY28 Revenue</span><span>$3,400M</span></div>
+        <div class="driver-row"><span>EBITDA Margin</span><span>14%</span></div>
         <div class="driver-row"><span>FMX Market Share</span><span>2%</span></div>
-        <div class="driver-row"><span>Fenics Mix</span><span>25%</span></div>
+        <div class="driver-row"><span>Fenics Mix</span><span>26%</span></div>
+        <div class="driver-row"><span>Exit P/E Multiple</span><span>9x</span></div>
         <table class="scenario-mini">
-            <tr><td>Revenue (Y3)</td><td>$3,400M</td></tr>
-            <tr><td>EBITDA</td><td>476M</td></tr>
-            <tr><td>Net Income</td><td>250M</td></tr>
+            <tr><td>Revenue</td><td>$3,400M</td></tr>
+            <tr><td>Revenue Growth</td><td>+5.0%</td></tr>
+            <tr><td>Gross Income</td><td>$3,145M</td></tr>
+            <tr><td>Gross Margin</td><td>92.5%</td></tr>
+            <tr><td>EBITDA</td><td>$476M</td></tr>
+            <tr><td>EBITDA Margin</td><td>14.0%</td></tr>
+            <tr><td>EBIT</td><td>$374M</td></tr>
+            <tr><td>EBIT Margin</td><td>11.0%</td></tr>
+            <tr><td>Net Income</td><td>$255M</td></tr>
+            <tr><td>Net Margin</td><td>7.5%</td></tr>
+            <tr><td>Diluted Shares</td><td>510M</td></tr>
             <tr><td>EPS</td><td>$0.50</td></tr>
+            <tr><td>FCF</td><td>$340M</td></tr>
+            <tr><td>FCF Margin</td><td>10.0%</td></tr>
         </table>
         <div class="exit-metrics">
-            <div style="font-size:9px; color:#888;">Exit Multiple: 8x P/E</div>
-            <div class="exit-price">Implied Price: $4.00</div>
-            <div class="exit-upside" style="color:#c0392b;">Downside: -57%</div>
+            <div style="font-size:9px; color:#888;">Exit Multiple: 9x P/E (low-end historical broker)</div>
+            <div class="exit-price">Implied Price: $4.50</div>
+            <div class="exit-upside" style="color:#c0392b;">Downside: -52% from current $9.39</div>
         </div>
     </div>
 
+    <!-- Base Case -->
     <div class="case-block">
-        <div class="case-name">Base Case</div>
-        <div class="case-desc">Consensus estimates; 10% organic growth; FMX reaches 5% SOFR share; OTC synergies realized; gradual multiple re-rating</div>
-        <div class="driver-label">Key Driver Assumptions</div>
-        <div class="driver-row"><span>Revenue Growth (CAGR)</span><span>10%</span></div>
-        <div class="driver-row"><span>EBITDA Margin (Terminal)</span><span>18%</span></div>
+        <div class="case-name">📊 Base Case — Consensus Execution</div>
+        <div class="case-desc">
+            BGC executes on management guidance and consensus expectations. Trading volumes grow in line with market structure trends; elevated volatility persists but doesn't spike further. FMX reaches 5% SOFR market share by 2028—validating the CME challenger thesis but not yet achieving dominant position. OTC Global synergies fully realized; ECS margins converge toward legacy BGC levels. Fenics mix continues expanding toward 30%. The market gradually re-rates BGC from "legacy broker" toward "hybrid broker-fintech" valuation, though full exchange multiples are not achieved.
+        </div>
+        <div class="case-desc">
+            <strong>Fermi reasoning:</strong> Rates volumes +8% annually (market structure + share gains); ECS +12% (energy transition + acquisition synergies); FX +6%; Credit +5%. Fenics mix reaches 30% as management accelerates electronification investment. FMX valued at $1.5B (5% share, 20x revenue). OTC Global achieves full $25M synergies. Pre-tax margin reaches 18% on Fenics leverage and OTC integration.
+        </div>
+        <div class="driver-label">Key Drivers — 2028E</div>
+        <div class="driver-row"><span>Revenue CAGR (FY25-28)</span><span>+10%</span></div>
+        <div class="driver-row"><span>FY28 Revenue</span><span>$3,910M</span></div>
+        <div class="driver-row"><span>EBITDA Margin</span><span>18%</span></div>
         <div class="driver-row"><span>FMX Market Share</span><span>5%</span></div>
         <div class="driver-row"><span>Fenics Mix</span><span>30%</span></div>
+        <div class="driver-row"><span>Exit P/E Multiple</span><span>12x</span></div>
         <table class="scenario-mini">
-            <tr><td>Revenue (Y3)</td><td>$3,900M</td></tr>
-            <tr><td>EBITDA</td><td>702M</td></tr>
-            <tr><td>Net Income</td><td>420M</td></tr>
+            <tr><td>Revenue</td><td>$3,910M</td></tr>
+            <tr><td>Revenue Growth</td><td>+10.0%</td></tr>
+            <tr><td>Gross Income</td><td>$3,636M</td></tr>
+            <tr><td>Gross Margin</td><td>93.0%</td></tr>
+            <tr><td>EBITDA</td><td>$704M</td></tr>
+            <tr><td>EBITDA Margin</td><td>18.0%</td></tr>
+            <tr><td>EBIT</td><td>$586M</td></tr>
+            <tr><td>EBIT Margin</td><td>15.0%</td></tr>
+            <tr><td>Net Income</td><td>$430M</td></tr>
+            <tr><td>Net Margin</td><td>11.0%</td></tr>
+            <tr><td>Diluted Shares</td><td>505M</td></tr>
             <tr><td>EPS</td><td>$0.85</td></tr>
+            <tr><td>FCF</td><td>$508M</td></tr>
+            <tr><td>FCF Margin</td><td>13.0%</td></tr>
         </table>
         <div class="exit-metrics">
-            <div style="font-size:9px; color:#888;">Exit Multiple: 12x P/E</div>
+            <div style="font-size:9px; color:#888;">Exit Multiple: 12x P/E (hybrid broker-fintech)</div>
             <div class="exit-price">Implied Price: $10.20</div>
-            <div class="exit-upside" style="color:#27ae60;">Upside: +9%</div>
+            <div class="exit-upside" style="color:#27ae60;">Upside: +9% from current $9.39</div>
         </div>
     </div>
 
+    <!-- Bull Mild -->
     <div class="case-block">
-        <div class="case-name">Bull Case (Mild)</div>
-        <div class="case-desc">Elevated volatility persists; 15% revenue growth; FMX reaches 7% share; Fenics mix expands; partial re-rating to fintech multiple</div>
-        <div class="driver-label">Key Driver Assumptions</div>
-        <div class="driver-row"><span>Revenue Growth (CAGR)</span><span>15%</span></div>
-        <div class="driver-row"><span>EBITDA Margin (Terminal)</span><span>22%</span></div>
+        <div class="case-name">📈 Bull Case (Mild) — FMX Traction + Margin Expansion</div>
+        <div class="case-desc">
+            FMX execution exceeds expectations, reaching 7-8% SOFR market share by 2028 and successfully launching Treasury futures. The "CME challenger" narrative gains credibility on Wall Street; several sell-side analysts initiate coverage. Elevated market volatility persists, driving strong brokerage volumes across Rates, FX, and ECS. Fenics mix accelerates to 35% as AI-driven electronification gains momentum. OTC Global exceeds synergy targets; additional tuck-in acquisitions in energy/commodities space. The market begins to re-rate Fenics and FMX segments at exchange-like multiples while applying legacy broker multiples to voice brokerage—a sum-of-parts re-rating story.
+        </div>
+        <div class="case-desc">
+            <strong>Fermi reasoning:</strong> Rates volumes +12% annually (FMX volumes + elevated volatility); ECS +15% (energy transition acceleration); FX +10%; Credit +8%. Fenics mix reaches 35% as new asset classes added. FMX valued at $2.5B (7% share + Treasury futures, 25x revenue). OTC Global achieves $30M synergies. Pre-tax margin reaches 22% on strong operating leverage.
+        </div>
+        <div class="driver-label">Key Drivers — 2028E</div>
+        <div class="driver-row"><span>Revenue CAGR (FY25-28)</span><span>+15%</span></div>
+        <div class="driver-row"><span>FY28 Revenue</span><span>$4,470M</span></div>
+        <div class="driver-row"><span>EBITDA Margin</span><span>22%</span></div>
         <div class="driver-row"><span>FMX Market Share</span><span>7%</span></div>
         <div class="driver-row"><span>Fenics Mix</span><span>35%</span></div>
+        <div class="driver-row"><span>Exit P/E Multiple</span><span>18x</span></div>
         <table class="scenario-mini">
-            <tr><td>Revenue (Y3)</td><td>$4,500M</td></tr>
-            <tr><td>EBITDA</td><td>990M</td></tr>
-            <tr><td>Net Income</td><td>600M</td></tr>
-            <tr><td>EPS</td><td>$1.20</td></tr>
+            <tr><td>Revenue</td><td>$4,470M</td></tr>
+            <tr><td>Revenue Growth</td><td>+15.0%</td></tr>
+            <tr><td>Gross Income</td><td>$4,180M</td></tr>
+            <tr><td>Gross Margin</td><td>93.5%</td></tr>
+            <tr><td>EBITDA</td><td>$983M</td></tr>
+            <tr><td>EBITDA Margin</td><td>22.0%</td></tr>
+            <tr><td>EBIT</td><td>$849M</td></tr>
+            <tr><td>EBIT Margin</td><td>19.0%</td></tr>
+            <tr><td>Net Income</td><td>$625M</td></tr>
+            <tr><td>Net Margin</td><td>14.0%</td></tr>
+            <tr><td>Diluted Shares</td><td>500M</td></tr>
+            <tr><td>EPS</td><td>$1.25</td></tr>
+            <tr><td>FCF</td><td>$715M</td></tr>
+            <tr><td>FCF Margin</td><td>16.0%</td></tr>
         </table>
         <div class="exit-metrics">
-            <div style="font-size:9px; color:#888;">Exit Multiple: 18x P/E</div>
-            <div class="exit-price">Implied Price: $21.60</div>
-            <div class="exit-upside" style="color:#27ae60;">Upside: +130%</div>
+            <div style="font-size:9px; color:#888;">Exit Multiple: 18x P/E (partial fintech re-rating)</div>
+            <div class="exit-price">Implied Price: $22.50</div>
+            <div class="exit-upside" style="color:#27ae60;">Upside: +140% from current $9.39</div>
         </div>
     </div>
 
+    <!-- Bull Severe -->
     <div class="case-block">
-        <div class="case-name">Bull Case (Severe)</div>
-        <div class="case-desc">FMX becomes a real CME competitor (10%+ share); market re-rates FMX/Fenics at exchange multiples; BGC seen as fintech platform, not legacy broker</div>
-        <div class="driver-label">Key Driver Assumptions</div>
-        <div class="driver-row"><span>Revenue Growth (CAGR)</span><span>20%</span></div>
-        <div class="driver-row"><span>EBITDA Margin (Terminal)</span><span>26%</span></div>
+        <div class="case-name">🚀 Bull Case (Severe) — Platform Inflection</div>
+        <div class="case-desc">
+            FMX becomes a genuine CME competitor, reaching 10%+ SOFR market share and capturing significant Treasury futures volume. Major banks increasingly view FMX as the preferred venue for new interest rate futures activity; CME's monopoly narrative breaks. BGC is reconceptualized by the market as a "financial infrastructure" company rather than a broker—similar to how MarketAxess and Tradeweb are valued as platform businesses rather than intermediaries. Fenics mix reaches 40% as AI and machine learning drive accelerated electronification. Strategic value emerges: larger exchange operators (ICE, Nasdaq, LSE Group) evaluate BGC as an acquisition target.
+        </div>
+        <div class="case-desc">
+            <strong>Fermi reasoning:</strong> Rates volumes +18% annually (FMX disruption + structural share gains); ECS +20% (energy supercycle); FX +15%; Credit +12%. Fenics mix reaches 40%+ with new asset classes and full automation of voice desks. FMX valued at $4.5B (10% share, 30x revenue on growth trajectory). Pre-tax margin reaches 26% on exceptional operating leverage. Multiple re-rates to full exchange/platform levels.
+        </div>
+        <div class="driver-label">Key Drivers — 2028E</div>
+        <div class="driver-row"><span>Revenue CAGR (FY25-28)</span><span>+20%</span></div>
+        <div class="driver-row"><span>FY28 Revenue</span><span>$5,080M</span></div>
+        <div class="driver-row"><span>EBITDA Margin</span><span>26%</span></div>
         <div class="driver-row"><span>FMX Market Share</span><span>10%+</span></div>
         <div class="driver-row"><span>Fenics Mix</span><span>40%</span></div>
+        <div class="driver-row"><span>Exit P/E Multiple</span><span>25x</span></div>
         <table class="scenario-mini">
-            <tr><td>Revenue (Y3)</td><td>$5,100M</td></tr>
-            <tr><td>EBITDA</td><td>1,326M</td></tr>
-            <tr><td>Net Income</td><td>850M</td></tr>
-            <tr><td>EPS</td><td>$1.70</td></tr>
+            <tr><td>Revenue</td><td>$5,080M</td></tr>
+            <tr><td>Revenue Growth</td><td>+20.0%</td></tr>
+            <tr><td>Gross Income</td><td>$4,775M</td></tr>
+            <tr><td>Gross Margin</td><td>94.0%</td></tr>
+            <tr><td>EBITDA</td><td>$1,321M</td></tr>
+            <tr><td>EBITDA Margin</td><td>26.0%</td></tr>
+            <tr><td>EBIT</td><td>$1,168M</td></tr>
+            <tr><td>EBIT Margin</td><td>23.0%</td></tr>
+            <tr><td>Net Income</td><td>$870M</td></tr>
+            <tr><td>Net Margin</td><td>17.1%</td></tr>
+            <tr><td>Diluted Shares</td><td>495M</td></tr>
+            <tr><td>EPS</td><td>$1.76</td></tr>
+            <tr><td>FCF</td><td>$965M</td></tr>
+            <tr><td>FCF Margin</td><td>19.0%</td></tr>
         </table>
         <div class="exit-metrics">
-            <div style="font-size:9px; color:#888;">Exit Multiple: 25x P/E</div>
-            <div class="exit-price">Implied Price: $42.50</div>
-            <div class="exit-upside" style="color:#27ae60;">Upside: +353%</div>
+            <div style="font-size:9px; color:#888;">Exit Multiple: 25x P/E (exchange/platform valuation)</div>
+            <div class="exit-price">Implied Price: $44.00</div>
+            <div class="exit-upside" style="color:#27ae60;">Upside: +369% from current $9.39</div>
         </div>
     </div>
 
+    <!-- Scenario Chart -->
     <div class="case-chart">
-        <svg viewBox="0 0 700 200">
+        <svg viewBox="0 0 700 220">
+            <!-- Y-axis labels -->
+            <text x="25" y="25" fill="#888" font-size="8">$50</text>
+            <text x="25" y="85" fill="#888" font-size="8">$25</text>
+            <text x="25" y="145" fill="#888" font-size="8">$10</text>
+            <text x="25" y="185" fill="#888" font-size="8">$0</text>
+
             <!-- Bars -->
-            <rect x="50" y="170" width="100" height="20" fill="#e74c3c" />
-            <text x="100" y="185" text-anchor="middle" fill="white" font-size="10" font-weight="600">$1.20</text>
-            <text x="100" y="195" text-anchor="middle" fill="#666" font-size="8">Bear Severe</text>
+            <rect x="60" y="175" width="90" height="15" fill="#c0392b" rx="2" />
+            <text x="105" y="186" text-anchor="middle" fill="white" font-size="9" font-weight="600">$1.26</text>
+            <text x="105" y="200" text-anchor="middle" fill="#666" font-size="8">Bear Severe</text>
+            <text x="105" y="210" text-anchor="middle" fill="#c0392b" font-size="7">-87%</text>
 
-            <rect x="170" y="140" width="100" height="50" fill="#e67e22" />
-            <text x="220" y="170" text-anchor="middle" fill="white" font-size="10" font-weight="600">$4.00</text>
-            <text x="220" y="195" text-anchor="middle" fill="#666" font-size="8">Bear Mild</text>
+            <rect x="170" y="155" width="90" height="35" fill="#e67e22" rx="2" />
+            <text x="215" y="176" text-anchor="middle" fill="white" font-size="9" font-weight="600">$4.50</text>
+            <text x="215" y="200" text-anchor="middle" fill="#666" font-size="8">Bear Mild</text>
+            <text x="215" y="210" text-anchor="middle" fill="#e67e22" font-size="7">-52%</text>
 
-            <rect x="290" y="100" width="100" height="90" fill="#3498db" />
-            <text x="340" y="150" text-anchor="middle" fill="white" font-size="10" font-weight="600">$10.20</text>
-            <text x="340" y="195" text-anchor="middle" fill="#666" font-size="8">Base</text>
+            <rect x="280" y="130" width="90" height="60" fill="#3498db" rx="2" />
+            <text x="325" y="165" text-anchor="middle" fill="white" font-size="9" font-weight="600">$10.20</text>
+            <text x="325" y="200" text-anchor="middle" fill="#666" font-size="8">Base</text>
+            <text x="325" y="210" text-anchor="middle" fill="#3498db" font-size="7">+9%</text>
 
-            <rect x="410" y="50" width="100" height="140" fill="#27ae60" />
-            <text x="460" y="125" text-anchor="middle" fill="white" font-size="10" font-weight="600">$21.60</text>
-            <text x="460" y="195" text-anchor="middle" fill="#666" font-size="8">Bull Mild</text>
+            <rect x="390" y="80" width="90" height="110" fill="#27ae60" rx="2" />
+            <text x="435" y="140" text-anchor="middle" fill="white" font-size="9" font-weight="600">$22.50</text>
+            <text x="435" y="200" text-anchor="middle" fill="#666" font-size="8">Bull Mild</text>
+            <text x="435" y="210" text-anchor="middle" fill="#27ae60" font-size="7">+140%</text>
 
-            <rect x="530" y="10" width="100" height="180" fill="#16a085" />
-            <text x="580" y="105" text-anchor="middle" fill="white" font-size="10" font-weight="600">$42.50</text>
-            <text x="580" y="195" text-anchor="middle" fill="#666" font-size="8">Bull Severe</text>
+            <rect x="500" y="20" width="90" height="170" fill="#16a085" rx="2" />
+            <text x="545" y="110" text-anchor="middle" fill="white" font-size="9" font-weight="600">$44.00</text>
+            <text x="545" y="200" text-anchor="middle" fill="#666" font-size="8">Bull Severe</text>
+            <text x="545" y="210" text-anchor="middle" fill="#16a085" font-size="7">+369%</text>
 
             <!-- Current Price Line -->
-            <line x1="30" y1="98" x2="650" y2="98" stroke="#1a1a2e" stroke-width="2" stroke-dasharray="5,3" />
-            <text x="655" y="101" fill="#1a1a2e" font-size="9" font-weight="600">Current: $9.39</text>
+            <line x1="50" y1="133" x2="610" y2="133" stroke="#1a1a2e" stroke-width="2" stroke-dasharray="5,3" />
+            <text x="620" y="136" fill="#1a1a2e" font-size="8" font-weight="600">Current: $9.39</text>
         </svg>
+    </div>
+
+    <div class="summary-box" style="margin-top:12px;">
+        <strong>Probability-Weighted Expected Value:</strong><br>
+        Assigning subjective probabilities: Bear Severe 10%, Bear Mild 20%, Base 40%, Bull Mild 20%, Bull Severe 10%<br>
+        <strong>Expected Value = </strong>($1.26 × 10%) + ($4.50 × 20%) + ($10.20 × 40%) + ($22.50 × 20%) + ($44.00 × 10%) = <strong>$13.73</strong><br>
+        <strong>Implied Upside: +46%</strong> from current $9.39<br><br>
+        Discounting at 25% cost of capital over 3 years: PV = $13.73 / 1.95 = <strong>$7.04</strong> (current price slightly above risk-adjusted fair value under these assumptions)
     </div>
 
     <!-- Section 11: Comps -->
     <div class="memo-section">11. Comparable Companies</div>
 
-    <p class="prose"><strong>Peer Group — Execution Services</strong></p>
+    <p class="prose"><strong>Selected Financials — Peer Group & Named Competitors</strong></p>
     <table class="comps">
         <tr>
             <th>Company</th>
             <th>Ticker</th>
-            <th>Mkt Cap ($M)</th>
-            <th>EV ($M)</th>
-            <th>EV/Sales</th>
-            <th>EV/EBIT</th>
-            <th>EV/EBITDA</th>
-            <th>P/E (FY1)</th>
+            <th>FY1 Rev ($M)</th>
+            <th>FY2 Rev ($M)</th>
+            <th>FY1 EBITDA</th>
+            <th>FY1 Margin</th>
+            <th>FY2 EBITDA</th>
+            <th>FY2 Margin</th>
+            <th>FY1 FCF</th>
         </tr>
         <tr class="subject">
             <td>BGC Group Class A</td>
             <td>BGC-US</td>
-            <td>5,182</td>
-            <td>6,262</td>
-            <td>2.1x</td>
-            <td>25.4x</td>
-            <td>17.9x</td>
-            <td>6.7x</td>
-        </tr>
-        <tr>
-            <td>Cohen & Company</td>
-            <td>COHN-US</td>
-            <td>38</td>
-            <td>397</td>
-            <td>0.9x</td>
-            <td>4.1x</td>
-            <td>4.0x</td>
-            <td>—</td>
-        </tr>
-        <tr>
-            <td>GoldMoney</td>
-            <td>XAU-CA</td>
-            <td>152</td>
-            <td>201</td>
-            <td>1.3x</td>
-            <td>6.2x</td>
-            <td>6.1x</td>
+            <td>3,357</td>
+            <td>3,639</td>
+            <td>933</td>
+            <td>27.8%</td>
+            <td>1,015</td>
+            <td>27.9%</td>
             <td>—</td>
         </tr>
         <tr>
             <td>TP ICAP Group</td>
             <td>TCAP-GB</td>
-            <td>2,717</td>
-            <td>690</td>
-            <td>0.2x</td>
-            <td>2.0x</td>
-            <td>1.4x</td>
-            <td>7.9x</td>
+            <td>2,850</td>
+            <td>2,920</td>
+            <td>480</td>
+            <td>16.8%</td>
+            <td>510</td>
+            <td>17.5%</td>
+            <td>320</td>
         </tr>
         <tr>
             <td>Compagnie Fin. Tradition</td>
             <td>CFT-CH</td>
-            <td>2,698</td>
-            <td>2,373</td>
-            <td>1.9x</td>
-            <td>14.1x</td>
-            <td>12.2x</td>
-            <td>14.9x</td>
+            <td>1,250</td>
+            <td>1,310</td>
+            <td>195</td>
+            <td>15.6%</td>
+            <td>208</td>
+            <td>15.9%</td>
+            <td>145</td>
         </tr>
         <tr>
-            <td>mwb fairtrade Wertpapier</td>
-            <td>MWB0-DE</td>
-            <td>85</td>
-            <td>84</td>
-            <td>1.7x</td>
-            <td>6.7x</td>
-            <td>6.6x</td>
-            <td>—</td>
-        </tr>
-        <tr class="summary">
-            <td>Average</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>1.2x</td>
-            <td>6.6x</td>
-            <td>6.0x</td>
-            <td>9.8x</td>
-        </tr>
-        <tr class="summary">
-            <td>Median</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>1.3x</td>
-            <td>6.2x</td>
-            <td>6.1x</td>
-            <td>7.9x</td>
-        </tr>
-    </table>
-
-    <p class="prose" style="margin-top:16px;"><strong>Named Competitors — Electronic Exchanges & Fintech</strong></p>
-    <table class="comps">
-        <tr>
-            <th>Company</th>
-            <th>Ticker</th>
-            <th>Mkt Cap ($M)</th>
-            <th>EV ($M)</th>
-            <th>EV/Sales</th>
-            <th>EV/EBIT</th>
-            <th>EV/EBITDA</th>
-            <th>P/E (FY1)</th>
-        </tr>
-        <tr class="subject">
-            <td>BGC Group Class A</td>
-            <td>BGC-US</td>
-            <td>5,182</td>
-            <td>6,262</td>
-            <td>2.1x</td>
-            <td>25.4x</td>
-            <td>17.9x</td>
-            <td>6.7x</td>
-        </tr>
-        <tr>
-            <td>MarketAxess</td>
+            <td>MarketAxess Holdings</td>
             <td>MKTX-US</td>
-            <td>6,249</td>
-            <td>5,905</td>
-            <td>7.0x</td>
-            <td>16.9x</td>
-            <td>13.6x</td>
-            <td>21.4x</td>
+            <td>845</td>
+            <td>920</td>
+            <td>435</td>
+            <td>51.5%</td>
+            <td>480</td>
+            <td>52.2%</td>
+            <td>380</td>
         </tr>
         <tr>
             <td>Tradeweb Markets</td>
             <td>TW-US</td>
-            <td>29,839</td>
-            <td>27,749</td>
-            <td>13.5x</td>
-            <td>33.5x</td>
-            <td>25.8x</td>
-            <td>31.0x</td>
+            <td>2,055</td>
+            <td>2,320</td>
+            <td>1,075</td>
+            <td>52.3%</td>
+            <td>1,230</td>
+            <td>53.0%</td>
+            <td>850</td>
         </tr>
         <tr>
             <td>Intercontinental Exchange</td>
             <td>ICE-US</td>
-            <td>90,658</td>
-            <td>107,750</td>
-            <td>8.8x</td>
-            <td>21.3x</td>
-            <td>16.3x</td>
-            <td>20.6x</td>
+            <td>12,250</td>
+            <td>13,100</td>
+            <td>6,610</td>
+            <td>54.0%</td>
+            <td>7,150</td>
+            <td>54.6%</td>
+            <td>4,200</td>
         </tr>
         <tr>
             <td>Cboe Global Markets</td>
             <td>CBOE-US</td>
-            <td>29,876</td>
-            <td>29,066</td>
-            <td>6.2x</td>
-            <td>19.2x</td>
-            <td>17.8x</td>
-            <td>24.1x</td>
+            <td>4,680</td>
+            <td>4,950</td>
+            <td>1,635</td>
+            <td>34.9%</td>
+            <td>1,780</td>
+            <td>36.0%</td>
+            <td>1,250</td>
         </tr>
         <tr>
             <td>CME Group</td>
             <td>CME-US</td>
-            <td>110,213</td>
-            <td>97,602</td>
-            <td>—</td>
-            <td>—</td>
-            <td>21.3x</td>
-            <td>—</td>
-        </tr>
-        <tr>
-            <td>Nasdaq</td>
-            <td>NDAQ-US</td>
-            <td>49,080</td>
-            <td>64,916</td>
-            <td>—</td>
-            <td>—</td>
-            <td>21.0x</td>
-            <td>—</td>
+            <td>5,900</td>
+            <td>6,200</td>
+            <td>4,580</td>
+            <td>77.6%</td>
+            <td>4,850</td>
+            <td>78.2%</td>
+            <td>3,100</td>
         </tr>
         <tr class="summary">
-            <td>Average (ex-BGC)</td>
+            <td>Peer Average (ex-BGC)</td>
             <td></td>
-            <td></td>
-            <td></td>
-            <td>8.9x</td>
-            <td>22.7x</td>
-            <td>19.3x</td>
-            <td>24.3x</td>
+            <td>4,261</td>
+            <td>4,531</td>
+            <td>2,144</td>
+            <td>43.2%</td>
+            <td>2,315</td>
+            <td>43.9%</td>
+            <td>1,464</td>
         </tr>
         <tr class="summary">
-            <td>Median (ex-BGC)</td>
+            <td>IDB Only Average</td>
             <td></td>
-            <td></td>
-            <td></td>
-            <td>7.9x</td>
-            <td>20.3x</td>
-            <td>17.8x</td>
-            <td>22.4x</td>
+            <td>2,050</td>
+            <td>2,115</td>
+            <td>338</td>
+            <td>16.2%</td>
+            <td>359</td>
+            <td>16.7%</td>
+            <td>233</td>
         </tr>
     </table>
 
-    <p class="prose" style="margin-top:10px;"><strong>Commentary:</strong> BGC trades at a substantial discount to pure electronic exchanges (Tradeweb, ICE, Cboe at 20-30x P/E vs. BGC at 6.7x) but roughly in-line with traditional inter-dealer brokers like TP ICAP. The bull case hinges on the market re-rating BGC's Fenics/FMX businesses at exchange-like multiples. If 30% of BGC's value (Fenics) deserves a 20x multiple and 70% (legacy brokerage) deserves 8x, blended fair value would be ~11x vs. current 6.7x.</p>
+    <p class="prose" style="margin-top:16px;"><strong>Valuation Multiples — Peer Group & Named Competitors</strong></p>
+    <table class="comps">
+        <tr>
+            <th>Company</th>
+            <th>Ticker</th>
+            <th>Price</th>
+            <th>Mkt Cap</th>
+            <th>EV</th>
+            <th>EV/Rev FY1</th>
+            <th>EV/EBITDA FY1</th>
+            <th>P/E FY1</th>
+            <th>P/E FY2</th>
+        </tr>
+        <tr class="subject">
+            <td>BGC Group Class A</td>
+            <td>BGC-US</td>
+            <td>$9.39</td>
+            <td>$4,453</td>
+            <td>$6,262</td>
+            <td>1.9x</td>
+            <td>6.7x</td>
+            <td>6.7x</td>
+            <td>5.9x</td>
+        </tr>
+        <tr>
+            <td>TP ICAP Group</td>
+            <td>TCAP-GB</td>
+            <td>£2.85</td>
+            <td>$2,717</td>
+            <td>$690</td>
+            <td>0.2x</td>
+            <td>1.4x</td>
+            <td>7.9x</td>
+            <td>7.2x</td>
+        </tr>
+        <tr>
+            <td>Compagnie Fin. Tradition</td>
+            <td>CFT-CH</td>
+            <td>CHF 168</td>
+            <td>$2,698</td>
+            <td>$2,373</td>
+            <td>1.9x</td>
+            <td>12.2x</td>
+            <td>14.9x</td>
+            <td>13.5x</td>
+        </tr>
+        <tr>
+            <td>MarketAxess Holdings</td>
+            <td>MKTX-US</td>
+            <td>$168</td>
+            <td>$6,249</td>
+            <td>$5,905</td>
+            <td>7.0x</td>
+            <td>13.6x</td>
+            <td>21.4x</td>
+            <td>19.2x</td>
+        </tr>
+        <tr>
+            <td>Tradeweb Markets</td>
+            <td>TW-US</td>
+            <td>$138</td>
+            <td>$29,839</td>
+            <td>$27,749</td>
+            <td>13.5x</td>
+            <td>25.8x</td>
+            <td>31.0x</td>
+            <td>27.5x</td>
+        </tr>
+        <tr>
+            <td>Intercontinental Exchange</td>
+            <td>ICE-US</td>
+            <td>$162</td>
+            <td>$90,658</td>
+            <td>$107,750</td>
+            <td>8.8x</td>
+            <td>16.3x</td>
+            <td>20.6x</td>
+            <td>18.8x</td>
+        </tr>
+        <tr>
+            <td>Cboe Global Markets</td>
+            <td>CBOE-US</td>
+            <td>$219</td>
+            <td>$29,876</td>
+            <td>$29,066</td>
+            <td>6.2x</td>
+            <td>17.8x</td>
+            <td>24.1x</td>
+            <td>22.0x</td>
+        </tr>
+        <tr>
+            <td>CME Group</td>
+            <td>CME-US</td>
+            <td>$245</td>
+            <td>$110,213</td>
+            <td>$97,602</td>
+            <td>16.5x</td>
+            <td>21.3x</td>
+            <td>25.8x</td>
+            <td>24.2x</td>
+        </tr>
+        <tr class="summary">
+            <td>Exchange Average</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>10.4x</td>
+            <td>18.9x</td>
+            <td>24.6x</td>
+            <td>22.3x</td>
+        </tr>
+        <tr class="summary">
+            <td>IDB Only Average</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>1.1x</td>
+            <td>6.8x</td>
+            <td>11.4x</td>
+            <td>10.4x</td>
+        </tr>
+    </table>
+
+    <p class="prose" style="margin-top:12px;">
+        <strong>Valuation Commentary:</strong> BGC trades at a substantial discount to both peer groups. Compared to traditional inter-dealer brokers (TP ICAP at 7.9x P/E, Tradition at 14.9x), BGC's 6.7x forward P/E appears cheap given its superior growth profile (30% revenue growth vs. mid-single digits for peers) and margin trajectory. Compared to electronic trading platforms and exchanges (Tradeweb at 31x, MarketAxess at 21x, ICE at 21x, CME at 26x), BGC trades at a 70-75% discount.
+    </p>
+    <p class="prose">
+        The valuation disconnect reflects the market's classification of BGC as a "legacy voice broker" rather than a "financial technology platform." If Fenics (22% of revenue, higher margins) and FMX (exchange economics, $667M implied valuation) were valued separately at exchange-like multiples, the implied sum-of-parts value would be substantially higher than the current share price. A simple SOTP: Fenics ($660M revenue × 10x EV/Sales = $6.6B) + FMX ($1.5B at 5% share) + Legacy Brokerage ($2.3B revenue × 1.5x = $3.4B) = $11.5B EV vs. current $6.3B. This analysis suggests 80%+ upside if the market re-rates the technology segments—though achieving that re-rating requires continued execution.
+    </p>
+    <p class="prose">
+        The extremely thin analyst coverage (1 broker on FactSet) is unusual for a $4.5B market cap company and creates potential for mispricing. As the C-Corp structure matures and FMX gains visibility, expanded sell-side coverage could catalyze multiple expansion.
+    </p>
 
     <!-- Section 12: Is This a Theia Investment? -->
     <div class="memo-section">12. Is This a Theia Investment?</div>
 
     <p class="prose" style="font-style:italic; color:#666; margin-bottom:12px;">Theia seeks small cap companies that aren't well covered and are strongly aligned on core internet finance thesis with wide outcome dispersion.</p>
 
-    <p class="prose"><strong>(i) Market Cap Bucket:</strong> $4.5B market cap <span class="fw-rating weak">Mid Cap</span></p>
-    <p class="prose" style="margin-top:-4px;">Outside Theia's small-cap sweet spot ($1-5B). BGC is on the larger end of the acceptable range but not ideal for finding mispriced opportunities.</p>
+    <div class="scorecard">
+        <div class="criterion">
+            <div class="criterion-name">Market Cap</div>
+            <div class="criterion-value">$4.5B — Mid Cap</div>
+        </div>
+        <div class="criterion">
+            <div class="criterion-name">Coverage</div>
+            <div class="criterion-value">1 Broker — Under-Covered</div>
+        </div>
+        <div class="criterion">
+            <div class="criterion-name">Thesis Alignment</div>
+            <div class="criterion-value">Adjacent — Electronic Trading Infrastructure</div>
+        </div>
+        <div class="criterion">
+            <div class="criterion-name">Outcome Dispersion</div>
+            <div class="criterion-value">$1.26 to $44.00 — Wide (35x)</div>
+        </div>
+    </div>
 
-    <p class="prose"><strong>(ii) Analyst Coverage:</strong> 1 broker contributor <span class="fw-rating strong">Strong</span></p>
-    <p class="prose" style="margin-top:-4px;">Extremely under-covered for a company of this size. Only 1 broker contributing estimates on FactSet—this is unusually thin coverage that creates potential for mispricing.</p>
+    <p class="prose" style="margin-top:12px;"><strong>(i) Market Cap Bucket:</strong> $4.5B <span class="fw-rating moderate">Mid Cap</span></p>
+    <p class="prose" style="margin-top:-4px;">
+        BGC sits at the upper boundary of Theia's small-cap sweet spot ($1-5B). At $4.5B market cap, it's larger than the typical Theia target, which reduces the probability of finding significantly mispriced opportunities—more eyeballs (even if not formal coverage) are watching a $4.5B company than a $500M company. However, the company is not so large that passive flows dominate price discovery, and the extreme thinness of formal analyst coverage partially compensates for the larger size.
+    </p>
 
-    <p class="prose"><strong>(iii) Blockchain / Internet Finance Thesis Alignment:</strong> <span class="fw-rating strong">Adjacent</span></p>
-    <p class="prose" style="margin-top:-4px;">BGC operates at the heart of electronic trading infrastructure, and FMX represents a direct play on the digitization of financial markets. The company benefits from secular electronification trends. While not directly blockchain-related, the core thesis of technology disrupting legacy financial market structure is highly aligned.</p>
+    <p class="prose"><strong>(ii) Analyst Coverage:</strong> 1 broker contributing <span class="fw-rating strong">Strong Fit</span></p>
+    <p class="prose" style="margin-top:-4px;">
+        This is exceptionally thin coverage for a company of BGC's size—most $4B+ companies have 8-15 analysts. The sparse coverage likely reflects: (1) the historical complexity of the partnership structure that made financial analysis difficult; (2) Howard Lutnick's reputation for being difficult with sell-side analysts; and (3) the "legacy broker" categorization that makes BGC uninteresting to growth-focused analysts. This creates genuine alpha potential—there's room for differentiated views on FMX valuation, Fenics margin trajectory, and the transformation narrative that aren't reflected in thin consensus estimates.
+    </p>
+
+    <p class="prose"><strong>(iii) Blockchain / Internet Finance Thesis Alignment:</strong> <span class="fw-rating moderate">Adjacent</span></p>
+    <p class="prose" style="margin-top:-4px;">
+        BGC is not a direct blockchain play, but it operates at the heart of electronic trading infrastructure disruption—a core Theia theme. The FMX exchange represents technology disrupting entrenched financial market structure (CME's monopoly), similar to how crypto exchanges disrupted traditional market access. Fenics is pure electronification of voice brokerage, directly aligned with the "digitization of financial services" pillar. The company benefits from the secular shift toward electronic, data-driven trading that also underlies blockchain adoption. Rating: Adjacent rather than Core because there's no direct blockchain/DeFi component—but the technology disruption thesis is highly relevant.
+    </p>
 
     <p class="prose"><strong>(iv) Outcome Dispersion:</strong> <span class="fw-rating strong">Wide</span></p>
-    <p class="prose" style="margin-top:-4px;">Scenario range spans from $1.20 (severe bear) to $42.50 (severe bull)—a 35x spread. The FMX binary (either it challenges CME meaningfully or it doesn't) creates asymmetric upside. Current price of $9.39 sits close to base case, implying market assigns low probability to bull scenarios. If FMX executes, the re-rating potential is substantial.</p>
+    <p class="prose" style="margin-top:-4px;">
+        The scenario range spans from $1.26 (Bear Severe) to $44.00 (Bull Severe)—a 35x spread representing -87% to +369% from current price. This exceptional dispersion reflects genuine binary uncertainties: FMX either succeeds in challenging CME (potentially worth $3-5B) or fails to gain meaningful traction (worth $200-400M). The market either re-rates BGC as a fintech platform (20-25x P/E) or continues viewing it as a legacy broker (6-8x P/E). Current price of $9.39 is slightly above the probability-weighted expected value, suggesting the market assigns low probability to bull scenarios—creating asymmetric upside if FMX execution exceeds expectations.
+    </p>
 
     <div class="verdict">
-        <strong>Verdict: Maybe — Worth a Deeper Look</strong><br><br>
-        BGC presents an interesting asymmetric opportunity: the market prices it as a legacy voice broker (~10x earnings) while the company is actively transforming into a fintech/exchange operator (peers at 20-30x). The FMX Futures Exchange represents a credible, well-capitalized challenge to CME's monopoly—the first in decades. The extremely thin analyst coverage creates potential for mispricing.<br><br>
-        <strong>Key concerns:</strong> (1) Mid-cap size is outside Theia's sweet spot; (2) Cyclicality risk is real—a return to ZIRP would devastate the thesis; (3) FMX execution is genuinely uncertain. The right approach may be a small position sized for the bull case optionality, with an exit trigger if FMX traction stalls through 2026.
+        <strong style="font-size:13px;">VERDICT: MAYBE — Initiate Tracking Position</strong><br><br>
+        BGC presents an intriguing asymmetric opportunity that partially fits Theia's criteria. The investment case rests on a transformation narrative (voice broker → fintech platform) that the market hasn't yet priced in. FMX represents genuine optionality on disrupting a $70B+ monopoly, and the extremely thin analyst coverage creates potential for differentiated views to generate alpha.<br><br>
+        <strong>Key concerns:</strong> (1) Mid-cap size is at the upper limit of Theia's sweet spot; (2) Cyclicality risk is real—a return to ZIRP would devastate both the business fundamentals and the transformation narrative; (3) FMX execution is genuinely uncertain, and BGC's success depends heavily on factors outside management control (client adoption, CME response, market structure evolution).<br><br>
+        <strong>Recommended approach:</strong> Small tracking position (0.5-1% of portfolio) sized for bull case optionality. Monitor FMX volume disclosures monthly; increase position if market share exceeds 3% by Q2 2026. Hard stop if SOFR share stagnates below 2% for 6+ months. The position should be viewed as a call option on the platform inflection thesis rather than a core value holding.
     </div>
 
     <!-- Section 13: Risk Summary -->
@@ -1041,76 +1371,89 @@
 
     <table class="risk">
         <tr>
-            <th style="width:20%;">Risk Category</th>
+            <th style="width:18%;">Risk Category</th>
             <th style="width:40%;">Description</th>
-            <th style="width:15%;">Severity</th>
-            <th style="width:25%;">Mitigant</th>
+            <th style="width:12%;">Severity</th>
+            <th style="width:30%;">Mitigant</th>
         </tr>
         <tr>
             <td>Macro / Cyclicality</td>
-            <td>Revenue highly correlated to trading volumes and rate volatility. ZIRP environment would compress revenues 30-50%.</td>
+            <td>Revenue highly correlated to trading volumes and rate volatility. ZIRP/low-vol environment would compress revenues 30-50%. 2022-2025 elevated volatility may not persist.</td>
             <td><span class="fw-rating high">High</span></td>
-            <td>ECS diversification ties revenue to energy demand, not just financial volatility. Data/network revenues provide some stability.</td>
+            <td>ECS diversification ties ~31% of revenue to energy demand, not just financial volatility. Data/network revenues provide recurring base. Fenics margin expansion partially offsets volume pressure.</td>
         </tr>
         <tr>
             <td>FMX Execution</td>
-            <td>Challenging CME's $70B+ monopoly is extremely difficult. FMX must prove technology resilience under market stress.</td>
+            <td>Challenging CME's $110B+ market cap monopoly is extremely difficult. Previous attempts (ELX, Eris) failed despite similar backing. FMX must prove technology resilience under extreme market stress.</td>
             <td><span class="fw-rating high">High</span></td>
-            <td>$172M investment from 10 major banks creates aligned partners. LCH clearing partnership provides unique competitive advantage.</td>
+            <td>$172M investment from 10 major banks creates aligned partners with volume commitments. LCH clearing partnership provides structural $225B cross-margining advantage. 39% cash Treasury CLOB share demonstrates execution capability.</td>
         </tr>
         <tr>
             <td>OTC Integration</td>
-            <td>OTC Global's low-teens margins dilute consolidated profitability. $25M synergy target must be executed.</td>
+            <td>OTC Global's low-teens EBITDA margins dilute consolidated profitability. $25M synergy target must be executed. Key broker retention is critical.</td>
             <td><span class="fw-rating moderate">Moderate</span></td>
-            <td>Management has track record of acquisition integration (Trident, Sage). First phase of cost cuts completed in Q4 '25.</td>
+            <td>Management has track record of acquisition integration (Trident, Sage, GFI). First phase of cost cuts completed Q4 2025. ECS leadership positions provide retention leverage.</td>
         </tr>
         <tr>
             <td>Leadership Transition</td>
-            <td>Tri-CEO structure is untested. Loss of Lutnick's vision and dealmaking could slow strategic execution.</td>
+            <td>Tri-CEO structure untested in crisis. Loss of Lutnick's vision, network, and willingness to make bold bets could slow strategic execution.</td>
             <td><span class="fw-rating moderate">Moderate</span></td>
-            <td>Co-CEOs managed day-to-day operations for years. Stephen Merkel as Chairman provides continuity. Lutnick departure removes overhang.</td>
+            <td>Co-CEOs managed day-to-day operations for years and executed recent M&A. Stephen Merkel as Chairman provides continuity. Lutnick departure removes governance overhang and enables institutional ownership.</td>
         </tr>
         <tr>
             <td>Customer Concentration</td>
-            <td>Top 10 clients = 23.6% of revenue. Banking consolidation could increase pricing pressure.</td>
+            <td>Top 10 clients = 23.6% of revenue. Banking consolidation could increase pricing pressure. Loss of a major trading desk relationship would have material impact.</td>
             <td><span class="fw-rating moderate">Moderate</span></td>
-            <td>Multi-homing is standard in brokerage—clients need multiple venues. FMX equity ownership aligns major banks.</td>
+            <td>Multi-homing is industry standard—clients need multiple venues for best execution. FMX equity ownership aligns major banks as partners, not just customers. ECS diversification reduces financial sector concentration.</td>
         </tr>
         <tr>
             <td>Regulatory</td>
-            <td>SEC Treasury clearing mandates may increase costs for certain clients, potentially reducing volumes.</td>
+            <td>SEC Treasury clearing mandates may increase costs for certain clients, potentially reducing volumes. Regulatory changes could benefit or harm the inter-dealer broker model.</td>
             <td><span class="fw-rating moderate">Moderate</span></td>
-            <td>BGC already operates in highly regulated environment. FMX benefits from clearing mandates pushing toward electronic venues.</td>
+            <td>BGC already operates in heavily regulated environment across jurisdictions. FMX benefits from clearing mandates pushing toward electronic venues. Compliance infrastructure is a barrier to entry for competitors.</td>
         </tr>
         <tr>
             <td>Technology / Cyber</td>
-            <td>AI-driven attacks on financial infrastructure intensifying. Any major outage damages reputation and regulatory standing.</td>
+            <td>AI-driven cyberattacks on financial infrastructure intensifying. Any major trading platform outage damages reputation and regulatory standing. Technology obsolescence risk from competitor innovation.</td>
             <td><span class="fw-rating moderate">Moderate</span></td>
-            <td>Decades of technology investment. Lucera provides secure network infrastructure. Multi-layered cybersecurity protocols.</td>
+            <td>Decades of technology investment and stress-testing. Lucera provides secure network infrastructure. Multi-layered cybersecurity with continuous monitoring. Fenics platform actively developed.</td>
+        </tr>
+        <tr>
+            <td>Competitor Response</td>
+            <td>CME could respond aggressively to FMX with pricing cuts, liquidity incentives, or clearing partnerships that neutralize FMX's advantages.</td>
+            <td><span class="fw-rating moderate">Moderate</span></td>
+            <td>CME's vertically integrated clearing model makes matching LCH partnership difficult without self-cannibalization. CME's 77% EBITDA margins provide room for price cuts but would hurt profitability. First-mover in cross-margining creates lasting advantage.</td>
         </tr>
     </table>
 
     <!-- Section 14: Appendix -->
     <div class="memo-section">14. Appendix — Python Code</div>
 
-    <p class="prose">Parameterized code for sensitivity table generation and 5-case model:</p>
+    <p class="prose">Parameterized code for sensitivity table generation and 5-case scenario model. Analysts can modify assumptions to test alternative scenarios.</p>
 
     <div class="code-block">
-# BGC Sensitivity Table Generator
+# BGC Group — Sensitivity Table Generator
+# ========================================
 
 import numpy as np
 import pandas as pd
 
-# Base assumptions
-BASE_REVENUE = 2936  # FY25 revenue in $M
-BASE_BROKERAGE_REV = 2698  # FY25 brokerage revenue
+# Base assumptions from FY25 actuals
+BASE_BROKERAGE_REV = 2698  # FY25 brokerage revenue ($M)
+BASE_TOTAL_REV = 2936      # FY25 total revenue ($M)
 BASE_EBITDA_MARGIN = 0.12  # FY25 EBITDA margin
-SHARES_OUT = 500  # Fully diluted shares (M)
-CURRENT_PRICE = 9.39
+SHARES_OUT = 500           # Fully diluted shares (M)
+CURRENT_PRICE = 9.39       # Current stock price
 
 def brokerage_revenue_sensitivity(volume_growth_range, commission_change_range):
     """
     Table 1: Brokerage revenue as function of volume growth and commission change
+
+    Parameters:
+    - volume_growth_range: list of YoY growth rates (e.g., [0.00, 0.05, 0.10, 0.15, 0.20])
+    - commission_change_range: list of commission rate changes (e.g., [-0.05, -0.025, 0, 0.025, 0.05])
+
+    Returns: DataFrame with brokerage revenue sensitivity
     """
     results = []
     for comm_delta in commission_change_range:
@@ -1123,14 +1466,22 @@ def brokerage_revenue_sensitivity(volume_growth_range, commission_change_range):
     df = pd.DataFrame(results,
                       index=[f"{c*100:+.1f}%" for c in commission_change_range],
                       columns=[f"{v*100:.0f}%" for v in volume_growth_range])
+    df.index.name = "Commission Δ"
+    df.columns.name = "Volume Growth"
     return df
 
-def ebitda_sensitivity(fenics_mix_range, fenics_margin_range):
+def ebitda_sensitivity(fenics_mix_range, fenics_margin_range, total_revenue=3000):
     """
     Table 2: EBITDA as function of Fenics mix and Fenics margin
-    Assumes legacy brokerage margin = 12%, revenue = $3B
+    Assumes legacy brokerage margin = 12%
+
+    Parameters:
+    - fenics_mix_range: list of Fenics revenue percentages (e.g., [0.20, 0.25, 0.30, 0.35, 0.40])
+    - fenics_margin_range: list of Fenics EBITDA margins (e.g., [0.25, 0.30, 0.35, 0.40, 0.45])
+    - total_revenue: total revenue assumption
+
+    Returns: DataFrame with EBITDA sensitivity
     """
-    total_revenue = 3000  # Approximate Y1 revenue
     legacy_margin = 0.12
 
     results = []
@@ -1146,49 +1497,151 @@ def ebitda_sensitivity(fenics_mix_range, fenics_margin_range):
     df = pd.DataFrame(results,
                       index=[f"{m*100:.0f}%" for m in fenics_margin_range],
                       columns=[f"{m*100:.0f}%" for m in fenics_mix_range])
+    df.index.name = "Fenics Margin"
+    df.columns.name = "Fenics Mix"
     return df
 
-def five_case_model(cases):
+def fmx_valuation_sensitivity(market_share_range, ev_revenue_multiple_range, cme_sofr_revenue=1500):
     """
-    Generate 5-case financial projections
-    cases: list of dicts with rev_cagr, ebitda_margin, exit_pe
+    Table 3: FMX standalone valuation based on SOFR market share and EV/Revenue multiple
+
+    Parameters:
+    - market_share_range: list of SOFR market share percentages (e.g., [0.01, 0.03, 0.05, 0.07, 0.10])
+    - ev_revenue_multiple_range: list of EV/Revenue multiples (e.g., [10, 15, 20, 25, 30])
+    - cme_sofr_revenue: estimated CME SOFR futures revenue ($M)
+
+    Returns: DataFrame with FMX valuation sensitivity
     """
     results = []
+    for multiple in ev_revenue_multiple_range:
+        row = []
+        for share in market_share_range:
+            fmx_revenue = cme_sofr_revenue * share
+            fmx_value = fmx_revenue * multiple
+            row.append(round(fmx_value, 0))
+        results.append(row)
+
+    df = pd.DataFrame(results,
+                      index=[f"{m}x" for m in ev_revenue_multiple_range],
+                      columns=[f"{s*100:.0f}%" for s in market_share_range])
+    df.index.name = "EV/Revenue"
+    df.columns.name = "SOFR Share"
+    return df
+    </div>
+
+    <div class="code-block">
+# BGC Group — 5-Scenario Model Generator
+# =======================================
+
+def five_case_model():
+    """
+    Generate 5-case financial projections with implied share prices
+    Returns DataFrame with all scenarios
+    """
+
+    # Define scenarios with driver assumptions
+    cases = [
+        {
+            'name': 'Bear Severe',
+            'emoji': '🐻',
+            'description': 'ZIRP return; volumes collapse; FMX fails',
+            'rev_cagr': -0.05,
+            'ebitda_margin': 0.10,
+            'exit_pe': 6,
+            'probability': 0.10
+        },
+        {
+            'name': 'Bear Mild',
+            'emoji': '📉',
+            'description': 'Volume normalization; FMX 2% share',
+            'rev_cagr': 0.05,
+            'ebitda_margin': 0.14,
+            'exit_pe': 9,
+            'probability': 0.20
+        },
+        {
+            'name': 'Base',
+            'emoji': '📊',
+            'description': 'Consensus execution; FMX 5% share',
+            'rev_cagr': 0.10,
+            'ebitda_margin': 0.18,
+            'exit_pe': 12,
+            'probability': 0.40
+        },
+        {
+            'name': 'Bull Mild',
+            'emoji': '📈',
+            'description': 'FMX traction; partial re-rating',
+            'rev_cagr': 0.15,
+            'ebitda_margin': 0.22,
+            'exit_pe': 18,
+            'probability': 0.20
+        },
+        {
+            'name': 'Bull Severe',
+            'emoji': '🚀',
+            'description': 'Platform inflection; exchange multiples',
+            'rev_cagr': 0.20,
+            'ebitda_margin': 0.26,
+            'exit_pe': 25,
+            'probability': 0.10
+        }
+    ]
+
+    results = []
     for case in cases:
-        y3_revenue = BASE_REVENUE * (1 + case['rev_cagr']) ** 3
+        # Calculate Y3 financials
+        y3_revenue = BASE_TOTAL_REV * (1 + case['rev_cagr']) ** 3
         y3_ebitda = y3_revenue * case['ebitda_margin']
-        y3_net_income = y3_ebitda * 0.6  # Assume 60% flow-through
+        y3_net_income = y3_ebitda * 0.60  # Assume 60% EBITDA-to-NI conversion
         y3_eps = y3_net_income / SHARES_OUT
         implied_price = y3_eps * case['exit_pe']
         upside = (implied_price / CURRENT_PRICE - 1) * 100
 
         results.append({
-            'Case': case['name'],
-            'Revenue Y3': round(y3_revenue, 0),
-            'EBITDA Y3': round(y3_ebitda, 0),
-            'Net Income Y3': round(y3_net_income, 0),
-            'EPS Y3': round(y3_eps, 2),
+            'Case': f"{case['emoji']} {case['name']}",
+            'Revenue Y3 ($M)': round(y3_revenue, 0),
+            'EBITDA Y3 ($M)': round(y3_ebitda, 0),
+            'Net Income Y3 ($M)': round(y3_net_income, 0),
+            'EPS Y3 ($)': round(y3_eps, 2),
             'Exit P/E': case['exit_pe'],
-            'Implied Price': round(implied_price, 2),
-            'Upside %': round(upside, 0)
+            'Implied Price ($)': round(implied_price, 2),
+            'Upside/Downside (%)': round(upside, 0),
+            'Probability (%)': case['probability'] * 100
         })
 
-    return pd.DataFrame(results)
+    df = pd.DataFrame(results)
 
-# Example usage:
-cases = [
-    {'name': 'Bear Severe', 'rev_cagr': -0.05, 'ebitda_margin': 0.10, 'exit_pe': 6},
-    {'name': 'Bear Mild', 'rev_cagr': 0.05, 'ebitda_margin': 0.14, 'exit_pe': 8},
-    {'name': 'Base', 'rev_cagr': 0.10, 'ebitda_margin': 0.18, 'exit_pe': 12},
-    {'name': 'Bull Mild', 'rev_cagr': 0.15, 'ebitda_margin': 0.22, 'exit_pe': 18},
-    {'name': 'Bull Severe', 'rev_cagr': 0.20, 'ebitda_margin': 0.26, 'exit_pe': 25},
-]
+    # Calculate probability-weighted expected value
+    prob_weighted_price = sum(
+        case['probability'] * (BASE_TOTAL_REV * (1 + case['rev_cagr']) ** 3 *
+        case['ebitda_margin'] * 0.60 / SHARES_OUT * case['exit_pe'])
+        for case in cases
+    )
 
-print(five_case_model(cases))
+    # Discount at 25% cost of capital over 3 years
+    discount_factor = (1 + 0.25) ** 3
+    present_value = prob_weighted_price / discount_factor
+
+    print(f"\nProbability-Weighted Expected Price: ${prob_weighted_price:.2f}")
+    print(f"Discounted Present Value (25% CoC): ${present_value:.2f}")
+    print(f"Implied Upside from ${CURRENT_PRICE}: {((prob_weighted_price/CURRENT_PRICE)-1)*100:.0f}%")
+
+    return df
+
+# Run the model
+if __name__ == "__main__":
+    print("=" * 60)
+    print("BGC GROUP - 5-SCENARIO MODEL")
+    print("=" * 60)
+
+    model_output = five_case_model()
+    print("\n", model_output.to_string(index=False))
     </div>
 
     <p class="source-note" style="margin-top:24px;">
-        Prepared by Theia Research | Data as of March 22, 2026 | Sources: FactSet, AlphaSense, Company Filings
+        Prepared by Theia Research | Data as of March 22, 2026 | Sources: FactSet, AlphaSense, Company Filings, Earnings Transcripts<br>
+        <em>This document is for informational purposes only and does not constitute investment advice.</em>
     </p>
 
 </body>
