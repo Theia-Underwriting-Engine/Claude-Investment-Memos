@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Miami International Holdings | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 8px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child, table.comps td:nth-child(2) { text-align: left; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-style: italic; background: #fafbfc; font-weight: 600; }
+table.comps th.est-col { color: #2563eb; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.alphasense-box { background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 4px; padding: 8px 12px; margin-bottom: 14px; font-size: 10px; color: #1e3a5f; }
+
+.bull-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #155724; border-bottom: 1.5px solid #c3e6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #721c24; border-bottom: 1.5px solid #f5c6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+
+.bull-item, .bear-item { margin-bottom: 8px; }
+
+table.risk-table { font-size: 9px; width: 100%; }
+table.risk-table th { background: #f4f6f9; text-align: left; padding: 4px 6px; font-weight: 600; }
+table.risk-table td { padding: 4px 6px; border-bottom: 1px solid #eee; vertical-align: top; }
+table.risk-table .severity { font-size: 8px; font-weight: 600; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; }
+table.risk-table .severity.high { background: #f8d7da; color: #721c24; }
+table.risk-table .severity.moderate { background: #fff3cd; color: #856404; }
+table.risk-table .severity.low { background: #d4edda; color: #155724; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Miami International Holdings | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">Miami International Holdings, Inc. (NYSE: MIAX) is a technology-driven operator of regulated financial marketplaces across multiple asset classes and geographies. Founded in 2007 by a team with extensive trading and technology experience, MIAX launched its first options exchange in December 2012 with a mission to build a differentiated exchange model focused on customer-centricity, competitive pricing, and outstanding technology. The company has grown from a single options exchange into the 13th largest global derivatives exchange operator following a successful $397 million IPO in August 2025.</p>
+
+<p class="prose">MIAX operates four distinct business segments: <strong>Options</strong> (81.2% of FY2025 revenue), which encompasses four U.S. national securities exchanges (MIAX Options, MIAX Pearl, MIAX Emerald, MIAX Sapphire) that achieved a record 17.1% annual market share of the U.S. multi-listed options market in 2025; <strong>Equities</strong> (11.3% of revenue), operating MIAX Pearl Equities for cash equity trading; <strong>Futures</strong> (6.4% of revenue), anchored by MIAX Futures (formerly Minneapolis Grain Exchange) with an exclusive 10-year Bloomberg licensing agreement for equity index derivatives launching Q2 2026; and <strong>International</strong> (1.1% of revenue), including the Bermuda Stock Exchange and the newly acquired International Stock Exchange (TISE) in Guernsey. The company's proprietary, in-house-built technology platform featuring deterministic architecture and 99.9998% operational uptime since 2012 serves as its primary competitive moat, enabling sub-200 microsecond latency that outpaces Cboe (250-400μs) and NYSE (400-700μs).</p>
+
+<p class="prose"><strong>Key facts:</strong> Founded 2007 · Headquarters Princeton, NJ · CEO Thomas P. Gallagher (Chairman & CEO since founding) · CFO Lance Emmons · Employees ~439 · Listed NYSE (Aug 2025 at $23.00; now $39.10) · FY end December · Market Cap $3.6B · CUSIP 59356Q108 · ISIN US59356Q1085</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 2: FINANCIAL SUMMARY (FACTSET) -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Theia FactSet Summary</div>
+
+<div class="header">
+  <div>
+    <h1>Miami International Holdings, Inc.</h1>
+    <span class="ticker">MIAX-US · NYSE · CUSIP 59356Q108</span>
+  </div>
+  <div class="date">FactSet Snapshot · March 22, 2026</div>
+</div>
+
+<!-- Price Bar -->
+<div class="price-bar">
+  <div>
+    <span class="label">Price (Mar 20, 2026) </span>
+    <span class="price">$39.10</span>
+  </div>
+  <div><span class="label">1M </span><span class="chg">−3.5%</span></div>
+  <div><span class="label">3M </span><span class="chg">−17.3%</span></div>
+  <div><span class="label">6M </span><span class="chg">−1.1%</span></div>
+  <div><span class="label">YTD </span><span class="chg">−11.9%</span></div>
+  <div><span class="label">1Y </span><span class="chg">—</span></div>
+  <div><span class="label">52-Wk Range </span><span style="font-weight:600;">$28.63 – $51.38</span></div>
+</div>
+
+<!-- Key Stats + EV Bridge -->
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv" style="font-size:10px;">
+      <tr><td>Exchange / Ticker</td><td>NYSE · MIAX-US</td></tr>
+      <tr><td>Price (Mar 20, 2026)</td><td>$39.10</td></tr>
+      <tr><td>Volume (last)</td><td>845,406 shares</td></tr>
+      <tr><td>30-Day Avg Volume</td><td>1.6M shares/day</td></tr>
+      <tr><td>Float %</td><td>89.6%</td></tr>
+      <tr><td>Short Interest</td><td>1.0 Days / 2.83% of Float</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev" style="font-size:10px;">
+      <tr><td>Basic Shares Outstanding</td><td>91.65M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">+ Stock Compensation</td><td style="font-size:9px;">25.68M</td></tr>
+      <tr><td>= Fully Diluted Shares</td><td>117.33M</td></tr>
+      <tr><td>Share Price</td><td>$39.10</td></tr>
+      <tr><td>= Fully Dil. Market Cap</td><td>$4,587.7M</td></tr>
+      <tr><td>+ Consolidated Debt</td><td>$1.5M</td></tr>
+      <tr><td>− Cash & Equivalents</td><td>($537.3M)</td></tr>
+      <tr><td>− Unconsolidated Subs</td><td>($19.2M)</td></tr>
+      <tr class="total"><td>= Enterprise Value</td><td>$4,032.7M</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- Current Valuation — horizontal 6×2 grid -->
+<div class="section-title">Current Valuation</div>
+<div style="border: 1px solid #eee; border-radius: 4px; margin-bottom: 8px;">
+  <div class="val-grid">
+    <div class="val-cell"><div class="val-label">Mkt Cap</div><div class="val-num">$3,584M</div><div class="val-sub">Basic shares</div></div>
+    <div class="val-cell"><div class="val-label">EV</div><div class="val-num">$4,033M</div><div class="val-sub">Net cash positive</div></div>
+    <div class="val-cell"><div class="val-label">P/E (FY26E)</div><div class="val-num">27.6x</div><div class="val-sub">Cons. EPS $1.42</div></div>
+    <div class="val-cell"><div class="val-label">EV/EBITDA (LTM)</div><div class="val-num">61.2x</div><div class="val-sub">FY25 EBITDA $66M</div></div>
+    <div class="val-cell"><div class="val-label">EV/Sales (LTM)</div><div class="val-num">3.0x</div><div class="val-sub">FY25 Rev $1,364M</div></div>
+    <div class="val-cell"><div class="val-label">P/S</div><div class="val-num">2.6x</div><div class="val-sub">Mkt Cap / Rev</div></div>
+  </div>
+  <div style="border-top: 1px solid #eee;">
+    <div class="val-grid">
+      <div class="val-cell"><div class="val-label">Fully Dil. Mkt Cap</div><div class="val-num">$4,588M</div><div class="val-sub">117.3M dil. shares</div></div>
+      <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">7.48%</div><div class="val-sub">FactSet estimate</div></div>
+      <div class="val-cell"><div class="val-label">Beta</div><div class="val-num">0.69</div><div class="val-sub">3-year adjusted</div></div>
+      <div class="val-cell"><div class="val-label">Avg Analyst Rating</div><div class="val-num">OW (1.33)</div><div class="val-sub">6 brokers</div></div>
+      <div class="val-cell"><div class="val-label">Cons. Target Price</div><div class="val-num">$50.00</div><div class="val-sub">+28% upside</div></div>
+      <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">Jun 03</div><div class="val-sub">Q1 2026</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Valuation Multiples Table -->
+<div class="section-title">Valuation Multiples</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Metric</th>
+      <th>5Yr Avg</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th class="est" style="color:#2563eb;">FY2026E</th>
+      <th class="est" style="color:#2563eb;">FY2027E</th>
+      <th class="est" style="color:#2563eb;">FY2028E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="8">PRICE MULTIPLES</td></tr>
+    <tr><td>P/E</td><td>—</td><td>—</td><td>—</td><td>NM</td><td class="est">27.6x</td><td class="est">23.0x</td><td class="est">23.0x</td></tr>
+    <tr><td>P/Sales</td><td>0.5x</td><td>—</td><td>—</td><td>2.3x</td><td class="est">7.0x</td><td class="est">6.2x</td><td class="est">6.2x</td></tr>
+    <tr><td>P/Book Value</td><td>0.9x</td><td>—</td><td>—</td><td>4.3x</td><td class="est">3.2x</td><td class="est">2.8x</td><td class="est">—</td></tr>
+    <tr class="section-row"><td colspan="8">EV MULTIPLES</td></tr>
+    <tr><td>EV/Sales</td><td>0.7x</td><td>—</td><td>—</td><td>3.3x</td><td class="est">7.9x</td><td class="est">6.9x</td><td class="est">7.0x</td></tr>
+    <tr><td>EV/EBITDA</td><td>13.5x</td><td>—</td><td>—</td><td>67.4x</td><td class="est">16.8x</td><td class="est">13.6x</td><td class="est">14.6x</td></tr>
+    <tr><td>EV/EBIT</td><td>24.3x</td><td>—</td><td>—</td><td>121.6x</td><td class="est">22.0x</td><td class="est">17.1x</td><td class="est">18.6x</td></tr>
+  </tbody>
+</table>
+
+<!-- Revenue Exposure -->
+<div class="section-title">Revenue Exposure (FY2025 Actuals)</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Business Segment</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Segment</th><th>$M</th><th>% Rev</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Options</td><td>$1,107.0</td><td>81.2%</td><td>+30.0%</td></tr>
+        <tr><td>Equities</td><td>$153.3</td><td>11.3%</td><td>−18.3%</td></tr>
+        <tr><td>Futures</td><td>$87.9</td><td>6.4%</td><td>−8.5%</td></tr>
+        <tr><td>International</td><td>$14.7</td><td>1.1%</td><td>+343.6%</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>$1,364.1</td><td>100%</td><td>+19.6%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <div class="sub-label">By Geography</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Region</th><th>$M</th><th>% Rev</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>United States</td><td>$1,348.2</td><td>98.9%</td></tr>
+        <tr><td>International</td><td>$14.7</td><td>1.1%</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>$1,364.1</td><td>100%</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:8px; color:#aaa; margin-top:4px;">TISE acquisition closed Jun 2025.</p>
+  </div>
+</div>
+
+<!-- Financials Table -->
+<div class="section-title">Financials</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">$M (FY Dec)</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th class="est" style="color:#2563eb;">FY2026E</th>
+      <th class="est" style="color:#2563eb;">FY2027E</th>
+      <th class="est" style="color:#2563eb;">FY2028E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">INCOME STATEMENT</td></tr>
+    <tr><td>Revenue</td><td>$1,041.0</td><td>$1,140.1</td><td>$1,364.1</td><td class="est">$511.1</td><td class="est">$582.2</td><td class="est">$580.0</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Revenue Growth %</td><td>—</td><td>+9.5%</td><td>+19.6%</td><td class="est">—</td><td class="est">+13.9%</td><td class="est">−0.4%</td></tr>
+    <tr><td>Gross Profit</td><td>$211.4</td><td>$252.3</td><td>$401.2</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Gross Margin %</td><td>20.3%</td><td>22.1%</td><td>29.4%</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>EBITDA</td><td>$20.9</td><td>$89.1</td><td>$65.9</td><td class="est">$240.1</td><td class="est">$295.5</td><td class="est">$276.0</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">EBITDA Margin %</td><td>2.0%</td><td>7.8%</td><td>4.8%</td><td class="est">47.0%</td><td class="est">50.8%</td><td class="est">47.6%</td></tr>
+    <tr><td>EBIT</td><td>($0.2)</td><td>$65.8</td><td>$36.6</td><td class="est">$183.0</td><td class="est">$236.3</td><td class="est">$217.0</td></tr>
+    <tr><td>Net Income</td><td>($20.9)</td><td>$102.1</td><td>($70.0)</td><td class="est">$232.1</td><td class="est">$177.4</td><td class="est">$182.0</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Net Income Margin %</td><td>NM</td><td>9.0%</td><td>NM</td><td class="est">45.4%</td><td class="est">30.5%</td><td class="est">31.4%</td></tr>
+    <tr><td>EPS (Dil)</td><td>($0.26)</td><td>$1.29</td><td>($1.00)</td><td class="est">$2.25</td><td class="est">$1.63</td><td class="est">$1.70</td></tr>
+    <tr class="section-row"><td colspan="7">CASH FLOW</td></tr>
+    <tr><td>Operating Cash Flow</td><td>($49.2)</td><td>$111.4</td><td>$167.8</td><td class="est">$196.0</td><td class="est">$221.0</td><td class="est">$244.0</td></tr>
+    <tr><td>CapEx</td><td>($25.9)</td><td>($39.0)</td><td>($34.9)</td><td class="est">($44.0)</td><td class="est">($36.0)</td><td class="est">($38.0)</td></tr>
+    <tr><td>Free Cash Flow</td><td>($65.4)</td><td>$84.7</td><td>$145.0</td><td class="est">$74.8</td><td class="est">$185.0</td><td class="est">$206.0</td></tr>
+    <tr class="section-row"><td colspan="7">BALANCE SHEET</td></tr>
+    <tr><td>Cash & Equivalents</td><td>$149.8</td><td>$275.2</td><td>$537.3</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Total Debt</td><td>—</td><td>—</td><td>$1.5</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Shareholders' Equity</td><td>$164.6</td><td>$367.6</td><td>$881.0</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr class="section-row"><td colspan="7">RETURNS & LEVERAGE</td></tr>
+    <tr><td>ROE</td><td>NM</td><td>38.4%</td><td>NM</td><td class="est">11.7%</td><td class="est">12.1%</td><td class="est">—</td></tr>
+    <tr><td>Debt / Equity</td><td>84.8%</td><td>16.1%</td><td>2.8%</td><td class="est">0.2%</td><td class="est">0.2%</td><td class="est">—</td></tr>
+    <tr><td>Interest Coverage</td><td>NM</td><td>4.7x</td><td>2.8x</td><td class="est">559.5x</td><td class="est">1,181.4x</td><td class="est">—</td></tr>
+  </tbody>
+</table>
+<p style="font-size:8px; color:#aaa; margin-top:4px;">Note: FY2025 net loss of $70M primarily due to $107.7M one-time debt extinguishment charge related to IPO proceeds used to retire term loans. Adj. EBITDA was $199.1M (+143% YoY).</p>
+
+<div class="source-note">Source: FactSet snapshot export, March 22, 2026. Estimates reflect consensus of 6 broker contributors.</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 3: BULL & BEAR CASES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Bull & Bear Cases</div>
+
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Cases</div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Bloomberg Index Futures Launch.</span> MIAX secured a 10-year exclusive licensing agreement with Bloomberg to launch equity index futures (B500, B100Q) and "Tini" retail-friendly contracts in Q2 2026. These proprietary products will clear at OCC, providing margin efficiencies. If successful, this represents a strategic shift from commoditized multi-listed products to high-margin proprietary derivatives — the holy grail of exchange economics.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Market Share Momentum Continues.</span> MIAX Options achieved a record 18.2% market share in Q4 2025 (up from 15.1% in 2024). The company's sub-200 microsecond latency advantage continues to attract HFT market makers. If MIAX can push through the 20% threshold by expanding its institutional investor base, the operating leverage would be substantial.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Fortress Balance Sheet.</span> Post-IPO, MIAX ended 2025 with $434M cash and virtually no debt ($1.5M). This provides firepower for: (a) accretive M&A, (b) share buybacks at attractive valuations, (c) funding Bloomberg index futures launch without dilution. The clean capital structure supports management credibility.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Elevated Volatility Environment.</span> Management expects elevated volatility to persist through 2026 driven by domestic policy shifts, tariff impacts, and AI investment cycle uncertainty. Volatility is a direct catalyst for options volume — more hedging, more speculation, more contract volume. MIAX's infrastructure scales with volume at high incremental margins.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Operating Leverage Inflection.</span> Adj. EBITDA margins expanded from 30% in FY2024 to 46% in FY2025, reaching 50% by Q4. With major infrastructure investments (MIAX Sapphire floor, Onyx Futures platform) completed in 2025, management guides for moderating expense growth relative to top-line expansion. Incremental margins could exceed 60-70%.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="bear-header">Bear Cases</div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Market Share Ceiling at 20%.</span> Industry experts warn MIAX's options market share may hit a structural ceiling near 20%. Breaking through requires attracting institutional asset managers who fear adverse selection on HFT-dominated venues. Large pension funds and foreign institutions face strict compliance hurdles when onboarding new exchanges.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Equity Rights Program Overhang.</span> MIAX's early success was heavily subsidized by Equity Rights Programs that granted market makers warrants for meeting volume thresholds. Skeptics question whether market share can persist purely on technological merit now that warrant programs have matured. Post-IPO secondary offerings by strategic members could signal future selling pressure.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Severe Customer Concentration.</span> Top three customers account for 15%, 14%, and 12% of revenues respectively. MIAX's growth strategy relies heavily on a small group of elite electronic market makers and HFT firms. Loss of a major liquidity provider would have outsized P&L impact and could trigger adverse selection spirals.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Lack of Proprietary Products.</span> Unlike Cboe (SPX, VIX) or CME (E-Mini), MIAX currently has no exclusive proprietary products with pricing power. Multi-listed options are a commoditized, zero-sum game requiring constant fee adjustments. The Bloomberg futures launch is unproven and competes against dominant incumbents.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Regulatory Overhang.</span> SEC maintains strict oversight preventing exclusive pricing deals with liquidity providers. Ongoing scrutiny of payment for order flow, connectivity fees, and market data sales threatens high-margin revenue streams. MIAXdx crypto subsidiary faces CFTC inquiries and heightened AML/KYC compliance burdens.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Scale Economies</span> <span class="fw-rating strong">Strong</span><br>
+  MIAX's exchange infrastructure has enormous fixed costs (technology platform, regulatory compliance, data center operations) and near-zero marginal cost per additional contract traded. This creates massive operating leverage: adj. EBITDA margins expanded from 30% to 50% as volume scaled. Once the technology stack is built, each incremental contract falls almost entirely to gross profit. The scale moat is substantial — new entrants face $100M+ initial investment just to meet minimum viable product requirements for an options exchange.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Network Effects</span> <span class="fw-rating moderate">Moderate</span><br>
+  Exchange network effects operate through liquidity: more market makers create tighter spreads, which attracts more order flow, which attracts more market makers. MIAX has successfully bootstrapped this flywheel using its technology advantage and Equity Rights Programs. However, multi-listed options can trade on any of 16 exchanges, limiting the direct network effect compared to single-venue products. The network effect is real but interruptible — a competitor with superior latency or pricing could gradually erode it.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Counter-Positioning</span> <span class="fw-rating strong">Strong</span><br>
+  MIAX's core counter-positioning is that legacy exchanges (Cboe, NYSE, Nasdaq) cannot replicate its sub-200 microsecond latency without overhauling their legacy infrastructure — a multi-year, operationally risky project that incumbent leadership has been reluctant to undertake. CME's failed attempt to modernize via Google Cloud partnership illustrates this constraint. MIAX built from scratch specifically for HFT requirements, while incumbents must retrofit decades-old architecture. The counter-positioning is genuine and durable.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Switching Costs</span> <span class="fw-rating moderate">Moderate</span><br>
+  Market makers who have invested in co-location, connectivity, and routing logic optimized for MIAX's platform face real switching costs — both technical (re-engineering latency arbitrage strategies) and operational (compliance onboarding, new vendor relationships). However, most large HFT firms trade across all major exchanges simultaneously, limiting single-venue lock-in. Switching costs provide modest protection but don't prevent multi-homing.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Branding</span> <span class="fw-rating weak">Weak</span><br>
+  MIAX has strong recognition among electronic market makers and institutional traders, but exchange "brand" doesn't command pricing power the way consumer brands do. Orders route to wherever offers best execution, regardless of brand perception. The company has successfully positioned as the technology-forward challenger to legacy incumbents, but this is more functional positioning than brand equity.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">6. Cornered Resource</span> <span class="fw-rating moderate">Moderate</span><br>
+  MIAX's most important cornered resources are: (a) SEC licenses to operate four national securities exchanges — these take years to obtain and require ongoing regulatory compliance that deters entry; (b) the proprietary technology stack built over 15+ years with deterministic architecture and 99.9998% uptime history; (c) exclusive 10-year Bloomberg licensing agreement for index derivatives. These resources are meaningful but not completely unique — other exchanges hold similar licenses and could theoretically build comparable technology.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">7. Process Power</span> <span class="fw-rating strong">Strong</span><br>
+  MIAX has developed genuine process capabilities in high-performance exchange technology that are difficult to replicate. The engineering culture that produced sub-10 microsecond latency on the Onyx platform reflects institutional knowledge accumulated over 15 years. CEO Gallagher's leadership team has been with the company since founding, providing continuity that supports operational excellence. The customer-first approach of tailoring exchange features to HFT requirements demonstrates embedded organizational capabilities.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> The strongest moats are Scale Economies, Counter-Positioning against legacy incumbents, and Process Power in exchange technology. These represent genuine structural advantages that should persist over the medium term. Network effects and switching costs provide additional but more modest protection.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Threat of New Entrants</span> <span class="fw-rating low">Low</span><br>
+  Barriers to entry in options exchanges are exceptionally high. Requirements include: (a) SEC approval for a national securities exchange license (multi-year process); (b) $100M+ investment in technology infrastructure; (c) clearing relationships with OCC; (d) ability to attract initial liquidity from skeptical market makers. Industry experts note that barriers are significantly higher than in equities due to the complexity of options quoting. MIAX was the last successful new entrant in 2012, and no credible new competitor has emerged since. The threat is low.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Bargaining Power of Suppliers</span> <span class="fw-rating low">Low</span><br>
+  MIAX's primary "suppliers" are technology vendors (servers, networking equipment, data center services) and clearing infrastructure (OCC). The company builds most technology in-house, reducing dependency on external vendors. OCC is a shared industry utility with standard pricing. AI infrastructure demand poses a potential supply chain risk for hardware, but MIAX has no single-source dependencies. Overall supplier power is low.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Bargaining Power of Buyers</span> <span class="fw-rating high">High</span><br>
+  MIAX's customers — primarily electronic market makers and HFT firms — have substantial bargaining power. The top three customers represent 41% of revenues. These sophisticated institutions can easily route order flow to any of 16 competing options exchanges based on fee structures and execution quality. MIAX must compete aggressively on pricing tiers and rebates to win flow. The reliance on a small number of elite HFT firms creates meaningful customer concentration risk.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Threat of Substitutes</span> <span class="fw-rating moderate">Moderate</span><br>
+  The primary substitutes for listed options are OTC derivatives, futures contracts, and synthetic option strategies using other instruments. For most hedging and speculation purposes, listed options on regulated exchanges remain the preferred instrument due to transparency, liquidity, and regulatory acceptance. However, crypto derivatives and other alternative products represent emerging substitutes for certain use cases. The threat is moderate and evolving.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Competitive Rivalry</span> <span class="fw-rating high">High</span><br>
+  The U.S. options exchange market is intensely competitive, with 16 exchanges operated by major incumbents (Cboe, Nasdaq, NYSE, MIAX). Competition primarily occurs through: (a) pricing — constant adjustments to maker-taker rebates and fee tiers; (b) technology — latency, uptime, determinism; (c) product features — allocation models, order types, market structure. The rivalry is zero-sum for multi-listed products: every contract MIAX wins is a contract lost by competitors. Only proprietary products (like Cboe's SPX/VIX) escape this dynamic. Overall competitive intensity is high.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> The competitive environment is challenging. High buyer power and intense rivalry create persistent margin pressure on multi-listed products. However, exceptionally low threat of new entry and low supplier power provide structural protection. MIAX's path to premium economics requires successful expansion into proprietary products (Bloomberg index futures).</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 6: WHAT DRIVES THE STOCK? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<p class="prose">The following are the key variables that would move MIAX's share price materially in the next 12 months:</p>
+
+<p class="prose"><strong>1. Options Market Share Trajectory.</strong> MIAX achieved 18.2% market share in Q4 2025. Every quarterly update will be scrutinized for continued momentum vs. a ceiling forming at ~20%. Share gains are bullish (operating leverage); share loss or stagnation would trigger de-rating as investors question competitive durability.</p>
+
+<p class="prose"><strong>2. Bloomberg Index Futures Launch Success.</strong> The Q2 2026 launch of B500/B100Q futures is the single most important catalyst for the growth narrative. Success metrics include: (a) market maker adoption; (b) initial volume trajectory; (c) open interest buildup. A successful launch validates MIAX's ability to compete in proprietary products; failure would confirm the bear thesis that MIAX remains stuck in commoditized multi-listed options.</p>
+
+<p class="prose"><strong>3. U.S. Options Industry Volume.</strong> MIAX's revenues are ~60% transaction-based and directly tied to industry-wide options volume. Elevated volatility drives options usage for hedging and speculation. VIX levels, macro uncertainty, and retail trading activity all influence total addressable volume. A volatility collapse would compress industry volumes regardless of market share.</p>
+
+<p class="prose"><strong>4. Revenue Per Contract (RPC) Trends.</strong> Options RPC improved 18.7% in 2025 to $0.108 due to favorable product mix. Analysts will track RPC trajectory as an indicator of pricing power vs. competitive fee pressure. RPC compression would indicate market share gains are coming at the cost of economics.</p>
+
+<p class="prose"><strong>5. Adjusted EBITDA Margin Progression.</strong> Q4 2025 margins reached 50%. Management guides for continued operating leverage as infrastructure investments mature. Margin expansion validates the scale economics thesis; margin compression would signal either competitive pricing pressure or operating cost creep.</p>
+
+<p class="prose"><strong>6. Capital Allocation Announcements.</strong> With $434M cash and negligible debt, MIAX has significant deployment optionality. M&A (accretive exchange acquisitions), buybacks (at current discount to target), or dividend initiation would all be discrete catalysts. Aggressive, dilutive acquisition would be negatively received.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<p class="prose">MIAX's revenue can be decomposed into its four segments using fundamental economic drivers:</p>
+
+<table class="data" style="font-size:10px; margin-bottom:16px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Revenue Line</th>
+      <th style="text-align:left;">Driver 1</th>
+      <th style="text-align:left;">Driver 2</th>
+      <th style="text-align:left;">= Revenue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Options Transaction Revenue</td><td>Contracts Traded (ADV × Days)</td><td>× Revenue Per Contract</td><td>~$700M (51% of total)</td></tr>
+    <tr><td>Options Non-Transaction Revenue</td><td>Member Access Fees</td><td>+ Market Data Subscriptions</td><td>~$400M (29% of total)</td></tr>
+    <tr><td>Equities Revenue</td><td>Shares Traded (ADV × Days)</td><td>× Capture Rate (/100 shares)</td><td>~$153M (11% of total)</td></tr>
+    <tr><td>Futures Revenue</td><td>Contracts Traded (ADV × Days)</td><td>× Revenue Per Contract</td><td>~$88M (6% of total)</td></tr>
+    <tr><td>International (BSX/TISE)</td><td>Listings × Listing Fees</td><td>+ Transaction Revenue</td><td>~$15M (1% of total)</td></tr>
+  </tbody>
+</table>
+
+<div class="section-title">Key Driver Deep-Dive: Options Segment</div>
+<table class="data" style="font-size:9px; margin-bottom:12px;">
+  <thead>
+    <tr><th style="text-align:left;">Metric</th><th>FY2024</th><th>FY2025</th><th>YoY Change</th><th>Driver</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Options ADV (M contracts)</td><td>6.7M</td><td>9.5M</td><td>+42.2%</td><td>Industry volume + market share gain</td></tr>
+    <tr><td>Options Market Share</td><td>15.1%</td><td>17.1%</td><td>+2.0pp</td><td>Technology advantage, HFT adoption</td></tr>
+    <tr><td>Options RPC</td><td>$0.091</td><td>$0.108</td><td>+18.7%</td><td>Product mix shift to higher-value contracts</td></tr>
+    <tr><td>Options Net Revenue</td><td>$276M</td><td>$431M</td><td>+56.2%</td><td>ADV × RPC leverage</td></tr>
+  </tbody>
+</table>
+
+<p class="prose"><strong>Leverage Analysis:</strong> The two drivers with most leverage on total revenue are: (1) <strong>Options Market Share</strong> — each 1pp of market share gain represents ~$25M incremental revenue at current industry volumes; (2) <strong>Industry Volatility</strong> — VIX levels directly correlate with options volume, creating 2-3x operating leverage on earnings given MIAX's fixed cost base.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+<strong>Source:</strong> Expert network calls and earnings transcripts compiled via AlphaSense, March 2026.
+</div>
+
+<p class="prose"><strong>Competitive Moat Assessment:</strong> Industry experts consistently cite MIAX's proprietary technology as a formidable moat. The sub-200 microsecond latency in options (significantly faster than Cboe's 250-400μs and NYSE's 400-700μs) and the new Onyx futures platform's sub-10 microsecond latency (vs. CME's ~50μs) provide critical predictability for HFT market makers. Experts note that competitors face "monumental challenges" replicating this infrastructure because overhauling legacy systems requires enormous resources and carries severe operational downtime risks.</p>
+
+<p class="prose"><strong>Leadership Perception:</strong> CEO Thomas Gallagher is highly regarded for executing a masterful multi-year strategic vision blending organic technology development with disciplined M&A. The founding team's continued involvement (CIO Douglas Schafer, General Counsel Barbara Comly) is explicitly tied to operational stability in corporate filings. Gallagher was named Chief Executive of the Year at the 2026 FOW International Awards. The culture is described as "customer-first," actively listening to the granular needs of electronic market makers.</p>
+
+<p class="prose"><strong>Most Misunderstood Aspects:</strong> (1) Historical market share gains were heavily subsidized by Equity Rights Programs granting warrants to HFTs for meeting volume thresholds — skeptics question organic sustainability. (2) The FY2025 GAAP net loss of $70M masks underlying profitability; adjusted EBITDA was $199M with 46% margins. (3) MIAX struggles to attract institutional asset managers and foreign institutions who fear adverse selection on HFT-dominated venues.</p>
+
+<p class="prose"><strong>AI Impact:</strong> AI is expected to act as a volume catalyst as AI-driven algorithmic trading accelerates message traffic across exchanges, perfectly aligning with MIAX's latency advantages. However, AI infrastructure buildout poses supply chain risks — tech giants procuring vast quantities of hardware could create equipment shortages for MIAX's trading system upgrades.</p>
+
+<p class="prose"><strong>Key Investor Questions:</strong> (1) Can market share exceed 20% without diversifying beyond HFT customer base? (2) Will Bloomberg index futures gain traction against dominant CME/Cboe incumbents? (3) How sustainable is the 46%+ adjusted EBITDA margin? (4) What is the timeline for proprietary product revenue to become material?</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 9: SENSITIVITIES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Sensitivity Analysis</div>
+
+<p class="prose" style="font-weight:700;">Options Market Share vs. Revenue Per Contract → Options Net Revenue ($M)</p>
+<p class="prose" style="font-size:9px; color:#666;">Current: 17.1% market share, $0.108 RPC. Industry ADV assumed at 55M contracts/day.</p>
+<table class="sensitivity">
+  <thead>
+    <tr><th></th><th>$0.090 RPC</th><th>$0.100 RPC</th><th>$0.108 RPC</th><th>$0.115 RPC</th><th>$0.125 RPC</th></tr>
+  </thead>
+  <tbody>
+    <tr><td style="font-weight:600;">15.0% Share</td><td>$187</td><td>$208</td><td>$224</td><td>$239</td><td>$260</td></tr>
+    <tr><td style="font-weight:600;">17.0% Share</td><td>$212</td><td>$235</td><td>$254</td><td>$271</td><td>$294</td></tr>
+    <tr><td style="font-weight:600;">17.1% Share</td><td>$213</td><td>$237</td><td class="base">$256</td><td>$273</td><td>$296</td></tr>
+    <tr><td style="font-weight:600;">19.0% Share</td><td>$236</td><td>$263</td><td>$284</td><td>$302</td><td>$329</td></tr>
+    <tr><td style="font-weight:600;">21.0% Share</td><td>$262</td><td>$291</td><td>$314</td><td>$335</td><td>$364</td></tr>
+  </tbody>
+</table>
+
+<p class="prose" style="font-weight:700; margin-top:16px;">Industry Options ADV (M contracts/day) vs. MIAX Market Share → Options Transaction Revenue ($M)</p>
+<p class="prose" style="font-size:9px; color:#666;">Current: ~55M industry ADV, 17.1% share. Assumes $0.108 RPC, 252 trading days.</p>
+<table class="sensitivity">
+  <thead>
+    <tr><th></th><th>45M ADV</th><th>50M ADV</th><th>55M ADV</th><th>60M ADV</th><th>65M ADV</th></tr>
+  </thead>
+  <tbody>
+    <tr><td style="font-weight:600;">15.0% Share</td><td>$183</td><td>$204</td><td>$224</td><td>$245</td><td>$265</td></tr>
+    <tr><td style="font-weight:600;">17.1% Share</td><td>$209</td><td>$233</td><td class="base">$256</td><td>$279</td><td>$302</td></tr>
+    <tr><td style="font-weight:600;">19.0% Share</td><td>$232</td><td>$258</td><td>$284</td><td>$310</td><td>$336</td></tr>
+    <tr><td style="font-weight:600;">21.0% Share</td><td>$257</td><td>$285</td><td>$314</td><td>$343</td><td>$371</td></tr>
+    <tr><td style="font-weight:600;">23.0% Share</td><td>$281</td><td>$312</td><td>$344</td><td>$375</td><td>$406</td></tr>
+  </tbody>
+</table>
+
+<p class="prose" style="font-weight:700; margin-top:16px;">Adjusted EBITDA Margin vs. Net Revenue → Adjusted EBITDA ($M)</p>
+<p class="prose" style="font-size:9px; color:#666;">Current: ~$431M net revenue, 46% adj. EBITDA margin.</p>
+<table class="sensitivity">
+  <thead>
+    <tr><th></th><th>$400M Rev</th><th>$450M Rev</th><th>$500M Rev</th><th>$550M Rev</th><th>$600M Rev</th></tr>
+  </thead>
+  <tbody>
+    <tr><td style="font-weight:600;">40% Margin</td><td>$160</td><td>$180</td><td>$200</td><td>$220</td><td>$240</td></tr>
+    <tr><td style="font-weight:600;">46% Margin</td><td>$184</td><td class="base">$207</td><td>$230</td><td>$253</td><td>$276</td></tr>
+    <tr><td style="font-weight:600;">50% Margin</td><td>$200</td><td>$225</td><td>$250</td><td>$275</td><td>$300</td></tr>
+    <tr><td style="font-weight:600;">55% Margin</td><td>$220</td><td>$248</td><td>$275</td><td>$303</td><td>$330</td></tr>
+    <tr><td style="font-weight:600;">60% Margin</td><td>$240</td><td>$270</td><td>$300</td><td>$330</td><td>$360</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 10: 5-CASE MODEL -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">10. Five Scenarios</div>
+
+<div class="case-block">
+  <div class="case-name">Bear Case (Severe)</div>
+  <div class="case-desc">Market share ceiling at 16%; Bloomberg futures launch fails; volatility normalizes; margin compression from pricing wars.</div>
+  <div class="driver-label">Key Driver Assumptions</div>
+  <div class="driver-row"><span>Options Market Share</span><span>16.0% (vs. 17.1% current)</span></div>
+  <div class="driver-row"><span>Options RPC</span><span>$0.095 (−12% from current)</span></div>
+  <div class="driver-row"><span>Adj. EBITDA Margin</span><span>38% (down from 46%)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Net Revenue</td><td>$380M</td></tr>
+    <tr><td>Adj. EBITDA</td><td>$144M</td></tr>
+    <tr><td>EPS (Adj.)</td><td>$1.05</td></tr>
+    <tr class="valuation-row"><td>Exit Multiple (P/E)</td><td>18.0x</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-price">Implied Share Price: $18.90</div>
+    <div class="exit-upside" style="color:#c0392b;">−52% from current ($39.10)</div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bear Case (Mild)</div>
+  <div class="case-desc">Market share flat at 17%; Bloomberg futures launch modest; moderate volatility; stable margins.</div>
+  <div class="driver-label">Key Driver Assumptions</div>
+  <div class="driver-row"><span>Options Market Share</span><span>17.0% (flat)</span></div>
+  <div class="driver-row"><span>Options RPC</span><span>$0.105 (−3% from current)</span></div>
+  <div class="driver-row"><span>Adj. EBITDA Margin</span><span>44%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Net Revenue</td><td>$420M</td></tr>
+    <tr><td>Adj. EBITDA</td><td>$185M</td></tr>
+    <tr><td>EPS (Adj.)</td><td>$1.40</td></tr>
+    <tr class="valuation-row"><td>Exit Multiple (P/E)</td><td>22.0x</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-price">Implied Share Price: $30.80</div>
+    <div class="exit-upside" style="color:#c0392b;">−21% from current ($39.10)</div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Base Case</div>
+  <div class="case-desc">Market share grows to 18.5%; Bloomberg futures gain modest traction; elevated volatility persists; margin expansion continues.</div>
+  <div class="driver-label">Key Driver Assumptions</div>
+  <div class="driver-row"><span>Options Market Share</span><span>18.5% (+1.4pp from current)</span></div>
+  <div class="driver-row"><span>Options RPC</span><span>$0.110 (+2% from current)</span></div>
+  <div class="driver-row"><span>Adj. EBITDA Margin</span><span>48%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Net Revenue</td><td>$475M</td></tr>
+    <tr><td>Adj. EBITDA</td><td>$228M</td></tr>
+    <tr><td>EPS (Adj.)</td><td>$1.75</td></tr>
+    <tr class="valuation-row"><td>Exit Multiple (P/E)</td><td>25.0x</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-price">Implied Share Price: $43.75</div>
+    <div class="exit-upside" style="color:#27ae60;">+12% from current ($39.10)</div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bull Case (Mild)</div>
+  <div class="case-desc">Market share reaches 20%; Bloomberg futures successful launch; sustained volatility; strong margin expansion.</div>
+  <div class="driver-label">Key Driver Assumptions</div>
+  <div class="driver-row"><span>Options Market Share</span><span>20.0% (+2.9pp from current)</span></div>
+  <div class="driver-row"><span>Options RPC</span><span>$0.115 (+6% from current)</span></div>
+  <div class="driver-row"><span>Adj. EBITDA Margin</span><span>52%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Net Revenue</td><td>$540M</td></tr>
+    <tr><td>Adj. EBITDA</td><td>$281M</td></tr>
+    <tr><td>EPS (Adj.)</td><td>$2.20</td></tr>
+    <tr class="valuation-row"><td>Exit Multiple (P/E)</td><td>28.0x</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-price">Implied Share Price: $61.60</div>
+    <div class="exit-upside" style="color:#27ae60;">+58% from current ($39.10)</div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bull Case (Severe)</div>
+  <div class="case-desc">Market share breaks through 22%; Bloomberg futures become material revenue; proprietary product flywheel activates; M&A optionality exercised.</div>
+  <div class="driver-label">Key Driver Assumptions</div>
+  <div class="driver-row"><span>Options Market Share</span><span>22.0% (+4.9pp from current)</span></div>
+  <div class="driver-row"><span>Options RPC</span><span>$0.125 (+16% from current)</span></div>
+  <div class="driver-row"><span>Adj. EBITDA Margin</span><span>58%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Net Revenue</td><td>$620M</td></tr>
+    <tr><td>Adj. EBITDA</td><td>$360M</td></tr>
+    <tr><td>EPS (Adj.)</td><td>$2.85</td></tr>
+    <tr class="valuation-row"><td>Exit Multiple (P/E)</td><td>32.0x</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-price">Implied Share Price: $91.20</div>
+    <div class="exit-upside" style="color:#27ae60;">+133% from current ($39.10)</div>
+  </div>
+</div>
+
+<!-- Scenario Bar Chart -->
+<div class="case-chart">
+<svg viewBox="0 0 700 180">
+  <!-- Title -->
+  <text x="350" y="20" text-anchor="middle" font-size="11" font-weight="600" fill="#1a1a2e">Implied Share Price by Scenario</text>
+
+  <!-- Bars -->
+  <rect x="60" y="40" width="80" height="30" fill="#c0392b" opacity="0.7"/>
+  <text x="100" y="60" text-anchor="middle" font-size="9" fill="white" font-weight="600">$18.90</text>
+  <text x="100" y="85" text-anchor="middle" font-size="8" fill="#666">Bear Severe</text>
+
+  <rect x="170" y="40" width="80" height="30" fill="#e67e22" opacity="0.7"/>
+  <text x="210" y="60" text-anchor="middle" font-size="9" fill="white" font-weight="600">$30.80</text>
+  <text x="210" y="85" text-anchor="middle" font-size="8" fill="#666">Bear Mild</text>
+
+  <rect x="280" y="40" width="80" height="30" fill="#3498db" opacity="0.7"/>
+  <text x="320" y="60" text-anchor="middle" font-size="9" fill="white" font-weight="600">$43.75</text>
+  <text x="320" y="85" text-anchor="middle" font-size="8" fill="#666">Base</text>
+
+  <rect x="390" y="40" width="80" height="30" fill="#27ae60" opacity="0.7"/>
+  <text x="430" y="60" text-anchor="middle" font-size="9" fill="white" font-weight="600">$61.60</text>
+  <text x="430" y="85" text-anchor="middle" font-size="8" fill="#666">Bull Mild</text>
+
+  <rect x="500" y="40" width="80" height="30" fill="#155724" opacity="0.7"/>
+  <text x="540" y="60" text-anchor="middle" font-size="9" fill="white" font-weight="600">$91.20</text>
+  <text x="540" y="85" text-anchor="middle" font-size="8" fill="#666">Bull Severe</text>
+
+  <!-- Current price line -->
+  <line x1="50" y1="110" x2="600" y2="110" stroke="#1a1a2e" stroke-width="2" stroke-dasharray="5,3"/>
+  <text x="605" y="114" font-size="9" fill="#1a1a2e" font-weight="600">$39.10 Current</text>
+
+  <!-- Price axis labels -->
+  <text x="40" y="130" font-size="8" fill="#888">$0</text>
+  <text x="180" y="130" font-size="8" fill="#888">$25</text>
+  <text x="320" y="130" font-size="8" fill="#888">$50</text>
+  <text x="460" y="130" font-size="8" fill="#888">$75</text>
+  <text x="580" y="130" font-size="8" fill="#888">$100</text>
+</svg>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 11: COMPS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">11. Comparable Companies</div>
+
+<div class="sub-label">Exchanges — Peer Group</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th>Ticker</th>
+      <th>Mkt Cap ($M)</th>
+      <th>EV ($M)</th>
+      <th>TEV/EBITDA</th>
+      <th>P/E FY1</th>
+      <th>EV/Sales</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject"><td>Miami International Holdings</td><td>MIAX-US</td><td>$3,584</td><td>$4,033</td><td>61.2x</td><td>27.6x</td><td>3.0x</td></tr>
+    <tr><td>MarketAxess Holdings</td><td>MKTX-US</td><td>$6,250</td><td>$5,905</td><td>13.6x</td><td>21.4x</td><td>7.0x</td></tr>
+    <tr><td>OTC Markets Group</td><td>OTCM-US</td><td>$648</td><td>$594</td><td>14.6x</td><td>18.5x</td><td>4.9x</td></tr>
+    <tr><td>Tradeweb Markets</td><td>TW-US</td><td>$29,839</td><td>$27,749</td><td>25.8x</td><td>31.0x</td><td>13.5x</td></tr>
+    <tr><td>Cboe Global Markets</td><td>CBOE-US</td><td>$29,876</td><td>$29,066</td><td>17.8x</td><td>24.1x</td><td>6.2x</td></tr>
+    <tr><td>Nasdaq</td><td>NDAQ-US</td><td>$49,687</td><td>$57,370</td><td>18.7x</td><td>22.0x</td><td>6.9x</td></tr>
+    <tr><td>Intercontinental Exchange</td><td>ICE-US</td><td>$90,658</td><td>$107,750</td><td>16.3x</td><td>20.6x</td><td>8.8x</td></tr>
+    <tr><td>CME Group</td><td>CME-US</td><td>$111,940</td><td>$109,314</td><td>24.0x</td><td>25.5x</td><td>16.8x</td></tr>
+    <tr class="stat-row"><td>Average</td><td></td><td></td><td></td><td>23.3x</td><td>23.8x</td><td>8.4x</td></tr>
+    <tr class="stat-row"><td>Median</td><td></td><td></td><td></td><td>18.2x</td><td>23.0x</td><td>7.0x</td></tr>
+  </tbody>
+</table>
+
+<div class="sub-label" style="margin-top:12px;">Named Competitors (FactSet)</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th>Ticker</th>
+      <th>Mkt Cap ($M)</th>
+      <th>EV ($M)</th>
+      <th>TEV/EBITDA</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject"><td>Miami International Holdings</td><td>MIAX-US</td><td>$3,584</td><td>$4,033</td><td>61.2x</td></tr>
+    <tr><td>Nasdaq</td><td>NDAQ-US</td><td>$49,687</td><td>$57,370</td><td>18.7x</td></tr>
+    <tr><td>Intercontinental Exchange</td><td>ICE-US</td><td>$90,658</td><td>$107,750</td><td>16.3x</td></tr>
+    <tr><td>Cboe Global Markets</td><td>CBOE-US</td><td>$29,876</td><td>$29,066</td><td>17.8x</td></tr>
+    <tr><td>CME Group</td><td>CME-US</td><td>$111,940</td><td>$109,314</td><td>24.0x</td></tr>
+    <tr><td>Deutsche Boerse</td><td>DB1-DE</td><td>$50,590</td><td>$37,222</td><td>9.4x</td></tr>
+    <tr><td>Hong Kong Exchanges</td><td>388-HK</td><td>$63,906</td><td>$29,509</td><td>10.0x</td></tr>
+    <tr><td>Singapore Exchange</td><td>S68-SG</td><td>$16,099</td><td>$11,919</td><td>17.4x</td></tr>
+    <tr class="stat-row"><td>Median (ex-MIAX)</td><td></td><td></td><td></td><td>17.6x</td></tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:12px;"><strong>Comps Commentary:</strong> MIAX trades at 61.2x LTM TEV/EBITDA, a significant premium to the peer median of 17.6x. This reflects the FY2025 one-time charges that depressed reported EBITDA ($66M GAAP vs. $199M adjusted). On an adjusted basis, MIAX trades at ~20x adj. EBITDA, roughly in-line with growth-oriented peers like Tradeweb (25.8x) and CME (24.0x). The forward P/E of 27.6x is above the peer median of 23.0x, reflecting market expectations for continued market share gains and operating leverage. We believe the current multiple is fair for a company with 50% incremental margins and proprietary product optionality, but requires successful Bloomberg futures execution to justify sustained premium valuation.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<p class="prose" style="font-style:italic; font-size:10px; color:#666; margin-bottom:12px;">Theia seeks small cap companies that aren't well covered and are strongly aligned on core internet finance thesis with wide outcome dispersion.</p>
+
+<div class="fw-item">
+  <p class="prose"><strong>(i) Market Cap Bucket:</strong> $3.6B <span class="fw-rating weak">Weak</span><br>
+  MIAX at $3.6B market cap is solidly mid-cap, above Theia's ideal microcap (<$1B) sweet spot. The company's successful IPO and subsequent secondary offerings have expanded its public float and institutional ownership. While not outside Theia's range entirely, this is less attractive from a size perspective than typical Theia targets.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><strong>(ii) Analyst Coverage:</strong> 6 brokers <span class="fw-rating moderate">Moderate</span><br>
+  With 6 sell-side analysts covering MIAX, coverage is moderate but not thin. This is better than heavily-covered mega-caps (15+ analysts) but offers less edge than true under-coverage situations (<5 analysts). The August 2025 IPO brought new coverage, but institutional awareness is still building.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><strong>(iii) Blockchain/Internet Finance Thesis Alignment:</strong> <span class="fw-rating strong">Strong</span><br>
+  MIAX is directly aligned with the digitization of financial services. The company represents the technology-forward disruption of legacy exchange infrastructure — precisely the internet finance thesis. Sub-200 microsecond latency, deterministic architecture, and the push toward proprietary derivatives all embody digital-native financial infrastructure. The MIAXdx crypto derivatives platform (10% stake retained after Robinhood JV) provides direct blockchain exposure. This is a core thesis fit.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><strong>(iv) Outcome Dispersion:</strong> <span class="fw-rating strong">Strong</span><br>
+  The scenario analysis shows wide dispersion: Bear Severe at $18.90 (−52%) to Bull Severe at $91.20 (+133%). Key binary outcomes include: (a) Bloomberg futures success/failure; (b) market share ceiling at 20% or breakthrough; (c) proprietary product economics activation. This is exactly the kind of asymmetric setup where fundamental research can add value.</p>
+</div>
+
+<div class="verdict">
+<strong>Verdict: Maybe — Thesis Aligned, But Size Exceeds Typical Target</strong><br>
+MIAX is strongly aligned with Theia's internet finance thesis and exhibits wide outcome dispersion that rewards fundamental research. However, the $3.6B market cap is above the ideal small/microcap range, and 6-analyst coverage provides less edge than truly under-covered situations. This could be a position for a thematic basket rather than a high-conviction core holding. Key catalyst to watch: Q2 2026 Bloomberg futures launch results.
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 13: RISK SUMMARY -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">13. Risk Summary</div>
+
+<table class="risk-table">
+  <thead>
+    <tr>
+      <th style="width:18%;">Risk Category</th>
+      <th style="width:40%;">Description</th>
+      <th style="width:12%;">Severity</th>
+      <th style="width:30%;">Mitigant</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Market Share Ceiling</strong></td>
+      <td>Industry experts warn ~20% ceiling for multi-listed options market share due to difficulty attracting institutional asset managers who fear adverse selection on HFT-dominated venues.</td>
+      <td><span class="severity high">High</span></td>
+      <td>Bloomberg proprietary products could create new growth vector independent of multi-listed share gains.</td>
+    </tr>
+    <tr>
+      <td><strong>Customer Concentration</strong></td>
+      <td>Top 3 customers = 41% of revenue. Loss of major HFT liquidity provider would have outsized P&L impact.</td>
+      <td><span class="severity high">High</span></td>
+      <td>Long-standing relationships with market makers; technology lock-in provides some stickiness.</td>
+    </tr>
+    <tr>
+      <td><strong>Volume Cyclicality</strong></td>
+      <td>~60% transaction revenue exposes MIAX to industry volume swings driven by macro volatility.</td>
+      <td><span class="severity moderate">Moderate</span></td>
+      <td>Non-transaction revenue (access fees, data) growing 29% YoY provides some ballast.</td>
+    </tr>
+    <tr>
+      <td><strong>Bloomberg Futures Execution</strong></td>
+      <td>Q2 2026 launch is unproven; competing against dominant CME/Cboe proprietary products.</td>
+      <td><span class="severity moderate">Moderate</span></td>
+      <td>OCC clearing provides margin efficiencies; retail-friendly "Tini" sizing is differentiated.</td>
+    </tr>
+    <tr>
+      <td><strong>Regulatory</strong></td>
+      <td>SEC oversight prevents exclusive pricing deals; PFOF/market data fee scrutiny could cap high-margin revenue streams.</td>
+      <td><span class="severity moderate">Moderate</span></td>
+      <td>Diversified regulatory exposure across SEC, CFTC, offshore jurisdictions.</td>
+    </tr>
+    <tr>
+      <td><strong>Technology Displacement</strong></td>
+      <td>Competitors could eventually replicate latency advantages through infrastructure overhaul or new technology.</td>
+      <td><span class="severity low">Low</span></td>
+      <td>Legacy systems overhaul is multi-year, high-risk project; MIAX continues to invest in tech leadership.</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 14: APPENDIX - PYTHON CODE -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">14. Appendix — Python Code</div>
+
+<p class="prose">Parameterized code for sensitivity analysis and scenario modeling:</p>
+
+<div class="code-block"># MIAX Sensitivity Table Generator
+import numpy as np
+import pandas as pd
+
+# Parameters
+industry_adv = 55_000_000  # contracts/day
+trading_days = 252
+base_rpc = 0.108
+base_share = 0.171
+
+# Market Share vs RPC sensitivity
+shares = [0.15, 0.17, 0.171, 0.19, 0.21]
+rpcs = [0.090, 0.100, 0.108, 0.115, 0.125]
+
+def calc_options_revenue(share, rpc):
+    contracts = industry_adv * share * trading_days
+    return contracts * rpc / 1e6  # in $M
+
+results = pd.DataFrame(index=[f"{s*100:.1f}% Share" for s in shares],
+                       columns=[f"${r:.3f} RPC" for r in rpcs])
+for i, share in enumerate(shares):
+    for j, rpc in enumerate(rpcs):
+        results.iloc[i, j] = f"${calc_options_revenue(share, rpc):.0f}"
+
+print("Options Transaction Revenue Sensitivity ($M)")
+print(results)
+</div>
+
+<div class="code-block"># MIAX 5-Case Scenario Model
+scenarios = {
+    'Bear Severe': {'share': 0.16, 'rpc': 0.095, 'margin': 0.38, 'pe': 18},
+    'Bear Mild':   {'share': 0.17, 'rpc': 0.105, 'margin': 0.44, 'pe': 22},
+    'Base':        {'share': 0.185, 'rpc': 0.110, 'margin': 0.48, 'pe': 25},
+    'Bull Mild':   {'share': 0.20, 'rpc': 0.115, 'margin': 0.52, 'pe': 28},
+    'Bull Severe': {'share': 0.22, 'rpc': 0.125, 'margin': 0.58, 'pe': 32},
+}
+
+shares_out = 92  # million basic shares
+current_price = 39.10
+
+for name, params in scenarios.items():
+    options_rev = calc_options_revenue(params['share'], params['rpc'])
+    # Assume options is ~60% of net rev
+    net_rev = options_rev / 0.60
+    ebitda = net_rev * params['margin']
+    # Rough EPS: EBITDA * 0.70 (tax/D&A) / shares
+    eps = (ebitda * 0.70) / shares_out
+    implied_price = eps * params['pe']
+    upside = (implied_price / current_price - 1) * 100
+    print(f"{name}: Net Rev ${net_rev:.0f}M, EBITDA ${ebitda:.0f}M, "
+          f"EPS ${eps:.2f}, Implied ${implied_price:.2f} ({upside:+.0f}%)")
+</div>
+
+<div class="source-note" style="margin-top:24px; font-size:9px;">
+  Generated with Claude Code · Data sources: FactSet snapshot (Mar 22, 2026), AlphaSense expert calls and earnings transcripts, company filings.
+</div>
+
+</body>
+</html>
