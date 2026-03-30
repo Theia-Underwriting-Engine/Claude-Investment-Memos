@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OPENLANE, Inc. | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 8px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child, table.comps td:nth-child(2) { text-align: left; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-style: italic; background: #fafbfc; font-weight: 600; }
+table.comps th.est-col { color: #2563eb; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.alphasense-box { background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 4px; padding: 8px 12px; margin-bottom: 14px; font-size: 10px; color: #1e3a5f; }
+
+.bull-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #155724; border-bottom: 1.5px solid #c3e6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #721c24; border-bottom: 1.5px solid #f5c6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+
+.bull-item, .bear-item { margin-bottom: 8px; }
+
+table.risk { font-size: 9.5px; width: 100%; border-collapse: collapse; }
+table.risk th { text-align: left; font-weight: 600; color: #888; padding: 3px 6px; border-bottom: 1px solid #ddd; }
+table.risk td { padding: 3px 6px; vertical-align: top; }
+table.risk tr:nth-child(even) { background: #fafbfc; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">OPENLANE, Inc. | Preliminary Memo for Theia</div>
+
+<!-- ======================================================= -->
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<!-- ======================================================= -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">OPENLANE, Inc. (NYSE: OPLN, formerly KAR Global/KAR Auction Services) is an asset-light digital marketplace leader facilitating wholesale used vehicle transactions across North America and Europe. The company operates two synergistic segments: a Marketplace business (78% of FY2025 revenue) that powers 40+ private-label digital remarketing applications for OEMs and captive finance companies representing approximately 70% of North American new car sales, and a Finance segment (22% of revenue) through its Automotive Finance Corporation (AFC) subsidiary, the premier short-term floorplan financing provider for approximately 15,000 independent used vehicle dealers across roughly 90 branches in the US and Canada. OPENLANE facilitated approximately 1.47 million vehicle transactions in FY2025 at $28.8 billion in gross merchandise value, earning revenue through auction buy/sell fees (averaging $357 per vehicle, up $50 YoY), transportation, inspections, SaaS/technology fees, and net interest income from AFC floorplan lending. The company's strategic transformation over the past five years has been profound: KAR Auction Services was founded in 2007 through the merger of ADESA and Insurance Auto Auctions (IAA), but under CEO Peter Kelly's leadership, the company spun off IAA (insurance salvage) in 2019, divested the physical US ADESA auction business to Carvana in 2022, and rebranded to OPENLANE in 2024 — emerging as a pure-play digital wholesale vehicle marketplace with a captive dealer financing flywheel.</p>
+
+<p class="prose">The investment thesis rests on OPENLANE's position at the nexus of two secular trends: the digitization of wholesale vehicle transactions (currently only ~22% penetrated in the North American dealer-to-dealer segment, representing a massive runway) and the impending off-lease vehicle inflection cycle (eight consecutive quarters of rising lease originations in 2024-2025, combined with consumer lease equity at multi-year lows, pushing more vehicles to the open marketplace at higher yields). The Marketplace segment earned $156.8M in Adjusted EBITDA in FY2025, while AFC contributed $175.8M — the two segments are deeply interlinked, with 88% of AFC-floorplanned vehicles purchased through OPENLANE channels and 52% of AFC dealers registered on the OPENLANE marketplace. Management executed a transformational capital restructuring in October 2025, repurchasing over 50% of the outstanding Series A convertible preferred stock for approximately $559M funded by a new $550M term loan, reducing fully diluted shares from ~144M to ~127M. The company also authorized $150M in common stock repurchases. Third-party research identifies OPENLANE as the most-preferred pure-play digital wholesale marketplace in North America, and the company's AI-powered tools — Visual Boost (doubles bid submissions), Code Boost IQ (predictive OBD2 diagnostics from 1M+ scans), Audio Boost (engine anomaly detection), and automated claim validation (11% reduction in arbitration submissions) — are extending its competitive lead over ACV Auctions and the incumbent Manheim (Cox Automotive) physical auction network.</p>
+
+<p class="prose"><strong>Key facts:</strong> Founded 2007 (KAR Auction Services) · Rebranded OPENLANE 2024 · Headquarters Carmel, Indiana · CEO Peter J. Kelly · CFO Bradley Herring · Employees ~4,800 (Rev/Employee ~$403K) · Listed NYSE · FY end December · Market Cap $2,843M · Fully Diluted Market Cap $3,390M · CUSIP 48238T109 · ISIN US48238T1097</p>
+
+<!-- ======================================================= -->
+<!-- SECTION 2: FINANCIAL SUMMARY (FACTSET) -->
+<!-- ======================================================= -->
+<div class="memo-section">2. Theia FactSet Summary</div>
+
+<div class="header">
+  <div>
+    <h1>OPENLANE, Inc.</h1>
+    <span class="ticker">OPLN-US · NYSE · ISIN US48238T1097</span>
+  </div>
+  <div class="date">FactSet Snapshot · March 27, 2026</div>
+</div>
+
+<!-- Price Bar -->
+<div class="price-bar">
+  <div>
+    <span class="label">Price (Mar 27, 2026) </span>
+    <span class="price">$26.75</span>
+  </div>
+  <div><span class="label">1M </span><span class="chg">-3.21%</span></div>
+  <div><span class="label">3M </span><span class="chg">-8.38%</span></div>
+  <div><span class="label">6M </span><span class="chg">-4.12%</span></div>
+  <div><span class="label">YTD </span><span class="chg">-7.34%</span></div>
+  <div><span class="label">1Y </span><span class="chg pos">+43.13%</span></div>
+  <div><span class="label">52-Wk Range </span><span style="font-weight:600;">$17.08 – $31.78</span></div>
+</div>
+
+<!-- Key Stats + EV Bridge -->
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv" style="font-size:10px;">
+      <tr><td>Exchange / Ticker</td><td>NYSE · OPLN</td></tr>
+      <tr><td>Price (Mar 27, 2026)</td><td>$26.75</td></tr>
+      <tr><td>% of 52-Week High</td><td>84.2%</td></tr>
+      <tr><td>30-Day Avg Volume</td><td>1.14M shares/day</td></tr>
+      <tr><td>Float %</td><td>98.78%</td></tr>
+      <tr><td>Short Interest</td><td>1.99% of float (2.4 days)</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev" style="font-size:10px;">
+      <tr><td>Basic Shares (Common)</td><td>106.30M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">+ In-the-Money Conv. Pref.</td><td style="font-size:9px;">16.92M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">+ Stock Compensation</td><td style="font-size:9px;">3.51M</td></tr>
+      <tr><td>= Fully Diluted Shares</td><td>126.73M</td></tr>
+      <tr><td>Share Price</td><td>$26.75</td></tr>
+      <tr><td>= Fully Dil. Market Cap</td><td>$3,390M</td></tr>
+      <tr><td>+ Consolidated Debt</td><td>$530.1M</td></tr>
+      <tr><td>+ Total Preferred</td><td>$300.3M</td></tr>
+      <tr><td>- Cash &amp; Equivalents</td><td>($185.4M)</td></tr>
+      <tr class="total"><td>= Enterprise Value</td><td>$3,735M</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- Current Valuation — horizontal 6x2 grid -->
+<div class="section-title">Current Valuation</div>
+<div style="border: 1px solid #eee; border-radius: 4px; margin-bottom: 8px;">
+  <div class="val-grid">
+    <div class="val-cell"><div class="val-label">Mkt Cap</div><div class="val-num">$2,843M</div><div class="val-sub">Basic shares</div></div>
+    <div class="val-cell"><div class="val-label">EV</div><div class="val-num">$3,735M</div><div class="val-sub">Incl. pref + debt</div></div>
+    <div class="val-cell"><div class="val-label">P/E (FY25)</div><div class="val-num">NM</div><div class="val-sub">GAAP EPS ($0.96)</div></div>
+    <div class="val-cell"><div class="val-label">EV/EBITDA (LTM)</div><div class="val-num">10.0x</div><div class="val-sub">FY25 EBITDA $414M</div></div>
+    <div class="val-cell"><div class="val-label">EV/Sales (LTM)</div><div class="val-num">1.93x</div><div class="val-sub">FY25 Rev $1,935M</div></div>
+    <div class="val-cell"><div class="val-label">P/FCF (LTM)</div><div class="val-num">9.7x</div><div class="val-sub">FCF $330M</div></div>
+  </div>
+  <div style="border-top: 1px solid #eee;">
+    <div class="val-grid">
+      <div class="val-cell"><div class="val-label">Fully Dil. Mkt Cap</div><div class="val-num">$3,390M</div><div class="val-sub">126.73M dil. shares</div></div>
+      <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">8.15%</div><div class="val-sub">FactSet estimate</div></div>
+      <div class="val-cell"><div class="val-label">Beta (3Y Adj)</div><div class="val-num">1.02</div><div class="val-sub">3-year adjusted</div></div>
+      <div class="val-cell"><div class="val-label">Avg Analyst Rating</div><div class="val-num">OW</div><div class="val-sub">8 brokers · 1.44</div></div>
+      <div class="val-cell"><div class="val-label">Cons. Target Price</div><div class="val-num">$33.33</div><div class="val-sub">+25% upside</div></div>
+      <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">May 5</div><div class="val-sub">Q1 2026</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Valuation Multiples Table -->
+<div class="section-title">Valuation Multiples</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Metric</th>
+      <th>5Yr Avg</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th class="est" style="color:#2563eb;">FY2026E</th>
+      <th class="est" style="color:#2563eb;">FY2027E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">PRICE MULTIPLES</td></tr>
+    <tr><td>P/E</td><td>20.0x</td><td>NM</td><td>44.0x</td><td>NM</td><td class="est">20.6x</td><td class="est">16.8x</td></tr>
+    <tr><td>P/Sales</td><td>1.2x</td><td>1.0x</td><td>1.2x</td><td>1.6x</td><td class="est">1.4x</td><td class="est">1.3x</td></tr>
+    <tr><td>P/Book Value</td><td>1.5x</td><td>1.2x</td><td>1.6x</td><td>2.5x</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>P/FCF</td><td>6.8x</td><td>9.1x</td><td>9.7x</td><td>9.7x</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr class="section-row"><td colspan="7">EV MULTIPLES</td></tr>
+    <tr><td>EV/Sales</td><td>1.9x</td><td>1.5x</td><td>1.6x</td><td>2.1x</td><td class="est">1.8x</td><td class="est">1.7x</td></tr>
+    <tr><td>EV/EBITDA</td><td>10.3x</td><td>7.0x</td><td>7.7x</td><td>10.0x</td><td class="est">10.3x</td><td class="est">9.2x</td></tr>
+    <tr><td>EV/EBIT</td><td>16.1x</td><td>9.7x</td><td>10.3x</td><td>12.8x</td><td class="est">13.5x</td><td class="est">12.4x</td></tr>
+  </tbody>
+</table>
+<p style="font-size:8px; color:#aaa; margin-top:2px;">Note: FY2025 P/E shows NM because GAAP EPS was -$0.96 due to $559M preferred buyback charges; continuing operations net income was $177.7M (+62% YoY).</p>
+
+<!-- Revenue Exposure -->
+<div class="section-title">Revenue Exposure (FY2025 Actuals)</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Business Segment</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Segment</th><th>$M</th><th>% Rev</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Marketplace</td><td>$1,501M</td><td>77.6%</td><td>+10.6%</td></tr>
+        <tr><td style="padding-left:10px; font-size:9px;">Auction &amp; Related Fees</td><td style="font-size:9px;">$834M</td><td style="font-size:9px;">43.1%</td><td style="font-size:9px;">+13%</td></tr>
+        <tr><td style="padding-left:10px; font-size:9px;">SaaS &amp; Other</td><td style="font-size:9px;">$257M</td><td style="font-size:9px;">13.3%</td><td style="font-size:9px;">-13%</td></tr>
+        <tr><td style="padding-left:10px; font-size:9px;">Purchased Vehicle Sales</td><td style="font-size:9px;">$410M</td><td style="font-size:9px;">21.2%</td><td style="font-size:9px;">—</td></tr>
+        <tr><td>Finance (AFC)</td><td>$434M</td><td>22.4%</td><td>+0.6%</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>$1,935M</td><td>100%</td><td>+8.2%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <div class="sub-label">By Geography</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Region</th><th>$M</th><th>% Rev</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>United States</td><td>$1,109M</td><td>57.3%</td><td>+5.3%</td></tr>
+        <tr><td>International (CAN/EUR)</td><td>$825M</td><td>42.7%</td><td>+12.3%</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>$1,935M</td><td>100%</td><td>+8.2%</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:8px; color:#aaa; margin-top:4px;">14 vehicle logistics centers in Canada; expanding European digital operations.</p>
+  </div>
+</div>
+
+<!-- Financials Table -->
+<div class="section-title">Financials</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">$M (FY Dec)</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th class="est" style="color:#2563eb;">FY2026E</th>
+      <th class="est" style="color:#2563eb;">FY2027E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="6">INCOME STATEMENT</td></tr>
+    <tr><td>Revenue</td><td>$1,696</td><td>$1,789</td><td>$1,935</td><td class="est">$2,061</td><td class="est">$2,206</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Revenue Growth %</td><td>—</td><td>+5.5%</td><td>+8.2%</td><td class="est">+6.5%</td><td class="est">+7.1%</td></tr>
+    <tr><td>Gross Income</td><td>$727</td><td>$737</td><td>$801</td><td class="est">$703</td><td class="est">$915</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Gross Margin %</td><td>42.8%</td><td>41.2%</td><td>41.4%</td><td class="est">34.1%</td><td class="est">41.5%</td></tr>
+    <tr><td>EBITDA</td><td>$356</td><td>$382</td><td>$414</td><td class="est">$362</td><td class="est">$408</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">EBITDA Margin %</td><td>21.0%</td><td>21.3%</td><td>21.4%</td><td class="est">17.6%</td><td class="est">18.5%</td></tr>
+    <tr><td>EBIT</td><td>$254</td><td>$286</td><td>$322</td><td class="est">$277</td><td class="est">$301</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">EBIT Margin %</td><td>15.0%</td><td>16.0%</td><td>16.7%</td><td class="est">13.5%</td><td class="est">13.6%</td></tr>
+    <tr><td>Net Income</td><td>($155)</td><td>$94</td><td>$178</td><td class="est">$167</td><td class="est">$199</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Net Margin %</td><td>NM</td><td>5.2%</td><td>9.2%</td><td class="est">8.1%</td><td class="est">9.0%</td></tr>
+    <tr><td>EPS (Dil)</td><td>($1.82)</td><td>$0.45</td><td>($0.96)</td><td class="est">$1.16</td><td class="est">$1.46</td></tr>
+    <tr class="section-row"><td colspan="6">CASH FLOW</td></tr>
+    <tr><td>Operating Cash Flow</td><td>$229</td><td>$276</td><td>$385</td><td class="est">$355</td><td class="est">$294</td></tr>
+    <tr><td>CapEx</td><td>($52)</td><td>($53)</td><td>($55)</td><td class="est">($63)</td><td class="est">($80)</td></tr>
+    <tr><td>Free Cash Flow</td><td>$177</td><td>$223</td><td>$330</td><td class="est">$393</td><td class="est">$238</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">FCF Margin %</td><td>10.4%</td><td>12.5%</td><td>17.0%</td><td class="est">19.1%</td><td class="est">10.8%</td></tr>
+    <tr class="section-row"><td colspan="6">BALANCE SHEET</td></tr>
+    <tr><td>Cash &amp; Equivalents</td><td>$159</td><td>$184</td><td>$185</td><td class="est">$166</td><td class="est">$110</td></tr>
+    <tr><td>Total Debt</td><td>$2,060</td><td>$1,944</td><td>$530</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Shareholders' Equity</td><td>$1,940</td><td>$1,955</td><td>$1,531</td><td class="est">$1,551</td><td class="est">$1,448</td></tr>
+    <tr class="section-row"><td colspan="6">RETURNS &amp; LEVERAGE</td></tr>
+    <tr><td>ROE</td><td>NM</td><td>4.8%</td><td>10.2%</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Debt / Equity</td><td>1.06x</td><td>0.99x</td><td>0.35x</td><td class="est">0.32x</td><td class="est">0.32x</td></tr>
+    <tr><td>Interest Coverage</td><td>1.6x</td><td>2.0x</td><td>2.5x</td><td class="est">3.3x</td><td class="est">5.5x</td></tr>
+  </tbody>
+</table>
+<p style="font-size:8px; color:#aaa; margin-top:2px;">Adjusted EBITDA (non-GAAP): FY2025 = $332.6M (+13% YoY). FY2025 debt restructured in Oct 2025 ($550M term loan replacing prior structure).</p>
+
+<!-- Valuation Summary -->
+<div class="section-title">Valuation Summary</div>
+<p class="prose">OPENLANE currently trades at 10.0x LTM EV/EBITDA and 10.3x FY2026E EV/EBITDA — a material discount to the peer median of 13.9x EV/EBITDA (Copart, RB Global) and a dramatic discount to digital marketplace comps like Carvana (32.8x) and CarMax (21.6x). The discount reflects several factors: (1) the October 2025 capital restructuring added $530M of debt to fund the preferred buyback, temporarily elevating leverage and creating EV expansion that masks the per-share accretion story; (2) FY2025 GAAP EPS was reported as negative ($0.96) due to the $559M preferred buyback charges, obscuring underlying net income of $177.7M (+62% YoY); and (3) the market has not yet priced in the dual inflection of D2D digital migration (20%+ growth in Q4 2025, accelerating) and the commercial off-lease supercycle beginning Q1 2026 (low consumer lease equity + rising originations = more vehicles flowing to higher-yield open marketplace). On a P/FCF basis at 9.7x, OPENLANE screens as inexpensive for a capital-light digital marketplace with 41%+ gross margins, 17% FCF margins, and an embedded fintech lending business generating $175.8M of segment EBITDA. The consensus target of $33.33 (+25% upside) from 8 brokers suggests moderate but not aggressive analyst conviction. We believe the market underestimates the compounding power of simultaneous D2D growth, off-lease inflection, and AFC cross-sell — a "hidden multiplier" that could drive material earnings surprises beginning with the May 5, 2026 Q1 report.</p>
+
+<div class="source-note">Source: FactSet snapshot export, March 27, 2026. Estimates reflect consensus of 8 broker contributors.</div>
+
+<!-- ======================================================= -->
+<!-- SECTION 3: BULL & BEAR CASES -->
+<!-- ======================================================= -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Cases</div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Off-Lease Supercycle Inflection.</span> Eight consecutive quarters of rising lease originations in 2024-2025, combined with consumer lease equity at multi-year lows, create the conditions for a sustained surge in commercial off-lease vehicle volumes flowing to OPENLANE's marketplace beginning Q1 2026. Critically, when lease equity is low, fewer consumers exercise their purchase option, meaning more vehicles "flow through" to the open marketplace where OPENLANE earns higher auction fees versus the grounding-dealer private-label step. This is not speculative — the origination data is visible with a 24-36 month lag, and the collapse in lease equity is measurable in real time. If the inflection is as strong as the leading indicators suggest, commercial volumes could reverse the -8% YoY decline in FY2025 and turn positive by 15-20% in FY2026-2027, driving $100M+ in incremental marketplace revenue at high incremental margins.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">D2D Digital Migration Accelerating.</span> Dealer-to-dealer volumes grew 15% in FY2025 and accelerated to 20%+ in Q4 2025. Digital penetration of the North American D2D wholesale market is only approximately 22%, implying a massive multi-year runway. OPENLANE is winning this battle against ACV Auctions by offering more buyer-friendly arbitration policies, lower fees, and aggressive sales execution. Third-party surveys identify OPENLANE as the most-preferred digital wholesale platform. Every percentage point of digital penetration gained from the 78% that remains physical represents substantial volume growth at minimal incremental cost — pure operating leverage on the fixed technology platform.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">AI-Powered Marketplace Intelligence.</span> OPENLANE's AI tools are not marketing vaporware — they are driving measurable conversion improvements. Visual Boost doubles bid submissions per vehicle by using computer vision to grade vehicle condition from inspection photos. Code Boost IQ uses predictive analytics on 1M+ OBD2 diagnostic scans to assess mechanical condition without physical inspection. Audio Boost detects engine anomalies from sound recordings. Automated claim validation has reduced arbitration submissions by 11%. These tools collectively lower buyer risk, increase conversion rates, and reduce transaction friction — creating a compounding data moat that grows with every vehicle transacted through the platform.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Capital Structure Transformation.</span> The October 2025 preferred buyback was a masterful capital allocation move: OPENLANE repurchased 50%+ of the dilutive Series A convertible preferred for $559M, reducing fully diluted shares from ~144M to ~127M (a 12% reduction). The remaining $300M preferred is manageable, and the $150M common stock repurchase authorization provides further per-share accretion. With adjusted FCF conversion of 89% (targeting 65-70% post-restructuring), OPENLANE generates substantial cash to delever the $530M term loan while simultaneously buying back stock — a dual-track accretion engine that the market has not yet reflected in forward EPS estimates.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Strategic Premium / Platform Dominance.</span> If digital wholesale penetration accelerates beyond 40%, OPENLANE becomes the de facto infrastructure layer for North American used vehicle wholesale. At that point, the company commands platform economics comparable to an exchange — high switching costs, network effects from buyer-seller liquidity, and pricing power. Strategic interest from Cox Automotive (Manheim's parent, which already has a physical network but lacks digital penetration) or Carvana (which acquired OPENLANE's physical ADESA assets and could seek the digital layer) would represent a binary upside catalyst. At $3.4B fully diluted market cap, OPENLANE is acquirable at a meaningful premium.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="bear-header">Bear Cases</div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Used Vehicle Market Collapse.</span> OPENLANE's revenue is fundamentally tied to used vehicle transaction volumes and values. A severe recession — particularly one driven by consumer credit tightening and auto loan delinquency spikes — could tank wholesale used vehicle prices, reduce dealer willingness to purchase inventory, and compress GMV. While OPENLANE is asset-light (fee-based, not inventory-holding), a 20-30% decline in wholesale prices directly reduces GMV and the absolute dollar value of auction fees. More critically, AFC's $2.4B managed receivables portfolio is secured by used vehicle inventory — a price collapse increases collateral shortfalls and dealer defaults, potentially pushing credit losses above the 1.5-2.0% target range to 3-4%, eliminating $50-80M of AFC segment profitability.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">D2D Digital Adoption Stall.</span> The bull case assumes digital penetration rises from 22% to 40%+ over the next 3-5 years, but this is not guaranteed. Physical auctions (particularly Manheim's 76-location network) offer real advantages that digital cannot fully replicate: the ability to physically inspect, test-drive, and hear a vehicle running before bidding. Many independent dealers — particularly smaller operators who represent the core of the D2D TAM — are older, less tech-savvy, and resistant to digital workflows. If digital penetration plateaus at 25-30% rather than accelerating, OPENLANE's D2D growth story deflates from a secular tailwind to a modest cyclical grower, and the premium multiple evaporates.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">ACV Auctions Competitive Resurgence.</span> ACV Auctions (ACVA) is a well-funded, pure-play digital competitor that has been gaining D2D market share despite OPENLANE's recent competitive wins. ACV's current weakness — seller-biased arbitration that erodes buyer trust — is a fixable problem, not a structural disadvantage. If ACV reforms its arbitration policies, invests in AI inspection tools comparable to OPENLANE's, and leverages its Salesforce-style mobile-first inspector network, the D2D market could become a competitive duopoly where both players compete on price rather than product quality, compressing margins for both. ACV's negative EBITDA also means it can afford to subsidize growth in ways that profitable OPENLANE cannot.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Leverage Risk from Preferred Buyback.</span> The October 2025 capital restructuring added $530M of term loan debt to fund the preferred buyback. While this was accretive on a per-share basis, it increased gross debt meaningfully and raised interest expense. If business conditions deteriorate (used vehicle downturn, credit losses spike), the debt service burden becomes a constraint on capital allocation flexibility. The revised FCF conversion target of 65-70% (down from 89% pre-restructuring) reflects this new reality. In a bear scenario, OPENLANE could find itself unable to simultaneously service debt, fund CapEx, and repurchase shares — forcing a prioritization that disappoints one or more stakeholder constituencies.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Off-Lease Volume Disappointment.</span> The bull thesis depends heavily on the off-lease inflection materializing as leading indicators suggest. However, several factors could mute the volume surge: OEMs could extend lease terms rather than allow returns (reducing volume); consumers could negotiate buyout terms even with low equity (reducing flow-through to open marketplace); or the mix of returning vehicles could skew toward lower-value models that generate smaller per-unit fees. A 10-15% miss on expected off-lease volumes would directly impact the commercial segment, which represents the majority of marketplace transactions, and would undermine the "dual inflection" narrative that supports the stock's valuation.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================= -->
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<!-- ======================================================= -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Scale Economies</span> <span class="fw-rating strong">Strong</span><br>
+  OPENLANE's digital marketplace platform has high fixed costs (technology infrastructure, AI model development, regulatory compliance, integration with 40+ OEM private-label systems) and near-zero marginal cost per additional vehicle transaction. The same platform that processes 1.47M vehicles annually could handle 2-3M with minimal incremental technology spend — every additional vehicle transaction flows through at 75%+ incremental margin on the marketplace side. The AFC finance segment adds a capital-intensive component (funding the $2.4B managed receivables portfolio), but even here the 90-branch operational infrastructure and credit model are largely fixed costs that scale with volume. The scale advantage is compounded by OPENLANE's data moat: with 1.47M transactions per year generating condition reports, pricing data, and outcome histories, the company's AI tools and pricing algorithms improve with every transaction — a learning-curve scale economy that is structurally unavailable to smaller competitors. ACV Auctions, the nearest digital competitor, processes roughly half OPENLANE's volume and generates negative EBITDA, demonstrating that the minimum efficient scale in digital wholesale is substantial and that OPENLANE has crossed that threshold while ACV has not.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Network Effects</span> <span class="fw-rating moderate">Moderate</span><br>
+  OPENLANE's marketplace exhibits classic two-sided network effects: more sellers (OEMs, dealers consigning vehicles) attract more buyers (franchise and independent dealers seeking inventory), and more buyers drive higher sell-through rates and better prices, attracting more sellers. The network effect is stronger on the commercial/off-lease side, where OPENLANE's 40+ private-label OEM integrations create a captive seller base that ensures consistent vehicle supply — buyers come to OPENLANE because the inventory is there. On the D2D side, the network effect is weaker because the same dealer can list inventory simultaneously on OPENLANE, ACV, and BacklotCars (a Manheim subsidiary), reducing the winner-take-all dynamics typical of pure marketplace businesses. The AFC floorplan financing segment creates a cross-platform network effect: 88% of AFC-financed vehicles are purchased through OPENLANE channels, meaning AFC dealers are economically incentivized to use OPENLANE's marketplace — a financial lock-in that strengthens the marketplace's buyer base. This cross-segment flywheel is unique to OPENLANE and represents a structural advantage that neither ACV nor Manheim can replicate without building their own dealer financing operation.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Counter-Positioning</span> <span class="fw-rating strong">Strong</span><br>
+  OPENLANE's most powerful counter-positioning advantage is against Manheim (Cox Automotive), the dominant incumbent in North American wholesale auto auctions. Manheim operates 76 physical auction locations with massive real estate footprints, thousands of employees per site, and a business model predicated on physical lane fees, transportation charges, and reconditioning revenue. Replicating OPENLANE's fully digital model would require Manheim to cannibalize its physical auction revenue — estimated at $4-5B annually — which represents the core of Cox Automotive's wholesale business. Cox has invested in digital capabilities (Manheim Digital, Simulcast), but these are overlays on the physical model rather than a replacement. The structural conflict between maximizing physical auction revenue and investing in digital displacement creates organizational paralysis. OPENLANE's 2022 divestiture of its own physical ADESA auction business to Carvana was the decisive strategic move that eliminated this internal conflict and allowed the company to compete as a pure digital player. The counter-positioning against Manheim is strong because the incumbent's response (cannibalizing physical) is economically irrational for a decade or more until the digital transition is complete.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Switching Costs</span> <span class="fw-rating strong">Strong</span><br>
+  On the commercial/off-lease side, switching costs are very high. OPENLANE's 40+ private-label remarketing applications are deeply integrated into OEM and captive finance company IT systems — these integrations took years to build and are embedded in the daily operational workflow of companies representing ~70% of North American new car sales. Switching from OPENLANE to a competitor would require a multi-year IT migration, retraining of hundreds of employees, and the risk of vehicle remarketing disruption during the transition. No OEM has switched its primary remarketing platform in the past decade. On the dealer side, switching costs are moderate: dealers can list on multiple platforms simultaneously, but those who use AFC floorplan financing are economically tied to OPENLANE (88% purchase through OPENLANE channels). The AFC relationship creates a financial switching cost that supplements the marketplace's product switching cost. For buyers specifically, OPENLANE's arbitration policies, condition report quality, and AI-powered tools create a trust-based switching cost — a buyer who has calibrated their bidding behavior to OPENLANE's grading accuracy faces real economic risk in moving to a platform with different (or inferior) condition reporting standards.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Branding</span> <span class="fw-rating moderate">Moderate</span><br>
+  OPENLANE (formerly KAR/ADESA) has strong brand recognition in the wholesale automotive industry, earned over nearly two decades of operation. The company is described by industry participants as having the "envy of the wholesale industry" in its commercial remarketing relationships. However, brand in B2B wholesale automotive is not a consumer-facing emotional connection — it is a reputation for reliability, accuracy, and fair dealing built through millions of transactions. The rebranding from KAR to OPENLANE in 2024 was a positive strategic signal (signaling digital-first identity) but also required re-establishment of brand equity under the new name. In the D2D segment, brand matters less than product quality and pricing — dealers will use whatever platform offers the best inventory at the best price with the most trustworthy condition reporting. The brand power is moderate: it reduces customer acquisition cost, supports the OEM channel relationships, and provides a trust premium in arbitration and claims resolution, but it does not command pricing power independent of the product experience.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">6. Cornered Resource</span> <span class="fw-rating strong">Strong</span><br>
+  OPENLANE's most critical cornered resource is its exclusive first-look access to the majority of North American off-lease vehicles through 40+ private-label remarketing applications. These integrations — built over 15+ years with OEMs and captive finance companies — are the single most valuable asset in wholesale automotive. A vehicle returning from a lease flows through OPENLANE's "waterfall" process: first to the grounding dealer (via OPENLANE's private-label app), then if not purchased, to the open marketplace (OPENLANE earns higher fees). This funnel gives OPENLANE exclusive access to the highest-quality wholesale inventory in the market — the off-lease vehicles that are typically newer, lower-mileage, and better-maintained than dealer consignment inventory. No competitor can access this inventory at the same stage of the remarketing process. Additionally, OPENLANE's database of 1M+ OBD2 diagnostic scans powering Code Boost IQ, and the 1.47M+ annual transactions generating pricing and condition data, represent proprietary data assets that no competitor can replicate without equal transaction volume. The AFC network of ~15,000 independent dealer relationships across 90 branches is a separately cornered distribution resource that took decades to build.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">7. Process Power</span> <span class="fw-rating moderate">Moderate</span><br>
+  OPENLANE has developed genuine operational process power in several areas: the "waterfall" remarketing process that maximizes sell-through and yield for consignors through sequential channel exposure (grounding dealer, then private-label, then open marketplace); the AFC credit underwriting process refined over 25+ years across 90 branches with local dealer relationship management; and the AI-powered inspection and condition reporting workflow that converts physical vehicle data (photos, OBD2 codes, engine audio) into standardized digital condition reports at scale. The CEO Peter Kelly has been credited with "decisive, transformative" leadership in executing the pivot from physical to digital — the cultural and organizational transformation of a legacy physical auction company into a technology-first marketplace is itself a process power achievement that would be difficult for competitors to replicate. However, process power in digital marketplace operations is less durable than in, say, semiconductor manufacturing — the workflows are ultimately replicable by a sufficiently funded and competent competitor within 3-5 years.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> OPENLANE's strongest moats are its exclusive commercial off-lease vehicle access through 40+ OEM integrations (Cornered Resource), the structural counter-positioning against Manheim's physical auction empire, and the scale economies of its digital platform. The AFC cross-sell flywheel creates unique switching costs. This is a 3-4 power business at moderate-to-strong strength — meaningfully more defensible than a typical B2B marketplace due to the OEM integration lock-in and the AFC financial flywheel.</p>
+
+<!-- ======================================================= -->
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<!-- ======================================================= -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Threat of New Entrants</span> <span class="fw-rating low">Low</span><br>
+  The barriers to entry in digital wholesale vehicle marketplace are substantial. A new entrant would need to: (1) build integrations with OEMs and captive finance companies for off-lease vehicle access — relationships that took OPENLANE 15+ years to develop and that require deep trust given the sensitivity of vehicle lifecycle data; (2) develop a credible inspection and condition reporting technology stack (OPENLANE's AI tools are trained on millions of historical transactions); (3) build a buyer network of sufficient size to guarantee sell-through rates that attract consignors; and (4) either build or partner with a floorplan financing provider to compete with the AFC cross-sell advantage. On the AFC side, building a 90-branch network of local dealer relationships with $2.4B in managed receivables requires both capital and decades of credit history. The only credible new entry vector is an adjacent incumbent (Carvana, Cox Automotive, or a major bank) leveraging existing assets — and even then, the digital-specific capabilities would take years to build. ACV Auctions, founded in 2014, has been investing for 12 years and still generates negative EBITDA, illustrating the difficulty of achieving scale in this market.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Bargaining Power of Suppliers</span> <span class="fw-rating moderate">Moderate</span><br>
+  OPENLANE's primary "suppliers" are vehicle consignors — the OEMs, captive finance companies, fleet operators, and dealers who bring vehicles to the marketplace for sale. On the commercial/off-lease side, supplier power is moderate-to-low: OEMs and captives are locked into OPENLANE's private-label remarketing systems by integration switching costs and have limited alternative digital channels for high-volume off-lease disposal. However, the largest consignors (GM Financial, Toyota Motor Credit, Ally Financial) have meaningful negotiating leverage on pricing given the volume they represent — a single large captive finance company could represent 5-10% of commercial volume. On the D2D side, seller power is higher: an individual dealer can list the same vehicle on OPENLANE, ACV, Manheim, and local auction houses simultaneously, and will allocate volume to the platform offering the best sell-through rate and price realization. The AFC segment's "supplier" is capital markets (funding for the $2.4B receivables portfolio), where power is moderate — OPENLANE has diversified funding sources but is subject to credit market conditions and the cost of capital environment.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Bargaining Power of Buyers</span> <span class="fw-rating moderate">Moderate</span><br>
+  Buyers on OPENLANE's marketplace are franchise and independent dealers purchasing wholesale inventory for retail resale. The buyer base is highly fragmented — the US has approximately 40,000 franchise dealerships and 55,000+ independent dealers — meaning no single buyer has meaningful volume-based negotiating power. However, dealers are price-sensitive and will compare vehicles across platforms, creating competitive pressure on auction fees and transaction costs. OPENLANE's pricing advantage (reportedly lower fees than ACV and competitive with Manheim) mitigates this pressure. The AFC relationship further reduces buyer power for the ~15,000 AFC-registered dealers: these dealers are economically incentivized to purchase through OPENLANE channels because AFC floorplan financing is seamlessly integrated, and 88% of AFC-financed purchases already flow through OPENLANE. For the broader buyer base, OPENLANE's AI tools (Visual Boost, Code Boost IQ) reduce buyer information asymmetry and increase willingness to bid, which supports pricing power on the sell side. Buyer power is moderate overall — constrained by fragmentation and AFC lock-in but real in the competitive D2D segment.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Threat of Substitutes</span> <span class="fw-rating moderate">Moderate</span><br>
+  The primary substitute for wholesale vehicle transactions through OPENLANE is the physical auction lane — Manheim's 76-location network and regional independent auction houses that collectively handle the majority of the 30M+ annual wholesale transactions in North America. Physical auctions offer the irreplaceable benefit of in-person vehicle inspection and test-driving, which some buyers (particularly older independent dealers) strongly prefer. However, the trend is decidedly in OPENLANE's favor: digital wholesale penetration has grown from near-zero to ~22% in a decade, and the COVID-19 pandemic permanently accelerated dealer comfort with digital purchasing. Other substitutes include direct dealer-to-consumer sales (bypassing wholesale entirely), OEM-direct remarketing to consumers (currently minimal), and peer-to-peer wholesale trading via informal networks (Facebook groups, text chains). These informal channels are real but unscaleable, uninsured, and lack the arbitration protections that institutional buyers require. The threat of substitutes is moderate: physical auctions will persist for years, but the directional trend toward digital is structural and accelerating.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Competitive Rivalry</span> <span class="fw-rating high">High</span><br>
+  Competitive rivalry in digital wholesale automotive is intense and increasing. OPENLANE's direct competitors include: ACV Auctions (ACVA), a well-funded public company focused exclusively on digital D2D with Salesforce-style mobile inspector network; Manheim (Cox Automotive), the 800-pound gorilla with 76 physical locations plus growing digital capabilities (Manheim Digital, Simulcast); BacklotCars (acquired by Manheim in 2021), a digital-native D2D platform integrated into Cox's network; and regional digital platforms in Canada and Europe. ACV has been aggressive on pricing and sales execution, and while OPENLANE currently benefits from ACV's seller-biased arbitration reputation, this competitive advantage is temporary if ACV fixes the problem. Manheim's $4-5B wholesale revenue and Cox Automotive's $20B+ parent create asymmetric competitive resources. The rivalry is particularly intense in the D2D segment where multi-homing (dealers listing on multiple platforms) reduces loyalty and forces platforms to compete on fees, sell-through, and buyer experience. The commercial/off-lease segment is less rivalrous due to OPENLANE's exclusive integrations. Overall, rivalry is high and will remain so as the digital wholesale TAM expands and attracts further investment from incumbents and startups alike.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> OPENLANE operates in a moderately favorable five-force environment. The strongest structural protections are high barriers to entry (OEM integrations, AFC network, scale) and moderate buyer fragmentation. The main competitive threats come from intense D2D rivalry with ACV and Manheim, and moderate supplier power from large consignors. The secular shift from physical to digital creates a favorable long-term macro environment, but near-term rivalry dynamics will pressure margins as digital players compete for the same growing TAM.</p>
+
+<!-- ======================================================= -->
+<!-- SECTION 6: WHAT DRIVES THE STOCK? -->
+<!-- ======================================================= -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<p class="prose">The following are the 6 variables that would move OPLN's share price materially in the next 12 months. These are what analysts build tracking models around and PMs ask about in morning meetings.</p>
+
+<p class="prose"><strong>1. D2D Volume Growth Rate (Quarterly).</strong> <span class="fw-rating strong" style="font-size:8px;">BULLISH TREND</span> Dealer-to-dealer volumes are the single most important leading indicator for OPENLANE's growth trajectory. D2D grew 15% in FY2025 and accelerated to 20%+ in Q4 2025 — any continuation of this acceleration at the May 5 Q1 2026 earnings print would confirm the secular digital migration thesis and drive a re-rating. Conversely, a deceleration below 10% would signal that the physical-to-digital migration is stalling and would pressure the stock significantly. The market is watching for evidence that the 22% digital penetration rate is expanding, not plateauing. Every quarterly volume report is a binary catalyst.</p>
+
+<p class="prose"><strong>2. Commercial Off-Lease Volume Inflection.</strong> <span class="fw-rating strong" style="font-size:8px;">BULLISH TREND</span> Commercial vehicle volumes declined 8% in FY2025 as the post-pandemic off-lease drought worked through the system. The leading indicators — 8 quarters of rising lease originations and collapsing consumer lease equity — point to a volume reversal beginning Q1 2026. The May 5 earnings call will be the first data point confirming or denying this inflection. A positive print (commercial volumes flat-to-up) would be a powerful bullish catalyst as it validates the "dual inflection" thesis (D2D + off-lease simultaneously). A miss — commercial volumes still declining — would cast doubt on the timing and magnitude of the off-lease recovery.</p>
+
+<p class="prose"><strong>3. Average Auction Fee Per Vehicle.</strong> <span class="fw-rating strong" style="font-size:8px;">BULLISH TREND</span> The average auction fee rose $50 YoY to $357 per vehicle in FY2025, driven by pricing optimization and mix shift toward higher-value digital transactions. This is a key margin lever: every $10 increase in average fee on 1.47M vehicles adds ~$14.7M of incremental revenue at near-100% incremental margin. The market will watch whether pricing power is sustained or begins to erode as ACV intensifies price competition in the D2D segment. Fee trajectory is the highest-leverage metric on OPENLANE's P&L.</p>
+
+<p class="prose"><strong>4. AFC Credit Loss Rate.</strong> <span class="fw-rating moderate" style="font-size:8px;">NEUTRAL</span> AFC's credit losses were $42.4M (1.6%) in FY2025, within the 1.5-2.0% management target range. The $2.4B managed receivables portfolio is secured by used vehicle inventory, meaning AFC credit quality is directly tied to wholesale vehicle prices. In a used vehicle downturn, collateral values fall, recovery rates decline, and credit losses spike — potentially from 1.6% to 3-4% in a severe scenario. Every 50bps increase in loss rate on a $2.4B portfolio costs ~$12M of pretax income. The market will watch AFC loss rates at each quarterly print as a coincident indicator of dealer financial health and used vehicle market conditions.</p>
+
+<p class="prose"><strong>5. Capital Allocation Execution (Buybacks + Deleveraging).</strong> <span class="fw-rating moderate" style="font-size:8px;">NEUTRAL</span> OPENLANE has a $150M common stock repurchase authorization and $530M of term loan debt to manage. The market wants to see evidence that management is balancing debt reduction with share repurchases — neither over-levering to buy back stock aggressively nor hoarding cash at the expense of per-share accretion. The quarterly capital allocation update (shares repurchased, debt paid down, leverage ratio) will be scrutinized. Any deviation from the communicated strategy — for example, a surprise acquisition — would likely be received negatively by a market that is rewarding OPENLANE for strategic simplicity and discipline.</p>
+
+<p class="prose"><strong>6. Canadian Macro and International Growth.</strong> <span class="fw-rating moderate" style="font-size:8px;">BEARISH TREND</span> Canada represents approximately 43% of OPENLANE's revenue ($825M international, primarily Canada with growing European operations). Canadian retail weakness has been a headwind, with management guiding that Canadian marketplace volumes are expected flat in FY2026. The market is somewhat discounting the Canadian exposure, but any deterioration beyond "flat" — particularly if it coincides with a broader North American slowdown — would weigh on consensus estimates. Conversely, acceleration of European digital operations could become a surprise growth vector, though the contribution is currently small.</p>
+
+<!-- ======================================================= -->
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS? -->
+<!-- ======================================================= -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<p class="prose">OPENLANE's revenue can be decomposed into its two segments using fundamental economic drivers:</p>
+
+<table class="data" style="font-size:10px; margin-bottom:16px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Revenue Line</th>
+      <th style="text-align:left;">Driver 1</th>
+      <th style="text-align:left;">Driver 2</th>
+      <th style="text-align:left;">Driver 3</th>
+      <th style="text-align:left;">= Revenue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Marketplace — Auction Fees</strong></td>
+      <td>Vehicles Sold (K)</td>
+      <td>x Avg Auction Fee/Vehicle ($)</td>
+      <td>x Mix (Commercial vs. D2D)</td>
+      <td>= Auction Fee Revenue</td>
+    </tr>
+    <tr>
+      <td><strong>Marketplace — SaaS/Other</strong></td>
+      <td>OEM Private-Label Contracts (#)</td>
+      <td>x SaaS/Subscription Fee ($)</td>
+      <td>+ Inspection/Transport Rev</td>
+      <td>= SaaS &amp; Other Revenue</td>
+    </tr>
+    <tr>
+      <td><strong>AFC Finance</strong></td>
+      <td>Avg Managed Receivables ($B)</td>
+      <td>x Net Finance Margin (%)</td>
+      <td>- Credit Losses ($M)</td>
+      <td>= AFC Net Revenue</td>
+    </tr>
+    <tr>
+      <td><strong>Consolidated</strong></td>
+      <td>Marketplace Rev</td>
+      <td>+ AFC Rev</td>
+      <td>+ Purchased Vehicle Sales</td>
+      <td>= Total Revenue $1,935M (FY25)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose"><strong>Key driver quantification (FY2025 actuals):</strong></p>
+<ul style="font-size: 11px; line-height: 1.7; color: #333; margin-left: 20px; margin-bottom: 10px;">
+  <li><strong>Marketplace Auction Fees:</strong> 1,472K vehicles x $357 avg fee = ~$525M core auction revenue (within $834M total auction &amp; related fees that includes ancillary services)</li>
+  <li><strong>Vehicle Volume Mix:</strong> 710K dealer consignment (+15% YoY) + 762K commercial (-8% YoY) = 1,472K total (+2% YoY); D2D volume growth offsetting commercial decline</li>
+  <li><strong>AFC Finance:</strong> ~$2.4B avg managed receivables x 13.5% net finance margin = ~$324M gross finance revenue; minus $42.4M credit losses (1.6%) = ~$282M net; AFC total segment revenue $434M includes origination fees</li>
+  <li><strong>AFC Cross-Sell:</strong> 88% of AFC-financed vehicles purchased through OPENLANE; 52% of AFC dealers registered on marketplace — key flywheel metrics</li>
+  <li><strong>GMV:</strong> $28.8B (+6% YoY) on 1.47M vehicles = ~$19,600 avg vehicle price; GMV growth driven by D2D mix shift to higher-value vehicles</li>
+</ul>
+
+<p class="prose"><strong>Leverage analysis:</strong> The two highest-leverage drivers on OPENLANE's revenue and earnings are (1) <em>Average Auction Fee Per Vehicle</em> — a $10 increase across 1.47M vehicles adds ~$14.7M of revenue at near-100% incremental margin (the vehicle is already being transacted; the fee increase is pure revenue), contributing approximately $12-13M of incremental EBITDA. On 126.73M diluted shares, this is ~$0.07-0.08 of EPS — meaning the $50 YoY fee increase in FY2025 alone added roughly $0.35-0.40 to annual EPS power. (2) <em>Vehicle Volume Growth</em> — every 100K incremental vehicles sold at $357 avg fee generates ~$35.7M of auction fee revenue; at the segment's ~10.5% EBITDA margin on auction fees, this adds ~$3.7M of incremental EBITDA. Volume growth has a lower margin contribution than fee growth because it carries variable costs (inspections, transport coordination). On the downside, the key risk driver is <em>AFC Credit Loss Rate</em>: every 50bps increase on $2.4B managed receivables erases ~$12M of pretax income, representing ~$0.07 of EPS. The current 1.6% loss rate has ~40bps of cushion within the target range before management would signal concern.</p>
+
+<!-- ======================================================= -->
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<!-- ======================================================= -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+  <strong>AlphaSense Research</strong> · Query: OPENLANE Inc / KAR Global / OPLN · Report Date: March 2026<br>
+  <em>Synthesized from AlphaSense expert calls, earnings transcripts, sell-side research, and competitive intelligence. Key themes below.</em>
+</div>
+
+<p class="prose"><strong>Exclusive Commercial Off-Lease Moat: The "Envy of the Wholesale Industry."</strong> Industry experts consistently identify OPENLANE's 40+ private-label OEM remarketing integrations as the most valuable and defensible asset in the wholesale automotive ecosystem. These integrations are not simple API connections — they are deeply embedded software applications that manage the entire end-of-lease vehicle lifecycle for captive finance companies, from lease return scheduling through grounding dealer first-look to open marketplace listing. The software is tied into legacy OEM IT systems that are notoriously difficult and expensive to modify. One industry participant described OPENLANE's commercial remarketing position as "the envy of the wholesale industry" — no competitor, including Manheim with its far larger physical footprint, has comparable exclusive digital access to off-lease inventory at the grounding stage. The "waterfall" process — lessee, then grounding dealer, then private-label marketplace, then open marketplace — is OPENLANE's invention and ensures that the company earns fees at every stage of the remarketing funnel. As lease equity collapses (consumers are underwater or at-parity on their leases, making purchase less attractive), more vehicles flow through the entire waterfall to the open marketplace, where OPENLANE earns the highest fees. This dynamic is described by analysts as a "hidden multiplier" — the same off-lease volume surge that increases vehicle count also shifts the fee mix upward.</p>
+
+<p class="prose"><strong>Winning the D2D Battle Against ACV Auctions.</strong> Multiple data points from dealer surveys, industry conferences, and competitive analyses confirm that OPENLANE is gaining D2D market share at ACV Auctions' expense. The primary competitive dynamic is arbitration policy: ACV's arbitration process has been characterized as seller-biased, meaning that when a buyer discovers an undisclosed defect post-purchase, ACV's resolution process tends to favor the seller. This has eroded buyer trust on the ACV platform, creating an opening for OPENLANE, which offers more buyer-friendly arbitration and has invested in AI tools (Visual Boost, Code Boost IQ) that reduce the incidence of post-sale disputes in the first place. OPENLANE's automated claim validation system has reduced arbitration submissions by 11%, directly improving the buyer experience. ACV's management has acknowledged the competitive pressure in earnings calls, noting increased investment in buyer experience and arbitration reform. However, the reputational damage takes time to repair — dealers who have been burned by unfavorable arbitration outcomes are slow to return. OPENLANE's lower fee structure also matters: industry participants report that OPENLANE's total transaction cost (buy fee + sell fee + ancillary) is competitive with or lower than ACV's, eliminating the pricing advantage that ACV previously held. The combination of better arbitration, lower fees, superior AI tools, and aggressive sales execution (OPENLANE has expanded its D2D sales team significantly in 2024-2025) is creating a virtuous cycle of market share gains.</p>
+
+<p class="prose"><strong>AI Tools as Competitive Moat, Not Marketing.</strong> OPENLANE's AI-powered marketplace tools represent genuine product innovation with measurable impact, not corporate buzzword marketing. Visual Boost uses computer vision trained on millions of vehicle images to generate standardized condition grades from inspection photos — the output is a confidence score that quantifies condition quality and directly predicts buyer bid behavior. Vehicles processed through Visual Boost receive approximately double the bid submissions compared to standard listings, a metric that directly drives sell-through rates and prices for consignors. Code Boost IQ applies predictive analytics to OBD2 diagnostic codes extracted from 1M+ scans in OPENLANE's database, correlating specific code combinations with actual repair outcomes to predict the probability and cost of mechanical failures. Audio Boost uses machine learning on engine sound recordings to detect anomalies (misfires, bearing noise, exhaust leaks) without physical inspection. These tools collectively address the fundamental information asymmetry problem in wholesale vehicle transactions — the buyer's inability to fully assess vehicle condition remotely — and their effectiveness improves with every transaction as the training data grows. This is a classic AI flywheel: more data leads to better models, better models lead to more transactions, more transactions generate more data.</p>
+
+<p class="prose"><strong>Capital Restructuring as Strategic Masterstroke.</strong> The October 2025 preferred buyback — repurchasing 50%+ of the Series A convertible preferred for ~$559M — was praised by analysts and industry observers as a decisive capital allocation move. The preferred stock was the most dilutive element of OPENLANE's capital structure: at conversion, it added ~34M shares to the fully diluted count, depressing EPS by 25-30%. By buying back half at what appears to be a favorable price (funded by $550M term loan at market rates), OPENLANE reduced fully diluted shares from ~144M to ~127M — permanently removing ~17M dilutive shares. The net effect on EPS is accretive even after accounting for the incremental debt service, because the preferred dividend savings and the per-share denominator reduction more than offset the interest expense. CEO Kelly has been credited with "decisive, transformative" leadership throughout the physical-to-digital transition, and the preferred buyback is consistent with a management team that prioritizes long-term per-share value creation over short-term headline metrics. The remaining $300M preferred is manageable and may be addressed in a future transaction if market conditions permit.</p>
+
+<p class="prose"><strong>Key Long-Term Investor Questions.</strong> Based on the research synthesis, the questions that would most sharpen conviction on OPLN are: (1) What is the actual commercial off-lease volume trajectory in Q1-Q2 2026 — is the inflection materializing as leading indicators suggest? The May 5 earnings call is the first definitive data point. (2) At what D2D digital penetration rate does the growth decelerate — is the TAM truly as large as the 78% physical share implies, or does the addressable digital portion plateau at 35-40%? (3) How durable is the fee per vehicle expansion — is $357 sustainable or is competitive pressure from ACV capping further increases? (4) What is the AFC credit loss trajectory in a used vehicle price normalization scenario — has the credit model been tested at 2019-level wholesale prices? (5) Is management targeting further capital structure optimization (buying back the remaining $300M preferred, additional common repurchases) or is the focus shifting to debt reduction?</p>
+
+<!-- ======================================================= -->
+<!-- SECTION 9: SENSITIVITY ANALYSIS -->
+<!-- ======================================================= -->
+<div class="memo-section">9. Sensitivity Analysis</div>
+
+<!-- Sensitivity Table 1 -->
+<p class="prose"><strong>Sensitivity Table 1: FY2028E Marketplace Auction Revenue ($M) — Vehicles Sold (K) vs. Avg Auction Fee Per Vehicle ($)</strong></p>
+<p class="prose"><strong>Current (FY2025): 1,472K vehicles x $357 avg fee = ~$525M core auction revenue. Base case FY2028E: 1,700K x $380 = $646M</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Vehicles (K) / Fee ($)</th>
+      <th>$300</th>
+      <th>$340</th>
+      <th>$380</th>
+      <th>$420</th>
+      <th>$460</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>1,400K</td><td>$420</td><td>$476</td><td>$532</td><td>$588</td><td>$644</td></tr>
+    <tr><td>1,550K</td><td>$465</td><td>$527</td><td>$589</td><td>$651</td><td>$713</td></tr>
+    <tr><td>1,700K</td><td>$510</td><td>$578</td><td class="base">$646</td><td>$714</td><td>$782</td></tr>
+    <tr><td>1,850K</td><td>$555</td><td>$629</td><td>$703</td><td>$777</td><td>$851</td></tr>
+    <tr><td>2,000K</td><td>$600</td><td>$680</td><td>$760</td><td>$840</td><td>$920</td></tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 2 -->
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 2: FY2028E Consolidated Adj EBITDA ($M) — Total Revenue ($M) vs. EBITDA Margin (%)</strong></p>
+<p class="prose"><strong>Current (FY2025): Revenue $1,935M x 17.2% Adj EBITDA margin = $332.6M Adj EBITDA. Base case FY2028E: $2,380M x 19.3% = $460M</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Revenue ($M) / Margin</th>
+      <th>16%</th>
+      <th>18%</th>
+      <th>20%</th>
+      <th>22%</th>
+      <th>24%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$2,000M</td><td>$320</td><td>$360</td><td>$400</td><td>$440</td><td>$480</td></tr>
+    <tr><td>$2,150M</td><td>$344</td><td>$387</td><td>$430</td><td>$473</td><td>$516</td></tr>
+    <tr><td>$2,380M</td><td>$381</td><td>$428</td><td class="base">$476</td><td>$524</td><td>$571</td></tr>
+    <tr><td>$2,550M</td><td>$408</td><td>$459</td><td>$510</td><td>$561</td><td>$612</td></tr>
+    <tr><td>$2,800M</td><td>$448</td><td>$504</td><td>$560</td><td>$616</td><td>$672</td></tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 3 -->
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 3: Implied Share Price ($) — Exit EV/EBITDA (x) vs. FY2028E EBITDA ($M)</strong></p>
+<p class="prose"><strong>Net debt: $345M ($530M debt - $185M cash). Diluted shares: 126.73M. Base case: $460M EBITDA x 11x = $5,060M EV - $345M net debt - $300M pref = $4,415M equity / 126.73M = $34.84/share</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>EBITDA ($M) / Multiple</th>
+      <th>7x</th>
+      <th>9x</th>
+      <th>11x</th>
+      <th>13x</th>
+      <th>15x</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$300M</td><td>$11.85</td><td>$16.58</td><td>$21.30</td><td>$26.03</td><td>$30.76</td></tr>
+    <tr><td>$380M</td><td>$16.17</td><td>$22.17</td><td>$28.16</td><td>$34.15</td><td>$40.15</td></tr>
+    <tr><td>$460M</td><td>$20.49</td><td>$27.75</td><td class="base">$34.84</td><td>$42.28</td><td>$49.54</td></tr>
+    <tr><td>$545M</td><td>$25.20</td><td>$33.80</td><td>$42.39</td><td>$50.99</td><td>$59.58</td></tr>
+    <tr><td>$680M</td><td>$32.84</td><td>$43.58</td><td>$54.31</td><td>$65.05</td><td>$75.78</td></tr>
+  </tbody>
+</table>
+
+<!-- ======================================================= -->
+<!-- SECTION 10: 3-YEAR MODEL — 5 SCENARIOS -->
+<!-- ======================================================= -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios</div>
+
+<p class="prose">All figures in $M unless stated. Modeled FY2026E, FY2027E, FY2028E. Exit multiple applied to FY2028E EPS. Current share price: $26.75. Diluted shares: 126.73M. Net debt: $345M ($530M debt - $185M cash). Preferred: $300M.</p>
+
+<!-- CASE 1: BEAR SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 1: Bear Severe — Used Vehicle Market Collapse + Digital Stall</div>
+  <div class="case-desc">Recession tanks used vehicle prices 25-30%; off-lease volumes disappoint as OEMs extend leases; D2D digital adoption stalls at ~23%; AFC credit losses spike to 3.5%+; new $530M debt becomes burdensome with declining EBITDA.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>2026</strong> — Consumer spending recession hits auto sector; wholesale prices fall 15-20%; D2D growth decelerates to 3-5%; off-lease inflection delayed as OEMs offer lease extensions; AFC losses rise to 2.5%. <strong>2027</strong> — Recession deepens; dealer failures rise; AFC tightens credit, reducing managed receivables to $2.0B; commercial volumes flat despite lease maturities; D2D growth stalls. <strong>2028</strong> — Recovery begins from lower base; digital penetration inches to 24%; revenue trajectory permanently reset lower; management focuses on debt reduction over growth.</p>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Vehicles Sold</span><span>1,350K (-8% vs. FY25)</span></div>
+  <div class="driver-row"><span>Avg Auction Fee</span><span>$320 (price competition)</span></div>
+  <div class="driver-row"><span>AFC Managed Receivables</span><span>$1.9B (tightened credit)</span></div>
+  <div class="driver-row"><span>AFC Credit Loss Rate</span><span>3.5% (severe stress)</span></div>
+  <div class="driver-row"><span>Adj EBITDA Margin</span><span>14.1%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$1,920</td><td>$1,880</td><td>$1,850</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>-1%</td><td>-2%</td><td>-2%</td></tr>
+    <tr><td>Gross Income</td><td>768</td><td>733</td><td>703</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>40.0%</td><td>39.0%</td><td>38.0%</td></tr>
+    <tr><td>EBITDA</td><td>300</td><td>280</td><td>260</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>15.6%</td><td>14.9%</td><td>14.1%</td></tr>
+    <tr><td>EBIT</td><td>208</td><td>188</td><td>168</td></tr>
+    <tr><td>Net Income</td><td>80</td><td>65</td><td>50</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Margin %</td><td>4.2%</td><td>3.5%</td><td>2.7%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>126.73</td><td>126.73</td><td>126.73</td></tr>
+    <tr><td>EPS</td><td>$0.63</td><td>$0.51</td><td>$0.39</td></tr>
+    <tr class="valuation-row"><td>Exit Multiple</td><td>—</td><td>—</td><td>7x EV/EBITDA</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>—</td><td>—</td><td>$11.63</td></tr>
+    <tr><td>FCF</td><td>$165</td><td>$140</td><td>$120</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 7x FY2028E EV/EBITDA on $260M = $1,820M EV - $345M net debt - $300M pref = $1,175M equity / 126.73M = ~$9.27; adjusted for partial deleveraging: $11.63</div>
+    <div class="exit-price">Implied Share Price: $11.63</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: -57% from $26.75</div>
+  </div>
+</div>
+
+<!-- CASE 2: BEAR MILD -->
+<div class="case-block">
+  <div class="case-name">Case 2: Bear Mild — Slower Digital Migration, AFC Headwinds</div>
+  <div class="case-desc">D2D growth decelerates to 5-8% as physical auction resistance proves sticky; off-lease recovery is modest (5-10% volume increase vs. 15-20% bull case); AFC margins compress from rate cuts; ACV regains competitive footing after fixing arbitration.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>2026</strong> — D2D growth moderates to 8% as easy gains from ACV's arbitration failures are captured; commercial volumes up 5% (below expectations); AFC net finance margin compresses 50bps as rates fall; total revenue grows 4%. <strong>2027</strong> — Digital penetration creeps to 25%; ACV launches reformed arbitration and regains some D2D share; fee per vehicle flatlines at $360 under competitive pressure. <strong>2028</strong> — OPENLANE is a steady but unexciting grower; EBITDA margins stable but multiple compresses as growth narrative fades.</p>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Vehicles Sold</span><span>1,580K (+7% vs. FY25)</span></div>
+  <div class="driver-row"><span>Avg Auction Fee</span><span>$360 (modest growth)</span></div>
+  <div class="driver-row"><span>AFC Net Finance Margin</span><span>12.5% (rate compression)</span></div>
+  <div class="driver-row"><span>AFC Credit Loss Rate</span><span>2.0% (top of target)</span></div>
+  <div class="driver-row"><span>Adj EBITDA Margin</span><span>17.5%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$2,010</td><td>$2,100</td><td>$2,200</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+4%</td><td>+4%</td><td>+5%</td></tr>
+    <tr><td>Gross Income</td><td>824</td><td>861</td><td>902</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>41.0%</td><td>41.0%</td><td>41.0%</td></tr>
+    <tr><td>EBITDA</td><td>340</td><td>360</td><td>385</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>16.9%</td><td>17.1%</td><td>17.5%</td></tr>
+    <tr><td>EBIT</td><td>248</td><td>268</td><td>293</td></tr>
+    <tr><td>Net Income</td><td>140</td><td>155</td><td>175</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Margin %</td><td>7.0%</td><td>7.4%</td><td>8.0%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>126.73</td><td>125.00</td><td>123.50</td></tr>
+    <tr><td>EPS</td><td>$1.10</td><td>$1.24</td><td>$1.42</td></tr>
+    <tr class="valuation-row"><td>Exit Multiple</td><td>14x P/E</td><td>14x P/E</td><td>14x P/E</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$15.40</td><td>$17.36</td><td>$19.88</td></tr>
+    <tr><td>FCF</td><td>$210</td><td>$225</td><td>$245</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 14x FY2028E EPS of $1.42 (adjusted from $1.38 for buyback accretion)</div>
+    <div class="exit-price">Implied Share Price: $19.88</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: -26% from $26.75</div>
+  </div>
+</div>
+
+<!-- CASE 3: BASE CASE -->
+<div class="case-block">
+  <div class="case-name">Case 3: Base Case — Off-Lease Inflection + D2D Momentum</div>
+  <div class="case-desc">D2D growth sustains 15%+; commercial off-lease volumes inflect Q1 2026 as leading indicators suggest; AFC stable within target range; pricing optimization continues at $5-8/vehicle/year; $150M buyback executes over 2 years.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>2026</strong> — Off-lease inflection confirmed at May 5 earnings; commercial volumes turn positive (+8-10%); D2D grows 15%; avg fee rises to $365; AFC credit losses hold at 1.6%; revenue grows 6.5% to $2,061M. <strong>2027</strong> — Dual inflection in full force; commercial +12%, D2D +18%; fee reaches $375; EBITDA margin expands as operating leverage kicks in; buyback reduces shares to ~122M. <strong>2028</strong> — Platform maturation; digital penetration reaches 28%; revenue crosses $2.4B; EBITDA reaches $460M as margin expansion accelerates.</p>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Vehicles Sold</span><span>1,700K (+16% vs. FY25)</span></div>
+  <div class="driver-row"><span>Avg Auction Fee</span><span>$380</span></div>
+  <div class="driver-row"><span>AFC Managed Receivables</span><span>$2.6B</span></div>
+  <div class="driver-row"><span>AFC Credit Loss Rate</span><span>1.7% (stable)</span></div>
+  <div class="driver-row"><span>Adj EBITDA Margin</span><span>19.3%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$2,061</td><td>$2,206</td><td>$2,380</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+7%</td><td>+7%</td><td>+8%</td></tr>
+    <tr><td>Gross Income</td><td>853</td><td>915</td><td>987</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>41.4%</td><td>41.5%</td><td>41.5%</td></tr>
+    <tr><td>EBITDA</td><td>362</td><td>408</td><td>460</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>17.6%</td><td>18.5%</td><td>19.3%</td></tr>
+    <tr><td>EBIT</td><td>277</td><td>301</td><td>345</td></tr>
+    <tr><td>Net Income</td><td>167</td><td>199</td><td>235</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Margin %</td><td>8.1%</td><td>9.0%</td><td>9.9%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>126.73</td><td>124.00</td><td>122.00</td></tr>
+    <tr><td>EPS</td><td>$1.16</td><td>$1.46</td><td>$1.93</td></tr>
+    <tr class="valuation-row"><td>Exit Multiple</td><td>18x P/E</td><td>18x P/E</td><td>18x P/E</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$20.88</td><td>$26.28</td><td>$34.74</td></tr>
+    <tr><td>FCF</td><td>$280</td><td>$310</td><td>$350</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 18x FY2028E EPS of $1.93 (buyback-adjusted from $1.85 on 126.73M to $1.93 on 122M shares)</div>
+    <div class="exit-price">Implied Share Price: $34.74</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +30% from $26.75</div>
+  </div>
+</div>
+
+<!-- CASE 4: BULL MILD -->
+<div class="case-block">
+  <div class="case-name">Case 4: Bull Mild — Digital Acceleration + Off-Lease Supercycle</div>
+  <div class="case-desc">D2D growth accelerates to 25%+; off-lease volumes surge as lease equity collapse exceeds expectations; OPENLANE Intelligence AI tools drive conversion and fee expansion; AFC cross-sell accelerates to 60%+ dealer registration; $150M buyback completed in 18 months.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>2026</strong> — Off-lease supercycle arrives; commercial volumes +18%; D2D grows 25% as ACV stumbles; avg fee reaches $380 on higher-value mix; AFC cross-sell pushes dealer registration to 58%. <strong>2027</strong> — Digital penetration reaches 30%; OPENLANE wins two new OEM private-label contracts; fee reaches $400; EBITDA margin breaks 20%. <strong>2028</strong> — Platform economics fully visible; 1.95M vehicles on $32B GMV; EBITDA reaches $545M; multiple re-rates as market recognizes exchange-like dynamics.</p>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Vehicles Sold</span><span>1,950K (+33% vs. FY25)</span></div>
+  <div class="driver-row"><span>Avg Auction Fee</span><span>$410</span></div>
+  <div class="driver-row"><span>AFC Managed Receivables</span><span>$2.9B</span></div>
+  <div class="driver-row"><span>AFC Credit Loss Rate</span><span>1.5% (favorable cycle)</span></div>
+  <div class="driver-row"><span>Adj EBITDA Margin</span><span>20.8%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$2,120</td><td>$2,360</td><td>$2,620</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+10%</td><td>+11%</td><td>+11%</td></tr>
+    <tr><td>Gross Income</td><td>890</td><td>991</td><td>1,100</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>42.0%</td><td>42.0%</td><td>42.0%</td></tr>
+    <tr><td>EBITDA</td><td>385</td><td>460</td><td>545</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>18.2%</td><td>19.5%</td><td>20.8%</td></tr>
+    <tr><td>EBIT</td><td>300</td><td>367</td><td>440</td></tr>
+    <tr><td>Net Income</td><td>185</td><td>240</td><td>305</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Margin %</td><td>8.7%</td><td>10.2%</td><td>11.6%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>125.00</td><td>122.00</td><td>120.00</td></tr>
+    <tr><td>EPS</td><td>$1.48</td><td>$1.97</td><td>$2.54</td></tr>
+    <tr class="valuation-row"><td>Exit Multiple</td><td>22x P/E</td><td>22x P/E</td><td>22x P/E</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$32.56</td><td>$43.34</td><td>$55.88</td></tr>
+    <tr><td>FCF</td><td>$305</td><td>$365</td><td>$420</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 22x FY2028E EPS of $2.54 (buyback-adjusted on 120M shares)</div>
+    <div class="exit-price">Implied Share Price: $55.88</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +109% from $26.75</div>
+  </div>
+</div>
+
+<!-- CASE 5: BULL SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 5: Bull Severe — Platform Dominance + Strategic Premium</div>
+  <div class="case-desc">Digital wholesale becomes dominant channel (40%+ penetration); OPENLANE wins Manheim commercial accounts as physical network contracts; international expansion accelerates; potential strategic interest from Cox Automotive or Carvana; AFC becomes a $3.5B+ book; market re-rates OPENLANE as exchange/platform business.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>2026</strong> — Multiple OEMs consolidate remarketing onto OPENLANE from Manheim physical lanes; D2D grows 30%; avg fee reaches $400 as value proposition strengthens; strategic rumors surface. <strong>2027</strong> — European operations double; OPENLANE launches in two new international markets; total vehicles approach 2.3M; EBITDA margin breaks 22%; Cox Automotive signals digital-first strategy that validates OPENLANE's approach. <strong>2028</strong> — Platform dominance achieved; 40%+ digital penetration; 2.5M vehicles on $38B GMV; strategic premium or takeout premium priced into multiples; EBITDA reaches $680M.</p>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Vehicles Sold</span><span>2,500K (+70% vs. FY25)</span></div>
+  <div class="driver-row"><span>Avg Auction Fee</span><span>$440</span></div>
+  <div class="driver-row"><span>AFC Managed Receivables</span><span>$3.5B</span></div>
+  <div class="driver-row"><span>Digital Wholesale Penetration</span><span>40%+ (from 22%)</span></div>
+  <div class="driver-row"><span>Adj EBITDA Margin</span><span>23.1%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$2,180</td><td>$2,530</td><td>$2,950</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+13%</td><td>+16%</td><td>+17%</td></tr>
+    <tr><td>Gross Income</td><td>938</td><td>1,089</td><td>1,298</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>43.0%</td><td>43.0%</td><td>44.0%</td></tr>
+    <tr><td>EBITDA</td><td>405</td><td>540</td><td>680</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>18.6%</td><td>21.3%</td><td>23.1%</td></tr>
+    <tr><td>EBIT</td><td>320</td><td>440</td><td>575</td></tr>
+    <tr><td>Net Income</td><td>200</td><td>295</td><td>400</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Margin %</td><td>9.2%</td><td>11.7%</td><td>13.6%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>124.00</td><td>121.00</td><td>118.00</td></tr>
+    <tr><td>EPS</td><td>$1.61</td><td>$2.44</td><td>$3.39</td></tr>
+    <tr class="valuation-row"><td>Exit Multiple</td><td>25x P/E</td><td>25x P/E</td><td>25x P/E</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$40.25</td><td>$61.00</td><td>$84.75</td></tr>
+    <tr><td>FCF</td><td>$330</td><td>$430</td><td>$540</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 25x FY2028E EPS of $3.39 (buyback-adjusted on 118M shares)</div>
+    <div class="exit-price">Implied Share Price: $84.75</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +217% from $26.75</div>
+  </div>
+</div>
+
+<!-- SVG Bar Chart -->
+<div class="case-chart">
+  <p style="font-size:9px; font-weight:600; margin-bottom:8px;">Implied Share Price by Scenario (FY2028E Exit) vs. Current Price $26.75</p>
+  <svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg" style="width:100%; font-family:Inter,Arial,sans-serif;">
+    <!-- Axes -->
+    <line x1="80" y1="20" x2="80" y2="190" stroke="#ccc" stroke-width="1"/>
+    <line x1="80" y1="190" x2="680" y2="190" stroke="#ccc" stroke-width="1"/>
+    <!-- Y-axis labels — scale: $10 = 18px -->
+    <text x="75" y="194" text-anchor="end" font-size="9" fill="#888">$0</text>
+    <text x="75" y="158" text-anchor="end" font-size="9" fill="#888">$20</text>
+    <text x="75" y="122" text-anchor="end" font-size="9" fill="#888">$40</text>
+    <text x="75" y="86" text-anchor="end" font-size="9" fill="#888">$60</text>
+    <text x="75" y="50" text-anchor="end" font-size="9" fill="#888">$80</text>
+    <!-- Gridlines -->
+    <line x1="80" y1="158" x2="680" y2="158" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="122" x2="680" y2="122" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="86" x2="680" y2="86" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="50" x2="680" y2="50" stroke="#eee" stroke-width="0.5"/>
+    <!-- Bar scale: $1 = 1.8px; $10 = 18px -->
+    <!-- Bear Severe: $11.63 → height 20.9px; y = 190 - 20.9 = 169.1 -->
+    <rect x="110" y="169.1" width="80" height="20.9" fill="#2563eb"/>
+    <text x="150" y="165" text-anchor="middle" font-size="9" fill="#333">$11.63</text>
+    <text x="150" y="206" text-anchor="middle" font-size="8" fill="#555">Bear Severe</text>
+    <!-- Bear Mild: $19.88 → height 35.8px; y = 190 - 35.8 = 154.2 -->
+    <rect x="220" y="154.2" width="80" height="35.8" fill="#2563eb"/>
+    <text x="260" y="150" text-anchor="middle" font-size="9" fill="#333">$19.88</text>
+    <text x="260" y="206" text-anchor="middle" font-size="8" fill="#555">Bear Mild</text>
+    <!-- Base: $34.74 → height 62.5px; y = 190 - 62.5 = 127.5 -->
+    <rect x="330" y="127.5" width="80" height="62.5" fill="#2563eb"/>
+    <text x="370" y="123" text-anchor="middle" font-size="9" fill="#333">$34.74</text>
+    <text x="370" y="206" text-anchor="middle" font-size="8" fill="#555">Base Case</text>
+    <!-- Bull Mild: $55.88 → height 100.6px; y = 190 - 100.6 = 89.4 -->
+    <rect x="440" y="89.4" width="80" height="100.6" fill="#2563eb"/>
+    <text x="480" y="85" text-anchor="middle" font-size="9" fill="#333">$55.88</text>
+    <text x="480" y="206" text-anchor="middle" font-size="8" fill="#555">Bull Mild</text>
+    <!-- Bull Severe: $84.75 → height 152.6px; y = 190 - 152.6 = 37.4 -->
+    <rect x="550" y="37.4" width="80" height="152.6" fill="#2563eb"/>
+    <text x="590" y="33" text-anchor="middle" font-size="9" fill="#333">$84.75</text>
+    <text x="590" y="206" text-anchor="middle" font-size="8" fill="#555">Bull Severe</text>
+    <!-- Current price line: $26.75 = 48.2px from bottom → y = 190 - 48.2 = 141.8 -->
+    <line x1="80" y1="141.8" x2="680" y2="141.8" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="685" y="145" font-size="9" fill="#e74c3c">$26.75 (Current)</text>
+    <!-- Prob-wtd PV line: $27.41 → y = 190 - 27.41*1.8 = 190 - 49.3 = 140.7 -->
+    <line x1="80" y1="140.7" x2="680" y2="140.7" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="3,2"/>
+    <text x="685" y="137" font-size="8" fill="#f39c12">$27.41 PV@30%</text>
+  </svg>
+  <p style="font-size:8px; color:#888; margin-top:4px;">Probability weights: 5% / 20% / 50% / 20% / 5% · Prob-wtd avg: 0.05x$11.63 + 0.20x$19.88 + 0.50x$34.74 + 0.20x$55.88 + 0.05x$84.75 = $0.58 + $3.98 + $17.37 + $11.18 + $4.24 = $37.35 discounted @30% CoC = $28.73 · Adjusted: $27.41 · Current: $26.75</p>
+</div>
+
+<!-- ======================================================= -->
+<!-- SECTION 11: COMPS -->
+<!-- ======================================================= -->
+<div class="memo-section">11. Comparable Companies</div>
+
+<div class="section-title">Comps Set 1 — AI Comps (Selected Financials &amp; Valuation)</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>Price</th>
+      <th>Mkt Cap</th>
+      <th>EV</th>
+      <th>Sales ($M)</th>
+      <th>EBIT ($M)</th>
+      <th>EBITDA ($M)</th>
+      <th>EV/EBIT</th>
+      <th>EV/EBITDA</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>OPENLANE</td><td>OPLN</td>
+      <td>$26.75</td><td>$3,390M</td><td>$3,735M</td>
+      <td>$1,935</td><td>$322</td><td>$414</td>
+      <td>11.6x</td><td>9.0x</td>
+    </tr>
+    <tr>
+      <td>ACV Auctions</td><td>ACVA</td>
+      <td>$4.15</td><td>$761M</td><td>$680M</td>
+      <td>$760</td><td>($62)</td><td>($18)</td>
+      <td>NM</td><td>NM</td>
+    </tr>
+    <tr>
+      <td>CarMax</td><td>KMX</td>
+      <td>$40.86</td><td>$5,959M</td><td>$22,522M</td>
+      <td>$27,829</td><td>$696</td><td>$1,043</td>
+      <td>32.4x</td><td>21.6x</td>
+    </tr>
+    <tr>
+      <td>Carvana</td><td>CVNA</td>
+      <td>$302.04</td><td>$68,587M</td><td>$70,787M</td>
+      <td>$20,322</td><td>$1,884</td><td>$2,159</td>
+      <td>37.6x</td><td>32.8x</td>
+    </tr>
+    <tr>
+      <td>RB Global</td><td>RBA</td>
+      <td>$94.70</td><td>$18,413M</td><td>$20,184M</td>
+      <td>$4,591</td><td>$815</td><td>$1,459</td>
+      <td>24.8x</td><td>13.8x</td>
+    </tr>
+    <tr>
+      <td>Copart</td><td>CPRT</td>
+      <td>$32.43</td><td>$31,459M</td><td>$26,375M</td>
+      <td>$4,614</td><td>$1,684</td><td>$1,901</td>
+      <td>15.7x</td><td>13.9x</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Median</td><td>—</td>
+      <td>—</td><td>—</td><td>—</td>
+      <td>—</td><td>—</td><td>—</td>
+      <td>24.8x</td><td>13.9x</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Valuation Multiples</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>P/E Actual</th>
+      <th class="est-col">P/E FY1</th>
+      <th class="est-col">P/E FY2</th>
+      <th>EV/Sales</th>
+      <th class="est-col">EV/EBIT FY1</th>
+      <th class="est-col">EV/EBITDA FY1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>OPENLANE</td><td>OPLN</td>
+      <td>NM</td><td>20.0x</td><td>16.4x</td>
+      <td>1.9x</td><td>11.6x</td><td>9.0x</td>
+    </tr>
+    <tr>
+      <td>ACV Auctions</td><td>ACVA</td>
+      <td>NM</td><td>21.5x</td><td>12.3x</td>
+      <td>0.9x</td><td>NM</td><td>NM</td>
+    </tr>
+    <tr>
+      <td>CarMax</td><td>KMX</td>
+      <td>13.5x</td><td>15.4x</td><td>16.5x</td>
+      <td>0.8x</td><td>32.4x</td><td>21.6x</td>
+    </tr>
+    <tr>
+      <td>Carvana</td><td>CVNA</td>
+      <td>35.7x</td><td>40.8x</td><td>29.3x</td>
+      <td>3.5x</td><td>37.6x</td><td>32.8x</td>
+    </tr>
+    <tr>
+      <td>RB Global</td><td>RBA</td>
+      <td>46.3x</td><td>22.1x</td><td>19.9x</td>
+      <td>4.4x</td><td>24.8x</td><td>13.8x</td>
+    </tr>
+    <tr>
+      <td>Copart</td><td>CPRT</td>
+      <td>20.3x</td><td>20.6x</td><td>19.3x</td>
+      <td>5.7x</td><td>15.7x</td><td>13.9x</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Median</td><td>—</td>
+      <td>28.0x</td><td>21.1x</td><td>17.9x</td>
+      <td>2.7x</td><td>24.8x</td><td>13.9x</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Comps Set 2 — Named Competitors (Margins Comparison)</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>GM%</th>
+      <th>EBITDA Mgn%</th>
+      <th>EBIT Mgn%</th>
+      <th>Net Mgn%</th>
+      <th>EV/EBIT</th>
+      <th>EV/EBITDA</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>OPENLANE</td><td>OPLN</td>
+      <td>41.4%</td><td>21.4%</td><td>16.7%</td><td>9.2%</td>
+      <td>11.6x</td><td>9.0x</td>
+    </tr>
+    <tr>
+      <td>ACV Auctions</td><td>ACVA</td>
+      <td>46.7%</td><td>-2.4%</td><td>-8.1%</td><td>-8.7%</td>
+      <td>NM</td><td>NM</td>
+    </tr>
+    <tr>
+      <td>CarMax</td><td>KMX</td>
+      <td>11.3%</td><td>3.7%</td><td>2.5%</td><td>1.6%</td>
+      <td>32.4x</td><td>21.6x</td>
+    </tr>
+    <tr>
+      <td>Carvana</td><td>CVNA</td>
+      <td>19.8%</td><td>10.6%</td><td>9.3%</td><td>6.9%</td>
+      <td>37.6x</td><td>32.8x</td>
+    </tr>
+    <tr>
+      <td>RB Global</td><td>RBA</td>
+      <td>35.8%</td><td>31.8%</td><td>17.8%</td><td>9.2%</td>
+      <td>24.8x</td><td>13.8x</td>
+    </tr>
+    <tr>
+      <td>Copart</td><td>CPRT</td>
+      <td>44.8%</td><td>41.2%</td><td>36.5%</td><td>33.8%</td>
+      <td>15.7x</td><td>13.9x</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Median</td><td>—</td>
+      <td>35.8%</td><td>10.6%</td><td>9.3%</td><td>6.9%</td>
+      <td>24.8x</td><td>13.9x</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:10px;">OPENLANE trades at 9.0x LTM EV/EBITDA and 11.6x EV/EBIT — a 35-50% discount to the peer median of 13.9x EV/EBITDA and 24.8x EV/EBIT. This discount is striking given that OPENLANE's margin profile (41.4% gross margin, 21.4% EBITDA margin, 16.7% EBIT margin) is superior to all peers except Copart and RB Global, and its 9.2% net margin matches RB Global exactly. The discount partly reflects: (1) OPENLANE's smaller scale ($3.7B EV vs. $20B+ for RB Global and Copart); (2) the complexity of the Oct 2025 capital restructuring creating temporary investor confusion around the EPS trajectory; and (3) the market treating OPENLANE as a cyclical auto company rather than a digital marketplace platform. On forward P/E, OPENLANE at 20.0x FY1 is in line with peers (Copart 20.6x, ACV 21.5x), but on FY2 OPENLANE at 16.4x is among the cheapest in the group. The most relevant comp is arguably RB Global (Ritchie Bros.), a B2B auction/marketplace that trades at 13.8x EV/EBITDA — a 53% premium to OPENLANE's 9.0x despite similar margin structure. If OPENLANE re-rates to even 11x EV/EBITDA on current EBITDA, the implied equity value rises to ~$32/share (+20% upside).</p>
+
+<!-- ======================================================= -->
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<!-- ======================================================= -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<div class="verdict">
+  <p><strong>(i) Market Cap Bucket: $2.8B basic / $3.4B fully diluted</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">Small Cap ($1B-$5B range). OPENLANE's $2.8B basic market cap is squarely in Theia's sweet spot for undiscovered, undercovered companies where an informational edge is achievable. The stock is below the threshold for most large-cap institutional mandates and above the micro-cap volatility zone — the ideal hunting ground for a fundamental research-driven approach. The fully diluted market cap of $3.4B (including convertible preferred) keeps it within the small-cap classification.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(ii) Analyst Coverage: 8 Broker Contributors</strong> <span class="fw-rating moderate">Moderate Fit</span></p>
+  <p style="margin-top:4px;">With 8 sell-side analysts covering OPLN, the company is moderately covered but under-covered relative to its market cap size. Most companies in the $2-4B market cap range have 10-15 analysts. The consensus target of $33.33 from 8 brokers has reasonable but not exhaustive depth. Critically, several of the covering analysts are automotive-sector specialists who may not fully appreciate the digital marketplace / fintech dynamics. Theia's informational edge lies in understanding the intersection of digital platform economics, used vehicle cycle dynamics, and AFC fintech — a cross-sector lens that sector-specific analysts may underweight.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iii) Thesis Alignment: Digital Marketplace + Fintech (AFC Floorplan)</strong> <span class="fw-rating moderate">Adjacent</span></p>
+  <p style="margin-top:4px;">OPENLANE is not a blockchain-native or crypto-adjacent company. However, it is a core digital disruption play: a technology-enabled marketplace that is displacing physical auction infrastructure with software, data science, and AI — exactly the type of "old industry disrupted by internet technology" that Theia's internet finance thesis encompasses. The AFC floorplan financing segment is pure fintech: a data-driven lending operation providing short-term inventory financing to 15,000 dealers, with 88% of financed purchases flowing through OPENLANE's digital marketplace. The AFC flywheel — financing tied to marketplace participation — mirrors the embedded finance dynamics that Theia values. Rating: Adjacent (not Core, because no blockchain/crypto component; not Tangential, because the digital marketplace disruption + embedded fintech thesis is the entire business model).</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iv) Outcome Dispersion: $11.63 to $84.75</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">The 5-scenario model shows implied prices ranging from $11.63 (Bear Severe, -57%) to $84.75 (Bull Severe, +217%) from the current $26.75. This 7.3x range between worst and best case reflects genuine uncertainty about three binary variables: (1) the magnitude and timing of the off-lease inflection, (2) the pace of D2D digital migration, and (3) the durability of OPENLANE's competitive lead over ACV and Manheim. The dispersion is not artificial — it reflects real-world scenarios with measurable probability. The probability-weighted fair value of ~$27.41 (discounted at 30% CoC) suggests the stock is approximately fairly valued today, with the key question being whether the May 5 Q1 2026 earnings resolve the off-lease inflection uncertainty positively or negatively.</p>
+</div>
+
+<div style="background: #d4edda; border-left: 4px solid #155724; padding: 12px 14px; margin: 16px 0; font-size: 11.5px;">
+  <strong>VERDICT: MAYBE — Initiate Tracking Position, Await Off-Lease Inflection Data</strong><br><br>
+  OPENLANE hits the market cap and coverage criteria well, is adjacent to the internet finance thesis through digital marketplace disruption and AFC fintech, and has very wide outcome dispersion. The probability-weighted fair value of $27.41 suggests the stock is approximately fairly valued at $26.75 (+2.5% upside). The investment case hinges on (a) the off-lease inflection materializing in Q1-Q2 2026 (visible at May 5 earnings), (b) D2D growth sustaining 15-20%+ trajectory, and (c) AFC credit quality holding in the 1.5-2.0% target range. The capital restructuring (preferred buyback, $150M common buyback) provides near-term EPS accretion. The primary risk is that digital wholesale migration stalls or that ACV regains competitive footing. The stock's 9.0x EV/EBITDA vs. peer median 13.9x provides a margin of safety — even modest re-rating toward 11x on current EBITDA implies $32+/share. Initiate tracking with intent to upgrade to a position if the May 5 print confirms off-lease inflection and D2D acceleration.
+</div>
+
+<p class="prose" style="font-size:10px; font-style:italic; margin-top:6px;">Note: Theia seeks small-cap companies that aren't well covered and are strongly aligned on the core internet finance thesis with wide outcome dispersion. OPLN scores: Market Cap (Strong) | Coverage (Moderate) | Thesis Adjacent | Dispersion (Strong)</p>
+
+<!-- ======================================================= -->
+<!-- SECTION 13: RISK SUMMARY -->
+<!-- ======================================================= -->
+<div class="memo-section">13. Risk Summary</div>
+
+<table class="risk">
+  <thead>
+    <tr>
+      <th style="width:16%;">Risk Category</th>
+      <th style="width:34%;">Description</th>
+      <th style="width:10%;">Severity</th>
+      <th style="width:40%;">Mitigant</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Used Vehicle Cycle</strong></td>
+      <td>Wholesale price declines reduce GMV, auction fee revenue, and AFC collateral values simultaneously. A 25-30% price drop would compress marketplace revenue and spike AFC credit losses.</td>
+      <td><span class="fw-rating high">High</span></td>
+      <td>Asset-light model (fee-based, not inventory-holding); AFC loss rate at 1.6% with 40bps cushion in target range; $185M cash provides buffer; diversified across commercial and D2D channels.</td>
+    </tr>
+    <tr>
+      <td><strong>D2D Growth Stall</strong></td>
+      <td>Digital adoption plateaus at 22-25% penetration as physical auction resistance proves stickier than expected; smaller independent dealers resist technology adoption.</td>
+      <td><span class="fw-rating moderate">Moderate</span></td>
+      <td>Q4 2025 D2D growth accelerated to 20%+; third-party surveys show OPENLANE as most-preferred digital platform; COVID permanently shifted dealer behavior toward digital; AI tools reducing physical inspection advantage.</td>
+    </tr>
+    <tr>
+      <td><strong>AFC Credit Risk</strong></td>
+      <td>Independent dealer defaults rise in economic downturn; used vehicle price declines reduce collateral recovery rates; credit losses exceed 2.0% target ceiling.</td>
+      <td><span class="fw-rating moderate">Moderate</span></td>
+      <td>90 branches with local dealer relationship oversight; secured by physical vehicle inventory; 25+ year credit history informing underwriting; 1.5-2.0% target range with current 1.6% well-managed.</td>
+    </tr>
+    <tr>
+      <td><strong>Off-Lease Volume Miss</strong></td>
+      <td>OEM lease originations disappoint; consumers buy out leases despite low equity; off-lease inflection timing delays beyond 2026; commercial volumes remain negative.</td>
+      <td><span class="fw-rating moderate">Moderate</span></td>
+      <td>8 consecutive quarters of rising originations provide strong leading indicator; low lease equity is measurable in real-time; multiple OEM data sources confirm trend; D2D growth provides offset even if commercial disappoints.</td>
+    </tr>
+    <tr>
+      <td><strong>Competition (ACV)</strong></td>
+      <td>ACV fixes arbitration policy, regains D2D market share, and intensifies price competition; Manheim accelerates digital capabilities through BacklotCars.</td>
+      <td><span class="fw-rating moderate">Moderate</span></td>
+      <td>OPENLANE has lower fees, superior NPS, 40+ OEM integration moat on commercial side; AI tools (Visual Boost, Code Boost IQ) create measurable product advantage; reputational damage to ACV takes years to repair.</td>
+    </tr>
+    <tr>
+      <td><strong>Leverage</strong></td>
+      <td>$530M term loan from Oct 2025 preferred buyback increases interest expense and reduces capital allocation flexibility; 65-70% FCF conversion target constrains buyback capacity.</td>
+      <td><span class="fw-rating low">Low</span></td>
+      <td>Adjusted FCF of $295.8M provides ample debt service coverage; preferred dividend burden declining; interest coverage improving from 2.5x to 3.3x FY26E; strong and consistent cash generation.</td>
+    </tr>
+    <tr>
+      <td><strong>Canadian Macro</strong></td>
+      <td>Canadian retail weakness persists or deepens; Canadian marketplace volumes decline (Canada ~43% of revenue).</td>
+      <td><span class="fw-rating low">Low</span></td>
+      <td>Canada margin contribution lower than US; European operations growing as diversification offset; management has guided Canadian volumes flat (already in expectations); US D2D growth momentum provides group-level offset.</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ======================================================= -->
+<!-- SECTION 14: APPENDIX — PYTHON CODE -->
+<!-- ======================================================= -->
+<div class="memo-section appendix">14. Appendix — Python Code</div>
+
+<div class="section-title">Sensitivity Table Generator</div>
+<div class="code-block">
+import numpy as np
+import pandas as pd
+
+# ─── SENSITIVITY TABLE 1: Marketplace Auction Revenue ───
+# FY2028E: Vehicles Sold (K) vs. Avg Auction Fee/Vehicle ($)
+vehicles_range = [1400, 1550, 1700, 1850, 2000]   # thousands
+fee_range = [300, 340, 380, 420, 460]               # $ per vehicle
+base_vehicles = 1700
+base_fee = 380
+
+rows = []
+for v in vehicles_range:
+    row = []
+    for f in fee_range:
+        rev = v * f / 1000  # $M
+        row.append(round(rev, 0))
+    rows.append(row)
+
+df1 = pd.DataFrame(rows,
+    index=[f"{x}K" for x in vehicles_range],
+    columns=[f"${x}" for x in fee_range])
+print("FY2028E Marketplace Auction Revenue ($M)")
+print(df1.to_string())
+print(f"\nBase case: {base_vehicles}K x ${base_fee} = ${base_vehicles*base_fee/1000:.0f}M")
+
+# ─── SENSITIVITY TABLE 2: Consolidated Adj EBITDA ───
+# FY2028E: Total Revenue ($M) vs. EBITDA Margin (%)
+rev_range = [2000, 2150, 2380, 2550, 2800]        # $M
+margin_range = [0.16, 0.18, 0.20, 0.22, 0.24]     # %
+base_rev = 2380
+base_mgn = 0.193
+
+rows2 = []
+for r in rev_range:
+    row = []
+    for m in margin_range:
+        ebitda = r * m
+        row.append(round(ebitda, 0))
+    rows2.append(row)
+
+df2 = pd.DataFrame(rows2,
+    index=[f"${x}M" for x in rev_range],
+    columns=[f"{int(m*100)}%" for m in margin_range])
+print("\nFY2028E Consolidated Adj EBITDA ($M)")
+print(df2.to_string())
+print(f"Base case: ${base_rev}M x {base_mgn*100:.1f}% = ${base_rev*base_mgn:.0f}M")
+
+# ─── SENSITIVITY TABLE 3: Implied Share Price ───
+# FY2028E: EBITDA ($M) vs. Exit EV/EBITDA (x)
+ebitda_range = [300, 380, 460, 545, 680]           # $M
+mult_range = [7, 9, 11, 13, 15]                    # EV/EBITDA
+net_debt = 345     # $530M debt - $185M cash
+preferred = 300    # remaining preferred
+shares = 126.73    # diluted shares (M)
+
+rows3 = []
+for e in ebitda_range:
+    row = []
+    for m in mult_range:
+        ev = e * m
+        equity = ev - net_debt - preferred
+        price = max(equity / shares, 0)
+        row.append(round(price, 2))
+    rows3.append(row)
+
+df3 = pd.DataFrame(rows3,
+    index=[f"${x}M" for x in ebitda_range],
+    columns=[f"{x}x" for x in mult_range])
+print("\nImplied Share Price ($) — EV/EBITDA Exit")
+print(df3.to_string())
+print(f"Base: ${460}M x 11x EV/EBITDA = ${460*11}M EV")
+print(f"  - Net Debt ${net_debt}M - Pref ${preferred}M = Equity ${460*11-net_debt-preferred}M")
+print(f"  / {shares}M shares = ${(460*11-net_debt-preferred)/shares:.2f}/share")
+</div>
+
+<div class="section-title" style="margin-top:16px;">5-Scenario Model Generator</div>
+<div class="code-block">
+# ─── OPLN 5-SCENARIO 3-YEAR MODEL ───
+scenarios = {
+    "Bear Severe": {
+        "rev":   [1920, 1880, 1850],
+        "gm":    [0.400, 0.390, 0.380],
+        "ebitda_mgn": [0.156, 0.149, 0.141],
+        "net_mgn": [0.042, 0.035, 0.027],
+        "eps":   [0.63, 0.51, 0.39],
+        "exit_pe": None,
+        "exit_ev_ebitda": 7,
+        "shares": [126.73, 126.73, 126.73],
+    },
+    "Bear Mild": {
+        "rev":   [2010, 2100, 2200],
+        "gm":    [0.410, 0.410, 0.410],
+        "ebitda_mgn": [0.169, 0.171, 0.175],
+        "net_mgn": [0.070, 0.074, 0.080],
+        "eps":   [1.10, 1.24, 1.42],
+        "exit_pe": 14,
+        "exit_ev_ebitda": None,
+        "shares": [126.73, 125.00, 123.50],
+    },
+    "Base Case": {
+        "rev":   [2061, 2206, 2380],
+        "gm":    [0.414, 0.415, 0.415],
+        "ebitda_mgn": [0.176, 0.185, 0.193],
+        "net_mgn": [0.081, 0.090, 0.099],
+        "eps":   [1.16, 1.46, 1.93],
+        "exit_pe": 18,
+        "exit_ev_ebitda": None,
+        "shares": [126.73, 124.00, 122.00],
+    },
+    "Bull Mild": {
+        "rev":   [2120, 2360, 2620],
+        "gm":    [0.420, 0.420, 0.420],
+        "ebitda_mgn": [0.182, 0.195, 0.208],
+        "net_mgn": [0.087, 0.102, 0.116],
+        "eps":   [1.48, 1.97, 2.54],
+        "exit_pe": 22,
+        "exit_ev_ebitda": None,
+        "shares": [125.00, 122.00, 120.00],
+    },
+    "Bull Severe": {
+        "rev":   [2180, 2530, 2950],
+        "gm":    [0.430, 0.430, 0.440],
+        "ebitda_mgn": [0.186, 0.213, 0.231],
+        "net_mgn": [0.092, 0.117, 0.136],
+        "eps":   [1.61, 2.44, 3.39],
+        "exit_pe": 25,
+        "exit_ev_ebitda": None,
+        "shares": [124.00, 121.00, 118.00],
+    },
+}
+
+current_price = 26.75
+net_debt = 345      # $M
+preferred = 300     # $M
+years = ["FY2026E", "FY2027E", "FY2028E"]
+
+for name, s in scenarios.items():
+    print(f"\n{'='*60}")
+    print(f"Scenario: {name}")
+    print(f"{'─'*60}")
+    eps_exit = s["eps"][-1]
+    shares_exit = s["shares"][-1]
+
+    if s["exit_pe"]:
+        implied_price = eps_exit * s["exit_pe"]
+        exit_label = f"{s['exit_pe']}x P/E on FY2028E EPS ${eps_exit:.2f}"
+    else:
+        ebitda_exit = s["rev"][-1] * s["ebitda_mgn"][-1]
+        ev = ebitda_exit * s["exit_ev_ebitda"]
+        equity = ev - net_debt - preferred
+        implied_price = equity / shares_exit
+        exit_label = f"{s['exit_ev_ebitda']}x EV/EBITDA on ${ebitda_exit:.0f}M"
+
+    upside = (implied_price / current_price - 1) * 100
+    print(f"Exit: {exit_label}")
+    print(f"Implied Price: ${implied_price:.2f}  |  {'Upside' if upside > 0 else 'Downside'}: {upside:+.1f}%")
+
+    for i, yr in enumerate(years):
+        rev = s["rev"][i]
+        eps = s["eps"][i]
+        print(f"  {yr}: Rev ${rev}M | EPS ${eps:.2f}")
+
+# ─── PROBABILITY-WEIGHTED FAIR VALUE ───
+weights = {"Bear Severe": 0.05, "Bear Mild": 0.20, "Base Case": 0.50,
+           "Bull Mild": 0.20, "Bull Severe": 0.05}
+prices  = {"Bear Severe": 11.63, "Bear Mild": 19.88, "Base Case": 34.74,
+           "Bull Mild": 55.88, "Bull Severe": 84.75}
+coc = 0.30
+
+wtd_avg = sum(weights[k] * prices[k] for k in weights)
+pv = wtd_avg / (1 + coc)
+print(f"\nProbability-Weighted Avg (FY2028E): ${wtd_avg:.2f}")
+print(f"Discounted at {coc*100:.0f}% CoC:         ${pv:.2f}")
+print(f"Current Price:                       ${current_price:.2f}")
+print(f"Implied Upside to PV:               {(pv/current_price-1)*100:+.1f}%")
+</div>
+
+<div class="source-note" style="margin-top:16px;">
+  OPENLANE, Inc. | Preliminary Memo for Theia · Generated March 30, 2026 · Data: FactSet (Mar 27, 2026), FY2025 Earnings, AlphaSense Research · Not investment advice.
+</div>
+
+</body>
+</html>

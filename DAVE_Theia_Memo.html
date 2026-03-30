@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dave, Inc. | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 8px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child, table.comps td:nth-child(2) { text-align: left; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-style: italic; background: #fafbfc; font-weight: 600; }
+table.comps th.est-col { color: #2563eb; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.alphasense-box { background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 4px; padding: 8px 12px; margin-bottom: 14px; font-size: 10px; color: #1e3a5f; }
+
+.bull-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #155724; border-bottom: 1.5px solid #c3e6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #721c24; border-bottom: 1.5px solid #f5c6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+
+.bull-item, .bear-item { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Dave, Inc. | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">Dave, Inc. (NYSE: DAVE) is a digital-first neobank purpose-built for the ~185 million Americans classified as financially coping or vulnerable — consumers living paycheck-to-paycheck who are systematically underserved by traditional banks and overcharged by legacy overdraft and payday lending products. Founded in 2017 with a "David vs. Goliath" ethos aimed at leveling the financial playing field, the company went public via SPAC in January 2022 and has since executed a dramatic transformation from a cash-burning consumer app into one of the most profitable fintechs in the US on a per-employee basis (~$1.98M revenue/employee across ~280 staff). Dave's core product is ExtraCash, a short-term credit advance of up to $500 powered by the company's proprietary CashAI underwriting engine — now on version 5.5 with ~200 additional variables deployed in September 2025 — which uses real-time bank transaction data and 180M+ historical originations (with an average duration of just ~11 days) instead of FICO scores to make credit decisions. ExtraCash charges a mandatory 5% fee ($5 minimum, $15 cap) with no interest or late fees, and constitutes approximately 84% of FY2025 revenue. The company's go-to-market strategy follows an "Acquire, Engage, Deepen" flywheel: ExtraCash is the wedge product that acquires members at an industry-leading ~$20 CAC (versus $200+ for traditional banks and neobank competitors), then cross-sells them into Dave Checking (fee-free, 4.00% APY, 2-day early paycheck via FDIC-insured partner bank), the Dave Card (Mastercard debit with 40K+ fee-free MoneyPass ATMs), a $3/month subscription, and emerging products including a Buy Now Pay Later offering (Pay in 4 / Flex Card) currently in internal testing with customer testing planned for Q2 2026.</p>
+
+<p class="prose">Dave's financial trajectory has been remarkable: FY2025 revenue of $554M (+60% YoY) with an adjusted EBITDA margin of 41% ($226.7M), GAAP net income of $196M (35.3% net margin), and free cash flow of $290M (52.3% FCF margin). The company's unit economics are exceptional — gross profit payback on new customer acquisition is under 4 months, 95-96% of ExtraCash volume comes from repeat customers, and the net monetization rate reached a record 4.8% of originations in Q4 2025. Dave's operational leverage is amplified by its AI-first approach: DaveGPT handles ~80% of first-response customer service tickets, and the virtual-first operating model spans 30+ states with no branch infrastructure. The company is in the midst of a transformational bank partnership transition with Coastal Community Bank, which will move ExtraCash originations off-balance-sheet in Q2 2026, unlocking $200M+ of incremental liquidity at funding costs ~200bps below the existing Victory Park warehouse facility (the $75M of which can then be retired). CEO and co-founder Jason Wilk continues to lead the company as Chairman, President, and CEO, supported by CFO/COO Kyle Beilman — a quant-driven operational anchor who has been instrumental in the margin expansion story.</p>
+
+<p class="prose"><strong>Key facts:</strong> Founded 2017 · Remote-first (30+ states) · CEO Jason Wilk (Co-Founder) · CFO/COO Kyle Beilman · Employees ~280 · Listed NYSE via SPAC Jan 2022 · FY end December · CUSIP 23834J201 · ISIN US23834J2015 · Market Cap $2,372M · Mission: "Level the financial playing field"</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 2: FINANCIAL SUMMARY (FACTSET) -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Theia FactSet Summary</div>
+
+<div class="header">
+  <div>
+    <h1>Dave, Inc.</h1>
+    <span class="ticker">DAVE · NYSE · ISIN US23834J2015</span>
+  </div>
+  <div class="date">FactSet Snapshot · March 27, 2026</div>
+</div>
+
+<!-- Price Bar -->
+<div class="price-bar">
+  <div>
+    <span class="label">Price (Mar 27, 2026) </span>
+    <span class="price">$174.95</span>
+  </div>
+  <div><span class="label">1M </span><span class="chg">-9.67%</span></div>
+  <div><span class="label">3M </span><span class="chg">-21.09%</span></div>
+  <div><span class="label">6M </span><span class="chg">-12.42%</span></div>
+  <div><span class="label">YTD </span><span class="chg">-21.15%</span></div>
+  <div><span class="label">1Y </span><span class="chg pos">+106.49%</span></div>
+  <div><span class="label">52-Wk Range </span><span style="font-weight:600;">$65.46 – $286.45</span></div>
+</div>
+
+<!-- Key Stats + EV Bridge -->
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv" style="font-size:10px;">
+      <tr><td>Exchange / Ticker</td><td>NYSE · DAVE</td></tr>
+      <tr><td>Price (Mar 27, 2026)</td><td>$174.95</td></tr>
+      <tr><td>30-Day Avg Volume</td><td>606K shares/day</td></tr>
+      <tr><td>Float %</td><td>86.46%</td></tr>
+      <tr><td>Short Interest</td><td>10.91% of float</td></tr>
+      <tr><td>Days to Cover</td><td>1.4 days</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev" style="font-size:10px;">
+      <tr><td>Basic Shares (Class A)</td><td>12.25M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">+ Class V Convertible</td><td style="font-size:9px;">1.31M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">+ Stock Comp / Options</td><td style="font-size:9px;">1.41M</td></tr>
+      <tr><td>= Fully Diluted Shares</td><td>14.97M</td></tr>
+      <tr><td>Share Price</td><td>$174.95</td></tr>
+      <tr><td>= Fully Dil. Market Cap</td><td>$2,619M</td></tr>
+      <tr><td>+ Consolidated Debt</td><td>$75M</td></tr>
+      <tr><td>− Cash &amp; ST Investments</td><td>($121.3M)</td></tr>
+      <tr class="total"><td>= Enterprise Value</td><td>$2,573M</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- Current Valuation — horizontal 6×2 grid -->
+<div class="section-title">Current Valuation</div>
+<div style="border: 1px solid #eee; border-radius: 4px; margin-bottom: 8px;">
+  <div class="val-grid">
+    <div class="val-cell"><div class="val-label">Mkt Cap</div><div class="val-num">$2,372M</div><div class="val-sub">Basic shares</div></div>
+    <div class="val-cell"><div class="val-label">EV</div><div class="val-num">$2,573M</div><div class="val-sub">Net debt $46M</div></div>
+    <div class="val-cell"><div class="val-label">P/E (LTM)</div><div class="val-num">16.4x</div><div class="val-sub">FY25 NI $196M</div></div>
+    <div class="val-cell"><div class="val-label">EV/EBITDA (LTM)</div><div class="val-num">16.9x</div><div class="val-sub">FY25 EBITDA $194M</div></div>
+    <div class="val-cell"><div class="val-label">EV/Sales (LTM)</div><div class="val-num">5.9x</div><div class="val-sub">FY25 Rev $554M</div></div>
+    <div class="val-cell"><div class="val-label">P/FCF</div><div class="val-num">11.1x</div><div class="val-sub">FY25 FCF $290M</div></div>
+  </div>
+  <div style="border-top: 1px solid #eee;">
+    <div class="val-grid">
+      <div class="val-cell"><div class="val-label">Fully Dil. Mkt Cap</div><div class="val-num">$2,619M</div><div class="val-sub">14.97M dil. shares</div></div>
+      <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">12.16%</div><div class="val-sub">FactSet estimate</div></div>
+      <div class="val-cell"><div class="val-label">Beta (3Y Adj)</div><div class="val-num">1.76</div><div class="val-sub">3-year adjusted</div></div>
+      <div class="val-cell"><div class="val-label">Avg Analyst Rating</div><div class="val-num">Buy</div><div class="val-sub">9 brokers · 1.00</div></div>
+      <div class="val-cell"><div class="val-label">Cons. Target Price</div><div class="val-num">$318.00</div><div class="val-sub">+82% upside</div></div>
+      <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">May 12</div><div class="val-sub">Q1 2026</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Valuation Multiples Table -->
+<div class="section-title">Valuation Multiples</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Metric</th>
+      <th>5Yr Avg</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th class="est" style="color:#2563eb;">FY2026E</th>
+      <th class="est" style="color:#2563eb;">FY2027E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">PRICE MULTIPLES</td></tr>
+    <tr><td>P/E</td><td>7.4x</td><td>NM</td><td>20.8x</td><td>16.4x</td><td class="est">13.8x</td><td class="est">10.8x</td></tr>
+    <tr><td>P/Sales</td><td>6.7x</td><td>0.4x</td><td>3.5x</td><td>5.8x</td><td class="est">3.4x</td><td class="est">2.9x</td></tr>
+    <tr><td>P/Book Value</td><td>21.7x</td><td>1.2x</td><td>6.2x</td><td>8.5x</td><td class="est">4.0x</td><td class="est">2.6x</td></tr>
+    <tr><td>P/FCF</td><td>4.7x</td><td>3.0x</td><td>9.6x</td><td>11.1x</td><td class="est">7.2x</td><td class="est">5.6x</td></tr>
+    <tr class="section-row"><td colspan="7">EV MULTIPLES</td></tr>
+    <tr><td>EV/Sales</td><td>2.6x</td><td>0.5x</td><td>3.7x</td><td>5.9x</td><td class="est">3.7x</td><td class="est">3.1x</td></tr>
+    <tr><td>EV/EBITDA</td><td>7.1x</td><td>NM</td><td>30.5x</td><td>16.9x</td><td class="est">8.9x</td><td class="est">7.1x</td></tr>
+    <tr><td>EV/EBIT</td><td>8.7x</td><td>NM</td><td>37.2x</td><td>17.5x</td><td class="est">10.2x</td><td class="est">8.3x</td></tr>
+  </tbody>
+</table>
+
+<!-- Revenue Exposure -->
+<div class="section-title">Revenue Exposure (FY2025 Actuals)</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Product</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Product</th><th>$M</th><th>% Rev</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Processing &amp; Overdraft (ExtraCash)</td><td>$467M</td><td>84.2%</td><td>+113%</td></tr>
+        <tr><td>Subscriptions</td><td>$37M</td><td>6.7%</td><td>+51%</td></tr>
+        <tr><td>Interchange</td><td>$24M</td><td>4.4%</td><td>+22%</td></tr>
+        <tr><td>Other Transaction-Based</td><td>$16M</td><td>2.8%</td><td>+25%</td></tr>
+        <tr><td>Tips</td><td>$7M</td><td>1.4%</td><td>-89%</td></tr>
+        <tr><td>ATM</td><td>$2M</td><td>0.4%</td><td>-27%</td></tr>
+        <tr><td>Other</td><td>$0.3M</td><td>0.1%</td><td>—</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>$554M</td><td>100%</td><td>+60%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <div class="sub-label">By Geography</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Region</th><th>$M</th><th>% Rev</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>United States</td><td>$554M</td><td>100%</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>$554M</td><td>100%</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:8px; color:#aaa; margin-top:4px;">No international operations; domestic-only neobank.</p>
+  </div>
+</div>
+
+<!-- Financials Table -->
+<div class="section-title">Financials</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">$M (FY Dec)</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th class="est" style="color:#2563eb;">FY2026E</th>
+      <th class="est" style="color:#2563eb;">FY2027E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="6">INCOME STATEMENT</td></tr>
+    <tr><td>Revenue</td><td>$259</td><td>$347</td><td>$554</td><td class="est">$689</td><td class="est">$827</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Revenue Growth %</td><td>—</td><td>+34%</td><td>+60%</td><td class="est">+24%</td><td class="est">+20%</td></tr>
+    <tr><td>Gross Profit</td><td>$135</td><td>$210</td><td>$389</td><td class="est">$497</td><td class="est">$609</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Gross Margin %</td><td>52.2%</td><td>60.4%</td><td>70.2%</td><td class="est">72.1%</td><td class="est">73.6%</td></tr>
+    <tr><td>EBITDA</td><td>($37)</td><td>$42</td><td>$194</td><td class="est">$288</td><td class="est">$362</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">EBITDA Margin %</td><td>NM</td><td>12.2%</td><td>35.0%</td><td class="est">41.8%</td><td class="est">43.8%</td></tr>
+    <tr><td>EBIT</td><td>($42)</td><td>$35</td><td>$187</td><td class="est">$252</td><td class="est">$311</td></tr>
+    <tr><td>Net Income</td><td>($49)</td><td>$58</td><td>$196</td><td class="est">$187</td><td class="est">$241</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Net Income Margin %</td><td>NM</td><td>16.7%</td><td>35.3%</td><td class="est">27.1%</td><td class="est">29.1%</td></tr>
+    <tr><td>EPS (Dil)</td><td>($4.07)</td><td>$4.19</td><td>$13.53</td><td class="est">$12.68</td><td class="est">$16.24</td></tr>
+    <tr class="section-row"><td colspan="6">CASH FLOW</td></tr>
+    <tr><td>Operating Cash Flow</td><td>$34</td><td>$125</td><td>$290</td><td class="est">$361</td><td class="est">$466</td></tr>
+    <tr><td>CapEx</td><td>($9)</td><td>($8)</td><td>($7)</td><td class="est">($7)</td><td class="est">($7)</td></tr>
+    <tr><td>Free Cash Flow</td><td>$33</td><td>$125</td><td>$290</td><td class="est">$341</td><td class="est">$431</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">FCF Margin %</td><td>12.8%</td><td>36.0%</td><td>52.3%</td><td class="est">49.5%</td><td class="est">52.1%</td></tr>
+    <tr class="section-row"><td colspan="6">BALANCE SHEET</td></tr>
+    <tr><td>Cash &amp; ST Investments</td><td>$156</td><td>$90</td><td>$121</td><td class="est">$325</td><td class="est">$460</td></tr>
+    <tr><td>Total Debt</td><td>$181</td><td>$76</td><td>$75</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Shareholders' Equity</td><td>$87</td><td>$183</td><td>$353</td><td class="est">$406</td><td class="est">$514</td></tr>
+    <tr class="section-row"><td colspan="6">RETURNS &amp; LEVERAGE</td></tr>
+    <tr><td>ROE</td><td>NM</td><td>42.8%</td><td>73.1%</td><td class="est">28.9%</td><td class="est">24.5%</td></tr>
+    <tr><td>Debt / Equity</td><td>208%</td><td>41%</td><td>21%</td><td class="est">18%</td><td class="est">—</td></tr>
+    <tr><td>Interest Coverage</td><td>NM</td><td>4.3x</td><td>26.5x</td><td class="est">59.3x</td><td class="est">117.4x</td></tr>
+    <tr><td>Current Ratio</td><td>10.8x</td><td>8.1x</td><td>3.8x</td><td class="est">8.8x</td><td class="est">9.7x</td></tr>
+  </tbody>
+</table>
+
+<!-- Valuation Summary -->
+<div class="section-title">Valuation Summary</div>
+<p class="prose">Dave currently trades at 13.8x FY2026E P/E and 8.9x FY2026E EV/EBITDA, representing a modest premium to the named peer median of 12.1x FY1 P/E — though this premium is arguably justified by Dave's materially faster growth (+24% FY2026E revenue growth vs. the peer median's low-to-mid teens) and substantially higher profitability (41.8% EBITDA margin vs. sub-20% for most peers). On an FY2027E basis, the stock compresses to 10.8x P/E and 7.1x EV/EBITDA, which screens as inexpensive for a 20%+ revenue grower with 50%+ FCF margins and improving unit economics. The stock is down 39% from its 52-week high of $286.45, driven by a combination of broader fintech sentiment deterioration, elevated short interest (10.91% of float), and regulatory overhang from the DOJ/FTC matter and CFPB proposed EWA rules. The consensus price target of $318.00 (+82% upside) with a unanimous Buy rating across all 9 covering brokers suggests the sell-side views the current pullback as a buying opportunity. On a P/FCF basis, Dave at 7.2x FY2026E is exceptionally cheap for a company generating over $340M in annual free cash flow — a valuation that implies the market is pricing in significant regulatory or credit risk that may not materialize. The $300M share repurchase authorization (increased from $125M in Feb 2026) provides additional per-share upside as management deploys the FCF machine against a modest float of 13.56M basic shares.</p>
+
+<div class="source-note">Source: FactSet snapshot export, March 27, 2026. Estimates reflect consensus of 9 broker contributors.</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 3: BULL & BEAR CASES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Cases</div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Pay in 4 / Flex Card Opens a Second Growth Vector.</span> Dave's BNPL product is entering customer testing in Q2 2026 with credit limits of 1.5-2x ExtraCash levels, targeting discretionary spending rather than the essentials-focused ExtraCash product. If Pay in 4 achieves even 10-15% attach rates among Dave's 2.93M monthly transacting members by 2027, it could add $80-120M in incremental annual revenue at margins comparable to ExtraCash — transforming Dave from a single-product company into a multi-product consumer credit platform. Management has deliberately excluded BNPL from 2026 guidance, meaning any revenue contribution becomes pure upside to consensus estimates. The product also expands Dave's TAM from short-term liquidity into the $100B+ US consumer installment lending market.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">CashAI Underwriting Alpha Compounds Over Time.</span> Dave's proprietary CashAI engine, trained on 180M+ originations with ~11-day feedback loops, represents an expanding data moat that is difficult for competitors to replicate. The v5.5 upgrade deployed in September 2025 added ~200 variables and drove the 28-day delinquency rate down to 1.89% — a 12% sequential improvement — while simultaneously increasing the average advance size to $214 (+20% YoY) and the net monetization rate to a record 4.8%. Each successive version of CashAI enables Dave to extend larger advances to more members with lower loss rates, creating a virtuous cycle of improving unit economics. CashAI v6.0, expected for testing later in 2026, could further widen this advantage and unlock additional origination capacity without proportional credit risk increase.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Coastal Community Bank Transition Unlocks Capital Efficiency.</span> The Q2 2026 transition of ExtraCash originations to an off-balance-sheet structure via Coastal Community Bank is a transformational corporate finance event. The new structure unlocks $200M+ in incremental liquidity at funding costs ~200bps below the existing Victory Park warehouse facility, enabling Dave to retire its $75M of consolidated debt by mid-2026 and fund origination growth without diluting shareholders or increasing balance sheet leverage. This transition also structurally strengthens Dave's regulatory position by reinforcing the bank-originated overdraft classification — a critical defense against CFPB reclassification risk. The all-in cost-of-capital improvement flows directly to EBITDA margin expansion.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Structural CAC Advantage Creates a Competitive Moat.</span> Dave's ~$20 customer acquisition cost is approximately 1/10th of traditional bank CAC ($200+) and dramatically below neobank competitors fighting for primary direct deposit relationships. This advantage is structural: Dave acquires customers through ExtraCash — a product with immediate, tangible value — rather than through expensive brand-building or deposit rate competition. The gross profit payback of under 4 months (improved by ~1 month YoY) means Dave earns back its acquisition investment almost immediately, funding further growth from operating cash flow rather than external capital. With 19M+ registered members and only 2.93M monthly transacting, there is an enormous dormant reactivation opportunity at near-zero incremental CAC.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Share Buyback + Low Float Creates Per-Share Earnings Leverage.</span> With $300M of buyback authorization against a basic share count of just 13.56M shares ($174.95 × 13.56M = $2.37B market cap), Dave could retire ~8-10% of its outstanding shares over the next 12-18 months from FCF alone, creating material per-share earnings accretion independent of any revenue growth. The combination of a low float (86.46%), modest short interest (10.91%), and aggressive buyback activity creates a powerful reflexive dynamic: as Dave repurchases shares, the float shrinks, which increases EPS, which should drive the stock higher, which reduces the number of shares repurchased per dollar — a virtuous cycle that amplifies fundamental value creation for remaining shareholders.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="bear-header">Bear Cases</div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">DOJ/FTC Regulatory Crackdown Restructures Fee Model.</span> Dave is currently in the discovery phase of a DOJ/FTC matter with no material updates disclosed. An adverse ruling could force fundamental restructuring of the ExtraCash fee model — the mandatory 5% fee ($5 min, $15 cap) that constitutes the vast majority of Dave's revenue. Separately, the CFPB has proposed rules that could classify Earned Wage Access products as covered loans under federal consumer lending regulations, which would subject Dave to Truth in Lending Act disclosure requirements, rate caps, and potentially usury statutes in various states. While Dave maintains ExtraCash is a bank-originated overdraft outside the scope of proposed EWA rules, an unfavorable regulatory determination could compress revenue per origination by 30-50% and require substantial compliance infrastructure investment, fundamentally altering the unit economics that drive profitability.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Single Product Concentration — ExtraCash is 84% of Revenue.</span> Dave's financial performance is overwhelmingly driven by a single product: ExtraCash at 84.2% of FY2025 revenue. If ExtraCash faces regulatory headwinds, competitive displacement, or credit deterioration, there is no meaningful revenue offset — the remaining 16% is spread across subscriptions (6.7%), interchange (4.4%), and declining tips/ATM revenue. The upcoming BNPL product is not yet in market and not included in 2026 guidance; if its launch is delayed or underperforms, Dave remains a single-product company for the foreseeable future. This concentration makes the stock inherently fragile — a single regulatory ruling or competitive shift could impair the majority of Dave's revenue base simultaneously.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Subprime Credit Cycle Exposure in a Recession.</span> Dave's core customer base is the ~185M Americans classified as financially coping or vulnerable — by definition, a subprime population that is highly sensitive to macroeconomic deterioration. While ExtraCash's short duration (~11 days) and connection to verified paychecks provide structural credit protection, a recession that increases unemployment among Dave's target demographic would simultaneously reduce origination demand (fewer paychecks to advance against) and increase default rates. The current 1.89% 28-day delinquency rate — while impressive — has not been tested through a genuine economic downturn. A doubling to 3.5-4.0% would compress the net monetization rate from 4.8% toward 3.0%, eliminating ~$100M+ of annual gross profit.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Competition from Chime, Cash App, and EarnIn Intensifies.</span> Dave operates in an increasingly competitive landscape for paycheck-to-paycheck financial services. Chime (recently IPO'd at ~$6.5B market cap) has over 20M customers and is building out credit products; Cash App (Block/Square) has 57M+ monthly actives and is expanding lending; EarnIn and MoneyLion offer directly competing advance products. While Dave's $20 CAC is advantaged today, if a larger competitor cross-subsidizes advances as a loss-leader to acquire checking accounts and direct deposits, Dave's unit economics could compress. The risk is particularly acute if Cash App — with its massive user base and zero marginal CAC — launches a comparable advance product at even lower fees, forcing Dave into a pricing war it cannot win at scale.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Bank Partner Dependency and Evolve Consent Order Overhang.</span> Dave's business model is fundamentally dependent on bank partnerships for originating advances and holding checking deposits. The Evolve Bank consent order (Dave's previous primary partner) created operational disruption and reputational concerns, and the transition to Coastal Community Bank introduces new execution risk. If Coastal faces its own regulatory scrutiny, or if the off-balance-sheet transition encounters delays or structural challenges, Dave's growth trajectory and liquidity position could be materially impacted. The broader regulatory environment for bank-fintech partnerships is tightening, with the OCC and FDIC increasing scrutiny of third-party lending arrangements — creating systemic risk for Dave's entire operating model.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Scale Economies</span> <span class="fw-rating strong">Strong</span><br>
+  Dave's operating model exhibits powerful scale economies driven by its AI-first, virtual-first architecture. The fixed costs — CashAI development and maintenance, DaveGPT customer service infrastructure, compliance and regulatory framework, and core banking technology — are spread across a growing base of 2.93M monthly transacting members. Each incremental member generates revenue at near-zero marginal operating cost: the AI underwriting model processes an additional ExtraCash application with no human intervention, DaveGPT handles the customer's service inquiries, and the existing bank partnership infrastructure processes the transaction. This is reflected in Dave's extraordinary operating leverage — revenue grew 60% in FY2025 while the employee base remained at ~280, driving revenue per employee to ~$1.98M (exceptional for any financial services company). The gross profit flow-through to adjusted EBITDA is 86%, meaning 86 cents of every incremental gross profit dollar reaches EBITDA. A new entrant attempting to replicate Dave's infrastructure would need to invest tens of millions in AI model development, accumulate years of origination data, build banking partnerships, and establish regulatory compliance — all before originating a single advance. The scale economics are genuinely strong and deepening.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Network Effects</span> <span class="fw-rating weak">Weak</span><br>
+  Dave does not exhibit meaningful direct network effects — the value of ExtraCash to Member A is not increased by Member B's usage. There is a mild indirect data network effect: as more members use ExtraCash (180M+ cumulative originations), CashAI's underwriting accuracy improves, enabling larger advances at lower loss rates, which makes the product more attractive to new members — creating a slow-moving data flywheel. However, this is better classified as a cornered resource (the data asset) rather than a true network effect, because the improvement is logarithmic rather than exponential: the marginal underwriting value of the 180-millionth origination is far less than the 10-millionth. Dave's Side Hustle portal and Dave Card interchange have no network characteristics. The upcoming BNPL product could potentially develop merchant-side network effects if Dave builds a merchant network, but this is speculative and not yet in market. For now, network effects are weak.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Counter-Positioning</span> <span class="fw-rating strong">Strong</span><br>
+  Dave's counter-positioning against traditional banks is among the strongest in consumer fintech. The incumbent banks — JPMorgan, Bank of America, Wells Fargo — earn approximately $6-8 billion annually from overdraft and NSF fees charged to the exact same paycheck-to-paycheck consumers Dave serves. These overdraft fees represent a structurally important and highly profitable revenue line that incumbent banks are politically and economically unable to cannibalize by offering a Dave-like product. To match Dave's value proposition, a major bank would need to (a) eliminate overdraft fees (sacrificing billions in revenue), (b) offer short-term credit at 5% flat fees with no interest or late charges (far below their current pricing), and (c) build an AI underwriting engine that approves advances based on real-time transaction data rather than FICO scores (requiring a fundamental rewrite of their credit infrastructure). The banks have instead responded with modest overdraft fee reductions and early paycheck access — half-measures that validate Dave's thesis without replicating its economics. The market's misconception that Dave must win primary direct deposit to be profitable further strengthens this power — Dave operates as a standalone profitable credit-first product, not a deposit-gathering institution, which means banks cannot simply counter with deposit rate competition.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Switching Costs</span> <span class="fw-rating moderate">Moderate</span><br>
+  Dave's switching costs are moderate and compound over time. The initial switching cost is low — downloading a competing app and linking a bank account takes minutes. However, once a member establishes a pattern of ExtraCash usage (95-96% of volume is from repeat customers), several switching frictions emerge: (a) CashAI builds an individualized credit profile for each member based on their transaction history, enabling larger advances and better approval rates — a new competitor starts from zero with that member; (b) members who use Dave Checking with direct deposit face the significant friction of redirecting payroll; (c) members who have optimized their cash flow around Dave's 2-day early paycheck and ExtraCash timing would need to re-calibrate their financial routines. The Dave Card with ~30% of ExtraCash dollars flowing onto it creates an additional stickiness layer through habitual usage. However, the switching cost is not contractual or structural — it is behavioral and data-driven — meaning a sufficiently superior competing product could overcome it. The upcoming subscription optimization and BNPL product should increase switching costs by deepening the product relationship.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Branding</span> <span class="fw-rating moderate">Moderate</span><br>
+  Dave's "David vs. Goliath" branding is distinctive and emotionally resonant with its target demographic — paycheck-to-paycheck Americans who feel exploited by traditional banks. The brand positioning as a consumer champion ("Level the financial playing field") creates genuine affinity that competitors focused on features alone cannot easily replicate. CMO Kevin Frisch has driven efficient brand marketing (reflected in the $20 CAC), and the 19M+ registered members represent significant organic brand awareness. However, brand power in consumer fintech is ultimately limited by the commodity-like nature of the core product — a short-term cash advance. The brand does not command pricing power (Dave competes on value, not premium pricing) and is not yet a household name outside its core demographic. Brand strength is moderate: it reduces CAC and supports retention, but it is not an insurmountable moat against a well-funded competitor like Chime or Cash App with substantially larger marketing budgets.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">6. Cornered Resource</span> <span class="fw-rating strong">Strong</span><br>
+  Dave's most powerful cornered resource is the CashAI proprietary dataset: 180M+ short-term credit originations with complete outcome data across economic cycles, linked to real-time bank transaction data for millions of consumers. This dataset is genuinely irreplicable — no competitor can acquire 180M labeled originations with 11-day feedback loops without spending years and hundreds of millions of dollars in credit losses during the learning period. The dataset trains an underwriting model that simultaneously optimizes for approval rate, advance size, and loss rate — a three-dimensional optimization problem where incremental data creates compounding advantage. CashAI v5.5 with ~200 additional variables demonstrates that the model's performance continues to improve with more data, and the short feedback loop (~11 days vs. 30-90 days for traditional lending) allows rapid iteration. The second cornered resource is the Coastal Community Bank partnership structure — bank-originated overdraft classification with off-balance-sheet funding — which required years of regulatory and legal structuring and provides a regulatory arbitrage that new entrants cannot easily replicate. Some expert networks note that data science capabilities are becoming a baseline requirement rather than an insurmountable moat, but the sheer scale and velocity of Dave's dataset create a meaningful time-to-replicate barrier of 3-5+ years.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">7. Process Power</span> <span class="fw-rating moderate">Moderate</span><br>
+  Dave has developed genuine process power in several areas: the integration of CashAI underwriting with real-time bank data ingestion creates a sub-minute approval process that competitors cannot easily match; DaveGPT's handling of ~80% of first-response tickets demonstrates operational efficiency that compounds as the AI improves; and the company's virtual-first operating model with ~280 employees generating $554M in revenue reflects a lean, tech-forward organizational culture that resists bureaucratic bloat. CEO Jason Wilk's marketing acumen (he founded a marketing company before Dave) permeates the organization's customer acquisition approach. However, some former employees have noted cultural disconnection in the remote-first model, and the company's operational processes are still relatively young (founded 2017, profitable only since 2024). Process power is moderate rather than strong because the individual processes — while effective — are not yet deeply institutionalized across economic cycles.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> Dave is a 3-power business at the Strong level: Scale Economies, Counter-Positioning, and Cornered Resource (the CashAI dataset) are genuinely powerful and defensible. Switching Costs and Branding provide moderate supplementary moats, while Network Effects are weak and Process Power is developing. The combination of strong counter-positioning against banks and a cornered data asset makes Dave's competitive position more durable than the market's "single product company" narrative suggests — this is a rare consumer fintech with genuine structural advantages rather than just growth momentum.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Threat of New Entrants</span> <span class="fw-rating moderate">Moderate</span><br>
+  Entry into the short-term consumer advance market requires a banking partner or lending license, regulatory compliance infrastructure (state-by-state money transmitter licenses or bank partnership), access to consumer bank transaction data (via Plaid or similar aggregators), and an underwriting model. A well-funded fintech startup could assemble these components in 12-18 months — the regulatory barriers are meaningful but not prohibitive. The real barrier to entry is underwriting accuracy: a new entrant without 180M+ originations of training data must either price conservatively (losing volume to Dave's superior approval rates and advance sizes) or price aggressively (suffering elevated losses that destroy unit economics). The short feedback loop (~11 days) means a new entrant could theoretically build a competitive dataset faster than in traditional lending, but the sheer volume advantage Dave possesses — combined with the capital required to fund originations while the model learns — creates a significant moat. The threat is moderate: new entrants continue to emerge (e.g., EarnIn pivots, bank-fintech partnerships) but none has replicated Dave's combination of scale, profitability, and CAC efficiency.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Bargaining Power of Suppliers</span> <span class="fw-rating moderate">Moderate</span><br>
+  Dave's primary "suppliers" fall into three categories: (a) banking partners (Coastal Community Bank, formerly Evolve Bank) who provide the banking charter and regulatory framework — these partners have significant power as Dave cannot operate without a bank charter, and the universe of willing partner banks is limited; (b) capital providers (Victory Park Credit Partners for the warehouse facility, and soon Coastal's off-balance-sheet structure) who set funding costs and can constrain origination volumes; and (c) technology suppliers (Plaid for bank connectivity, AWS for infrastructure, Mastercard for debit card network). The banking partner risk is the most significant — the Evolve consent order demonstrated that Dave's business can be materially impacted by its partner bank's regulatory issues, and the transition to Coastal introduces dependency on a single new partner. However, the Coastal transition also reduces supplier power by eliminating the Victory Park facility's higher cost of capital and creating a more favorable funding structure. Technology suppliers have low power given competitive alternatives. Overall: Moderate, with the bank partnership representing the key concentration risk.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Bargaining Power of Buyers</span> <span class="fw-rating low">Low</span><br>
+  Dave's individual customers are highly fragmented — 2.93M monthly transacting members, none representing a meaningful percentage of revenue. The target demographic (paycheck-to-paycheck consumers) has limited bargaining power because their alternatives are worse: traditional bank overdraft fees ($35 per incident, multiple per day), payday loans (300%+ APR), or going without. Dave's ExtraCash at a 5% flat fee with no interest or late charges is a demonstrably superior value proposition for this customer segment. The high repeat rate (95-96% of volume from existing customers) suggests low price sensitivity and strong willingness to pay the current fee structure. The transition away from the tipping model (tips revenue down 89% YoY) to the mandatory fee model actually reduced buyer power by eliminating the option to tip $0 — and revenue per origination increased as a result. Buyer power is low: Dave's customers choose the product because the alternatives are materially worse, and the fragmented base eliminates any individual negotiating leverage.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Threat of Substitutes</span> <span class="fw-rating moderate">Moderate</span><br>
+  The substitutes for ExtraCash span a wide range of consumer credit products: traditional bank overdraft protection, payday loans, pawn shops, credit card cash advances, personal loans from LendingClub/Upstart, BNPL products (Affirm, Klarna, Afterpay), and informal borrowing from family/friends. However, none of these substitutes exactly replicates Dave's value proposition — a sub-$500 advance against a verified upcoming paycheck, approved in minutes via AI, with no interest, no late fees, and repaid automatically in ~11 days. The closest functional substitute is EarnIn (earned wage access), which Dave has structurally differentiated from via its bank-originated overdraft classification and superior unit economics. Cash App and Chime are building comparable features but as complements to their broader platforms rather than standalone products. The moderate threat comes from the possibility that improving bank overdraft terms (several major banks have reduced or eliminated overdraft fees) could erode Dave's value advantage for the segment of its customer base that also has traditional bank accounts. If a major bank like JPMorgan offers fee-free $500 advances to checking account holders, the top of Dave's funnel could narrow — though the implementation speed and approval rates would likely remain inferior.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Competitive Rivalry</span> <span class="fw-rating high">High</span><br>
+  The competitive landscape for paycheck-to-paycheck financial services is intense and increasingly crowded. Direct competitors include: Chime (~$6.5B market cap, 20M+ customers, building credit products), Cash App (Block, 57M+ monthly actives, expanding lending), EarnIn (earned wage access pioneer, 4M+ members), MoneyLion ($350M market cap, direct advance product), Brigit (subscription-based advance), and Varo Bank (full charter neobank). Indirect competitors include LendingClub and Upstart in personal lending, Affirm and Klarna in BNPL, and the major banks (JPMorgan, BofA, Wells, Citi) who are all reducing overdraft fees and building digital alternatives. The market is growing — the TAM of ~185M financially coping Americans has expanded by ~20M since 2021 — but competition for these customers is escalating rapidly. Dave's competitive advantage lies in its $20 CAC (structural, not easily replicated), CashAI underwriting accuracy (data moat), and profitable unit economics (enabling reinvestment) — but the rivalry level is high, and any margin compression from competitive pricing pressure would disproportionately impact Dave given its single-product revenue concentration.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> Dave operates in a moderately favorable five-force environment. The strongest structural advantage is low buyer power (customers face worse alternatives) combined with moderate barriers to entry (CashAI data moat). The key risk forces are high competitive rivalry and moderate threat of substitutes from improving bank overdraft products. Unlike SaaS businesses with near-zero marginal cost of goods, Dave's model requires capital deployment for originations — making the supplier (funding) force more relevant than in pure technology businesses. The overall force structure supports above-average profitability but requires continuous execution to maintain the CAC and underwriting advantages that differentiate Dave from well-funded competitors.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 6: WHAT DRIVES THE STOCK? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<p class="prose">The following are the 6 variables that would move DAVE's share price materially in the next 12 months. These are what analysts build tracking models around and PMs ask about in morning meetings.</p>
+
+<p class="prose"><strong>1. DOJ/FTC Regulatory Outcome and CFPB EWA Rule Finalization.</strong> The single largest binary risk to Dave's stock is the regulatory environment. The DOJ/FTC matter is in the discovery phase with no material updates — any unfavorable ruling, consent decree, or settlement that requires restructuring the ExtraCash fee model would be catastrophic for the stock (potential 40-60% downside on the headline alone). Separately, the CFPB's proposed rules on Earned Wage Access classification could subject Dave to federal lending regulations. Dave's defense — that ExtraCash is a bank-originated overdraft, not an EWA product — is structurally sound but untested in court. Any resolution that removes regulatory uncertainty would be a massive positive catalyst, as the market is pricing a significant regulatory risk premium into the stock. Bullish: dismissal or favorable settlement. Bearish: adverse ruling requiring fee model restructuring.</p>
+
+<p class="prose"><strong>2. Monthly Transacting Members (MTM) Growth Trajectory.</strong> MTMs are the single most important operational KPI — they grew +19% YoY to 2.93M in Q4 2025, accelerating for three consecutive quarters. The 2026 guidance baseline embeds mid-teens MTM growth, which at the current level implies reaching ~3.3-3.5M MTMs by Q4 2026. Every quarterly earnings print will be scrutinized for whether this acceleration is sustained: an inflection toward 20%+ MTM growth would drive consensus upgrades; deceleration to single digits would trigger multiple compression as the market questions the growth algorithm's durability. The dormant member reactivation opportunity (19M+ registered members, only 2.93M active) provides an underappreciated buffer — even modest reactivation of 2-3% of dormant members adds 300-500K incremental MTMs at near-zero CAC. Bullish: >20% MTM growth. Bearish: <10% with rising churn.</p>
+
+<p class="prose"><strong>3. Net Monetization Rate and ARPU Expansion.</strong> Dave's net monetization rate (revenue per origination dollar, net of losses) hit a record 4.8% in Q4 2025, driven by the mandatory fee transition and CashAI v5.5 loss improvements. ARPU grew 36% YoY in Q4, driven by larger average advance sizes ($214, +20% YoY) and improving economics. The 2026 guidance baseline embeds low-double-digit ARPU growth. Any compression in net monetization rate — whether from competitive pricing pressure, rising delinquencies, or regulatory-driven fee caps — would directly impair revenue and margins. Conversely, CashAI v6.0 deployment could further improve the rate toward 5.0%+. Bullish: net monetization rate trending toward 5.0%+. Bearish: compression below 4.5% on credit deterioration.</p>
+
+<p class="prose"><strong>4. Coastal Community Bank Transition Execution (Q2 2026).</strong> The off-balance-sheet transition is a critical near-term catalyst: successful execution by mid-2026 unlocks $200M+ in liquidity, reduces funding costs by ~200bps, enables retirement of the $75M Victory Park facility, and validates the bank-originated overdraft structure. Any delays, regulatory complications, or unfavorable terms in the Coastal arrangement would raise concerns about Dave's funding model and growth capacity. The Q1 2026 earnings call (May 12) will provide the first detailed update on transition progress. Bullish: on-time execution with terms as described. Bearish: material delays or unfavorable terms.</p>
+
+<p class="prose"><strong>5. Credit Quality Through the Cycle — 28-Day DPD Rate.</strong> Dave's 28-day past-due rate of 1.89% in Q4 2025 is exceptional for a subprime consumer lender, but it has only been tested in a benign credit environment. Any macroeconomic deterioration that increases unemployment among Dave's paycheck-to-paycheck customer base would manifest first in rising DPD rates, which would compress the net monetization rate and trigger analyst downgrades. The market will watch each quarterly DPD print as a real-time health indicator. A move above 2.5% would be concerning; above 3.0% would trigger a de-rating regardless of revenue growth. Bullish: DPD stable or declining below 1.7%. Bearish: rising above 2.5% with macro weakness.</p>
+
+<p class="prose"><strong>6. Pay in 4 / BNPL Launch Timeline and Early Metrics.</strong> While not included in 2026 guidance, the BNPL product represents the most important strategic initiative for Dave's long-term narrative evolution from "single product company" to "multi-product consumer finance platform." Customer testing begins ~April 2026, and any early data shared on the May 12 Q1 earnings call — attach rates, credit performance, revenue per transaction — would meaningfully impact the stock's forward multiple. A successful BNPL launch would expand Dave's TAM, increase ARPU, and justify a premium growth multiple; a disappointing launch or delay would reinforce the bear narrative of product concentration risk. Bullish: strong early metrics, scaling faster than expected. Bearish: delayed launch or high loss rates in testing.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<p class="prose">Dave's revenue can be decomposed into its product lines using fundamental economic drivers:</p>
+
+<table class="data" style="font-size:10px; margin-bottom:16px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Revenue Line</th>
+      <th style="text-align:left;">Driver 1</th>
+      <th style="text-align:left;">Driver 2</th>
+      <th style="text-align:left;">Driver 3</th>
+      <th style="text-align:left;">= Revenue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>ExtraCash</strong></td>
+      <td>Quarterly Origination Volume ($B)</td>
+      <td>× Net Monetization Rate (%)</td>
+      <td>× 4 (quarterly → annual)</td>
+      <td>= ExtraCash Net Revenue</td>
+    </tr>
+    <tr>
+      <td><strong>Subscriptions</strong></td>
+      <td>Monthly Transacting Members (M)</td>
+      <td>× Subscription Attach Rate (%)</td>
+      <td>× Monthly Fee ($3) × 12</td>
+      <td>= Subscription Revenue</td>
+    </tr>
+    <tr>
+      <td><strong>Interchange</strong></td>
+      <td>Dave Card Spend Volume ($B)</td>
+      <td>× Interchange Take Rate (%)</td>
+      <td>—</td>
+      <td>= Interchange Revenue</td>
+    </tr>
+    <tr>
+      <td><strong>Group Revenue</strong></td>
+      <td>ExtraCash Revenue</td>
+      <td>+ Subscriptions + Interchange</td>
+      <td>+ Other/ATM/Tips</td>
+      <td>= Total Revenue $554M (FY25)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose"><strong>Key driver quantification (FY2025 actuals and FY2026E estimates):</strong></p>
+<ul style="font-size: 11px; line-height: 1.7; color: #333; margin-left: 20px; margin-bottom: 10px;">
+  <li><strong>ExtraCash (84%):</strong> Q4 2025 originations $2.2B × 4 = ~$8.8B annualized run-rate × 4.8% net monetization rate = ~$422M; FY2025 actual ~$7B × ~6.7% gross fee rate = $467M gross. FY2026E: ~$9-10B total originations × 4.8-5.0% net monetization → $430-500M ExtraCash revenue</li>
+  <li><strong>Subscriptions (7%):</strong> ~2.93M MTMs × estimated 35% subscription attach rate × $3/month × 12 = ~$37M. Growth driven by MTM expansion + pricing optimization</li>
+  <li><strong>Interchange (4%):</strong> Q4 Dave Card spend $534M × 4 = ~$2.1B annualized × ~1.1% interchange rate = ~$24M. Growth driven by ExtraCash-to-Card funnel (30% flow-through)</li>
+  <li><strong>FY2026E guidance:</strong> $690-710M total revenue (+25-28% growth), driven by mid-teens MTM growth + low-double-digit ARPU growth</li>
+</ul>
+
+<p class="prose"><strong>Leverage analysis:</strong> The two highest-leverage drivers on total revenue are (1) <em>Quarterly ExtraCash Origination Volume</em> — a 10% increase in quarterly originations (from $2.2B to $2.4B) at the current 4.8% net monetization rate adds ~$38M of annualized revenue, which flows through at 70%+ gross margin and 86% EBITDA flow-through, meaning ~$23M of incremental EBITDA; and (2) <em>Net Monetization Rate</em> — a 20bps improvement (from 4.8% to 5.0%) applied to $9B of annual originations adds ~$18M of revenue at near-100% incremental margin (the origination volume is already funded), making it the purest earnings driver in the model. On the downside, the 28-day DPD rate is the key risk driver: a 100bps deterioration (from 1.89% to 2.89%) would compress the net monetization rate by an estimated 80-100bps, reducing annual revenue by ~$70-90M and EBITDA by a similar amount given the high flow-through rate.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+  <strong>AlphaSense Expert Network &amp; DR Reports</strong> · Query: Dave, Inc. (DAVE) · Report Date: March 2026<br>
+  <em>Synthesized from AlphaSense expert calls, competitive intelligence, management transcripts, and supplementary research documents. Key themes from sell-side and expert network coverage are integrated below.</em>
+</div>
+
+<p class="prose"><strong>The Data Moat is Real — But the Clock is Ticking.</strong> AlphaSense expert network transcripts consistently validate Dave's CashAI data advantage as genuine and commercially meaningful. With 180M+ originations and an ~11-day feedback loop, Dave's model iterates 3-8x faster than traditional consumer lenders (30-90 day cycles), enabling rapid feature deployment — CashAI v5.5 added ~200 variables in a single release. Multiple former employees and industry experts describe the data asset as "the single most valuable thing about the company" — not the brand, not the app, and not the banking partnerships. However, several experts caution that data science capabilities in consumer lending are becoming table stakes: LendingClub, Upstart, and even major banks are building comparable real-time underwriting capabilities. The consensus view is that Dave has a 3-5 year lead on pure data volume, but the gap narrows each year as competitors accumulate their own origination histories. The strategic implication: Dave must use its data advantage now to build product breadth (BNPL, Dave Card engagement, subscriptions) before the underwriting moat erodes.</p>
+
+<p class="prose"><strong>Market Misunderstanding: Dave Does Not Need Primary Direct Deposit.</strong> Perhaps the most consistently cited misperception in the AlphaSense research is the market's assumption that Dave must win primary direct deposit to be a sustainable business. Multiple expert transcripts emphasize that ExtraCash is standalone profitable — the product acquires, monetizes, and retains customers without requiring them to switch their primary banking relationship. This is a fundamentally different model than Chime (which requires direct deposit for its product to work) or Cash App (which monetizes through direct deposit + debit transactions). Dave's credit-first acquisition strategy means the checking account, Dave Card, and subscription are cross-sell layers that improve unit economics but are not required for profitability. The 95-96% repeat rate on ExtraCash demonstrates that customers return for the credit product regardless of their primary bank. This misunderstanding drives a significant valuation gap: the market prices Dave as a neobank competing for deposits (where it would lose to Chime/Cash App at scale) rather than as a specialized credit platform (where its underwriting advantage is dominant).</p>
+
+<p class="prose"><strong>Management Assessment: Wilk as Founder-Marketer, Beilman as Operational Anchor.</strong> CEO Jason Wilk is consistently described in expert transcripts as an exceptional marketer and brand storyteller with strong instincts for customer acquisition and product positioning — his pre-Dave career in marketing is evident in the company's $20 CAC and viral "David vs. Goliath" brand narrative. However, some former employees note that Wilk's marketing orientation sometimes creates tension with engineering and data science priorities. CFO/COO Kyle Beilman is the operational counterweight — described as "quantitative, disciplined, and deeply focused on unit economics." The Wilk-Beilman partnership is viewed as complementary and effective, with Beilman credited for much of the margin expansion story (from -14% EBITDA margin in FY2023 to +35% in FY2025). CPO Parker Barrile (ex-PayPal/Braintree) is viewed as the key hire for the BNPL product development. The virtual-first culture across 30+ states has some cultural disconnection risks, with former employees noting challenges in cross-functional collaboration — a risk factor that becomes more relevant as the company scales to multiple products.</p>
+
+<p class="prose"><strong>Structural CAC Advantage is the Business Model's DNA.</strong> Multiple AlphaSense competitive intelligence reports highlight Dave's ~$20 CAC as perhaps the most underappreciated competitive advantage in consumer fintech. The mechanism is structural: ExtraCash is a product with immediate, tangible value (cash in your account within hours), which means customer acquisition happens through the product itself rather than through expensive brand advertising or deposit rate subsidies. Competitors like Chime spend an estimated $200+ per acquired direct deposit customer; traditional banks spend $300-500+. Dave's gross profit payback of under 4 months (improved by ~1 month YoY) means the company effectively self-funds its growth — each cohort of new customers generates enough gross profit within a single quarter to fund the next cohort's acquisition. This creates a capital-efficient growth engine that does not require external funding for customer acquisition, freeing cash flow for buybacks, product development, and balance sheet strength. Experts note that this advantage compounds as Dave's brand awareness grows, potentially driving CAC even lower through organic and word-of-mouth channels.</p>
+
+<p class="prose"><strong>Key Long-Term Investor Questions.</strong> Based on the AlphaSense research, the questions that would most sharpen conviction on Dave are: (1) What is the cohort-level credit performance of ExtraCash advances originated at $300-500 (the higher end of the range expanded by CashAI v5.5) — are these larger advances exhibiting meaningfully higher loss rates than sub-$200 advances? (2) What is the customer-level economic profile: what percentage of Dave's MTMs use only ExtraCash vs. ExtraCash + Checking vs. the full product suite, and how does ARPU differ across these segments? (3) How would a CFPB reclassification of ExtraCash as a "covered loan" specifically impact Dave's unit economics — has management modeled the compliance cost and potential fee restructuring scenarios? (4) What is the Coastal Community Bank off-balance-sheet structure's sensitivity to interest rates and credit performance — are there performance triggers that could terminate the arrangement? (5) If Pay in 4 scales to $1B+ in origination volume, does it cannibalize ExtraCash usage or is the customer use case genuinely differentiated (essentials vs. discretionary)?</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 9: SENSITIVITY ANALYSIS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Sensitivity Analysis</div>
+
+<!-- Sensitivity Table 1 -->
+<p class="prose"><strong>Sensitivity Table 1: FY2028E ExtraCash Gross Revenue ($M) — Quarterly Origination Volume ($B) vs. Net Monetization Rate (%)</strong></p>
+<p class="prose"><strong>Current (Q4 2025): Quarterly Originations = $2.2B × Net Monetization Rate = 4.8% → Annualized ExtraCash Revenue ≈ $422M</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Qtr Orig ($B) / Net Mon Rate</th>
+      <th>3.5%</th>
+      <th>4.0%</th>
+      <th>4.5%</th>
+      <th>5.0%</th>
+      <th>5.5%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$2.0B</td><td>$280</td><td>$320</td><td>$360</td><td>$400</td><td>$440</td></tr>
+    <tr><td>$2.5B</td><td>$350</td><td>$400</td><td>$450</td><td>$500</td><td>$550</td></tr>
+    <tr><td>$3.0B</td><td>$420</td><td>$480</td><td>$540</td><td class="base">$600</td><td>$660</td></tr>
+    <tr><td>$3.5B</td><td>$490</td><td>$560</td><td>$630</td><td>$700</td><td>$770</td></tr>
+    <tr><td>$4.0B</td><td>$560</td><td>$640</td><td>$720</td><td>$800</td><td>$880</td></tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 2 -->
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 2: FY2028E Adjusted EBITDA ($M) — Total Revenue ($M) vs. Adj EBITDA Margin (%)</strong></p>
+<p class="prose"><strong>Current (FY2025): Revenue = $554M × Adj EBITDA Margin = 41% → Adj EBITDA = $226.7M. FY2026E guidance: $290-305M.</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Revenue / EBITDA Margin</th>
+      <th>35%</th>
+      <th>39%</th>
+      <th>43%</th>
+      <th>47%</th>
+      <th>51%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$750M</td><td>$263</td><td>$293</td><td>$323</td><td>$353</td><td>$383</td></tr>
+    <tr><td>$850M</td><td>$298</td><td>$332</td><td>$366</td><td>$400</td><td>$434</td></tr>
+    <tr><td>$960M</td><td>$336</td><td>$374</td><td class="base">$413</td><td>$451</td><td>$490</td></tr>
+    <tr><td>$1,050M</td><td>$368</td><td>$410</td><td>$452</td><td>$494</td><td>$536</td></tr>
+    <tr><td>$1,200M</td><td>$420</td><td>$468</td><td>$516</td><td>$564</td><td>$612</td></tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 3 -->
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 3: Implied Share Price ($) — Exit P/E Multiple (x) vs. FY2028E EPS ($)</strong></p>
+<p class="prose"><strong>Base Case: FY2028E EPS = $21.43 × Exit P/E = 14x → Implied Share Price = $300</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>EPS / P/E Multiple</th>
+      <th>6x</th>
+      <th>10x</th>
+      <th>14x</th>
+      <th>18x</th>
+      <th>22x</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$8</td><td>$48</td><td>$80</td><td>$112</td><td>$144</td><td>$176</td></tr>
+    <tr><td>$14</td><td>$84</td><td>$140</td><td>$196</td><td>$252</td><td>$308</td></tr>
+    <tr><td>$21.43</td><td>$129</td><td>$214</td><td class="base">$300</td><td>$386</td><td>$471</td></tr>
+    <tr><td>$28</td><td>$168</td><td>$280</td><td>$392</td><td>$504</td><td>$616</td></tr>
+    <tr><td>$36</td><td>$216</td><td>$360</td><td>$504</td><td>$648</td><td>$792</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 10: 3-YEAR MODEL — 5 SCENARIOS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios</div>
+
+<p class="prose">All figures in $M unless stated. Modeled FY2026E, FY2027E, FY2028E. Exit multiple applied to FY2028E EPS. Current share price: $174.95. Diluted shares: 14.97M (declining via buyback). Net cash (FY25): $46M ($121M cash − $75M debt).</p>
+
+<!-- CASE 1: BEAR SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 1: Regulatory Crackdown + Credit Cycle Deterioration</div>
+  <div class="case-desc">DOJ/FTC adverse ruling forces fee model restructuring; CFPB classifies ExtraCash as covered loan; subprime defaults spike in recession; CAC inflates as regulatory scrutiny increases public skepticism.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>2026</strong> — DOJ/FTC settlement requires fee cap below current levels; CFPB finalization creates compliance burden; recession begins; MTM growth stalls to low single digits; DPD rate rises to 3.0%+; management diverts resources to legal/compliance. <strong>2027</strong> — Revenue flattens as fee restructuring fully impacts; credit losses spike; BNPL launch delayed indefinitely; competitor Cash App launches zero-fee advance product. <strong>2028</strong> — Dave stabilizes at lower profitability level; regulatory clarity emerges but at permanently impaired economics; market re-rates as a regulated utility rather than growth fintech.</p>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Monthly Transacting Members</span><span>3.1M (+6% vs. FY25)</span></div>
+  <div class="driver-row"><span>Net Monetization Rate</span><span>3.2% (fee restructured)</span></div>
+  <div class="driver-row"><span>28-Day DPD Rate</span><span>3.5% (recession stress)</span></div>
+  <div class="driver-row"><span>Quarterly Originations</span><span>$2.0B (constrained)</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>21%</span></div>
+  <table class="scenario-mini">
+    <tr><td></td><td><strong>FY2026E</strong></td><td><strong>FY2027E</strong></td><td><strong>FY2028E</strong></td></tr>
+    <tr><td>Revenue</td><td>$620</td><td>$640</td><td>$650</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+12%</td><td>+3%</td><td>+2%</td></tr>
+    <tr><td>Gross Income</td><td>403</td><td>410</td><td>423</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>65%</td><td>64%</td><td>65%</td></tr>
+    <tr><td>EBITDA</td><td>155</td><td>147</td><td>137</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>25%</td><td>23%</td><td>21%</td></tr>
+    <tr><td>EBIT</td><td>142</td><td>131</td><td>118</td></tr>
+    <tr><td>Net Income</td><td>100</td><td>85</td><td>75</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Income Margin %</td><td>16%</td><td>13%</td><td>12%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>14.97</td><td>14.50</td><td>14.00</td></tr>
+    <tr><td>EPS ($)</td><td>$6.80</td><td>$5.95</td><td>$5.36</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>—</td><td>—</td><td>6x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>—</td><td>—</td><td>$32.14</td></tr>
+    <tr><td>FCF</td><td>$90</td><td>$78</td><td>$68</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 6x FY2028E P/E on EPS of $5.36</div>
+    <div class="exit-price">Implied Share Price: $32.14</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: -82% from $174.95</div>
+  </div>
+</div>
+
+<!-- CASE 2: BEAR MILD -->
+<div class="case-block">
+  <div class="case-name">Case 2: Growth Decelerates, Margins Plateau</div>
+  <div class="case-desc">MTM growth slows to single digits; ARPU growth normalizes; competition from Chime/CashApp intensifies; BNPL launch delayed; Coastal transition takes longer than planned.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>2026</strong> — MTM growth decelerates to 8-10%; ARPU growth normalizes to mid-single digits as CashAI improvements plateau; Chime's post-IPO investment in credit products creates pricing pressure; Coastal transition delayed to Q3/Q4. <strong>2027</strong> — Revenue growth slows to low teens; BNPL contributes modestly after delayed launch; competition prevents further monetization rate expansion. <strong>2028</strong> — Dave is a profitable but slow-growing neobank; market assigns utility-like multiple as growth premium evaporates.</p>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Monthly Transacting Members</span><span>3.6M (+23% vs. FY25)</span></div>
+  <div class="driver-row"><span>Net Monetization Rate</span><span>4.5% (competitive pressure)</span></div>
+  <div class="driver-row"><span>28-Day DPD Rate</span><span>2.3% (modest deterioration)</span></div>
+  <div class="driver-row"><span>Quarterly Originations</span><span>$2.5B (slow growth)</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>40%</span></div>
+  <table class="scenario-mini">
+    <tr><td></td><td><strong>FY2026E</strong></td><td><strong>FY2027E</strong></td><td><strong>FY2028E</strong></td></tr>
+    <tr><td>Revenue</td><td>$670</td><td>$760</td><td>$845</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+21%</td><td>+13%</td><td>+11%</td></tr>
+    <tr><td>Gross Income</td><td>469</td><td>540</td><td>608</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>70%</td><td>71%</td><td>72%</td></tr>
+    <tr><td>EBITDA</td><td>248</td><td>296</td><td>338</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>37%</td><td>39%</td><td>40%</td></tr>
+    <tr><td>EBIT</td><td>234</td><td>279</td><td>319</td></tr>
+    <tr><td>Net Income</td><td>168</td><td>210</td><td>245</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Income Margin %</td><td>25%</td><td>28%</td><td>29%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>14.97</td><td>14.50</td><td>14.00</td></tr>
+    <tr><td>EPS ($)</td><td>$11.47</td><td>$14.63</td><td>$17.50</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>—</td><td>—</td><td>10x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>—</td><td>—</td><td>$175.00</td></tr>
+    <tr><td>FCF</td><td>$230</td><td>$280</td><td>$320</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 10x FY2028E P/E on EPS of $17.50</div>
+    <div class="exit-price">Implied Share Price: $175.00</div>
+    <div class="exit-upside" style="color:#888;">Flat: ~0% from $174.95</div>
+  </div>
+</div>
+
+<!-- CASE 3: BASE CASE -->
+<div class="case-block">
+  <div class="case-name">Case 3: Growth Algorithm Delivers — Consensus Execution</div>
+  <div class="case-desc">MTMs grow mid-teens, ARPU low-double-digits; ExtraCash continues scaling; Coastal transition on time; BNPL contributes modestly in 2027-2028; buyback shrinks share count. This is the consensus path.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>2026</strong> — Revenue $700M in line with guidance ($690-710M); Coastal transition completes Q2; Victory Park retired; MTMs reach 3.4M; BNPL in customer testing. <strong>2027</strong> — Revenue $827M (+18%); BNPL begins contributing meaningfully; CashAI v6.0 deployed; share count declining via buyback; EBITDA margin expands toward 44%. <strong>2028</strong> — Revenue approaching $1B; BNPL at scale; Dave recognized as a multi-product consumer finance platform; regulatory clarity improves.</p>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Monthly Transacting Members</span><span>4.2M (+43% vs. FY25)</span></div>
+  <div class="driver-row"><span>Net Monetization Rate</span><span>4.8% (stable at record)</span></div>
+  <div class="driver-row"><span>28-Day DPD Rate</span><span>1.9% (stable)</span></div>
+  <div class="driver-row"><span>Quarterly Originations</span><span>$3.0B (+36% from Q4 25)</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>45%</span></div>
+  <table class="scenario-mini">
+    <tr><td></td><td><strong>FY2026E</strong></td><td><strong>FY2027E</strong></td><td><strong>FY2028E</strong></td></tr>
+    <tr><td>Revenue</td><td>$700</td><td>$827</td><td>$960</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+26%</td><td>+18%</td><td>+16%</td></tr>
+    <tr><td>Gross Income</td><td>504</td><td>609</td><td>710</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>72%</td><td>74%</td><td>74%</td></tr>
+    <tr><td>EBITDA</td><td>297</td><td>362</td><td>432</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>42%</td><td>44%</td><td>45%</td></tr>
+    <tr><td>EBIT</td><td>252</td><td>311</td><td>380</td></tr>
+    <tr><td>Net Income</td><td>187</td><td>241</td><td>300</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Income Margin %</td><td>27%</td><td>29%</td><td>31%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>14.97</td><td>14.50</td><td>14.00</td></tr>
+    <tr><td>EPS ($)</td><td>$12.68</td><td>$16.24</td><td>$21.43</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>—</td><td>—</td><td>14x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>—</td><td>—</td><td>$300.00</td></tr>
+    <tr><td>FCF</td><td>$341</td><td>$431</td><td>$500</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 14x FY2028E P/E on EPS of $21.43</div>
+    <div class="exit-price">Implied Share Price: $300.00</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +71% from $174.95</div>
+  </div>
+</div>
+
+<!-- CASE 4: BULL MILD -->
+<div class="case-block">
+  <div class="case-name">Case 4: BNPL Accelerates + Underwriting Alpha Widens</div>
+  <div class="case-desc">CashAI v6.0 materially improves origination capacity; Pay in 4 scales faster than expected; subscription optimization drives mix shift; bank M&amp;A targets add distribution channels.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>2026</strong> — CashAI v6.0 deployment enables 20%+ expansion of approval rates while maintaining credit quality; BNPL customer testing shows strong attach rates; MTMs accelerate to 20%+ growth on product breadth. <strong>2027</strong> — BNPL revenue reaches $80-100M; Dave acquires a small community bank or digital lender for distribution; subscription pricing optimized to $5/month for premium tier; total revenue approaches $900M. <strong>2028</strong> — Multi-product platform narrative fully established; EBITDA margin expands to 48% on operating leverage; Dave is a $1.1B revenue company growing 20%+ with near-50% EBITDA margins.</p>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Monthly Transacting Members</span><span>5.0M (+70% vs. FY25)</span></div>
+  <div class="driver-row"><span>Net Monetization Rate</span><span>5.2% (CashAI v6.0 alpha)</span></div>
+  <div class="driver-row"><span>28-Day DPD Rate</span><span>1.6% (AI improvement)</span></div>
+  <div class="driver-row"><span>BNPL Revenue Contribution</span><span>$120M (scaling)</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>48%</span></div>
+  <table class="scenario-mini">
+    <tr><td></td><td><strong>FY2026E</strong></td><td><strong>FY2027E</strong></td><td><strong>FY2028E</strong></td></tr>
+    <tr><td>Revenue</td><td>$720</td><td>$900</td><td>$1,100</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+30%</td><td>+25%</td><td>+22%</td></tr>
+    <tr><td>Gross Income</td><td>526</td><td>675</td><td>836</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>73%</td><td>75%</td><td>76%</td></tr>
+    <tr><td>EBITDA</td><td>310</td><td>414</td><td>528</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>43%</td><td>46%</td><td>48%</td></tr>
+    <tr><td>EBIT</td><td>296</td><td>396</td><td>510</td></tr>
+    <tr><td>Net Income</td><td>195</td><td>295</td><td>385</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Income Margin %</td><td>27%</td><td>33%</td><td>35%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>14.97</td><td>14.50</td><td>14.00</td></tr>
+    <tr><td>EPS ($)</td><td>$13.24</td><td>$20.49</td><td>$27.50</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>—</td><td>—</td><td>18x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>—</td><td>—</td><td>$495.00</td></tr>
+    <tr><td>FCF</td><td>$370</td><td>$480</td><td>$580</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 18x FY2028E P/E on EPS of $27.50</div>
+    <div class="exit-price">Implied Share Price: $495.00</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +183% from $174.95</div>
+  </div>
+</div>
+
+<!-- CASE 5: BULL SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 5: Platform Dominance — Credit Card Disruption + International Expansion</div>
+  <div class="case-desc">Federal credit card rate cap drives massive demand shift to Dave; ExtraCash becomes primary overdraft alternative for 5M+ MTMs; international expansion via M&amp;A; potential strategic interest from major fintech or bank acquirer.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>2026</strong> — Federal legislation on credit card rate caps (or serious legislative discussion) accelerates demand for alternative short-term credit; Dave's brand awareness surges as media coverage positions it as the consumer-friendly alternative. <strong>2027</strong> — MTMs exceed 5M with viral growth; international expansion begins via M&amp;A into UK/Canada/LatAm; strategic acquirer interest emerges from JPMorgan/PayPal/Block. <strong>2028</strong> — Dave is a $1.3B revenue platform with global aspirations; either acquired at a strategic premium or re-rated as a high-growth fintech platform at 22x+ P/E.</p>
+  <div class="driver-label">Key Drivers — 2028E (Year 3)</div>
+  <div class="driver-row"><span>Monthly Transacting Members</span><span>6.5M+ (US + international)</span></div>
+  <div class="driver-row"><span>Net Monetization Rate</span><span>5.5% (pricing power)</span></div>
+  <div class="driver-row"><span>Quarterly Originations</span><span>$4.0B+ (multi-product)</span></div>
+  <div class="driver-row"><span>Total Revenue</span><span>$1,300M</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>53%</span></div>
+  <table class="scenario-mini">
+    <tr><td></td><td><strong>FY2026E</strong></td><td><strong>FY2027E</strong></td><td><strong>FY2028E</strong></td></tr>
+    <tr><td>Revenue</td><td>$740</td><td>$980</td><td>$1,300</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+34%</td><td>+32%</td><td>+33%</td></tr>
+    <tr><td>Gross Income</td><td>548</td><td>745</td><td>1,001</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>74%</td><td>76%</td><td>77%</td></tr>
+    <tr><td>EBITDA</td><td>325</td><td>490</td><td>689</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>44%</td><td>50%</td><td>53%</td></tr>
+    <tr><td>EBIT</td><td>311</td><td>472</td><td>670</td></tr>
+    <tr><td>Net Income</td><td>210</td><td>365</td><td>510</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Income Margin %</td><td>28%</td><td>37%</td><td>39%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>14.97</td><td>14.50</td><td>14.00</td></tr>
+    <tr><td>EPS ($)</td><td>$14.27</td><td>$25.36</td><td>$36.43</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>—</td><td>—</td><td>22x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>—</td><td>—</td><td>$801.43</td></tr>
+    <tr><td>FCF</td><td>$420</td><td>$600</td><td>$820</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 22x FY2028E P/E on EPS of $36.43</div>
+    <div class="exit-price">Implied Share Price: $801.43</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +358% from $174.95</div>
+  </div>
+</div>
+
+<!-- SVG Bar Chart -->
+<div class="case-chart">
+  <p style="font-size:9px; font-weight:600; margin-bottom:8px;">Implied Share Price by Scenario (FY2028E Exit) vs. Current Price $174.95</p>
+  <svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg" style="width:100%; font-family:Inter,Arial,sans-serif;">
+    <!-- Axes -->
+    <line x1="80" y1="20" x2="80" y2="180" stroke="#ccc" stroke-width="1"/>
+    <line x1="80" y1="180" x2="680" y2="180" stroke="#ccc" stroke-width="1"/>
+    <!-- Y-axis labels — scale: $100 = 18px -->
+    <text x="75" y="184" text-anchor="end" font-size="9" fill="#888">$0</text>
+    <text x="75" y="148" text-anchor="end" font-size="9" fill="#888">$200</text>
+    <text x="75" y="112" text-anchor="end" font-size="9" fill="#888">$400</text>
+    <text x="75" y="76" text-anchor="end" font-size="9" fill="#888">$600</text>
+    <text x="75" y="40" text-anchor="end" font-size="9" fill="#888">$800</text>
+    <!-- Gridlines -->
+    <line x1="80" y1="148" x2="680" y2="148" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="112" x2="680" y2="112" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="76" x2="680" y2="76" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="40" x2="680" y2="40" stroke="#eee" stroke-width="0.5"/>
+    <!-- Bar scale: $100 = 18px height, max ~$900 -->
+    <!-- Bear Severe: $32.14 → height 5.8px -->
+    <rect x="110" y="174.2" width="80" height="5.8" fill="#2563eb"/>
+    <text x="150" y="170" text-anchor="middle" font-size="9" fill="#333">$32</text>
+    <text x="150" y="196" text-anchor="middle" font-size="8" fill="#555">Reg. Crackdown</text>
+    <!-- Bear Mild: $175.00 → height 31.5px -->
+    <rect x="220" y="148.5" width="80" height="31.5" fill="#2563eb"/>
+    <text x="260" y="144" text-anchor="middle" font-size="9" fill="#333">$175</text>
+    <text x="260" y="196" text-anchor="middle" font-size="8" fill="#555">Slow Growth</text>
+    <!-- Base: $300.00 → height 54px -->
+    <rect x="330" y="126" width="80" height="54" fill="#2563eb"/>
+    <text x="370" y="122" text-anchor="middle" font-size="9" fill="#333">$300</text>
+    <text x="370" y="196" text-anchor="middle" font-size="8" fill="#555">Consensus</text>
+    <!-- Bull Mild: $495.00 → height 89.1px -->
+    <rect x="440" y="90.9" width="80" height="89.1" fill="#2563eb"/>
+    <text x="480" y="87" text-anchor="middle" font-size="9" fill="#333">$495</text>
+    <text x="480" y="196" text-anchor="middle" font-size="8" fill="#555">BNPL Accl.</text>
+    <!-- Bull Severe: $801.43 → height 144.3px -->
+    <rect x="550" y="35.7" width="80" height="144.3" fill="#2563eb"/>
+    <text x="590" y="32" text-anchor="middle" font-size="9" fill="#333">$801</text>
+    <text x="590" y="196" text-anchor="middle" font-size="8" fill="#555">Platform Dom.</text>
+    <!-- Current price line: $174.95 → y = 180 - 174.95×0.18 = 180 - 31.5 = 148.5 -->
+    <line x1="80" y1="148.5" x2="680" y2="148.5" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="685" y="152" font-size="9" fill="#e74c3c">$175 (Current)</text>
+    <!-- Prob-wtd PV line: $250.52 → y = 180 - 250.52×0.18 = 180 - 45.1 = 134.9 -->
+    <line x1="80" y1="134.9" x2="680" y2="134.9" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="3,2"/>
+    <text x="685" y="139" font-size="8" fill="#f39c12">$251 PV@30%</text>
+  </svg>
+  <p style="font-size:8px; color:#888; margin-top:4px;">Probability weights: 5% / 20% / 50% / 20% / 5% · Prob-wtd avg $325.68 discounted @30% CoC → $250.52 · Current: $174.95 · Implied upside: +43.2%</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 11: COMPS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">11. Comparable Companies</div>
+
+<div class="section-title">Selected Financials</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>Price</th>
+      <th>Mkt Cap</th>
+      <th>EPS (Dil)</th>
+      <th>EPS Grth 1Y</th>
+      <th>ROE</th>
+      <th>ROA</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Dave, Inc. A</td><td>DAVE</td>
+      <td>$174.95</td><td>$2,372M</td>
+      <td>$13.53</td><td>+223%</td>
+      <td>73.1%</td><td>49.8%</td>
+    </tr>
+    <tr>
+      <td>LendingClub</td><td>LC</td>
+      <td>$13.87</td><td>$1,598M</td>
+      <td>$1.16</td><td>+155%</td>
+      <td>9.5%</td><td>1.2%</td>
+    </tr>
+    <tr>
+      <td>Chime Financial A</td><td>CHYM</td>
+      <td>$16.99</td><td>$6,527M</td>
+      <td>($2.66)</td><td>NM</td>
+      <td>NM</td><td>NM</td>
+    </tr>
+    <tr>
+      <td>Upbound Group</td><td>UPBD</td>
+      <td>$18.07</td><td>$1,050M</td>
+      <td>$1.25</td><td>-43%</td>
+      <td>11.1%</td><td>2.5%</td>
+    </tr>
+    <tr>
+      <td>Upstart Holdings</td><td>UPST</td>
+      <td>$24.77</td><td>$2,429M</td>
+      <td>$0.45</td><td>NM</td>
+      <td>7.5%</td><td>2.0%</td>
+    </tr>
+    <tr>
+      <td>Affirm Holdings A</td><td>AFRM</td>
+      <td>$42.53</td><td>$14,167M</td>
+      <td>$0.81</td><td>NM</td>
+      <td>8.9%</td><td>2.4%</td>
+    </tr>
+    <tr>
+      <td>Gen Digital</td><td>GEN</td>
+      <td>$18.34</td><td>$11,108M</td>
+      <td>$0.97</td><td>-4%</td>
+      <td>26.9%</td><td>3.9%</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Average</td><td>—</td>
+      <td>—</td><td>—</td>
+      <td>—</td><td>—</td>
+      <td>12.8%</td><td>2.4%</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Median</td><td>—</td>
+      <td>—</td><td>—</td>
+      <td>—</td><td>—</td>
+      <td>9.5%</td><td>2.4%</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Valuation Multiples</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>P/E Actual</th>
+      <th class="est-col">P/E FY1</th>
+      <th class="est-col">P/E FY2</th>
+      <th>P/BV Actual</th>
+      <th class="est-col">P/BV FY1</th>
+      <th class="est-col">P/BV FY2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Dave, Inc. A</td><td>DAVE</td>
+      <td>12.9x</td><td>13.8x</td><td>10.8x</td>
+      <td>6.7x</td><td>4.0x</td><td>2.6x</td>
+    </tr>
+    <tr>
+      <td>LendingClub</td><td>LC</td>
+      <td>12.0x</td><td>8.1x</td><td>5.9x</td>
+      <td>1.1x</td><td>0.9x</td><td>0.8x</td>
+    </tr>
+    <tr>
+      <td>Chime Financial A</td><td>CHYM</td>
+      <td>NM</td><td>110.0x</td><td>27.6x</td>
+      <td>4.6x</td><td>3.8x</td><td>2.9x</td>
+    </tr>
+    <tr>
+      <td>Upbound Group</td><td>UPBD</td>
+      <td>14.5x</td><td>4.3x</td><td>3.7x</td>
+      <td>1.5x</td><td>1.3x</td><td>1.1x</td>
+    </tr>
+    <tr>
+      <td>Upstart Holdings</td><td>UPST</td>
+      <td>54.7x</td><td>12.1x</td><td>8.3x</td>
+      <td>3.0x</td><td>2.7x</td><td>2.2x</td>
+    </tr>
+    <tr>
+      <td>Affirm Holdings A</td><td>AFRM</td>
+      <td>52.3x</td><td>39.3x</td><td>25.0x</td>
+      <td>4.0x</td><td>3.6x</td><td>2.6x</td>
+    </tr>
+    <tr>
+      <td>Gen Digital</td><td>GEN</td>
+      <td>18.9x</td><td>7.2x</td><td>6.4x</td>
+      <td>4.8x</td><td>4.6x</td><td>3.3x</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Average</td><td>—</td>
+      <td>30.5x</td><td>30.2x</td><td>12.8x</td>
+      <td>3.2x</td><td>2.8x</td><td>2.2x</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Median</td><td>—</td>
+      <td>16.7x</td><td>12.1x</td><td>8.3x</td>
+      <td>4.0x</td><td>3.6x</td><td>2.6x</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:10px;">Dave trades at 13.8x FY1 P/E, modestly above the peer median of 12.1x, which is justified by Dave's dramatically superior growth trajectory (+24% revenue growth vs. peers' low-to-mid teens) and profitability metrics (73.1% ROE vs. peer median 9.5%, 52.3% FCF margin vs. peers' breakeven-to-low-double-digit FCF margins). On an FY2 basis, Dave at 10.8x P/E compresses toward the peer median of 8.3x — a discount that seems unjustified given Dave's expected 20% FY2027E revenue growth and 29% net margins. The most relevant direct comparison is to Upstart (UPST), which also uses AI-based underwriting but trades at 12.1x FY1 P/E with materially lower profitability; and to Affirm (AFRM) at 39.3x FY1 P/E, which validates the premium the market places on consumer lending platforms with technology-driven underwriting. Chime's 110x FY1 P/E (post-IPO, pre-profitability) illustrates the multiple expansion potential if Dave successfully executes the multi-product platform narrative. On P/BV, Dave at 4.0x FY1 appears rich relative to the peer median of 3.6x, but this is a function of Dave's asset-light model and exceptional ROE rather than overvaluation. The $318 consensus price target (+82% upside) across 9 unanimous Buy-rated analysts implies the sell-side believes Dave deserves a 15-18x FY2 P/E — consistent with this memo's base case exit assumption of 14x FY2028E P/E.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<div class="verdict">
+  <p><strong>(i) Market Cap Bucket: $2,372M</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">Small Cap ($1B-$5B). Dave's $2.4B market cap sits squarely in Theia's sweet spot for undiscovered, undercovered companies where informational edge is achievable. Despite the 106% one-year return, the stock remains well below its 52-week high ($286.45) and the current pullback creates an entry point. The low basic share count (13.56M) and modest float create conditions where fundamental analysis has outsized impact on price discovery — exactly the type of small-cap dynamic Theia seeks.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(ii) Analyst Coverage: 9 Broker Contributors</strong> <span class="fw-rating moderate">Moderate Fit</span></p>
+  <p style="margin-top:4px;">With 9 sell-side analysts, Dave is more covered than Theia's ideal threshold of fewer than 5 analysts. However, the coverage quality is arguably thin relative to the company's complexity: the regulatory risk (DOJ/FTC, CFPB), bank partnership dynamics, and AI underwriting economics are insufficiently modeled by most covering analysts, who default to consensus growth assumptions without stress-testing the binary outcomes. The unanimous Buy rating (1.00 average) suggests groupthink rather than independent analysis — precisely the condition where Theia's primary research can identify mispriced risk. Coverage is moderate: not undiscovered, but not efficiently covered either.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iii) Thesis Alignment: Internet Finance / Consumer Fintech</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">Dave is a core internet finance play: a digital-first neobank that uses AI/ML (CashAI), real-time data analytics, and technology-enabled underwriting to disrupt traditional banking and consumer credit. While not blockchain/crypto-native, Dave directly benefits from the broader digitization of financial services — the same structural shift that drives Theia's core thesis. The business model — algorithmic credit decisioning, virtual-first operations, AI customer service (DaveGPT), and platform cross-sell economics — is exactly the type of "software eats finance" story that Theia's mandate encompasses. The BNPL product expansion further strengthens alignment with the internet finance thesis. Rating: Strong (direct alignment with fintech disruption thesis; not Core only because no blockchain component).</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iv) Outcome Dispersion: $32 to $801</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">The 5-scenario model produces an implied price range from $32.14 (Bear Severe: regulatory crackdown + credit cycle, -82%) to $801.43 (Bull Severe: platform dominance + credit card disruption, +358%) — a 25:1 ratio between worst and best case that represents genuinely wide outcome dispersion. The probability-weighted fair value of $250.52 (at 30% CoC) vs. current $174.95 implies 43% upside, with the key binary variable being the DOJ/FTC regulatory outcome. Crucially, the dispersion is not artificial: the bear case is driven by real regulatory risk that could fundamentally impair the business model, while the bull case is driven by plausible product expansion and market dynamics. The asymmetry favors the long side — the base case alone implies +71% upside, and the bear-to-bull probability weighting (25%/50%/25%) suggests the expected value is well above current price.</p>
+</div>
+
+<div style="background: #d4edda; border-left: 4px solid #155724; padding: 12px 14px; margin: 16px 0; font-size: 11.5px;">
+  <strong>VERDICT: YES — Initiate Position</strong><br><br>
+  Dave hits the market cap criterion squarely in the small-cap sweet spot ($2.4B), has moderate but not excessive analyst coverage (9 brokers with consensus groupthink), is directly aligned with the internet finance thesis as a digital-first disruptor of traditional banking and consumer credit, and exhibits extreme outcome dispersion driven by regulatory uncertainty, credit cycle sensitivity, and the optionality of BNPL/international expansion. The probability-weighted fair value of $250.52 vs. current $174.95 represents a 43% discount to intrinsic value. Key near-term catalysts include the Coastal Community Bank transition (Q2 2026), Pay in 4 customer testing launch (~April 2026), and the May 12 Q1 2026 earnings print — which will provide the first data on all three catalysts simultaneously. The DOJ/FTC regulatory risk creates the mispricing opportunity: the market is pricing a regulatory risk premium that may be excessive given Dave's structural defense (bank-originated overdraft classification) and the lack of adverse developments in the discovery process. Position sizing should reflect the binary regulatory risk — this is a high-conviction idea with appropriate position limits.
+</div>
+
+<p class="prose" style="font-size:10px; font-style:italic; margin-top:6px;">Note: Theia seeks small-cap companies that aren't well covered and are strongly aligned on the core internet finance thesis with wide outcome dispersion. Dave scores: Market Cap (Strong) | Coverage (Moderate) | Thesis (Strong) | Dispersion (Strong)</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 13: RISK SUMMARY -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">13. Risk Summary</div>
+
+<table class="data" style="font-size:10px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Risk Category</th>
+      <th style="text-align:left;">Description</th>
+      <th style="text-align:center;">Severity</th>
+      <th style="text-align:left;">Mitigant</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="font-weight:700;">Regulatory / Legal</td>
+      <td>DOJ/FTC lawsuit in discovery; CFPB proposed EWA rules could classify ExtraCash as covered loan</td>
+      <td style="text-align:center;"><span class="fw-rating high">High</span></td>
+      <td>Structured as bank-originated overdraft via Coastal; vigorous legal defense; no adverse developments in discovery</td>
+    </tr>
+    <tr>
+      <td style="font-weight:700;">Single Product Concentration</td>
+      <td>ExtraCash = 84% of revenue; BNPL not yet in market</td>
+      <td style="text-align:center;"><span class="fw-rating high">High</span></td>
+      <td>Pay in 4 / Flex Card launching Q2 2026; subscriptions growing +51%; interchange +22%; deliberate diversification strategy</td>
+    </tr>
+    <tr>
+      <td style="font-weight:700;">Credit Cycle</td>
+      <td>Subprime borrowers vulnerable to recession-driven unemployment</td>
+      <td style="text-align:center;"><span class="fw-rating moderate">Moderate</span></td>
+      <td>Short duration (~11 days); linked to verified paycheck; CashAI v5.5 improvements; 1.89% DPD is best-in-class</td>
+    </tr>
+    <tr>
+      <td style="font-weight:700;">Bank Partner Risk</td>
+      <td>Evolve consent order history; Coastal Community Bank dependency for new structure</td>
+      <td style="text-align:center;"><span class="fw-rating moderate">Moderate</span></td>
+      <td>Coastal transition diversifies from Evolve; off-balance-sheet structure reduces Dave's direct exposure; $200M+ liquidity unlock</td>
+    </tr>
+    <tr>
+      <td style="font-weight:700;">Competition</td>
+      <td>Chime ($6.5B), Cash App (57M+ users), EarnIn, MoneyLion competing for same demographic</td>
+      <td style="text-align:center;"><span class="fw-rating moderate">Moderate</span></td>
+      <td>$20 CAC vs. $200+ competitors; CashAI underwriting advantage; 95-96% repeat rate; credit-first model is differentiated</td>
+    </tr>
+    <tr>
+      <td style="font-weight:700;">Valuation / Sentiment</td>
+      <td>Stock down 39% from 52-week high; elevated short interest (10.91%); high beta (1.76)</td>
+      <td style="text-align:center;"><span class="fw-rating weak" style="background:#d4edda; color:#155724;">Low</span></td>
+      <td>13.8x FY1 P/E with 25%+ growth; $300M buyback authorization; 9/9 analyst Buy ratings; consensus PT $318 (+82%)</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 14: APPENDIX — PYTHON CODE -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section appendix">14. Appendix — Python Code</div>
+
+<div class="section-title">Sensitivity Table Generator</div>
+<div class="code-block">
+import numpy as np
+import pandas as pd
+
+# ─── SENSITIVITY TABLE 1: ExtraCash Gross Revenue ───
+# Quarterly origination volume ($B) × Net Monetization Rate (%) × 4 quarters
+qtr_orig_range = [2.0, 2.5, 3.0, 3.5, 4.0]         # $B per quarter
+net_mon_range  = [0.035, 0.040, 0.045, 0.050, 0.055]  # net monetization rate
+base_orig = 3.0
+base_mon  = 0.050
+
+rows = []
+for orig in qtr_orig_range:
+    row = []
+    for mon in net_mon_range:
+        annual_rev = orig * 4 * mon * 1000  # $M
+        row.append(round(annual_rev, 0))
+    rows.append(row)
+
+df1 = pd.DataFrame(rows,
+    index=[f"${x}B" for x in qtr_orig_range],
+    columns=[f"{m*100:.1f}%" for m in net_mon_range])
+print("FY2028E ExtraCash Gross Revenue ($M)")
+print(df1.to_string())
+print(f"\nBase case: ${base_orig}B/qtr × 4 × {base_mon*100:.1f}% = ${base_orig*4*base_mon*1000:.0f}M")
+
+# ─── SENSITIVITY TABLE 2: Adj EBITDA ───
+rev_range    = [750, 850, 960, 1050, 1200]        # $M total revenue
+margin_range = [0.35, 0.39, 0.43, 0.47, 0.51]    # adj EBITDA margin
+base_rev = 960
+base_margin = 0.45
+
+rows2 = []
+for rev in rev_range:
+    row = []
+    for m in margin_range:
+        ebitda = rev * m
+        row.append(round(ebitda, 0))
+    rows2.append(row)
+
+df2 = pd.DataFrame(rows2,
+    index=[f"${x}M" for x in rev_range],
+    columns=[f"{int(m*100)}%" for m in margin_range])
+print("\nFY2028E Adjusted EBITDA ($M)")
+print(df2.to_string())
+print(f"Base case: ${base_rev}M × {base_margin*100:.0f}% = ${base_rev*base_margin:.0f}M")
+
+# ─── SENSITIVITY TABLE 3: Implied Share Price ───
+eps_range = [8, 14, 21.43, 28, 36]       # FY2028E EPS
+pe_range  = [6, 10, 14, 18, 22]           # exit P/E multiple
+
+rows3 = []
+for eps in eps_range:
+    row = []
+    for pe in pe_range:
+        price = eps * pe
+        row.append(round(price, 0))
+    rows3.append(row)
+
+df3 = pd.DataFrame(rows3,
+    index=[f"${x}" for x in eps_range],
+    columns=[f"{pe}x" for pe in pe_range])
+print("\nImplied Share Price ($)")
+print(df3.to_string())
+print(f"Base case: $21.43 × 14x = ${21.43*14:.0f}")
+</div>
+
+<div class="section-title" style="margin-top:16px;">5-Scenario Model Generator</div>
+<div class="code-block">
+# ─── DAVE 5-SCENARIO 3-YEAR MODEL ───
+scenarios = {
+    "Reg. Crackdown": {
+        "rev":   [620, 640, 650],
+        "gm":    [0.65, 0.64, 0.65],
+        "ebitda_mgn": [0.25, 0.23, 0.21],
+        "net_mgn": [0.16, 0.13, 0.12],
+        "eps":   [6.80, 5.95, 5.36],
+        "exit_pe": 6,
+        "shares": [14.97, 14.50, 14.00],
+        "prob": 0.05,
+    },
+    "Slow Growth": {
+        "rev":   [670, 760, 845],
+        "gm":    [0.70, 0.71, 0.72],
+        "ebitda_mgn": [0.37, 0.39, 0.40],
+        "net_mgn": [0.25, 0.28, 0.29],
+        "eps":   [11.47, 14.63, 17.50],
+        "exit_pe": 10,
+        "shares": [14.97, 14.50, 14.00],
+        "prob": 0.20,
+    },
+    "Base Case": {
+        "rev":   [700, 827, 960],
+        "gm":    [0.72, 0.74, 0.74],
+        "ebitda_mgn": [0.42, 0.44, 0.45],
+        "net_mgn": [0.27, 0.29, 0.31],
+        "eps":   [12.68, 16.24, 21.43],
+        "exit_pe": 14,
+        "shares": [14.97, 14.50, 14.00],
+        "prob": 0.50,
+    },
+    "BNPL Accel": {
+        "rev":   [720, 900, 1100],
+        "gm":    [0.73, 0.75, 0.76],
+        "ebitda_mgn": [0.43, 0.46, 0.48],
+        "net_mgn": [0.27, 0.33, 0.35],
+        "eps":   [13.24, 20.49, 27.50],
+        "exit_pe": 18,
+        "shares": [14.97, 14.50, 14.00],
+        "prob": 0.20,
+    },
+    "Platform Dom.": {
+        "rev":   [740, 980, 1300],
+        "gm":    [0.74, 0.76, 0.77],
+        "ebitda_mgn": [0.44, 0.50, 0.53],
+        "net_mgn": [0.28, 0.37, 0.39],
+        "eps":   [14.27, 25.36, 36.43],
+        "exit_pe": 22,
+        "shares": [14.97, 14.50, 14.00],
+        "prob": 0.05,
+    },
+}
+
+current_price = 174.95
+years = ["FY2026E", "FY2027E", "FY2028E"]
+
+implied_prices = {}
+for name, s in scenarios.items():
+    print(f"\n{'='*60}")
+    print(f"Scenario: {name} (Prob: {s['prob']*100:.0f}%)")
+    print(f"{'─'*60}")
+    eps_exit = s["eps"][-1]
+    implied_price = eps_exit * s["exit_pe"]
+    implied_prices[name] = implied_price
+    upside = (implied_price / current_price - 1) * 100
+    print(f"Exit: {s['exit_pe']}x P/E on FY2028E EPS ${eps_exit:.2f}")
+    print(f"Implied Price: ${implied_price:.2f}  |  {'Upside' if upside > 0 else 'Downside'}: {upside:+.1f}%")
+
+    for i, yr in enumerate(years):
+        rev = s["rev"][i]
+        eps = s["eps"][i]
+        print(f"  {yr}: Rev ${rev}M | GM {s['gm'][i]*100:.0f}% | EBITDA Mgn {s['ebitda_mgn'][i]*100:.0f}% | EPS ${eps:.2f}")
+
+# ─── PROBABILITY-WEIGHTED FAIR VALUE ───
+coc = 0.30
+wtd_avg = sum(scenarios[k]["prob"] * implied_prices[k] for k in scenarios)
+pv = wtd_avg / (1 + coc)
+print(f"\n{'='*60}")
+print(f"Probability-Weighted Avg (FY2028E): ${wtd_avg:.2f}")
+print(f"Discounted at {coc*100:.0f}% CoC:         ${pv:.2f}")
+print(f"Current Price:                       ${current_price:.2f}")
+print(f"Implied Upside to PV:               {(pv/current_price-1)*100:+.1f}%")
+</div>
+
+<div class="source-note" style="margin-top:16px;">
+  Dave, Inc. | Preliminary Memo for Theia · Generated March 30, 2026 · Data: FactSet (Mar 27, 2026), AlphaSense Expert Network, Q4 FY2025 Earnings Transcript, Company Filings · Not investment advice.
+</div>
+
+</body>
+</html>
