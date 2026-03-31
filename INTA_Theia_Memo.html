@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intapp, Inc. | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 8px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child, table.comps td:nth-child(2) { text-align: left; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-style: italic; background: #fafbfc; font-weight: 600; border-top: 1px solid #eee; }
+table.comps th.est-col { color: #2563eb; }
+
+table.risk-table { font-size: 10px; width: 100%; margin: 8px 0; }
+table.risk-table th { text-align: left; font-weight: 600; padding: 4px 6px; background: #f4f6f9; border-bottom: 1px solid #ddd; }
+table.risk-table td { padding: 4px 6px; border-bottom: 1px solid #eee; vertical-align: top; }
+table.risk-table td:first-child { font-weight: 600; width: 25%; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.alphasense-box { background: #e8f4fd; border-left: 4px solid #2563eb; padding: 10px 14px; margin: 10px 0; font-size: 10px; line-height: 1.5; }
+
+.bull-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #155724; border-bottom: 1.5px solid #c3e6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #721c24; border-bottom: 1.5px solid #f5c6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+
+.bull-item, .bear-item { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Intapp, Inc. | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">Intapp, Inc. (NASDAQ: INTA) is a leading global provider of vertical SaaS and AI-powered solutions purpose-built for the world's premier advisory, capital markets, and legal firms. Founded in 2000 (originally as Integration Appliance) and headquartered in Palo Alto, California, Intapp has evolved into the dominant platform for managing the complex workflows, compliance requirements, and deal intelligence needs of professional and financial services organizations. The company's products span three core pillars: DealCloud, an AI-powered CRM and deal management platform that replaces horizontal tools like Salesforce for private capital, investment banking, and real asset firms; Compliance &amp; Risk, a suite including Intake, Conflicts, Employee Compliance, and the proprietary "Walls" product that enforces ethical information barriers — a product with virtually no competitive alternatives and extreme switching costs; and Intapp Time &amp; Terms, an AI-powered time capture solution used by over 225,000 professionals. In February 2026, Intapp launched Celeste, an agentic AI platform deploying autonomous expert agents for multi-step workflows — capable of ingesting confidential information memoranda overnight, generating preliminary LBO models, and scoring deals against fund mandates. Celeste's proprietary Context Engine maps firm-specific terminology and organizational knowledge, creating a defensible data moat that generic AI solutions cannot replicate. Intapp serves over 2,750 clients worldwide including 95 of the Am Law 100 law firms, 16 of the top 20 accounting firms, and more than 1,700 private capital and investment banking institutions.</p>
+
+<p class="prose">The company's "land and expand" business model is central to its economics: clients typically adopt one module (often Conflicts or DealCloud), then expand across the platform over time. This dynamic is reflected in a cloud Net Revenue Retention (NRR) rate of 124% on a trailing twelve-month basis, meaning the existing client base generates 24% organic revenue growth before any new logo wins. Cloud ARR reached $434M as of Q2 FY2026 (December 2025), representing 81% of total ARR of $535M and growing 31% year-over-year — a remarkable growth rate for a company serving inherently conservative, risk-averse institutions. The remaining 19% of ARR is on-premise, with 94% of clients already using at least one cloud module, indicating that the cloud migration is well advanced but still has meaningful runway for revenue uplift as on-prem contracts convert to higher-value cloud subscriptions. Intapp's deep strategic partnership with Microsoft — built natively on Azure, with co-selling agreements, Azure Marketplace procurement, and Microsoft investment dollars — provides a structural distribution advantage: Microsoft co-sold more than 50% of Intapp's largest wins in Q2 FY2026, and partners were involved in 7 of the 10 largest deals. The Anthropic (Claude) and Harvey partnerships for legal AI further extend the platform's moat into the rapidly expanding AI governance layer for professional services.</p>
+
+<p class="prose"><strong>Key facts:</strong> Founded 2000 · Headquarters Palo Alto, CA · CEO &amp; Chairman John Hall · CFO David H. Morton Jr. · COO Don Coleman · Employees ~1,336 (FY2025) · IPO June 2021 (NASDAQ: INTA) · FY end June · Market Cap $1,984M · CUSIP 45827U109 · ISIN US45827U1097</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 2: FINANCIAL SUMMARY (FACTSET) -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Theia FactSet Summary</div>
+
+<div class="header">
+  <div>
+    <h1>Intapp, Inc.</h1>
+    <span class="ticker">INTA · NASDAQ · ISIN US45827U1097</span>
+  </div>
+  <div class="date">FactSet Snapshot · March 27, 2026</div>
+</div>
+
+<!-- Price Bar -->
+<div class="price-bar">
+  <div>
+    <span class="label">Price (Mar 27, 2026) </span>
+    <span class="price">$24.68</span>
+  </div>
+  <div><span class="label">1M </span><span class="chg pos">+11.80%</span></div>
+  <div><span class="label">3M </span><span class="chg">-46.09%</span></div>
+  <div><span class="label">6M </span><span class="chg">-38.69%</span></div>
+  <div><span class="label">YTD </span><span class="chg">-45.27%</span></div>
+  <div><span class="label">1Y </span><span class="chg">-58.14%</span></div>
+  <div><span class="label">52-Wk Range </span><span style="font-weight:600;">$19.24 – $62.30</span></div>
+</div>
+
+<!-- Key Stats + EV Bridge -->
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv" style="font-size:10px;">
+      <tr><td>Exchange / Ticker</td><td>NASDAQ · INTA</td></tr>
+      <tr><td>Price (Mar 27, 2026)</td><td>$24.68</td></tr>
+      <tr><td>30-Day Avg Volume</td><td>1.33M shares/day</td></tr>
+      <tr><td>Float %</td><td>89.67%</td></tr>
+      <tr><td>Short Interest</td><td>4.88% of float</td></tr>
+      <tr><td>Days to Cover</td><td>2.3 days</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev" style="font-size:10px;">
+      <tr><td>Basic Shares (Common)</td><td>80.40M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">+ Stock Comp / Options</td><td style="font-size:9px;">7.22M</td></tr>
+      <tr><td>= Fully Diluted Shares</td><td>87.61M</td></tr>
+      <tr><td>Share Price</td><td>$24.68</td></tr>
+      <tr><td>= Fully Dil. Market Cap</td><td>$2,162M</td></tr>
+      <tr><td>− Cash &amp; Equivalents</td><td>($191.4M)</td></tr>
+      <tr class="total"><td>= Enterprise Value</td><td>$1,971M</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- Current Valuation — horizontal 6x2 grid -->
+<div class="section-title">Current Valuation</div>
+<div style="border: 1px solid #eee; border-radius: 4px; margin-bottom: 8px;">
+  <div class="val-grid">
+    <div class="val-cell"><div class="val-label">Mkt Cap</div><div class="val-num">$1,984M</div><div class="val-sub">Basic shares</div></div>
+    <div class="val-cell"><div class="val-label">EV</div><div class="val-num">$1,971M</div><div class="val-sub">No debt, $191M cash</div></div>
+    <div class="val-cell"><div class="val-label">P/Sales (FY26E)</div><div class="val-num">3.5x</div><div class="val-sub">Rev $573M</div></div>
+    <div class="val-cell"><div class="val-label">EV/EBITDA (FY26E)</div><div class="val-num">17.0x</div><div class="val-sub">EBITDA $116M</div></div>
+    <div class="val-cell"><div class="val-label">P/FCF (FY26E)</div><div class="val-num">15.7x</div><div class="val-sub">FCF $123M</div></div>
+    <div class="val-cell"><div class="val-label">FCF Yield</div><div class="val-num">6.4%</div><div class="val-sub">$123M / $1,984M</div></div>
+  </div>
+  <div style="border-top: 1px solid #eee;">
+    <div class="val-grid">
+      <div class="val-cell"><div class="val-label">Fully Dil. Mkt Cap</div><div class="val-num">$2,162M</div><div class="val-sub">87.61M dil. shares</div></div>
+      <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">10.47%</div><div class="val-sub">FactSet estimate</div></div>
+      <div class="val-cell"><div class="val-label">Beta (3Y Adj)</div><div class="val-num">1.35</div><div class="val-sub">Adjusted beta</div></div>
+      <div class="val-cell"><div class="val-label">Avg Analyst Rating</div><div class="val-num">OW</div><div class="val-sub">9 brokers · 1.59</div></div>
+      <div class="val-cell"><div class="val-label">Cons. Target Price</div><div class="val-num">$41.00</div><div class="val-sub">+66% upside</div></div>
+      <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">May 12</div><div class="val-sub">Q3 FY2026</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Valuation Multiples Table -->
+<div class="section-title">Valuation Multiples</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Metric</th>
+      <th>5Yr Avg</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th class="est" style="color:#2563eb;">FY2026E</th>
+      <th class="est" style="color:#2563eb;">FY2027E</th>
+      <th class="est" style="color:#2563eb;">FY2028E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="8">PRICE MULTIPLES</td></tr>
+    <tr><td>P/E</td><td>--</td><td>NM</td><td>NM</td><td>NM</td><td class="est">20.2x</td><td class="est">16.6x</td><td class="est">14.0x</td></tr>
+    <tr><td>P/Sales</td><td>6.6x</td><td>7.7x</td><td>6.1x</td><td>8.1x</td><td class="est">3.5x</td><td class="est">3.0x</td><td class="est">2.7x</td></tr>
+    <tr><td>P/Book Value</td><td>3.2x</td><td>8.4x</td><td>6.8x</td><td>8.1x</td><td class="est">4.4x</td><td class="est">3.6x</td><td class="est">2.9x</td></tr>
+    <tr><td>P/FCF</td><td>64.0x</td><td>136.4x</td><td>44.9x</td><td>35.5x</td><td class="est">15.7x</td><td class="est">13.6x</td><td class="est">12.0x</td></tr>
+    <tr class="section-row"><td colspan="8">EV MULTIPLES</td></tr>
+    <tr><td>EV/Sales</td><td>7.8x</td><td>9.4x</td><td>6.7x</td><td>8.5x</td><td class="est">3.4x</td><td class="est">3.0x</td><td class="est">2.7x</td></tr>
+    <tr><td>EV/EBITDA</td><td>NM</td><td>NM</td><td>NM</td><td>NM</td><td class="est">17.0x</td><td class="est">13.6x</td><td class="est">11.0x</td></tr>
+    <tr><td>EV/EBIT</td><td>NM</td><td>NM</td><td>NM</td><td>NM</td><td class="est">19.3x</td><td class="est">15.4x</td><td class="est">12.6x</td></tr>
+  </tbody>
+</table>
+
+<!-- Revenue Exposure -->
+<div class="section-title">Revenue Exposure (FY2025 Actuals, FYE June)</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Product</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Segment</th><th>$M</th><th>% Rev</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>SaaS</td><td>$332M</td><td>65.8%</td><td>+5.1%</td></tr>
+        <tr><td>License</td><td>$120M</td><td>23.8%</td><td>+97.8%</td></tr>
+        <tr><td>Professional Services</td><td>$52M</td><td>10.3%</td><td>-3.2%</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>$504M</td><td>100%</td><td>+17.1%</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:8px; color:#aaa; margin-top:4px;">Cloud ARR $434M (+31% YoY) = 81% of total ARR $535M. Cloud is the better metric.</p>
+  </div>
+  <div>
+    <div class="sub-label">By Geography</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Region</th><th>$M</th><th>% Rev</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>United States</td><td>$339M</td><td>67.3%</td><td>+16.1%</td></tr>
+        <tr><td>United Kingdom</td><td>$79M</td><td>15.7%</td><td>+23.2%</td></tr>
+        <tr><td>Rest of World</td><td>$86M</td><td>17.1%</td><td>+15.7%</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>$504M</td><td>100%</td><td>+17.1%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Financials Table -->
+<div class="section-title">Financials</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">$M (FY Jun)</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th class="est" style="color:#2563eb;">FY2026E</th>
+      <th class="est" style="color:#2563eb;">FY2027E</th>
+      <th class="est" style="color:#2563eb;">FY2028E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">INCOME STATEMENT</td></tr>
+    <tr><td>Revenue</td><td>$351</td><td>$431</td><td>$504</td><td class="est">$573</td><td class="est">$651</td><td class="est">$741</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Revenue Growth %</td><td>--</td><td>+22.7%</td><td>+17.1%</td><td class="est">+13.6%</td><td class="est">+13.6%</td><td class="est">+13.8%</td></tr>
+    <tr><td>Gross Profit</td><td>$233</td><td>$301</td><td>$368</td><td class="est">$444</td><td class="est">$507</td><td class="est">$583</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Gross Margin %</td><td>66.4%</td><td>69.8%</td><td>72.9%</td><td class="est">77.6%</td><td class="est">77.9%</td><td class="est">78.7%</td></tr>
+    <tr><td>EBITDA</td><td>($48)</td><td>($11)</td><td>($4)</td><td class="est">$116</td><td class="est">$145</td><td class="est">$180</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">EBITDA Margin %</td><td>NM</td><td>NM</td><td>NM</td><td class="est">20.2%</td><td class="est">22.3%</td><td class="est">24.3%</td></tr>
+    <tr><td>EBIT</td><td>($68)</td><td>($32)</td><td>($28)</td><td class="est">$102</td><td class="est">$128</td><td class="est">$157</td></tr>
+    <tr><td>Net Income</td><td>($69)</td><td>($32)</td><td>($18)</td><td class="est">($20)</td><td class="est">$15</td><td class="est">$35</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Net Income Margin %</td><td>NM</td><td>NM</td><td>NM</td><td class="est">NM</td><td class="est">2.4%</td><td class="est">4.8%</td></tr>
+    <tr><td>EPS (Dil)</td><td>($1.08)</td><td>($0.45)</td><td>($0.23)</td><td class="est">($0.26)</td><td class="est">$0.12</td><td class="est">$0.26</td></tr>
+    <tr class="section-row"><td colspan="7">CASH FLOW</td></tr>
+    <tr><td>Operating Cash Flow</td><td>$27</td><td>$67</td><td>$124</td><td class="est">$130</td><td class="est">$155</td><td class="est">$187</td></tr>
+    <tr><td>CapEx</td><td>($8)</td><td>($9)</td><td>($9)</td><td class="est">($3)</td><td class="est">($3)</td><td class="est">($6)</td></tr>
+    <tr><td>Free Cash Flow</td><td>$20</td><td>$58</td><td>$114</td><td class="est">$123</td><td class="est">$147</td><td class="est">$180</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">FCF Margin %</td><td>5.6%</td><td>13.6%</td><td>22.7%</td><td class="est">21.5%</td><td class="est">22.5%</td><td class="est">24.3%</td></tr>
+    <tr class="section-row"><td colspan="7">BALANCE SHEET</td></tr>
+    <tr><td>Cash &amp; ST Investments</td><td>$131</td><td>$209</td><td>$313</td><td class="est">$282</td><td class="est">$426</td><td class="est">$609</td></tr>
+    <tr><td>Total Debt</td><td>$22</td><td>$22</td><td>$0</td><td class="est">$0</td><td class="est">$0</td><td class="est">$0</td></tr>
+    <tr><td>Shareholders' Equity</td><td>$341</td><td>$403</td><td>$520</td><td class="est">$460</td><td class="est">$580</td><td class="est">$727</td></tr>
+    <tr><td>BVPS</td><td>$4.98</td><td>$5.40</td><td>$6.35</td><td class="est">$5.60</td><td class="est">$6.80</td><td class="est">$8.37</td></tr>
+  </tbody>
+</table>
+
+<!-- Valuation Summary -->
+<div class="section-title">Valuation Summary</div>
+<p class="prose">Intapp currently trades at 3.5x FY2026E P/Sales and 17.0x FY2026E EV/EBITDA — a dramatic de-rating from its 5-year average P/Sales of 6.6x. The stock is down 58% from its 52-week high of $62.30, having been caught in the broader small-cap SaaS multiple compression wave despite accelerating cloud fundamentals (31% cloud ARR growth, 124% NRR). The GAAP P/E of 20.2x on FY2026E reflects heavily stock-based-compensation-burdened net income — FCF is the superior profitability metric for this business, and at 15.7x FY2026E P/FCF the stock is priced below SaaS peers growing at similar rates. On a FY2028E basis, the valuation compresses to 12.0x P/FCF and 11.0x EV/EBITDA, which would represent an exceptionally cheap multiple for a vertical SaaS company with 78%+ gross margins, 24% FCF margins, and a proprietary AI platform. The consensus target of $41.00 (9 brokers) implies 66% upside, reflecting strong sell-side conviction that the drawdown is overdone. Relative to the software peer median (EV/EBITDA 11.4x FY1), Intapp trades at a 49% premium on FY1 (17.0x) but converges on FY2 (13.6x vs. 10.5x), suggesting the market is not yet crediting margin expansion. This creates a classic "show-me" setup where each quarter of margin delivery should compress the premium and re-rate the stock.</p>
+
+<div class="source-note">Source: FactSet snapshot export, March 27, 2026. Estimates reflect consensus of 9 broker contributors. FYE June.</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 3: BULL & BEAR CASES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Cases</div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Celeste Agentic AI Creates New Revenue Stream.</span> Celeste, launched in February 2026, represents a genuinely differentiated product: autonomous expert agents that can ingest CIMs overnight, generate preliminary LBO models, score deals against fund mandates, and execute multi-step compliance workflows — all while respecting firm-specific information barriers via the proprietary Context Engine. If Celeste achieves meaningful adoption among Intapp's 1,700+ private capital and investment banking clients, it could create an entirely new $50M+ ARR stream within 24 months, driving cloud ARR growth re-acceleration to 35%+ and triggering a "platform re-rating" from SaaS company to AI infrastructure provider. The partnership with Anthropic (Claude) for the underlying models, combined with Intapp's proprietary governance layer, creates a moat that horizontal AI tools cannot replicate.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">PE-Driven Accounting Consolidation Wave.</span> Private equity investment in accounting firms is accelerating — consolidators like Grant Thornton (New Mountain Capital), BDO, and emerging roll-ups are acquiring mid-market accounting practices and standardizing them on enterprise software. Intapp's compliance and risk products are the de facto standard for Am Law 100 and top-20 accounting firms, and every PE-backed accounting consolidation creates an immediate enterprise client with demand for Conflicts, Walls, Employee Compliance, and DealCloud. This represents a structural TAM expansion that consensus estimates have not yet incorporated, potentially adding 200–300 new enterprise clients over the next 3 years at $200K+ ARR each.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Microsoft Co-Sell Flywheel Accelerates.</span> Microsoft co-sold over 50% of Intapp's largest wins in Q2 FY2026 and is actively investing dollars alongside Intapp's sales motions. As a natively Azure-built application available through Azure Marketplace, Intapp benefits from Microsoft's enterprise sales force reaching into CIO conversations that Intapp's 1,336-person organization could never access alone. If Microsoft deepens this partnership — potentially through a direct investment, a "preferred partner" designation, or integration into Microsoft 365 for enterprise advisory firms — Intapp's international expansion could accelerate dramatically, particularly in EMEA and APAC where Microsoft's enterprise penetration far exceeds Intapp's direct sales coverage.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Cloud Migration Drives Margin Inflection.</span> Gross margins have expanded from 66.4% in FY2023 to 72.9% in FY2025 and are projected to reach 78.7% by FY2028E — reflecting the structural shift from lower-margin on-premise license and services revenue toward high-margin cloud subscriptions. With 19% of ARR still on-prem, there is meaningful runway for this migration to continue compounding margins higher. EBITDA margins are expected to inflect from negative in FY2025 to 20.2% in FY2026E and 24.3% in FY2028E, a trajectory that is typical of vertical SaaS companies past the investment phase. If Intapp executes this margin ramp while maintaining 13–15% revenue growth, the compounding effect on FCF per share is significant.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Strategic Acquisition Target.</span> Intapp at $2.0B market cap with $191M net cash, $434M cloud ARR growing 31%, 78% gross margins, and a proprietary compliance/AI platform for professional services is a highly attractive acquisition target for Microsoft, SAP, or Thomson Reuters. The company's products are deeply embedded in mission-critical workflows with extreme switching costs, making it a "buy-the-installed-base" acquisition archetype. Any credible acquisition approach at even a modest 30–40% premium to current trading would imply $32–$35 per share, with a strategic premium scenario (50%+ premium to fair value) pointing toward $50+. The 58% drawdown from the 52-week high makes Intapp significantly more affordable as an acquisition target today than it was six months ago.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="bear-header">Bear Cases</div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">GAAP Losses and SBC Dilution Persist.</span> Despite strong and growing FCF, Intapp remains GAAP unprofitable due to heavy stock-based compensation — FY2026E GAAP net income is projected at ($20M). SBC has resulted in 7.22M dilutive shares (9% of basic shares), and this dilution compounds annually. For investors who anchor on GAAP profitability or who are structurally unable to hold GAAP-unprofitable companies (certain index constituents, value funds), this creates persistent selling pressure. If SBC as a percentage of revenue does not decline meaningfully, the FCF-to-GAAP earnings gap will continue to understate the company's true profitability, keeping the multiple depressed relative to GAAP-profitable SaaS peers.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Professional Services Cyclicality.</span> Intapp's end markets — law firms, private equity, investment banking, and accounting — are inherently cyclical, correlated with M&amp;A volumes, IPO activity, and overall deal flow. A sustained recession that reduces PE deal activity, law firm utilization rates, or investment banking fee pools would directly impact Intapp's new logo wins and expansion velocity. While compliance products are non-discretionary (firms must manage conflicts and ethical walls regardless of deal volume), the DealCloud CRM product and professional services revenue (~10% of total) are more discretionary and vulnerable to spend cuts during downturns.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Salesforce / Microsoft Horizontal Competition.</span> The risk that Salesforce Financial Services Cloud or Microsoft Dynamics 365 adds purpose-built features for law firms and PE shops is a perennial bear case. Salesforce has significant resources and could theoretically develop vertical compliance, conflicts, and deal management features that compete with Intapp's core modules. While Intapp's proprietary "industry graph" data model and compliance moat (particularly Walls) would be extremely difficult to replicate, a well-executed Salesforce vertical push could slow new logo acquisition and compress win rates at the margin. Microsoft, despite being a current partner, could also become a competitor if it decides to build native advisory-firm management capabilities into Microsoft 365.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Small-Cap SaaS Multiple Compression Continues.</span> Intapp's stock has already de-rated from 8.5x EV/Sales (FY2025) to 3.4x EV/Sales (FY2026E), reflecting the broader re-rating of small-cap growth SaaS. If the macro environment keeps risk-free rates elevated and investors continue to favor large-cap value over small-cap growth, the multiple compression could persist or worsen, even if Intapp executes operationally. The stock's 1.35 beta amplifies this risk — in a broad market sell-off, Intapp would likely decline more than the index regardless of fundamentals.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">AI Commoditization Risk.</span> The rapid proliferation of open-source LLMs and competing AI platforms (OpenAI, Google, Meta) raises the question of whether Celeste's AI capabilities will be commoditized before Intapp can establish a sustainable revenue stream. If generic AI tools become "good enough" for CIM analysis, deal scoring, and compliance workflows, Intapp's proprietary Context Engine may not justify a meaningful pricing premium. However, the bear case here is somewhat mitigated by the fact that Intapp's moat is less about the AI model itself and more about the governance layer (Walls for AI, MNPI controls) and the firm-specific data graph — but this nuance may be lost on the market in a narrative-driven AI selloff.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Scale Economies</span> <span class="fw-rating moderate">Moderate</span><br>
+  Intapp's software platform has high fixed development costs (R&amp;D was ~30% of revenue in FY2023, declining toward ~22% as revenue scales) and near-zero marginal cost per additional user or module deployed to an existing client. Once the core platform is built — the industry graph data model, the compliance engine, the DealCloud CRM — serving the 2,751st client costs roughly the same as serving the 2,750th. This creates real operating leverage: gross margins have expanded from 66% to 73% over FY2023–FY2025 and are projected to approach 79% by FY2028E. However, Intapp's TAM is relatively concentrated (elite professional and financial services firms globally — perhaps 5,000–10,000 addressable organizations), which caps the absolute scale of the cost advantage relative to a horizontal SaaS company serving millions of SMBs. The scale advantage is meaningful within the vertical but not category-defining.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Network Effects</span> <span class="fw-rating moderate">Moderate</span><br>
+  Intapp exhibits indirect network effects through its "industry graph" — a proprietary data model that maps relationships between professionals, firms, deals, companies, and conflicts across the entire professional services ecosystem. As more firms use Intapp, the graph becomes richer: cross-firm conflict detection becomes more accurate, referral patterns become visible, and the AI models can train on a broader dataset of professional services workflows. This is not a classic two-sided marketplace network effect, but it creates a meaningful data advantage that compounds with adoption. Additionally, the 100+ industry-specific connectors in the Integration Service create an ecosystem lock-in: as more enterprise applications integrate with Intapp's middleware layer, the platform becomes stickier and harder to replace. The Microsoft co-sell relationship amplifies this — Microsoft's sales team effectively acts as an unpaid distribution network that grows stronger as Intapp's installed base demonstrates integration quality.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Counter-Positioning</span> <span class="fw-rating strong">Strong</span><br>
+  Intapp's strongest power is its counter-positioning against Salesforce, SAP, and other horizontal CRM/ERP platforms. These companies earn billions from generic, customizable enterprise software sold across all industries. To compete with Intapp, they would need to build: (a) a purpose-built compliance engine for law firm conflicts and ethical walls, (b) industry-specific data models for PE deal flow, investment banking mandates, and accounting engagement management, (c) MNPI controls and information barrier enforcement, and (d) deep integration with legal and financial services workflows. Building these capabilities would require multi-year investment in a niche vertical that represents a tiny fraction of Salesforce's or SAP's total revenue — making it economically irrational for them to prioritize. Salesforce's Financial Services Cloud has existed for years without meaningfully competing in Intapp's core compliance and conflicts market. This counter-positioning is genuine and durable: Intapp has built exactly the product that horizontal platforms cannot economically justify building.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Switching Costs</span> <span class="fw-rating strong">Strong</span><br>
+  Switching costs are arguably Intapp's most powerful moat. The Compliance &amp; Risk products (Conflicts, Walls, Intake, Employee Compliance) are deeply embedded in mission-critical workflows — law firms cannot accept new client engagements without running them through Conflicts, and investment banks cannot maintain information barriers without Walls. These products are connected to firm-wide data systems, HR databases, client records, and engagement histories. Ripping out Intapp's compliance stack would require: (a) rebuilding years of conflict-checking history, (b) migrating ethical wall configurations, (c) retraining hundreds of professionals, and (d) accepting regulatory risk during the transition period. For DealCloud, the switching cost includes losing years of pipeline data, relationship intelligence, and AI-trained deal scoring models. The 124% cloud NRR quantifies this stickiness — not only do clients not leave, they spend 24% more each year. Management has stated that virtually no alternatives exist for the Walls product, making switching effectively impossible for firms that use it.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Branding</span> <span class="fw-rating moderate">Moderate</span><br>
+  Intapp has strong brand recognition within its target market: 95 of 100 Am Law firms, 16 of 20 top accounting firms, and 1,700+ PE/IB institutions use at least one Intapp product. The brand carries trust signals — 25 years of operating history, deep regulatory compliance expertise, partnerships with Microsoft and Anthropic — that matter enormously when a law firm or investment bank is selecting software to manage conflicts, MNPI, and ethical walls. In these regulated environments, choosing an unknown vendor creates career risk for the CIO or General Counsel. However, Intapp's brand is not consumer-facing and does not command pricing power in the traditional sense — it reduces sales cycle friction and increases win rates but does not allow Intapp to charge a significant premium over a hypothetical equally-capable competitor. The brand is an important facilitator of the land-and-expand model but not a standalone power.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">6. Cornered Resource</span> <span class="fw-rating strong">Strong</span><br>
+  Intapp's proprietary "industry graph" is a genuine cornered resource — a patented architecture that maps the complex, multi-dimensional relationships between professionals, firms, deals, companies, conflicts, and regulatory requirements across the global professional services ecosystem. This graph has been built over 25 years of accumulated data from 2,750+ clients and cannot be replicated by a new entrant without equivalent installed base and historical data. The Celeste AI platform builds on top of this graph: the Context Engine maps firm-specific terminology, abbreviations, deal team structures, and organizational hierarchies, meaning the AI's intelligence is proprietary to Intapp's data asset. CEO John Hall is also a cornered resource — deeply respected by clients for product vision and domain expertise in professional services technology, he has been a key factor in Intapp's ability to win enterprise deals against larger competitors. Additionally, Intapp's deep partnership with Microsoft (natively built on Azure, co-selling, marketplace procurement) represents a relationship asset that would take a competitor years to replicate.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">7. Process Power</span> <span class="fw-rating moderate">Moderate</span><br>
+  Intapp has developed sophisticated implementation and customer success processes refined over thousands of enterprise deployments at the world's most demanding professional services firms. The company's ability to navigate the complex procurement, compliance, and change management requirements of Am Law 100 firms and global investment banks — each with unique organizational structures, regulatory environments, and legacy system landscapes — represents accumulated institutional knowledge that is difficult to replicate. The land-and-expand sales motion, in particular, reflects a refined process: initial module deployment, followed by systematic identification of expansion opportunities, supported by customer success teams that understand the specific pain points and buying processes of professional services firms. However, this process power is not unique to Intapp — many enterprise SaaS companies develop comparable implementation capabilities — and the company's relatively small workforce of ~1,336 employees limits the depth of institutional process knowledge compared to larger organizations.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> Intapp is a 3–4 power business with genuine strength in Counter-Positioning (horizontal platforms cannot justify building Intapp's vertical compliance stack), Switching Costs (mission-critical compliance products with extreme replacement cost), and Cornered Resource (proprietary industry graph, patented architecture, CEO, Microsoft partnership). Scale Economies, Network Effects, and Branding are moderate and compounding. This is a strong 7 Powers profile for a vertical SaaS company — the combination of counter-positioning and switching costs creates a durable moat that should protect the business through economic cycles.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Threat of New Entrants</span> <span class="fw-rating low">Low</span><br>
+  The barriers to entry in Intapp's core markets are formidable. A new entrant would need to build: (a) a purpose-built compliance engine that meets the regulatory requirements of Am Law 100 firms and global investment banks, (b) a proprietary data model that maps the complex relationship graph of the professional services ecosystem, (c) 100+ industry-specific integrations to connect with existing firm technology stacks, (d) deep domain expertise in legal ethics, securities regulation, and information barrier requirements, and (e) a 5–10 year track record of successful deployments at elite firms to build the trust required for a compliance software vendor. The capital and time requirements are substantial: Intapp has invested over $1B in cumulative R&amp;D since its founding, and the product cannot be replicated by simply throwing money at the problem because the domain knowledge and regulatory complexity act as a knowledge barrier. The most likely competitive threat is not a new entrant but an adjacent incumbent (Salesforce, Thomson Reuters) extending into Intapp's vertical — and as discussed in the Helmer's 7 Powers section, horizontal platforms face counter-positioning dynamics that make this expansion economically irrational.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Bargaining Power of Suppliers</span> <span class="fw-rating low">Low</span><br>
+  Intapp's primary "suppliers" are cloud infrastructure providers (Microsoft Azure), AI model providers (Anthropic, Harvey), and its own engineering talent. The Microsoft Azure relationship is a strategic partnership rather than a pure supplier arrangement — Microsoft co-sells Intapp products and has financial incentives aligned with Intapp's growth, making aggressive pricing renegotiation unlikely. For AI models, Intapp has partnerships with multiple providers (Anthropic, Harvey) and could theoretically switch between models as the AI landscape evolves — the proprietary value is in the Context Engine and governance layer, not the underlying model. Engineering talent is the most constrained "supplier," but Intapp's Palo Alto location and vertical specialization give it access to a motivated talent pool interested in AI-powered enterprise software. Overall, supplier power is low — Intapp's strategic partnerships with Microsoft and Anthropic are mutually beneficial rather than extractive.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Bargaining Power of Buyers</span> <span class="fw-rating low">Low</span><br>
+  Intapp's 2,750+ clients include the world's largest and most sophisticated law firms, private equity firms, and investment banks. These are powerful organizations with professional procurement functions. However, buyer power is constrained by several factors: (a) Intapp's compliance products have virtually no alternatives — firms cannot credibly threaten to switch to a competitor that does not exist; (b) the cost of Intapp's software relative to the client's total revenue is small (a $300K+ annual license for a firm generating $500M+ in revenue is immaterial), reducing price sensitivity; (c) switching costs are extreme (as discussed above), meaning buyers cannot credibly walk away during renewal negotiations; and (d) the software is purchased by General Counsels, CIOs, and Chief Compliance Officers whose primary concern is risk management, not cost optimization — they are buyers who value reliability over price. The 124% cloud NRR demonstrates that buyers are expanding, not contracting, their Intapp spend. Individual buyer power is low; collective buyer power is moderated by the fragmented nature of the client base (no single client represents a significant portion of ARR).</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Threat of Substitutes</span> <span class="fw-rating low">Low</span><br>
+  For Intapp's compliance products (Conflicts, Walls, Employee Compliance), there are no meaningful substitutes. A law firm cannot manage conflicts checks using a spreadsheet at scale, and an investment bank cannot enforce ethical walls using email policies. The regulatory requirements are too complex, the data volumes too large, and the consequences of failure (malpractice liability, regulatory sanctions, loss of client trust) too severe. For DealCloud, the substitutes include horizontal CRMs (Salesforce) and spreadsheets — but these substitutes are inferior, requiring extensive customization to handle the deal-flow, relationship-mapping, and pipeline-management needs of PE and IB firms. The rise of AI actually reduces substitution risk: as firms adopt AI tools for deal analysis and workflow automation, they need stronger governance and information barrier controls — which drives demand for Intapp's compliance layer. Celeste's "Walls for AI" product specifically addresses this — ensuring that AI respects the same information barriers that humans must follow — creating a new category of compliance infrastructure that has no substitute.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Competitive Rivalry</span> <span class="fw-rating moderate">Moderate</span><br>
+  Within the narrow vertical of professional and financial services software, Intapp faces competition from several directions: Aderant (owned by Roper Technologies) in legal practice management, Litera in document management for law firms, iManage (owned by EQT) in knowledge management, and Thomson Reuters / RELX in legal research and information services. However, none of these competitors offers Intapp's full-stack solution spanning CRM (DealCloud), compliance (Conflicts, Walls), time capture, and AI (Celeste). The competitive dynamics are more "adjacency expansion" than direct head-to-head rivalry: each player has a core product that dominates its niche, with competition occurring at the expanding boundaries. Salesforce Financial Services Cloud is the most frequently cited competitive threat, but as discussed, its horizontal architecture requires extensive customization to match Intapp's purpose-built capabilities, and it has not gained meaningful share in Intapp's core compliance market. Overall, rivalry is moderate — Intapp dominates its specific niche but operates in a market where well-funded adjacent players could theoretically expand.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> Intapp's five-force structure is exceptionally favorable for a technology company: low threat of new entrants, low supplier power, low buyer power, low substitution risk, and moderate competitive rivalry. This is a textbook "structural moat" profile characteristic of vertical SaaS companies that dominate mission-critical compliance use cases. The primary competitive risk is not direct rivalry but the long-tail possibility that a horizontal platform (Salesforce) or adjacent vertical player (Thomson Reuters) invests aggressively to replicate Intapp's capabilities — a risk that is real but mitigated by the counter-positioning dynamics discussed above.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 6: WHAT DRIVES THE STOCK? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<p class="prose">The following are the 6 variables that would move INTA's share price materially in the next 12 months. These are what analysts build tracking models around and PMs ask about in morning meetings.</p>
+
+<p class="prose"><strong>1. Cloud ARR Growth Rate and NRR Trajectory.</strong> Cloud ARR ($434M, +31% YoY) and cloud NRR (124%) are the two most important metrics for INTA's valuation. Every quarterly earnings report will be scrutinized for whether cloud ARR growth is maintaining its 30%+ trajectory or decelerating toward the low-20s. A sustained 30%+ cloud ARR growth rate with stable/expanding NRR would support a re-rating toward 20x+ P/FCF; deceleration below 25% would validate the bear case that the easy cloud migration gains are behind us. The Q3 FY2026 print on May 12 is the immediate catalyst — analysts will be looking for $465M+ cloud ARR to maintain the growth narrative.</p>
+
+<p class="prose"><strong>2. Celeste AI Monetization and Adoption Metrics.</strong> Celeste was launched in February 2026, making Q3 FY2026 (ending March 2026) the first quarter with any meaningful adoption data. The market is watching for: number of clients deploying Celeste, incremental ARR attributable to AI products, anecdotal evidence of deal acceleration or competitive displacement driven by AI capabilities, and any guidance from management on Celeste's addressable revenue opportunity. If Celeste shows early traction with concrete pipeline data, it would be a significant upside catalyst — the market is currently assigning zero value to Celeste's revenue potential.</p>
+
+<p class="prose"><strong>3. EBITDA and FCF Margin Progression.</strong> Intapp is at the inflection point from EBITDA-negative (FY2025) to EBITDA-positive (FY2026E: 20.2% margin). The transition from "investing for growth" to "compounding profitably" is the single most important narrative shift for the stock. Every quarter, the market will evaluate whether EBITDA margins are tracking toward the 20%+ FY2026E target or underperforming due to higher-than-expected sales investment, AI R&amp;D spending, or competitive pricing pressure. FCF margin is the ultimate scorecard — FY2026E consensus of 21.5% FCF margin would represent a significant achievement for a company that generated only 5.6% FCF margin in FY2023.</p>
+
+<p class="prose"><strong>4. Broader SaaS Multiple Environment.</strong> INTA's 58% drawdown from its 52-week high is only partially explained by company-specific factors — the broader small-cap SaaS index has de-rated significantly as risk-free rates remain elevated and investors rotate toward value and large-cap quality. If the macro environment shifts (rate cuts, improved risk appetite, growth rotation), INTA would benefit disproportionately given its 1.35 beta and the magnitude of its drawdown. Conversely, continued multiple compression would create a headwind regardless of operational execution.</p>
+
+<p class="prose"><strong>5. Microsoft Partnership Deepening.</strong> Microsoft co-sold >50% of Intapp's largest wins in Q2 FY2026. Any announcement of a deeper partnership — direct Microsoft investment, "preferred partner" status for professional services, expanded Azure Marketplace distribution, or joint product development — would be a significant re-rating catalyst. Conversely, any signal that Microsoft is building competing capabilities natively would be a material negative. The partnership is both Intapp's greatest distribution advantage and a key dependency risk.</p>
+
+<p class="prose"><strong>6. M&amp;A Speculation / Strategic Interest.</strong> At $2.0B market cap (down from ~$5B at the 52-week high), Intapp is now realistically acquirable by Microsoft, SAP, Thomson Reuters, or a large-cap software platform. Any credible acquisition speculation would be a binary upside catalyst. Management's decision to maintain a zero-debt balance sheet with $191M cash suggests they are not preparing for an acquisition of their own, which leaves the company positioned as a "clean" acquisition target. The next proxy filing and any insider buying/selling patterns will be monitored for signals.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<p class="prose">Intapp's revenue can be decomposed into its key product lines using fundamental economic drivers:</p>
+
+<table class="data" style="font-size:10px; margin-bottom:16px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Revenue Line</th>
+      <th style="text-align:left;">Driver 1</th>
+      <th style="text-align:left;">Driver 2</th>
+      <th style="text-align:left;">Driver 3</th>
+      <th style="text-align:left;">= Revenue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Cloud SaaS</strong></td>
+      <td>Cloud ARR ($434M)</td>
+      <td>x NRR (124%)</td>
+      <td>+ New Logo ARR</td>
+      <td>= Cloud SaaS Revenue</td>
+    </tr>
+    <tr>
+      <td><strong>On-Prem License</strong></td>
+      <td>On-Prem ARR (~$101M)</td>
+      <td>x Renewal Rate (~90%)</td>
+      <td>- Cloud Conversions</td>
+      <td>= On-Prem License Revenue</td>
+    </tr>
+    <tr>
+      <td><strong>Professional Services</strong></td>
+      <td>New Cloud Deployments (#)</td>
+      <td>x Avg Implementation $</td>
+      <td>x Utilization Rate</td>
+      <td>= Services Revenue (~$52M)</td>
+    </tr>
+    <tr>
+      <td><strong>Total Revenue</strong></td>
+      <td>Cloud SaaS</td>
+      <td>+ On-Prem License</td>
+      <td>+ Professional Services</td>
+      <td>= $504M (FY2025) / $573M (FY2026E)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose"><strong>Key driver quantification (FY2026E estimates):</strong></p>
+<ul style="font-size: 11px; line-height: 1.7; color: #333; margin-left: 20px; margin-bottom: 10px;">
+  <li><strong>Cloud SaaS:</strong> Cloud ARR of $434M growing 25-31% = ~$545-$570M exit cloud ARR by June 2026; recognized SaaS revenue ~$430-450M (cloud ARR recognized ratably over the year)</li>
+  <li><strong>On-Prem License:</strong> On-prem ARR declining as clients migrate to cloud; ~$101M x ~85% retention (net of cloud conversions) = ~$85-90M recognized license revenue</li>
+  <li><strong>Professional Services:</strong> Relatively stable at ~$50-55M; tied to new cloud deployment activity but offset by improving implementation efficiency</li>
+  <li><strong>Total FY2026E:</strong> $573M (+13.6%), with cloud SaaS driving ~80%+ of incremental revenue growth</li>
+</ul>
+
+<p class="prose"><strong>Leverage analysis:</strong> The two highest-leverage drivers on total revenue and FCF are: (1) <em>Cloud ARR Growth Rate</em> — every 1 percentage point of cloud ARR growth translates to approximately $4.3M of incremental annual recurring revenue (1% x $434M), which flows through at ~80% gross margin and ~90% incremental FCF margin (given the high operating leverage of SaaS), adding ~$3.5M to annual FCF or ~$0.04 per diluted share. Over a 3-year compounding period, the difference between 25% and 35% cloud ARR growth is approximately $200M of cumulative incremental ARR — a transformational difference in terminal value. (2) <em>Cloud NRR</em> — the 124% NRR means $1.00 of cloud ARR installed today generates $1.24 of ARR one year later purely from expansion, without any new logo contribution. A 1-point compression in NRR (to 123%) reduces the expansion revenue engine by ~$4.3M annually; a 1-point expansion (to 125%) adds the same. NRR is the single most important leading indicator of revenue durability and is the metric that correlates most strongly with SaaS valuations in academic and sell-side research.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+  <strong>AlphaSense Research Reports</strong> · Subject: Intapp, Inc. (INTA) · Reports Reviewed: AlphaSense Primer &amp; Deep Dive, Q2 FY2026 Earnings Transcript, FactSet Snapshot<br>
+  <em>Key themes synthesized from AlphaSense competitive intelligence, management commentary, and industry research.</em>
+</div>
+
+<p class="prose"><strong>Proprietary Industry Graph: The Defensible Moat.</strong> The most important analytical insight from the AlphaSense research is that Intapp's competitive advantage is not simply "vertical software" but specifically the proprietary industry graph — a patented data architecture that maps the multi-dimensional relationships between professionals, organizations, deals, conflicts, and regulatory requirements across the global professional and financial services ecosystem. This graph has been built over 25 years and represents a genuine cornered resource. New entrants cannot replicate it without equivalent installed base and historical data, and horizontal platforms (Salesforce, SAP) cannot build it because they lack the domain-specific data model. The graph powers everything from conflict detection (which requires understanding the complex web of relationships between parties, matters, and legal entities) to DealCloud's relationship intelligence (which predicts deal flow based on historical patterns). The AlphaSense primer specifically notes that the market misunderstands Intapp by conflating it with "generative AI for work product" — Intapp is AI for business management, which is a fundamentally different category with different competitive dynamics and higher switching costs.</p>
+
+<p class="prose"><strong>Risk/Compliance Products: Virtually No Alternatives.</strong> The deep-dive report emphasizes that Intapp's Compliance &amp; Risk suite (Conflicts, Walls, Employee Compliance, Intake) operates in a market segment with virtually no viable alternatives. For Am Law 100 firms and major investment banks, ethical wall enforcement and conflict checking are regulatory requirements — not optional software purchases. The "Intapp Walls for AI" product, which ensures that AI tools respect the same information barriers that humans must follow, creates an entirely new compliance category driven by the rapid adoption of AI across professional services. This product has no competitors and addresses a compliance need that will only grow as firms deploy more AI tools. The switching costs for these products are described as "extreme" — any migration would require rebuilding years of conflict-checking history, reconfiguring ethical wall protocols, and accepting material regulatory risk during transition.</p>
+
+<p class="prose"><strong>Celeste: Agentic AI With Proprietary Context Engine.</strong> The February 2026 launch of Celeste represents Intapp's most ambitious product expansion. The AlphaSense research highlights several differentiated capabilities: (a) autonomous expert agents that can execute multi-step workflows (e.g., ingesting a CIM overnight, building a preliminary LBO model, scoring the deal against fund mandates, and routing it to the appropriate deal team); (b) the proprietary Context Engine that maps firm-specific terminology, abbreviations, and organizational structures, enabling the AI to understand "what we mean at this firm" rather than relying on generic language models; (c) built-in governance via Walls for AI, ensuring that agents cannot access information across ethical barriers; and (d) playbooks that encode institutional knowledge about how specific workflow types should be handled. The partnerships with Anthropic (Claude) and Harvey for legal AI provide access to state-of-the-art models while Intapp retains ownership of the proprietary governance and context layers.</p>
+
+<p class="prose"><strong>Market Misunderstanding: TAM and Category Misclassification.</strong> A recurring theme in the AlphaSense analysis is that the market systematically undervalues Intapp because it misclassifies the company as a "traditional CRM vendor" competing with Salesforce, rather than recognizing it as the owner of mission-critical compliance infrastructure for a $4 trillion global market of elite professional and financial services firms. This misclassification leads to: (a) incorrect comps (comparing INTA to horizontal SaaS companies rather than vertical compliance software), (b) underestimating TAM by excluding the accounting consolidation opportunity and the AI governance layer, and (c) failing to recognize the 124% NRR as evidence of extreme switching costs rather than mere cross-sell execution. The deep-dive report argues that Intapp should be valued as a "toll booth" on professional services activity — a metaphor that implies higher-multiple, infrastructure-like economics rather than cyclical software revenue.</p>
+
+<p class="prose"><strong>Key Investor Questions.</strong> Based on the earnings transcripts and research reports, the questions that would most sharpen conviction on Intapp are: (1) What is Celeste's ARR pipeline and when will management provide quantitative guidance on AI revenue contribution? (2) What is the cloud NRR breakdown between price increases, cross-sell of new modules, and seat expansion within existing modules? (3) How does the PE-driven accounting consolidation pipeline translate into concrete new logo wins and ARR — is there a quantifiable backlog? (4) What is the timeline for SBC as a percentage of revenue to decline below 15%, enabling GAAP profitability? (5) Has Microsoft expressed any interest in deepening the partnership to an investment or preferred-partner level, and what would that look like commercially?</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 9: SENSITIVITY ANALYSIS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Sensitivity Analysis</div>
+
+<!-- Sensitivity Table 1 -->
+<p class="prose"><strong>Sensitivity Table 1: FY2028E Cloud ARR ($M) — Cloud ARR Growth Rate (%) vs. Starting Cloud ARR ($M)</strong></p>
+<p class="prose"><strong>Current: Starting Cloud ARR = $434M, Growth CAGR = 25% over 2 years to FY2028E (June 2028) = ~$679M</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Starting ARR / Growth</th>
+      <th>15%</th>
+      <th>20%</th>
+      <th>25%</th>
+      <th>30%</th>
+      <th>35%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$380M</td><td>$503</td><td>$547</td><td>$594</td><td>$643</td><td>$693</td></tr>
+    <tr><td>$410M</td><td>$542</td><td>$590</td><td>$641</td><td>$693</td><td>$747</td></tr>
+    <tr><td>$434M</td><td>$574</td><td>$625</td><td class="base">$679</td><td>$734</td><td>$791</td></tr>
+    <tr><td>$460M</td><td>$608</td><td>$662</td><td>$719</td><td>$778</td><td>$838</td></tr>
+    <tr><td>$490M</td><td>$648</td><td>$706</td><td>$766</td><td>$829</td><td>$893</td></tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 2 -->
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 2: FY2028E Free Cash Flow ($M) — Total Revenue ($M) vs. FCF Margin (%)</strong></p>
+<p class="prose"><strong>Current (FY2028E Consensus): Revenue = $741M x FCF Margin = 24.3% = ~$180M FCF</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Revenue / FCF Margin</th>
+      <th>16%</th>
+      <th>19%</th>
+      <th>22%</th>
+      <th>25%</th>
+      <th>28%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$650M</td><td>$104</td><td>$124</td><td>$143</td><td>$163</td><td>$182</td></tr>
+    <tr><td>$700M</td><td>$112</td><td>$133</td><td>$154</td><td>$175</td><td>$196</td></tr>
+    <tr><td>$741M</td><td>$119</td><td>$141</td><td>$163</td><td class="base">$180</td><td>$207</td></tr>
+    <tr><td>$800M</td><td>$128</td><td>$152</td><td>$176</td><td>$200</td><td>$224</td></tr>
+    <tr><td>$900M</td><td>$144</td><td>$171</td><td>$198</td><td>$225</td><td>$252</td></tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 3 -->
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 3: Implied Share Price ($) — P/FCF Multiple (x) vs. FY2028E FCF/Share ($)</strong></p>
+<p class="prose"><strong>Current: FCF/Share = $2.05 (base case) x P/FCF = 18x = $36.95 implied share price vs. $24.68 current</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>FCF/Share / P/FCF</th>
+      <th>8x</th>
+      <th>12x</th>
+      <th>18x</th>
+      <th>25x</th>
+      <th>30x</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$1.26</td><td class="base" style="background:#f8d7da;">$10.08</td><td>$15.12</td><td>$22.68</td><td>$31.50</td><td>$37.80</td></tr>
+    <tr><td>$1.88</td><td>$15.04</td><td class="base" style="background:#fff3cd;">$22.56</td><td>$33.84</td><td>$47.00</td><td>$56.40</td></tr>
+    <tr><td>$2.05</td><td>$16.40</td><td>$24.60</td><td class="base">$36.90</td><td>$51.25</td><td>$61.50</td></tr>
+    <tr><td>$2.45</td><td>$19.60</td><td>$29.40</td><td>$44.10</td><td class="base" style="background:#d4edda;">$61.25</td><td>$73.50</td></tr>
+    <tr><td>$3.08</td><td>$24.64</td><td>$36.96</td><td>$55.44</td><td>$77.00</td><td class="base" style="background:#d4edda;">$92.40</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 10: 3-YEAR MODEL — 5 SCENARIOS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios</div>
+
+<p class="prose">All figures in $M unless stated. Modeled FY2026E, FY2027E, FY2028E (FYE June). Exit multiple applied to FY2028E FCF/share. Current share price: $24.68. Diluted shares: 87.61M. Net cash: $191M.</p>
+
+<!-- CASE 1: BEAR SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 1: Bear Severe — Professional Services Downturn + AI Commoditization</div>
+  <div class="case-desc">Recession forces law/PE firms to slash tech spend; Celeste fails to gain traction as generic AI tools prove "good enough"; Salesforce and Microsoft launch competing vertical solutions; cloud migration stalls as on-prem clients resist conversion; NRR compresses below 115%.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — M&amp;A volumes decline 30%; PE firms freeze discretionary software spend; DealCloud new logos stall; Celeste launches to weak adoption as clients wait for Salesforce AI features. <strong>FY2027</strong> — Recession deepens; NRR compresses to 112% as clients downgrade seats; cloud ARR growth decelerates to low-teens; management cuts headcount to protect margins. <strong>FY2028</strong> — Recovery begins from lower base; cloud ARR growth stabilizes at 10-12%; margins improve but revenue trajectory permanently reset lower.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Cloud ARR Growth</span><span>10% (severe deceleration)</span></div>
+  <div class="driver-row"><span>Cloud NRR</span><span>112% (compression)</span></div>
+  <div class="driver-row"><span>Gross Margin</span><span>75% (mix shift stalls)</span></div>
+  <div class="driver-row"><span>FCF Margin</span><span>18.3%</span></div>
+  <div class="driver-row"><span>Exit P/FCF</span><span>8x (distressed SaaS)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$555</td><td>$580</td><td>$600</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+10%</td><td>+4%</td><td>+3%</td></tr>
+    <tr><td>Gross Income</td><td>416</td><td>432</td><td>450</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>75%</td><td>74%</td><td>75%</td></tr>
+    <tr><td>EBITDA</td><td>95</td><td>100</td><td>105</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>17.1%</td><td>17.2%</td><td>17.5%</td></tr>
+    <tr><td>EBIT</td><td>78</td><td>82</td><td>86</td></tr>
+    <tr><td>Net Income</td><td>(30)</td><td>(18)</td><td>(5)</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Income Margin %</td><td>NM</td><td>NM</td><td>NM</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>87.6</td><td>87.6</td><td>87.6</td></tr>
+    <tr><td>FCF/Share</td><td>$1.14</td><td>$1.20</td><td>$1.26</td></tr>
+    <tr class="valuation-row"><td>Exit P/FCF Multiple</td><td>--</td><td>--</td><td>8x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>--</td><td>$10.05</td></tr>
+    <tr><td>FCF</td><td>$100</td><td>$105</td><td>$110</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 8x FY2028E FCF/share of $1.26</div>
+    <div class="exit-price">Implied Share Price: $10.05</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: -59% from $24.68</div>
+  </div>
+</div>
+
+<!-- CASE 2: BEAR MILD -->
+<div class="case-block">
+  <div class="case-name">Case 2: Bear Mild — Growth Slows, Margins Disappoint</div>
+  <div class="case-desc">Cloud ARR growth decelerates to low-20s%; NRR compresses to 115% as expansion velocity slows; professional services remains lumpy; SBC dilution continues at elevated levels; margin expansion underperforms consensus expectations.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Cloud ARR grows 22% (vs. 31% prior); NRR dips to 118% as some clients delay DealCloud expansions amid uncertainty. <strong>FY2027</strong> — Celeste shows modest early adoption but not enough to re-accelerate growth; margins expand but slower than consensus as R&amp;D investment in AI competes with profitability. <strong>FY2028</strong> — Intapp is a solid, growing SaaS company but the "AI platform" narrative has not materialized in revenue; multiple stays in the 12x P/FCF range.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Cloud ARR Growth</span><span>18% (decelerating)</span></div>
+  <div class="driver-row"><span>Cloud NRR</span><span>115% (compressing)</span></div>
+  <div class="driver-row"><span>Gross Margin</span><span>77%</span></div>
+  <div class="driver-row"><span>FCF Margin</span><span>24.3%</span></div>
+  <div class="driver-row"><span>Exit P/FCF</span><span>12x</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$565</td><td>$620</td><td>$680</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+12%</td><td>+10%</td><td>+10%</td></tr>
+    <tr><td>Gross Income</td><td>429</td><td>474</td><td>524</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>76%</td><td>76%</td><td>77%</td></tr>
+    <tr><td>EBITDA</td><td>108</td><td>130</td><td>156</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>19.1%</td><td>21.0%</td><td>22.9%</td></tr>
+    <tr><td>EBIT</td><td>92</td><td>112</td><td>135</td></tr>
+    <tr><td>Net Income</td><td>(25)</td><td>5</td><td>22</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Income Margin %</td><td>NM</td><td>0.8%</td><td>3.2%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>87.6</td><td>87.6</td><td>87.6</td></tr>
+    <tr><td>FCF/Share</td><td>$1.31</td><td>$1.60</td><td>$1.88</td></tr>
+    <tr class="valuation-row"><td>Exit P/FCF Multiple</td><td>12x</td><td>12x</td><td>12x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$15.76</td><td>$19.17</td><td>$22.60</td></tr>
+    <tr><td>FCF</td><td>$115</td><td>$140</td><td>$165</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 12x FY2028E FCF/share of $1.88</div>
+    <div class="exit-price">Implied Share Price: $22.60</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: -8% from $24.68</div>
+  </div>
+</div>
+
+<!-- CASE 3: BASE CASE -->
+<div class="case-block">
+  <div class="case-name">Case 3: Base Case — Cloud Transition Compounds, Consensus Execution</div>
+  <div class="case-desc">Cloud ARR grows 25-30%; gross margins approach 78%; EBITDA margins reach 20-24%; Celeste adopted by early movers but not yet a material revenue contributor; FCF conversion strong; Microsoft co-sell continues to accelerate deal wins.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Consensus execution: revenue $573M (+14%), EBITDA $116M (20% margin), FCF $123M (21.5% margin); cloud ARR approaches $550M; NRR stable at 123-125%. <strong>FY2027</strong> — Celeste shows early traction with measurable ARR; cloud migration approaches 90% of total ARR; EBITDA margins expand to 22%; FCF/share crosses $1.68. <strong>FY2028</strong> — Total revenue $741M; FCF $180M; cloud ARR ~$700M; EBITDA margin 24%; market begins to credit Celeste revenue potential in valuation.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Cloud ARR Growth</span><span>25% (sustained)</span></div>
+  <div class="driver-row"><span>Cloud NRR</span><span>122% (stable)</span></div>
+  <div class="driver-row"><span>Gross Margin</span><span>78.7%</span></div>
+  <div class="driver-row"><span>FCF Margin</span><span>24.3%</span></div>
+  <div class="driver-row"><span>Exit P/FCF</span><span>18x</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$573</td><td>$651</td><td>$741</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+14%</td><td>+14%</td><td>+14%</td></tr>
+    <tr><td>Gross Income</td><td>444</td><td>507</td><td>583</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>77.6%</td><td>77.9%</td><td>78.7%</td></tr>
+    <tr><td>EBITDA</td><td>116</td><td>145</td><td>180</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>20.2%</td><td>22.3%</td><td>24.3%</td></tr>
+    <tr><td>EBIT</td><td>102</td><td>128</td><td>157</td></tr>
+    <tr><td>Net Income</td><td>(20)</td><td>15</td><td>35</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Income Margin %</td><td>NM</td><td>2.4%</td><td>4.8%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>87.6</td><td>87.6</td><td>87.6</td></tr>
+    <tr><td>FCF/Share</td><td>$1.40</td><td>$1.68</td><td>$2.05</td></tr>
+    <tr class="valuation-row"><td>Exit P/FCF Multiple</td><td>18x</td><td>18x</td><td>18x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$25.26</td><td>$30.20</td><td>$36.95</td></tr>
+    <tr><td>FCF</td><td>$123</td><td>$147</td><td>$180</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 18x FY2028E FCF/share of $2.05</div>
+    <div class="exit-price">Implied Share Price: $36.95</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +50% from $24.68</div>
+  </div>
+</div>
+
+<!-- CASE 4: BULL MILD -->
+<div class="case-block">
+  <div class="case-name">Case 4: Bull Mild — Celeste Drives Upsell + PE Consolidation Wave</div>
+  <div class="case-desc">Celeste creates a new $50M+ ARR stream; PE-driven accounting consolidation accelerates new logo wins; cloud NRR expands to 130%+; international expansion via Microsoft co-sell opens EMEA and APAC markets; EBITDA margins expand faster than consensus.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Celeste early adopters report 30-40% improvement in deal processing speed; PE-backed accounting consolidations add 50+ new enterprise clients; NRR expands to 128% as Celeste and Walls for AI drive cross-sell. <strong>FY2027</strong> — Celeste ARR reaches $50M; international revenue accelerates to 40%+ of total; Microsoft deepens partnership with co-investment; EBITDA margin hits 25%. <strong>FY2028</strong> — Revenue run-rate approaches $900M; cloud ARR exceeds $750M; FCF/share reaches $2.45; market begins to re-rate Intapp as AI infrastructure for professional services.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Cloud ARR Growth</span><span>30%+ (Celeste-driven re-acceleration)</span></div>
+  <div class="driver-row"><span>Cloud NRR</span><span>130% (expansion from AI upsell)</span></div>
+  <div class="driver-row"><span>Gross Margin</span><span>80%</span></div>
+  <div class="driver-row"><span>FCF Margin</span><span>26.2%</span></div>
+  <div class="driver-row"><span>Exit P/FCF</span><span>25x (AI platform premium)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$585</td><td>$690</td><td>$820</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+16%</td><td>+18%</td><td>+19%</td></tr>
+    <tr><td>Gross Income</td><td>456</td><td>545</td><td>656</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>78%</td><td>79%</td><td>80%</td></tr>
+    <tr><td>EBITDA</td><td>125</td><td>170</td><td>220</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>21.4%</td><td>24.6%</td><td>26.8%</td></tr>
+    <tr><td>EBIT</td><td>110</td><td>152</td><td>200</td></tr>
+    <tr><td>Net Income</td><td>(10)</td><td>35</td><td>70</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Income Margin %</td><td>NM</td><td>5.1%</td><td>8.5%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>87.6</td><td>87.6</td><td>87.6</td></tr>
+    <tr><td>FCF/Share</td><td>$1.48</td><td>$2.00</td><td>$2.45</td></tr>
+    <tr class="valuation-row"><td>Exit P/FCF Multiple</td><td>25x</td><td>25x</td><td>25x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$37.10</td><td>$49.93</td><td>$61.30</td></tr>
+    <tr><td>FCF</td><td>$130</td><td>$175</td><td>$215</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 25x FY2028E FCF/share of $2.45</div>
+    <div class="exit-price">Implied Share Price: $61.30</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +148% from $24.68</div>
+  </div>
+</div>
+
+<!-- CASE 5: BULL SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 5: Bull Severe — AI Platform Re-Rating + Strategic Premium</div>
+  <div class="case-desc">Celeste becomes the category-defining agentic AI product for professional services; Intapp is perceived as AI infrastructure, not just SaaS; revenue re-accelerates to 20%+; potential acquisition by Microsoft, SAP, or Thomson Reuters at strategic premium; FCF/share approaches $3.08.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Celeste adoption exceeds expectations; multiple large firms adopt full Celeste platform at $500K+ ARR; Microsoft announces strategic investment in Intapp; stock re-rates to 25x+ P/FCF. <strong>FY2027</strong> — Revenue accelerates to 22%; Celeste ARR exceeds $100M; international expansion drives 45% of revenue; strategic acquisition speculation intensifies. <strong>FY2028</strong> — Revenue approaches $900M; EBITDA margin 30%; FCF $270M; Intapp either acquired at 40-50% premium or re-rated to 30x P/FCF as the undisputed AI compliance platform for professional services.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Cloud ARR Growth</span><span>35%+ (AI-driven re-acceleration)</span></div>
+  <div class="driver-row"><span>Cloud NRR</span><span>135%+ (Celeste + Walls for AI upsell)</span></div>
+  <div class="driver-row"><span>Gross Margin</span><span>82% (pure cloud + AI mix)</span></div>
+  <div class="driver-row"><span>FCF Margin</span><span>30%</span></div>
+  <div class="driver-row"><span>Exit P/FCF</span><span>30x (AI infrastructure premium)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$590</td><td>$720</td><td>$900</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+17%</td><td>+22%</td><td>+25%</td></tr>
+    <tr><td>Gross Income</td><td>466</td><td>576</td><td>738</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>79%</td><td>80%</td><td>82%</td></tr>
+    <tr><td>EBITDA</td><td>130</td><td>195</td><td>270</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>22.0%</td><td>27.1%</td><td>30.0%</td></tr>
+    <tr><td>EBIT</td><td>115</td><td>178</td><td>250</td></tr>
+    <tr><td>Net Income</td><td>(5)</td><td>55</td><td>110</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Income Margin %</td><td>NM</td><td>7.6%</td><td>12.2%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>87.6</td><td>87.6</td><td>87.6</td></tr>
+    <tr><td>FCF/Share</td><td>$1.54</td><td>$2.28</td><td>$3.08</td></tr>
+    <tr class="valuation-row"><td>Exit P/FCF Multiple</td><td>30x</td><td>30x</td><td>30x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$46.26</td><td>$68.49</td><td>$92.45</td></tr>
+    <tr><td>FCF</td><td>$135</td><td>$200</td><td>$270</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 30x FY2028E FCF/share of $3.08</div>
+    <div class="exit-price">Implied Share Price: $92.45</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +275% from $24.68</div>
+  </div>
+</div>
+
+<!-- SVG Bar Chart -->
+<div class="case-chart">
+  <p style="font-size:9px; font-weight:600; margin-bottom:8px;">Implied Share Price by Scenario (FY2028E Exit) vs. Current Price $24.68</p>
+  <svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg" style="width:100%; font-family:Inter,Arial,sans-serif;">
+    <!-- Axes -->
+    <line x1="80" y1="20" x2="80" y2="200" stroke="#ccc" stroke-width="1"/>
+    <line x1="80" y1="200" x2="680" y2="200" stroke="#ccc" stroke-width="1"/>
+    <!-- Y-axis labels (scale: $1 = 1.8px, so $100 = 180px) -->
+    <text x="75" y="204" text-anchor="end" font-size="9" fill="#888">$0</text>
+    <text x="75" y="168" text-anchor="end" font-size="9" fill="#888">$20</text>
+    <text x="75" y="132" text-anchor="end" font-size="9" fill="#888">$40</text>
+    <text x="75" y="96" text-anchor="end" font-size="9" fill="#888">$60</text>
+    <text x="75" y="60" text-anchor="end" font-size="9" fill="#888">$80</text>
+    <text x="75" y="30" text-anchor="end" font-size="9" fill="#888">$100</text>
+    <!-- Gridlines -->
+    <line x1="80" y1="168" x2="680" y2="168" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="132" x2="680" y2="132" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="96" x2="680" y2="96" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="60" x2="680" y2="60" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="30" x2="680" y2="30" stroke="#eee" stroke-width="0.5"/>
+    <!-- Bar scale: $1 = 1.8px -->
+    <!-- Bear Severe: $10.05 -> height 18.1px -->
+    <rect x="110" y="181.9" width="80" height="18.1" fill="#2563eb"/>
+    <text x="150" y="177" text-anchor="middle" font-size="9" fill="#333">$10.05</text>
+    <text x="150" y="214" text-anchor="middle" font-size="8" fill="#555">Bear Severe</text>
+    <!-- Bear Mild: $22.60 -> height 40.7px -->
+    <rect x="220" y="159.3" width="80" height="40.7" fill="#2563eb"/>
+    <text x="260" y="155" text-anchor="middle" font-size="9" fill="#333">$22.60</text>
+    <text x="260" y="214" text-anchor="middle" font-size="8" fill="#555">Bear Mild</text>
+    <!-- Base: $36.95 -> height 66.5px -->
+    <rect x="330" y="133.5" width="80" height="66.5" fill="#2563eb"/>
+    <text x="370" y="129" text-anchor="middle" font-size="9" fill="#333">$36.95</text>
+    <text x="370" y="214" text-anchor="middle" font-size="8" fill="#555">Base Case</text>
+    <!-- Bull Mild: $61.30 -> height 110.3px -->
+    <rect x="440" y="89.7" width="80" height="110.3" fill="#2563eb"/>
+    <text x="480" y="85" text-anchor="middle" font-size="9" fill="#333">$61.30</text>
+    <text x="480" y="214" text-anchor="middle" font-size="8" fill="#555">Bull Mild</text>
+    <!-- Bull Severe: $92.45 -> height 166.4px -->
+    <rect x="550" y="33.6" width="80" height="166.4" fill="#2563eb"/>
+    <text x="590" y="29" text-anchor="middle" font-size="9" fill="#333">$92.45</text>
+    <text x="590" y="214" text-anchor="middle" font-size="8" fill="#555">Bull Severe</text>
+    <!-- Current price line: $24.68 = 44.4px from bottom -> y = 200 - 44.4 = 155.6 -->
+    <line x1="80" y1="155.6" x2="680" y2="155.6" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="685" y="159" font-size="9" fill="#e74c3c">$24.68 (Current)</text>
+    <!-- Prob-wtd PV: $31.06 = 55.9px -> y = 200 - 55.9 = 144.1 -->
+    <line x1="80" y1="144.1" x2="680" y2="144.1" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="3,2"/>
+    <text x="685" y="148" font-size="8" fill="#f39c12">$31.06 PV@30%</text>
+  </svg>
+  <p style="font-size:8px; color:#888; margin-top:4px;">Probability weights: 5% / 20% / 50% / 20% / 5% · Prob-wtd avg $40.38 discounted @30% CoC = $31.06 · Current: $24.68 · Implied upside: +25.9%</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 11: COMPS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">11. Comparable Companies</div>
+
+<div class="section-title">Selected Financials — Software Peers</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th class="est-col">Rev FY1</th>
+      <th class="est-col">EBITDA FY1</th>
+      <th class="est-col">EBITDA Mgn%</th>
+      <th class="est-col">EBIT FY1</th>
+      <th class="est-col">FCF FY1</th>
+      <th class="est-col">GM Actual</th>
+      <th class="est-col">GM NTM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Intapp</td><td>INTA</td>
+      <td>$573M</td><td>$116M</td><td>20.2%</td><td>$102M</td><td>$123M</td>
+      <td>73.9%</td><td>77.8%</td>
+    </tr>
+    <tr>
+      <td>Agilysys</td><td>AGYS</td>
+      <td>$318M</td><td>$64M</td><td>20.1%</td><td>$40M</td><td>$63M</td>
+      <td>58.7%</td><td>64.0%</td>
+    </tr>
+    <tr>
+      <td>EverCommerce</td><td>EVCM</td>
+      <td>$620M</td><td>$186M</td><td>30.0%</td><td>$181M</td><td>$97M</td>
+      <td>66.2%</td><td>77.5%</td>
+    </tr>
+    <tr>
+      <td>AvePoint</td><td>AVPT</td>
+      <td>$514M</td><td>$100M</td><td>19.4%</td><td>$95M</td><td>$101M</td>
+      <td>73.9%</td><td>75.1%</td>
+    </tr>
+    <tr>
+      <td>SPS Commerce</td><td>SPSC</td>
+      <td>$802M</td><td>$263M</td><td>32.8%</td><td>$240M</td><td>$184M</td>
+      <td>64.2%</td><td>71.3%</td>
+    </tr>
+    <tr>
+      <td>Tenable</td><td>TENB</td>
+      <td>$1,071M</td><td>$268M</td><td>25.0%</td><td>$251M</td><td>$267M</td>
+      <td>78.1%</td><td>82.0%</td>
+    </tr>
+    <tr>
+      <td>Alarm.com</td><td>ALRM</td>
+      <td>$1,061M</td><td>$214M</td><td>20.2%</td><td>$141M</td><td>$198M</td>
+      <td>--</td><td>--</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Median</td><td>--</td>
+      <td>--</td><td>--</td><td>23.6%</td><td>--</td><td>--</td>
+      <td>69.5%</td><td>75.1%</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Valuation Multiples</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th class="est-col">EV/EBITDA FY1</th>
+      <th class="est-col">EV/EBITDA FY2</th>
+      <th class="est-col">P/E FY1</th>
+      <th class="est-col">P/E FY2</th>
+      <th class="est-col">P/FCF FY1</th>
+      <th>EBITDA NTM</th>
+      <th>EBIT NTM</th>
+      <th>Net NTM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Intapp</td><td>INTA</td>
+      <td>17.0x</td><td>13.6x</td>
+      <td>20.2x</td><td>16.6x</td>
+      <td>15.7x</td>
+      <td>21.8%</td><td>19.2%</td><td>1.0%</td>
+    </tr>
+    <tr>
+      <td>Agilysys</td><td>AGYS</td>
+      <td>30.5x</td><td>24.3x</td>
+      <td>42.8x</td><td>32.7x</td>
+      <td>27.2x</td>
+      <td>22.0%</td><td>13.1%</td><td>11.1%</td>
+    </tr>
+    <tr>
+      <td>EverCommerce</td><td>EVCM</td>
+      <td>13.3x</td><td>12.3x</td>
+      <td>16.1x</td><td>14.4x</td>
+      <td>22.4x</td>
+      <td>30.2%</td><td>29.4%</td><td>6.5%</td>
+    </tr>
+    <tr>
+      <td>AvePoint</td><td>AVPT</td>
+      <td>17.1x</td><td>12.7x</td>
+      <td>25.4x</td><td>19.4x</td>
+      <td>19.6x</td>
+      <td>20.0%</td><td>18.9%</td><td>17.6%</td>
+    </tr>
+    <tr>
+      <td>SPS Commerce</td><td>SPSC</td>
+      <td>7.4x</td><td>6.5x</td>
+      <td>12.1x</td><td>10.7x</td>
+      <td>11.1x</td>
+      <td>33.3%</td><td>30.2%</td><td>21.9%</td>
+    </tr>
+    <tr>
+      <td>Tenable</td><td>TENB</td>
+      <td>7.5x</td><td>6.9x</td>
+      <td>8.9x</td><td>7.9x</td>
+      <td>7.4x</td>
+      <td>25.2%</td><td>23.7%</td><td>20.8%</td>
+    </tr>
+    <tr>
+      <td>Alarm.com</td><td>ALRM</td>
+      <td>9.5x</td><td>8.7x</td>
+      <td>15.2x</td><td>14.2x</td>
+      <td>--</td>
+      <td>--</td><td>--</td><td>--</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Average</td><td>--</td>
+      <td>14.2x</td><td>11.9x</td>
+      <td>20.1x</td><td>16.6x</td>
+      <td>17.5x</td>
+      <td>26.1%</td><td>23.1%</td><td>15.6%</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Median</td><td>--</td>
+      <td>11.4x</td><td>10.5x</td>
+      <td>15.7x</td><td>14.3x</td>
+      <td>17.7x</td>
+      <td>23.6%</td><td>21.4%</td><td>16.0%</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Named Competitors</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th class="est-col">EV/EBITDA FY1</th>
+      <th class="est-col">EV/EBIT FY1</th>
+      <th class="est-col">P/E FY1</th>
+      <th class="est-col">P/FCF FY1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Intapp</td><td>INTA</td>
+      <td>17.0x</td><td>19.3x</td><td>20.2x</td><td>15.7x</td>
+    </tr>
+    <tr>
+      <td>Salesforce</td><td>CRM</td>
+      <td>9.3x</td><td>9.3x</td><td>13.6x</td><td>10.4x</td>
+    </tr>
+    <tr>
+      <td>SAP</td><td>SAP</td>
+      <td>12.5x</td><td>12.5x</td><td>19.8x</td><td>16.9x</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:10px;">Intapp trades at 17.0x FY1 EV/EBITDA — a 49% premium to the software peer median of 11.4x — and 15.7x FY1 P/FCF versus the peer median of 17.7x. The EV/EBITDA premium is partially justified by Intapp's superior cloud ARR growth (31% vs. peer median single-to-low-teens), higher gross margins (73.9% actual, 77.8% NTM vs. peer median 69.5% / 75.1%), and the proprietary compliance moat that creates extremely high switching costs. On a P/FCF basis, Intapp is actually cheaper than the peer median, reflecting the market's skepticism about GAAP profitability (NI margin 1.0% NTM vs. peer median 16.0%). This GAAP vs. FCF valuation gap is the crux of the investment thesis: Intapp's FCF is real and growing rapidly ($20M in FY2023 to $123M FY2026E), but the GAAP presentation is distorted by SBC. Relative to direct competitors Salesforce (9.3x EV/EBITDA) and SAP (12.5x), Intapp trades at a premium justified by its faster growth, higher switching costs, and AI optionality (Celeste). On a FY2 basis, Intapp converges toward the peer median (13.6x EV/EBITDA vs. 10.5x median), suggesting the premium is largely a function of near-term growth rate differential rather than structural overvaluation.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<div class="verdict">
+  <p><strong>(i) Market Cap Bucket: $2.0B</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">Small Cap ($1B–$5B). Intapp's $1,984M market cap sits squarely in Theia's sweet spot for small-cap companies where an informational edge is achievable. The stock's 58% decline from its 52-week high has compressed it from the mid-cap range into a market cap zone where many institutional mandates cannot hold it, creating forced selling pressure and informational inefficiency. At $2.0B, Intapp is small enough to be overlooked by large-cap growth funds but large enough to have real institutional-quality financials and governance.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(ii) Analyst Coverage: 9 Broker Contributors</strong> <span class="fw-rating moderate">Moderate Fit</span></p>
+  <p style="margin-top:4px;">With 9 sell-side analysts covering INTA, this is moderately covered — above Theia's ideal threshold of fewer than 5 analysts but still meaningfully below the 15–20+ analyst coverage typical of mid- and large-cap SaaS companies. The consensus target of $41.00 (+66% upside) reflects strong conviction from covering analysts, but with only 9 contributors the consensus may not fully reflect all market participants' views. The coverage gap is most evident in the lack of deep-dive research on Celeste's AI monetization potential — most sell-side models simply extrapolate existing growth rates without modeling AI-specific revenue streams.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iii) Thesis Alignment: Internet Finance / Professional Services Infrastructure</strong> <span class="fw-rating moderate">Adjacent</span></p>
+  <p style="margin-top:4px;">Intapp is not a blockchain-native or crypto-adjacent company, and it does not directly benefit from digital asset adoption. However, it is a critical piece of infrastructure for the internet finance ecosystem: Intapp's DealCloud is used by 1,700+ PE/IB firms to manage deal pipelines, the Compliance &amp; Risk suite enforces the regulatory framework under which financial services firms operate, and Celeste's agentic AI is being purpose-built for investment management workflows (CIM analysis, LBO modeling, deal scoring). The company's end markets — private equity, investment banking, and capital markets advisory — are at the core of Theia's "internet finance" thesis, even though Intapp itself is a software vendor rather than a financial services company. The Anthropic partnership for legal AI and the "Walls for AI" product directly address the governance challenges created by AI adoption in regulated financial services. Rating: Adjacent (not Core because no blockchain/crypto component; not Tangential because the professional and financial services vertical is Intapp's entire business model).</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iv) Outcome Dispersion: $10 – $92</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">The 5-scenario model shows implied prices ranging from $10.05 (Bear Severe, -59%) to $92.45 (Bull Severe, +275%) from the current $24.68. This is an exceptionally wide outcome range — a 9.2x spread between bear and bull severe — amplified by the stock's 58% drawdown from its 52-week high of $62.30. The probability-weighted fair value of $31.06 (discounted at 30% CoC) represents 25.9% upside from current trading. Critically, the dispersion is not artificial: it reflects genuine uncertainty about whether Celeste creates a new revenue category, whether the SaaS multiple compression reverses, and whether a strategic acquirer materializes. The downside is limited by the FCF floor ($123M FY2026E = 6.2% FCF yield at current price), while the upside is amplified by AI monetization optionality and acquisition premium scenarios. This asymmetric risk/reward profile is exactly what Theia's screening methodology targets.</p>
+</div>
+
+<div style="background: #d4edda; border-left: 4px solid #155724; padding: 12px 14px; margin: 16px 0; font-size: 11.5px;">
+  <strong>VERDICT: YES — Initiate Position on Extreme Dislocation</strong><br><br>
+  Intapp hits all four Theia criteria: small-cap ($2.0B), moderately covered (9 analysts), adjacent to the internet finance thesis through its role as critical infrastructure for PE/investment banking/legal, and exhibits extremely wide outcome dispersion ($10 to $92) amplified by the stock's 58% drawdown from its 52-week high. The probability-weighted fair value of $31.06 vs. current $24.68 represents 26% upside, but the real opportunity is the asymmetric risk/reward created by the market's overreaction to broader SaaS multiple compression. Intapp has: $191M net cash (no debt), 124% cloud NRR, 31% cloud ARR growth, 78% gross margins, and a proprietary AI platform (Celeste) that is genuinely differentiated in the professional services vertical. The downside is limited by the FCF floor ($123M FY2026E = 6.2% FCF yield at current price), while the upside is significant if AI monetization or a strategic acquirer materializes. Key catalyst: May 12 Q3 FY2026 earnings — first quarter with meaningful Celeste adoption data.
+</div>
+
+<p class="prose" style="font-size:10px; font-style:italic; margin-top:6px;">Note: Theia seeks small-cap companies that aren't well covered and are strongly aligned on the core internet finance thesis with wide outcome dispersion. INTA scores: Market Cap (Strong) | Coverage (Moderate) | Thesis (Adjacent) | Dispersion (Strong)</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 13: RISK SUMMARY -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">13. Risk Summary</div>
+
+<table class="risk-table">
+  <tr>
+    <th>Risk Category</th>
+    <th>Description</th>
+    <th>Severity</th>
+    <th>Mitigant</th>
+  </tr>
+  <tr>
+    <td>GAAP Losses / SBC Dilution</td>
+    <td>Still GAAP unprofitable; heavy stock-based compensation creates 7.22M dilutive shares (9% of basic). SBC overstates expenses and prevents GAAP earnings-based valuation. Dilution compounds annually.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>FCF is positive and growing rapidly ($20M to $123M in 3 years). SBC declining as % of revenue as company scales. FCF is the correct profitability metric for high-growth vertical SaaS.</td>
+  </tr>
+  <tr>
+    <td>Professional Services Cyclicality</td>
+    <td>Law/PE deal activity is cyclical. A sustained M&amp;A downturn would reduce DealCloud new logo wins and slow expansion velocity. Professional services revenue (~10% of total) is directly exposed.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Compliance products (Conflicts, Walls, Employee Compliance) are non-discretionary and recession-resistant. 124% NRR proves stickiness through cycles. Compliance spend is regulatory-mandated regardless of deal volume.</td>
+  </tr>
+  <tr>
+    <td>Salesforce / Microsoft Competition</td>
+    <td>Horizontal platforms could add vertical features targeting Intapp's markets. Microsoft, despite current partnership, could build competing capabilities natively. Salesforce Financial Services Cloud could deepen vertical functionality.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Industry graph and compliance moat are virtually irreplaceable. 25 years of accumulated data and domain expertise. Deep switching costs confirmed by 124% NRR. Counter-positioning dynamics make horizontal platform entry economically irrational.</td>
+  </tr>
+  <tr>
+    <td>Small-Cap SaaS Multiple Compression</td>
+    <td>Broader sector re-rating to lower multiples could continue. Risk-free rates remaining elevated reduces the present value of high-growth SaaS cash flows. Beta of 1.35 amplifies market drawdowns.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Trading at 3.5x P/S vs. 5-year avg of 6.6x — already de-rated 58% from 52-week high. FCF yield of 6.2% provides valuation floor. Margin expansion trajectory provides self-help re-rating path.</td>
+  </tr>
+  <tr>
+    <td>Cloud Migration Execution</td>
+    <td>19% of ARR still on-premise. Cloud conversion is non-trivial for large, risk-averse law firms and investment banks with complex technology environments and change management requirements.</td>
+    <td><span class="fw-rating low">Low</span></td>
+    <td>94% of clients already using at least one cloud module. Migration accelerating quarterly. Cloud economics are superior for both Intapp (higher margins) and clients (lower TCO), aligning incentives.</td>
+  </tr>
+  <tr>
+    <td>AI Commoditization</td>
+    <td>Open-source LLMs and competing AI platforms could reduce Celeste's differentiation. If generic AI tools become "good enough" for professional services workflows, Celeste's pricing premium may be unsustainable.</td>
+    <td><span class="fw-rating low">Low</span></td>
+    <td>Compliance/governance layer (Walls for AI, MNPI controls) is the moat, not the underlying AI model. Context Engine maps firm-specific data that generic models cannot access. Switching costs apply to AI layer too.</td>
+  </tr>
+  <tr>
+    <td>Customer Concentration</td>
+    <td>Top law/PE firms are a finite set (Am Law 100, top 20 accounting, ~1,700 PE/IB). TAM expansion depends on market creation (accounting consolidation, AI adoption) rather than greenfield growth.</td>
+    <td><span class="fw-rating low">Low</span></td>
+    <td>2,750+ clients with no single client representing a significant % of ARR. 124% NRR means existing base grows organically. International expansion and accounting consolidation extend addressable market.</td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 14: APPENDIX — PYTHON CODE -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section appendix">14. Appendix — Python Code</div>
+
+<p class="prose">Sensitivity table generator and scenario model code for analyst customization:</p>
+
+<div class="section-title">Sensitivity Table Generator</div>
+<div class="code-block">
+import numpy as np
+import pandas as pd
+
+# ─── SENSITIVITY TABLE 1: FY2028E Cloud ARR ───
+starting_arr = [380, 410, 434, 460, 490]         # $M starting cloud ARR
+growth_rates = [0.15, 0.20, 0.25, 0.30, 0.35]    # 2-year CAGR
+base_arr = 434
+base_growth = 0.25
+years = 2  # FY2026 (starting) to FY2028 (ending)
+
+rows = []
+for arr in starting_arr:
+    row = []
+    for g in growth_rates:
+        end_arr = arr * (1 + g) ** years
+        row.append(round(end_arr, 0))
+    rows.append(row)
+
+df1 = pd.DataFrame(rows,
+    index=[f"${x}M" for x in starting_arr],
+    columns=[f"{int(g*100)}%" for g in growth_rates])
+print("FY2028E Cloud ARR ($M)")
+print(df1.to_string())
+print(f"\nBase: ${base_arr}M @ {base_growth*100:.0f}% CAGR -> ${base_arr*(1+base_growth)**years:.0f}M")
+
+# ─── SENSITIVITY TABLE 2: FY2028E Free Cash Flow ───
+revenues = [650, 700, 741, 800, 900]              # $M total revenue
+fcf_margins = [0.16, 0.19, 0.22, 0.25, 0.28]     # FCF margin %
+base_rev = 741
+base_fcf_mgn = 0.243
+
+rows2 = []
+for rev in revenues:
+    row = []
+    for m in fcf_margins:
+        fcf = rev * m
+        row.append(round(fcf, 0))
+    rows2.append(row)
+
+df2 = pd.DataFrame(rows2,
+    index=[f"${x}M" for x in revenues],
+    columns=[f"{int(m*100)}%" for m in fcf_margins])
+print("\nFY2028E Free Cash Flow ($M)")
+print(df2.to_string())
+print(f"Base: ${base_rev}M x {base_fcf_mgn*100:.1f}% = ${base_rev*base_fcf_mgn:.0f}M")
+
+# ─── SENSITIVITY TABLE 3: Implied Share Price ───
+fcf_per_share = [1.26, 1.88, 2.05, 2.45, 3.08]   # $/share
+p_fcf_multiples = [8, 12, 18, 25, 30]             # x P/FCF
+
+rows3 = []
+for fps in fcf_per_share:
+    row = []
+    for mult in p_fcf_multiples:
+        price = fps * mult
+        row.append(round(price, 2))
+    rows3.append(row)
+
+df3 = pd.DataFrame(rows3,
+    index=[f"${x:.2f}" for x in fcf_per_share],
+    columns=[f"{x}x" for x in p_fcf_multiples])
+print("\nImplied Share Price ($)")
+print(df3.to_string())
+print(f"Base: $2.05 x 18x = ${2.05*18:.2f}")
+</div>
+
+<div class="section-title" style="margin-top:16px;">5-Scenario Model Generator</div>
+<div class="code-block">
+# ─── INTA 5-SCENARIO 3-YEAR MODEL ───
+scenarios = {
+    "Bear Severe": {
+        "rev":   [555, 580, 600],
+        "gm":    [0.75, 0.74, 0.75],
+        "ebitda_mgn": [0.171, 0.172, 0.175],
+        "fcf":   [100, 105, 110],
+        "fcf_per_share": [1.14, 1.20, 1.26],
+        "exit_p_fcf": 8,
+    },
+    "Bear Mild": {
+        "rev":   [565, 620, 680],
+        "gm":    [0.76, 0.76, 0.77],
+        "ebitda_mgn": [0.191, 0.210, 0.229],
+        "fcf":   [115, 140, 165],
+        "fcf_per_share": [1.31, 1.60, 1.88],
+        "exit_p_fcf": 12,
+    },
+    "Base Case": {
+        "rev":   [573, 651, 741],
+        "gm":    [0.776, 0.779, 0.787],
+        "ebitda_mgn": [0.202, 0.223, 0.243],
+        "fcf":   [123, 147, 180],
+        "fcf_per_share": [1.40, 1.68, 2.05],
+        "exit_p_fcf": 18,
+    },
+    "Bull Mild": {
+        "rev":   [585, 690, 820],
+        "gm":    [0.78, 0.79, 0.80],
+        "ebitda_mgn": [0.214, 0.246, 0.268],
+        "fcf":   [130, 175, 215],
+        "fcf_per_share": [1.48, 2.00, 2.45],
+        "exit_p_fcf": 25,
+    },
+    "Bull Severe": {
+        "rev":   [590, 720, 900],
+        "gm":    [0.79, 0.80, 0.82],
+        "ebitda_mgn": [0.220, 0.271, 0.300],
+        "fcf":   [135, 200, 270],
+        "fcf_per_share": [1.54, 2.28, 3.08],
+        "exit_p_fcf": 30,
+    },
+}
+
+current_price = 24.68
+diluted_shares = 87.61  # M
+years = ["FY2026E", "FY2027E", "FY2028E"]
+
+for name, s in scenarios.items():
+    print(f"\n{'='*60}")
+    print(f"Scenario: {name}")
+    print(f"{'─'*60}")
+    fps_exit = s["fcf_per_share"][-1]
+    mult = s["exit_p_fcf"]
+    implied_price = fps_exit * mult
+    upside = (implied_price / current_price - 1) * 100
+    print(f"Exit: {mult}x P/FCF on FY2028E FCF/share ${fps_exit:.2f}")
+    print(f"Implied Price: ${implied_price:.2f}  |  Upside: {upside:+.1f}%")
+
+    for i, yr in enumerate(years):
+        rev = s["rev"][i]
+        fcf = s["fcf"][i]
+        fps = s["fcf_per_share"][i]
+        print(f"  {yr}: Rev ${rev}M | FCF ${fcf}M | FCF/share ${fps:.2f}")
+
+# ─── PROBABILITY-WEIGHTED FAIR VALUE ───
+weights = {"Bear Severe": 0.05, "Bear Mild": 0.20, "Base Case": 0.50,
+           "Bull Mild": 0.20, "Bull Severe": 0.05}
+prices  = {"Bear Severe": 10.05, "Bear Mild": 22.60, "Base Case": 36.95,
+           "Bull Mild": 61.30, "Bull Severe": 92.45}
+coc = 0.30
+
+wtd_avg = sum(weights[k] * prices[k] for k in weights)
+pv = wtd_avg / (1 + coc)
+print(f"\nProbability-Weighted Avg (FY2028E): ${wtd_avg:.2f}")
+print(f"Discounted at {coc*100:.0f}% CoC:           ${pv:.2f}")
+print(f"Current Price:                         ${current_price:.2f}")
+print(f"Implied Upside to PV:                 {(pv/current_price-1)*100:+.1f}%")
+</div>
+
+<div class="source-note" style="margin-top:16px;">
+  Intapp, Inc. | Preliminary Memo for Theia · Generated March 30, 2026 · Data: FactSet (Mar 27, 2026), AlphaSense Primer &amp; Deep Dive, Q2 FY2026 Earnings Transcript · FYE June · Not investment advice.
+</div>
+
+</body>
+</html>
