@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=816px">
+<title>Jefferson Capital | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', Arial, sans-serif; background: #fff; color: #1a1a2e; width: 816px; margin: 0 auto; padding: 32px 40px; font-size: 11px; line-height: 1.45; }
+.title-bar { font-size: 20px; font-weight: 700; letter-spacing: -0.4px; color: #1a1a2e; border-bottom: 3px solid #1a1a2e; padding-bottom: 10px; margin-bottom: 20px; text-align: center; }
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 28px 0 10px 0; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+table.ev tr.indent td:first-child { padding-left: 12px; font-size: 9.5px; color: #777; }
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; border: 1px solid #eee; border-radius: 3px; }
+.val-grid .val-cell { padding: 5px 6px; border-right: 1px solid #eee; border-bottom: 1px solid #eee; }
+.val-grid .val-cell:nth-child(6), .val-grid .val-cell:nth-child(12) { border-right: none; }
+.val-grid .val-cell:nth-child(7), .val-grid .val-cell:nth-child(8), .val-grid .val-cell:nth-child(9), .val-grid .val-cell:nth-child(10), .val-grid .val-cell:nth-child(11), .val-grid .val-cell:nth-child(12) { border-bottom: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+.prose { font-size: 11px; line-height: 1.65; color: #333; margin-bottom: 8px; }
+.fw-item { margin-bottom: 10px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+.fw-rating.na { background: #e9ecef; color: #6c757d; }
+.fw-summary { margin-top: 10px; padding: 8px 12px; background: #f4f6f9; border-left: 3px solid #1a1a2e; font-size: 10.5px; font-style: italic; color: #444; }
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; border: 1px solid #e0e0e0; }
+table.sensitivity th:first-child { text-align: left; }
+table.sensitivity td { text-align: center; padding: 3px 6px; border: 1px solid #f0f0f0; }
+table.sensitivity td:first-child { text-align: left; font-weight: 600; background: #f4f6f9; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; color: #1a1a2e; }
+.sens-title { font-size: 10px; font-weight: 700; margin: 14px 0 2px 0; color: #1a1a2e; }
+.sens-current { font-size: 9px; color: #888; margin-bottom: 4px; font-style: italic; }
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 14px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 6px; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 10px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 8px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 700; color: #1a1a2e; }
+.fermi-narrative { background: #f0f4f8; border-radius: 3px; padding: 8px 10px; margin-bottom: 10px; font-size: 9.5px; line-height: 1.55; border-left: 3px solid #93c5fd; }
+.fermi-narrative .scenario-text { font-style: italic; color: #444; margin-bottom: 5px; font-size: 10px; font-weight: 500; }
+.fermi-narrative ul { margin: 0; padding-left: 16px; color: #333; }
+.fermi-narrative li { margin-bottom: 2px; }
+.fermi-narrative .reconcile { margin-top: 6px; font-weight: 600; color: #1a1a2e; border-top: 1px solid #c7d9ec; padding-top: 4px; font-size: 9.5px; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 10px 0 4px 0; }
+.case-block table.scenario-mini th { text-align: right; font-weight: 600; color: #888; padding: 2px 5px; border-bottom: 1px solid #ddd; font-size: 8.5px; }
+.case-block table.scenario-mini th:first-child { text-align: left; }
+.case-block table.scenario-mini td { padding: 2.5px 5px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even):not(.margin-row) { background: #f5f5f5; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 8px; margin-top: 8px; }
+.case-block .exit-line1 { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-bottom: 6px; }
+.case-block .exit-price { font-size: 15px; font-weight: 700; color: #1a1a2e; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; color: #555; }
+.case-block .exit-line2 { display: flex; gap: 24px; font-size: 9.5px; color: #555; border-top: 1px solid #eee; padding-top: 5px; flex-wrap: wrap; }
+.case-chart { margin-top: 16px; padding: 12px 12px 8px 12px; background: #f9f9f9; border-radius: 4px; border: 1px solid #eee; }
+.case-chart svg { width: 100%; height: auto; }
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.6; }
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 8.5px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+.num-list { padding-left: 0; list-style: none; }
+.num-list li { margin-bottom: 8px; padding-left: 0; }
+.num-list li strong { color: #1a1a2e; }
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1.5px solid #ddd; white-space: nowrap; }
+table.comps th:first-child { text-align: left; min-width: 110px; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child { text-align: left; font-weight: 400; color: #333; white-space: nowrap; font-size: 8px; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-weight: 600; background: #fafbfc; border-top: 1px solid #eee; font-style: italic; }
+table.risk-table { font-size: 10px; width: 100%; margin: 8px 0; }
+table.risk-table th { text-align: left; font-weight: 600; padding: 4px 6px; background: #f4f6f9; border-bottom: 1px solid #ddd; }
+table.risk-table td { padding: 4px 6px; border-bottom: 1px solid #eee; vertical-align: top; }
+table.risk-table td:first-child { font-weight: 600; width: 25%; }
+.alphasense-box { background: #e8f4fd; border-left: 4px solid #2563eb; padding: 10px 14px; margin: 10px 0; font-size: 10px; line-height: 1.5; }
+.alphasense-box strong { color: #1a1a2e; }
+.as-section { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: #1a1a2e; border-bottom: 1px solid #ddd; padding-bottom: 3px; margin: 16px 0 8px 0; }
+.bull-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #155724; border-bottom: 1.5px solid #c3e6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #721c24; border-bottom: 1.5px solid #f5c6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bull-item, .bear-item { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Jefferson Capital, Inc. | Preliminary Memo for Theia</div>
+
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<div class="memo-section">1. Business Overview</div>
+
+<div class="prose">
+Jefferson Capital, Inc. (NASDAQ: JCAP) is a leading global purchaser and manager of nonperforming and insolvency consumer receivables. Founded in 2002 by CEO David M. Burton in Minneapolis, Minnesota, the company buys portfolios of charged-off consumer debt—credit cards, auto finance (secured and unsecured), telecom, and utility accounts—at deep discounts (approximately $0.03 on the dollar) and collects on them over time (recovering approximately $0.10 on the dollar). JCAP operates through two primary segments: <strong>Distressed</strong> (nonperforming consumer loans that have been charged off by the original creditor) and <strong>Insolvency</strong> (receivables associated with consumer bankruptcy filings and credit counseling programs). The company IPO'd in June 2025 and remains majority-owned by J.C. Flowers &amp; Co. (50.6%), a private equity firm specializing in financial services.
+</div>
+
+<div class="prose">
+JCAP has built a diversified portfolio spanning multiple asset classes and geographies. In the <strong>United States</strong> (73.4% of FY2025 revenue, $450M), Jefferson Capital is the largest purchaser of nonperforming telecom receivables and ranks 1st or 2nd in auto finance receivables. In <strong>Canada</strong> (11.7%, $72M) the company operates through its Canaccede subsidiary as the largest debt purchaser in the market. The <strong>UK</strong> (8.3%, $51M) operations run through ResolveCall and Moriarty, while <strong>Latin America</strong> (6.6%, $40M) is served through Refinancia in Colombia. The geographic diversification provides access to different credit cycles and regulatory environments while reducing concentration risk. Over 23 years of operational data fueling advanced proprietary pricing models gives JCAP a quantitative edge in portfolio valuation—the company has invested approximately $3.6 billion in portfolios representing over 43 million unique consumers.
+</div>
+
+<div class="prose">
+FY2025 marked Jefferson Capital's first full fiscal year as a public company and was characterized by record operational performance. Total collections reached $999M (+71% YoY), driven by organic growth and two transformative event-driven acquisitions: Conn's (performing auto and retail receivables, $225M) and Bluestem ($303M gross for $488M face value of credit card receivables). Estimated Remaining Collections (ERC) hit a record $3.4B (+23% YoY), with $1.1B expected in the next 12 months. Portfolio deployments totaled $832M (+15%), including a record $381M in Q4 alone. Revenue reached $613M with a 52.8% EBITDA margin ($324M), and the company generated $268M in free cash flow. The cash efficiency ratio—a key industry metric measuring the percentage of collections retained after operating costs—stood at an industry-leading 74.0% (69.7% excluding Conn's/Bluestem), approximately 1,000 basis points above publicly traded peers ECPG (~61%) and PRAA (~58%).
+</div>
+
+<div class="prose">
+<strong>One-line thesis:</strong> Jefferson Capital is a recently IPO'd (June 2025) debt buyer with industry-leading 74% cash efficiency, 1.9x leverage (below 2.0-2.5x target), record $3.4B ERC, and proven event-driven acquisition capability (Conn's, Bluestem), trading at just 6.9x forward P/E with only 7 analysts—offering a rare entry into a founder-led, high-ROIC business at the early stage of its public market life with significant float improvement catalysts ahead.
+</div>
+
+<div class="prose">
+<strong>Headquarters:</strong> Minneapolis, Minnesota &nbsp;|&nbsp; <strong>CEO:</strong> David M. Burton (Founder) &nbsp;|&nbsp; <strong>CFO:</strong> Christo Realov &nbsp;|&nbsp; <strong>Employees:</strong> ~1,120 &nbsp;|&nbsp; <strong>Founded:</strong> 2002 &nbsp;|&nbsp; <strong>IPO:</strong> June 2025 &nbsp;|&nbsp; <strong>Ticker:</strong> NASDAQ: JCAP
+</div>
+
+<!-- SECTION 2: FINANCIAL SUMMARY -->
+<div class="memo-section">2. Financial Summary (Theia FactSet Summary)</div>
+
+<div class="header">
+  <div><h1>Jefferson Capital, Inc.</h1><span class="ticker">JCAP-US | NASDAQ | Majority Owner: J.C. Flowers &amp; Co. (50.6%)</span></div>
+  <span class="date">April 1, 2026 | Source: FactSet</span>
+</div>
+
+<div class="price-bar">
+  <span class="price">$19.30</span>
+  <span><span class="label">1M:</span> <span class="chg">-7.38%</span></span>
+  <span><span class="label">3M:</span> <span class="chg">-13.21%</span></span>
+  <span><span class="label">6M:</span> <span class="chg pos">+5.32%</span></span>
+  <span><span class="label">YTD:</span> <span class="chg">-14.1%</span></span>
+  <span><span class="label">1Y:</span> N/A (IPO Jun 2025)</span>
+  <span><span class="label">52W:</span> $15.98 – $23.80</span>
+</div>
+
+<div class="section-title">Key Stats — Trading</div>
+<div class="two-col">
+  <table class="kv">
+    <tr><td>Ticker</td><td>JCAP-US</td></tr>
+    <tr><td>Price</td><td>$19.30</td></tr>
+    <tr><td>Volume</td><td>301K</td></tr>
+    <tr><td>Avg Volume (30D)</td><td>376K</td></tr>
+  </table>
+  <table class="kv">
+    <tr><td>Float %</td><td>40.23%</td></tr>
+    <tr><td>Short Interest</td><td>1.8 Days / 2.14%</td></tr>
+    <tr><td>% of 52W High</td><td>81.1%</td></tr>
+    <tr><td>Dividend</td><td>$0.72 (3.7% yield)</td></tr>
+  </table>
+</div>
+
+<div class="section-title">Enterprise Value Bridge</div>
+<table class="ev">
+  <tr><td>Market Capitalization</td><td>$1,068M</td></tr>
+  <tr class="indent"><td>Basic Shares Outstanding</td><td>55.33M</td></tr>
+  <tr><td>(+) Consolidated Debt</td><td>$1,409M</td></tr>
+  <tr><td>(-) Cash &amp; Equivalents</td><td>($48M)</td></tr>
+  <tr><td>Fully Diluted Market Cap</td><td>$1,068M</td></tr>
+  <tr class="indent"><td>No dilutive shares (FD Mkt Cap = Mkt Cap)</td><td>—</td></tr>
+  <tr class="total"><td>Enterprise Value</td><td>$2,429M</td></tr>
+</table>
+
+<div class="section-title">Current Valuation</div>
+<div class="val-grid">
+  <div class="val-cell"><div class="val-label">Market Cap</div><div class="val-num">$1.07B</div></div>
+  <div class="val-cell"><div class="val-label">Enterprise Value</div><div class="val-num">$2.43B</div></div>
+  <div class="val-cell"><div class="val-label">P/E (FY1)</div><div class="val-num">6.9x</div><div class="val-sub">Fwd earnings basis</div></div>
+  <div class="val-cell"><div class="val-label">EV/EBITDA (FY1)</div><div class="val-num">7.5x</div></div>
+  <div class="val-cell"><div class="val-label">EV/Sales (FY1)</div><div class="val-num">4.0x</div></div>
+  <div class="val-cell"><div class="val-label">P/S (FY1)</div><div class="val-num">1.6x</div></div>
+  <div class="val-cell"><div class="val-label">Fully Dil Mkt Cap</div><div class="val-num">$1.07B</div></div>
+  <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">7.4%</div></div>
+  <div class="val-cell"><div class="val-label">Beta (3Y Adj.)</div><div class="val-num">1.11</div></div>
+  <div class="val-cell"><div class="val-label">Avg Rating</div><div class="val-num">Buy (1.07)</div></div>
+  <div class="val-cell"><div class="val-label">Target Price</div><div class="val-num">$26.57</div><div class="val-sub">+38% upside</div></div>
+  <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">Jun 3, 2026</div><div class="val-sub">7 brokers</div></div>
+</div>
+
+<div class="section-title">Valuation Multiples</div>
+<table class="data">
+  <tr><th></th><th>5Yr Avg</th><th>FY2024</th><th>FY2025</th><th class="est">FY2026E</th><th class="est">FY2027E</th></tr>
+  <tr><td>P/E</td><td>0.71x</td><td>—</td><td>3.57x</td><td class="est">6.81x</td><td class="est">6.62x</td></tr>
+  <tr><td>P/Sales</td><td>0.22x</td><td>—</td><td>1.09x</td><td class="est">1.56x</td><td class="est">1.49x</td></tr>
+  <tr><td>P/BV</td><td>0.55x</td><td>—</td><td>2.74x</td><td class="est">2.21x</td><td class="est">2.01x</td></tr>
+  <tr><td>EV/Sales</td><td>0.87x</td><td>—</td><td>4.34x</td><td class="est">3.57x</td><td class="est">3.40x</td></tr>
+  <tr><td>EV/EBITDA</td><td>1.64x</td><td>—</td><td>8.22x</td><td class="est">7.00x</td><td class="est">6.84x</td></tr>
+  <tr><td>EV/EBIT</td><td>1.67x</td><td>—</td><td>8.35x</td><td class="est">7.51x</td><td class="est">7.22x</td></tr>
+</table>
+
+<div class="section-title">Income Statement (Financials)</div>
+<table class="data">
+  <tr><th></th><th>FY2024</th><th>FY2025</th><th class="est">FY2026E</th><th class="est">FY2027E</th></tr>
+  <tr class="section-row"><td colspan="5">Revenue &amp; Income ($M)</td></tr>
+  <tr><td>Revenue</td><td>—</td><td>613</td><td class="est">680</td><td class="est">714</td></tr>
+  <tr><td>Gross Income</td><td>—</td><td>421</td><td class="est">476</td><td class="est">537</td></tr>
+  <tr><td>EBITDA</td><td>—</td><td>324</td><td class="est">347</td><td class="est">355</td></tr>
+  <tr><td>EBIT</td><td>—</td><td>319</td><td class="est">324</td><td class="est">336</td></tr>
+  <tr><td>Net Income</td><td>—</td><td>188</td><td class="est">154</td><td class="est">158</td></tr>
+  <tr><td>EPS (Diluted)</td><td>—</td><td>$6.26</td><td class="est">$2.71</td><td class="est">$2.77</td></tr>
+  <tr class="section-row"><td colspan="5">Margins</td></tr>
+  <tr><td>Gross Margin</td><td>—</td><td>68.6%</td><td class="est">70.0%</td><td class="est">75.2%</td></tr>
+  <tr><td>EBITDA Margin</td><td>—</td><td>52.8%</td><td class="est">51.0%</td><td class="est">49.7%</td></tr>
+  <tr><td>Net Margin</td><td>—</td><td>30.6%</td><td class="est">22.6%</td><td class="est">22.1%</td></tr>
+  <tr class="section-row"><td colspan="5">Cash Flow ($M)</td></tr>
+  <tr><td>Operating CF</td><td>—</td><td>269</td><td class="est">249</td><td class="est">264</td></tr>
+  <tr><td>CapEx</td><td>—</td><td>1</td><td class="est">7</td><td class="est">8</td></tr>
+  <tr><td>Free Cash Flow</td><td>—</td><td>268</td><td class="est">173</td><td class="est">129</td></tr>
+  <tr class="section-row"><td colspan="5">Returns &amp; Leverage</td></tr>
+  <tr><td>ROE</td><td>—</td><td>79.0%</td><td class="est">32.4%</td><td class="est">30.3%</td></tr>
+  <tr><td>Debt/Equity</td><td>—</td><td>296.8%</td><td class="est">237.5%</td><td class="est">223.6%</td></tr>
+  <tr><td>Interest Coverage</td><td>—</td><td>3.01x</td><td class="est">2.74x</td><td class="est">2.67x</td></tr>
+</table>
+
+<div class="section-title">Revenue by Business Unit</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Segment</div>
+    <table class="rev">
+      <tr><th>Segment</th><th>% Rev</th><th>($M)</th><th>YoY</th></tr>
+      <tr><td>Managing Charge-off &amp; Insolvency</td><td>100%</td><td>613</td><td>—</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="sub-label">By Geography</div>
+    <table class="rev">
+      <tr><th>Region</th><th>% Rev</th><th>($M)</th><th>YoY</th></tr>
+      <tr><td>United States</td><td>73.4%</td><td>450</td><td>+52.3%</td></tr>
+      <tr><td>Canada (Canaccede)</td><td>11.7%</td><td>72</td><td>+32.6%</td></tr>
+      <tr><td>UK (ResolveCall/Moriarty)</td><td>8.3%</td><td>51</td><td>-3.0%</td></tr>
+      <tr><td>Latin America (Refinancia)</td><td>6.6%</td><td>40</td><td>+29.5%</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="source-note">Source: FactSet, Company Filings as of April 1, 2026. FY2025 EPS of $6.26 inflated by partial-year tax treatment; normalized ~$2.55-2.71. FY2024 is pre-IPO stub with limited public data. Dividend: $0.24/quarter ($0.96 annualized), ~4.7% yield at current price. Net leverage: 1.9x EBITDA.</div>
+
+<!-- SECTION 3: BULL & BEAR CASES -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Cases</div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">1. Industry-Leading Cash Efficiency (74%) — ~1,000bps Above Public Peers.</span> Jefferson Capital's 74% cash efficiency ratio (69.7% excluding Conn's/Bluestem event-driven acquisitions) represents the widest operational advantage in the publicly traded debt buyer universe. For comparison, ECPG operates at approximately 61% and PRAA at approximately 58%. This ~1,000 basis point edge compounds over every dollar of deployed capital: on a $100M portfolio purchase, JCAP retains approximately $13M more in cash flow than ECPG after operating expenses. The advantage stems from a lower cost structure driven by India co-sourcing operations (Mumbai facility handling 17.2% of collections), a variable cost model that scales without proportional overhead growth, and a "champion-challenger" optimization system that continuously routes accounts to the highest-performing collection strategy. This efficiency edge is structural—built over 23 years of proprietary data and operational refinement—and compounds across every vintage of purchased portfolios, creating a durable ROIC advantage that is extremely difficult for competitors to replicate.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">2. Event-Driven Acquisition Capability — Conn's &amp; Bluestem Demonstrate Liquidity Provider Role.</span> JCAP's acquisitions of Conn's ($225M, performing auto and retail receivables) and Bluestem ($303M gross/$196M net for $488M face value of credit card receivables with $296M ERC and sub-1-year half-life) demonstrate a rare capability among debt buyers: the ability to serve as a liquidity provider for distressed originators and retailers exiting consumer lending. The Conn's portfolio contributed $36M in collections in Q4 alone and added $140M to ERC, while Bluestem's short half-life generates outsized near-term cash flows. Management noted that the performing portfolio pipeline is "the most active ever seen" following the Conn's deal, suggesting a repeatable playbook for acquiring performing and near-performing receivables at distressed prices. These event-driven deals are fundamentally different from traditional debt purchasing—they involve bilateral negotiation with distressed sellers rather than competitive auction bidding, enabling JCAP to secure better pricing and terms.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">3. Massive Supply Tailwind — $167.8B in US Consumer Charge-offs (+45% Since 2019).</span> The macroeconomic environment is creating an unprecedented supply of purchasable receivables. US consumer charge-offs reached $167.8B in 2024, up 45% cumulatively since 2019. Personal savings have depleted to $831B—well below the $1.1 trillion pre-pandemic average—while Chapter 7 bankruptcy filings are up 15% year-over-year and auto/BNPL delinquencies continue to rise. For debt buyers, more supply means more deployment opportunities at attractive prices. Unlike many industries where increased supply is deflationary, in debt buying, higher charge-off volumes expand the addressable market while maintaining rational pricing dynamics because the industry operates as an oligopoly (JCAP, ECPG, PRAA dominate). JCAP's $274M in committed forward flow agreements position the company to capture incremental supply as it materializes over the next 12-24 months.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">4. Conservative Leverage with Significant Deployment Capacity.</span> JCAP operates at 1.9x net debt/EBITDA—substantially below both its own 2.0-2.5x target range and peers ECPG (2.4x) and PRAA (3.5x+). The company upsized its revolving credit facility to $1B in October 2025, providing significant untapped capacity. This conservative leverage posture means JCAP can deploy $600M+ annually in portfolio purchases while staying within its target range, or it can absorb large event-driven acquisitions (like Conn's and Bluestem) without approaching stress-level leverage. Lower leverage also translates to lower interest costs, higher equity returns, and greater financial flexibility during credit cycle downturns. The deleveraged balance sheet relative to peers is a meaningful margin of safety that the market does not fully appreciate at the current 7.5x EV/EBITDA valuation.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">5. Recently IPO'd with Improving Float — J.C. Flowers Systematically Reducing.</span> JCAP IPO'd in June 2025 and completed a follow-on offering in January 2026, during which J.C. Flowers reduced its ownership from approximately 60%+ to 50.6%. The current float of 40.23% limits institutional accessibility—many mandates require minimum float thresholds of 50% or 60%, and index inclusion (Russell 2000, S&amp;P SmallCap 600) typically requires free float above certain levels. As J.C. Flowers continues to systematically reduce its position toward 30-40% over the next 12-24 months, the expanding float creates a mechanical demand catalyst: more shares available for indexing, more institutional mandates eligible to participate, and greater sell-side coverage incentive (brokerages prioritize coverage of names that institutional clients can actually trade). The stock currently has only 7 analysts—well below the 10-15 typical for a $1B+ market cap company—and float expansion should drive incremental coverage.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="bear-header">Bear Cases</div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">1. Regulatory Risk (FDCPA/CFPB) — Severe Enforcement Could Disrupt Operations.</span> Consumer debt collection is one of the most heavily regulated industries in the United States. The Fair Debt Collection Practices Act (FDCPA) and Consumer Financial Protection Bureau (CFPB) establish strict rules governing contact frequency, documentation requirements, dispute resolution, and fee structures. CFPB penalties range from $5,000/day for negligent violations to $1,000,000/day for knowing violations. A single severe regulatory misstep—such as a systemic compliance failure in contact practices or documentation—could result in consent orders, operational restrictions, and reputational damage that impairs the company's ability to collect and purchase portfolios. Political shifts could bring periods of aggressive enforcement, and new rules on contact frequency, verification requirements, or fee structures could structurally reduce collectability across the entire portfolio. JCAP's international operations (UK, Canada, Colombia) face separate regulatory frameworks that add compliance complexity.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">2. J.C. Flowers Overhang — 50.6% Insider Ownership Limits Institutional Participation.</span> J.C. Flowers &amp; Co. still controls 50.6% of JCAP's outstanding shares, creating multiple concerns for public market investors. First, the concentrated ownership limits the free float to just 40.23%, restricting institutional participation and index inclusion eligibility. Second, future secondary offerings to reduce J.C. Flowers' position will create periodic selling pressure on the stock—the January 2026 follow-on offering likely contributed to the subsequent -14.1% YTD decline. Third, the "controlled company" governance structure may concern investors who prefer independent board oversight. Until J.C. Flowers reduces below 30-40%, the stock is likely to trade at a "controlled company" discount relative to peers with fully distributed ownership. The timing, pace, and pricing of future secondary offerings introduce an overhang that is difficult to model and creates event-driven volatility.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">3. High Leverage Amplifies Downside — $1.41B Debt, 296.8% D/E Ratio.</span> While JCAP's net leverage ratio of 1.9x EBITDA appears conservative by peer standards, the absolute debt level of $1.41B against equity of approximately $475M creates a D/E ratio of 296.8%. In a severe recession that impairs collection rates by 10-15%, EBITDA could contract materially, pushing net leverage above 3x and reducing the cushion for debt service. Interest coverage of 3.01x in FY2025 is adequate but not generous—a 20% EBITDA decline would reduce coverage to approximately 2.4x, a level that could trigger lender concerns. The debt structure is critical to the equity's risk profile: every dollar of EBITDA lost has an amplified impact on equity value because of the high debt load. Bears argue that JCAP is essentially a leveraged bet on consumer credit cycle performance, and the equity is the first-loss tranche in a portfolio of purchased receivables.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">4. Collection Performance Risk in Recession — Never Public Through a Downturn.</span> JCAP has never been a public company during an economic recession, and its management has acknowledged that a severe recession could reduce liquidation rates by approximately 10% for up to 18 months before the offsetting benefits (higher charge-off supply, better pricing on new vintages) materialize. While management notes that recessions are ultimately net positive for debt buyers over the medium term—more supply of charged-off receivables at lower purchase prices creates better future vintages—the short-term earnings impact could be significant. FY2025's $6.26 EPS was inflated by partial-year tax treatment; normalized EPS of $2.55-2.71 provides limited cushion for a downturn. Additionally, the Conn's and Bluestem portfolios are concentrated in consumer auto and credit card receivables that are particularly sensitive to employment and income disruption during recessions.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">5. Integration &amp; Operational Risk — Rapid Scaling Strains Infrastructure.</span> The Conn's acquisition required onboarding 197 full-time employees and integrating a performing portfolio servicing capability that differs from JCAP's core competency of managing charged-off accounts. The Bluestem acquisition required transitioning servicing to CardWorks, introducing third-party dependency. JCAP's Mumbai co-sourced operations handle 17.2% of total collections and are exposed to geopolitical disruption, natural disasters, and Indian regulatory changes. The legal collection channel—which grew 44% YoY in Q4 with court costs increasing 86% to $17.7M—introduces litigation risk and could face judicial or regulatory pushback if volumes continue scaling aggressively. Rapid growth through acquisitions and international expansion strains operational processes, compliance frameworks, and management bandwidth in a company with only approximately 1,120 employees.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Scale Economies</span><span class="fw-rating moderate">Moderate</span>
+  <div class="prose">JCAP is smaller than both ECPG and PRAA in total revenue and ERC, but it is growing faster than either peer. The company's scale advantage is concentrated in specific niches: largest purchaser of nonperforming telecom receivables in the US, 1st or 2nd in auto finance receivables, and the largest purchaser in Canada. The Mumbai co-sourcing facility provides labor cost advantages that scale with collection volume—the 17.2% of collections handled offshore at substantially lower cost per dollar collected than domestic operations creates an embedded scale benefit. However, JCAP lacks the absolute scale of ECPG ($1.4B ERC advantage) or PRAA's global footprint across 20+ countries. The scale economics are best characterized as "niche leadership" rather than "industry dominance"—JCAP dominates in specific asset classes and geographies where its 23-year operational history and pricing data create superior economics, but it cannot yet claim the broadest scale in the industry.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Network Effects</span><span class="fw-rating weak">Weak</span>
+  <div class="prose">Debt purchasing is fundamentally a bilateral market between sellers (banks, retailers, telecom companies) and buyers (debt purchasers), without the multi-sided network effects that characterize marketplaces or platforms. JCAP does not benefit from classical network effects where additional participants on one side attract participants on the other. The company's relationships with debt sellers are valuable but do not create self-reinforcing demand dynamics—a bank selling charged-off receivables will consider JCAP alongside ECPG and PRAA based on pricing, execution certainty, and compliance reputation, not because other banks also sell to JCAP. The $274M in committed forward flow agreements represent contractual relationships rather than network effects. While the 43M+ unique consumer database could theoretically create data network effects (more consumers = better pricing models = more portfolio purchases = more data), this is better classified under cornered resource than network effects.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Counter-Positioning</span><span class="fw-rating moderate">Moderate</span>
+  <div class="prose">JCAP's event-driven acquisition capability—demonstrated by the Conn's and Bluestem deals—represents a form of counter-positioning that larger, more bureaucratic competitors struggle to replicate. When a retailer or financial institution needs to rapidly liquidate a portfolio of consumer receivables (often under distressed or time-sensitive circumstances), JCAP's founder-led decision-making, flexible capital structure, and operational willingness to take on non-standard asset types (performing portfolios, retailer credit cards) enable it to move faster and more creatively than larger peers. ECPG and PRAA, as larger public companies with more institutional governance structures, face longer approval timelines and greater risk aversion toward non-standard deals. Additionally, JCAP's willingness to enter the performing portfolio space—where traditional debt buyers have limited expertise—creates a new market segment that incumbents may be reluctant to enter because it requires different servicing capabilities and regulatory compliance frameworks.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Switching Costs</span><span class="fw-rating moderate">Moderate</span>
+  <div class="prose">Seller relationships in debt purchasing are sticky but not contractually exclusive. Banks and originators that sell receivables to JCAP develop familiarity with the company's compliance practices, pricing methodology, and execution reliability—creating inertia that favors continuing the relationship. The $274M in committed forward flow agreements formalize this stickiness for specific sellers. However, debt sales are ultimately competitive processes where sellers evaluate multiple bids, and there is no structural impediment to switching purchasers between transactions. The top 5 clients represent 45.2% of deployments (improved from 55.3%), indicating ongoing client diversification that reduces JCAP's dependency on any single seller relationship. The moderate switching cost assessment reflects the reality that seller relationships are valuable but not moated—a competitor offering a materially higher price can always win a portfolio, though JCAP's 23-year track record and compliance reputation create meaningful preference among sophisticated sellers.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Branding</span><span class="fw-rating weak">Weak</span>
+  <div class="prose">Debt purchasing is an institutional B2B business where brand recognition among end consumers is either nonexistent or actively negative (no consumer wants to hear from a debt collector). JCAP's brand value exists solely in its reputation among institutional sellers of receivables—banks, retailers, telecom companies, and auto lenders—where it is known for competitive pricing, operational reliability, and strong compliance practices. The company's 23-year track record under founder David Burton's leadership provides credibility, but this is more accurately described as reputation capital than brand equity. The JCAP brand has no consumer recognition, no premium pricing power derived from brand identity, and limited marketing leverage. Among institutional sellers, JCAP competes on execution, price, and relationships rather than brand differentiation—any advantage from brand recognition is modest and easily offset by a competitor's superior bid price.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">6. Cornered Resource</span><span class="fw-rating strong">Strong</span>
+  <div class="prose">JCAP's strongest competitive advantage is its 23-year proprietary database of consumer receivables performance data spanning 43M+ unique consumers and approximately $3.6B in cumulative portfolio investments. This dataset powers the company's advanced pricing models that determine the expected recovery on any given portfolio—a critical capability in an industry where portfolio purchase prices are set in competitive auctions and the buyer with the most accurate pricing model earns the highest risk-adjusted returns. No new entrant can replicate this dataset without decades of operational history. The India co-sourcing infrastructure in Mumbai—handling 17.2% of collections at substantially lower cost—represents a second cornered resource that required years of investment, regulatory approval, and operational buildout to establish. The ~1,000 basis point cash efficiency advantage over public peers is the tangible output of these cornered resources: better data leads to better pricing, and lower-cost collection infrastructure leads to higher cash retention on every dollar collected.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">7. Process Power</span><span class="fw-rating strong">Strong</span>
+  <div class="prose">JCAP's "champion-challenger" optimization system continuously tests and refines collection strategies across its portfolio, routing each account to the approach (digital outreach, call center, legal channel, third-party placement) that maximizes expected recovery at the lowest cost. This process-driven approach has been refined over 23 years of iteration and is deeply embedded in the company's operations—it is not a technology that can be purchased or a team that can be hired. The founder-led culture under CEO David Burton ensures continuity and institutional knowledge retention. The compliance infrastructure—critical in a heavily regulated industry where a single misstep can result in $1M/day CFPB penalties—represents another dimension of process power: JCAP has maintained a clean regulatory track record over its entire 23-year history while scaling to nearly $1B in annual collections. The legal collection channel (up 44% in Q4) demonstrates the sophistication of JCAP's multi-channel process: the ability to optimize between litigation and non-litigation collection approaches on an account-by-account basis based on expected recovery, cost, and compliance risk.</div>
+</div>
+
+<div class="fw-summary">
+<strong>Summary:</strong> JCAP's competitive advantages are concentrated in cornered resources (23-year proprietary data, India co-sourcing, ~1,000bps cash efficiency edge) and process power (champion-challenger optimization, compliance culture, founder-led operations). These advantages are durable and difficult to replicate, but they operate within a moderately competitive industry structure where scale economies are limited to specific niches and brand/network effects are weak. The 7 Powers profile suggests a company with strong operational moats but limited structural barriers to entry—the edge comes from doing the same thing better over a longer period, not from a structural market position that prevents competition.
+</div>
+
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Threat of New Entrants</span><span class="fw-rating moderate">Moderate</span>
+  <div class="prose">Debt purchasing requires substantial upfront capital (portfolio purchases of $100M-$500M+), sophisticated pricing analytics, regulatory compliance infrastructure, and multi-channel collection operations—creating meaningful barriers to entry. However, private equity firms have repeatedly entered the market by acquiring or capitalizing new debt buying platforms, and hedge funds occasionally bid on portfolios as financial investments. The most significant barrier is the data and operational expertise needed to accurately price portfolios—a new entrant without historical performance data will systematically overpay for portfolios and generate inferior returns. The regulatory burden (FDCPA compliance, state licensing, CFPB oversight) also deters casual entrants. That said, the industry has seen new entrants funded by PE capital over the past decade, and the recent IPO wave (JCAP itself in 2025) suggests the market remains attractive to new capital. The net assessment is that entry is feasible with sufficient capital and expertise but not easy—the 23-year data advantage held by incumbents like JCAP is a genuine barrier that protects returns.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Bargaining Power of Suppliers</span><span class="fw-rating moderate">Moderate</span>
+  <div class="prose">JCAP's "suppliers" are the banks, retailers, telecom companies, and auto lenders that sell portfolios of charged-off receivables. These sellers are concentrated—the top 5 clients represented 45.2% of JCAP's deployments in FY2025 (improved from 55.3%)—giving individual sellers meaningful bargaining power in portfolio pricing negotiations. Large sellers like major banks can credibly threaten to sell exclusively to ECPG or PRAA, or to retain portfolios for internal recovery. However, supplier power is mitigated by several factors: (1) sellers benefit from maintaining multiple buyer relationships to ensure competitive pricing and execution certainty, (2) regulatory requirements incentivize banks to sell charged-off receivables to compliant purchasers with established track records, (3) forward flow agreements ($274M committed) formalize relationships and reduce seller switching, and (4) the event-driven acquisition channel (Conn's, Bluestem) involves distressed sellers with limited bargaining power. The net supplier power is moderate—sellers have options but JCAP's compliance reputation and pricing capability create meaningful retention.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Bargaining Power of Buyers</span><span class="fw-rating low">Low</span>
+  <div class="prose">JCAP's "buyers" in the Porter's framework are the consumers who owe the charged-off debt being collected. These consumers have minimal bargaining power in the traditional sense: the debt obligation exists regardless of which company owns it, and consumers generally cannot choose their debt collector or negotiate away the principal owed. Consumers do have certain legal protections under the FDCPA (dispute rights, contact restrictions, verification requirements) and can discharge debts through bankruptcy—but these are regulatory protections rather than market-based bargaining power. The consumer's primary leverage is the threat of non-payment or bankruptcy, which is already reflected in the deep discount at which JCAP purchases portfolios (approximately $0.03 on the dollar). The practical implication is that JCAP does not face demand-side pricing pressure from buyers—collection rates are driven by macroeconomic conditions, portfolio quality, and operational efficiency rather than buyer negotiations.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Threat of Substitutes</span><span class="fw-rating low">Low</span>
+  <div class="prose">There are limited substitutes for the debt purchasing and collection function that JCAP provides. Banks and originators that charge off consumer loans have three primary options: (1) sell the receivables to a purchaser like JCAP (the dominant approach), (2) retain the receivables and attempt internal recovery (expensive, non-core), or (3) outsource collection to a third-party servicer without selling the receivables (lower proceeds, ongoing operational burden). Option 1—portfolio sales—has become the industry standard because it provides immediate cash proceeds, removes the receivables from the seller's balance sheet, and eliminates ongoing regulatory and operational liability. There is no technology or process substitute that eliminates the need for someone to manage and collect charged-off consumer debt. Government programs, debt forgiveness initiatives, or regulatory changes could theoretically reduce the volume of collectible debt, but these represent political risks rather than market substitutes. The debt buying industry's function—converting delinquent receivables to cash—is essential to the consumer credit ecosystem.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Competitive Rivalry</span><span class="fw-rating moderate">Moderate</span>
+  <div class="prose">The US debt buying market operates as an oligopoly dominated by three major publicly traded players: JCAP, Encore Capital (ECPG), and Portfolio Recovery Associates (PRAA). This concentrated structure generally supports rational pricing—aggressive bidding that destroys returns would harm all participants, and the major players have demonstrated pricing discipline over time. Competition occurs primarily on portfolio pricing, execution speed, compliance reputation, and seller relationship depth. JCAP competes effectively through superior cash efficiency (74% vs. 61% ECPG, 58% PRAA), conservative leverage, and event-driven acquisition agility. Rivalry intensifies during periods of low charge-off supply (when fewer portfolios are available for purchase) and moderates during supply surges (current environment). International competition varies by market: Canada (JCAP is the largest buyer), UK (competitive with several European players), and Latin America (less developed, fewer competitors). The overall rivalry is characterized as rational oligopoly competition where the primary risk is not price wars but rather a new PE-backed entrant disrupting the disciplined pricing environment.</div>
+</div>
+
+<div class="fw-summary">
+<strong>Summary:</strong> The competitive environment is favorable for established debt buyers: low buyer power, low substitute threat, and moderate competitive rivalry in an oligopolistic structure support attractive industry economics. The primary structural risks are moderate supplier concentration (large bank sellers have options) and moderate new entrant threat (PE capital can fund new platforms). JCAP's position within this structure is strong—its operational efficiency edge, founder-led agility, and compliance track record create meaningful competitive advantages within an industry that structurally supports above-average returns on invested capital.
+</div>
+
+<!-- SECTION 6: WHAT DRIVES THE STOCK -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<ol class="num-list">
+  <li>
+    <strong>1. Portfolio Deployment Volume &amp; Pricing</strong>
+    <p class="prose">The single most important driver of JCAP's equity value is the volume and pricing of portfolio purchases. FY2025 deployments of $832M (+15%) and Q4's record $381M demonstrate the company's ability to source and price portfolios at scale. The $274M in committed forward flow agreements provide visibility into near-term deployment activity. Higher deployment volume at attractive purchase prices drives future ERC growth, which in turn drives future collections and revenue. The key variable is the spread between purchase price and expected collections—JCAP's 74% cash efficiency ratio is the best proxy for this spread. <em>Bullish: Supply surge drives $900M+ annual deployments at historically attractive pricing; ERC grows to $4B+. Bearish: Competition intensifies; pricing rises to levels that compress returns; deployment volume stalls at $700-800M.</em></p>
+  </li>
+
+  <li>
+    <strong>2. Collection Performance vs. ERC Curve</strong>
+    <p class="prose">ERC (Estimated Remaining Collections) of $3.4B represents the present value of expected future cash flows from owned portfolios. The critical metric is whether actual collections track, exceed, or fall below the ERC curve. FY2025 collections of $999M with $1.1B expected in the next 12 months provides the benchmark. Outperformance (actual collections exceeding ERC projections) creates positive earnings revisions and multiple expansion; underperformance raises questions about pricing model accuracy and portfolio quality. The Conn's and Bluestem acquisitions added significant ERC ($140M and $296M respectively) that will be tested against actual collections over the next 12-24 months. <em>Bullish: Collections consistently beat ERC projections; management raises ERC guidance; positive surprise cadence. Bearish: Collections miss ERC; model recalibration required; write-downs on recent acquisitions.</em></p>
+  </li>
+
+  <li>
+    <strong>3. Credit Cycle / Charge-off Supply</strong>
+    <p class="prose">The macroeconomic credit cycle determines the supply of purchasable receivables and the collection environment. US consumer charge-offs at $167.8B (+45% since 2019), rising Chapter 7 filings (+15% YoY), and depleted personal savings ($831B vs. $1.1T pre-pandemic) create a favorable supply environment for debt buyers. However, the same factors that increase supply (consumer distress) can also impair collection rates on existing portfolios in the short term. Management has noted that recessions are net positive medium-term (more supply at better prices) but negative short-term (lower collection rates for 12-18 months). <em>Bullish: Charge-offs continue rising; supply expansion supports favorable purchase pricing; collection rates remain stable. Bearish: Severe recession impairs collections -10-15%; JCAP never been public through downturn; short-term earnings hit overshadows medium-term benefit.</em></p>
+  </li>
+
+  <li>
+    <strong>4. J.C. Flowers Ownership Reduction / Float Improvement</strong>
+    <p class="prose">J.C. Flowers' 50.6% ownership creates an overhang that limits institutional participation, index inclusion eligibility, and analyst coverage incentives. The January 2026 follow-on offering reduced J.C. Flowers from ~60%+ to 50.6%, and additional reductions are expected over the next 12-24 months. Each tranche of secondary offering creates near-term selling pressure but medium-term improvement in float, institutional accessibility, and potential index inclusion (Russell 2000, S&amp;P SmallCap 600). The current 40.23% float is below thresholds that many institutional mandates require. <em>Bullish: J.C. Flowers reduces to 35-40% by year-end 2026; float expands to 55-60%; index inclusion catalyzes institutional demand. Bearish: Poorly timed secondary offerings create selling pressure; J.C. Flowers exit pace disappoints; stock underperforms during lockup expiration windows.</em></p>
+  </li>
+
+  <li>
+    <strong>5. Event-Driven Acquisitions (Conn's/Bluestem Model)</strong>
+    <p class="prose">JCAP's demonstrated ability to execute large, bilateral portfolio acquisitions at distressed prices creates optionality that is difficult to model but potentially highly valuable. The Conn's and Bluestem deals were unique to JCAP's capabilities—other debt buyers either lacked the capital, operational flexibility, or willingness to take on non-standard portfolios. The pipeline for similar deals is reportedly "the most active ever seen." Each successful event-driven acquisition adds ERC, collections, and earnings above and beyond the organic deployment trajectory. <em>Bullish: Additional Conn's/Bluestem-type deals at attractive pricing; performing portfolio pipeline converts to $200M+ in acquisitions. Bearish: Pipeline fails to convert; integration complexity on existing acquisitions creates operational drag; management overextends on next deal.</em></p>
+  </li>
+
+  <li>
+    <strong>6. Regulatory Environment</strong>
+    <p class="prose">The regulatory backdrop—CFPB enforcement posture, FDCPA interpretation, state-level regulations, and court system accessibility for legal collections—directly impacts JCAP's collection rates, operating costs, and risk profile. The legal collection channel grew 44% in Q4 with court costs up 86% to $17.7M, indicating JCAP is aggressively pursuing legal recovery strategies. Changes in CFPB leadership, new rulemaking on contact frequency or documentation requirements, or adverse court rulings could structurally impair collection rates. <em>Bullish: Stable regulatory environment; legal collection channel continues scaling; compliance reputation strengthens seller relationships. Bearish: Aggressive CFPB enforcement; new rules restrict contact methods or legal collections; state-level regulatory changes impair specific geographies.</em></p>
+  </li>
+</ol>
+
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<div class="sub-label">Revenue Decomposition</div>
+
+<table class="data">
+  <thead>
+    <tr>
+      <th>Revenue Line</th>
+      <th>Driver 1</th>
+      <th>Driver 2</th>
+      <th>Driver 3</th>
+      <th>FY2025 ($M)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Portfolio Revenue (US)</td>
+      <td>ERC Balance x Collection Rate</td>
+      <td>x Revenue Recognition %</td>
+      <td>+ Ancillary Income</td>
+      <td>$450M</td>
+    </tr>
+    <tr>
+      <td colspan="4" style="padding-left:20px;color:#666;">73.4% of total; largest purchaser of telecom/auto receivables; Conn's + Bluestem contributed; legal channel +44% QoQ</td>
+      <td style="color:#666;">+52.3% YoY</td>
+    </tr>
+    <tr>
+      <td>Canada (Canaccede)</td>
+      <td>ERC Balance x Collection Rate</td>
+      <td>x CAD/USD FX Rate</td>
+      <td></td>
+      <td>$72M</td>
+    </tr>
+    <tr>
+      <td colspan="4" style="padding-left:20px;color:#666;">11.7% of total; largest debt purchaser in Canada; diversified asset classes; stable regulatory environment</td>
+      <td style="color:#666;">+32.6% YoY</td>
+    </tr>
+    <tr>
+      <td>UK (ResolveCall/Moriarty)</td>
+      <td>ERC Balance x Collection Rate</td>
+      <td>x GBP/USD FX Rate</td>
+      <td></td>
+      <td>$51M</td>
+    </tr>
+    <tr>
+      <td colspan="4" style="padding-left:20px;color:#666;">8.3% of total; insolvency and debt management plans; FCA-regulated; modest contraction in FY25</td>
+      <td style="color:#666;">-3.0% YoY</td>
+    </tr>
+    <tr>
+      <td>Latin America (Refinancia)</td>
+      <td>ERC Balance x Collection Rate</td>
+      <td>x COP/USD FX Rate</td>
+      <td></td>
+      <td>$40M</td>
+    </tr>
+    <tr>
+      <td colspan="4" style="padding-left:20px;color:#666;">6.6% of total; Colombia-based; growing market; less competition; emerging middle-class consumer credit expansion</td>
+      <td style="color:#666;">+29.5% YoY</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="sub-label" style="margin-top:16px;">Key Operating Metrics &amp; Performance KPIs</div>
+
+<table class="data">
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th>Target/Guide</th>
+      <th>Commentary</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Total Collections ($M)</td>
+      <td>—</td>
+      <td>$585</td>
+      <td>$999</td>
+      <td>Growing</td>
+      <td>+71% YoY; Q4 record $245M; Conn's/Bluestem added</td>
+    </tr>
+    <tr>
+      <td>ERC ($B)</td>
+      <td>—</td>
+      <td>~$2.8</td>
+      <td>$3.4</td>
+      <td>Growing</td>
+      <td>Record; +23% YoY; $1.1B expected next 12mo; 58% through 2027</td>
+    </tr>
+    <tr>
+      <td>Deployments ($M)</td>
+      <td>—</td>
+      <td>~$720</td>
+      <td>$832</td>
+      <td>$600M+ annual</td>
+      <td>+15% YoY; Q4 record $381M; forward flows $274M</td>
+    </tr>
+    <tr>
+      <td>Cash Efficiency Ratio</td>
+      <td>—</td>
+      <td>~70%</td>
+      <td>74.0%</td>
+      <td>Maintain 70%+</td>
+      <td>69.7% ex-Conn's/Bluestem; ~1,000bps above peers</td>
+    </tr>
+    <tr>
+      <td>Net Leverage (x)</td>
+      <td>—</td>
+      <td>—</td>
+      <td>1.9x</td>
+      <td>2.0-2.5x target</td>
+      <td>Below target; $1B revolver upsized Oct 2025</td>
+    </tr>
+    <tr>
+      <td>Adj Pre-Tax ROE</td>
+      <td>—</td>
+      <td>—</td>
+      <td>44.8% (Q4)</td>
+      <td>Sustain 40%+</td>
+      <td>51.7% Q3; 58.4% Q2; normalizing post-IPO</td>
+    </tr>
+    <tr>
+      <td>Forward Flows ($M)</td>
+      <td>—</td>
+      <td>—</td>
+      <td>$274</td>
+      <td>Growing</td>
+      <td>Committed pipeline for ongoing portfolio purchases</td>
+    </tr>
+    <tr>
+      <td>Top 5 Client Concentration</td>
+      <td>—</td>
+      <td>55.3%</td>
+      <td>45.2%</td>
+      <td>Declining</td>
+      <td>Improving diversification of deployment sources</td>
+    </tr>
+    <tr>
+      <td>J.C. Flowers Ownership</td>
+      <td>—</td>
+      <td>~60%+</td>
+      <td>50.6%</td>
+      <td>Declining</td>
+      <td>Follow-on Jan 2026; systematic reduction expected</td>
+    </tr>
+    <tr>
+      <td>Revenue CAGR (2019-2025)</td>
+      <td colspan="2">—</td>
+      <td>27%</td>
+      <td>—</td>
+      <td>NOI CAGR 37%; NI CAGR 43%</td>
+    </tr>
+    <tr>
+      <td>Legal Channel Collections</td>
+      <td>—</td>
+      <td>—</td>
+      <td>+44% (Q4)</td>
+      <td>Growing</td>
+      <td>Court costs $17.7M (+86%); high-ROI recovery channel</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top: 12px;"><strong>Key insight:</strong> JCAP's business model is fundamentally simple: Revenue = ERC Balance x Collection Rate x Revenue Recognition. The company buys portfolios of charged-off consumer debt at approximately $0.03 on the dollar, models expected collections of approximately $0.10 on the dollar using 23 years of proprietary data, and retains approximately 74 cents of every dollar collected after operating expenses. The critical business drivers are: (1) ERC balance ($3.4B and growing), which represents the future cash flow embedded in owned portfolios; (2) collection rate performance, driven by macroeconomic conditions, operational efficiency, and the champion-challenger optimization process; and (3) deployment volume and pricing, which determine the growth trajectory of ERC. The 74% cash efficiency ratio is the operational "moat metric"—it measures how efficiently JCAP converts gross collections into pre-tax cash flow, and its ~1,000bps advantage over peers directly translates to higher returns on every dollar of deployed capital.</p>
+
+<p class="prose">The event-driven acquisition capability (Conn's, Bluestem) adds a second dimension of value creation: the ability to source large portfolios through bilateral negotiation at prices below competitive auction levels. This creates optionality that is absent from the base business model and represents a significant source of alpha. The combination of a high-efficiency organic deployment engine ($600M+ annually) with event-driven acquisition optionality ($200M-$500M per deal) creates a growth platform with multiple vectors of value creation—a profile that the market has not fully priced at 7.5x EV/EBITDA given the company's recent IPO and limited public track record.</p>
+
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+<strong>Earnings Transcripts &amp; Management Commentary</strong> · Date: April 1, 2026 · Sources: Q2 FY2025 Earnings Call, Q3 FY2025 Earnings Call, Q4 FY2025 Earnings Call, IPO Roadshow Presentation · Note: JCAP IPO'd June 2025; public track record limited to three quarterly earnings calls.
+</div>
+
+<div class="as-section">Competitive Moat &amp; Industry Structure</div>
+
+<div class="prose">
+JCAP's most formidable competitive moat is its 23-year proprietary pricing database covering 43M+ unique consumers across multiple asset classes (credit card, auto, telecom, utility) and four geographic markets. Management consistently emphasizes that this data advantage is the primary source of the company's industry-leading cash efficiency ratio: more accurate pricing models allow JCAP to bid more precisely on portfolios, avoiding both overpayment (which destroys returns) and underbidding (which loses deal flow). CEO David Burton has described the pricing model as "the single most important competitive asset" of the company, noting that it has been refined through every credit cycle since 2002 and incorporates performance data from every portfolio ever purchased. The oligopolistic structure of the US debt buying market (JCAP, ECPG, PRAA) supports rational pricing dynamics, though competition intensifies for the most attractive asset classes (auto finance, major bank credit card portfolios).
+</div>
+
+<div class="prose">
+The Mumbai co-sourcing operation—handling 17.2% of total collections—provides both cost advantage and scalability. Management has noted that the India operations can be scaled up or down with relatively short lead times, providing a variable cost lever that fixed-cost domestic competitors lack. The legal collection channel (up 44% in Q4) represents a growing portion of the collection strategy, with management describing it as a "high-ROI" approach despite the 86% increase in court costs to $17.7M—the implied return on legal investment significantly exceeds the cost, making it accretive to cash efficiency.
+</div>
+
+<div class="as-section">Management Quality &amp; Strategic Execution</div>
+
+<div class="prose">
+CEO David Burton founded Jefferson Capital in 2002 and has led the company through every stage of its growth, from a small regional debt buyer to a $1B+ market cap public company with operations in four countries. Burton's founder-operator status provides strategic continuity and institutional knowledge that is rare among publicly traded specialty finance companies. Management's execution on the Conn's and Bluestem acquisitions—sourced, diligenced, and closed within tight timelines during periods of seller distress—demonstrates the decision-making speed and operational confidence that founder-led companies can exercise. CFO Christo Realov has been instrumental in the IPO process, capital structure optimization, and financial reporting transition from private to public company requirements.
+</div>
+
+<div class="prose">
+The transition from private to public company governance is inherently challenging, and JCAP has navigated the first year with limited missteps. The J.C. Flowers follow-on offering in January 2026 was well-executed, reducing the PE overhang while raising market float. Management guidance has been conservative—the EPS normalization from the inflated $6.26 FY2025 figure (affected by partial-year tax treatment) to the $2.55-2.71 range was proactively communicated, avoiding the negative surprise that often accompanies recently-IPO'd companies. The dividend initiation at $0.24/quarter ($0.96 annualized, ~4.7% yield) signals management confidence in sustainable cash generation while providing income-oriented investors an incentive to hold through the PE overhang period.
+</div>
+
+<div class="as-section">Event-Driven Acquisition Strategy</div>
+
+<div class="prose">
+The Conn's and Bluestem acquisitions represent a strategic evolution from JCAP's core competency of purchasing nonperforming receivables at auction to serving as a liquidity provider for distressed originators. The Conn's portfolio ($225M for performing auto and retail receivables) was acquired when the retailer entered bankruptcy—a bilateral transaction at distressed pricing that traditional debt buyers were not positioned to execute because it involved performing (not charged-off) receivables requiring different servicing capabilities. The portfolio contributed $36M in collections in Q4 and $140M to ERC. The Bluestem deal ($303M gross/$196M net for $488M face value of credit card receivables) was sourced through a similar distressed-seller dynamic, with $296M in ERC and a sub-1-year half-life that generates rapid cash payback. Management's commentary that the performing portfolio pipeline is "the most active ever seen" post-Conn's suggests this capability is attracting additional deal flow from banks and retailers exploring portfolio monetization.
+</div>
+
+<div class="as-section">Most Misunderstood Aspects</div>
+
+<div class="prose">
+<strong>1. Cash efficiency advantage is structural, not cyclical.</strong> The 74% cash efficiency ratio (69.7% ex-acquisitions) reflects 23 years of operational refinement—proprietary data models, India co-sourcing, champion-challenger optimization—not a one-time favorable portfolio mix. Management has consistently maintained cash efficiency above 68% through various credit environments, suggesting the advantage is embedded in the operating model rather than dependent on market conditions.
+</div>
+
+<div class="prose">
+<strong>2. FY2025 EPS of $6.26 overstates normalized earnings.</strong> The headline EPS was inflated by partial-year tax treatment in the first year as a public company. Normalized EPS of $2.55-2.71 (reflecting a ~24.5% tax rate for FY2026 and beyond) is the correct baseline for valuation. Investors who anchor on the $6.26 figure and extrapolate will overestimate earnings power; those who recognize the normalization and use forward estimates ($2.71 FY26E, $2.77 FY27E) will correctly identify the 6.9x forward P/E as compelling.
+</div>
+
+<div class="prose">
+<strong>3. Recessions are medium-term positive for debt buyers.</strong> The conventional assumption that "recession = bad for debt collectors" is a misunderstanding of the industry's cyclical dynamics. While a severe recession reduces short-term collection rates (approximately -10% for up to 18 months), it simultaneously increases the supply of charged-off receivables and depresses portfolio purchase prices—creating better vintages that generate superior returns over their 5-7 year life. JCAP's conservative 1.9x leverage provides the financial flexibility to accelerate deployments during downturns when less-capitalized competitors retreat.
+</div>
+
+<div class="as-section">Key Long-Term Investor Questions</div>
+
+<ol class="num-list">
+<li><strong>Can JCAP sustain the 74% cash efficiency advantage as it scales?</strong> The critical question is whether the ~1,000bps efficiency edge over ECPG and PRAA is maintained as JCAP grows from ~$1B to ~$1.5B in annual collections. Scaling the Mumbai operations, integrating acquired portfolios (Conn's, Bluestem), and expanding the legal channel could either reinforce or dilute the efficiency advantage. Key metric: quarterly cash efficiency ratio trajectory.</li>
+
+<li><strong>How will J.C. Flowers exit and what is the timeline?</strong> The pace and method of J.C. Flowers' reduction from 50.6% to eventual minority or zero position will determine the cadence of selling pressure and float expansion. A rapid exit (block trades, accelerated offerings) creates short-term volatility but faster float improvement; a gradual exit (quarterly secondaries) extends the overhang period. Key metric: J.C. Flowers ownership percentage after each secondary offering.</li>
+
+<li><strong>What is the sustainable deployment run-rate and pricing environment?</strong> FY2025 deployments of $832M included $528M+ in event-driven acquisitions (Conn's + Bluestem). The normalized organic deployment run-rate may be closer to $500-600M annually. Understanding the sustainable cadence of both organic deployments and event-driven acquisitions is critical for ERC growth and earnings modeling. Key metric: quarterly deployment volume and forward flow commitment levels.</li>
+
+<li><strong>How will JCAP perform through its first public-market recession?</strong> The company has never reported quarterly earnings during an economic downturn. Investor confidence in management's assertion that recessions are "net positive medium-term" will only be tested when actual collection underperformance and ERC adjustments materialize. The stock's behavior during a recessionary environment is a genuine unknown.</li>
+</ol>
+
+<!-- SECTION 9: SENSITIVITIES -->
+<div class="memo-section">9. Sensitivities on Core Business Drivers</div>
+
+<div class="sens-title">Annual Collections ($M) — ERC Balance ($B) vs. Collection Rate (%)</div>
+<div class="sens-current">Current: ERC $3.4B, Collection Rate ~30% (implied from $999M FY25 collections). Higher ERC and higher collection rates drive collections growth.</div>
+<table class="sensitivity">
+  <tr>
+    <th>ERC ($B) \ Collection Rate</th>
+    <th>26%</th>
+    <th>28%</th>
+    <th>30%</th>
+    <th>32%</th>
+    <th>34%</th>
+  </tr>
+  <tr>
+    <td>$2.5B</td>
+    <td>650</td>
+    <td>700</td>
+    <td>750</td>
+    <td>800</td>
+    <td>850</td>
+  </tr>
+  <tr>
+    <td>$3.0B</td>
+    <td>780</td>
+    <td>840</td>
+    <td>900</td>
+    <td>960</td>
+    <td>1,020</td>
+  </tr>
+  <tr>
+    <td>$3.4B</td>
+    <td>884</td>
+    <td>952</td>
+    <td class="base">1,020</td>
+    <td>1,088</td>
+    <td>1,156</td>
+  </tr>
+  <tr>
+    <td>$3.8B</td>
+    <td>988</td>
+    <td>1,064</td>
+    <td>1,140</td>
+    <td>1,216</td>
+    <td>1,292</td>
+  </tr>
+  <tr>
+    <td>$4.2B</td>
+    <td>1,092</td>
+    <td>1,176</td>
+    <td>1,260</td>
+    <td>1,344</td>
+    <td>1,428</td>
+  </tr>
+</table>
+
+<div class="sens-title" style="margin-top:16px;">Adj Pre-Tax Income ($M) — Collections ($M) vs. Cash Efficiency (%)</div>
+<div class="sens-current">Current: ~$1,000M collections x ~31% pre-tax margin = ~$200M adj pre-tax income. Cash efficiency ratio drives the margin.</div>
+<table class="sensitivity">
+  <tr>
+    <th>Collections ($M) \ Cash Eff.</th>
+    <th>64%</th>
+    <th>67%</th>
+    <th>70%</th>
+    <th>73%</th>
+    <th>76%</th>
+  </tr>
+  <tr>
+    <td>$800M</td>
+    <td>134</td>
+    <td>152</td>
+    <td>170</td>
+    <td>188</td>
+    <td>206</td>
+  </tr>
+  <tr>
+    <td>$900M</td>
+    <td>151</td>
+    <td>171</td>
+    <td>191</td>
+    <td>211</td>
+    <td>232</td>
+  </tr>
+  <tr>
+    <td>$1,000M</td>
+    <td>168</td>
+    <td>190</td>
+    <td class="base">213</td>
+    <td>235</td>
+    <td>258</td>
+  </tr>
+  <tr>
+    <td>$1,100M</td>
+    <td>184</td>
+    <td>209</td>
+    <td>234</td>
+    <td>259</td>
+    <td>284</td>
+  </tr>
+  <tr>
+    <td>$1,200M</td>
+    <td>201</td>
+    <td>228</td>
+    <td>255</td>
+    <td>283</td>
+    <td>310</td>
+  </tr>
+</table>
+
+<div class="sens-title" style="margin-top:16px;">Implied Share Price ($) — FY2028E EBITDA ($M) vs. Exit EV/EBITDA (x)</div>
+<div class="sens-current">Assumes net debt ~$1.2B at FY2028 exit, ~55M shares. Current: $19.30.</div>
+<table class="sensitivity">
+  <tr>
+    <th>EBITDA \ Multiple</th>
+    <th>6.0x</th>
+    <th>7.0x</th>
+    <th>8.0x</th>
+    <th>9.0x</th>
+    <th>10.0x</th>
+  </tr>
+  <tr>
+    <td>$320M</td>
+    <td>$13</td>
+    <td>$19</td>
+    <td>$25</td>
+    <td>$31</td>
+    <td>$36</td>
+  </tr>
+  <tr>
+    <td>$360M</td>
+    <td>$17</td>
+    <td>$24</td>
+    <td>$31</td>
+    <td>$37</td>
+    <td>$44</td>
+  </tr>
+  <tr>
+    <td>$400M</td>
+    <td>$22</td>
+    <td>$29</td>
+    <td class="base">$36</td>
+    <td>$44</td>
+    <td>$51</td>
+  </tr>
+  <tr>
+    <td>$440M</td>
+    <td>$26</td>
+    <td>$35</td>
+    <td>$42</td>
+    <td>$50</td>
+    <td>$58</td>
+  </tr>
+  <tr>
+    <td>$480M</td>
+    <td>$31</td>
+    <td>$40</td>
+    <td>$48</td>
+    <td>$56</td>
+    <td>$65</td>
+  </tr>
+</table>
+
+<!-- SECTION 10: 3-YEAR MODEL — 5 SCENARIOS -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios</div>
+
+<p class="prose">All figures in $M unless stated. Modeled FY2026E-FY2028E. Exit valuation applied to FY2028E. Current share price: $19.30. Basic shares: ~55M. Net debt: $1,361M (1.9x leverage). Dividend: $0.96/share ($53M/year).</p>
+
+<div class="case-block">
+  <div class="case-name">Bear Severe — Recession Hammers Collections &amp; Regulatory Action</div>
+  <div class="fermi-narrative">
+    <div class="scenario-text">Severe recession reduces liquidation rates by 15%, regulatory enforcement (CFPB consent order) restricts legal collection channel, leverage spikes above 3x as EBITDA contracts and debt cannot be reduced. J.C. Flowers accelerates exit at depressed prices. Dividend cut to preserve cash. Multiple compresses to 6x on rising risk perception.</div>
+    <ul>
+      <li>Collections decline -15% from recession; collection rates impaired for 18 months</li>
+      <li>CFPB enforcement action restricts legal channel; court costs become liability</li>
+      <li>Leverage exceeds 3x; refinancing risk emerges on credit facility</li>
+      <li>J.C. Flowers forced secondary at depressed pricing creates selling pressure</li>
+      <li>Dividend cut to $0.48/share to preserve liquidity</li>
+    </ul>
+    <div class="reconcile">Path: Recession + regulatory shock → collection impairment → leverage spike → forced PE exit → dividend cut → equity value compressed</div>
+  </div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Collection Rate Change</span><span>-15%</span></div>
+  <div class="driver-row"><span>ERC Growth</span><span>Flat to declining</span></div>
+  <div class="driver-row"><span>Cash Efficiency</span><span>66%</span></div>
+  <div class="driver-row"><span>Net Debt (FY28)</span><span>$1,250M</span></div>
+  <table class="scenario-mini">
+    <tr><th></th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr>
+    <tr><td>Revenue</td><td>$580</td><td>550</td><td>530</td></tr>
+    <tr><td>EBITDA</td><td>285</td><td>265</td><td>250</td></tr>
+    <tr><td>EBIT</td><td>270</td><td>248</td><td>230</td></tr>
+    <tr><td>Net Income</td><td>100</td><td>80</td><td>65</td></tr>
+    <tr><td>EPS</td><td>$1.82</td><td>$1.45</td><td>$1.18</td></tr>
+    <tr><td>EBITDA Margin</td><td>49.1%</td><td>48.2%</td><td>47.2%</td></tr>
+    <tr><td>Collections ($M)</td><td>$900</td><td>830</td><td>790</td></tr>
+    <tr><td>Cash Efficiency</td><td>68%</td><td>67%</td><td>66%</td></tr>
+    <tr><td>Net Leverage</td><td>2.4x</td><td>2.8x</td><td>3.1x</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-line1"><span class="exit-price">$8</span><span class="exit-upside">-59% from current</span></div>
+    <div class="exit-line2"><span>Exit EV/EBITDA: 6.0x</span><span>Implied EV: $1,500M</span><span>Net Debt: $1,250M</span><span>Shares: 55M</span></div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bear Mild — Collections Flat, Deployment Competition, No Re-Rating</div>
+  <div class="fermi-narrative">
+    <div class="scenario-text">Collections stabilize near $1B but fail to grow meaningfully as deployment competition compresses portfolio purchase pricing. Cash efficiency declines modestly as peers close the operational gap. J.C. Flowers overhang persists; float remains limited. Market continues to apply IPO-discount and controlled-company discount. Stock is dead money.</div>
+    <ul>
+      <li>Collections flat at $1,000M; ERC growth stalls at $3.5-3.6B</li>
+      <li>Deployment competition from PE-backed entrants compresses returns</li>
+      <li>Cash efficiency declines to 70% as peers improve</li>
+      <li>J.C. Flowers still above 40%; float limited; no index inclusion</li>
+      <li>Multiple stuck at 6.5x; no re-rating catalyst</li>
+    </ul>
+    <div class="reconcile">Path: Stagnant collections → competitive compression → no float improvement → perpetual IPO discount → dead money</div>
+  </div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Collection Growth</span><span>Flat to +3%</span></div>
+  <div class="driver-row"><span>ERC Growth</span><span>+5% annual</span></div>
+  <div class="driver-row"><span>Cash Efficiency</span><span>70%</span></div>
+  <div class="driver-row"><span>Net Debt (FY28)</span><span>$1,150M</span></div>
+  <table class="scenario-mini">
+    <tr><th></th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr>
+    <tr><td>Revenue</td><td>$660</td><td>670</td><td>680</td></tr>
+    <tr><td>EBITDA</td><td>330</td><td>335</td><td>340</td></tr>
+    <tr><td>EBIT</td><td>315</td><td>318</td><td>322</td></tr>
+    <tr><td>Net Income</td><td>140</td><td>140</td><td>142</td></tr>
+    <tr><td>EPS</td><td>$2.55</td><td>$2.55</td><td>$2.58</td></tr>
+    <tr><td>EBITDA Margin</td><td>50.0%</td><td>50.0%</td><td>50.0%</td></tr>
+    <tr><td>Collections ($M)</td><td>$1,010</td><td>1,030</td><td>1,050</td></tr>
+    <tr><td>Cash Efficiency</td><td>71%</td><td>70%</td><td>70%</td></tr>
+    <tr><td>Net Leverage</td><td>2.0x</td><td>2.0x</td><td>1.9x</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-line1"><span class="exit-price">$14</span><span class="exit-upside">-27% from current</span></div>
+    <div class="exit-line2"><span>Exit EV/EBITDA: 6.5x</span><span>Implied EV: $2,210M</span><span>Net Debt: $1,150M</span><span>Shares: 55M</span></div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Base — Consensus Execution, ERC Grows to $4B+, Float Improves</div>
+  <div class="fermi-narrative">
+    <div class="scenario-text">JCAP executes on consensus expectations: collections grow to $1.1-1.2B as ERC expands to $4B+ through organic deployments and selective event-driven acquisitions. Cash efficiency sustained near 72-74%. J.C. Flowers reduces to ~35% by FY2028; float improves to 55%+. Analyst coverage expands from 7 to 10+. Modest re-rating from 7.5x toward peer multiples (8-9x).</div>
+    <ul>
+      <li>Collections grow to $1.15B; ERC reaches $4.0B+</li>
+      <li>Cash efficiency sustained at 72-74%; operational edge maintained</li>
+      <li>J.C. Flowers reduces to ~35%; float improves to 55%+; index inclusion possible</li>
+      <li>Leverage maintained at 1.8-2.0x; conservative posture preserved</li>
+      <li>Moderate re-rating as public track record extends; dividend maintained</li>
+    </ul>
+    <div class="reconcile">Path: ERC growth → collections growth → float improvement → institutional demand → modest re-rating to 7.0-7.5x EBITDA on FY28E basis</div>
+  </div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Collection Growth</span><span>+7-8% annual</span></div>
+  <div class="driver-row"><span>ERC Growth</span><span>+10% annual</span></div>
+  <div class="driver-row"><span>Cash Efficiency</span><span>73%</span></div>
+  <div class="driver-row"><span>Net Debt (FY28)</span><span>$1,100M</span></div>
+  <table class="scenario-mini">
+    <tr><th></th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr>
+    <tr><td>Revenue</td><td>$680</td><td>720</td><td>760</td></tr>
+    <tr><td>EBITDA</td><td>347</td><td>370</td><td>395</td></tr>
+    <tr><td>EBIT</td><td>324</td><td>350</td><td>375</td></tr>
+    <tr><td>Net Income</td><td>154</td><td>165</td><td>180</td></tr>
+    <tr><td>EPS</td><td>$2.80</td><td>$3.00</td><td>$3.27</td></tr>
+    <tr><td>EBITDA Margin</td><td>51.0%</td><td>51.4%</td><td>52.0%</td></tr>
+    <tr><td>Collections ($M)</td><td>$1,060</td><td>1,120</td><td>1,180</td></tr>
+    <tr><td>Cash Efficiency</td><td>73%</td><td>73%</td><td>73%</td></tr>
+    <tr><td>Net Leverage</td><td>1.9x</td><td>1.8x</td><td>1.7x</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-line1"><span class="exit-price">$25</span><span class="exit-upside">+30% from current</span></div>
+    <div class="exit-line2"><span>Exit EV/EBITDA: 7.5x</span><span>Implied EV: $2,963M</span><span>Net Debt: $1,100M</span><span>Shares: 55M</span></div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bull Mild — Supply Surge, Acquisitions Outperform, Float Improves</div>
+  <div class="fermi-narrative">
+    <div class="scenario-text">Charge-off supply surges further as consumer credit deterioration accelerates. JCAP deploys $900M+ annually at historically attractive pricing. Conn's and Bluestem outperform ERC projections. Cash efficiency sustained at 74%+. J.C. Flowers reduces to ~25% by FY2028; float expands to 65%+; Russell 2000 inclusion catalyzes demand. Market re-rates toward ECPG/PRAA multiples (8-10x).</div>
+    <ul>
+      <li>Collections grow to $1.4B+; ERC reaches $4.5B+</li>
+      <li>Event-driven acquisitions add $200M+ in annual deployment at distressed pricing</li>
+      <li>Cash efficiency maintained at 74%+ despite scale</li>
+      <li>J.C. Flowers reduces to ~25%; float 65%+; index inclusion achieved</li>
+      <li>Re-rating to 8.0-8.5x EV/EBITDA as public track record validates efficiency edge</li>
+    </ul>
+    <div class="reconcile">Path: Supply surge → accelerated deployment → ERC expansion → float improvement → index inclusion → re-rating toward peer multiples</div>
+  </div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Collection Growth</span><span>+12-15% annual</span></div>
+  <div class="driver-row"><span>ERC Growth</span><span>+15% annual</span></div>
+  <div class="driver-row"><span>Cash Efficiency</span><span>74%+</span></div>
+  <div class="driver-row"><span>Net Debt (FY28)</span><span>$900M</span></div>
+  <table class="scenario-mini">
+    <tr><th></th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr>
+    <tr><td>Revenue</td><td>$720</td><td>800</td><td>880</td></tr>
+    <tr><td>EBITDA</td><td>375</td><td>420</td><td>465</td></tr>
+    <tr><td>EBIT</td><td>355</td><td>400</td><td>445</td></tr>
+    <tr><td>Net Income</td><td>170</td><td>200</td><td>235</td></tr>
+    <tr><td>EPS</td><td>$3.09</td><td>$3.64</td><td>$4.27</td></tr>
+    <tr><td>EBITDA Margin</td><td>52.1%</td><td>52.5%</td><td>52.8%</td></tr>
+    <tr><td>Collections ($M)</td><td>$1,120</td><td>1,270</td><td>1,420</td></tr>
+    <tr><td>Cash Efficiency</td><td>74%</td><td>74%</td><td>74%</td></tr>
+    <tr><td>Net Leverage</td><td>1.7x</td><td>1.5x</td><td>1.3x</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-line1"><span class="exit-price">$35</span><span class="exit-upside">+81% from current</span></div>
+    <div class="exit-line2"><span>Exit EV/EBITDA: 7.5x</span><span>Implied EV: $3,488M</span><span>Net Debt: $900M</span><span>Shares: 55M</span></div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bull Severe — Market Dominance, PE Exit/Re-IPO, Multiple Re-Rates to 9x</div>
+  <div class="fermi-narrative">
+    <div class="scenario-text">JCAP establishes market dominance as the premier debt buyer with best-in-class efficiency, scale, and acquisition capability. J.C. Flowers completes exit; float reaches 90%+. Institutional ownership broadens; S&amp;P SmallCap 600 inclusion. Management executes transformative acquisition (international expansion or adjacent asset class). Market re-rates to 9-10x EV/EBITDA recognizing JCAP as the quality operator in the industry.</div>
+    <ul>
+      <li>Collections exceed $1.6B; ERC reaches $5.0B+</li>
+      <li>Transformative acquisition expands TAM or geography</li>
+      <li>Cash efficiency 75%+; operational edge widens vs. peers</li>
+      <li>J.C. Flowers fully exits; stock fully institutionalized</li>
+      <li>Multiple re-rates to 8.5-9.0x; potential takeout premium from PE or strategic</li>
+    </ul>
+    <div class="reconcile">Path: Market dominance → PE exit complete → institutional demand → multiple re-rate to 8.5x+ → potential strategic interest</div>
+  </div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Collection Growth</span><span>+18-20% annual</span></div>
+  <div class="driver-row"><span>ERC Growth</span><span>+20% annual</span></div>
+  <div class="driver-row"><span>Cash Efficiency</span><span>75%+</span></div>
+  <div class="driver-row"><span>Net Debt (FY28)</span><span>$800M</span></div>
+  <table class="scenario-mini">
+    <tr><th></th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr>
+    <tr><td>Revenue</td><td>$780</td><td>900</td><td>1,030</td></tr>
+    <tr><td>EBITDA</td><td>410</td><td>480</td><td>555</td></tr>
+    <tr><td>EBIT</td><td>390</td><td>460</td><td>535</td></tr>
+    <tr><td>Net Income</td><td>195</td><td>245</td><td>300</td></tr>
+    <tr><td>EPS</td><td>$3.55</td><td>$4.45</td><td>$5.45</td></tr>
+    <tr><td>EBITDA Margin</td><td>52.6%</td><td>53.3%</td><td>53.9%</td></tr>
+    <tr><td>Collections ($M)</td><td>$1,200</td><td>1,420</td><td>1,650</td></tr>
+    <tr><td>Cash Efficiency</td><td>75%</td><td>75%</td><td>75%</td></tr>
+    <tr><td>Net Leverage</td><td>1.5x</td><td>1.2x</td><td>1.0x</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-line1"><span class="exit-price">$50</span><span class="exit-upside">+159% from current</span></div>
+    <div class="exit-line2"><span>Exit EV/EBITDA: 8.5x</span><span>Implied EV: $4,718M</span><span>Net Debt: $800M</span><span>Shares: 55M</span></div>
+  </div>
+</div>
+
+<div class="case-chart">
+  <svg viewBox="0 0 700 200">
+    <line x1="80" y1="150" x2="660" y2="150" stroke="#ddd" stroke-width="1"/>
+    <line x1="80" y1="123" x2="660" y2="123" stroke="#f0f0f0" stroke-width="0.5" stroke-dasharray="4,3"/>
+    <line x1="80" y1="96" x2="660" y2="96" stroke="#f0f0f0" stroke-width="0.5" stroke-dasharray="4,3"/>
+    <line x1="80" y1="69" x2="660" y2="69" stroke="#f0f0f0" stroke-width="0.5" stroke-dasharray="4,3"/>
+    <line x1="80" y1="42" x2="660" y2="42" stroke="#f0f0f0" stroke-width="0.5" stroke-dasharray="4,3"/>
+    <text x="75" y="153" text-anchor="end" font-size="8" fill="#888">$0</text>
+    <text x="75" y="126" text-anchor="end" font-size="8" fill="#888">$15</text>
+    <text x="75" y="99" text-anchor="end" font-size="8" fill="#888">$30</text>
+    <text x="75" y="72" text-anchor="end" font-size="8" fill="#888">$45</text>
+    <text x="75" y="45" text-anchor="end" font-size="8" fill="#888">$55</text>
+    <line x1="80" y1="115" x2="660" y2="115" stroke="#1a1a2e" stroke-width="1.5" stroke-dasharray="6,4"/>
+    <text x="665" y="118" text-anchor="start" font-size="8" font-weight="600" fill="#1a1a2e">Current $19.30</text>
+    <rect x="110" y="136" width="80" height="14" rx="3" fill="#c0392b"/>
+    <text x="150" y="132" text-anchor="middle" font-size="10" font-weight="700" fill="#c0392b">$8</text>
+    <text x="150" y="165" text-anchor="middle" font-size="8" font-weight="600" fill="#c0392b">Bear Severe</text>
+    <text x="150" y="176" text-anchor="middle" font-size="8" fill="#888">-59%</text>
+    <rect x="225" y="124" width="80" height="26" rx="3" fill="#e67e22"/>
+    <text x="265" y="120" text-anchor="middle" font-size="10" font-weight="700" fill="#e67e22">$14</text>
+    <text x="265" y="165" text-anchor="middle" font-size="8" font-weight="600" fill="#e67e22">Bear Mild</text>
+    <text x="265" y="176" text-anchor="middle" font-size="8" fill="#888">-27%</text>
+    <rect x="340" y="105" width="80" height="45" rx="3" fill="#3498db"/>
+    <text x="380" y="101" text-anchor="middle" font-size="10" font-weight="700" fill="#3498db">$25</text>
+    <text x="380" y="165" text-anchor="middle" font-size="8" font-weight="600" fill="#3498db">Base</text>
+    <text x="380" y="176" text-anchor="middle" font-size="8" fill="#888">+30%</text>
+    <rect x="455" y="86" width="80" height="64" rx="3" fill="#27ae60"/>
+    <text x="495" y="82" text-anchor="middle" font-size="10" font-weight="700" fill="#27ae60">$35</text>
+    <text x="495" y="165" text-anchor="middle" font-size="8" font-weight="600" fill="#27ae60">Bull Mild</text>
+    <text x="495" y="176" text-anchor="middle" font-size="8" fill="#888">+81%</text>
+    <rect x="570" y="59" width="80" height="91" rx="3" fill="#16a085"/>
+    <text x="610" y="55" text-anchor="middle" font-size="10" font-weight="700" fill="#16a085">$50</text>
+    <text x="610" y="165" text-anchor="middle" font-size="8" font-weight="600" fill="#16a085">Bull Severe</text>
+    <text x="610" y="176" text-anchor="middle" font-size="8" fill="#888">+159%</text>
+    <text x="370" y="195" text-anchor="middle" font-size="9" fill="#888">Implied Share Price by Scenario — FY2028E Exit</text>
+  </svg>
+</div>
+
+<!-- SECTION 11: COMPARABLE COMPANIES -->
+<div class="memo-section">11. Comparable Companies</div>
+
+<div class="section-title">Selected Financials</div>
+<table class="comps">
+  <tr><th>Company</th><th>Ticker</th><th>Mkt Cap ($M)</th><th>EV ($M)</th><th>Sales FY1</th><th>EBITDA FY1</th><th>EBITDA Mgn</th><th>FCF</th></tr>
+  <tr class="subject"><td>Jefferson Capital</td><td>JCAP-US</td><td>$1,068</td><td>$2,429</td><td>$680</td><td>$347</td><td>51.0%</td><td>$173</td></tr>
+  <tr><td>Encore Capital Group</td><td>ECPG-US</td><td>$1,350</td><td>$4,800</td><td>$1,450</td><td>$580</td><td>40.0%</td><td>—</td></tr>
+  <tr><td>Portfolio Recovery Assoc.</td><td>PRAA-US</td><td>$1,100</td><td>$3,200</td><td>$1,100</td><td>$314</td><td>28.5%</td><td>—</td></tr>
+  <tr><td>B2Holding (Oslo)</td><td>B2H-NO</td><td>$850</td><td>$2,800</td><td>$680</td><td>$220</td><td>32.4%</td><td>—</td></tr>
+  <tr><td>Axactor (Oslo)</td><td>ACR-NO</td><td>$380</td><td>$1,600</td><td>$460</td><td>$167</td><td>36.3%</td><td>—</td></tr>
+  <tr class="stat-row"><td>Average</td><td></td><td></td><td></td><td></td><td></td><td>37.6%</td><td></td></tr>
+  <tr class="stat-row"><td>Median</td><td></td><td></td><td></td><td></td><td></td><td>36.3%</td><td></td></tr>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Valuation Multiples</div>
+<table class="comps">
+  <tr><th>Company</th><th>Ticker</th><th>P/Sales</th><th>EV/Sales</th><th>EV/EBITDA FY1</th><th>EV/EBITDA FY2</th><th>P/E FY1</th><th>P/E FY2</th><th>Div Yield</th></tr>
+  <tr class="subject"><td>Jefferson Capital</td><td>JCAP-US</td><td>1.6x</td><td>3.6x</td><td>7.5x</td><td>6.8x</td><td>6.9x</td><td>6.6x</td><td>3.7%</td></tr>
+  <tr><td>Encore Capital Group</td><td>ECPG-US</td><td>0.9x</td><td>3.3x</td><td>8.3x</td><td>7.8x</td><td>8.5x</td><td>7.9x</td><td>—</td></tr>
+  <tr><td>Portfolio Recovery Assoc.</td><td>PRAA-US</td><td>1.0x</td><td>2.9x</td><td>10.2x</td><td>9.5x</td><td>12.0x</td><td>10.8x</td><td>—</td></tr>
+  <tr><td>B2Holding (Oslo)</td><td>B2H-NO</td><td>1.3x</td><td>4.1x</td><td>12.7x</td><td>—</td><td>10.5x</td><td>—</td><td>4.2%</td></tr>
+  <tr><td>Axactor (Oslo)</td><td>ACR-NO</td><td>0.8x</td><td>3.5x</td><td>9.6x</td><td>—</td><td>9.0x</td><td>—</td><td>3.5%</td></tr>
+  <tr class="stat-row"><td>Average</td><td></td><td>1.1x</td><td>3.5x</td><td>9.7x</td><td>8.0x</td><td>9.4x</td><td>8.4x</td><td>3.8%</td></tr>
+  <tr class="stat-row"><td>Median</td><td></td><td>1.0x</td><td>3.5x</td><td>9.6x</td><td>8.7x</td><td>9.0x</td><td>9.4x</td><td>3.7%</td></tr>
+</table>
+
+<div class="prose" style="margin-top: 10px;">
+<strong>Comps Commentary:</strong> JCAP trades at the cheapest EV/EBITDA (7.5x) among global debt buyer peers despite industry-leading cash efficiency (74% vs. ~61% ECPG, ~58% PRAA) and the most conservative leverage (1.9x vs. 2.4x ECPG, 3.5x+ PRAA). The peer average EV/EBITDA of 9.7x and median of 9.6x imply 28-30% upside from multiple re-rating alone. The discount reflects three factors: (1) recent IPO (June 2025) with limited public track record—just three quarterly earnings calls, (2) J.C. Flowers' 50.6% ownership limiting float to 40.23% and restricting institutional participation, and (3) smaller scale vs. ECPG ($4.8B EV) and PRAA ($3.2B EV). JCAP's 51% EBITDA margin significantly exceeds the peer average of 37.6% and median of 36.3%, reflecting the operational efficiency advantage. The forward P/E of 6.9x is the cheapest in the set vs. ECPG (8.5x) and PRAA (12.0x). As float improves and the public track record extends through 2-3 additional earnings cycles, JCAP should trade toward peer multiples (8-10x EV/EBITDA), implying 15-30% upside from re-rating alone before accounting for any fundamental earnings growth. Named comps: JCAP (7.5x), ECPG (8.3x), PRAA (10.2x)—JCAP at a significant discount to both major US peers.
+</div>
+
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<div class="verdict">
+  <p><strong>(i) Market Cap Bucket: $1.07B</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">Small Cap ($1B-$5B). JCAP sits at the lower end of Theia's sweet spot—large enough for institutional quality (NASDAQ-listed, $2.4B enterprise value, $613M FY2025 revenue) but small enough to be overlooked by large-cap managers. The stock is at 81.1% of its 52-week high, suggesting the post-IPO honeymoon has faded and the current price reflects rationalized expectations rather than IPO enthusiasm. Daily trading volume of ~376K shares is adequate for gradual position-building but constrains rapid entry or exit. The $1.07B market cap combined with limited float (40.23%) means the effective investable market cap is only ~$430M—creating an even more constrained opportunity set.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(ii) Analyst Coverage: 7 Brokers (all Buy)</strong> <span class="fw-rating moderate">Moderate Fit</span></p>
+  <p style="margin-top:4px;">Seven broker analysts covering JCAP, all with Buy ratings and a consensus target of $26.57 (+38% upside). This coverage level is moderate—not the extreme under-coverage of DLX (3 analysts) but still below the 10-15 typical for a $1B+ market cap company, particularly one with the operational quality and growth profile that JCAP demonstrates. The all-Buy consensus and wide +38% upside to target suggest analysts are uniformly bullish, which reduces the potential for differentiated insight from primary research. The primary research opportunity lies in: (1) tracking J.C. Flowers secondary offering timing and pricing, (2) channel checks with debt sellers on JCAP's competitive positioning and pricing behavior, (3) monitoring the performing portfolio acquisition pipeline, and (4) analyzing collection rate trends relative to ERC projections. The 7-analyst coverage means the stock is not a "hidden gem" but retains enough information asymmetry to reward dedicated research effort.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iii) Thesis Alignment: Debt Buyer / Specialty Finance</strong> <span class="fw-rating moderate">Tangential</span></p>
+  <p style="margin-top:4px;">JCAP is a specialty finance company operating in consumer debt purchasing and collection. While it benefits from the broader digitization of financial services—digital collection channels, automated payment processing, data-driven pricing models—it is not a direct participant in internet finance, blockchain, or digital payments infrastructure. The company's technology advantage (proprietary pricing data, champion-challenger optimization, Mumbai co-sourcing) is applied to a traditional financial function (debt recovery) rather than creating new financial products or distribution channels. This is analogous to the ECPG assessment in previous Theia screens: relevant to financial services broadly but tangential to the core internet finance thesis. JCAP would not be classified as a fintech, digital bank, or payments company by any reasonable taxonomy. Rating: Tangential—benefits from financial digitization but no direct blockchain or internet finance component.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iv) Outcome Dispersion: $8 – $50</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">Wide approximately 6.3x spread driven by: (a) the credit cycle sensitivity of collection rates—a severe recession could impair collections by 15% while a supply surge could drive 20%+ collection growth, (b) the J.C. Flowers ownership overhang that creates both downside risk (poorly timed secondaries) and upside catalyst (float improvement, index inclusion), (c) the regulatory binary risk (CFPB enforcement could impair the legal collection channel or, conversely, stable regulation supports scaling), and (d) the event-driven acquisition optionality that is difficult to model but potentially worth $3-5/share if the Conn's/Bluestem playbook repeats. The current price ($19.30) sits between bear mild ($14) and base ($25), suggesting the market is pricing in moderate execution risk while discounting the bull case of float improvement and multiple re-rating.</p>
+</div>
+
+<div style="background: #fff3cd; border-left: 4px solid #856404; padding: 12px 14px; margin: 16px 0; font-size: 11.5px;">
+  <strong>VERDICT: MAYBE — Compelling Operational Edge but Limited Thesis Alignment</strong><br><br>
+  JCAP is operationally superior to publicly-traded debt buyer peers with industry-leading cash efficiency (74%, ~1,000bps above ECPG/PRAA) and conservative leverage (1.9x vs. 2.4x ECPG, 3.5x+ PRAA), trading at a meaningful discount (7.5x EV/EBITDA vs. 9.6x peer median) due to its recent IPO, J.C. Flowers overhang, and limited public track record. The 74% cash efficiency ratio is a durable competitive advantage built over 23 years of operational refinement. However, with 7 analysts already covering (moderate, not ideal for Theia's information asymmetry thesis), and only tangential alignment to the core internet finance thesis, JCAP is a strong value opportunity but not a core Theia name. The all-Buy consensus with +38% upside to target suggests limited differentiated insight potential from the sell-side alone. Worth monitoring for entry at $15-16 (bear case support at 52-week low region) or on J.C. Flowers lockup expiration selling pressure that creates temporary dislocation. <strong>Recommended: Watchlist with conditional entry; accumulate aggressively below $16; primary monitoring: quarterly cash efficiency ratio, J.C. Flowers ownership updates, ERC trajectory, and regulatory environment.</strong>
+</div>
+
+<p class="prose" style="font-size:10px; font-style:italic; margin-top:6px;">Note: Theia seeks small-cap companies that aren't well covered and are strongly aligned on the core internet finance thesis with wide outcome dispersion. JCAP scores: Market Cap &#10003; | Coverage ~&#10003; | Thesis Tangential &#10007; | Dispersion &#10003;</p>
+
+<!-- SECTION 13: RISK SUMMARY -->
+<div class="memo-section">13. Risk Summary</div>
+
+<table class="risk-table">
+  <tr><th>Risk Category</th><th>Description</th><th>Severity</th><th>Mitigant</th></tr>
+  <tr>
+    <td>Regulatory / CFPB</td>
+    <td>Consumer debt collection is heavily regulated under FDCPA. CFPB penalties range from $5K/day (negligent) to $1M/day (knowing). New rules on contact frequency, documentation, or fee structures could reduce collectability. Political shifts could bring aggressive enforcement cycles. The legal collection channel (44% growth, $17.7M court costs) is particularly exposed to judicial or regulatory pushback.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>23-year clean regulatory track record under founder leadership. Compliance-first culture embedded in operations. Multi-channel collection strategy reduces dependency on any single approach. Geographic diversification (UK, Canada, LatAm) provides regulatory diversification. Champion-challenger system can redirect accounts away from restricted channels.</td>
+  </tr>
+  <tr>
+    <td>J.C. Flowers Overhang</td>
+    <td>50.6% insider ownership limits float to 40.23%, restricting institutional participation, index inclusion, and analyst coverage incentives. Future secondary offerings create periodic selling pressure. "Controlled company" governance concerns. Timing and pricing of PE exit introduces unpredictable event-driven volatility.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>J.C. Flowers has been systematically reducing (60%+ to 50.6% via follow-on). PE exit is a known process with a predictable trajectory. Each secondary improves float and institutional accessibility. Management has executed the transition to public company governance smoothly. Dividend provides holding incentive for income investors during overhang period.</td>
+  </tr>
+  <tr>
+    <td>Recession / Collections</td>
+    <td>Severe recession could reduce liquidation rates by ~10-15% for up to 18 months. JCAP has never been public through a recession—investor behavior and management communication during a downturn are untested. Conn's and Bluestem portfolios concentrated in consumer auto and credit card receivables that are particularly recession-sensitive.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>Management notes recessions are net positive medium-term (more supply, better vintages). Conservative 1.9x leverage provides capacity to deploy during downturns when competitors retreat. 23-year operating history through multiple credit cycles (including 2008-09) provides data for stress-testing pricing models. Short-term earnings hit is the cost of long-term vintage improvement.</td>
+  </tr>
+  <tr>
+    <td>Leverage / Financial Risk</td>
+    <td>$1.41B total debt, D/E 296.8%. While net leverage (1.9x) is conservative by peer standards, a 20% EBITDA decline would reduce interest coverage from 3.01x to ~2.4x. Refinancing risk exists on the credit facility. Absolute debt level amplifies the impact of collection underperformance on equity value.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Net leverage 1.9x is below 2.0-2.5x target range and well below ECPG (2.4x) and PRAA (3.5x+). $1B revolving credit facility upsized Oct 2025 provides liquidity. Conservative leverage policy preserves capacity for counter-cyclical deployment. No near-term debt maturities threatening refinancing risk.</td>
+  </tr>
+  <tr>
+    <td>Integration / Operational</td>
+    <td>Conn's required onboarding 197 FTEs. Bluestem required servicer transition to CardWorks. Mumbai co-sourced operations (17.2% of collections) face geopolitical/disaster disruption risk. Rapid scaling through acquisitions could strain operational processes, compliance frameworks, and management bandwidth across 1,120 employees and 4 countries.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Founder-led management with 23 years of operational experience. Champion-challenger optimization system provides a structured framework for integrating new portfolios. Geographic diversification reduces single-point-of-failure risk. Conn's integration largely complete; Bluestem serviced by CardWorks reduces internal burden.</td>
+  </tr>
+  <tr>
+    <td>FX Exposure</td>
+    <td>26.6% of revenue derived from non-US operations (Canada, UK, Latin America) subject to CAD/USD, GBP/USD, and COP/USD exchange rate fluctuations. Currency depreciation in any of these markets reduces the USD value of collections and ERC.</td>
+    <td><span class="fw-rating low">Low</span></td>
+    <td>US remains dominant at 73.4% of revenue. International operations provide geographic diversification benefit that outweighs FX risk. Natural hedging from local-currency costs offsetting local-currency revenues. FX impact is second-order relative to collection rate and deployment volume drivers.</td>
+  </tr>
+</table>
+
+<!-- SECTION 14: APPENDIX -->
+<div class="memo-section">14. Appendix — Python Code</div>
+
+<p class="prose">Sensitivity table generator and scenario model code for analyst customization:</p>
+
+<div class="code-block"># JCAP Sensitivity Table Generator & 5-Case Model
+import numpy as np
+import pandas as pd
+
+def collections_sensitivity():
+    """Annual Collections ($M) — ERC Balance ($B) vs Collection Rate (%)"""
+    erc_balances = [2.5, 3.0, 3.4, 3.8, 4.2]  # $B
+    collection_rates = [26, 28, 30, 32, 34]      # %
+
+    results = []
+    for erc in erc_balances:
+        row = []
+        for rate in collection_rates:
+            collections = int(erc * 1000 * rate / 100)
+            row.append(collections)
+        results.append(row)
+
+    df = pd.DataFrame(results, index=erc_balances, columns=collection_rates)
+    df.index.name = 'ERC ($B)'
+    df.columns.name = 'Collection Rate (%)'
+    return df
+
+def pretax_income_sensitivity():
+    """Adj Pre-Tax Income ($M) — Collections ($M) vs Cash Efficiency (%)"""
+    collections = [800, 900, 1000, 1100, 1200]  # $M
+    cash_eff = [64, 67, 70, 73, 76]              # %
+    # Pre-tax margin approximated as (cash_eff - ~43% amortization) * collections
+    # Simplified: pre-tax income ~ collections * (cash_eff/100 - 0.43) * adjustment
+
+    results = []
+    for coll in collections:
+        row = []
+        for ce in cash_eff:
+            # Approximate pre-tax margin from cash efficiency
+            pretax_margin = (ce - 43) / 100  # rough approximation
+            income = int(coll * pretax_margin)
+            row.append(income)
+        results.append(row)
+
+    df = pd.DataFrame(results, index=collections, columns=cash_eff)
+    df.index.name = 'Collections ($M)'
+    df.columns.name = 'Cash Efficiency (%)'
+    return df
+
+def share_price_sensitivity():
+    """Implied Price — FY28E EBITDA ($M) vs EV/EBITDA (x)"""
+    ebitdas = [320, 360, 400, 440, 480]
+    multiples = [6.0, 7.0, 8.0, 9.0, 10.0]
+    shares = 55   # M basic
+    net_debt = 1200  # $M at FY28
+
+    results = []
+    for eb in ebitdas:
+        row = []
+        for m in multiples:
+            ev = eb * m
+            equity = ev - net_debt
+            price = int(max(0, equity / shares))
+            row.append(f"${price}")
+        results.append(row)
+
+    df = pd.DataFrame(results, index=ebitdas, columns=multiples)
+    df.index.name = 'FY28E EBITDA ($M)'
+    df.columns.name = 'Exit EV/EBITDA (x)'
+    return df
+
+def five_case_model():
+    """JCAP 5-Case Scenario Model"""
+    cases = {
+        'Bear Severe': {
+            'rev_28': 530, 'ebitda_28': 250, 'eps_28': 1.18,
+            'ev_eb': 6.0, 'shares': 55, 'net_debt': 1250,
+            'desc': 'Recession + regulatory action'
+        },
+        'Bear Mild': {
+            'rev_28': 680, 'ebitda_28': 340, 'eps_28': 2.58,
+            'ev_eb': 6.5, 'shares': 55, 'net_debt': 1150,
+            'desc': 'Flat collections, no re-rating'
+        },
+        'Base': {
+            'rev_28': 760, 'ebitda_28': 395, 'eps_28': 3.27,
+            'ev_eb': 7.5, 'shares': 55, 'net_debt': 1100,
+            'desc': 'Consensus execution, ERC $4B+'
+        },
+        'Bull Mild': {
+            'rev_28': 880, 'ebitda_28': 465, 'eps_28': 4.27,
+            'ev_eb': 7.5, 'shares': 55, 'net_debt': 900,
+            'desc': 'Supply surge, float improves'
+        },
+        'Bull Severe': {
+            'rev_28': 1030, 'ebitda_28': 555, 'eps_28': 5.45,
+            'ev_eb': 8.5, 'shares': 55, 'net_debt': 800,
+            'desc': 'Market dominance, PE exit, 9x re-rate'
+        },
+    }
+
+    current = 19.30
+    results = []
+    for name, p in cases.items():
+        ev = p['ebitda_28'] * p['ev_eb']
+        equity = ev - p['net_debt']
+        price = equity / p['shares']
+        upside = (price / current - 1) * 100
+
+        results.append({
+            'Case': name,
+            'FY28 Rev': f"${p['rev_28']}M",
+            'FY28 EBITDA': f"${p['ebitda_28']}M",
+            'FY28 EPS': f"${p['eps_28']:.2f}",
+            'Exit Multiple': f"{p['ev_eb']}x",
+            'Net Debt': f"${p['net_debt']}M",
+            'Implied Price': f"${price:.0f}",
+            'Upside': f"{upside:+.0f}%"
+        })
+
+    return pd.DataFrame(results)
+
+# Run all models
+print("=== Collections Sensitivity (ERC x Collection Rate) ===")
+print(collections_sensitivity())
+print("\n=== Pre-Tax Income Sensitivity (Collections x Cash Efficiency) ===")
+print(pretax_income_sensitivity())
+print("\n=== Share Price Sensitivity (EBITDA x Multiple) ===")
+print(share_price_sensitivity())
+print("\n=== 5-Case Model ===")
+print(five_case_model().to_string(index=False))
+</div>
+
+<p class="source-note">Generated by Claude | Data: FactSet, Company Filings, Earnings Transcripts | April 2026</p>
+
+</body>
+</html>
