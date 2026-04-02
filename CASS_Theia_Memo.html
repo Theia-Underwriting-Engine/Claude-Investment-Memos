@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cass Information Systems, Inc. | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 8px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child, table.comps td:nth-child(2) { text-align: left; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-style: italic; background: #fafbfc; font-weight: 600; border-top: 1px solid #eee; }
+table.comps th.est-col { color: #2563eb; }
+
+table.risk-table { font-size: 10px; width: 100%; margin: 8px 0; }
+table.risk-table th { text-align: left; font-weight: 600; padding: 4px 6px; background: #f4f6f9; border-bottom: 1px solid #ddd; }
+table.risk-table td { padding: 4px 6px; border-bottom: 1px solid #eee; vertical-align: top; }
+table.risk-table td:first-child { font-weight: 600; width: 25%; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.alphasense-box { background: #e8f4fd; border-left: 4px solid #2563eb; padding: 10px 14px; margin: 10px 0; font-size: 10px; line-height: 1.5; }
+
+.bull-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #155724; border-bottom: 1.5px solid #c3e6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #721c24; border-bottom: 1.5px solid #f5c6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+
+.bull-item, .bear-item { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Cass Information Systems, Inc. | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">Cass Information Systems, Inc. (NASDAQ: CASS) is a leading provider of integrated payment and information processing services for large manufacturing, distribution, and retail enterprises, disbursing over $94 billion annually on behalf of its clients. The company operates through two segments: Information Services, which provides freight audit and payment, facility expense management (utilities, waste, MRO), and B2B payment processing via the CassPay platform; and Banking Services, provided through its wholly owned subsidiary Cass Commercial Bank, which offers commercial lending, deposit services, and faith-based ministry lending. Cass's structural differentiation lies in its federally regulated financial holding company status — unlike pure-play SaaS competitors or freight audit firms, Cass physically executes fund movements through a closed-loop banking system, providing institutional stability and regulatory compliance that standard technology vendors cannot replicate.</p>
+
+<p class="prose">The company's most lucrative revenue stream is net interest income derived from approximately $1.2 billion in average non-interest-bearing payment float — funds that accumulate as Cass processes invoices before disbursing to vendors. This float is strategically invested in overnight instruments, high-grade securities, and commercial loans originated by the Bank. Net interest income surged 19.8% to $81.2 million in 2025, with net interest margin expanding to 3.83% from 3.42% in 2024. Direct processing fees ($66.1M) and financial fees ($40.4M) comprise the remainder of non-interest revenue. The company processes approximately 51 million invoices annually across 185 countries, with deeply embedded ERP integrations that create exceptionally high switching costs — former clients note that removing Cass requires complete recalibration of data bridges, servers, and internal stack architectures.</p>
+
+<p class="prose">Cass reported record profitability in FY2025: net income surged 83.2% to $35.1 million, diluted EPS climbed 87.8% to $2.61, ROE reached 14.98%, and ROA hit 1.43%. The company divested its non-core Telecom Expense Management (TEM) business for $18.0 million in June 2025 and acquired AcuAudit, an ocean and air freight audit platform, for $3.0 million. Key growth initiatives include "Amplify by Cass," a working capital solution bridging shipper-carrier payment terms; a partnership with Caspian for AI-driven tariff cost management; and TouchPoint, a cloud-based church management software serving 300+ clients with $200M+ in annual giving processed. The company has paid continuous quarterly dividends since 1934 and repurchased 617,415 shares for $26.0 million in 2025.</p>
+
+<p class="prose"><strong>Key facts:</strong> Founded 1906 (as Cass Commercial Bank) · Reorganized 1982 · Renamed to Cass Information Systems 2001 · Headquarters St. Louis, MO · CEO Martin H. Resch · CFO Michael J. Normile · Executive Chairman Eric H. Brunngraber · Employees ~860 (FY2025, down 5.4% YoY) · NASDAQ: CASS · Market Cap $572M · CUSIP 14808P109 · ISIN US14808P1093</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 2: FINANCIAL SUMMARY (FACTSET) -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Theia FactSet Summary</div>
+
+<div class="header">
+  <div>
+    <h1>Cass Information Systems, Inc.</h1>
+    <span class="ticker">CASS · NASDAQ · CUSIP 14808P109</span>
+  </div>
+  <div class="date">FactSet Snapshot · April 2, 2026</div>
+</div>
+
+<!-- Price Bar -->
+<div class="price-bar">
+  <div>
+    <span class="label">Price (Apr 1, 2026) </span>
+    <span class="price">$44.33</span>
+  </div>
+  <div><span class="label">1M </span><span class="chg">-1.3%</span></div>
+  <div><span class="label">3M </span><span class="chg pos">+9.3%</span></div>
+  <div><span class="label">6M </span><span class="chg pos">+13.2%</span></div>
+  <div><span class="label">YTD </span><span class="chg pos">+6.8%</span></div>
+  <div><span class="label">1Y </span><span class="chg pos">+2.1%</span></div>
+  <div><span class="label">52-Wk Range </span><span style="font-weight:600;">$36.07 – $47.42</span></div>
+</div>
+
+<!-- Key Stats + EV Bridge -->
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv" style="font-size:10px;">
+      <tr><td>Exchange / Ticker</td><td>NASDAQ · CASS</td></tr>
+      <tr><td>Price (Apr 1, 2026)</td><td>$44.33</td></tr>
+      <tr><td>Volume</td><td>60,750</td></tr>
+      <tr><td>30-Day Avg Volume</td><td>72,176</td></tr>
+      <tr><td>Float %</td><td>88.38%</td></tr>
+      <tr><td>Short Interest</td><td>2.20% of float / 4.3 days</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev" style="font-size:10px;">
+      <tr><td>Basic Shares (Common)</td><td>12.91M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">+ Stock Compensation</td><td style="font-size:9px;">0.15M</td></tr>
+      <tr><td>= Fully Diluted Shares</td><td>13.06M</td></tr>
+      <tr><td>Share Price</td><td>$44.33</td></tr>
+      <tr><td>= Fully Dil. Market Cap</td><td>$579M</td></tr>
+      <tr><td>− Cash &amp; Equivalents</td><td>($392.3M)</td></tr>
+      <tr><td>+ Pension Liabilities</td><td>$8.8M</td></tr>
+      <tr class="total"><td>= Enterprise Value</td><td>$195M</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- Current Valuation — horizontal 6x2 grid -->
+<div class="section-title">Current Valuation</div>
+<div style="border: 1px solid #eee; border-radius: 4px; margin-bottom: 8px;">
+  <div class="val-grid">
+    <div class="val-cell"><div class="val-label">Mkt Cap</div><div class="val-num">$572M</div><div class="val-sub">Basic shares</div></div>
+    <div class="val-cell"><div class="val-label">EV</div><div class="val-num">$195M</div><div class="val-sub">$392M cash, $9M pension</div></div>
+    <div class="val-cell"><div class="val-label">P/E (LTM)</div><div class="val-num">17.0x</div><div class="val-sub">NI $33.7M</div></div>
+    <div class="val-cell"><div class="val-label">EV/EBITDA (LTM)</div><div class="val-num">4.4x</div><div class="val-sub">EBITDA $44.3M</div></div>
+    <div class="val-cell"><div class="val-label">EV/Sales (LTM)</div><div class="val-num">0.9x</div><div class="val-sub">Rev $207M</div></div>
+    <div class="val-cell"><div class="val-label">P/S (LTM)</div><div class="val-num">2.8x</div><div class="val-sub">Rev $207M</div></div>
+  </div>
+  <div style="border-top: 1px solid #eee;">
+    <div class="val-grid">
+      <div class="val-cell"><div class="val-label">Fully Dil. Mkt Cap</div><div class="val-num">$579M</div><div class="val-sub">13.06M dil. shares</div></div>
+      <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">7.72%</div><div class="val-sub">FactSet estimate</div></div>
+      <div class="val-cell"><div class="val-label">Beta (3Y Adj)</div><div class="val-num">0.76</div><div class="val-sub">Low vol / defensive</div></div>
+      <div class="val-cell"><div class="val-label">Avg Analyst Rating</div><div class="val-num">OW</div><div class="val-sub">1 broker · 1.50</div></div>
+      <div class="val-cell"><div class="val-label">Cons. Target Price</div><div class="val-num">$50.00</div><div class="val-sub">+13% upside</div></div>
+      <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">Apr 16</div><div class="val-sub">Q1 2026</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Valuation Multiples Table -->
+<div class="section-title">Valuation Multiples</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Metric</th>
+      <th>5Yr Avg</th>
+      <th>Dec '23</th>
+      <th>Dec '24</th>
+      <th>Dec '25</th>
+      <th class="est" style="color:#2563eb;">Dec '26E</th>
+      <th class="est" style="color:#2563eb;">Dec '27E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">PRICE MULTIPLES</td></tr>
+    <tr><td>P/E</td><td>21.0x</td><td>20.7x</td><td>28.8x</td><td>17.7x</td><td class="est">15.8x</td><td class="est">12.7x</td></tr>
+    <tr><td>P/Sales</td><td>3.1x</td><td>2.9x</td><td>2.7x</td><td>2.7x</td><td class="est">2.8x</td><td class="est">2.7x</td></tr>
+    <tr><td>P/Book Value</td><td>2.5x</td><td>2.7x</td><td>2.4x</td><td>2.2x</td><td class="est">2.3x</td><td class="est">2.2x</td></tr>
+    <tr><td>P/FCF</td><td>19.2x</td><td>27.5x</td><td>18.1x</td><td>17.6x</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr class="section-row"><td colspan="7">EV MULTIPLES</td></tr>
+    <tr><td>EV/Sales</td><td>1.0x</td><td>1.2x</td><td>1.1x</td><td>—</td><td class="est">1.0x</td><td class="est">0.9x</td></tr>
+    <tr><td>EV/EBITDA</td><td>4.7x</td><td>6.1x</td><td>7.3x</td><td>—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>EV/EBIT</td><td>5.5x</td><td>6.9x</td><td>9.1x</td><td>—</td><td class="est">5.4x</td><td class="est">4.5x</td></tr>
+  </tbody>
+</table>
+
+<!-- Revenue Exposure -->
+<div class="section-title">Revenue Exposure (Dec '25 Actuals)</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Business Unit</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Segment</th><th>$M</th><th>% Rev</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Information Services</td><td>$155</td><td>80.3%</td><td>-7.2%</td></tr>
+        <tr><td>Banking Services</td><td>$38</td><td>19.7%</td><td>+35.9%</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>$207</td><td>100%</td><td>+2.7%</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:8px; color:#aaa; margin-top:4px;">Info Svcs includes processing fees ($66M), financial fees ($40M), NII from float. Banking includes commercial loans, deposits, faith-based lending.</p>
+  </div>
+  <div>
+    <div class="sub-label">By Geography</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Region</th><th>$M</th><th>% Rev</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>United States</td><td>$191</td><td>100%</td><td>-4.0%</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>$191</td><td>100%</td><td>-4.0%</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:8px; color:#aaa; margin-top:4px;">FactSet reports $191M US-sourced. Cass processes payments across 185 countries but revenue is 100% US-domiciled.</p>
+  </div>
+</div>
+
+<!-- Financials Table -->
+<div class="section-title">Financials</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">$M (Dec FY)</th>
+      <th>5Yr CAGR</th>
+      <th>Dec '23</th>
+      <th>Dec '24</th>
+      <th>Dec '25</th>
+      <th class="est" style="color:#2563eb;">Dec '26E</th>
+      <th class="est" style="color:#2563eb;">Dec '27E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">INCOME STATEMENT</td></tr>
+    <tr><td>Revenue</td><td>7.0%</td><td>$213</td><td>$202</td><td>$207</td><td class="est">$203</td><td class="est">$215</td></tr>
+    <tr><td>Gross Income</td><td>6.5%</td><td>$192</td><td>$176</td><td>$184</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Gross Margin %</td><td>91.5%</td><td>90.1%</td><td>87.1%</td><td>88.7%</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>EBITDA</td><td>0.9%</td><td>$42</td><td>$30</td><td>$44</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">EBITDA Margin %</td><td>—</td><td>19.6%</td><td>14.7%</td><td>21.4%</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>EBIT</td><td>3.6%</td><td>$37</td><td>$24</td><td>$37</td><td class="est">$37</td><td class="est">$44</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Operating Margin %</td><td>18.5%</td><td>17.6%</td><td>11.6%</td><td>18.7%</td><td class="est">18.0%</td><td class="est">20.4%</td></tr>
+    <tr><td>Net Income</td><td>4.3%</td><td>$30</td><td>$19</td><td>$31</td><td class="est">$37</td><td class="est">$44</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Net Margin %</td><td>15.1%</td><td>14.1%</td><td>9.2%</td><td>15.0%</td><td class="est">18.0%</td><td class="est">20.4%</td></tr>
+    <tr><td>EPS (Dil)</td><td>6.3%</td><td>$2.18</td><td>$1.42</td><td>$2.34</td><td class="est">$2.81</td><td class="est">$3.50</td></tr>
+    <tr class="section-row"><td colspan="7">CASH FLOW</td></tr>
+    <tr><td>Operating Cash Flow</td><td>-4.8%</td><td>$37</td><td>$39</td><td>$37</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>CapEx</td><td>23.1%</td><td>($14)</td><td>($9)</td><td>($6)</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Free Cash Flow</td><td>-7.0%</td><td>$23</td><td>$30</td><td>$32</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">FCF Margin %</td><td>17.0%</td><td>10.6%</td><td>15.1%</td><td>15.3%</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr class="section-row"><td colspan="7">BALANCE SHEET</td></tr>
+    <tr><td>Cash &amp; ST Investments</td><td>—</td><td>$372</td><td>$350</td><td>$392</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Total Assets</td><td>3.4%</td><td>$2,479</td><td>$2,395</td><td>$2,606</td><td class="est">$2,697</td><td class="est">$2,757</td></tr>
+    <tr><td>Total Debt</td><td>—</td><td>$8</td><td>$7</td><td>$5</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Shareholders' Equity</td><td>-1.4%</td><td>$230</td><td>$229</td><td>$243</td><td class="est">$243</td><td class="est">$248</td></tr>
+    <tr><td>BVPS</td><td>—</td><td>$16.92</td><td>$16.96</td><td>$18.81</td><td class="est">$19.52</td><td class="est">$20.62</td></tr>
+    <tr class="section-row"><td colspan="7">RETURNS &amp; LEVERAGE</td></tr>
+    <tr><td>ROE</td><td>12.4%</td><td>13.8%</td><td>8.1%</td><td>13.2%</td><td class="est">14.4%</td><td class="est">17.0%</td></tr>
+    <tr><td>Debt / Equity</td><td>2.7%</td><td>3.7%</td><td>3.2%</td><td>1.9%</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Dividend Per Share</td><td>—</td><td>$1.17</td><td>$1.21</td><td>$1.25</td><td class="est">$1.29</td><td class="est">$1.33</td></tr>
+    <tr><td>Dividend Yield</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="est">2.9%</td><td class="est">3.0%</td></tr>
+  </tbody>
+</table>
+
+<!-- Valuation Summary -->
+<div class="section-title">Valuation Summary</div>
+<p class="prose">Cass trades at 17.0x LTM P/E, 4.4x LTM EV/EBITDA, and 0.9x LTM EV/Sales — optically cheap but reflects the company's unique balance sheet structure where $392M of cash (from payment float invested through the bank) dramatically reduces enterprise value relative to equity market cap. The forward P/E compresses to 15.8x on Dec '26E and 12.7x on Dec '27E, implying 20%+ EPS growth driven by NIM expansion and operating leverage from AI-driven headcount reduction. The stock is up 6.8% YTD and 93% of its 52-week high, reflecting the market's pricing of record 2025 earnings and continued NIM tailwinds. The sole analyst covering CASS targets $50 (OW rated, +13% upside). The 0.76 beta and 2.9% dividend yield position this as a defensive, income-generating small-cap — appealing for Theia's mandate but creating limited near-term catalyst potential absent a freight recovery or data monetization inflection. The extremely low EV/Sales (<1x) is unusual and warrants attention: it means the market is effectively paying nothing for the Information Services business above the value of the banking franchise's investable float.</p>
+
+<div class="source-note">Source: FactSet snapshot export, April 2, 2026. Estimates reflect consensus of 1 broker contributor. FYE December.</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 3: BULL & BEAR CASES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Cases</div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Payment Float as a Hidden Rate Optionality Asset.</span> Cass generates ~$1.2 billion in average non-interest-bearing payment float that is invested through Cass Commercial Bank. With NIM expanding to 3.83% in 2025, every 25 bps of additional NIM translates to roughly $3M in incremental pre-tax income. If short-term rates remain elevated (or increase) and deposit costs continue declining from repricing, NIM could approach 4.0%+, driving net interest income above $85M and potentially pushing EPS toward $3.50+ in 2027. The float is structurally sticky — it exists because Cass holds enterprise payables between invoice approval and vendor payment — and costs nothing to fund, making it a zero-cost asset that generates significant earnings in any rate environment above zero.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">AI-Driven Operating Leverage.</span> Cass reduced average FTE headcount by 5.4% in 2025 while salary expenses grew only 0.4%, demonstrating that AI and automation investments (WasteVision, Matchpay, automated GL mapping) are delivering real productivity gains. If the company can continue to onboard new invoice volumes without proportional headcount additions, operating margins could expand from 18.7% toward 22-25% over the next 3 years. The combination of flat headcount + growing volumes + expanding NIM creates a powerful compounding dynamic that consensus estimates may underappreciate given only 1 broker covers the name.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Facility Dollar Volumes Accelerating.</span> Facility dollar volumes grew 14.7% in 2025, driven by data center construction, grid aging, and rising energy prices — secular tailwinds that are accelerating rather than decelerating. As hyperscalers expand data center footprints and utility infrastructure requires modernization, enterprise facility spend is growing structurally. Cass's consolidated Facility division (combining former Waste and Utility divisions) is well-positioned to capture this spend, and each incremental dollar of processed volume generates both processing fees and incremental float for the bank.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Data Monetization and Cass Freight Index.</span> Cass publishes the widely respected Cass Freight Index and sits on an unparalleled repository of anonymized global supply chain and macroeconomic data spanning decades of processing history. Former insiders describe this as one of the company's most glaring missed opportunities — management has been highly risk-averse regarding data commercialization due to conservative legal frameworks and privacy concerns. Any shift toward monetizing benchmarking analytics, selling anonymized data sets, or offering predictive supply chain intelligence would represent a high-margin, asset-light revenue stream with minimal incremental cost.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Amplify by Cass Working Capital Solution.</span> Amplify addresses a critical friction point in supply chain finance by allowing shippers to extend payment terms while providing carriers with early, stabilized cash flow. Management expects Amplify to significantly boost the average balance of payments in advance of funding, driving material financial fee revenue growth. If Amplify achieves meaningful adoption among Cass's large enterprise client base, it could simultaneously grow float balances (boosting NII) and generate direct financial fees — a dual revenue benefit that compounds the value of each new client relationship.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="bear-header">Bear Cases</div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Interest Rate Sensitivity Is a Double-Edged Sword.</span> Cass's record 2025 profitability was substantially driven by NIM expansion in a higher rate environment. If the Fed cuts rates materially (200+ bps), net interest income could decline 15-20%, erasing a significant portion of the earnings improvement. The company's asset-sensitive balance sheet means that falling short-term rates directly compress the spread earned on the $1.2B payment float. A return to the near-zero rate environment of 2020-2021 would be devastating for profitability, potentially cutting EPS by 40-50% from current levels.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Prolonged Freight Recession Suppresses Core Volumes.</span> Transportation invoice processing is Cass's legacy core business, and freight volumes have been depressed by a prolonged freight recession. Carrier consolidation and declining freight rates put downward pressure on both the number of invoices processed and the dollar value per invoice, directly impacting processing fees and financial fees. Until the freight cycle recovers, the Information Services segment's top line will remain constrained, with growth dependent on facility volumes and NIM expansion rather than organic freight volume growth.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Conservative Culture Limits Innovation and Growth.</span> Former insiders consistently describe Cass's culture as highly risk-averse — protecting downside but hindering aggressive technological innovation, data monetization, and software development. Management's reluctance to commercialize its vast data repositories, combined with overly passive marketing and sales approaches, allows flashier competitors (Trax Technologies, Intelligent Audit, Coupa, Loop) to control the industry narrative. Until leadership demonstrates willingness to aggressively invest in digital assets and modern user interfaces, the stock's upside remains tethered to interest rate cycles rather than organic technological expansion.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Credit Concentration and Bad Debt Risk.</span> Cass Commercial Bank's loan portfolio is heavily concentrated in faith-based ministries, national franchise restaurants, and privately held St. Louis metro businesses. The $7.8 million bad debt write-off in 2024 (related to Rubicon Technologies) highlighted the latent vulnerability inherent in paying supplier invoices before securing client reimbursement. A localized economic downturn or sector-specific pressure in these concentrated lending markets could disproportionately elevate non-performing assets and credit losses.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Minimal Analyst Coverage and Illiquidity.</span> With only 1 broker covering CASS and average daily volume of just 72,000 shares, the stock is thinly traded and poorly followed. This creates price discovery inefficiency that cuts both ways — while it creates alpha opportunities, it also means institutional investors face significant execution risk in building or exiting positions. The low coverage also means consensus estimates may be stale or based on limited information, making it harder to benchmark against the "market view" with confidence.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Scale Economies</span> <span class="fw-rating moderate">Moderate</span><br>
+  Cass processes 51 million invoices annually across 185 countries and disburses $94 billion in payments. This massive scale creates real cost advantages: the technology infrastructure to ingest, validate, audit, and pay invoices has high fixed costs but low marginal cost per incremental invoice. The 5.4% reduction in average FTEs in 2025 while maintaining volume growth demonstrates that AI and automation investments are delivering tangible operating leverage. However, the enterprise B2B expense management market is niche — Cass's TAM is bounded by the number of large enterprises outsourcing freight and facility payments — which limits the absolute ceiling on scale advantages compared to consumer-facing payment networks.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Network Effects</span> <span class="fw-rating weak">Weak</span><br>
+  Cass does not exhibit classic network effects. The platform does not become meaningfully more valuable to a shipper because more carriers are on the network (unlike a true two-sided marketplace). There is a modest indirect data network effect — the larger the volume of invoices processed, the richer the historical data repositories that train AI models for invoice extraction, audit accuracy, and fraud detection — but this is a relatively weak form of network effect that competitors could theoretically replicate with sufficient processing volume and time. The Cass Freight Index benefits from data breadth, but this is more accurately described as a cornered resource than a network effect.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Counter-Positioning</span> <span class="fw-rating strong">Strong</span><br>
+  Cass's ownership of a federally regulated commercial bank gives it a structural advantage that pure-play technology competitors and freight audit firms cannot replicate without obtaining their own banking charter — a multi-year, capital-intensive regulatory process that no technology startup would rationally pursue. Competitors like Trax Technologies, Intelligent Audit, and Coupa can provide software-based invoice processing, but they cannot physically execute fund movements through a closed-loop banking system. They must rely on third-party banks for payment execution, creating disjointed systems that large enterprise clients find inferior. Conversely, large banks like U.S. Bank have the payment capability but lack the specialized freight/facility audit technology and decades of processing expertise. Cass sits in a structural gap that neither pure tech nor pure banking competitors can economically close.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Switching Costs</span> <span class="fw-rating strong">Strong</span><br>
+  Once Cass is embedded in an enterprise's ERP and accounts payable workflow, switching is extraordinarily costly. The integration requires data bridges between the client's internal systems and Cass's processing platform, custom GL mapping configurations, and historical invoice archives. Former clients note that removing Cass requires "complete recalibration of data bridges, servers, and internal stack architectures." The processing of 51 million invoices per year creates a massive data dependency — clients rely on Cass for multi-year audit trails, vendor payment histories, and compliance documentation. No single client accounts for >10% of revenue, meaning the switching cost advantage is distributed across a broad, sticky client base rather than concentrated in a few relationships.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Branding</span> <span class="fw-rating moderate">Moderate</span><br>
+  Cass is universally recognized as a trusted, legacy bellwether in the B2B expense management industry. The Cass Freight Index is a widely cited macroeconomic indicator that confers brand authority in transportation and logistics. The company's 120-year operating history, uninterrupted dividend payments since 1934, and federally regulated banking status create powerful trust signals for enterprise clients in regulated industries. However, industry experts note that Cass's marketing and sales approach is overly passive — allowing flashier competitors to control the industry narrative — and the brand does not command a meaningful pricing premium over hypothetical equally-capable competitors. The brand facilitates customer retention more than it drives new logo acquisition.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">6. Cornered Resource</span> <span class="fw-rating strong">Strong</span><br>
+  Cass possesses the most comprehensive historical data repository in the freight and facility expense management industry — decades of processing data spanning billions of invoices across 185 countries. This data powers the Cass Freight Index (a macroeconomic bellwether cited by the Federal Reserve and major financial institutions), trains the company's AI models for invoice extraction and audit, and provides unmatched benchmarking capabilities. Emerging competitors lack the decades of processing history required to train effective AI models at comparable accuracy levels. The $1.2 billion non-interest-bearing payment float is itself a cornered resource — it exists because of Cass's position as the payment intermediary between enterprises and their vendors, and it cannot be replicated without achieving equivalent processing scale and banking infrastructure.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">7. Process Power</span> <span class="fw-rating moderate">Moderate</span><br>
+  Cass has developed sophisticated, deeply embedded processes for ingesting highly variable invoices from thousands of vendor formats, normalizing data across disparate ERP systems, and executing complex payment workflows that span multiple currencies and jurisdictions. The WasteVision platform's ability to automatically extract 50+ data fields from variable utility and waste invoices reflects decades of accumulated institutional knowledge about document formats, vendor billing practices, and exception handling. However, this process power is incrementally replicable — a well-funded competitor with sufficient engineering talent and time could eventually build comparable capabilities — and the company's conservative culture has occasionally slowed the adoption of new process improvements.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> Cass is a 3-power business with genuine strength in Counter-Positioning (banking charter + technology hybrid that neither pure tech nor pure banking competitors can match), Switching Costs (deep ERP integration and historical data dependency), and Cornered Resource (unmatched data repositories and $1.2B structural payment float). Scale Economies, Branding, and Process Power are moderate and supportive. Network Effects are weak. This is a solid competitive profile for a niche B2B processor — the combination of counter-positioning and switching costs creates a durable moat, though the conservative corporate culture may limit the company's ability to fully capitalize on its data advantages.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Threat of New Entrants</span> <span class="fw-rating low">Low</span><br>
+  Barriers to entry are formidable. A new entrant would need: (a) a banking charter or banking partnership to execute fund movements, (b) deep technological infrastructure for multi-format invoice ingestion and ERP integration, (c) regulatory compliance capabilities across multiple jurisdictions, (d) sufficient processing scale to generate the data repositories needed for accurate AI-driven auditing, and (e) a multi-year track record to earn the trust of Fortune 500 enterprise clients. The combination of banking regulation, technology complexity, and enterprise trust requirements makes de novo entry extremely difficult. The most likely competitive threat is horizontal expansion from existing payment processors or logistics technology platforms, not new entrants.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Bargaining Power of Suppliers</span> <span class="fw-rating low">Low</span><br>
+  Cass's primary cost inputs are personnel (salaried employees performing invoice processing and audit), technology infrastructure (servers, cloud services), and banking operational costs. None of these inputs are scarce or concentrated — the labor market for payment processing professionals is deep, technology infrastructure is commoditized, and banking operational costs are well-understood and stable. The company has demonstrated pricing power over its own cost base by reducing headcount 5.4% while growing volumes. Supplier power is structurally low for a financial holding company with a self-funded balance sheet and no dependency on external capital markets for its core processing operations.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Bargaining Power of Buyers</span> <span class="fw-rating moderate">Moderate</span><br>
+  Cass's clients are large enterprises (Fortune 500 manufacturers, distributors, retailers) with sophisticated procurement functions and significant negotiating leverage. However, buyer power is moderated by: (a) extreme switching costs once integrated, (b) no single client exceeding 10% of revenue, (c) the small cost of Cass's services relative to clients' total spend (processing fees on $94 billion of payments), and (d) the mission-critical nature of payment processing (clients cannot afford service disruption). The primary risk is pricing pressure on "gain share" audit arrangements as the industry shifts toward fixed transaction fees and SaaS subscription models, which could cap revenue per transaction even as volumes grow.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Threat of Substitutes</span> <span class="fw-rating moderate">Moderate</span><br>
+  Enterprise clients could theoretically bring payment processing in-house, but the complexity of multi-vendor, multi-modal invoice management across 185 countries makes this impractical for most organizations. The more realistic substitution threat comes from horizontal payment platforms (SAP Ariba, Coupa) that bundle invoice management with broader procurement suites, and from ERP-native AP automation features within SAP or Oracle. However, these substitutes lack Cass's closed-loop banking execution capability and specialized freight/facility audit expertise. AI-driven automation could lower barriers for new software entrants to offer "good enough" invoice processing, though the payment execution component remains difficult to replicate without a banking partner.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Competitive Rivalry</span> <span class="fw-rating moderate">Moderate</span><br>
+  The freight audit and B2B payment processing market is highly fragmented, with numerous small localized firms competing for regional accounts and a handful of national players (Cass, Trax Technologies, Intelligent Audit, U.S. Bank) competing for large enterprise contracts. Competitive intensity is moderate — pricing is stable in the large enterprise segment because switching costs protect incumbents, but new logo acquisition is competitive as multiple vendors pursue the same pool of large enterprises considering outsourcing. The shift from "gain share" to transaction-fee pricing models is reducing the revenue upside from audit-driven savings, potentially compressing margins for the entire industry. Industry growth is tied to secular outsourcing trends (positive) offset by freight recession headwinds (negative).</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> The competitive environment is moderately favorable for Cass. Low barriers to entry and low supplier power protect the franchise, while moderate buyer power, substitution risk, and competitive rivalry create manageable but real competitive pressures. The key structural advantage is that no competitor combines Cass's processing technology, banking execution capability, and decades of data at equivalent scale — making direct competitive displacement of existing client relationships unlikely, even as new logo competition remains intense.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 6: WHAT DRIVES THE STOCK? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<p class="prose">The following are the 6 variables that would move CASS's share price materially in the next 12 months. These are the metrics an analyst covering this name would build tracking models around.</p>
+
+<p class="prose"><strong>1. Net Interest Margin and Fed Funds Rate Trajectory.</strong> NIM expanded to 3.83% in 2025 (from 3.42% in 2024) and reached 3.93% in Q4 2025. With ~$1.2 billion in average non-interest-bearing float, every 10 bps of NIM change translates to ~$1.2M in annual pre-tax income. The single most impactful macro variable for CASS is the Fed Funds rate — if rates remain elevated, NIM could approach 4.0%+; if the Fed cuts aggressively, NIM compression could erase 20-30% of net interest income. <em>Bullish: rates stay at 4%+ through 2027. Bearish: 200+ bps of cuts compress NIM below 3.0%.</em></p>
+
+<p class="prose"><strong>2. Freight Volume Recovery.</strong> Transportation invoice processing is Cass's legacy core, and volumes have been depressed by a multi-year freight recession. The Cass Freight Index (which the company publishes) is the real-time tracker — any inflection in freight volumes and rates would directly boost processing fee revenue and financial fee revenue. <em>Bullish: freight cycle turns positive with shipment volumes up 5%+ and rates recovering. Bearish: continued carrier consolidation and volume stagnation.</em></p>
+
+<p class="prose"><strong>3. Facility Dollar Volume Growth.</strong> Facility volumes grew 14.7% in 2025, driven by data center construction and utility infrastructure spending. This is becoming the primary organic growth engine for the Information Services segment. Investors will monitor whether the double-digit facility growth rate is sustainable as hyperscaler CapEx cycles evolve. <em>Bullish: data center buildout sustains 10%+ facility volume growth. Bearish: CapEx cycle peaks and utility volumes normalize.</em></p>
+
+<p class="prose"><strong>4. Operating Leverage from AI/Automation Investments.</strong> The 5.4% headcount reduction in 2025 was a meaningful inflection point demonstrating that AI (WasteVision, Matchpay, automated ingestion) is delivering real productivity gains. Each quarter, the market will evaluate whether the company can continue to grow volumes while holding headcount flat or declining — this is the core driver of margin expansion from 18.7% operating margin toward 20%+. <em>Bullish: FTE count continues declining while volumes grow. Bearish: automation gains plateau and wage inflation returns.</em></p>
+
+<p class="prose"><strong>5. Capital Allocation and Buyback Pace.</strong> Cass has 874,970 shares remaining under its November 2025 buyback authorization (at a $42 average, ~$37M). With ~$32M of annual FCF and the common equity Tier 1 capital ratio at 15.1% (well above minimum), there is significant capacity for aggressive buybacks. At current prices, each $10M of repurchases reduces diluted share count by ~1.7%, directly accretive to EPS. <em>Bullish: accelerated buyback reduces share count 5%+ over 2 years. Bearish: management diverts capital to low-ROI acquisitions.</em></p>
+
+<p class="prose"><strong>6. Data Monetization Catalyst.</strong> The most speculative but potentially highest-impact driver is any move to commercialize Cass's proprietary data repositories — anonymized benchmarking analytics, supply chain intelligence, predictive freight indices. Former insiders describe this as the company's most glaring missed opportunity. Any announcement of a data-as-a-service product, a partnership with a data analytics platform, or a strategic review of the data asset would be a significant re-rating catalyst. <em>Bullish: management signals data monetization strategy. Bearish: continued conservative posture on data commercialization.</em></p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<p class="prose">Cass's revenue can be decomposed into its key economic drivers at the unit-economics level:</p>
+
+<table class="data" style="font-size:10px; margin-bottom:16px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Revenue Line</th>
+      <th style="text-align:left;">Driver 1</th>
+      <th style="text-align:left;">Driver 2</th>
+      <th style="text-align:left;">= Revenue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Processing Fees</strong></td>
+      <td># Invoices Processed (51M)</td>
+      <td>x Avg Fee/Invoice (~$1.30)</td>
+      <td>= ~$66M</td>
+    </tr>
+    <tr>
+      <td><strong>Financial Fees</strong></td>
+      <td>$ Payment Volume ($94B)</td>
+      <td>x Financial Fee Rate (~4.3 bps)</td>
+      <td>= ~$40M</td>
+    </tr>
+    <tr>
+      <td><strong>Net Interest Income</strong></td>
+      <td>Avg Float Balance (~$1.2B)</td>
+      <td>x Net Interest Margin (3.83%)</td>
+      <td>= ~$81M</td>
+    </tr>
+    <tr>
+      <td><strong>Banking Revenue</strong></td>
+      <td>Avg Loan Portfolio (~$800M)</td>
+      <td>x Loan Yield - Cost of Funds</td>
+      <td>= ~$38M segment rev</td>
+    </tr>
+    <tr>
+      <td><strong>TouchPoint</strong></td>
+      <td># Church Clients (300+)</td>
+      <td>x Avg SaaS + Payment Rev</td>
+      <td>= ~$3-5M (est.)</td>
+    </tr>
+    <tr style="font-weight:700; border-top:1px solid #ccc;">
+      <td><strong>Total Revenue</strong></td>
+      <td colspan="2">Processing + Financial + NII + Banking + Other</td>
+      <td>= $207M (FY2025)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose"><strong>Key driver quantification:</strong></p>
+<ul style="font-size: 11px; line-height: 1.7; color: #333; margin-left: 20px; margin-bottom: 10px;">
+  <li><strong>Processing Fees ($66M):</strong> 51M invoices x ~$1.30/invoice. Volume driven by enterprise outsourcing trends, freight cycle, and facility spend growth. Fee/invoice is relatively stable.</li>
+  <li><strong>Financial Fees ($40M):</strong> Tied to dollar volume of payments processed ($94B). Fee rate (~4.3 bps) under secular pressure from the shift to transaction fees from gain-share arrangements. FY2025 financial fees declined 5.1% despite volume growth.</li>
+  <li><strong>Net Interest Income ($81M, +19.8% YoY):</strong> The single largest revenue driver. Float balance ($1.2B avg) x NIM (3.83%). Every 25 bps of NIM change = ~$3M annual impact. Float balance growth depends on facility and freight dollar volumes; NIM depends on Fed Funds rate and deposit repricing.</li>
+  <li><strong>Banking ($38M segment rev):</strong> Commercial loans concentrated in faith-based, franchise restaurant, and St. Louis metro markets. Growing 36% YoY in FY2025, partially driven by NIM expansion flowing through the bank's asset base.</li>
+</ul>
+
+<p class="prose"><strong>Leverage analysis:</strong> The two highest-leverage drivers are: (1) <em>Net Interest Margin</em> — with $1.2B of zero-cost float, Cass is essentially a leveraged bet on interest rates. A 50 bps NIM expansion adds ~$6M pre-tax (~$0.35/share after tax), while a 50 bps compression subtracts the same. NIM is 2-3x more impactful on EPS than any processing volume change. (2) <em>Facility Dollar Volume Growth</em> — facility volumes grew 14.7% in 2025 and are the primary organic growth engine. Each 10% increase in facility dollar volumes grows float balances by approximately $50-70M (generating ~$2-3M of incremental NII) and adds processing and financial fee revenue. The combined NII + fee impact makes facility growth the most important controllable driver of total revenue.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+  <strong>AlphaSense Research Reports</strong> · Subject: Cass Information Systems, Inc. (CASS-US) · Reports Reviewed: Company Primer (Apr 2, 2026), Expert Call Deep Dive (Apr 2, 2026), FactSet Snapshot<br>
+  <em>Key themes synthesized from AlphaSense competitive intelligence, management commentary, expert calls, and industry research.</em>
+</div>
+
+<p class="prose"><strong>Structural Moat: Banking Charter as Competitive Fortress.</strong> The most important insight from the AlphaSense research is that Cass's competitive advantage is not simply "payment processing technology" but specifically the integration of technology with a federally regulated banking charter. This allows Cass to operate a closed-loop financial exchange system — ingesting invoices, auditing them, and physically executing payment through its own bank — that standard technology vendors cannot replicate. Expert calls consistently emphasize that this banking moat provides "institutional stability and regulatory compliance" that creates a fundamentally different competitive position than SaaS-only freight audit firms. The regulatory barrier (FDIC oversight, Federal Reserve supervision, capital requirements) makes it economically irrational for technology startups to pursue a similar integrated model.</p>
+
+<p class="prose"><strong>AI and Data: Massive Historical Advantage, Conservative Execution.</strong> Cass's decades of processing history across 51 million annual invoices create a proprietary data repository that trains AI models at accuracy levels that emerging competitors cannot match — "effective AI models require immense volumes of training data that emerging competitors simply lack." The WasteVision platform and Matchpay system demonstrate sophisticated AI deployment for invoice extraction and vendor reconciliation. However, former insiders reveal that management has been "highly risk-averse regarding data monetization" due to conservative legal frameworks and privacy concerns. The Cass Freight Index — cited by the Federal Reserve and financial institutions — represents an enormously valuable but under-commercialized data asset. Multiple expert calls identify data monetization as "one of the company's most glaring missed opportunities."</p>
+
+<p class="prose"><strong>Management and Culture: High Integrity, Innovation Bottleneck.</strong> The organization is defined by high integrity, conservative banking culture, and collaborative workforce dynamics (70% female U.S. employees, 53% female management, 11% voluntary turnover). CEO Martin Resch is described as a proven leader who "deeply understands the company's culture of conservative banking." However, this conservatism has a cost — former technical personnel describe "a historical lack of directed leadership specifically regarding the commercialization of internal data repositories." The company's marketing is described as "overly passive," allowing competitors to control the industry narrative despite Cass's superior capabilities. A key leadership transition is underway: Eric Giering was named President of Cass Commercial Bank in March 2026, succeeding the retiring Dwight Erdbruegger.</p>
+
+<p class="prose"><strong>Misunderstood Aspects: Not a Legacy Bank, Not a Tech Startup.</strong> The market misunderstands Cass by categorizing it as either "a stodgy legacy institution" or "a small community bank." In reality, Cass operates at the intersection of fintech, data analytics, and regulated banking in a way that creates structural advantages neither category possesses alone. The $1.2 billion non-interest-bearing float is often compared to bank deposits, but it is structurally different — it exists because of the payment processing relationship, not because of retail deposit-gathering — making it stickier and lower-cost than traditional bank funding. The extremely low EV/Sales ratio (<1x) suggests the market may be valuing the banking float while assigning minimal value to the Information Services technology platform.</p>
+
+<p class="prose"><strong>Key Investor Questions.</strong> Based on expert calls and earnings transcripts, the questions that would most sharpen conviction: (1) What is the sensitivity of net interest income to a 100 bps Fed Funds rate cut, and has management hedged any duration risk in the investment portfolio? (2) What is the Amplify by Cass pipeline — how many shippers are in onboarding, and what is the expected float balance contribution per client? (3) Has the board discussed a strategic review of the data assets, including potential partnerships with analytics platforms or data licensing arrangements? (4) What is the targeted FTE trajectory over the next 2 years — can AI continue driving 3-5% annual headcount reduction while growing volumes? (5) Is TouchPoint meeting its growth targets for the non-profit vertical, and what is the cross-sell conversion rate into Cass Commercial Bank faith-based lending?</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 9: SENSITIVITY ANALYSIS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Sensitivity Analysis</div>
+
+<!-- Sensitivity Table 1 -->
+<p class="prose"><strong>Net Interest Income ($M) — Avg Non-Interest-Bearing Float ($B) vs. Net Interest Margin (%)</strong></p>
+<p class="prose"><strong>Current: Float = $1.20B, NIM = 3.83% → NII = ~$81M</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Float ($B) / NIM</th>
+      <th>2.50%</th>
+      <th>3.00%</th>
+      <th>3.50%</th>
+      <th>3.83%</th>
+      <th>4.25%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$0.95B</td><td>$24</td><td>$29</td><td>$33</td><td>$36</td><td>$40</td></tr>
+    <tr><td>$1.10B</td><td>$28</td><td>$33</td><td>$39</td><td>$42</td><td>$47</td></tr>
+    <tr><td>$1.20B</td><td>$30</td><td>$36</td><td>$42</td><td class="base">$46</td><td>$51</td></tr>
+    <tr><td>$1.35B</td><td>$34</td><td>$41</td><td>$47</td><td>$52</td><td>$57</td></tr>
+    <tr><td>$1.50B</td><td>$38</td><td>$45</td><td>$53</td><td>$57</td><td>$64</td></tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 2 -->
+<p class="prose" style="margin-top:14px;"><strong>Total Revenue ($M) — Processing Fee Volume (M Invoices) vs. Avg Fee/Invoice ($)</strong></p>
+<p class="prose"><strong>Current: 51M invoices x $1.30/inv = $66M processing fees (as component of total revenue)</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Invoices (M) / Fee ($)</th>
+      <th>$1.10</th>
+      <th>$1.20</th>
+      <th>$1.30</th>
+      <th>$1.40</th>
+      <th>$1.50</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>42M</td><td>$46</td><td>$50</td><td>$55</td><td>$59</td><td>$63</td></tr>
+    <tr><td>47M</td><td>$52</td><td>$56</td><td>$61</td><td>$66</td><td>$71</td></tr>
+    <tr><td>51M</td><td>$56</td><td>$61</td><td class="base">$66</td><td>$71</td><td>$77</td></tr>
+    <tr><td>56M</td><td>$62</td><td>$67</td><td>$73</td><td>$78</td><td>$84</td></tr>
+    <tr><td>62M</td><td>$68</td><td>$74</td><td>$81</td><td>$87</td><td>$93</td></tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 3 -->
+<p class="prose" style="margin-top:14px;"><strong>Implied Share Price ($) — P/E Multiple (x) vs. FY2028E EPS ($)</strong></p>
+<p class="prose"><strong>Current: EPS = $3.50 (FY2027E est.) x P/E = 15x = $52.50 implied vs. $44.33 current</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>EPS / P/E Multiple</th>
+      <th>10x</th>
+      <th>13x</th>
+      <th>15x</th>
+      <th>18x</th>
+      <th>21x</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$2.25</td><td class="base" style="background:#f8d7da;">$22.50</td><td>$29.25</td><td>$33.75</td><td>$40.50</td><td>$47.25</td></tr>
+    <tr><td>$2.81</td><td>$28.10</td><td class="base" style="background:#fff3cd;">$36.53</td><td>$42.15</td><td>$50.58</td><td>$59.01</td></tr>
+    <tr><td>$3.50</td><td>$35.00</td><td>$45.50</td><td class="base">$52.50</td><td>$63.00</td><td>$73.50</td></tr>
+    <tr><td>$4.00</td><td>$40.00</td><td>$52.00</td><td>$60.00</td><td class="base" style="background:#d4edda;">$72.00</td><td>$84.00</td></tr>
+    <tr><td>$4.50</td><td>$45.00</td><td>$58.50</td><td>$67.50</td><td>$81.00</td><td class="base" style="background:#d4edda;">$94.50</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 10: 3-YEAR MODEL — 5 SCENARIOS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios</div>
+
+<p class="prose">All figures in $M unless stated. Modeled FY2026E, FY2027E, FY2028E (FYE December). Exit multiple applied to FY2028E EPS. Current share price: $44.33. Diluted shares: 13.06M (declining via buybacks). Net cash: $388M ($392M cash - $5M debt).</p>
+
+<!-- CASE 1: BEAR SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 1: Bear Severe — Rate Cuts + Freight Downturn Persists</div>
+  <div class="case-desc">Fed cuts 250+ bps by end of 2027; NIM compresses to 2.50%; freight recession deepens with carrier consolidation accelerating; facility volume growth stalls as data center CapEx cycle peaks; bad debt resurfaces from concentrated loan portfolio; headcount reductions insufficient to offset NII compression.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Fed begins aggressive cutting cycle; NIM compresses to 3.20%; freight volumes decline 5%; financial fees continue eroding. <strong>FY2027</strong> — NIM reaches 2.80%; net interest income drops below $60M; management cuts costs but operating deleverage takes hold; a credit event in the faith-based lending portfolio adds $3M+ in provisions. <strong>FY2028</strong> — Rate environment stabilizes near 2.5%; NIM floors at 2.50%; earnings reset permanently lower; stock drifts toward book value.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Net Interest Margin</span><span>2.50% (severe compression)</span></div>
+  <div class="driver-row"><span>Avg Float Balance</span><span>$1.05B (freight weakness)</span></div>
+  <div class="driver-row"><span>Invoice Volume Growth</span><span>-3% (declining)</span></div>
+  <div class="driver-row"><span>Operating Margin</span><span>12%</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>10x (bank-like distressed)</span></div>
+  <table class="scenario-mini">
+    <tr><td>$Revenue</td><td>FY2026E</td><td>FY2027E</td><td>FY2028E</td></tr>
+    <tr><td>Revenue</td><td>$190</td><td>$178</td><td>$172</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>-8%</td><td>-6%</td><td>-3%</td></tr>
+    <tr><td>EBIT</td><td>28</td><td>22</td><td>21</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Operating Margin %</td><td>15%</td><td>12%</td><td>12%</td></tr>
+    <tr><td>Net Income</td><td>22</td><td>17</td><td>16</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>12.8</td><td>12.5</td><td>12.2</td></tr>
+    <tr><td>EPS</td><td>$1.72</td><td>$1.36</td><td>$1.31</td></tr>
+    <tr><td>FCF</td><td>$25</td><td>$20</td><td>$18</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 10x FY2028E EPS of $1.31</div>
+    <div class="exit-price">Implied Share Price: $13.10</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: -70% from $44.33</div>
+  </div>
+</div>
+
+<!-- CASE 2: BEAR MILD -->
+<div class="case-block">
+  <div class="case-name">Case 2: Bear Mild — Moderate Rate Cuts + Sluggish Growth</div>
+  <div class="case-desc">Fed cuts 100 bps over 18 months; NIM compresses modestly to 3.20%; freight recovery stalls but facility volumes grow mid-single-digits; processing fee growth remains flat; conservative culture limits AI-driven margin expansion; EPS grows low-single-digits.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — NIM compresses to 3.50% as fixed-rate assets reprice lower; revenue flat at $203M; operating expenses well-controlled. <strong>FY2027</strong> — NIM stabilizes at 3.20%; modest freight recovery adds 2-3% invoice volume growth; facility volumes +5-7%; EPS growth resumes. <strong>FY2028</strong> — Steady-state: NIM 3.20%, low-single-digit revenue growth, operating margin 17-18%; Cass valued as a stable, yield-oriented small-cap.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Net Interest Margin</span><span>3.20% (moderate compression)</span></div>
+  <div class="driver-row"><span>Avg Float Balance</span><span>$1.15B (stable)</span></div>
+  <div class="driver-row"><span>Invoice Volume Growth</span><span>+2%</span></div>
+  <div class="driver-row"><span>Operating Margin</span><span>17%</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>13x</span></div>
+  <table class="scenario-mini">
+    <tr><td></td><td>FY2026E</td><td>FY2027E</td><td>FY2028E</td></tr>
+    <tr><td>Revenue</td><td>$200</td><td>$205</td><td>$210</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>-3%</td><td>+3%</td><td>+2%</td></tr>
+    <tr><td>EBIT</td><td>33</td><td>35</td><td>36</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Operating Margin %</td><td>17%</td><td>17%</td><td>17%</td></tr>
+    <tr><td>Net Income</td><td>26</td><td>28</td><td>29</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>12.7</td><td>12.3</td><td>12.0</td></tr>
+    <tr><td>EPS</td><td>$2.05</td><td>$2.28</td><td>$2.42</td></tr>
+    <tr><td>FCF</td><td>$28</td><td>$30</td><td>$31</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 13x FY2028E EPS of $2.42</div>
+    <div class="exit-price">Implied Share Price: $31.46</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: -29% from $44.33</div>
+  </div>
+</div>
+
+<!-- CASE 3: BASE CASE -->
+<div class="case-block">
+  <div class="case-name">Case 3: Base Case — Consensus: NIM Stable + Moderate Volume Growth</div>
+  <div class="case-desc">Fed holds rates near current levels or cuts modestly (50 bps); NIM stabilizes at 3.60-3.80%; facility volumes grow 8-10% annually; freight recovery begins in 2027; Amplify by Cass gains early traction; AI-driven headcount reductions continue; buybacks reduce share count 2-3% annually.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Revenue $203M per consensus; NIM stable at 3.70%; operating margin 18%; EPS $2.81 (+20% YoY). <strong>FY2027</strong> — Revenue $215M; freight recovery adds 3-5% transport volume growth; facility volumes +8%; NIM 3.65%; EPS $3.50. <strong>FY2028</strong> — Revenue $228M; operating margin approaches 20%; Amplify contributing measurably to float growth; EPS $3.85; buybacks accretive.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Net Interest Margin</span><span>3.60% (modest compression)</span></div>
+  <div class="driver-row"><span>Avg Float Balance</span><span>$1.30B (Amplify-driven growth)</span></div>
+  <div class="driver-row"><span>Invoice Volume Growth</span><span>+5%</span></div>
+  <div class="driver-row"><span>Operating Margin</span><span>20%</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>15x (historical average)</span></div>
+  <table class="scenario-mini">
+    <tr><td></td><td>FY2026E</td><td>FY2027E</td><td>FY2028E</td></tr>
+    <tr><td>$Revenue</td><td>$203</td><td>$215</td><td>$228</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>-2%</td><td>+6%</td><td>+6%</td></tr>
+    <tr><td>EBIT</td><td>37</td><td>42</td><td>46</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Operating Margin %</td><td>18%</td><td>20%</td><td>20%</td></tr>
+    <tr><td>Net Income</td><td>36</td><td>42</td><td>46</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>12.7</td><td>12.3</td><td>12.0</td></tr>
+    <tr><td>EPS</td><td>$2.81</td><td>$3.41</td><td>$3.83</td></tr>
+    <tr><td>FCF</td><td>$33</td><td>$38</td><td>$42</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 15x FY2028E EPS of $3.83</div>
+    <div class="exit-price">Implied Share Price: $57.45</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +30% from $44.33</div>
+  </div>
+</div>
+
+<!-- CASE 4: BULL MILD -->
+<div class="case-block">
+  <div class="case-name">Case 4: Bull Mild — Freight Recovery + AI Margin Inflection</div>
+  <div class="case-desc">Freight cycle turns positive; NIM stays above 3.80% as rates remain elevated; AI drives 7%+ cumulative headcount reduction by 2028; Amplify onboards 15+ large enterprise clients; facility volumes grow 12%+; operating margins expand to 22-24%; data monetization discussions begin.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — NIM holds at 3.80%; Amplify generates $30M+ in incremental float; freight volumes inflect positive; AI-driven FTE reductions continue; EPS $3.10. <strong>FY2027</strong> — Revenue $230M; freight recovery in full swing; facility volumes +12%; operating margin hits 22%; board announces strategic review of data assets; EPS $4.00. <strong>FY2028</strong> — Revenue $250M; operating margin 24%; data monetization pilot generates first revenue; buybacks aggressive; EPS $4.75.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Net Interest Margin</span><span>3.85% (stable/expanding)</span></div>
+  <div class="driver-row"><span>Avg Float Balance</span><span>$1.45B (Amplify + freight recovery)</span></div>
+  <div class="driver-row"><span>Invoice Volume Growth</span><span>+8%</span></div>
+  <div class="driver-row"><span>Operating Margin</span><span>24%</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>18x (re-rating on growth)</span></div>
+  <table class="scenario-mini">
+    <tr><td></td><td>FY2026E</td><td>FY2027E</td><td>FY2028E</td></tr>
+    <tr><td>$Revenue</td><td>$212</td><td>$232</td><td>$252</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+2%</td><td>+9%</td><td>+9%</td></tr>
+    <tr><td>EBIT</td><td>41</td><td>51</td><td>60</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Operating Margin %</td><td>19%</td><td>22%</td><td>24%</td></tr>
+    <tr><td>Net Income</td><td>39</td><td>48</td><td>56</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>12.5</td><td>12.0</td><td>11.6</td></tr>
+    <tr><td>EPS</td><td>$3.12</td><td>$4.00</td><td>$4.83</td></tr>
+    <tr><td>FCF</td><td>$37</td><td>$44</td><td>$52</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 18x FY2028E EPS of $4.83</div>
+    <div class="exit-price">Implied Share Price: $86.94</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +96% from $44.33</div>
+  </div>
+</div>
+
+<!-- CASE 5: BULL SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 5: Bull Severe — Data Monetization + Strategic Premium</div>
+  <div class="case-desc">Cass launches data-as-a-service product leveraging Freight Index and proprietary supply chain data; NIM stays above 4.0% as rates remain high; Amplify becomes a major growth driver; operating margins exceed 25%; company attracts acquisition interest from large payment processors or financial data companies (ICE, S&amp;P, Verisk); activist investor pushes for unlocking data value.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — NIM expands to 4.0% as deposit costs continue declining; Amplify scales rapidly; management announces data analytics partnership generating $5M+ in new high-margin revenue; activist investor takes 5% position. <strong>FY2027</strong> — Data monetization grows to $15M ARR; total revenue $245M; operating margin 25%; strategic suitors begin exploring acquisition; stock re-rates to 20x+ P/E. <strong>FY2028</strong> — Revenue $275M; data products contribute $25M+; operating margin 27%; EPS $5.50+; potential acquisition at premium to intrinsic value.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Net Interest Margin</span><span>4.10% (expanding)</span></div>
+  <div class="driver-row"><span>Avg Float Balance</span><span>$1.55B (Amplify at scale)</span></div>
+  <div class="driver-row"><span>Data Monetization Revenue</span><span>$25M (new stream)</span></div>
+  <div class="driver-row"><span>Operating Margin</span><span>27%</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>21x (data + strategic premium)</span></div>
+  <table class="scenario-mini">
+    <tr><td></td><td>FY2026E</td><td>FY2027E</td><td>FY2028E</td></tr>
+    <tr><td>$Revenue</td><td>$220</td><td>$248</td><td>$278</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+6%</td><td>+13%</td><td>+12%</td></tr>
+    <tr><td>EBIT</td><td>46</td><td>62</td><td>75</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Operating Margin %</td><td>21%</td><td>25%</td><td>27%</td></tr>
+    <tr><td>Net Income</td><td>44</td><td>58</td><td>70</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>12.4</td><td>11.8</td><td>11.3</td></tr>
+    <tr><td>EPS</td><td>$3.55</td><td>$4.92</td><td>$6.19</td></tr>
+    <tr><td>FCF</td><td>$42</td><td>$55</td><td>$65</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 21x FY2028E EPS of $6.19</div>
+    <div class="exit-price">Implied Share Price: $129.99</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +193% from $44.33</div>
+  </div>
+</div>
+
+<!-- SVG Bar Chart -->
+<div class="case-chart">
+  <p style="font-size:9px; font-weight:600; margin-bottom:8px;">Implied Share Price by Scenario (FY2028E Exit) vs. Current Price $44.33</p>
+  <svg viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg" style="width:100%; font-family:Inter,Arial,sans-serif;">
+    <!-- Axes -->
+    <line x1="80" y1="20" x2="80" y2="220" stroke="#ccc" stroke-width="1"/>
+    <line x1="80" y1="220" x2="680" y2="220" stroke="#ccc" stroke-width="1"/>
+    <!-- Y-axis labels (scale: $1 = 1.4px, max ~$140) -->
+    <text x="75" y="224" text-anchor="end" font-size="9" fill="#888">$0</text>
+    <text x="75" y="182" text-anchor="end" font-size="9" fill="#888">$30</text>
+    <text x="75" y="140" text-anchor="end" font-size="9" fill="#888">$60</text>
+    <text x="75" y="98" text-anchor="end" font-size="9" fill="#888">$90</text>
+    <text x="75" y="56" text-anchor="end" font-size="9" fill="#888">$120</text>
+    <!-- Gridlines -->
+    <line x1="80" y1="182" x2="680" y2="182" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="140" x2="680" y2="140" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="98" x2="680" y2="98" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="56" x2="680" y2="56" stroke="#eee" stroke-width="0.5"/>
+    <!-- Bar scale: $1 = 1.4px -->
+    <!-- Bear Severe: $13.10 -> height 18.3px -->
+    <rect x="110" y="201.7" width="80" height="18.3" fill="#2563eb"/>
+    <text x="150" y="197" text-anchor="middle" font-size="9" fill="#333">$13.10</text>
+    <text x="150" y="234" text-anchor="middle" font-size="8" fill="#555">Bear Severe</text>
+    <!-- Bear Mild: $31.46 -> height 44px -->
+    <rect x="220" y="176" width="80" height="44" fill="#2563eb"/>
+    <text x="260" y="172" text-anchor="middle" font-size="9" fill="#333">$31.46</text>
+    <text x="260" y="234" text-anchor="middle" font-size="8" fill="#555">Bear Mild</text>
+    <!-- Base: $57.45 -> height 80.4px -->
+    <rect x="330" y="139.6" width="80" height="80.4" fill="#2563eb"/>
+    <text x="370" y="135" text-anchor="middle" font-size="9" fill="#333">$57.45</text>
+    <text x="370" y="234" text-anchor="middle" font-size="8" fill="#555">Base Case</text>
+    <!-- Bull Mild: $86.94 -> height 121.7px -->
+    <rect x="440" y="98.3" width="80" height="121.7" fill="#2563eb"/>
+    <text x="480" y="94" text-anchor="middle" font-size="9" fill="#333">$86.94</text>
+    <text x="480" y="234" text-anchor="middle" font-size="8" fill="#555">Bull Mild</text>
+    <!-- Bull Severe: $130.00 -> height 182px -->
+    <rect x="550" y="38" width="80" height="182" fill="#2563eb"/>
+    <text x="590" y="34" text-anchor="middle" font-size="9" fill="#333">$130.00</text>
+    <text x="590" y="234" text-anchor="middle" font-size="8" fill="#555">Bull Severe</text>
+    <!-- Current price line: $44.33 = 62.1px from bottom -> y = 220 - 62.1 = 157.9 -->
+    <line x1="80" y1="157.9" x2="680" y2="157.9" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="685" y="161" font-size="9" fill="#e74c3c">$44.33 (Current)</text>
+    <!-- Prob-wtd: $57.68 -> y = 220 - 80.8 = 139.2 -->
+    <line x1="80" y1="139.2" x2="680" y2="139.2" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="3,2"/>
+    <text x="685" y="143" font-size="8" fill="#f39c12">$57.68 Prob-Wtd</text>
+  </svg>
+  <p style="font-size:8px; color:#888; margin-top:4px;">Probability weights: 5% / 20% / 50% / 20% / 5% · Prob-wtd avg: 5%×$13.10 + 20%×$31.46 + 50%×$57.45 + 20%×$86.94 + 5%×$130.00 = $57.68 · Current: $44.33 · Implied upside: +30%</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 11: COMPS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">11. Comparable Companies</div>
+
+<div class="section-title">Selected Financials — Payments / Networks Peers</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>Price</th>
+      <th>Mkt Cap ($M)</th>
+      <th>EV ($M)</th>
+      <th>Sales ($M)</th>
+      <th>EBIT ($M)</th>
+      <th>EBITDA ($M)</th>
+      <th>EV/EBIT</th>
+      <th>EV/EBITDA</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Cass Information Systems</td><td>CASS</td>
+      <td>$44.33</td><td>$579</td><td>$195</td><td>$207</td><td>$37</td><td>$44</td>
+      <td>5.3x</td><td>4.4x</td>
+    </tr>
+    <tr>
+      <td>Green Dot (A)</td><td>GDOT</td>
+      <td>$11.20</td><td>$673</td><td>NM</td><td>$2,080</td><td>$55</td><td>$141</td>
+      <td>NM</td><td>NM</td>
+    </tr>
+    <tr>
+      <td>Priority Technology</td><td>PRTH</td>
+      <td>$4.69</td><td>$395</td><td>$1,349</td><td>$953</td><td>$141</td><td>$204</td>
+      <td>9.6x</td><td>6.6x</td>
+    </tr>
+    <tr>
+      <td>Cantaloupe</td><td>CTLP</td>
+      <td>$10.81</td><td>$818</td><td>$825</td><td>$318</td><td>$27</td><td>$47</td>
+      <td>30.4x</td><td>17.4x</td>
+    </tr>
+    <tr>
+      <td>Paysign</td><td>PAYS</td>
+      <td>$5.82</td><td>$365</td><td>$200</td><td>$82</td><td>$7</td><td>$16</td>
+      <td>27.2x</td><td>12.8x</td>
+    </tr>
+    <tr>
+      <td>Repay Holdings (A)</td><td>RPAY</td>
+      <td>$2.57</td><td>$241</td><td>$522</td><td>$309</td><td>($0)</td><td>$102</td>
+      <td>NM</td><td>5.1x</td>
+    </tr>
+    <tr class="stat-row"><td>Average</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>18.4x</td><td>9.3x</td></tr>
+    <tr class="stat-row"><td>Median</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>18.4x</td><td>6.6x</td></tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:14px;">Valuation Multiples — AI / Technology Comps</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>Price</th>
+      <th>EV ($M)</th>
+      <th>P/E Actual</th>
+      <th class="est-col">P/E FY1</th>
+      <th class="est-col">P/E FY2</th>
+      <th>EV/Sales</th>
+      <th>EV/EBIT</th>
+      <th>EV/EBITDA</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Cass Information Systems</td><td>CASS</td>
+      <td>$44.33</td><td>$195</td><td>18.9x</td><td>15.8x</td><td>12.7x</td>
+      <td>0.9x</td><td>5.3x</td><td>4.4x</td>
+    </tr>
+    <tr>
+      <td>Corpay</td><td>CPAY</td>
+      <td>$289.58</td><td>$20,757</td><td>19.2x</td><td>11.1x</td><td>9.7x</td>
+      <td>4.6x</td><td>10.0x</td><td>8.4x</td>
+    </tr>
+    <tr>
+      <td>NewtekOne</td><td>NEWT</td>
+      <td>$11.09</td><td>$840</td><td>5.1x</td><td>4.8x</td><td>4.6x</td>
+      <td>2.6x</td><td>4.8x</td><td>4.8x</td>
+    </tr>
+    <tr>
+      <td>WEX</td><td>WEX</td>
+      <td>$150.36</td><td>$4,199</td><td>17.8x</td><td>8.4x</td><td>7.7x</td>
+      <td>1.6x</td><td>6.2x</td><td>4.2x</td>
+    </tr>
+    <tr>
+      <td>Cerillion</td><td>CER-GB</td>
+      <td>£14.45</td><td>$473</td><td>23.9x</td><td>22.5x</td><td>20.4x</td>
+      <td>8.0x</td><td>18.1x</td><td>16.1x</td>
+    </tr>
+    <tr>
+      <td>Mind CTI</td><td>MNDO</td>
+      <td>$1.14</td><td>$10</td><td>9.0x</td><td>—</td><td>—</td>
+      <td>0.5x</td><td>4.7x</td><td>4.2x</td>
+    </tr>
+    <tr class="stat-row"><td>Average</td><td></td><td></td><td></td><td>15.0x</td><td>11.7x</td><td>10.6x</td><td>3.5x</td><td>8.8x</td><td>7.5x</td></tr>
+    <tr class="stat-row"><td>Median</td><td></td><td></td><td></td><td>17.8x</td><td>9.8x</td><td>8.7x</td><td>2.1x</td><td>5.8x</td><td>4.6x</td></tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:10px;">Cass trades at a significant discount to both peer sets on EV-based multiples (EV/EBITDA of 4.4x vs. Payment peer median of 6.6x and Tech peer median of 4.6x), primarily because its $392M cash balance (payment float invested through the bank) dramatically suppresses enterprise value. On a P/E basis, CASS at 15.8x FY1 trades modestly above the tech peer median (9.8x) but well below Cantaloupe (NM), Cerillion (22.5x), and Corpay (11.1x). The optically low EV multiples suggest the market is valuing the banking float's cash balance as a genuine asset offset while assigning minimal standalone value to the Information Services processing platform — a potential mispricing if the market begins to recognize the technology platform's intrinsic value separate from the banking franchise. The company's unique hybrid structure (technology + bank) makes clean comps difficult; it is simultaneously cheaper than pure-play payment tech on EV metrics and more expensive than community banks on P/E.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<p class="prose" style="font-style:italic; margin-bottom:10px;">Theia seeks small cap companies that aren't well covered and are strongly aligned on core internet finance thesis with wide outcome dispersion.</p>
+
+<div class="verdict">
+  <strong>(i) Market Cap Bucket: $572M — Microcap</strong> <span class="fw-rating strong">Strong</span><br>
+  CASS sits squarely in Theia's ideal microcap zone. At $572M market cap, the company is too small for most institutional investors to build meaningful positions, creating structural neglect and potential mispricing. The low daily volume (~72K shares) and single-broker coverage reinforce the inefficiency.
+</div>
+
+<div class="verdict">
+  <strong>(ii) Analyst Coverage: 1 Broker</strong> <span class="fw-rating strong">Strong</span><br>
+  With only 1 broker covering CASS, this is one of the most under-covered public companies in the financial services sector. The consensus estimate is essentially one analyst's model. There is virtually no institutional research infrastructure disseminating information about this company, creating a significant informational edge opportunity for a dedicated fundamental investor.
+</div>
+
+<div class="verdict">
+  <strong>(iii) Internet Finance / Blockchain Thesis Alignment: Adjacent</strong> <span class="fw-rating moderate">Moderate</span><br>
+  Cass is not directly aligned with blockchain or cryptocurrency, but it operates at the core of B2B digital payments and fintech infrastructure. The CassPay platform, Amplify working capital solution, and AI-driven invoice automation are all expressions of the broader digitization of financial services. The company's banking charter + technology hybrid model is a template for how traditional financial infrastructure evolves in a digital-first world. Alignment is adjacent rather than core — this is "picks and shovels" fintech infrastructure, not blockchain-native.
+</div>
+
+<div class="verdict">
+  <strong>(iv) Outcome Dispersion: Wide</strong> <span class="fw-rating strong">Strong</span><br>
+  The 5-scenario model produces a range of $13.10 (Bear Severe) to $130.00 (Bull Severe), representing a -70% to +193% range from the current $44.33. The primary source of dispersion is the extreme interest rate sensitivity of the $1.2B payment float — NIM is a 2-3x leverage factor on EPS — combined with the binary optionality on data monetization. The probability-weighted expected value of $57.68 implies +30% upside from current levels. The asymmetry is favorable: the base case delivers +30% and the bull mild delivers +96%, while the bear mild is -29%.
+</div>
+
+<div class="verdict" style="border-left-color: #27ae60; background: #f0fff4;">
+  <strong>VERDICT: YES — Under-covered microcap with structural moats, rate optionality, and data monetization upside</strong><br>
+  Cass Information Systems is an ideal Theia candidate: a $572M microcap with only 1 analyst, deeply embedded processing technology protected by a banking charter moat, a $1.2B interest rate optionality asset, and a massively under-commercialized proprietary data repository (Cass Freight Index + decades of supply chain data). The conservative culture that has limited innovation is simultaneously the catalyst opportunity — any management inflection toward data monetization or aggressive AI deployment would represent a step-function change in the growth narrative. The stock trades at 15.8x forward P/E with a 2.9% dividend yield, providing downside protection from yield-seeking investors even in bear scenarios. The combination of structural neglect (1 broker, low volume), hidden asset value (data, float), and wide outcome dispersion ($13-$130 range) creates exactly the type of inefficiently-priced small-cap opportunity Theia is designed to exploit.
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 13: RISK SUMMARY -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">13. Risk Summary</div>
+
+<table class="risk-table">
+  <thead>
+    <tr>
+      <th>Risk Category</th>
+      <th>Description</th>
+      <th>Severity</th>
+      <th>Mitigant</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Interest Rate Sensitivity</td>
+      <td>$1.2B float NII is asset-sensitive; 200+ bps of Fed cuts could compress NIM from 3.83% to 2.5%, cutting NII by 35%+</td>
+      <td><span class="fw-rating high">High</span></td>
+      <td>Float is zero-cost funding; even at 2.5% NIM, generates $30M+ NII. Management repositioning investment portfolio at higher rates. Structural advantage persists in any rate environment above zero.</td>
+    </tr>
+    <tr>
+      <td>Freight Recession</td>
+      <td>Prolonged freight volume depression suppresses core transportation processing fees and financial fees</td>
+      <td><span class="fw-rating moderate">Moderate</span></td>
+      <td>Facility volumes (+14.7% in 2025) are offsetting freight weakness. Freight is cyclical and will eventually recover. Cass Freight Index provides early visibility into inflection.</td>
+    </tr>
+    <tr>
+      <td>Credit Concentration</td>
+      <td>Loan portfolio concentrated in faith-based ministries, franchise restaurants, and St. Louis metro businesses; $7.8M bad debt in 2024</td>
+      <td><span class="fw-rating moderate">Moderate</span></td>
+      <td>CET1 ratio of 15.10% provides massive capital buffer. Zero net charge-offs in 2025. Conservative underwriting standards. $2M recovery on Rubicon dispute demonstrates ability to mitigate losses.</td>
+    </tr>
+    <tr>
+      <td>Conservative Culture</td>
+      <td>Risk-averse management limits innovation, data monetization, and aggressive market positioning; passive sales approach</td>
+      <td><span class="fw-rating moderate">Moderate</span></td>
+      <td>Culture protects downside and ensures regulatory compliance. Recent partnerships (Caspian, Lupeon), product launches (Amplify), and strategic divestitures (TEM) suggest incremental modernization.</td>
+    </tr>
+    <tr>
+      <td>Technology Disruption</td>
+      <td>AI lowers barriers to entry for invoice processing; competitors may deploy AI more effectively; horizontal platforms (Coupa, SAP) could bundle freight audit</td>
+      <td><span class="fw-rating moderate">Moderate</span></td>
+      <td>Banking charter moat cannot be replicated by tech-only entrants. Massive historical data repository provides AI training advantage. Switching costs protect existing client base.</td>
+    </tr>
+    <tr>
+      <td>Cybersecurity</td>
+      <td>Processes $94B annually; $100M balance decrease from CassPay client cyber event in 2024</td>
+      <td><span class="fw-rating moderate">Moderate</span></td>
+      <td>NIST and ISO 27001 aligned security. Multi-layered architecture. Continuous monitoring and routine pen testing. Federated regulatory oversight enforces security standards.</td>
+    </tr>
+    <tr>
+      <td>Illiquidity / Low Coverage</td>
+      <td>72K avg daily volume; 1 broker; difficult for institutions to build/exit positions</td>
+      <td><span class="fw-rating weak">Low</span></td>
+      <td>This is a feature for Theia, not a bug — low coverage creates alpha opportunity. Illiquidity premium compensated by 2.9% dividend yield. Patient, fundamental investors benefit from structural neglect.</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 14: APPENDIX — PYTHON CODE -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">14. Appendix — Python Code</div>
+
+<p class="prose"><strong>Sensitivity Table Generator</strong></p>
+<div class="code-block">import numpy as np
+import pandas as pd
+
+# ─── NII Sensitivity: Float Balance ($B) vs. NIM (%) ───
+float_balances = [0.95, 1.10, 1.20, 1.35, 1.50]  # $B
+nim_rates = [0.0250, 0.0300, 0.0350, 0.0383, 0.0425]
+
+nii_grid = np.outer(float_balances, nim_rates) * 1000  # Convert to $M
+nii_df = pd.DataFrame(
+    nii_grid.round(0).astype(int),
+    index=[f"${b}B" for b in float_balances],
+    columns=[f"{n*100:.2f}%" for n in nim_rates]
+)
+print("=== Net Interest Income ($M) ===")
+print(nii_df.to_string())
+
+# ─── Processing Fee Sensitivity: Invoices (M) vs. Fee/Invoice ($) ───
+invoices = [42, 47, 51, 56, 62]  # Millions
+fee_per = [1.10, 1.20, 1.30, 1.40, 1.50]  # $/invoice
+
+proc_grid = np.outer(invoices, fee_per)
+proc_df = pd.DataFrame(
+    proc_grid.round(0).astype(int),
+    index=[f"{v}M" for v in invoices],
+    columns=[f"${f:.2f}" for f in fee_per]
+)
+print("\n=== Processing Fees ($M) ===")
+print(proc_df.to_string())
+
+# ─── Implied Share Price: EPS ($) vs. P/E Multiple (x) ───
+eps_vals = [2.25, 2.81, 3.50, 4.00, 4.50]
+pe_multiples = [10, 13, 15, 18, 21]
+
+price_grid = np.outer(eps_vals, pe_multiples)
+price_df = pd.DataFrame(
+    price_grid.round(2),
+    index=[f"${e:.2f}" for e in eps_vals],
+    columns=[f"{p}x" for p in pe_multiples]
+)
+print("\n=== Implied Share Price ($) ===")
+print(price_df.to_string())</div>
+
+<p class="prose"><strong>5-Scenario Model Generator</strong></p>
+<div class="code-block">import numpy as np
+
+# ─── CASS 5-Case Model Parameters ───
+current_price = 44.33
+current_shares = 13.06  # M diluted
+
+cases = {
+    "Bear Severe": {
+        "rev": [190, 178, 172], "op_margin": [0.15, 0.12, 0.12],
+        "tax_rate": 0.22, "shares": [12.8, 12.5, 12.2],
+        "exit_pe": 10, "prob": 0.05
+    },
+    "Bear Mild": {
+        "rev": [200, 205, 210], "op_margin": [0.17, 0.17, 0.17],
+        "tax_rate": 0.22, "shares": [12.7, 12.3, 12.0],
+        "exit_pe": 13, "prob": 0.20
+    },
+    "Base Case": {
+        "rev": [203, 215, 228], "op_margin": [0.18, 0.20, 0.20],
+        "tax_rate": 0.22, "shares": [12.7, 12.3, 12.0],
+        "exit_pe": 15, "prob": 0.50
+    },
+    "Bull Mild": {
+        "rev": [212, 232, 252], "op_margin": [0.19, 0.22, 0.24],
+        "tax_rate": 0.22, "shares": [12.5, 12.0, 11.6],
+        "exit_pe": 18, "prob": 0.20
+    },
+    "Bull Severe": {
+        "rev": [220, 248, 278], "op_margin": [0.21, 0.25, 0.27],
+        "tax_rate": 0.22, "shares": [12.4, 11.8, 11.3],
+        "exit_pe": 21, "prob": 0.05
+    },
+}
+
+prob_wtd_price = 0
+for name, c in cases.items():
+    yr3_rev = c["rev"][2]
+    yr3_ebit = yr3_rev * c["op_margin"][2]
+    yr3_ni = yr3_ebit * (1 - c["tax_rate"])
+    yr3_eps = yr3_ni / c["shares"][2]
+    implied = yr3_eps * c["exit_pe"]
+    upside = (implied / current_price - 1) * 100
+    prob_wtd_price += implied * c["prob"]
+    print(f"{name:16s} | Rev ${yr3_rev}M | EPS ${yr3_eps:.2f} | "
+          f"{c['exit_pe']}x P/E → ${implied:.2f} ({upside:+.0f}%)")
+
+print(f"\nProb-weighted fair value: ${prob_wtd_price:.2f}")
+print(f"Current price: ${current_price}")
+print(f"Implied upside: {(prob_wtd_price/current_price - 1)*100:+.1f}%")</div>
+
+<div class="source-note" style="margin-top:20px;">
+  Theia Underwriting Engine · CASS-US · Generated April 2, 2026 · Sources: FactSet, AlphaSense, Company Filings, Expert Calls
+</div>
+
+</body>
+</html>
