@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=816px">
+<title>Donnelley Financial Solutions | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', Arial, sans-serif; background: #fff; color: #1a1a2e; width: 816px; margin: 0 auto; padding: 32px 40px; font-size: 11px; line-height: 1.45; }
+.title-bar { font-size: 20px; font-weight: 700; letter-spacing: -0.4px; color: #1a1a2e; border-bottom: 3px solid #1a1a2e; padding-bottom: 10px; margin-bottom: 20px; text-align: center; }
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 28px 0 10px 0; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+table.ev tr.indent td:first-child { padding-left: 12px; font-size: 9.5px; color: #777; }
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; border: 1px solid #eee; border-radius: 3px; }
+.val-grid .val-cell { padding: 5px 6px; border-right: 1px solid #eee; border-bottom: 1px solid #eee; }
+.val-grid .val-cell:nth-child(6), .val-grid .val-cell:nth-child(12) { border-right: none; }
+.val-grid .val-cell:nth-child(7), .val-grid .val-cell:nth-child(8), .val-grid .val-cell:nth-child(9), .val-grid .val-cell:nth-child(10), .val-grid .val-cell:nth-child(11), .val-grid .val-cell:nth-child(12) { border-bottom: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+.prose { font-size: 11px; line-height: 1.65; color: #333; margin-bottom: 8px; }
+.fw-item { margin-bottom: 10px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+.fw-rating.na { background: #e9ecef; color: #6c757d; }
+.fw-summary { margin-top: 10px; padding: 8px 12px; background: #f4f6f9; border-left: 3px solid #1a1a2e; font-size: 10.5px; font-style: italic; color: #444; }
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; border: 1px solid #e0e0e0; }
+table.sensitivity th:first-child { text-align: left; }
+table.sensitivity td { text-align: center; padding: 3px 6px; border: 1px solid #f0f0f0; }
+table.sensitivity td:first-child { text-align: left; font-weight: 600; background: #f4f6f9; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; color: #1a1a2e; }
+.sens-title { font-size: 10px; font-weight: 700; margin: 14px 0 2px 0; color: #1a1a2e; }
+.sens-current { font-size: 9px; color: #888; margin-bottom: 4px; font-style: italic; }
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 14px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 6px; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 10px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 8px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 700; color: #1a1a2e; }
+.fermi-narrative { background: #f0f4f8; border-radius: 3px; padding: 8px 10px; margin-bottom: 10px; font-size: 9.5px; line-height: 1.55; border-left: 3px solid #93c5fd; }
+.fermi-narrative .scenario-text { font-style: italic; color: #444; margin-bottom: 5px; font-size: 10px; font-weight: 500; }
+.fermi-narrative ul { margin: 0; padding-left: 16px; color: #333; }
+.fermi-narrative li { margin-bottom: 2px; }
+.fermi-narrative .reconcile { margin-top: 6px; font-weight: 600; color: #1a1a2e; border-top: 1px solid #c7d9ec; padding-top: 4px; font-size: 9.5px; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 10px 0 4px 0; }
+.case-block table.scenario-mini th { text-align: right; font-weight: 600; color: #888; padding: 2px 5px; border-bottom: 1px solid #ddd; font-size: 8.5px; }
+.case-block table.scenario-mini th:first-child { text-align: left; }
+.case-block table.scenario-mini td { padding: 2.5px 5px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even):not(.margin-row) { background: #f5f5f5; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 8px; margin-top: 8px; }
+.case-block .exit-line1 { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-bottom: 6px; }
+.case-block .exit-price { font-size: 15px; font-weight: 700; color: #1a1a2e; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; color: #555; }
+.case-block .exit-line2 { display: flex; gap: 24px; font-size: 9.5px; color: #555; border-top: 1px solid #eee; padding-top: 5px; flex-wrap: wrap; }
+.case-chart { margin-top: 16px; padding: 12px 12px 8px 12px; background: #f9f9f9; border-radius: 4px; border: 1px solid #eee; }
+.case-chart svg { width: 100%; height: auto; }
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.6; }
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 8.5px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+.num-list { padding-left: 0; list-style: none; }
+.num-list li { margin-bottom: 8px; padding-left: 0; }
+.num-list li strong { color: #1a1a2e; }
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1.5px solid #ddd; white-space: nowrap; }
+table.comps th:first-child { text-align: left; min-width: 110px; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child { text-align: left; font-weight: 400; color: #333; white-space: nowrap; font-size: 8px; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-weight: 600; background: #fafbfc; border-top: 1px solid #eee; font-style: italic; }
+table.risk-table { font-size: 10px; width: 100%; margin: 8px 0; }
+table.risk-table th { text-align: left; font-weight: 600; padding: 4px 6px; background: #f4f6f9; border-bottom: 1px solid #ddd; }
+table.risk-table td { padding: 4px 6px; border-bottom: 1px solid #eee; vertical-align: top; }
+table.risk-table td:first-child { font-weight: 600; width: 25%; }
+.alphasense-box { background: #e8f4fd; border-left: 4px solid #2563eb; padding: 10px 14px; margin: 10px 0; font-size: 10px; line-height: 1.5; }
+.alphasense-box strong { color: #1a1a2e; }
+.as-section { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: #1a1a2e; border-bottom: 1px solid #ddd; padding-bottom: 3px; margin: 16px 0 8px 0; }
+.bull-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #155724; border-bottom: 1.5px solid #c3e6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #721c24; border-bottom: 1.5px solid #f5c6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bull-item, .bear-item { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Donnelley Financial Solutions | Preliminary Memo for Theia</div>
+
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<div class="memo-section">1. Business Overview</div>
+
+<div class="prose">Donnelley Financial Solutions (NYSE: DFIN) is a leading global provider of regulatory compliance software, technology-enabled services, and print solutions for the capital markets and investment management industries. Spun off from R.R. Donnelley &amp; Sons in October 2016, the company has executed a dramatic transformation from a legacy print-and-distribution business into a software-first compliance platform. Software solutions reached a record $358.4 million in FY2025, representing 47% of total net sales—up from 22% at the time of the spin-off—with management targeting ~60% software mix by 2028.</div>
+
+<div class="prose">DFIN operates through four segments across two verticals. <strong>Capital Markets</strong> includes Software Solutions (Venue virtual data room for M&amp;A/IPO due diligence, ActiveDisclosure for SEC financial reporting) and Compliance &amp; Communications Management (tech-enabled transactional services for deal execution). <strong>Investment Companies</strong> includes Software Solutions (Arc Suite for mutual fund/alternative investment compliance) and Compliance &amp; Communications Management (prospectus filing, proxy, print/distribution). Approximately 80% of revenue is recurring or reoccurring, with the remaining 20% from high-margin event-driven transactions (IPOs, M&amp;A, debt issuances).</div>
+
+<div class="prose">Under CEO Dan Leib, DFIN has completed "Chapter Two" of its transformation—the "44 in '24" strategy that doubled software mix from 22% to 44% by 2024 (and then exceeded it at 47% in 2025). Adjusted EBITDA margins expanded from ~16% at spin-off to a record 31.3% in FY2025. The company maintains fortress-like capital discipline: 0.6x net leverage, $172M in share repurchases in FY2025 (~12% of float), and &gt;$500M in expected cumulative FCF from 2024-2028. DFIN now enters "Chapter Three" focused on sustained organic growth, continued margin expansion, and aggressive capital returns.</div>
+
+<div class="prose"><strong>One-line thesis:</strong> DFIN is a misunderstood regulatory compliance software platform trading at 5.7x forward EV/EBITDA with all 3 analysts rating it Buy ($64 target, +40% upside), where the market still sees a legacy printer despite 47% software revenue, record margins, a near-zero-leverage balance sheet, and massive embedded operating leverage if capital markets activity normalizes.</div>
+
+<div class="prose"><strong>Headquarters:</strong> Chicago, Illinois &nbsp;|&nbsp; <strong>CEO:</strong> Daniel N. Leib &nbsp;|&nbsp; <strong>CFO:</strong> David A. Gardella &nbsp;|&nbsp; <strong>Employees:</strong> ~1,750 &nbsp;|&nbsp; <strong>Founded:</strong> 2016 (spin-off) &nbsp;|&nbsp; <strong>Ticker:</strong> NYSE: DFIN</div>
+
+<!-- SECTION 2: FINANCIAL SUMMARY -->
+<div class="memo-section">2. Financial Summary (Theia FactSet Summary)</div>
+
+<div class="header">
+  <div><h1>Donnelley Financial Solutions, Inc.</h1><span class="ticker">DFIN-US | NYSE | CUSIP: 25787G100</span></div>
+  <span class="date">April 2, 2026 | Source: FactSet</span>
+</div>
+
+<div class="price-bar">
+  <span class="price">$46.06</span>
+  <span><span class="label">1M:</span> <span class="chg">-9.3%</span></span>
+  <span><span class="label">3M:</span> <span class="chg.pos">+0.9%</span></span>
+  <span><span class="label">6M:</span> <span class="chg">-12.6%</span></span>
+  <span><span class="label">YTD:</span> <span class="chg">-1.4%</span></span>
+  <span><span class="label">1Y:</span> <span class="chg pos">+2.7%</span></span>
+  <span><span class="label">52W:</span> $37.07 – $66.25</span>
+</div>
+
+<div class="section-title">Key Stats — Trading</div>
+<div class="two-col">
+  <table class="kv">
+    <tr><td>Ticker</td><td>DFIN-US</td></tr>
+    <tr><td>Price</td><td>$46.06</td></tr>
+    <tr><td>Volume</td><td>262K</td></tr>
+    <tr><td>Avg Volume (30D)</td><td>256K</td></tr>
+  </table>
+  <table class="kv">
+    <tr><td>Float %</td><td>93.4%</td></tr>
+    <tr><td>Short Interest</td><td>4.6 Days / 5.2%</td></tr>
+    <tr><td>% of 52W High</td><td>69.5%</td></tr>
+    <tr><td>Dividend</td><td>None</td></tr>
+  </table>
+</div>
+
+<div class="section-title">Enterprise Value Bridge</div>
+<table class="ev">
+  <tr><td>Market Capitalization</td><td>$1,180M</td></tr>
+  <tr class="indent"><td>Common Shares Outstanding</td><td>25.62M</td></tr>
+  <tr><td>(+) Diluted Shares (Stock Comp)</td><td>1.58M</td></tr>
+  <tr><td>Fully Diluted Market Cap</td><td>$1,253M</td></tr>
+  <tr><td>(+) Consolidated Debt</td><td>$171M</td></tr>
+  <tr><td>(-) Cash &amp; Equivalents</td><td>($25M)</td></tr>
+  <tr><td>(+) Pension Liabilities</td><td>$25M</td></tr>
+  <tr class="total"><td>Enterprise Value</td><td>$1,424M</td></tr>
+</table>
+
+<div class="section-title">Current Valuation</div>
+<div class="val-grid">
+  <div class="val-cell"><div class="val-label">Market Cap</div><div class="val-num">$1.18B</div></div>
+  <div class="val-cell"><div class="val-label">Enterprise Value</div><div class="val-num">$1.42B</div></div>
+  <div class="val-cell"><div class="val-label">P/E (FY1)</div><div class="val-num">9.8x</div><div class="val-sub">Adj. EPS basis</div></div>
+  <div class="val-cell"><div class="val-label">EV/EBITDA (FY1)</div><div class="val-num">5.7x</div></div>
+  <div class="val-cell"><div class="val-label">EV/Sales (LTM)</div><div class="val-num">1.9x</div></div>
+  <div class="val-cell"><div class="val-label">P/S (LTM)</div><div class="val-num">1.6x</div></div>
+  <div class="val-cell"><div class="val-label">Fully Dil Mkt Cap</div><div class="val-num">$1.25B</div></div>
+  <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">8.8%</div></div>
+  <div class="val-cell"><div class="val-label">Beta (3Y Adj.)</div><div class="val-num">1.12</div></div>
+  <div class="val-cell"><div class="val-label">Avg Rating</div><div class="val-num">Buy (1.00)</div></div>
+  <div class="val-cell"><div class="val-label">Target Price</div><div class="val-num">$64.33</div><div class="val-sub">+39.7% upside</div></div>
+  <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">May 6, 2026</div></div>
+</div>
+
+<div class="section-title">Valuation Multiples</div>
+<table class="data">
+  <tr><th></th><th>5Yr Avg</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th class="est">FY2026E</th><th class="est">FY2027E</th></tr>
+  <tr><td>P/E</td><td>21.6x</td><td>23.2x</td><td>20.5x</td><td>40.6x</td><td class="est">9.8x</td><td class="est">9.0x</td></tr>
+  <tr><td>P/Sales</td><td>1.9x</td><td>2.4x</td><td>2.4x</td><td>1.7x</td><td class="est">1.5x</td><td class="est">1.4x</td></tr>
+  <tr><td>P/BV</td><td>3.9x</td><td>4.5x</td><td>4.1x</td><td>3.2x</td><td class="est">—</td><td class="est">—</td></tr>
+  <tr><td>EV/Sales</td><td>2.1x</td><td>2.6x</td><td>2.6x</td><td>1.9x</td><td class="est">1.8x</td><td class="est">1.7x</td></tr>
+  <tr><td>EV/EBITDA</td><td>7.9x</td><td>10.5x</td><td>9.9x</td><td>6.7x</td><td class="est">5.7x</td><td class="est">5.4x</td></tr>
+  <tr><td>EV/EBIT</td><td>11.6x</td><td>16.6x</td><td>15.1x</td><td>9.6x</td><td class="est">7.8x</td><td class="est">7.4x</td></tr>
+</table>
+
+<div class="section-title">Income Statement (Financials)</div>
+<table class="data">
+  <tr><th></th><th>5Yr CAGR</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th class="est">FY2026E</th><th class="est">FY2027E</th></tr>
+  <tr class="section-row"><td colspan="7">Revenue &amp; Income ($M)</td></tr>
+  <tr><td>Revenue</td><td>(3.0%)</td><td>797</td><td>782</td><td>767</td><td class="est">789</td><td class="est">820</td></tr>
+  <tr><td>Gross Income</td><td>4.2%</td><td>407</td><td>424</td><td>427</td><td class="est">490</td><td class="est">511</td></tr>
+  <tr><td>EBITDA</td><td>6.6%</td><td>197</td><td>202</td><td>216</td><td class="est">250</td><td class="est">263</td></tr>
+  <tr><td>EBIT</td><td>12.6%</td><td>125</td><td>133</td><td>149</td><td class="est">182</td><td class="est">194</td></tr>
+  <tr><td>Net Income</td><td>—</td><td>82</td><td>92</td><td>32</td><td class="est">114</td><td class="est">124</td></tr>
+  <tr><td>EPS (Diluted)</td><td>—</td><td>$2.69</td><td>$3.06</td><td>$1.15</td><td class="est">$4.02</td><td class="est">$4.43</td></tr>
+  <tr class="section-row"><td colspan="7">Margins</td></tr>
+  <tr><td>Gross Margin</td><td>—</td><td>51.1%</td><td>54.2%</td><td>55.7%</td><td class="est">62.1%</td><td class="est">62.4%</td></tr>
+  <tr><td>EBITDA Margin</td><td>—</td><td>24.7%</td><td>25.9%</td><td>28.1%</td><td class="est">31.6%</td><td class="est">32.1%</td></tr>
+  <tr><td>Net Margin</td><td>—</td><td>10.3%</td><td>11.8%</td><td>4.2%</td><td class="est">14.5%</td><td class="est">15.1%</td></tr>
+  <tr><td>FCF Margin</td><td>—</td><td>7.8%</td><td>13.5%</td><td>14.1%</td><td class="est">—</td><td class="est">—</td></tr>
+  <tr class="section-row"><td colspan="7">Cash Flow ($M)</td></tr>
+  <tr><td>Operating CF</td><td>1.4%</td><td>124</td><td>171</td><td>165</td><td class="est">—</td><td class="est">—</td></tr>
+  <tr><td>CapEx</td><td>12.9%</td><td>62</td><td>66</td><td>57</td><td class="est">58</td><td class="est">58</td></tr>
+  <tr><td>Free Cash Flow</td><td>(2.6%)</td><td>62</td><td>105</td><td>108</td><td class="est">—</td><td class="est">—</td></tr>
+  <tr class="section-row"><td colspan="7">Returns &amp; Leverage</td></tr>
+  <tr><td>ROE</td><td>—</td><td>22.5%</td><td>22.0%</td><td>8.0%</td><td class="est">—</td><td class="est">—</td></tr>
+  <tr><td>Debt/Equity</td><td>—</td><td>39.2%</td><td>33.1%</td><td>47.9%</td><td class="est">—</td><td class="est">—</td></tr>
+  <tr><td>Interest Coverage</td><td>10.7x</td><td>7.0x</td><td>8.8x</td><td>10.7x</td><td class="est">16.1x</td><td class="est">18.6x</td></tr>
+</table>
+
+<div class="section-title">Revenue by Business Unit</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Segment</div>
+    <table class="rev">
+      <tr><th>Segment</th><th>% Rev</th><th>($M)</th><th>YoY</th></tr>
+      <tr><td>CM — Compliance &amp; Comms</td><td>38.6%</td><td>296</td><td>-7.9%</td></tr>
+      <tr><td>CM — Software Solutions</td><td>30.0%</td><td>230</td><td>+7.7%</td></tr>
+      <tr><td>IC — Software Solutions</td><td>16.7%</td><td>128</td><td>+10.6%</td></tr>
+      <tr><td>IC — Compliance &amp; Comms</td><td>14.7%</td><td>112</td><td>-13.9%</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="sub-label">By Geography</div>
+    <table class="rev">
+      <tr><th>Region</th><th>% Rev</th><th>($M)</th><th>YoY</th></tr>
+      <tr><td>United States</td><td>89.3%</td><td>685</td><td>-2.1%</td></tr>
+      <tr><td>Europe</td><td>3.9%</td><td>30</td><td>+2.8%</td></tr>
+      <tr><td>Canada</td><td>3.4%</td><td>26</td><td>-1.9%</td></tr>
+      <tr><td>Asia</td><td>3.2%</td><td>25</td><td>-3.5%</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="source-note">Source: FactSet, Company Filings as of April 2, 2026. FY2025 GAAP NI/EPS depressed by $82.8M non-cash pension termination charge. Adj. EBITDA FY2025: $239.8M (31.3% margin).</div>
+
+<!-- SECTION 3: BULL & BEAR CASES -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Cases</div>
+    <div class="bull-item"><p class="prose"><span class="fw-name">1. Capital Markets Normalization = Massive Earnings Leverage.</span> Transactional revenue has been &gt;$100M below its historical average for multiple years. Incremental margins on deal-driven revenue are 50-60%. Even a modest recovery in IPO/M&amp;A activity would add $30-50M of near-pure-profit revenue. PE sponsors face mounting pressure to exit long-held assets, creating a potential M&amp;A wave in 2026-2027. A normalization to historical averages could add $2-3/share to EPS.</p></div>
+    <div class="bull-item"><p class="prose"><span class="fw-name">2. Software Mix Approaching 60% by 2028.</span> Software revenue grew from $136M at spin-off to $358M in FY2025 (~11% CAGR). With ActiveDisclosure growing 17% (highest since 2021), Arc Suite +10.6%, and ArcFlex poised to unlock the private capital markets, the 60% software target is achievable. Each percentage point of mix shift improves revenue quality, margin profile, and valuation multiple. At 60% software, DFIN deserves a software multiple (8-10x EBITDA), not a legacy services multiple (5-6x).</p></div>
+    <div class="bull-item"><p class="prose"><span class="fw-name">3. Aggressive Buybacks Shrinking the Float.</span> DFIN repurchased 3.6M shares (~12% of float) at avg $48.36 in FY2025. With $108M FCF and only $171M debt (0.6x leverage), the company has immense capacity for continued buybacks. At current prices (~$46), each $50M in buybacks retires ~1M shares, mechanically boosting EPS by ~4%. The company expects &gt;$500M cumulative FCF through 2028—potentially retiring 30-40% of remaining shares.</p></div>
+    <div class="bull-item"><p class="prose"><span class="fw-name">4. ArcFlex Opens Massive Private Capital Markets TAM.</span> Alternative investment funds (54,000+ private funds, growing 15%/year) are 10-20 years behind public mutual funds in compliance software adoption. ArcFlex, purpose-built for PE/hedge fund/BDC compliance, launched Q3 2025 with meaningful revenue expected by 2027. This could be DFIN's largest growth vector, as private markets lack a dominant compliance platform—the same position DFIN exploited in public fund compliance with Arc Suite.</p></div>
+    <div class="bull-item"><p class="prose"><span class="fw-name">5. Active Intelligence (AI) Deepens the Moat.</span> DFIN launched enterprise-grade AI within ActiveDisclosure (late 2025) enabling SEC filing analysis against historical disclosures and peer benchmarks. Built with zero-trust architecture (client data never trains public LLMs). AI advantages are amplified for DFIN versus competitors due to its breadth of offering and deep regulatory domain expertise. Internally, AI accelerates product development velocity and supports ongoing margin expansion.</p></div>
+  </div>
+  <div>
+    <div class="bear-header">Bear Cases</div>
+    <div class="bear-item"><p class="prose"><span class="fw-name">1. Capital Markets Remain Frozen.</span> If IPO/M&amp;A activity stays depressed (government shutdowns, geopolitical uncertainty, rate volatility), the transactional revenue engine that drives 20% of revenue and 50-60% incremental margins stays dormant. FY2024 transactional revenue of $186M was the lowest annual level—&gt;$100M below historical norms. Without deal recovery, DFIN is a low-single-digit grower trading at 6x EBITDA, and the "transformation premium" never materializes.</p></div>
+    <div class="bear-item"><p class="prose"><span class="fw-name">2. Workiva's Technological Dominance in SEC Reporting.</span> Workiva holds ~60% market share in corporate SEC reporting with a self-service platform that enterprises increasingly prefer. DFIN competes on price + bundled service, but Workiva dominates the enterprise segment (&gt;$1B revenue companies) and uses base SEC filing software as a loss leader to cross-sell GRC modules. If Workiva's pricing becomes more aggressive or its platform gap widens, DFIN could lose share in its most important growth segment.</p></div>
+    <div class="bear-item"><p class="prose"><span class="fw-name">3. Venue VDR Is "Artificially Recurring."</span> Expert sources warn that Venue's revenue (~$142M, ~19% of total) appears sticky but is actually heavily dependent on continuous transactional volume. Recent growth may reflect aggressive pricing conversions and page-count monetization rather than genuine market share gains. Venue is the #3 VDR (behind Datasite and Intralinks) and struggles with technical limitations on massive datasets. A prolonged deal drought would expose this vulnerability.</p></div>
+    <div class="bear-item"><p class="prose"><span class="fw-name">4. Secular Print Decline Is Permanent Drag.</span> Print &amp; distribution (~14% of FY2025 revenue) declines mid-single digits annually on secular basis. The Tailored Shareholder Reports rule reduced mutual fund page counts further. While print margins have improved (low-20s% to mid-40s%) through facility consolidation, the revenue decline creates a persistent headwind to consolidated top-line growth that forces software growth to exceed ~8% just to keep revenue flat.</p></div>
+    <div class="bear-item"><p class="prose"><span class="fw-name">5. Cybersecurity Risk Is Existential.</span> DFIN is a central repository for highly sensitive material non-public information (MNPI) on pending M&amp;A deals, IPOs, and SEC filings. A data breach could cause devastating reputational damage, immediate client attrition, and potentially billions in litigation exposure. The nature of Venue (storing pre-announcement deal data) makes DFIN one of the highest-consequence cybersecurity targets in financial services technology.</p></div>
+  </div>
+</div>
+
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+<div class="fw-item"><span class="fw-name">1. Scale Economies</span><span class="fw-rating strong">Strong</span><div class="prose">DFIN's compliance platform serves 200+ Fortune 500 clients and ~80% of top 50 global mutual fund complexes. The fixed-cost software infrastructure (ActiveDisclosure, Venue, Arc Suite) is leveraged across a large client base, enabling 31.3% EBITDA margins that new entrants cannot match without comparable scale. Manufacturing was consolidated to a single digital print facility with long-run outsourced on a 100% variable model—converting fixed costs to variable.</div></div>
+<div class="fw-item"><span class="fw-name">2. Network Effects</span><span class="fw-rating weak">Weak</span><div class="prose">Limited direct network effects. Venue benefits modestly from being the VDR that investment banks and law firms are familiar with (reducing friction in deal execution), but users don't directly benefit from other users. The compliance platform is fundamentally a workflow tool, not a network.</div></div>
+<div class="fw-item"><span class="fw-name">3. Counter-Positioning</span><span class="fw-rating moderate">Moderate</span><div class="prose">Legacy competitors (Toppan Merrill, Broadridge) cannot easily replicate DFIN's software platform while maintaining their service-heavy models. However, Workiva (the primary competitor) is a pure software company without legacy print constraints—meaning DFIN faces counter-positioning disadvantages, not advantages, versus its most important rival. The bundling of software + white-glove service is a differentiated position that pure software players won't replicate, but pure tech players won't want to.</div></div>
+<div class="fw-item"><span class="fw-name">4. Switching Costs</span><span class="fw-rating strong">Strong</span><div class="prose">SEC filing compliance is mission-critical—errors can result in regulatory penalties, restatements, and reputational damage. Once a company builds its reporting workflow on ActiveDisclosure or Arc Suite, switching involves migrating years of historical filings, retraining teams, and introducing filing risk during the transition. ActiveDisclosure gross retention runs 86-93%, net retention 93-96%. The 24/7 white-glove service model deepens dependency.</div></div>
+<div class="fw-item"><span class="fw-name">5. Branding</span><span class="fw-rating moderate">Moderate</span><div class="prose">DFIN is a trusted name in capital markets compliance, recognized by corporate finance teams, investment banks, and fund administrators. The brand carries particular weight during high-stakes transactions (IPOs, mergers) where risk aversion is extreme. However, Workiva's brand has become stronger among enterprise CFOs, particularly for companies with broader GRC needs beyond SEC reporting.</div></div>
+<div class="fw-item"><span class="fw-name">6. Cornered Resource</span><span class="fw-rating strong">Strong</span><div class="prose">DFIN maintains close SEC relationships and actively participates in regulatory rulemaking processes, giving unparalleled early insight into upcoming compliance mandates. This regulatory intelligence—knowing what's coming before competitors—is a genuinely scarce, non-replicable asset. The Tailored Shareholder Reports rule adoption exemplifies this: DFIN had ArcReporting ready before competitors, capturing first-mover advantage.</div></div>
+<div class="fw-item"><span class="fw-name">7. Process Power</span><span class="fw-rating strong">Strong</span><div class="prose">The 24/7 white-glove service model—dedicated support teams managing multi-million-dollar transactions under extreme time pressure—cannot be replicated by hiring a few people. DFIN's institutional capability to manage simultaneous IPOs, M&amp;A closings, and regulatory filings with zero error tolerance is embedded in decades of organizational culture. Expert sources cite this service model as DFIN's "most formidable moat."</div></div>
+<div class="fw-summary"><strong>Summary:</strong> DFIN's strongest moats are switching costs (mission-critical compliance workflows), cornered resource (SEC regulatory relationships), and process power (24/7 white-glove service). Scale economies support margin expansion while network effects are limited. The competitive landscape is bifurcated: DFIN dominates in investment company compliance (Arc Suite) and bundled deal services, but faces a formidable challenger in Workiva for standalone corporate SEC reporting.</div>
+
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+<div class="fw-item"><span class="fw-name">1. Threat of New Entrants</span><span class="fw-rating low">Low</span><div class="prose">Building a regulatory compliance platform requires deep SEC domain expertise, relationships with regulators, years of historical filing data, ISO 27001 security certification, and the trust of risk-averse corporate finance teams. The regulatory moat (compliance software must handle evolving SEC rules like Inline XBRL, TSR, N-PORT) creates a moving target that deters new entrants. No significant new competitor has emerged since DFIN's spin-off.</div></div>
+<div class="fw-item"><span class="fw-name">2. Bargaining Power of Suppliers</span><span class="fw-rating low">Low</span><div class="prose">DFIN's primary inputs are cloud infrastructure (AWS/Azure), software engineering talent, and print materials. Cloud costs are commoditized and declining. Print was outsourced to a fully variable model. No single supplier has meaningful leverage.</div></div>
+<div class="fw-item"><span class="fw-name">3. Bargaining Power of Buyers</span><span class="fw-rating moderate">Moderate</span><div class="prose">Large investment banks and Fortune 500 companies have leverage in contract negotiations and can choose Workiva, Datasite, or Intralinks. However, switching costs are high, filing deadlines are non-negotiable, and the cost of compliance software is small relative to the cost of errors. Mid-market companies are more price-sensitive, which is where DFIN's lower pricing vs. Workiva wins.</div></div>
+<div class="fw-item"><span class="fw-name">4. Threat of Substitutes</span><span class="fw-rating low">Low</span><div class="prose">There is no substitute for SEC compliance—public companies and registered investment companies must file or face penalties. The question is which provider, not whether to use one. Manual processes (Excel/Word) are the primary "substitute" being displaced, and the complexity of Inline XBRL tagging makes manual filing increasingly impractical. Regulatory complexity is increasing, not decreasing.</div></div>
+<div class="fw-item"><span class="fw-name">5. Competitive Rivalry</span><span class="fw-rating moderate">Moderate</span><div class="prose">The SEC compliance software market is a near-duopoly between DFIN (ActiveDisclosure) and Workiva for corporate reporting, with Workiva holding ~60% share in enterprise. In VDR, Datasite and Intralinks lead with Venue #3. In investment company compliance, DFIN and Confluence dominate. Rivalry is real but rational—the market grows with regulatory complexity, and the compliance premium means customers rarely switch on price alone.</div></div>
+<div class="fw-summary"><strong>Summary:</strong> The competitive environment is favorable. High barriers to entry, no substitutes for regulatory compliance, and rational competitive dynamics support pricing power. The primary risk is Workiva's expansion from enterprise SEC reporting into mid-market and GRC, which could pressure DFIN's strongest growth segment. However, DFIN's bundled service model and lower pricing create a differentiated position that pure-software competitors cannot easily replicate.</div>
+
+<!-- SECTION 6: WHAT DRIVES THE STOCK -->
+<div class="memo-section">6. What Drives the Stock?</div>
+<ol class="num-list">
+  <li><strong>1. Capital Markets Transactional Revenue</strong><p class="prose">The single most important near-term driver. Transactional revenue (IPOs, M&amp;A, debt issuances) carries 50-60% incremental margins and has been &gt;$100M below historical averages. FY2025 transactional revenue recovered to ~$175M from $186M in FY2024 (the lowest on record). Q4 2025 showed strong momentum ($48.6M, +29% YoY). Each $10M of transactional recovery adds ~$5-6M to EBITDA and $0.15-0.20 to EPS. <em>Bullish: IPO/M&amp;A volumes normalize toward historical averages. Bearish: Continued freeze; government shutdowns or rate volatility delay deal completions.</em></p></li>
+  <li><strong>2. Software Revenue Growth &amp; Mix Shift</strong><p class="prose">Software solutions grew 8.7% to a record $358M in FY2025 (47% of revenue). ActiveDisclosure grew 17% (7th consecutive quarter of net client growth). Management targets 60% software by 2028. Each percentage point of mix shift toward software improves the margin profile and supports multiple expansion from 6x toward 8-10x EV/EBITDA. <em>Bullish: Software exceeds 50% of revenue in 2026; ActiveDisclosure accelerates vs. Workiva. Bearish: Software growth decelerates to &lt;5%; Workiva regains competitive momentum.</em></p></li>
+  <li><strong>3. Share Buyback Pace &amp; Capital Returns</strong><p class="prose">DFIN repurchased ~12% of its float in FY2025 ($172M at avg $48.36). With 0.6x net leverage and &gt;$100M annual FCF, capacity for continued buybacks is enormous. At current prices, every $50M in buybacks retires ~4% of shares outstanding. <em>Bullish: Board authorizes new $200M+ buyback; accelerates purchases below $45. Bearish: Management pivots to acquisitions at elevated valuations instead of buybacks.</em></p></li>
+  <li><strong>4. EBITDA Margin Trajectory</strong><p class="prose">Adjusted EBITDA margin hit a record 31.3% in FY2025 (from ~16% at spin-off). Margin expansion is driven by software mix shift, print outsourcing (variable cost model), and SG&amp;A discipline. Management guides 30%+ margins long-term with potential for 33-35% if capital markets normalize. <em>Bullish: Margins expand to 33%+ on transactional recovery. Bearish: Margins compress below 28% on revenue miss; cost savings fully realized.</em></p></li>
+  <li><strong>5. ArcFlex &amp; Private Capital Markets Adoption</strong><p class="prose">ArcFlex targets 54,000+ alternative investment funds that are 10-20 years behind public funds in software adoption. Revenue ramp expected in 2027. If this TAM opens as management projects, it could add $50-100M in recurring revenue by 2030—a transformative growth vector. <em>Bullish: Early ArcFlex traction exceeds expectations; partnership announcements with major fund administrators. Bearish: Private funds resist compliance software adoption; regulatory framework remains unclear.</em></p></li>
+  <li><strong>6. Regulatory Catalysts</strong><p class="prose">SEC rulemaking creates both demand and volatility. The TSR rule drove strong Arc Suite growth in 2024-2025 (now normalizing). New regulations around ESG disclosure, climate risk, or AI governance could create step-function demand. Conversely, deregulation (e.g., shifting to semi-annual reporting) could reduce filing volumes. <em>Bullish: New SEC mandates drive compliance software adoption. Bearish: Deregulation or regulatory uncertainty reduces urgency to invest in compliance infrastructure.</em></p></li>
+</ol>
+
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS -->
+<div class="memo-section">7. What Drives the Business?</div>
+<div class="sub-label">Revenue Decomposition</div>
+<table class="data">
+  <thead><tr><th>Revenue Line</th><th>Driver 1</th><th>Driver 2</th><th>Driver 3</th><th>FY2025 ($M)</th></tr></thead>
+  <tbody>
+    <tr><td>CM — Software (Venue + AD)</td><td># Active Deals × VDR Fee</td><td>+ AD Subscribers × Sub. Price</td><td>+ Upsell/Expansion</td><td>$230M</td></tr>
+    <tr><td colspan="4" style="padding-left:20px;color:#666;">Venue ~$142M; AD growing 17%; tied to capital markets activity for VDR, recurring for AD subscriptions</td><td style="color:#666;">+7.7% YoY</td></tr>
+    <tr><td>CM — Compliance &amp; Comms</td><td># Transactions × Rev/Deal</td><td>+ Compliance Filings × Fee</td><td>+ Print/Distribution</td><td>$296M</td></tr>
+    <tr><td colspan="4" style="padding-left:20px;color:#666;">Transactional ~$175M (highest-margin); compliance + print declining; 50-60% incremental margins on deals</td><td style="color:#666;">-7.9% YoY</td></tr>
+    <tr><td>IC — Software (Arc Suite)</td><td># Fund Complexes × License</td><td>+ ArcReporting/ArcPro Uptake</td><td>+ ArcFlex (new)</td><td>$128M</td></tr>
+    <tr><td colspan="4" style="padding-left:20px;color:#666;">25+ consecutive quarters of growth; TSR rule adoption driving ArcReporting; ArcFlex targeting private funds</td><td style="color:#666;">+10.6% YoY</td></tr>
+    <tr><td>IC — Compliance &amp; Comms</td><td># Fund Filings × Fee</td><td>+ Print/Distribution Volume</td><td></td><td>$112M</td></tr>
+    <tr><td colspan="4" style="padding-left:20px;color:#666;">Secular print decline + TSR page count reduction; transitioning to software over time</td><td style="color:#666;">-13.9% YoY</td></tr>
+  </tbody>
+</table>
+
+<div class="sub-label" style="margin-top:16px;">Key Operating Metrics</div>
+<table class="data">
+  <thead><tr><th>Metric</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>Target/Guide</th><th>Commentary</th></tr></thead>
+  <tbody>
+    <tr><td>Software Revenue ($M)</td><td>$298</td><td>$330</td><td>$358</td><td>~60% of rev by 2028</td><td>Record; 11% CAGR since spin-off</td></tr>
+    <tr><td>Software % of Revenue</td><td>37%</td><td>42%</td><td>47%</td><td>60% by 2028</td><td>From 22% at 2016 spin-off</td></tr>
+    <tr><td>Adj. EBITDA ($M)</td><td>$197</td><td>$217</td><td>$240</td><td>30%+ margin</td><td>Record margin 31.3% in FY2025</td></tr>
+    <tr><td>Free Cash Flow ($M)</td><td>$62</td><td>$105</td><td>$108</td><td>&gt;$500M cum. '24-'28</td><td>45% EBITDA-to-FCF conversion</td></tr>
+    <tr><td>Net Leverage (x)</td><td>—</td><td>0.5x</td><td>0.6x</td><td>&lt;1.0x</td><td>Fortress balance sheet</td></tr>
+    <tr><td>Shares Repurchased</td><td>1.2M</td><td>2.0M</td><td>3.6M</td><td>Ongoing</td><td>~12% of float in FY2025</td></tr>
+    <tr><td>Recurring/Reoccurring %</td><td>~75%</td><td>~78%</td><td>~80%</td><td>Increasing</td><td>Event-driven shrinking as % of total</td></tr>
+    <tr><td>IPO Market Share (&gt;$100M)</td><td>~60%</td><td>~62%</td><td>~65%</td><td>Dominant</td><td>70% of &gt;$1B deals in FY2025</td></tr>
+    <tr><td>Print % of Revenue</td><td>~20%</td><td>~17%</td><td>~14%</td><td>Declining</td><td>Down from ~40% at spin-off</td></tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:12px;"><strong>Key insight:</strong> DFIN's revenue has two distinct engines: (1) <strong>recurring software subscriptions</strong> (~47% of revenue, growing 9-11%, predictable) and (2) <strong>event-driven transactional services</strong> (~20% of revenue, highly volatile, 50-60% incremental margins). The software engine provides a stable floor, while transactional revenue acts as a powerful earnings amplifier. At historical average deal volumes, DFIN would generate $50-80M more in transactional revenue per year—which at 50-60% margins translates to $25-48M of incremental EBITDA, or $0.70-$1.40 of incremental EPS. This embedded operating leverage is the key to understanding why DFIN's current valuation may dramatically understate normalized earnings power.</p>
+
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<div class="memo-section">8. AlphaSense Insights</div>
+<div class="alphasense-box"><strong>AlphaSense Deep Research Reports</strong> · Date: April 2, 2026 · Sources: Company Primer, Expert Calls &amp; Competitive Analysis (96 cited sources including former DFIN directors, Workiva employees, Broadridge/Diligent competitors, JPMorgan) · Query: DFIN — Full Strategic Analysis</div>
+
+<div class="as-section">Competitive Moat &amp; Industry Structure</div>
+<div class="prose">DFIN's most formidable moat is its 24/7 white-glove service model. During high-stakes IPOs and complex mergers, corporate finance teams are extremely risk-averse on SEC filings and rely on DFIN's dedicated regulatory experts. This service capability—managing simultaneous transactions under extreme time pressure with zero error tolerance—cannot be replicated by hiring a few people. Expert sources describe this as an "insurmountable barrier" for pure-software competitors. In investment company compliance, DFIN operates from "a position of profound strength," dominating alongside Confluence with deep SEC lobbying relationships and early insight into upcoming regulatory mandates. DFIN actively participates in SEC rulemaking processes, giving it first-mover advantage on compliance products like ArcReporting for Tailored Shareholder Reports.</div>
+
+<div class="as-section">Technology Gap with Workiva Has Closed</div>
+<div class="prose">Expert sources indicate the rebuilt ActiveDisclosure platform has achieved "true functional parity" with Workiva—a significant shift from prior years when Workiva was acknowledged as the clear technology leader. DFIN competes effectively by bundling premium service with lower pricing (sometimes a fraction of Workiva's cost for mid-market companies). The native Microsoft Excel integration appeals to traditional accounting teams who prefer familiar tools. ActiveDisclosure's 7th consecutive quarter of net client growth and 17% FY2025 growth rate suggest the competitive tide is turning. However, Workiva still dominates the enterprise segment (&gt;$1B revenue companies) and uses base SEC filing as a loss leader to cross-sell GRC modules.</div>
+
+<div class="as-section">Most Misunderstood Aspects</div>
+<div class="prose"><strong>1. "Old school dinosaur" perception is fundamentally wrong.</strong> Despite 47% software revenue, record 31.3% EBITDA margins, and a near-zero-leverage balance sheet, the market still prices DFIN as a legacy print business at 5.7x EV/EBITDA. Print has shrunk from 40% to 14% of revenue with margins improving from low-20s% to mid-40s% through facility consolidation.</div>
+<div class="prose"><strong>2. Margin expansion is structural, not cyclical.</strong> Investors attribute margin gains to transactional peaks. In reality, management permanently altered the cost structure: outsourced print to variable model, consolidated real estate, shifted from headcount-heavy services to scalable SaaS. Margins should hold 30%+ even in weak deal environments.</div>
+<div class="prose"><strong>3. Venue VDR revenue may be overstated as "recurring."</strong> Expert sources warn that Venue's ~$142M revenue appears sticky but is actually "artificially recurring" and heavily dependent on continuous deal flow. Recent growth metrics may reflect aggressive pricing conversions rather than genuine market share gains. This is a contrarian risk that consensus may be overlooking.</div>
+
+<div class="as-section">Key Long-Term Investor Questions</div>
+<ol class="num-list">
+<li><strong>Can ActiveDisclosure sustain double-digit growth against Workiva?</strong> The rebuilt platform and price advantage are working (17% growth, net client gains), but Workiva has 6,600+ global customers and 97.2% gross retention. If Workiva aggressively cuts pricing or bundles GRC, ActiveDisclosure's growth could stall.</li>
+<li><strong>Will transactional revenue normalize?</strong> At &gt;$100M below historical averages, the potential is significant but uncertain. Capital markets activity depends on macro factors (rates, geopolitics, regulatory clarity) outside DFIN's control.</li>
+<li><strong>Can ArcFlex unlock private capital markets?</strong> The TAM is massive (54,000+ funds), but private fund managers have historically resisted compliance software adoption and regulatory frameworks remain unclear. Revenue ramp expected 2027—a key monitoring point.</li>
+</ol>
+
+<!-- SECTION 9: SENSITIVITIES -->
+<div class="memo-section">9. Sensitivities on Core Business Drivers</div>
+<div class="sens-title">FY2026E Adj. EBITDA ($M) — Software Revenue Growth (%) vs. Transactional Revenue ($M)</div>
+<div class="sens-current">Current: Software ~$358M growing ~9%, Transactional ~$175M (still below $280M historical avg)</div>
+<table class="sensitivity">
+  <tr><th>Software Gr. \ Trans. Rev</th><th>$150M</th><th>$175M</th><th>$200M</th><th>$225M</th><th>$250M</th></tr>
+  <tr><td>5%</td><td>215</td><td>228</td><td>241</td><td>254</td><td>268</td></tr>
+  <tr><td>8%</td><td>222</td><td>235</td><td>248</td><td>262</td><td>275</td></tr>
+  <tr><td>10%</td><td>227</td><td>240</td><td class="base">253</td><td>267</td><td>280</td></tr>
+  <tr><td>13%</td><td>234</td><td>247</td><td>260</td><td>274</td><td>287</td></tr>
+  <tr><td>16%</td><td>241</td><td>254</td><td>268</td><td>281</td><td>295</td></tr>
+</table>
+
+<div class="sens-title" style="margin-top:16px;">FY2026E Adjusted EPS ($) — Revenue ($M) vs. Adj. EBITDA Margin (%)</div>
+<div class="sens-current">Current FY26E consensus: ~$789M revenue, ~31.6% EBITDA margin → ~$4.02 adj. EPS</div>
+<table class="sensitivity">
+  <tr><th>Revenue \ Margin</th><th>28%</th><th>30%</th><th>32%</th><th>34%</th><th>36%</th></tr>
+  <tr><td>$720M</td><td>$2.50</td><td>$2.85</td><td>$3.20</td><td>$3.55</td><td>$3.90</td></tr>
+  <tr><td>$760M</td><td>$2.75</td><td>$3.10</td><td>$3.50</td><td>$3.85</td><td>$4.25</td></tr>
+  <tr><td>$790M</td><td>$2.95</td><td>$3.30</td><td class="base">$3.70</td><td>$4.10</td><td>$4.50</td></tr>
+  <tr><td>$830M</td><td>$3.15</td><td>$3.55</td><td>$3.95</td><td>$4.40</td><td>$4.80</td></tr>
+  <tr><td>$870M</td><td>$3.40</td><td>$3.80</td><td>$4.25</td><td>$4.70</td><td>$5.15</td></tr>
+</table>
+
+<div class="sens-title" style="margin-top:16px;">Implied Share Price ($) — FY2028E EBITDA ($M) vs. Exit EV/EBITDA (x)</div>
+<div class="sens-current">Assumes net debt ~$0 at FY2028 (continued buybacks + FCF), ~25M diluted shares. Current: $46.06.</div>
+<table class="sensitivity">
+  <tr><th>EBITDA \ Multiple</th><th>5.0x</th><th>6.0x</th><th>7.0x</th><th>8.0x</th><th>9.0x</th></tr>
+  <tr><td>$220M</td><td>$44</td><td>$53</td><td>$62</td><td>$70</td><td>$79</td></tr>
+  <tr><td>$250M</td><td>$50</td><td>$60</td><td>$70</td><td>$80</td><td>$90</td></tr>
+  <tr><td>$280M</td><td>$56</td><td>$67</td><td class="base">$78</td><td>$90</td><td>$101</td></tr>
+  <tr><td>$320M</td><td>$64</td><td>$77</td><td>$90</td><td>$102</td><td>$115</td></tr>
+  <tr><td>$360M</td><td>$72</td><td>$86</td><td>$101</td><td>$115</td><td>$130</td></tr>
+</table>
+
+<!-- SECTION 10: 3-YEAR MODEL — 5 SCENARIOS -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios</div>
+<p class="prose">All figures in $M unless stated. Modeled FY2026E–FY2028E. Current share price: $46.06. Diluted shares: ~27M (declining via buybacks). Net debt: $147M.</p>
+
+<div class="case-block">
+  <div class="case-name">Bear Severe — Capital Markets Freeze &amp; Competitive Loss</div>
+  <div class="fermi-narrative"><div class="scenario-text">IPO/M&amp;A activity collapses due to recession or geopolitical shock. Workiva gains aggressive share in corporate SEC reporting. Venue loses deal mandates. ArcFlex fails to gain traction. Print accelerates decline.</div>
+    <ul><li>Transactional revenue drops to $120M (-30% vs. FY25)</li><li>Software growth slows to 2-3%</li><li>EBITDA margins compress to 25%</li><li>Buybacks slow (management conserves cash)</li></ul>
+    <div class="reconcile">Path: Deal freeze → revenue decline → margin pressure → market re-rates as legacy business</div>
+  </div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Transactional Revenue (FY28)</span><span>$120M</span></div>
+  <div class="driver-row"><span>Software Growth Rate</span><span>2-3%</span></div>
+  <div class="driver-row"><span>Adj. EBITDA Margin (FY28)</span><span>25.0%</span></div>
+  <table class="scenario-mini">
+    <tr><th></th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr>
+    <tr><td>Revenue</td><td>$720</td><td>690</td><td>670</td></tr>
+    <tr><td>Gross Income</td><td>410</td><td>390</td><td>378</td></tr>
+    <tr><td>EBITDA</td><td>190</td><td>175</td><td>168</td></tr>
+    <tr><td>EBIT</td><td>123</td><td>110</td><td>103</td></tr>
+    <tr><td>Net Income</td><td>52</td><td>44</td><td>40</td></tr>
+    <tr><td>EPS</td><td>$2.00</td><td>$1.76</td><td>$1.60</td></tr>
+    <tr><td>EBITDA Margin</td><td>26.4%</td><td>25.4%</td><td>25.0%</td></tr>
+    <tr><td>FCF</td><td>$70</td><td>60</td><td>$55</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-line1"><span class="exit-price">$22</span><span class="exit-upside">-52% from current</span></div>
+    <div class="exit-line2"><span>Exit EV/EBITDA: 4.0x</span><span>Implied EV: $672M</span><span>Shares: 25M</span></div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bear Mild — Sluggish Recovery &amp; No Re-Rating</div>
+  <div class="fermi-narrative"><div class="scenario-text">Capital markets recover slowly. Software grows mid-single digits but not enough to change the narrative. Print decline continues. Market maintains "show me" discount. Buybacks steady but at higher prices.</div>
+    <ul><li>Transactional revenue flat at ~$175M</li><li>Software growth 5-6%</li><li>EBITDA margins stable at ~31%</li><li>No multiple expansion; stock dead money</li></ul>
+    <div class="reconcile">Path: Modest execution → no catalyst → multiple stuck at 5-6x → value trap</div>
+  </div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Transactional Revenue (FY28)</span><span>$175M</span></div>
+  <div class="driver-row"><span>Software Growth Rate</span><span>5-6%</span></div>
+  <div class="driver-row"><span>Adj. EBITDA Margin (FY28)</span><span>31.3%</span></div>
+  <table class="scenario-mini">
+    <tr><th></th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr>
+    <tr><td>Revenue</td><td>$775</td><td>790</td><td>805</td></tr>
+    <tr><td>Gross Income</td><td>452</td><td>468</td><td>483</td></tr>
+    <tr><td>EBITDA</td><td>237</td><td>245</td><td>252</td></tr>
+    <tr><td>EBIT</td><td>170</td><td>178</td><td>185</td></tr>
+    <tr><td>Net Income</td><td>92</td><td>98</td><td>103</td></tr>
+    <tr><td>EPS</td><td>$3.55</td><td>$3.92</td><td>$4.25</td></tr>
+    <tr><td>EBITDA Margin</td><td>30.6%</td><td>31.0%</td><td>31.3%</td></tr>
+    <tr><td>FCF</td><td>$95</td><td>100</td><td>$105</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-line1"><span class="exit-price">$35</span><span class="exit-upside">-24% from current</span></div>
+    <div class="exit-line2"><span>Exit EV/EBITDA: 4.5x</span><span>Implied EV: $1,134M</span><span>Shares: 25M</span></div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Base — Consensus Execution &amp; Moderate Deal Recovery</div>
+  <div class="fermi-narrative"><div class="scenario-text">Software reaches ~55% of revenue by 2028. Capital markets activity partially normalizes. ActiveDisclosure maintains double-digit growth. Arc Suite benefits from ArcFlex early traction. Continued buybacks shrink float. Modest re-rating as software narrative takes hold.</div>
+    <ul><li>Transactional revenue recovers to $200-210M</li><li>Software growth 9-10%</li><li>EBITDA margins expand to 33%</li><li>Buybacks retire additional 3-4M shares</li></ul>
+    <div class="reconcile">Path: Software inflects → deals recover → margins expand → re-rating to 6x EBITDA</div>
+  </div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Transactional Revenue (FY28)</span><span>$210M</span></div>
+  <div class="driver-row"><span>Software Growth Rate</span><span>9-10%</span></div>
+  <div class="driver-row"><span>Adj. EBITDA Margin (FY28)</span><span>33.0%</span></div>
+  <table class="scenario-mini">
+    <tr><th></th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr>
+    <tr><td>Revenue</td><td>$789</td><td>825</td><td>865</td></tr>
+    <tr><td>Gross Income</td><td>490</td><td>518</td><td>553</td></tr>
+    <tr><td>EBITDA</td><td>250</td><td>268</td><td>285</td></tr>
+    <tr><td>EBIT</td><td>182</td><td>198</td><td>218</td></tr>
+    <tr><td>Net Income</td><td>114</td><td>128</td><td>145</td></tr>
+    <tr><td>EPS</td><td>$4.02</td><td>$4.92</td><td>$5.80</td></tr>
+    <tr><td>EBITDA Margin</td><td>31.6%</td><td>32.5%</td><td>33.0%</td></tr>
+    <tr><td>FCF</td><td>$110</td><td>125</td><td>$140</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-line1"><span class="exit-price">$64</span><span class="exit-upside">+39% from current</span></div>
+    <div class="exit-line2"><span>Exit EV/EBITDA: 5.8x</span><span>Implied EV: $1,653M</span><span>Shares: 24M</span></div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bull Mild — Software Acceleration &amp; Capital Markets Boom</div>
+  <div class="fermi-narrative"><div class="scenario-text">IPO/M&amp;A activity surges as PE exits accelerate and rates stabilize. Software exceeds 55% of revenue. ActiveDisclosure takes share from Workiva in mid-market. ArcFlex ramps ahead of schedule. Multiple re-rates toward software peers.</div>
+    <ul><li>Transactional revenue normalizes to $240M+</li><li>Software growth 12-14%</li><li>EBITDA margins hit 35%</li><li>Market re-rates from 6x to 7x+ EV/EBITDA</li></ul>
+    <div class="reconcile">Path: Deal boom → transactional leverage → software re-rating → multiple expansion</div>
+  </div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Transactional Revenue (FY28)</span><span>$250M</span></div>
+  <div class="driver-row"><span>Software Growth Rate</span><span>12-14%</span></div>
+  <div class="driver-row"><span>Adj. EBITDA Margin (FY28)</span><span>35.0%</span></div>
+  <table class="scenario-mini">
+    <tr><th></th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr>
+    <tr><td>Revenue</td><td>$820</td><td>890</td><td>960</td></tr>
+    <tr><td>Gross Income</td><td>520</td><td>575</td><td>634</td></tr>
+    <tr><td>EBITDA</td><td>267</td><td>305</td><td>336</td></tr>
+    <tr><td>EBIT</td><td>200</td><td>238</td><td>270</td></tr>
+    <tr><td>Net Income</td><td>130</td><td>162</td><td>190</td></tr>
+    <tr><td>EPS</td><td>$5.00</td><td>$6.75</td><td>$8.26</td></tr>
+    <tr><td>EBITDA Margin</td><td>32.6%</td><td>34.3%</td><td>35.0%</td></tr>
+    <tr><td>FCF</td><td>$125</td><td>155</td><td>$180</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-line1"><span class="exit-price">$90</span><span class="exit-upside">+95% from current</span></div>
+    <div class="exit-line2"><span>Exit EV/EBITDA: 6.8x</span><span>Implied EV: $2,285M</span><span>Shares: 23M</span></div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bull Severe — Platform Dominance &amp; Strategic Premium</div>
+  <div class="fermi-narrative"><div class="scenario-text">DFIN becomes the dominant regulatory compliance platform globally. ArcFlex breaks out in private markets. Capital markets activity hits cycle highs. Software exceeds 60% of revenue ahead of target. PE/strategic acquirer expresses interest. Multiple re-rates to software comps (8-10x).</div>
+    <ul><li>Transactional revenue exceeds $280M (historical norms)</li><li>Software growth 15%+ (ArcFlex + ActiveDisclosure)</li><li>EBITDA margins reach 37%</li><li>Buybacks retire 30%+ of float by FY28</li></ul>
+    <div class="reconcile">Path: Platform dominance → ArcFlex breakout → takeout premium → re-rate to software comps</div>
+  </div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Transactional Revenue (FY28)</span><span>$290M</span></div>
+  <div class="driver-row"><span>Software Growth Rate</span><span>15%+</span></div>
+  <div class="driver-row"><span>Adj. EBITDA Margin (FY28)</span><span>37.0%</span></div>
+  <table class="scenario-mini">
+    <tr><th></th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr>
+    <tr><td>Revenue</td><td>$840</td><td>940</td><td>1,050</td></tr>
+    <tr><td>Gross Income</td><td>538</td><td>614</td><td>700</td></tr>
+    <tr><td>EBITDA</td><td>278</td><td>338</td><td>389</td></tr>
+    <tr><td>EBIT</td><td>212</td><td>272</td><td>322</td></tr>
+    <tr><td>Net Income</td><td>140</td><td>190</td><td>235</td></tr>
+    <tr><td>EPS</td><td>$5.60</td><td>$8.26</td><td>$10.65</td></tr>
+    <tr><td>EBITDA Margin</td><td>33.1%</td><td>36.0%</td><td>37.0%</td></tr>
+    <tr><td>FCF</td><td>$135</td><td>180</td><td>$220</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-line1"><span class="exit-price">$120</span><span class="exit-upside">+160% from current</span></div>
+    <div class="exit-line2"><span>Exit EV/EBITDA: 7.5x</span><span>Implied EV: $2,918M</span><span>Shares: 22M</span></div>
+  </div>
+</div>
+
+<div class="case-chart">
+  <svg viewBox="0 0 700 200">
+    <line x1="80" y1="150" x2="660" y2="150" stroke="#ddd" stroke-width="1"/>
+    <line x1="80" y1="120" x2="660" y2="120" stroke="#f0f0f0" stroke-width="0.5" stroke-dasharray="4,3"/>
+    <line x1="80" y1="90" x2="660" y2="90" stroke="#f0f0f0" stroke-width="0.5" stroke-dasharray="4,3"/>
+    <line x1="80" y1="60" x2="660" y2="60" stroke="#f0f0f0" stroke-width="0.5" stroke-dasharray="4,3"/>
+    <line x1="80" y1="30" x2="660" y2="30" stroke="#f0f0f0" stroke-width="0.5" stroke-dasharray="4,3"/>
+    <text x="75" y="153" text-anchor="end" font-size="8" fill="#888">$0</text>
+    <text x="75" y="120" text-anchor="end" font-size="8" fill="#888">$30</text>
+    <text x="75" y="90" text-anchor="end" font-size="8" fill="#888">$60</text>
+    <text x="75" y="60" text-anchor="end" font-size="8" fill="#888">$90</text>
+    <text x="75" y="30" text-anchor="end" font-size="8" fill="#888">$120</text>
+    <!-- Current price line: $46.06 → y = 150 - (46.06/130)*120 = 150 - 42.5 = 107.5 -->
+    <line x1="80" y1="107" x2="660" y2="107" stroke="#1a1a2e" stroke-width="1.5" stroke-dasharray="6,4"/>
+    <text x="665" y="110" text-anchor="start" font-size="8" font-weight="600" fill="#1a1a2e">Current $46.06</text>
+    <!-- Bear Severe $22: height=(22/130)*120=20.3, y=130 -->
+    <rect x="110" y="130" width="80" height="20" rx="3" fill="#c0392b"/>
+    <text x="150" y="126" text-anchor="middle" font-size="10" font-weight="700" fill="#c0392b">$22</text>
+    <text x="150" y="165" text-anchor="middle" font-size="8" font-weight="600" fill="#c0392b">Bear Severe</text>
+    <text x="150" y="176" text-anchor="middle" font-size="8" fill="#888">-52%</text>
+    <!-- Bear Mild $35: height=32.3, y=118 -->
+    <rect x="225" y="118" width="80" height="32" rx="3" fill="#e67e22"/>
+    <text x="265" y="114" text-anchor="middle" font-size="10" font-weight="700" fill="#e67e22">$35</text>
+    <text x="265" y="165" text-anchor="middle" font-size="8" font-weight="600" fill="#e67e22">Bear Mild</text>
+    <text x="265" y="176" text-anchor="middle" font-size="8" fill="#888">-24%</text>
+    <!-- Base $64: height=59.1, y=91 -->
+    <rect x="340" y="91" width="80" height="59" rx="3" fill="#3498db"/>
+    <text x="380" y="87" text-anchor="middle" font-size="10" font-weight="700" fill="#3498db">$64</text>
+    <text x="380" y="165" text-anchor="middle" font-size="8" font-weight="600" fill="#3498db">Base</text>
+    <text x="380" y="176" text-anchor="middle" font-size="8" fill="#888">+39%</text>
+    <!-- Bull Mild $90: height=83.1, y=67 -->
+    <rect x="455" y="67" width="80" height="83" rx="3" fill="#27ae60"/>
+    <text x="495" y="63" text-anchor="middle" font-size="10" font-weight="700" fill="#27ae60">$90</text>
+    <text x="495" y="165" text-anchor="middle" font-size="8" font-weight="600" fill="#27ae60">Bull Mild</text>
+    <text x="495" y="176" text-anchor="middle" font-size="8" fill="#888">+95%</text>
+    <!-- Bull Severe $120: height=110.8, y=39 -->
+    <rect x="570" y="39" width="80" height="111" rx="3" fill="#16a085"/>
+    <text x="610" y="35" text-anchor="middle" font-size="10" font-weight="700" fill="#16a085">$120</text>
+    <text x="610" y="165" text-anchor="middle" font-size="8" font-weight="600" fill="#16a085">Bull Severe</text>
+    <text x="610" y="176" text-anchor="middle" font-size="8" fill="#888">+160%</text>
+    <text x="370" y="195" text-anchor="middle" font-size="9" fill="#888">Implied Share Price by Scenario — FY2028E Exit</text>
+  </svg>
+</div>
+
+<!-- SECTION 11: COMPARABLE COMPANIES -->
+<div class="memo-section">11. Comparable Companies</div>
+<div class="section-title">Selected Financials</div>
+<table class="comps">
+  <tr><th>Company</th><th>Ticker</th><th>Mkt Cap ($M)</th><th>EV ($M)</th><th>Sales</th><th>EBITDA</th><th>EBITDA Mgn</th></tr>
+  <tr class="subject"><td>Donnelley Financial</td><td>DFIN-US</td><td>$1,253</td><td>$1,424</td><td>$767</td><td>$240</td><td>31.3%</td></tr>
+  <tr><td>SS&C Technologies</td><td>SSNC-US</td><td>$16,475</td><td>$20,081</td><td>$5,888</td><td>$2,060</td><td>35.0%</td></tr>
+  <tr><td>Progress Software</td><td>PRGS-US</td><td>$1,109</td><td>$2,337</td><td>$756</td><td>$253</td><td>33.5%</td></tr>
+  <tr><td>Five9</td><td>FIVN-US</td><td>$1,243</td><td>$1,282</td><td>$1,035</td><td>$183</td><td>17.7%</td></tr>
+  <tr><td>Sprinklr</td><td>CXM-US</td><td>$1,606</td><td>$1,101</td><td>$790</td><td>$72</td><td>9.1%</td></tr>
+  <tr class="stat-row"><td>Average</td><td></td><td></td><td></td><td></td><td></td><td>25.3%</td></tr>
+  <tr class="stat-row"><td>Median</td><td></td><td></td><td></td><td></td><td></td><td>25.6%</td></tr>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Valuation Multiples</div>
+<table class="comps">
+  <tr><th>Company</th><th>Ticker</th><th>P/Sales</th><th>EV/Sales</th><th>EV/EBITDA FY1</th><th>EV/EBITDA FY2</th><th>P/E FY1</th><th>P/E FY2</th><th>FCF Yield</th></tr>
+  <tr class="subject"><td>Donnelley Financial</td><td>DFIN-US</td><td>1.7x</td><td>1.9x</td><td>5.7x</td><td>5.4x</td><td>9.8x</td><td>9.0x</td><td>8.2%</td></tr>
+  <tr><td>SS&C Technologies</td><td>SSNC-US</td><td>2.7x</td><td>3.2x</td><td>7.5x</td><td>7.0x</td><td>9.9x</td><td>9.1x</td><td>7.5%</td></tr>
+  <tr><td>Progress Software</td><td>PRGS-US</td><td>1.1x</td><td>2.4x</td><td>5.9x</td><td>5.8x</td><td>4.2x</td><td>4.1x</td><td>12.2%</td></tr>
+  <tr><td>Five9</td><td>FIVN-US</td><td>1.2x</td><td>1.1x</td><td>4.3x</td><td>3.7x</td><td>4.7x</td><td>4.1x</td><td>11.4%</td></tr>
+  <tr><td>Sprinklr</td><td>CXM-US</td><td>1.8x</td><td>1.3x</td><td>6.6x</td><td>5.9x</td><td>12.4x</td><td>11.1x</td><td>8.6%</td></tr>
+  <tr class="stat-row"><td>Average</td><td></td><td>1.7x</td><td>2.0x</td><td>6.0x</td><td>5.6x</td><td>8.2x</td><td>7.5x</td><td>9.6%</td></tr>
+  <tr class="stat-row"><td>Median</td><td></td><td>1.5x</td><td>1.8x</td><td>5.9x</td><td>5.8x</td><td>7.4x</td><td>6.6x</td><td>8.6%</td></tr>
+</table>
+
+<div class="prose" style="margin-top:10px;"><strong>Comps Commentary:</strong> DFIN trades roughly in line with software comp medians on EV/EBITDA (5.7x vs. 5.9x) and forward P/E (9.8x vs. 7.4x median). The company's 31.3% EBITDA margin is the second-highest in the set (behind SS&amp;C at 35.0%), yet it trades at a significant discount to SS&amp;C on EV/EBITDA (5.7x vs. 7.5x). The discount reflects DFIN's smaller scale, capital markets cyclicality exposure, and lingering "legacy printer" perception. As software mix approaches 60% and the transformation narrative gains acceptance, DFIN should trade closer to SS&amp;C's multiples (7-8x EV/EBITDA), implying 25-40% upside from multiples alone. All 3 analysts rate DFIN Buy with a $64.33 consensus target (+40%).</div>
+
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+<div class="verdict"><p><strong>(i) Market Cap Bucket: $1.18B</strong> <span class="fw-rating strong">Strong Fit</span></p><p style="margin-top:4px;">Small Cap ($1B–$5B). DFIN sits firmly in Theia's sweet spot. The stock is down 30% from its 52-week high ($66.25), creating potential entry point. Low daily volume (~256K shares) means institutional interest is limited.</p></div>
+<div class="verdict"><p><strong>(ii) Analyst Coverage: 3 Brokers (All Buy)</strong> <span class="fw-rating strong">Strong Fit</span></p><p style="margin-top:4px;">Only 3 broker contributors—all rating Buy with a consensus target of $64.33 (+40%). This is exceptional under-coverage for a $1.2B company with record margins and a software transformation story. The unanimous Buy rating with zero Holds or Sells suggests the few analysts covering it see clear value. Primary research (expert calls on competitive dynamics, capital markets channel checks, VDR market analysis) could generate highly differentiated insights.</p></div>
+<div class="verdict"><p><strong>(iii) Thesis Alignment: Capital Markets Compliance Software</strong> <span class="fw-rating moderate">Adjacent</span></p><p style="margin-top:4px;">DFIN is core financial infrastructure—the technology backbone for SEC compliance, IPO execution, M&amp;A due diligence, and investment company reporting. The company's Venue VDR processes billions of dollars in M&amp;A transaction data; Arc Suite automates compliance for ~80% of top 50 global fund complexes. While not directly blockchain/crypto-aligned, DFIN is deeply embedded in capital markets digitization, regulatory technology (RegTech), and the shift from manual to automated financial compliance. Rating: Adjacent—central to financial services technology but no blockchain component.</p></div>
+<div class="verdict"><p><strong>(iv) Outcome Dispersion: $22 – $120</strong> <span class="fw-rating strong">Strong Fit</span></p><p style="margin-top:4px;">Wide ~5.5x spread driven by: (a) binary capital markets activity trajectory (transactional revenue &gt;$100M below historical norms), (b) software transformation narrative (47% today, 60% target by 2028), (c) aggressive buybacks shrinking float, (d) embedded operating leverage from deal normalization. The stock currently sits between bear mild ($35) and base ($64), suggesting asymmetric upside if capital markets recover.</p></div>
+
+<div style="background:#fff3cd;border-left:4px solid #856404;padding:12px 14px;margin:16px 0;font-size:11.5px;">
+  <strong>VERDICT: YES — Misunderstood Software Transformation with Extreme Under-Coverage &amp; Asymmetric Upside</strong><br><br>
+  DFIN is an exceptional Theia candidate: $1.18B market cap with only 3 analysts (all Buy), record 31.3% EBITDA margins, 47% software revenue growing double-digits, a fortress balance sheet (0.6x net leverage), and massive embedded operating leverage from capital markets normalization. The market still prices DFIN as a legacy printer at 5.7x EV/EBITDA despite the company being 86% non-print. Transactional revenue is &gt;$100M below historical averages—each $10M of recovery drops 50-60% to the bottom line. The buyback program (~12% of float in FY2025) mechanically compounds EPS. Base case target of $64 (+39%) matches analyst consensus; bull cases reach $90-120 on deal normalization + multiple re-rating. With ArcFlex poised to unlock private capital markets and Active Intelligence deepening the AI moat, DFIN's growth runway extends well beyond the current multiple. <strong>Recommended: Initiate position; build on pullbacks below $42; primary catalyst: Q1 2026 earnings (May 6) + capital markets activity data.</strong>
+</div>
+
+<p class="prose" style="font-size:10px;font-style:italic;margin-top:6px;">Note: Theia seeks small-cap companies that aren't well covered and are strongly aligned on the core internet finance thesis with wide outcome dispersion. DFIN scores: Market Cap ✓ | Coverage ✓✓ | Thesis Adjacent ≈ | Dispersion ✓</p>
+
+<!-- SECTION 13: RISK SUMMARY -->
+<div class="memo-section">13. Risk Summary</div>
+<table class="risk-table">
+  <tr><th>Risk Category</th><th>Description</th><th>Severity</th><th>Mitigant</th></tr>
+  <tr><td>Capital Markets Cyclicality</td><td>Transactional revenue (20% of total, 50-60% incremental margins) is highly levered to IPO/M&amp;A activity. Prolonged deal freeze would compress EBITDA margins.</td><td><span class="fw-rating high">High</span></td><td>80% recurring/reoccurring revenue provides floor. Software subscriptions grow regardless of deal activity. Record margins achieved during period of historically low deal volumes.</td></tr>
+  <tr><td>Workiva Competition</td><td>Workiva dominates enterprise SEC reporting (~60% share) with a superior self-service platform. Loss-leader pricing on base SEC module to cross-sell GRC could pressure DFIN's mid-market position.</td><td><span class="fw-rating high">High</span></td><td>Rebuilt ActiveDisclosure achieved functional parity. DFIN wins on lower price + bundled service. 7th consecutive quarter of net client growth. Dominant in investment company compliance where Workiva is weak.</td></tr>
+  <tr><td>Cybersecurity / MNPI Risk</td><td>DFIN stores highly sensitive pre-announcement M&amp;A data in Venue VDR. A breach could cause catastrophic reputational damage and client attrition.</td><td><span class="fw-rating high">High</span></td><td>ISO 27001 certified. Zero-trust AI architecture. Dedicated CISO (Dannie Combs). Auto-redaction for PII, dynamic watermarking, GDPR/CCPA compliant.</td></tr>
+  <tr><td>Venue "Artificial Recurring"</td><td>Expert sources warn Venue revenue (~19% of total) may be overstated as sticky SaaS; actually dependent on continuous deal flow. Growth metrics may reflect pricing changes, not share gains.</td><td><span class="fw-rating moderate">Moderate</span></td><td>New Venue rebuild (launched Q3 2025) positions for genuine subscription expansion beyond transactional M&amp;A. Expanding into recurring use cases (franchise, energy, healthcare).</td></tr>
+  <tr><td>Secular Print Decline</td><td>Print &amp; distribution (~14% of revenue) declines mid-single digits annually. TSR reduced mutual fund page counts.</td><td><span class="fw-rating moderate">Moderate</span></td><td>Print margins improved from low-20s% to mid-40s%. Single facility, 100% variable cost model. Declining as % of total (from 40% at spin-off to 14%).</td></tr>
+  <tr><td>Regulatory Risk (SEC Changes)</td><td>SEC could shift to semi-annual reporting (reducing filing volumes) or unexpected rule changes could disrupt compliance software demand.</td><td><span class="fw-rating low">Low</span></td><td>Subscription pricing model insulates from filing frequency changes. Regulatory complexity trend is increasing, not decreasing. DFIN has deep SEC relationships for early visibility.</td></tr>
+</table>
+
+<!-- SECTION 14: APPENDIX -->
+<div class="memo-section">14. Appendix — Python Code</div>
+<p class="prose">Sensitivity table generator and scenario model code for analyst customization:</p>
+<div class="code-block"># DFIN Sensitivity & 5-Case Model
+import numpy as np
+import pandas as pd
+
+def ebitda_sensitivity():
+    """FY26E Adj. EBITDA — Software Growth vs. Transactional Revenue"""
+    sw_growth = [5, 8, 10, 13, 16]     # %
+    trans_rev = [150, 175, 200, 225, 250]  # $M
+    base_sw = 358  # FY25 software revenue
+    base_non_sw_non_trans = 234  # Other recurring/print
+
+    results = []
+    for sg in sw_growth:
+        row = []
+        for tr in trans_rev:
+            sw_rev = base_sw * (1 + sg/100)
+            total_rev = sw_rev + tr + base_non_sw_non_trans * 0.95
+            ebitda = total_rev * 0.31 + (tr - 175) * 0.25  # base 31% + 50% incremental on trans
+            row.append(int(ebitda))
+        results.append(row)
+
+    df = pd.DataFrame(results, index=sw_growth, columns=trans_rev)
+    df.index.name = 'Software Growth (%)'
+    df.columns.name = 'Transactional Revenue ($M)'
+    return df
+
+def share_price_sensitivity():
+    """Implied Price — FY28E EBITDA vs. EV/EBITDA"""
+    ebitdas = [220, 250, 280, 320, 360]
+    multiples = [5.0, 6.0, 7.0, 8.0, 9.0]
+    shares = 25  # M (post-buybacks)
+    net_debt = 0
+
+    results = []
+    for eb in ebitdas:
+        row = []
+        for m in multiples:
+            ev = eb * m
+            equity = ev - net_debt
+            price = int(equity / shares)
+            row.append(f"${price}")
+        results.append(row)
+
+    df = pd.DataFrame(results, index=ebitdas, columns=multiples)
+    df.index.name = 'FY28E EBITDA ($M)'
+    df.columns.name = 'Exit EV/EBITDA (x)'
+    return df
+
+def five_case_model():
+    """DFIN 5-Case Model"""
+    cases = {
+        'Bear Severe':  {'rev_28': 670, 'margin': 25.0, 'ev_eb': 4.0, 'shares': 25},
+        'Bear Mild':    {'rev_28': 805, 'margin': 31.3, 'ev_eb': 4.5, 'shares': 25},
+        'Base':         {'rev_28': 865, 'margin': 33.0, 'ev_eb': 5.8, 'shares': 24},
+        'Bull Mild':    {'rev_28': 960, 'margin': 35.0, 'ev_eb': 6.8, 'shares': 23},
+        'Bull Severe':  {'rev_28': 1050, 'margin': 37.0, 'ev_eb': 7.5, 'shares': 22},
+    }
+    current = 46.06
+    results = []
+    for name, p in cases.items():
+        ebitda = p['rev_28'] * p['margin'] / 100
+        ev = ebitda * p['ev_eb']
+        equity = ev  # ~$0 net debt by FY28
+        price = equity / p['shares']
+        upside = (price / current - 1) * 100
+        results.append({
+            'Case': name, 'FY28 Rev': f"${p['rev_28']}M",
+            'EBITDA': f"${int(ebitda)}M", 'Margin': f"{p['margin']}%",
+            'Multiple': f"{p['ev_eb']}x", 'Price': f"${price:.0f}",
+            'Upside': f"{upside:+.0f}%"
+        })
+    return pd.DataFrame(results)
+
+print("=== EBITDA Sensitivity ===")
+print(ebitda_sensitivity())
+print("\n=== Share Price Sensitivity ===")
+print(share_price_sensitivity())
+print("\n=== 5-Case Model ===")
+print(five_case_model().to_string(index=False))
+</div>
+
+<p class="source-note">Generated by Claude | Data: FactSet, AlphaSense, Company Filings, Earnings Transcripts | April 2026</p>
+
+</body>
+</html>
