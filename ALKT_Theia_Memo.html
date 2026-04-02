@@ -1,0 +1,1579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=816px">
+<title>Alkami Technology | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 28px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+table.ev tr.indent td:first-child { padding-left: 12px; font-size: 9.5px; color: #777; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; border: 1px solid #eee; border-radius: 3px; }
+.val-grid .val-cell { padding: 5px 6px; border-right: 1px solid #eee; border-bottom: 1px solid #eee; }
+.val-grid .val-cell:nth-child(6), .val-grid .val-cell:nth-child(12) { border-right: none; }
+.val-grid .val-cell:nth-child(7), .val-grid .val-cell:nth-child(8), .val-grid .val-cell:nth-child(9), .val-grid .val-cell:nth-child(10), .val-grid .val-cell:nth-child(11), .val-grid .val-cell:nth-child(12) { border-bottom: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.65; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 10px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+.fw-rating.na { background: #e9ecef; color: #6c757d; }
+.fw-summary { margin-top: 10px; padding: 8px 12px; background: #f4f6f9; border-left: 3px solid #1a1a2e; font-size: 10.5px; font-style: italic; color: #444; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; border: 1px solid #e0e0e0; }
+table.sensitivity th:first-child { text-align: left; }
+table.sensitivity td { text-align: center; padding: 3px 6px; border: 1px solid #f0f0f0; }
+table.sensitivity td:first-child { text-align: left; font-weight: 600; background: #f4f6f9; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; color: #1a1a2e; }
+.sens-title { font-size: 10px; font-weight: 700; margin: 14px 0 2px 0; color: #1a1a2e; }
+.sens-current { font-size: 9px; color: #888; margin-bottom: 4px; font-style: italic; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 14px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 6px; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 10px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 8px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 700; color: #1a1a2e; }
+.fermi-narrative { background: #f0f4f8; border-radius: 3px; padding: 8px 10px; margin-bottom: 10px; font-size: 9.5px; line-height: 1.55; border-left: 3px solid #93c5fd; }
+.fermi-narrative .scenario-text { font-style: italic; color: #444; margin-bottom: 5px; font-size: 10px; font-weight: 500; }
+.fermi-narrative ul { margin: 0; padding-left: 16px; color: #333; }
+.fermi-narrative li { margin-bottom: 2px; }
+.fermi-narrative .reconcile { margin-top: 6px; font-weight: 600; color: #1a1a2e; border-top: 1px solid #c7d9ec; padding-top: 4px; font-size: 9.5px; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 10px 0 4px 0; }
+.case-block table.scenario-mini th { text-align: right; font-weight: 600; color: #888; padding: 2px 5px; border-bottom: 1px solid #ddd; font-size: 8.5px; }
+.case-block table.scenario-mini th:first-child { text-align: left; }
+.case-block table.scenario-mini td { padding: 2.5px 5px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even):not(.margin-row) { background: #f5f5f5; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 8px; margin-top: 8px; }
+.case-block .exit-line1 { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-bottom: 6px; }
+.case-block .exit-price { font-size: 15px; font-weight: 700; color: #1a1a2e; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; color: #555; }
+.case-block .exit-line2 { display: flex; gap: 24px; font-size: 9.5px; color: #555; border-top: 1px solid #eee; padding-top: 5px; flex-wrap: wrap; }
+
+.case-chart { margin-top: 16px; padding: 12px 12px 8px 12px; background: #f9f9f9; border-radius: 4px; border: 1px solid #eee; }
+.case-chart svg { width: 100%; height: auto; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.6; }
+.screen-item { margin-bottom: 10px; }
+.screen-item .screen-label { font-weight: 700; }
+.screen-item .screen-detail { color: #444; margin-top: 2px; font-size: 10.5px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 8.5px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.num-list { padding-left: 0; list-style: none; }
+.num-list li { margin-bottom: 8px; padding-left: 0; }
+.num-list li strong { color: #1a1a2e; }
+
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1.5px solid #ddd; white-space: nowrap; }
+table.comps th:first-child { text-align: left; min-width: 110px; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child { text-align: left; font-weight: 400; color: #333; white-space: nowrap; font-size: 8px; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-weight: 600; background: #fafbfc; border-top: 1px solid #eee; font-style: italic; }
+
+table.risk-table { font-size: 10px; width: 100%; margin: 8px 0; }
+table.risk-table th { text-align: left; font-weight: 600; padding: 4px 6px; background: #f4f6f9; border-bottom: 1px solid #ddd; }
+table.risk-table td { padding: 4px 6px; border-bottom: 1px solid #eee; vertical-align: top; }
+table.risk-table td:first-child { font-weight: 600; width: 25%; }
+
+.alphasense-box { background: #e8f4fd; border-left: 4px solid #2563eb; padding: 10px 14px; margin: 10px 0; font-size: 10px; line-height: 1.5; }
+.alphasense-box strong { color: #1a1a2e; }
+.as-section { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: #1a1a2e; border-bottom: 1px solid #ddd; padding-bottom: 3px; margin: 16px 0 8px 0; }
+
+.bull-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #155724; border-bottom: 1.5px solid #c3e6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #721c24; border-bottom: 1.5px solid #f5c6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bull-item, .bear-item { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Alkami Technology | Preliminary Memo for Theia</div>
+
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<div class="memo-section">1. Business Overview</div>
+
+<div class="prose">
+Alkami Technology (NASDAQ: ALKT) is a leading cloud-based digital banking solutions provider serving community, regional, and mid-tier financial institutions (FIs) across the United States. Founded in 2009 and headquartered in Plano, Texas, the company provides a single-code base, multi-tenant digital banking platform that enables credit unions and banks to compete against megabanks (Chase, Bank of America, Wells Fargo) by delivering modern digital experiences to their account holders. The platform supports retail and commercial banking across desktop, mobile, and SMS channels with 300+ real-time integrations to back-office systems and third-party fintechs.
+</div>
+
+<div class="prose">
+The company has evolved from a pure-play digital banking interface into a <strong>Digital Sales and Service Platform (DSSP)</strong> integrating three pillars: Onboarding &amp; Account Opening (via the $375M MANTL acquisition in March 2025), Digital Banking (core platform), and Data &amp; Marketing (via the Segmint acquisition). This unified platform allows FIs to activate new account holders with multiple products in under five minutes, driving a 30% ARR uplift on new client wins. ALKT generates 95% of revenue from SaaS subscriptions on long-term contracts averaging ~70 months, with per-registered-user pricing that scales naturally with digital adoption.
+</div>
+
+<div class="prose">
+Under CEO Alex Shootman and CSO/Founder Stephen Bohanon, Alkami has grown revenue at a 32% CAGR since IPO while building a dominant position among credit unions (serving 5 of the top 20 U.S. credit unions) and rapidly expanding into the bank market with 50 banks under contract. The company serves 301 live FI clients with 22.4 million registered digital banking users, generating $480M in ARR (+35% YoY) and $1.7B in remaining performance obligations (3.6x live ARR). FY2025 marked a critical inflection point as Alkami crossed to positive adjusted EBITDA ($59M, 13.3% margin) while guiding to 18.1% margin in FY2026 on a path to "Rule of 45" by 2030.
+</div>
+
+<div class="prose">
+<strong>One-line thesis:</strong> Alkami is the leading cloud-native digital banking platform riding a massive re-platforming wave among 2,000+ community FIs stuck on legacy systems, with a compounding DSSP flywheel, AI optionality, and a profitability inflection that the market may be underpricing after a 40% drawdown.
+</div>
+
+<div class="prose">
+<strong>Headquarters:</strong> Plano, Texas &nbsp;|&nbsp; <strong>CEO:</strong> Alex P. Shootman &nbsp;|&nbsp; <strong>CFO:</strong> Cassandra Hudson &nbsp;|&nbsp; <strong>Employees:</strong> ~1,225 &nbsp;|&nbsp; <strong>Founded:</strong> 2009 &nbsp;|&nbsp; <strong>Ticker:</strong> NASDAQ: ALKT
+</div>
+
+<!-- SECTION 2: FINANCIAL SUMMARY -->
+<div class="memo-section">2. Financial Summary (Theia FactSet Summary)</div>
+
+<div class="header">
+  <div>
+    <h1>Alkami Technology, Inc.</h1>
+    <span class="ticker">ALKT-US | NASDAQ | CUSIP: 01644J108</span>
+  </div>
+  <span class="date">April 1, 2026 | Source: FactSet</span>
+</div>
+
+<div class="price-bar">
+  <span class="price">$15.67</span>
+  <span><span class="label">1M:</span> <span class="chg">-3.2%</span></span>
+  <span><span class="label">3M:</span> <span class="chg">-30.6%</span></span>
+  <span><span class="label">6M:</span> <span class="chg">-33.2%</span></span>
+  <span><span class="label">YTD:</span> <span class="chg">-30.6%</span></span>
+  <span><span class="label">1Y:</span> <span class="chg">-39.7%</span></span>
+  <span><span class="label">52W:</span> $14.11 – $31.66</span>
+</div>
+
+<div class="section-title">Key Stats — Trading</div>
+<div class="two-col">
+  <table class="kv">
+    <tr><td>Ticker</td><td>ALKT-US</td></tr>
+    <tr><td>Price</td><td>$15.67</td></tr>
+    <tr><td>Volume</td><td>1,534K</td></tr>
+    <tr><td>Avg Volume (30D)</td><td>2,209K</td></tr>
+  </table>
+  <table class="kv">
+    <tr><td>Float %</td><td>60.1%</td></tr>
+    <tr><td>Short Interest</td><td>3.3 Days / 13.6%</td></tr>
+    <tr><td>% of 52W High</td><td>49.5%</td></tr>
+    <tr><td>Dividend</td><td>None</td></tr>
+  </table>
+</div>
+
+<div class="section-title">Enterprise Value Bridge</div>
+<table class="ev">
+  <tr><td>Market Capitalization</td><td>$1,663M</td></tr>
+  <tr class="indent"><td>Common Shares Outstanding</td><td>106.15M</td></tr>
+  <tr><td>(+) Diluted Shares (Stock Comp)</td><td>6.22M</td></tr>
+  <tr><td>Fully Diluted Market Cap</td><td>$1,761M</td></tr>
+  <tr><td>(+) Consolidated Debt</td><td>$351M</td></tr>
+  <tr><td>(-) Cash &amp; Equivalents</td><td>($99M)</td></tr>
+  <tr class="total"><td>Enterprise Value</td><td>$2,013M</td></tr>
+</table>
+
+<div class="section-title">Current Valuation</div>
+<div class="val-grid">
+  <div class="val-cell"><div class="val-label">Market Cap</div><div class="val-num">$1.66B</div></div>
+  <div class="val-cell"><div class="val-label">Enterprise Value</div><div class="val-num">$2.01B</div></div>
+  <div class="val-cell"><div class="val-label">P/E (FY1)</div><div class="val-num">20.0x</div><div class="val-sub">Adj. EPS basis</div></div>
+  <div class="val-cell"><div class="val-label">EV/EBITDA (FY1)</div><div class="val-num">21.0x</div></div>
+  <div class="val-cell"><div class="val-label">EV/Sales (LTM)</div><div class="val-num">4.5x</div></div>
+  <div class="val-cell"><div class="val-label">P/S (LTM)</div><div class="val-num">3.7x</div></div>
+  <div class="val-cell"><div class="val-label">Fully Dil Mkt Cap</div><div class="val-num">$1.76B</div></div>
+  <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">9.0%</div></div>
+  <div class="val-cell"><div class="val-label">Beta (3Y Adj.)</div><div class="val-num">1.16</div></div>
+  <div class="val-cell"><div class="val-label">Avg Rating</div><div class="val-num">Buy (1.18)</div></div>
+  <div class="val-cell"><div class="val-label">Target Price</div><div class="val-num">$22.67</div><div class="val-sub">+44.7% upside</div></div>
+  <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">May 6, 2026</div></div>
+</div>
+
+<div class="section-title">Valuation Multiples</div>
+<table class="data">
+  <tr>
+    <th></th>
+    <th>5Yr Avg</th>
+    <th>FY2023</th>
+    <th>FY2024</th>
+    <th>FY2025</th>
+    <th class="est">FY2026E</th>
+    <th class="est">FY2027E</th>
+    <th class="est">FY2028E</th>
+  </tr>
+  <tr><td>P/E</td><td>—</td><td>NM</td><td>NM</td><td>NM</td><td class="est">20.0x</td><td class="est">14.6x</td><td class="est">11.3x</td></tr>
+  <tr><td>P/Sales</td><td>8.7x</td><td>8.6x</td><td>10.9x</td><td>5.4x</td><td class="est">3.2x</td><td class="est">2.8x</td><td class="est">2.4x</td></tr>
+  <tr><td>P/BV</td><td>6.8x</td><td>7.2x</td><td>10.5x</td><td>6.8x</td><td class="est">4.1x</td><td class="est">3.5x</td><td class="est">—</td></tr>
+  <tr><td>EV/Sales</td><td>—</td><td>9.4x</td><td>11.7x</td><td>6.4x</td><td class="est">3.8x</td><td class="est">3.2x</td><td class="est">2.8x</td></tr>
+  <tr><td>EV/EBITDA</td><td>—</td><td>NM</td><td>NM</td><td>NM</td><td class="est">21.0x</td><td class="est">15.2x</td><td class="est">11.3x</td></tr>
+  <tr><td>EV/EBIT</td><td>—</td><td>NM</td><td>NM</td><td>NM</td><td class="est">21.6x</td><td class="est">15.6x</td><td class="est">11.8x</td></tr>
+</table>
+
+<div class="section-title">Income Statement (Financials)</div>
+<table class="data">
+  <tr>
+    <th></th>
+    <th>5Yr CAGR</th>
+    <th>FY2023</th>
+    <th>FY2024</th>
+    <th>FY2025</th>
+    <th class="est">FY2026E</th>
+    <th class="est">FY2027E</th>
+    <th class="est">FY2028E</th>
+  </tr>
+  <tr class="section-row"><td colspan="8">Revenue &amp; Income ($M)</td></tr>
+  <tr><td>Revenue</td><td>31.7%</td><td>265</td><td>334</td><td>444</td><td class="est">529</td><td class="est">620</td><td class="est">722</td></tr>
+  <tr><td>Gross Income</td><td>33.5%</td><td>143</td><td>195</td><td>251</td><td class="est">343</td><td class="est">409</td><td class="est">480</td></tr>
+  <tr><td>EBITDA</td><td>—</td><td>(53)</td><td>(34)</td><td>(22)</td><td class="est">96</td><td class="est">133</td><td class="est">178</td></tr>
+  <tr><td>EBIT</td><td>—</td><td>(63)</td><td>(44)</td><td>(49)</td><td class="est">93</td><td class="est">129</td><td class="est">170</td></tr>
+  <tr><td>Net Income</td><td>—</td><td>(63)</td><td>(41)</td><td>(48)</td><td class="est">88</td><td class="est">124</td><td class="est">168</td></tr>
+  <tr><td>EPS (Diluted)</td><td>—</td><td>($0.67)</td><td>($0.41)</td><td>($0.46)</td><td class="est">($0.18)</td><td class="est">$0.10</td><td class="est">—</td></tr>
+  <tr class="section-row"><td colspan="8">Margins</td></tr>
+  <tr><td>Gross Margin</td><td>—</td><td>53.9%</td><td>58.5%</td><td>56.6%</td><td class="est">64.9%</td><td class="est">66.0%</td><td class="est">66.5%</td></tr>
+  <tr><td>EBITDA Margin</td><td>—</td><td>(19.9%)</td><td>(10.2%)</td><td>(4.9%)</td><td class="est">18.2%</td><td class="est">21.4%</td><td class="est">24.7%</td></tr>
+  <tr><td>Net Margin</td><td>—</td><td>(23.8%)</td><td>(12.2%)</td><td>(10.7%)</td><td class="est">16.7%</td><td class="est">20.0%</td><td class="est">23.3%</td></tr>
+  <tr><td>FCF Margin</td><td>—</td><td>(7.1%)</td><td>5.1%</td><td>8.9%</td><td class="est">12.5%</td><td class="est">16.1%</td><td class="est">18.8%</td></tr>
+  <tr class="section-row"><td colspan="8">Cash Flow ($M)</td></tr>
+  <tr><td>Operating CF</td><td>—</td><td>(18)</td><td>18</td><td>41</td><td class="est">75</td><td class="est">109</td><td class="est">146</td></tr>
+  <tr><td>CapEx</td><td>32.3%</td><td>6</td><td>8</td><td>9</td><td class="est">5</td><td class="est">4</td><td class="est">2</td></tr>
+  <tr><td>Free Cash Flow</td><td>—</td><td>(19)</td><td>17</td><td>39</td><td class="est">66</td><td class="est">100</td><td class="est">135</td></tr>
+  <tr class="section-row"><td colspan="8">Returns &amp; Leverage</td></tr>
+  <tr><td>ROE</td><td>—</td><td>(19.1%)</td><td>(12.0%)</td><td>(13.3%)</td><td class="est" style="color:#27ae60;">20.5%</td><td class="est" style="color:#27ae60;">23.9%</td><td class="est">—</td></tr>
+  <tr><td>Debt/Equity</td><td>—</td><td>5.9%</td><td>5.2%</td><td>101.8%</td><td class="est">86.1%</td><td class="est">66.7%</td><td class="est">—</td></tr>
+  <tr><td>Interest Coverage</td><td>—</td><td>NM</td><td>NM</td><td>NM</td><td class="est">14.6x</td><td class="est">20.2x</td><td class="est">—</td></tr>
+</table>
+
+<div class="section-title">Revenue by Business Unit</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Segment</div>
+    <table class="rev">
+      <tr><th>Segment</th><th>% Rev</th><th>($M)</th><th>YoY</th></tr>
+      <tr><td>SaaS Subscription</td><td>95.1%</td><td>422</td><td>+32.1%</td></tr>
+      <tr><td>Implementation</td><td>2.8%</td><td>13</td><td>+65.7%</td></tr>
+      <tr><td>Other</td><td>2.1%</td><td>9</td><td>+33.8%</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="sub-label">By Geography</div>
+    <table class="rev">
+      <tr><th>Region</th><th>% Rev</th><th>($M)</th><th>YoY</th></tr>
+      <tr><td>United States</td><td>100%</td><td>444</td><td>+32.9%</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="source-note">Source: FactSet, Company Filings as of April 1, 2026. GAAP EPS includes ~$74-80M annual SBC; consensus adjusted EPS FY26E ~$0.78, FY27E ~$1.10.</div>
+
+<!-- SECTION 3: BULL & BEAR CASES -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Cases</div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">1. DSSP Flywheel Drives 30% ARR Uplift.</span> The unified Digital Sales and Service Platform (Onboarding + Banking + Data) creates a compounding cross-sell engine. In H2 2025, 58% of new digital banking deals became DSSP clients with ~30% ARR uplift. With only 45 of 301 clients on the full DSSP, the cross-sell runway is enormous. If full-suite adoption reaches 50%+ of the client base, RPU could approach $30+ (vs. $21.44 today), adding $200M+ to ARR without a single new logo.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">2. Bank Market Penetration Accelerates.</span> Alkami has 50 banks under contract (vs. 0 at IPO) with bank RPU of $37 vs. the company average of $21. The reorganized sales force under CRO Nathaniel Harley targets a 50/50 bank/CU split. With 78% of institutions on dominant cores still using legacy digital banking, the bank replacement cycle is just beginning. Each large bank win (500K+ users) adds $3-5M in ARR. A dozen bank wins in FY2026 could add $40-60M in contracted ARR.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">3. AI Monetization Creates New Revenue Stream.</span> Alkami is pioneering "Agentic AI" with read-write orchestration privileges connected to banking cores—autonomous processing of balance transfers, payment modifications, and inquiries 24/7. The Code Studio agent (trained on 6M+ lines of proprietary SDK code) compresses development from months to days. Community FIs lack internal AI capabilities, making Alkami the default AI infrastructure provider. New AI products could command $2-5 RPU premium.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">4. Margin Expansion to "Rule of 45."</span> Management targets 70% gross margins (vs. 64% today), 30%+ adj. EBITDA margins at $1B+ revenue scale, and 90% FCF conversion by 2030. The India GCC (150+ engineers) drives R&D cost leverage, renewal margins run ~70%, and AWS cloud hosting unit costs are down 26%. If margins expand faster than consensus (~300bps annually), earnings power doubles within 3 years.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">5. Valuation Re-Rating from Growth Trough.</span> ALKT trades at 3.2x FY26E P/Sales and 21x EV/EBITDA—near its all-time valuation low—after a 40% drawdown driven by guidance that disappointed on FY26 revenue ($528M vs. $549M consensus). With 9 Buy-rated analysts, $22.67 target (+45%), and General Atlantic buying $50M+ in shares, the selloff may be overdone. As the MANTL acquisition laps and organic growth re-accelerates in H2 2026, the multiple could recover toward 5-6x revenue.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="bear-header">Bear Cases</div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">1. Competitive Pressure from Lumin &amp; Q2.</span> Lumin Digital is aggressively winning credit union contracts with a clean-slate architecture and lower pricing. Q2 Holdings dominates commercial banking and treasury—where Alkami admits it's still catching up. Legacy core providers (Fiserv, FIS, Jack Henry) can bundle digital banking at no incremental cost. If Alkami's win rates decline or pricing comes under pressure, the revenue growth trajectory compresses materially.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">2. MANTL Integration Risk &amp; Technical Debt.</span> The $375M MANTL acquisition requires complex harmonization of disparate systems. Implementation timelines for the integrated DSSP stretch to 12+ months (vs. 6 months for standalone products), delaying revenue recognition. Expert sources cite growing technical debt from historical customizations creating fragile infrastructure where new feature deployments can break existing functionality—a compounding liability as the platform scales.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">3. Banking Consolidation Churn.</span> At ~3% annual FI consolidation, Alkami risks losing clients when they're acquired by larger institutions using competitor or in-house platforms. While management claims consolidation is net positive (retaining combined user bases), a wave of M&A targeting Alkami's largest credit union clients could meaningfully impair ARR. The 13.6% short interest suggests the market sees this risk.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">4. Profitability May Disappoint.</span> FY2026 adj. EBITDA guidance ($95.5M midpoint) already faced a headwind from a database vendor doubling license costs (~1pt of margin). GAAP profitability remains negative due to 14-15% SBC-to-revenue. If gross margins stall below 65% or opex discipline falters, the "Rule of 45" narrative loses credibility. The Q4 2025 gross margin decline to 63.4% (from 65.1% in Q2) raised questions about the margin trajectory.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">5. Cybersecurity &amp; Platform Stability.</span> A material data breach at Alkami would be existential—banking clients cannot tolerate security incidents with depositor data. Expert sources cite historical platform crashes during high-traffic events (government stimulus distributions, AWS pod failures). As Alkami scales to 25M+ users, any significant outage erodes trust with the risk-averse FI buyer base and hands wins to competitors.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Scale Economies</span><span class="fw-rating strong">Strong</span>
+  <div class="prose">Alkami's single-code base, multi-tenant cloud architecture amortizes R&D and infrastructure costs across 22.4M registered users and 301 FI clients. The platform's fixed costs (engineering, compliance, AWS infrastructure, security) are spread across a growing user base while marginal costs per additional user are minimal. Cloud hosting unit costs have declined 26% from prior peaks. Smaller competitors like Lumin or Narmi cannot match Alkami's R&D investment (~$200M annually including SBC) or the breadth of 300+ integrations without comparable scale.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Network Effects</span><span class="fw-rating moderate">Moderate</span>
+  <div class="prose">Alkami benefits from an indirect network effect through its integration ecosystem—300+ third-party fintech partners integrate with the platform, making it more valuable for FIs as the ecosystem grows. The data network effect is meaningful: 29M deposit accounts and 20B historical transactions feed Segmint's 12 proprietary AI models and 50,000+ descriptive data tags, improving predictive accuracy with each new client. However, these are weaker than true two-sided network effects; clients don't directly benefit from other clients using the platform.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Counter-Positioning</span><span class="fw-rating strong">Strong</span>
+  <div class="prose">Legacy core processors (Fiserv, FIS, Jack Henry) generate enormous revenue from bundled, single-tenant legacy digital banking tied to their core systems. Adopting Alkami's cloud-native, unbundled, multi-tenant approach would cannibalize their highly profitable core-plus-digital bundles. 78% of institutions on dominant bank cores still use legacy digital banking—these incumbents rationally choose to protect existing revenue rather than re-platform. This dynamic creates a sustained tailwind for Alkami as the "best of breed" unbundler.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Switching Costs</span><span class="fw-rating strong">Strong</span>
+  <div class="prose">Digital banking platform replacement is a 12-24 month migration involving core system integration, user migration, data transfer, staff retraining, and regulatory compliance validation. Alkami's digital banking ARR churn is below 1% annually (vs. 2-3% modeled), and average contract duration is ~70 months. The platform becomes deeply embedded as the primary digital channel for all consumer/business interactions. The DSSP integration (onboarding + banking + data) further increases switching costs as FIs become dependent on the unified workflow.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Branding</span><span class="fw-rating moderate">Moderate</span>
+  <div class="prose">Alkami has built strong brand recognition among FI decision-makers through its Co:lab annual conference (1,000+ executives), Community portal (3,600+ active users, 96.6% adoption), and "Women in Banking" events. The brand represents modern, cloud-native digital banking—a meaningful signal in an industry where FI technology leaders are increasingly seeking vendors that signal innovation to their boards. However, this is B2B brand awareness, not consumer-facing pricing power.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">6. Cornered Resource</span><span class="fw-rating moderate">Moderate</span>
+  <div class="prose">Alkami's proprietary data lake (Segmint) processes 29M deposit accounts and 20B historical transactions with patented software for transaction cleansing and behavioral tagging. This data asset—used for "Anticipatory Banking" campaigns and fraud AI—is difficult to replicate as it requires years of core banking data accumulation. The 6M+ lines of proprietary SDK code powering the AI Code Studio agent is another non-replicable asset. However, Q2 Holdings has built comparable (if different) data capabilities.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">7. Process Power</span><span class="fw-rating moderate">Moderate</span>
+  <div class="prose">Alkami has demonstrated the ability to launch ~40 new FI clients annually—a complex process involving thousands of back-office connections and migrating entire user bases. This implementation capability, refined over 15+ years, is embedded in organizational processes and cannot be easily replicated. However, expert sources note growing implementation bottlenecks and burnout within client service teams, suggesting process power may be strained at current growth rates.</div>
+</div>
+
+<div class="fw-summary">
+<strong>Summary:</strong> Alkami's strongest moats are switching costs (sub-1% churn, 70-month contracts), counter-positioning (legacy cores can't unbundle without self-harm), and scale economies (R&D and infrastructure leverage across 22M+ users). The data network effect and cornered resource (Segmint data lake) provide additional compounding advantages. The moat is durable for the re-platforming cycle but faces a long-term question about what happens once the conversion wave is complete and growth must come from market expansion vs. replacement.
+</div>
+
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Threat of New Entrants</span><span class="fw-rating low">Low</span>
+  <div class="prose">Building a cloud-native digital banking platform requires massive R&D investment ($200M+ annually for Alkami), deep regulatory expertise (FFIEC, NCUA, OCC compliance), and years of core system integrations with hundreds of back-office providers. Only two contemporary providers (Alkami and Q2) manage ~50M total digital banking seats—entering at scale requires a decade of implementation track record that risk-averse FI buyers demand before trusting depositor-facing systems. Lumin and Narmi represent the strongest emerging threats but remain sub-scale.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Bargaining Power of Suppliers</span><span class="fw-rating moderate">Moderate</span>
+  <div class="prose">AWS is the primary infrastructure supplier and Alkami has limited leverage to negotiate aggressively given cloud dependency. The recent database vendor license cost doubling (creating ~1pt EBITDA margin headwind) illustrates supplier pricing power for critical components. However, Alkami is actively migrating off that vendor and can generally multi-source cloud infrastructure. Core banking system providers (potential suppliers for integration access) can theoretically restrict API access, though regulatory pressure and market dynamics limit this.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Bargaining Power of Buyers</span><span class="fw-rating moderate">Moderate</span>
+  <div class="prose">FI buyers are sophisticated enterprise purchasers with long evaluation cycles and RFP processes. No single client exceeds 5% of total revenue, creating a fragmented buyer base. However, FIs have growing alternatives (Q2, Lumin, core provider bundles) and the ~500 annual contract renewals industry-wide create competitive pressure. Per-registered-user pricing with tiered discounts gives larger FIs some negotiating leverage on rates, though the long contract terms and switching costs provide stability.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Threat of Substitutes</span><span class="fw-rating low">Low</span>
+  <div class="prose">Digital banking has shifted from a discretionary technology expense to mandatory, mission-critical infrastructure. FIs cannot serve modern consumers without a digital platform—there is no viable substitute for digital banking. The question is which provider, not whether to have digital banking. Legacy core-bundled solutions are the primary alternative, but they are technologically inferior (single-tenant, limited innovation velocity) and represent the existing installed base being disrupted, not a substitute.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Competitive Rivalry</span><span class="fw-rating moderate">Moderate</span>
+  <div class="prose">The market is effectively a duopoly at the top (Alkami and Q2 Holdings combined ~50M seats) with a long tail of legacy providers and emerging challengers. Alkami dominates retail banking UX while Q2 leads in commercial/treasury—creating some natural segmentation. However, both are aggressively expanding into each other's strongholds. Legacy cores (Fiserv, FIS, Jack Henry) compete through aggressive bundling and pricing. Industry growth is fast enough (~20% digitization penetration of SAM) that rivalry is manageable, but head-to-head competition for large RFPs can be intense.</div>
+</div>
+
+<div class="fw-summary">
+<strong>Summary:</strong> The competitive environment is favorable for Alkami. High barriers to entry, no viable substitutes for digital banking, and a fast-growing market with significant legacy replacement runway limit competitive intensity. The primary risk is head-to-head rivalry with Q2 Holdings and pricing pressure from legacy core bundlers, but the overall industry structure supports healthy growth and margins for the two contemporary leaders.
+</div>
+
+<!-- SECTION 6: WHAT DRIVES THE STOCK -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<ol class="num-list">
+  <li>
+    <strong>1. New Client Wins &amp; Implementation Pipeline</strong>
+    <p class="prose">Alkami signed 39 new digital banking logos in FY2025 (tied best year) with $71M ARR in backlog pending implementation. The cadence of new client announcements—particularly bank wins—drives sentiment. Each new bank with 500K+ digital users can add $3-5M ARR. Watch: quarterly new logo count (bank vs. CU split), backlog ARR, and implementation pace (number of go-lives per quarter). <em>Bullish: 40+ new logos with &gt;50% banks, backlog grows. Bearish: Win rate declines, implementation delays stretch beyond 12 months, backlog stagnates.</em></p>
+  </li>
+
+  <li>
+    <strong>2. RPU Growth &amp; DSSP Cross-Sell</strong>
+    <p class="prose">Revenue per registered user grew 20% YoY to $21.44 in FY2025, driven by MANTL cross-sell, Segmint attach rates (90%+), and add-on product adoption. DSSP clients (45 of 301) generate ~30% higher ARR than standalone clients. The cross-sell metric (54% of TCV in 2025) is the key leading indicator. Management guides high-single-digit RPU growth for FY2026. <em>Bullish: RPU &gt;$23, DSSP adoption &gt;80 clients, cross-sell &gt;60% TCV. Bearish: RPU growth &lt;5%, DSSP adoption stalls, Segmint attach rate declines.</em></p>
+  </li>
+
+  <li>
+    <strong>3. Margin Expansion Trajectory</strong>
+    <p class="prose">The market's core debate: Is Alkami a 30%+ EBITDA margin business at scale or a permanently SBC-diluted grower? FY2026 guides to 18.1% adj. EBITDA margin (vs. 13.3% FY2025). Each quarter's margin progression validates or challenges the "Rule of 45" path. The database vendor cost headwind and DSSP implementation complexity create near-term risks. <em>Bullish: Quarterly adj. EBITDA margins expanding sequentially, gross margin &gt;65%. Bearish: Margins stall or compress, SBC remains &gt;14% of revenue, non-GAAP adjustments questioned.</em></p>
+  </li>
+
+  <li>
+    <strong>4. Organic Revenue Growth (Ex-MANTL)</strong>
+    <p class="prose">FY2026 reported growth decelerates to ~19% from 33% due to MANTL lapping. Organic growth (ex-MANTL) is the true underlying health metric. Management disclosed organic growth was &gt;20% in Q3 2025. If organic growth sustains above 20%, the deceleration narrative breaks. <em>Bullish: Organic growth 20%+ through FY2026, accelerating into H2. Bearish: Organic growth &lt;18%, suggesting market saturation or competitive share loss.</em></p>
+  </li>
+
+  <li>
+    <strong>5. Registered User Growth &amp; Digital Adoption</strong>
+    <p class="prose">Net new registered users (+2.4M in FY2025 to 22.4M) drive the top line through per-user pricing. Growth comes from new client implementations (~1.3M users in backlog) and existing client digital adoption (+1.5M organic in FY2025). The 200M+ addressable digital users at non-megabank FIs represents a massive runway, but user growth from existing clients may moderate as digital penetration matures. <em>Bullish: &gt;2.5M net adds, backlog user count grows. Bearish: &lt;2M net adds, existing client organic growth declines.</em></p>
+  </li>
+
+  <li>
+    <strong>6. Short Interest &amp; Insider Activity</strong>
+    <p class="prose">At 13.6% of float, ALKT has significant short interest—creating potential for violent short squeezes on positive catalysts but also reflecting genuine bearish conviction. General Atlantic purchased $50M+ in shares recently, and a director bought $100K in stock. Insider buying at these levels signals management confidence. <em>Bullish: Short covering rally on earnings beat, additional insider buying. Bearish: Short interest rises above 15%, insider selling resumes.</em></p>
+  </li>
+</ol>
+
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<div class="sub-label">Revenue Decomposition</div>
+
+<table class="data">
+  <thead>
+    <tr>
+      <th>Revenue Line</th>
+      <th>Driver 1</th>
+      <th>Driver 2</th>
+      <th>Driver 3</th>
+      <th>FY2025 ($M)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>SaaS Subscription</td>
+      <td>Registered Users (M)</td>
+      <td>× RPU ($)</td>
+      <td>× Contract Activation %</td>
+      <td>$422M</td>
+    </tr>
+    <tr>
+      <td colspan="4" style="padding-left:20px;color:#666;">Digital banking + MANTL + Segmint + add-on products</td>
+      <td style="color:#666;">22.4M × $21.44</td>
+    </tr>
+    <tr>
+      <td>Implementation</td>
+      <td># New Go-Lives</td>
+      <td>× Avg Impl. Fee</td>
+      <td></td>
+      <td>$13M</td>
+    </tr>
+    <tr>
+      <td colspan="4" style="padding-left:20px;color:#666;">One-time fees recognized over implementation period</td>
+      <td style="color:#666;">~35 go-lives/yr</td>
+    </tr>
+    <tr>
+      <td>Other</td>
+      <td>Termination Fees</td>
+      <td>+ Professional Services</td>
+      <td></td>
+      <td>$9M</td>
+    </tr>
+    <tr>
+      <td colspan="4" style="padding-left:20px;color:#666;">Termination fees declining 75% in FY2026; lumpy and non-recurring</td>
+      <td style="color:#666;">Declining</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="sub-label" style="margin-top:16px;">Key Operating Metrics &amp; Unit Economics</div>
+
+<table class="data">
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th>FY2026 Guide</th>
+      <th>Commentary</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ARR ($M)</td>
+      <td>$301</td>
+      <td>$356</td>
+      <td>$480</td>
+      <td>~$565</td>
+      <td>+35% YoY in FY25; core growth KPI</td>
+    </tr>
+    <tr>
+      <td>Registered Users (M)</td>
+      <td>17.5</td>
+      <td>20.0</td>
+      <td>22.4</td>
+      <td>~25</td>
+      <td>+2.4M net adds (12% YoY)</td>
+    </tr>
+    <tr>
+      <td>RPU ($)</td>
+      <td>$16.69</td>
+      <td>$17.81</td>
+      <td>$21.44</td>
+      <td>~$23</td>
+      <td>+20% YoY; high-single-digit guide</td>
+    </tr>
+    <tr>
+      <td>Live FI Clients</td>
+      <td>~250</td>
+      <td>~270</td>
+      <td>301</td>
+      <td>~330</td>
+      <td>+35 implementations in FY25</td>
+    </tr>
+    <tr>
+      <td>Net Dollar Retention</td>
+      <td>~110%</td>
+      <td>~112%</td>
+      <td>115%</td>
+      <td>&gt;115%</td>
+      <td>Expansion from cross-sell + user growth</td>
+    </tr>
+    <tr>
+      <td>Digital Banking Churn</td>
+      <td>&lt;2%</td>
+      <td>&lt;1%</td>
+      <td>&lt;1%</td>
+      <td>&lt;1%</td>
+      <td>Only 4 clients expected to churn in FY26</td>
+    </tr>
+    <tr>
+      <td>RPO ($B)</td>
+      <td>$1.1</td>
+      <td>$1.3</td>
+      <td>$1.7</td>
+      <td>~$2.0</td>
+      <td>3.6x live ARR; +26% YoY</td>
+    </tr>
+    <tr>
+      <td>Products per Client</td>
+      <td>~13</td>
+      <td>~14</td>
+      <td>16</td>
+      <td>~18</td>
+      <td>Out of 36 available; cross-sell runway</td>
+    </tr>
+    <tr>
+      <td>ARR per $1 S&amp;M</td>
+      <td>$1.20</td>
+      <td>$1.30</td>
+      <td>$1.40</td>
+      <td>$1.40+</td>
+      <td>Top 5-7 in SaaS; efficient GTM</td>
+    </tr>
+    <tr>
+      <td>Avg Contract Duration</td>
+      <td>~68 mo</td>
+      <td>~70 mo</td>
+      <td>~70 mo</td>
+      <td>~72 mo</td>
+      <td>5.8+ years; long-term visibility</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top: 12px;"><strong>Key insight:</strong> The two variables with the most leverage on total revenue are (1) <strong>registered user growth</strong>—which compounds through both new client implementations (~1.5M users/year) and organic adoption at existing clients (~1.5M/year)—and (2) <strong>RPU expansion</strong>—driven by DSSP cross-sell, Segmint attach rates, and add-on product adoption. A 10% increase in RPU (from $21 to $23) on the existing 22M user base adds ~$44M to ARR—equivalent to winning 10+ new FI clients. This makes cross-selling the most capital-efficient growth lever, which is why the DSSP adoption metric matters more than headline new logo counts.</p>
+
+<p class="prose">The revenue model has inherent durability: 95% subscription, 70-month contracts, $1.7B RPO (3.6x ARR), and sub-1% churn create a highly visible revenue base. The business requires adding 2.5-3M new registered users annually (40-50% from new logos) to sustain 20%+ growth. Bank wins are disproportionately valuable—bank RPU averages $37 (1.7x company average) due to larger user bases, more complex product requirements, and treasury/commercial needs.</p>
+
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+<strong>AlphaSense Diagnostic Report</strong> · Date: April 1, 2026 · Sources: Company Primer, Expert Calls &amp; Competitive Analysis, Q4/Q3/Q2 2025 Earnings Transcripts, Conference Transcripts · Query: Alkami Technology — Full Competitive &amp; Strategic Analysis
+</div>
+
+<div class="as-section">Competitive Moat &amp; Industry Structure</div>
+
+<div class="prose">
+Alkami and Q2 Holdings are the only two "contemporary" digital banking providers managing ~50M combined seats, with 200M+ addressable seats still on legacy platforms. The competitive dynamic varies by segment: Alkami dominates retail banking with a consistently superior consumer UX and mobile experience (cited by experts as the single most significant competitive moat), while Q2 leads in complex commercial banking, small business, and corporate treasury. Alkami is rapidly closing the commercial gap, now covering the needs of ~92% of U.S. businesses utilizing treasury platforms.
+</div>
+
+<div class="prose">
+Legacy core processors (Fiserv, FIS, Jack Henry) remain the largest competitive threat by volume—78% of institutions on dominant cores still use legacy bundled digital banking. However, these incumbents are structurally disadvantaged: single-tenant architectures require costly maintenance windows, innovation velocity is slow, and unbundling risks cannibalizing profitable core revenue. Alkami capitalizes on an industry-wide re-platforming wave as FIs recognize that legacy digital banking cannot support modern consumer expectations (instant account opening, mobile loan origination, real-time transfers). Emerging challengers Lumin Digital and Narmi present pricing pressure at the lower end of the credit union market with clean-slate modern architectures.
+</div>
+
+<div class="as-section">Management Quality &amp; Strategic Vision</div>
+
+<div class="prose">
+Founder/CSO Stephen Bohanon is lauded for technical foresight—designing a scalable single-code base microservice architecture over a decade before cloud-native became the industry norm. CEO Alex Shootman has navigated growing pains by upgrading leadership talent (new CRO Nathaniel Harley from MANTL, new CFO Cassandra Hudson) and reorganizing the sales force into dedicated bank/CU teams. The MANTL acquisition ($375M) is viewed by experts as a "brilliant strategic maneuver" that solved omnichannel account origination with minimal client overlap and provided a beachhead into banks (70% of MANTL clients were banks).
+</div>
+
+<div class="prose">
+Capital allocation has been disciplined: the Segmint ($130M) and MANTL ($375M) acquisitions were natively integrated into the DSSP rather than operated as standalone businesses. Management has begun paying down the revolver ($45M repaid in FY2025) and maintains optionality for future M&A with $1B-$1.5B in capital deployment capacity over 4 years. The transition from Bryan Hill to Cassandra Hudson as CFO is a watch item—continuity of financial discipline and investor communication during a profitability inflection is critical.
+</div>
+
+<div class="as-section">Technology Differentiation &amp; AI</div>
+
+<div class="prose">
+AI is a net positive growth catalyst for Alkami. Community FIs lack internal data science teams and compliant infrastructure for AI, creating heavy reliance on their digital banking provider. Alkami monetizes AI through: (1) Data &amp; Marketing products with 12 proprietary AI predictive models and 50,000+ descriptive data tags for behavior prediction, fraud prevention, and automated cross-selling; (2) Agentic AI with read-write orchestration privileges connected to banking cores for autonomous processing of complex workflows; (3) Code Studio—an AI-native development agent trained on 6M+ lines of proprietary SDK code that compresses development from months to days. Internally, specialized development agents processed 1M+ lines of code in a single month, driving 18% improvement in developer productivity, 9% faster support ticket closure, and 29% reduction in engineering escalations.
+</div>
+
+<div class="as-section">Most Misunderstood Aspects</div>
+
+<div class="prose">
+<strong>1. Data assets underappreciated:</strong> Investors view Alkami as a digital banking interface, underappreciating the proprietary data lake—29M deposit accounts, 20B historical transactions, 20M new transactions daily. The Segmint platform transforms raw core data into behavioral data tags identifying competing P2P app usage, multiple credit card balances, and external investment transfers. This positions Alkami as an essential intelligence hub, not just a software vendor. Data &amp; marketing products are attached to 70%+ of new client wins.
+</div>
+
+<div class="prose">
+<strong>2. MANTL impact underestimated:</strong> The market focuses on MANTL's ~$60M ARR contribution, but the strategic value lies in the DSSP flywheel. Full-suite clients generate 30% higher ARR. MANTL automates 85% of application decisions, reducing account opening to under 5 minutes—a transformative capability for FIs losing deposits to neobanks. The cross-sell pipeline (161 MANTL clients, only 26 overlapping with digital banking) represents years of revenue expansion.
+</div>
+
+<div class="prose">
+<strong>3. Revenue growth deceleration is optically misleading:</strong> FY2026 reported growth of ~19% reflects MANTL lapping, 75% decline in termination fees, and longer DSSP implementation cycles. Underlying demand remains robust: $71M ARR backlog, 39 new logos, and $1.7B RPO. The H2 2026 acceleration (as organic growth re-emerges and DSSP implementations complete) should demonstrate the underlying trajectory.
+</div>
+
+<div class="as-section">Key Long-Term Investor Questions</div>
+
+<ol class="num-list">
+<li><strong>Can Alkami close the commercial/treasury gap with Q2?</strong> Alkami's retail dominance is clear, but mid-market banks demand commercial capabilities where Q2 currently leads. The commercial investment is well underway (covers ~92% of treasury needs), but execution in complex commercial banking is unproven at scale. This will determine whether Alkami can sustainably capture 50/50 bank/CU new logos.</li>
+
+<li><strong>How sustainable is sub-1% churn in a consolidating banking industry?</strong> With ~3% annual FI consolidation, maintaining sub-1% churn requires winning the digital platform decision in nearly every merger. Management's track record is positive (net +300K users from consolidation in FY2025), but a single loss of a top-20 credit union could meaningfully impact churn metrics.</li>
+
+<li><strong>Will the margin expansion trajectory hold?</strong> The path from 13% to 30%+ adj. EBITDA margin requires gross margin expansion to 70% (from 64%), disciplined opex management, and declining SBC as a percentage of revenue. The database vendor cost issue and temporary gross margin dip in Q4 2025 raised questions. India GCC and renewal margin dynamics (70%) support the path, but execution must be demonstrated quarter by quarter.</li>
+</ol>
+
+<!-- SECTION 9: SENSITIVITIES -->
+<div class="memo-section">9. Sensitivities on Core Business Drivers</div>
+
+<div class="sens-title">Annual Subscription ARR ($M) — Registered Users (M) vs. Revenue per User ($)</div>
+<div class="sens-current">Current: 22.4M users × $21.44 RPU = $480M ARR</div>
+<table class="sensitivity">
+  <tr>
+    <th>Users \ RPU</th>
+    <th>$18</th>
+    <th>$20</th>
+    <th>$22</th>
+    <th>$24</th>
+    <th>$26</th>
+  </tr>
+  <tr>
+    <td>20M</td>
+    <td>360</td>
+    <td>400</td>
+    <td>440</td>
+    <td>480</td>
+    <td>520</td>
+  </tr>
+  <tr>
+    <td>22M</td>
+    <td>396</td>
+    <td>440</td>
+    <td class="base">484</td>
+    <td>528</td>
+    <td>572</td>
+  </tr>
+  <tr>
+    <td>24M</td>
+    <td>432</td>
+    <td>480</td>
+    <td>528</td>
+    <td>576</td>
+    <td>624</td>
+  </tr>
+  <tr>
+    <td>26M</td>
+    <td>468</td>
+    <td>520</td>
+    <td>572</td>
+    <td>624</td>
+    <td>676</td>
+  </tr>
+  <tr>
+    <td>28M</td>
+    <td>504</td>
+    <td>560</td>
+    <td>616</td>
+    <td>672</td>
+    <td>728</td>
+  </tr>
+</table>
+
+<div class="sens-title" style="margin-top:16px;">FY2026E Adjusted EBITDA ($M) — Total Revenue ($M) vs. Adj. EBITDA Margin (%)</div>
+<div class="sens-current">Current Guide: $528M Revenue × 18.1% Margin = $95.5M EBITDA</div>
+<table class="sensitivity">
+  <tr>
+    <th>Revenue \ Margin</th>
+    <th>14%</th>
+    <th>16%</th>
+    <th>18%</th>
+    <th>20%</th>
+    <th>22%</th>
+  </tr>
+  <tr>
+    <td>$480M</td>
+    <td>67</td>
+    <td>77</td>
+    <td>86</td>
+    <td>96</td>
+    <td>106</td>
+  </tr>
+  <tr>
+    <td>$510M</td>
+    <td>71</td>
+    <td>82</td>
+    <td>92</td>
+    <td>102</td>
+    <td>112</td>
+  </tr>
+  <tr>
+    <td>$530M</td>
+    <td>74</td>
+    <td>85</td>
+    <td class="base">95</td>
+    <td>106</td>
+    <td>117</td>
+  </tr>
+  <tr>
+    <td>$560M</td>
+    <td>78</td>
+    <td>90</td>
+    <td>101</td>
+    <td>112</td>
+    <td>123</td>
+  </tr>
+  <tr>
+    <td>$590M</td>
+    <td>83</td>
+    <td>94</td>
+    <td>106</td>
+    <td>118</td>
+    <td>130</td>
+  </tr>
+</table>
+
+<div class="sens-title" style="margin-top:16px;">Implied Share Price ($) — FY2028E Revenue ($M) vs. Exit EV/Sales Multiple (x)</div>
+<div class="sens-current">Current: $15.67 share price, $2.01B EV, 3.8x FY26E EV/Sales. Assumes net debt ~$0 at FY2028 exit, 112M diluted shares.</div>
+<table class="sensitivity">
+  <tr>
+    <th>Revenue \ EV/Sales</th>
+    <th>2.0x</th>
+    <th>2.5x</th>
+    <th>3.0x</th>
+    <th>3.5x</th>
+    <th>4.0x</th>
+  </tr>
+  <tr>
+    <td>$550M</td>
+    <td>$10</td>
+    <td>$12</td>
+    <td>$15</td>
+    <td>$17</td>
+    <td>$20</td>
+  </tr>
+  <tr>
+    <td>$625M</td>
+    <td>$11</td>
+    <td>$14</td>
+    <td>$17</td>
+    <td>$20</td>
+    <td>$22</td>
+  </tr>
+  <tr>
+    <td>$725M</td>
+    <td>$13</td>
+    <td>$16</td>
+    <td class="base">$19</td>
+    <td>$23</td>
+    <td>$26</td>
+  </tr>
+  <tr>
+    <td>$800M</td>
+    <td>$14</td>
+    <td>$18</td>
+    <td>$21</td>
+    <td>$25</td>
+    <td>$29</td>
+  </tr>
+  <tr>
+    <td>$920M</td>
+    <td>$16</td>
+    <td>$21</td>
+    <td>$25</td>
+    <td>$29</td>
+    <td>$33</td>
+  </tr>
+</table>
+
+<!-- SECTION 10: 3-YEAR MODEL — 5 SCENARIOS -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios</div>
+
+<p class="prose">All figures in $M unless stated. Modeled FY2026E, FY2027E, FY2028E. Exit valuation applied to FY2028E. Current share price: $15.67. Diluted shares: 112M. Net debt: $252M.</p>
+
+<div class="case-block">
+  <div class="case-name">Bear Severe — Competitive Disruption &amp; Churn Acceleration</div>
+  <div class="fermi-narrative">
+    <div class="scenario-text">Lumin/Narmi win significant credit union share with lower pricing; Q2 widens commercial banking lead. 2-3 large FI clients lost to M&A with non-Alkami acquirers. DSSP implementation complexity causes customer frustration and delays. Technical debt compounds into reliability issues. Margin expansion stalls as database costs and implementation investments persist.</div>
+    <ul>
+      <li>User growth slows to +1.0-1.5M/year (vs. +2.4M in FY25)</li>
+      <li>RPU stagnates at $22 (competitive pricing pressure)</li>
+      <li>New logos decline to ~20/year; churn rises to 2%</li>
+      <li>EBITDA margin expansion limited to 15% by FY28</li>
+    </ul>
+    <div class="reconcile">Path: Competitive losses → growth deceleration → margin disappointment → multiple compression → value trap</div>
+  </div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Registered Users (FY28)</span><span>24.5M</span></div>
+  <div class="driver-row"><span>RPU (FY28)</span><span>$22.00</span></div>
+  <div class="driver-row"><span>New Logos/Year</span><span>~20</span></div>
+  <div class="driver-row"><span>Adj. EBITDA Margin (FY28)</span><span>15.5%</span></div>
+  <table class="scenario-mini">
+    <tr><th></th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr>
+    <tr><td>Revenue</td><td>$498</td><td>520</td><td>545</td></tr>
+    <tr><td>Gross Income</td><td>319</td><td>338</td><td>360</td></tr>
+    <tr><td>EBITDA</td><td>62</td><td>73</td><td>84</td></tr>
+    <tr><td>EBIT</td><td>47</td><td>55</td><td>64</td></tr>
+    <tr><td>Net Income</td><td>(5)</td><td>8</td><td>18</td></tr>
+    <tr><td>EPS</td><td>($0.04)</td><td>$0.07</td><td>$0.16</td></tr>
+    <tr><td>Gross Margin</td><td>64.1%</td><td>65.0%</td><td>66.1%</td></tr>
+    <tr><td>EBITDA Margin</td><td>12.4%</td><td>14.0%</td><td>15.5%</td></tr>
+    <tr><td>FCF</td><td>$25</td><td>35</td><td>$45</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-line1">
+      <span class="exit-price">$7</span>
+      <span class="exit-upside">-55% from current</span>
+    </div>
+    <div class="exit-line2">
+      <span>Exit EV/Sales: 1.5x</span>
+      <span>Exit EV/EBITDA: 9.7x</span>
+      <span>Implied EV: $818M</span>
+    </div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bear Mild — Growth Deceleration &amp; Delayed Profitability</div>
+  <div class="fermi-narrative">
+    <div class="scenario-text">Revenue growth slows to ~15% as MANTL laps and organic user growth moderates. DSSP adoption is slower than expected (implementation complexity). Bank wins continue but at a slower pace (30 new logos/year). Margin expansion is gradual rather than front-loaded. Market maintains a "show me" discount.</div>
+    <ul>
+      <li>User growth of +1.8-2.0M/year</li>
+      <li>RPU grows mid-single-digits to $24</li>
+      <li>EBITDA margin reaches 20% by FY28 (below targets)</li>
+      <li>Multiple remains compressed at 2.3x EV/Sales</li>
+    </ul>
+    <div class="reconcile">Path: Moderate execution → consensus met but not exceeded → market patience wears thin → valuation stuck</div>
+  </div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Registered Users (FY28)</span><span>26.5M</span></div>
+  <div class="driver-row"><span>RPU (FY28)</span><span>$24.00</span></div>
+  <div class="driver-row"><span>New Logos/Year</span><span>~30</span></div>
+  <div class="driver-row"><span>Adj. EBITDA Margin (FY28)</span><span>20.5%</span></div>
+  <table class="scenario-mini">
+    <tr><th></th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr>
+    <tr><td>Revenue</td><td>$515</td><td>575</td><td>640</td></tr>
+    <tr><td>Gross Income</td><td>335</td><td>379</td><td>429</td></tr>
+    <tr><td>EBITDA</td><td>82</td><td>104</td><td>131</td></tr>
+    <tr><td>EBIT</td><td>67</td><td>87</td><td>112</td></tr>
+    <tr><td>Net Income</td><td>30</td><td>52</td><td>75</td></tr>
+    <tr><td>EPS</td><td>$0.27</td><td>$0.46</td><td>$0.67</td></tr>
+    <tr><td>Gross Margin</td><td>65.0%</td><td>65.9%</td><td>67.0%</td></tr>
+    <tr><td>EBITDA Margin</td><td>15.9%</td><td>18.1%</td><td>20.5%</td></tr>
+    <tr><td>FCF</td><td>$45</td><td>65</td><td>$90</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-line1">
+      <span class="exit-price">$13</span>
+      <span class="exit-upside">-17% from current</span>
+    </div>
+    <div class="exit-line2">
+      <span>Exit EV/Sales: 2.3x</span>
+      <span>Exit EV/EBITDA: 11.2x</span>
+      <span>Implied EV: $1,472M</span>
+    </div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Base — Consensus Execution</div>
+  <div class="fermi-narrative">
+    <div class="scenario-text">Alkami delivers on FY2026 guidance and consensus estimates. DSSP adoption reaches 80+ clients. Bank expansion continues at 15-20 new logos/year. Organic revenue growth re-accelerates in H2 2026 as MANTL laps. Margin expansion follows the ~300bps annual trajectory toward Rule of 45. Market re-rates as profitability inflection is validated.</div>
+    <ul>
+      <li>User growth of +2.0-2.5M/year to 27M by FY28</li>
+      <li>RPU grows to ~$27 (DSSP cross-sell + bank mix shift)</li>
+      <li>EBITDA margin reaches ~25% by FY28</li>
+      <li>FCF conversion improves toward 75% of EBITDA</li>
+    </ul>
+    <div class="reconcile">Path: Guidance met → profitability validated → consensus upgrades → re-rating to growth SaaS multiples</div>
+  </div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Registered Users (FY28)</span><span>27.0M</span></div>
+  <div class="driver-row"><span>RPU (FY28)</span><span>$26.75</span></div>
+  <div class="driver-row"><span>New Logos/Year</span><span>~35-40</span></div>
+  <div class="driver-row"><span>Adj. EBITDA Margin (FY28)</span><span>24.7%</span></div>
+  <table class="scenario-mini">
+    <tr><th></th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr>
+    <tr><td>Revenue</td><td>$529</td><td>620</td><td>722</td></tr>
+    <tr><td>Gross Income</td><td>344</td><td>409</td><td>480</td></tr>
+    <tr><td>EBITDA</td><td>96</td><td>133</td><td>178</td></tr>
+    <tr><td>EBIT</td><td>93</td><td>129</td><td>170</td></tr>
+    <tr><td>Net Income</td><td>88</td><td>124</td><td>168</td></tr>
+    <tr><td>EPS</td><td>$0.78</td><td>$1.10</td><td>$1.50</td></tr>
+    <tr><td>Gross Margin</td><td>65.0%</td><td>66.0%</td><td>66.5%</td></tr>
+    <tr><td>EBITDA Margin</td><td>18.2%</td><td>21.4%</td><td>24.7%</td></tr>
+    <tr><td>FCF</td><td>$66</td><td>100</td><td>$135</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-line1">
+      <span class="exit-price">$24</span>
+      <span class="exit-upside">+53% from current</span>
+    </div>
+    <div class="exit-line2">
+      <span>Exit EV/Sales: 3.3x</span>
+      <span>Exit EV/EBITDA: 15.0x</span>
+      <span>Implied EV: $2,670M</span>
+    </div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bull Mild — DSSP Flywheel &amp; Bank Expansion</div>
+  <div class="fermi-narrative">
+    <div class="scenario-text">DSSP adoption exceeds expectations with 120+ clients on full suite by FY28. Bank penetration accelerates—50/50 mix achieved ahead of schedule. RPU growth sustained above 10% as bank mix shift lifts average. Margin expansion front-loaded as India GCC scales and renewal mix increases. Q2 competition manageable as market grows fast enough for both.</div>
+    <ul>
+      <li>User growth of +2.5-3.0M/year to 28.5M by FY28</li>
+      <li>RPU grows to ~$28+ (bank mix + full DSSP)</li>
+      <li>EBITDA margin reaches 27% by FY28</li>
+      <li>Multiple re-rates toward 4x EV/Sales</li>
+    </ul>
+    <div class="reconcile">Path: DSSP flywheel → bank wins accelerate → RPU inflects → re-rating to premium growth SaaS</div>
+  </div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Registered Users (FY28)</span><span>28.5M</span></div>
+  <div class="driver-row"><span>RPU (FY28)</span><span>$28.40</span></div>
+  <div class="driver-row"><span>New Logos/Year</span><span>~45</span></div>
+  <div class="driver-row"><span>Adj. EBITDA Margin (FY28)</span><span>27.0%</span></div>
+  <table class="scenario-mini">
+    <tr><th></th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr>
+    <tr><td>Revenue</td><td>$545</td><td>670</td><td>810</td></tr>
+    <tr><td>Gross Income</td><td>360</td><td>449</td><td>559</td></tr>
+    <tr><td>EBITDA</td><td>109</td><td>161</td><td>219</td></tr>
+    <tr><td>EBIT</td><td>100</td><td>148</td><td>202</td></tr>
+    <tr><td>Net Income</td><td>68</td><td>115</td><td>165</td></tr>
+    <tr><td>EPS</td><td>$0.61</td><td>$1.03</td><td>$1.47</td></tr>
+    <tr><td>Gross Margin</td><td>66.1%</td><td>67.0%</td><td>69.0%</td></tr>
+    <tr><td>EBITDA Margin</td><td>20.0%</td><td>24.0%</td><td>27.0%</td></tr>
+    <tr><td>FCF</td><td>$80</td><td>125</td><td>$175</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-line1">
+      <span class="exit-price">$38</span>
+      <span class="exit-upside">+143% from current</span>
+    </div>
+    <div class="exit-line2">
+      <span>Exit EV/Sales: 4.0x</span>
+      <span>Exit EV/EBITDA: 19.0x</span>
+      <span>Implied EV: $4,161M</span>
+    </div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bull Severe — Platform Dominance &amp; AI Monetization</div>
+  <div class="fermi-narrative">
+    <div class="scenario-text">Alkami becomes the dominant digital banking platform as legacy re-platforming accelerates. AI Agentic products create a new $5+ RPU premium. DSSP becomes industry standard for FI digital transformation. Revenue approaches $1B run-rate by FY28. Margin expansion exceeds targets as scale economics compound. Strategic premium from PE/strategic acquirer interest.</div>
+    <ul>
+      <li>User growth of +3.0-3.5M/year to 30M+ by FY28</li>
+      <li>RPU grows to $32+ (AI products + full DSSP + bank mix)</li>
+      <li>EBITDA margin reaches 32% by FY28 (ahead of Rule of 45)</li>
+      <li>Multiple re-rates to 5.5x+ EV/Sales on scarcity value</li>
+    </ul>
+    <div class="reconcile">Path: AI monetization → platform dominance → $1B revenue visibility → strategic premium → takeout speculation</div>
+  </div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Registered Users (FY28)</span><span>30.5M</span></div>
+  <div class="driver-row"><span>RPU (FY28)</span><span>$32.00</span></div>
+  <div class="driver-row"><span>New Logos/Year</span><span>~50+</span></div>
+  <div class="driver-row"><span>Adj. EBITDA Margin (FY28)</span><span>32.0%</span></div>
+  <table class="scenario-mini">
+    <tr><th></th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr>
+    <tr><td>Revenue</td><td>$560</td><td>720</td><td>920</td></tr>
+    <tr><td>Gross Income</td><td>375</td><td>497</td><td>655</td></tr>
+    <tr><td>EBITDA</td><td>123</td><td>202</td><td>294</td></tr>
+    <tr><td>EBIT</td><td>112</td><td>187</td><td>274</td></tr>
+    <tr><td>Net Income</td><td>78</td><td>148</td><td>225</td></tr>
+    <tr><td>EPS</td><td>$0.70</td><td>$1.32</td><td>$2.01</td></tr>
+    <tr><td>Gross Margin</td><td>67.0%</td><td>69.0%</td><td>71.2%</td></tr>
+    <tr><td>EBITDA Margin</td><td>22.0%</td><td>28.1%</td><td>32.0%</td></tr>
+    <tr><td>FCF</td><td>$95</td><td>165</td><td>$245</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-line1">
+      <span class="exit-price">$62</span>
+      <span class="exit-upside">+296% from current</span>
+    </div>
+    <div class="exit-line2">
+      <span>Exit EV/Sales: 5.5x</span>
+      <span>Exit EV/EBITDA: 22.8x</span>
+      <span>Implied EV: $6,762M</span>
+    </div>
+  </div>
+</div>
+
+<div class="case-chart">
+  <svg viewBox="0 0 700 140">
+    <defs>
+      <linearGradient id="barGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" style="stop-color:#c0392b"/>
+        <stop offset="30%" style="stop-color:#e67e22"/>
+        <stop offset="50%" style="stop-color:#3498db"/>
+        <stop offset="70%" style="stop-color:#27ae60"/>
+        <stop offset="100%" style="stop-color:#16a085"/>
+      </linearGradient>
+    </defs>
+    <rect x="50" y="50" width="600" height="24" rx="4" fill="url(#barGrad)"/>
+    <line x1="145" y1="42" x2="145" y2="82" stroke="#1a1a2e" stroke-width="3"/>
+    <text x="145" y="35" text-anchor="middle" font-size="9" font-weight="700" fill="#1a1a2e">Current: $15.67</text>
+
+    <text x="50" y="95" text-anchor="start" font-size="8" fill="#c0392b">Bear Severe</text>
+    <text x="50" y="108" text-anchor="start" font-size="11" font-weight="700" fill="#c0392b">$7</text>
+    <text x="50" y="120" text-anchor="start" font-size="8" fill="#888">-55%</text>
+
+    <text x="116" y="95" text-anchor="middle" font-size="8" fill="#e67e22">Bear Mild</text>
+    <text x="116" y="108" text-anchor="middle" font-size="11" font-weight="700" fill="#e67e22">$13</text>
+    <text x="116" y="120" text-anchor="middle" font-size="8" fill="#888">-17%</text>
+
+    <text x="236" y="95" text-anchor="middle" font-size="8" fill="#3498db">Base</text>
+    <text x="236" y="108" text-anchor="middle" font-size="11" font-weight="700" fill="#3498db">$24</text>
+    <text x="236" y="120" text-anchor="middle" font-size="8" fill="#888">+53%</text>
+
+    <text x="388" y="95" text-anchor="middle" font-size="8" fill="#27ae60">Bull Mild</text>
+    <text x="388" y="108" text-anchor="middle" font-size="11" font-weight="700" fill="#27ae60">$38</text>
+    <text x="388" y="120" text-anchor="middle" font-size="8" fill="#888">+143%</text>
+
+    <text x="650" y="95" text-anchor="end" font-size="8" fill="#16a085">Bull Severe</text>
+    <text x="650" y="108" text-anchor="end" font-size="11" font-weight="700" fill="#16a085">$62</text>
+    <text x="650" y="120" text-anchor="end" font-size="8" fill="#888">+296%</text>
+  </svg>
+</div>
+
+<!-- SECTION 11: COMPARABLE COMPANIES -->
+<div class="memo-section">11. Comparable Companies</div>
+
+<div class="section-title">Selected Financials</div>
+<table class="comps">
+  <tr>
+    <th>Company</th>
+    <th>Ticker</th>
+    <th>Mkt Cap ($M)</th>
+    <th>EV ($M)</th>
+    <th>Sales FY1</th>
+    <th>EBITDA FY1</th>
+    <th>EBITDA Mgn</th>
+    <th>FCF FY1</th>
+  </tr>
+  <tr class="subject">
+    <td>Alkami Technology</td>
+    <td>ALKT-US</td>
+    <td>$1,761</td>
+    <td>$2,013</td>
+    <td>$529</td>
+    <td>$96</td>
+    <td>18.2%</td>
+    <td>$66</td>
+  </tr>
+  <tr>
+    <td>Q2 Holdings</td>
+    <td>QTWO-US</td>
+    <td>$3,116</td>
+    <td>$2,987</td>
+    <td>$877</td>
+    <td>$228</td>
+    <td>26.0%</td>
+    <td>$213</td>
+  </tr>
+  <tr>
+    <td>nCino</td>
+    <td>NCNO-US</td>
+    <td>$1,823</td>
+    <td>$1,961</td>
+    <td>$593</td>
+    <td>$133</td>
+    <td>22.4%</td>
+    <td>$71</td>
+  </tr>
+  <tr>
+    <td>Appian</td>
+    <td>APPN-US</td>
+    <td>$1,834</td>
+    <td>$1,888</td>
+    <td>$811</td>
+    <td>$95</td>
+    <td>11.7%</td>
+    <td>$81</td>
+  </tr>
+  <tr>
+    <td>LiveRamp</td>
+    <td>RAMP-US</td>
+    <td>$1,800</td>
+    <td>$1,397</td>
+    <td>$812</td>
+    <td>$185</td>
+    <td>22.8%</td>
+    <td>$164</td>
+  </tr>
+  <tr>
+    <td>Blackbaud</td>
+    <td>BLKB-US</td>
+    <td>$1,833</td>
+    <td>$2,184</td>
+    <td>$1,171</td>
+    <td>$436</td>
+    <td>37.2%</td>
+    <td>$285</td>
+  </tr>
+  <tr>
+    <td>Magnite</td>
+    <td>MGNI-US</td>
+    <td>$1,859</td>
+    <td>$1,861</td>
+    <td>$744</td>
+    <td>$262</td>
+    <td>35.2%</td>
+    <td>$194</td>
+  </tr>
+  <tr>
+    <td>DoubleVerify</td>
+    <td>DV-US</td>
+    <td>$1,640</td>
+    <td>$1,381</td>
+    <td>$819</td>
+    <td>$276</td>
+    <td>33.8%</td>
+    <td>$174</td>
+  </tr>
+  <tr class="stat-row">
+    <td>Average</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>25.9%</td>
+    <td></td>
+  </tr>
+  <tr class="stat-row">
+    <td>Median</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>24.4%</td>
+    <td></td>
+  </tr>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Valuation Multiples</div>
+<table class="comps">
+  <tr>
+    <th>Company</th>
+    <th>Ticker</th>
+    <th>P/Sales</th>
+    <th>EV/Sales</th>
+    <th>EV/EBITDA FY1</th>
+    <th>EV/EBITDA FY2</th>
+    <th>P/E FY1</th>
+    <th>P/E FY2</th>
+    <th>FCF Yield</th>
+  </tr>
+  <tr class="subject">
+    <td>Alkami Technology</td>
+    <td>ALKT-US</td>
+    <td>3.7x</td>
+    <td>4.5x</td>
+    <td>21.0x</td>
+    <td>15.1x</td>
+    <td>19.4x</td>
+    <td>14.2x</td>
+    <td>1.6%</td>
+  </tr>
+  <tr>
+    <td>Q2 Holdings</td>
+    <td>QTWO-US</td>
+    <td>3.9x</td>
+    <td>3.8x</td>
+    <td>13.1x</td>
+    <td>11.1x</td>
+    <td>16.2x</td>
+    <td>13.8x</td>
+    <td>4.1%</td>
+  </tr>
+  <tr>
+    <td>nCino</td>
+    <td>NCNO-US</td>
+    <td>2.9x</td>
+    <td>3.3x</td>
+    <td>14.7x</td>
+    <td>12.0x</td>
+    <td>16.5x</td>
+    <td>14.6x</td>
+    <td>3.4%</td>
+  </tr>
+  <tr>
+    <td>Appian</td>
+    <td>APPN-US</td>
+    <td>2.5x</td>
+    <td>2.6x</td>
+    <td>19.9x</td>
+    <td>15.9x</td>
+    <td>27.2x</td>
+    <td>20.7x</td>
+    <td>2.3%</td>
+  </tr>
+  <tr>
+    <td>LiveRamp</td>
+    <td>RAMP-US</td>
+    <td>2.1x</td>
+    <td>1.8x</td>
+    <td>7.5x</td>
+    <td>6.4x</td>
+    <td>11.6x</td>
+    <td>9.5x</td>
+    <td>8.9%</td>
+  </tr>
+  <tr>
+    <td>Blackbaud</td>
+    <td>BLKB-US</td>
+    <td>1.7x</td>
+    <td>1.9x</td>
+    <td>5.0x</td>
+    <td>4.7x</td>
+    <td>7.4x</td>
+    <td>6.5x</td>
+    <td>8.4%</td>
+  </tr>
+  <tr>
+    <td>Magnite</td>
+    <td>MGNI-US</td>
+    <td>2.6x</td>
+    <td>2.6x</td>
+    <td>7.1x</td>
+    <td>6.3x</td>
+    <td>11.3x</td>
+    <td>9.4x</td>
+    <td>6.6%</td>
+  </tr>
+  <tr>
+    <td>DoubleVerify</td>
+    <td>DV-US</td>
+    <td>2.1x</td>
+    <td>1.9x</td>
+    <td>5.0x</td>
+    <td>4.5x</td>
+    <td>18.0x</td>
+    <td>15.0x</td>
+    <td>9.1%</td>
+  </tr>
+  <tr class="stat-row">
+    <td>Average</td>
+    <td></td>
+    <td>2.7x</td>
+    <td>2.8x</td>
+    <td>11.8x</td>
+    <td>9.5x</td>
+    <td>16.0x</td>
+    <td>13.0x</td>
+    <td>5.6%</td>
+  </tr>
+  <tr class="stat-row">
+    <td>Median</td>
+    <td></td>
+    <td>2.5x</td>
+    <td>2.6x</td>
+    <td>7.5x</td>
+    <td>6.4x</td>
+    <td>16.2x</td>
+    <td>13.8x</td>
+    <td>5.3%</td>
+  </tr>
+</table>
+
+<div class="prose" style="margin-top: 10px;">
+<strong>Comps Commentary:</strong> ALKT trades at a significant premium to the peer median on EV/EBITDA (21.0x vs. 7.5x) and EV/Sales (4.5x vs. 2.6x), reflecting its higher growth profile (33% FY2025 revenue growth vs. peer average ~15-20%) and profitability inflection story. The premium is most directly comparable to Q2 Holdings—the closest functional competitor—which trades at 13.1x EV/EBITDA with higher current profitability (26% EBITDA margin vs. 18.2%) and larger scale ($877M revenue). ALKT's premium vs. Q2 reflects its higher growth rate and earlier stage margin expansion trajectory. As ALKT's margins converge toward peer levels, the EV/EBITDA premium should compress while absolute valuation grows—the key investor question is whether growth sustains long enough to justify the current multiple gap.
+</div>
+
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<div class="verdict">
+  <p><strong>(i) Market Cap Bucket: $1.66B</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">Small Cap ($1B–$5B). ALKT's $1.66B market cap sits firmly in Theia's sweet spot—large enough for institutional quality but small enough to be overlooked by mega-cap growth managers. The stock is down 40% from its 52-week high and trades at just 49% of its 52-week high, creating potential for mispricing in a neglected name.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(ii) Analyst Coverage: 9 Brokers</strong> <span class="fw-rating moderate">Moderate Fit</span></p>
+  <p style="margin-top:4px;">With 9 broker contributors and an average Buy rating (1.18), ALKT is moderately covered. Not the ideal under-covered name (&lt;5 analysts) where Theia has the strongest edge, but the sharp consensus target cuts (Goldman cut to $18 from $25) and the significant gap between current price ($15.67) and consensus target ($22.67) suggest meaningful disagreement in the market about the growth trajectory. The 13.6% short interest indicates active bearish positioning that primary research could arbitrage.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iii) Thesis Alignment: Digital Financial Services Platform</strong> <span class="fw-rating moderate">Adjacent</span></p>
+  <p style="margin-top:4px;">Alkami is a core digital financial services infrastructure company—the technology layer enabling 300+ FIs to deliver modern banking experiences. While not directly in blockchain/crypto, it sits squarely in the internet finance thesis: digitization of financial services, real-time payments (FedNow, Clearing House integration), open banking (CFPB directives), and AI-driven financial intelligence. The platform processes 20B+ financial transactions and serves as a data intelligence hub for FI decision-making. Rating: Adjacent—deeply aligned on financial digitization but lacks direct blockchain component.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iv) Outcome Dispersion: $7 – $62</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">The 5-scenario model shows implied prices ranging from $7 (–55%) to $62 (+296%), approximately a 9x spread. The wide dispersion is driven by: (a) uncertainty around organic growth sustainability as MANTL laps, (b) the binary nature of DSSP adoption trajectory, (c) margin expansion sensitivity to execution, and (d) competitive dynamics with Q2 and legacy cores. The current price ($15.67) sits closer to the bear mild case ($13) than the base case ($24), suggesting the market is pricing in meaningful execution risk—creating opportunity if management delivers.</p>
+</div>
+
+<div style="background: #fff3cd; border-left: 4px solid #856404; padding: 12px 14px; margin: 16px 0; font-size: 11.5px;">
+  <strong>VERDICT: YES — Compelling Risk/Reward at Profitability Inflection</strong><br><br>
+  ALKT presents an attractive small-cap opportunity at a critical inflection point. The stock is down 40% from highs, trading near the bear-mild implied price ($13) despite consensus pointing to $24+ base case (+53%). The DSSP flywheel, bank expansion runway, and margin trajectory create genuine asymmetry—if management executes, the upside to $38-62 is 2-4x from current levels, while the bear case ($7-13) is partially priced in. The 9 analysts provide moderate (not ideal) coverage, but the 13.6% short interest and sharp consensus cuts create active disagreement that fundamental research can arbitrage. Thesis alignment is Adjacent rather than Core, but Alkami's position as critical digital financial infrastructure—processing 20B+ transactions, enabling real-time payments, and pioneering AI in banking—is deeply relevant to Theia's internet finance worldview. <strong>Recommended action:</strong> Initiate small position at current levels; add aggressively if Q1 2026 earnings (May 6) confirm margin trajectory and organic growth re-acceleration.
+</div>
+
+<p class="prose" style="font-size:10px; font-style:italic; margin-top:6px;">Note: Theia seeks small-cap companies that aren't well covered and are strongly aligned on the core internet finance thesis with wide outcome dispersion. ALKT scores: Market Cap ✓ | Coverage ~✓ | Thesis Adjacent ≈ | Dispersion ✓</p>
+
+<!-- SECTION 13: RISK SUMMARY -->
+<div class="memo-section">13. Risk Summary</div>
+
+<table class="risk-table">
+  <tr>
+    <th>Risk Category</th>
+    <th>Description</th>
+    <th>Severity</th>
+    <th>Mitigant</th>
+  </tr>
+  <tr>
+    <td>Competitive / Market Share</td>
+    <td>Q2 Holdings leads in commercial banking; Lumin Digital and Narmi compete aggressively in credit unions with modern architectures and lower pricing. Legacy cores (Fiserv, FIS, Jack Henry) can bundle digital banking at near-zero cost.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>Superior retail UX, 300+ integrations, and DSSP differentiation. Sub-1% churn validates stickiness. Only 2 contemporary providers at scale (Alkami + Q2) vs. 200M+ addressable seats on legacy.</td>
+  </tr>
+  <tr>
+    <td>Execution / Integration</td>
+    <td>MANTL integration strains management attention. DSSP implementation cycles of 12+ months delay revenue recognition. Growing technical debt from historical customizations creates fragile infrastructure.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>Dedicated DSSP engineering team; 35 successful implementations in FY25 (including record Q3); India GCC providing additional engineering capacity. CFO transition managed smoothly.</td>
+  </tr>
+  <tr>
+    <td>Cybersecurity / Platform Stability</td>
+    <td>A material data breach or platform outage with depositor data would be existential. Historical crashes during high-traffic events (stimulus distributions) erode FI trust.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>SOC 2 compliance, banking-grade security infrastructure, AWS cloud redundancy. No material breaches to date. Platform reliability improvements ongoing.</td>
+  </tr>
+  <tr>
+    <td>Banking Consolidation / Churn</td>
+    <td>~3% annual FI consolidation could eliminate clients if acquirers use different platforms. Loss of a top-20 credit union would meaningfully impact ARR.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Historically net positive: net +300K users from consolidation in FY25. No single client &gt;5% revenue. 301 diversified FI clients.</td>
+  </tr>
+  <tr>
+    <td>Profitability / SBC</td>
+    <td>GAAP profitability remains negative due to 14-15% SBC/revenue. Q4 2025 gross margin dipped to 63.4%. Database vendor cost doubled, creating margin headwind.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>SBC declining toward 10% of revenue by 2030. Database migration planned. India GCC and renewal margins (70%) support path to 70% gross margins. Rule of 45 framework provides transparency.</td>
+  </tr>
+  <tr>
+    <td>Valuation / Short Interest</td>
+    <td>At 21x FY1 EV/EBITDA, ALKT trades at a premium to peers despite lower current profitability. 13.6% short interest reflects active bearish conviction.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Premium justified by 33% growth rate (highest in comp set) and margin expansion trajectory. 9 Buy ratings, $22.67 target, General Atlantic buying $50M+. Short squeeze potential on positive catalysts.</td>
+  </tr>
+</table>
+
+<!-- SECTION 14: APPENDIX -->
+<div class="memo-section">14. Appendix — Python Code</div>
+
+<p class="prose">Sensitivity table generator and scenario model code for analyst customization:</p>
+
+<div class="code-block"># ALKT Sensitivity Table Generator & 5-Case Model
+import numpy as np
+import pandas as pd
+
+def arr_sensitivity():
+    """Annual Subscription ARR — Registered Users vs. RPU"""
+    users = [20, 22, 24, 26, 28]   # Millions
+    rpus = [18, 20, 22, 24, 26]     # $ per user
+
+    results = []
+    for u in users:
+        row = []
+        for r in rpus:
+            arr = u * r  # $M
+            row.append(int(arr))
+        results.append(row)
+
+    df = pd.DataFrame(results, index=users, columns=rpus)
+    df.index.name = 'Users (M)'
+    df.columns.name = 'RPU ($)'
+    return df
+
+def ebitda_sensitivity():
+    """FY2026E Adj. EBITDA — Revenue vs. EBITDA Margin"""
+    revenues = [480, 510, 530, 560, 590]  # $M
+    margins = [14, 16, 18, 20, 22]        # %
+
+    results = []
+    for rev in revenues:
+        row = []
+        for m in margins:
+            ebitda = int(rev * m / 100)
+            row.append(ebitda)
+        results.append(row)
+
+    df = pd.DataFrame(results, index=revenues, columns=margins)
+    df.index.name = 'Revenue ($M)'
+    df.columns.name = 'EBITDA Margin (%)'
+    return df
+
+def share_price_sensitivity():
+    """Implied Price — FY28E Revenue vs. EV/Sales"""
+    revs = [550, 625, 725, 800, 920]        # $M
+    multiples = [2.0, 2.5, 3.0, 3.5, 4.0]   # x
+    shares = 112  # M diluted
+    net_debt = 0  # Assume ~breakeven by FY28
+
+    results = []
+    for rev in revs:
+        row = []
+        for m in multiples:
+            ev = rev * m
+            equity = ev - net_debt
+            price = int(equity / shares)
+            row.append(f"${price}")
+        results.append(row)
+
+    df = pd.DataFrame(results, index=revs, columns=multiples)
+    df.index.name = 'FY28E Revenue ($M)'
+    df.columns.name = 'Exit EV/Sales (x)'
+    return df
+
+def five_case_model():
+    """ALKT 5-Case Scenario Model"""
+    cases = {
+        'Bear Severe': {
+            'users_fy28': 24.5, 'rpu_fy28': 22.0,
+            'rev': [498, 520, 545], 'ebitda_mgn': [12.4, 14.0, 15.5],
+            'ev_sales': 1.5, 'desc': 'Competitive disruption + churn'
+        },
+        'Bear Mild': {
+            'users_fy28': 26.5, 'rpu_fy28': 24.0,
+            'rev': [515, 575, 640], 'ebitda_mgn': [15.9, 18.1, 20.5],
+            'ev_sales': 2.3, 'desc': 'Growth deceleration'
+        },
+        'Base': {
+            'users_fy28': 27.0, 'rpu_fy28': 26.75,
+            'rev': [529, 620, 722], 'ebitda_mgn': [18.2, 21.4, 24.7],
+            'ev_sales': 3.3, 'desc': 'Consensus execution'
+        },
+        'Bull Mild': {
+            'users_fy28': 28.5, 'rpu_fy28': 28.4,
+            'rev': [545, 670, 810], 'ebitda_mgn': [20.0, 24.0, 27.0],
+            'ev_sales': 4.0, 'desc': 'DSSP flywheel + bank expansion'
+        },
+        'Bull Severe': {
+            'users_fy28': 30.5, 'rpu_fy28': 32.0,
+            'rev': [560, 720, 920], 'ebitda_mgn': [22.0, 28.1, 32.0],
+            'ev_sales': 5.5, 'desc': 'Platform dominance + AI'
+        },
+    }
+
+    shares = 112  # M diluted
+    current_price = 15.67
+
+    results = []
+    for name, p in cases.items():
+        fy28_rev = p['rev'][2]
+        fy28_ebitda = int(fy28_rev * p['ebitda_mgn'][2] / 100)
+        ev = fy28_rev * p['ev_sales']
+        equity = ev  # Assume ~0 net debt by FY28
+        price = equity / shares
+        upside = (price / current_price - 1) * 100
+
+        results.append({
+            'Case': name,
+            'Description': p['desc'],
+            'FY28 Rev ($M)': fy28_rev,
+            'FY28 EBITDA ($M)': fy28_ebitda,
+            'FY28 Margin': f"{p['ebitda_mgn'][2]}%",
+            'Exit EV/Sales': f"{p['ev_sales']}x",
+            'Implied Price': f"${price:.0f}",
+            'Upside': f"{upside:+.0f}%"
+        })
+
+    return pd.DataFrame(results)
+
+# Run all models
+print("=== ARR Sensitivity (Users x RPU) ===")
+print(arr_sensitivity())
+print("\n=== EBITDA Sensitivity (Revenue x Margin) ===")
+print(ebitda_sensitivity())
+print("\n=== Share Price Sensitivity (Revenue x EV/Sales) ===")
+print(share_price_sensitivity())
+print("\n=== 5-Case Model ===")
+print(five_case_model().to_string(index=False))
+</div>
+
+<p class="source-note">Generated by Claude | Data: FactSet, AlphaSense, Company Filings, Earnings Transcripts | April 2026</p>
+
+</body>
+</html>
