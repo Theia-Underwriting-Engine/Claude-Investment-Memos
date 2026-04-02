@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PicS N.V. (PicPay) | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 8px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child, table.comps td:nth-child(2) { text-align: left; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-style: italic; background: #fafbfc; font-weight: 600; border-top: 1px solid #eee; }
+table.comps th.est-col { color: #2563eb; }
+
+table.risk-table { font-size: 10px; width: 100%; margin: 8px 0; }
+table.risk-table th { text-align: left; font-weight: 600; padding: 4px 6px; background: #f4f6f9; border-bottom: 1px solid #ddd; }
+table.risk-table td { padding: 4px 6px; border-bottom: 1px solid #eee; vertical-align: top; }
+table.risk-table td:first-child { font-weight: 600; width: 25%; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.alphasense-box { background: #e8f4fd; border-left: 4px solid #2563eb; padding: 10px 14px; margin: 10px 0; font-size: 10px; line-height: 1.5; }
+
+.bull-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #155724; border-bottom: 1.5px solid #c3e6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #721c24; border-bottom: 1.5px solid #f5c6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+
+.bull-item, .bear-item { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">PicS N.V. (PicPay) | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">PicS N.V. (NASDAQ: PICS), operating as PicPay, is Brazil's third-largest digital bank and seventh-largest financial institution, serving over 67 million total accounts and 42.7 million active customers through a comprehensive two-sided financial ecosystem. Founded in 2012 in Vitória, Espírito Santo as a peer-to-peer (P2P) payment app using QR codes, PicPay was acquired by the J&amp;F Group in 2015, which provided the capital to accelerate its transformation from a simple digital wallet into a full-service super-app encompassing consumer banking, lending, insurance, investments, merchant acquiring, and e-commerce. The company completed its Nasdaq IPO on January 29, 2026 at $19 per share — the top of its range — raising $434 million in an offering that was 12x oversubscribed, valuing the company at approximately $2.5 billion. PicS N.V. is incorporated under Dutch law; the Batista family maintains approximately 98% of voting power through a dual-class share structure via J&amp;F Participações.</p>
+
+<p class="prose">PicPay's business model centers on a "wallet-first" acquisition engine: the digital wallet attracts users at near-zero cost through Pix payments, P2P transfers, and bill payments, generating rich behavioral and transactional data that powers proprietary AI-driven underwriting. This data flywheel enables efficient cross-selling of higher-margin financial products — credit cards, personal loans, payroll-deducted lending, insurance, and investment products — within a single integrated application. The company achieves up to 2.7x greater accuracy in its credit models compared to institutions relying solely on standard credit bureau data, enabling pre-approved credit offers to 87% of users with established platform history. By Q4 2025, Average Revenue Per Active Client (ARPAC) reached R$71 — more than 3x the R$20.4 cost to serve — demonstrating powerful structural operating leverage as users adopt multiple financial products. Revenue surged 85% to R$10.3 billion in 2025, with adjusted net income nearly doubling (+99%) to R$502 million and annualized adjusted ROE reaching 24.4% in Q4 2025.</p>
+
+<p class="prose">The company operates across four segments: <strong>Consumer Banking</strong> (credit products, digital wallet transactions, interchange, insurance distribution — the largest segment), <strong>Small &amp; Medium-Sized Businesses (SMBs)</strong> (merchant acquiring, MDR, corporate benefit cards — opening ~60,000 new business accounts/month), <strong>Audiences &amp; Ecosystem Integration</strong> (PicPay Shop marketplace, PicPay Ads), and <strong>Institutional</strong> (treasury, funding, cash management). The credit portfolio expanded 128% YoY to R$24.1 billion, with a deliberate pivot toward secured products (two-thirds of new originations), particularly private payroll loans reaching ~R$500 million in monthly originations. PicPay is among the top 10 global users of OpenAI technology, utilizing ~61 billion tokens through Azure OpenAI, with AI initiating 100% of customer service chat interactions and eliminating the need for 1,000+ additional call center hires.</p>
+
+<p class="prose"><strong>Key facts:</strong> Founded 2012 · HQ São Paulo, Brazil (registered Netherlands) · CEO Eduardo Chedid Simões · CFO Rodrigo Luis Rosa Couto · Chairman José Antonio Batista Costa · Employees ~4,000 · IPO January 29, 2026 (NASDAQ: PICS) · FY end December · Market Cap $1,444M · CUSIP N69958101 · ISIN NL0015073TP4</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 2: FINANCIAL SUMMARY (FACTSET) -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Theia FactSet Summary</div>
+
+<div class="header">
+  <div>
+    <h1>PicS N.V. (PicPay)</h1>
+    <span class="ticker">PICS · NASDAQ · ISIN NL0015073TP4</span>
+  </div>
+  <div class="date">FactSet Snapshot · April 2, 2026</div>
+</div>
+
+<!-- Price Bar -->
+<div class="price-bar">
+  <div>
+    <span class="label">Price (Apr 1, 2026) </span>
+    <span class="price">$11.14</span>
+  </div>
+  <div><span class="label">1M </span><span class="chg">-35.6%</span></div>
+  <div><span class="label">3M </span><span style="font-weight:600;">—</span></div>
+  <div><span class="label">6M </span><span style="font-weight:600;">—</span></div>
+  <div><span class="label">YTD </span><span style="font-weight:600;">—</span></div>
+  <div><span class="label">1Y </span><span style="font-weight:600;">—</span></div>
+  <div><span class="label">52-Wk Range </span><span style="font-weight:600;">$9.88 – $19.95</span></div>
+</div>
+
+<!-- Key Stats + EV Bridge -->
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv" style="font-size:10px;">
+      <tr><td>Exchange / Ticker</td><td>NASDAQ · PICS</td></tr>
+      <tr><td>Price (Apr 1, 2026)</td><td>$11.14</td></tr>
+      <tr><td>Volume</td><td>627,240</td></tr>
+      <tr><td>30-Day Avg Volume</td><td>718,552</td></tr>
+      <tr><td>Float %</td><td>51.53%</td></tr>
+      <tr><td>Short Interest</td><td>6.84% of float / 4.0 days</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev" style="font-size:10px;">
+      <tr><td>Basic Shares Outstanding</td><td>129.59M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">Class A Common Shares</td><td style="font-size:9px;">43.14M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">Class B Convertible Common</td><td style="font-size:9px;">86.45M</td></tr>
+      <tr><td>Share Price</td><td>$11.14</td></tr>
+      <tr><td>= Market Cap</td><td>$1,444M</td></tr>
+      <tr><td>+ Consolidated Debt</td><td>$5,470M</td></tr>
+      <tr><td>− Cash &amp; Equivalents</td><td>($705M)</td></tr>
+      <tr><td>+ Non-Controlling Interest</td><td>$3M</td></tr>
+      <tr class="total"><td>= Enterprise Value</td><td>$6,212M</td></tr>
+    </table>
+    <p style="font-size:7.5px; color:#aaa; margin-top:2px;">Note: Consolidated debt includes customer deposits — typical for banking institutions.</p>
+  </div>
+</div>
+
+<!-- Current Valuation — horizontal 6x2 grid -->
+<div class="section-title">Current Valuation</div>
+<div style="border: 1px solid #eee; border-radius: 4px; margin-bottom: 8px;">
+  <div class="val-grid">
+    <div class="val-cell"><div class="val-label">Mkt Cap</div><div class="val-num">$1,444M</div><div class="val-sub">129.59M shares</div></div>
+    <div class="val-cell"><div class="val-label">EV</div><div class="val-num">$6,212M</div><div class="val-sub">$5.5B debt (deposits)</div></div>
+    <div class="val-cell"><div class="val-label">P/E (FY26E)</div><div class="val-num">8.1x</div><div class="val-sub">EPS $1.31</div></div>
+    <div class="val-cell"><div class="val-label">EV/EBITDA (FY26E)</div><div class="val-num">18.4x</div><div class="val-sub">EBITDA $338M</div></div>
+    <div class="val-cell"><div class="val-label">EV/Sales (FY26E)</div><div class="val-num">2.5x</div><div class="val-sub">Rev $2,479M</div></div>
+    <div class="val-cell"><div class="val-label">P/S (FY26E)</div><div class="val-num">0.6x</div><div class="val-sub">Rev $2,479M</div></div>
+  </div>
+  <div style="border-top: 1px solid #eee;">
+    <div class="val-grid">
+      <div class="val-cell"><div class="val-label">Fully Dil. Mkt Cap</div><div class="val-num">$1,444M</div><div class="val-sub">129.59M dil. shares</div></div>
+      <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">5.80%</div><div class="val-sub">FactSet estimate</div></div>
+      <div class="val-cell"><div class="val-label">Beta (3Y Adj)</div><div class="val-num">5.59</div><div class="val-sub">Adj beta (limited history)</div></div>
+      <div class="val-cell"><div class="val-label">Avg Analyst Rating</div><div class="val-num">Buy</div><div class="val-sub">5 brokers · 1.00</div></div>
+      <div class="val-cell"><div class="val-label">Cons. Target Price</div><div class="val-num">$22.77</div><div class="val-sub">+104% upside</div></div>
+      <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">Jun 3</div><div class="val-sub">Q1 FY2026</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Valuation Multiples Table -->
+<div class="section-title">Valuation Multiples</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Metric</th>
+      <th>5Yr Avg</th>
+      <th>Dec '23</th>
+      <th>Dec '24</th>
+      <th>Dec '25</th>
+      <th class="est" style="color:#2563eb;">Dec '26E</th>
+      <th class="est" style="color:#2563eb;">Dec '27E</th>
+      <th class="est" style="color:#2563eb;">Dec '28E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="8">PRICE MULTIPLES</td></tr>
+    <tr><td>P/E</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="est">8.1x</td><td class="est">3.4x</td><td class="est">2.2x</td></tr>
+    <tr><td>P/Sales</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="est">0.6x</td><td class="est">0.4x</td><td class="est">0.3x</td></tr>
+    <tr><td>P/Book Value</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="est">1.1x</td><td class="est">0.9x</td><td class="est">0.7x</td></tr>
+    <tr class="section-row"><td colspan="8">EV MULTIPLES</td></tr>
+    <tr><td>EV/Sales</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="est">2.5x</td><td class="est">1.8x</td><td class="est">1.5x</td></tr>
+    <tr><td>EV/EBITDA</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="est">18.4x</td><td class="est">7.7x</td><td class="est">4.4x</td></tr>
+    <tr><td>EV/EBIT</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="est">26.2x</td><td class="est">9.9x</td><td class="est">6.9x</td></tr>
+  </tbody>
+</table>
+<p style="font-size:7.5px; color:#aaa; margin-top:2px;">Historical multiples unavailable — PICS completed Nasdaq IPO on January 29, 2026.</p>
+
+<!-- Revenue Exposure -->
+<div class="section-title">Revenue Exposure (FY2025 Actuals, FYE December)</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Business Segment</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Segment</th><th>% Rev</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Consumer Banking</td><td>~55%</td><td>Credit, wallet, interchange, insurance</td></tr>
+        <tr><td>SMB</td><td>~20%</td><td>MDR, acquiring, corporate benefits</td></tr>
+        <tr><td>Institutional</td><td>~20%</td><td>Treasury, funding, cash mgmt</td></tr>
+        <tr><td>Audiences &amp; Ecosystem</td><td>~5%</td><td>Shop marketplace, Ads</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>100%</td><td>R$10.3B / $1,862M</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:8px; color:#aaa; margin-top:4px;">Revenue mix: 52% credit / 48% non-credit. Segment splits estimated from earnings disclosures.</p>
+  </div>
+  <div>
+    <div class="sub-label">By Geography</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Region</th><th>% Rev</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Brazil</td><td>100%</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>100%</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:8px; color:#aaa; margin-top:4px;">Revenue mix by type: 52% credit products (interest income, fees), 48% non-credit (float, interchange, insurance commissions, marketplace take-rates, Ads).</p>
+  </div>
+</div>
+
+<!-- Financials Table -->
+<div class="section-title">Financials</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">$M (FY Dec)</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th class="est" style="color:#2563eb;">FY2026E</th>
+      <th class="est" style="color:#2563eb;">FY2027E</th>
+      <th class="est" style="color:#2563eb;">FY2028E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">INCOME STATEMENT</td></tr>
+    <tr><td>Revenue</td><td>$697</td><td>$1,050</td><td>$1,862</td><td class="est">$2,479</td><td class="est">$3,474</td><td class="est">$4,158</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Revenue Growth %</td><td>—</td><td>+50.6%</td><td>+77.4%</td><td class="est">+33.1%</td><td class="est">+40.1%</td><td class="est">+19.7%</td></tr>
+    <tr><td>Gross Profit</td><td>$494</td><td>$637</td><td>$1,033</td><td class="est">$940</td><td class="est">$1,413</td><td class="est">$1,480</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Gross Margin %</td><td>70.9%</td><td>60.7%</td><td>55.5%</td><td class="est">37.9%</td><td class="est">40.7%</td><td class="est">35.6%</td></tr>
+    <tr><td>EBITDA</td><td>$268</td><td>$119</td><td>$156</td><td class="est">$338</td><td class="est">$803</td><td class="est">$1,396</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">EBITDA Margin %</td><td>38.5%</td><td>11.3%</td><td>8.4%</td><td class="est">13.7%</td><td class="est">23.1%</td><td class="est">33.6%</td></tr>
+    <tr><td>EBIT</td><td>$234</td><td>$64</td><td>$77</td><td class="est">$237</td><td class="est">$629</td><td class="est">$904</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Operating Margin %</td><td>33.6%</td><td>6.1%</td><td>4.1%</td><td class="est">9.5%</td><td class="est">18.1%</td><td class="est">21.7%</td></tr>
+    <tr><td>Net Income</td><td>$7</td><td>$40</td><td>$195</td><td class="est">$177</td><td class="est">$404</td><td class="est">$582</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Net Margin %</td><td>1.0%</td><td>3.8%</td><td>10.5%</td><td class="est">7.1%</td><td class="est">11.6%</td><td class="est">14.0%</td></tr>
+    <tr><td>EPS (Dil)</td><td>—</td><td>—</td><td>—</td><td class="est">$1.31</td><td class="est">$2.98</td><td class="est">$3.32</td></tr>
+    <tr class="section-row"><td colspan="7">CASH FLOW</td></tr>
+    <tr><td>Operating Cash Flow</td><td>$609</td><td>$1,667</td><td>$2,128</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>CapEx</td><td>($101)</td><td>($108)</td><td>($122)</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Free Cash Flow</td><td>$608</td><td>$1,656</td><td>$2,115</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr class="section-row"><td colspan="7">BALANCE SHEET</td></tr>
+    <tr><td>Cash &amp; ST Investments</td><td>$931</td><td>$438</td><td>$705</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Total Assets</td><td>$3,249</td><td>$4,422</td><td>$7,662</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Total Liabilities</td><td>$3,001</td><td>$4,136</td><td>$6,952</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Shareholders' Equity</td><td>$269</td><td>$260</td><td>$707</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr class="section-row"><td colspan="7">RETURNS &amp; LEVERAGE</td></tr>
+    <tr><td>ROE (%)</td><td>2.7%</td><td>15.2%</td><td>40.4%</td><td class="est">13.2%</td><td class="est">25.1%</td><td class="est">31.5%</td></tr>
+    <tr><td>Debt / Equity (%)</td><td>1,022%</td><td>1,259%</td><td>775%</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>BVPS</td><td>—</td><td>—</td><td>—</td><td class="est">$10.38</td><td class="est">$12.89</td><td class="est">$16.05</td></tr>
+  </tbody>
+</table>
+<p style="font-size:7.5px; color:#aaa; margin-top:2px;">Note: PicPay is a banking institution — FCF margins >100% reflect deposit inflows in operating cash flow; high D/E reflects customer deposits. Historical EPS not meaningful (pre-IPO share structure).</p>
+
+<!-- Valuation Summary -->
+<div class="section-title">Valuation Summary</div>
+<p class="prose">PICS trades at 8.1x FY2026E P/E, 0.6x P/S, and 18.4x EV/EBITDA — a dramatic discount to its IPO price of $19 (down 41%) and significantly below the consensus target of $22.77 (+104% upside). The stock has fallen 35.6% in the past month alone, reflecting post-IPO lock-up fears, Brazil macro concerns (elevated Selic rate at 14.25%), and credit quality anxieties after NPLs over 90 days reached 7.2%. However, the forward multiples compress rapidly: by FY2028E, PICS trades at just 2.2x P/E and 4.4x EV/EBITDA — pricing the company as if no credit growth materializes and margins stagnate. The 5 broker contributors unanimously rate PICS a Buy with an average target of $22.77, implying the sell-side views the current sell-off as a severe overreaction. PicPay's FY2025 ROE of 40.4% and projected FY2028E ROE of 31.5% at a 0.7x P/BV suggest the market is deeply mispricing the profitability trajectory. Relative to Brazilian fintech peers — PagSeguro at 6.3x FY1 P/E and StoneCo at a similar range — PICS trades at a premium on FY1 EV/EBITDA (18.4x vs. PAGS 5.9x) due to its deposit-heavy balance sheet inflating EV, but at a comparable equity multiple. The real question is whether the credit portfolio can scale from R$24B to R$50B+ without material deterioration in asset quality — the answer to that question determines whether PICS is a $6 stock or a $30+ stock.</p>
+
+<div class="source-note">Source: FactSet snapshot export, April 2, 2026. Estimates reflect consensus of 5 broker contributors. FYE December.</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 3: BULL & BEAR CASES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Cases</div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Secured Lending Pivot De-Risks the Credit Portfolio.</span> PicPay's deliberate shift toward secured products — now two-thirds of new originations — with private payroll loans reaching ~R$500M in monthly originations, fundamentally changes the risk profile. Payroll-deducted loans have structurally lower default rates (payments are deducted before the borrower receives their salary), and as the secured mix increases from ~33% to 60%+ of the total portfolio, the NPL rate should decline from 7.2% toward 4-5%, compressing cost of risk and expanding net interest margins. If the credit portfolio reaches R$40B by end-2027 with 65% secured mix and a 4.5% NPL rate, the resulting net interest income would support EPS well above consensus.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">ARPAC Expansion Runway Is Massive.</span> At R$71 ARPAC in Q4 2025, PicPay monetizes only 6% of its active users' total credit limits available in the market. Nubank's ARPAC exceeds R$110 on a more mature cohort base. As PicPay's 42.7M active users mature — adopting credit cards, insurance, investments, and payroll loans — the ARPAC trajectory toward R$120-150 over 3-4 years is highly plausible without any new user growth. Each R$10 increase in ARPAC on 42.7M users translates to ~R$1.7B of incremental annual revenue at near-zero marginal acquisition cost, flowing through at high incremental margins.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">AI-Powered Operating Leverage Accelerates Margins.</span> PicPay's deployment of generative AI across customer service (100% of chat interactions AI-initiated, eliminating 1,000+ hires), marketing (fully AI-generated campaigns), and internal operations (1,000+ AI agents serving 4,000 employees) creates a structural cost advantage that scales with the user base. As revenue grows 30-40% annually, the cost base grows at a fraction of that rate, driving an efficiency ratio from ~55% toward ~40% over the next 3 years. This operating leverage is real and observable in the widening gap between ARPAC (R$71) and cost-to-serve (R$20.4) — a 3.5x ratio that should expand toward 5x+ as AI reduces the denominator.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Pix and Open Finance Secular Tailwinds.</span> Brazil's instant payment system Pix processed over 45 billion transactions in 2025, and PicPay captures 11% market share — positioning it as a primary gateway into the Brazilian financial system. Open Finance regulations, where PicPay holds 12.3% of consumer consents, enable account aggregation that pulls external bank data into PicPay's ecosystem, enriching credit models and deepening the wallet relationship. These regulatory-driven structural changes are irreversible and continue to shift financial activity from incumbents to digital platforms, with PicPay as a primary beneficiary.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Valuation Floor From Profitability Inflection.</span> At $11.14, PICS trades at 8.1x FY26E earnings and 2.2x FY28E earnings for a company growing revenue 30%+ and delivering 40%+ ROE. The $19 IPO price (just 3 months ago) reflected sophisticated institutional demand at 12x oversubscription. The post-IPO decline creates a classic "broken IPO" opportunity: forced sellers (flippers, momentum funds) exit, creating a temporary liquidity vacuum that depresses the price below fundamental value. As the company reports Q1 2026 results on June 3 confirming the earnings trajectory, the stock should re-rate toward the $18-23 consensus target range.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="bear-header">Bear Cases</div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Credit Quality Deterioration in Rising Rate Environment.</span> NPLs over 90 days have climbed to 7.2%, attributed to portfolio seasoning and the progressive limit strategy. With Brazil's Selic rate at 14.25% and potentially heading higher, borrower debt-servicing capacity deteriorates — particularly for unsecured personal loans (still one-third of originations). If NPLs reach 10%+ as the R$24B portfolio seasons, provisions would consume a significant portion of net interest income, potentially pushing the company to operating losses. The 128% YoY credit portfolio growth rate is aggressive by any standard, and the true asset quality will only be known 12-18 months after origination — meaning the worst may be ahead.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Capital Adequacy Risk and Dilution.</span> PicPay failed to meet the required 10.5% capital ratio in 2025, necessitating an R$800M+ capital injection from the controlling family. As the credit portfolio scales toward R$30-40B, the capital requirements grow proportionally. If internal capital generation (retained earnings) cannot keep pace with credit growth, the company will need additional equity raises — diluting the Class A shareholders who hold only ~33% of shares. The IPO itself was partly motivated by capital needs, not just growth investment, which raises questions about future dilution risk.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Governance Concerns — Dual-Class Structure and Batista Family Control.</span> The J&amp;F/Batista family maintains ~98% of voting power through the dual-class structure, effectively making PICS a controlled company where public shareholders have minimal influence. The Batista family has been involved in past corruption investigations in Brazil (Operation Lava Jato), and related-party transaction risk exists given the broader J&amp;F conglomerate structure. PicPay Bank has provided temporary financing to J&amp;F entities, creating potential conflicts of interest. For institutional investors with ESG mandates or governance screens, this structure may be a permanent "no-fly zone."</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Brazil Macro and FX Risk.</span> PicPay generates 100% of revenue in BRL. The Real has depreciated ~15% against the USD over the past year, and with fiscal deficits widening and political uncertainty ahead of 2026 elections, further depreciation is possible. For USD-denominated shareholders, even strong BRL earnings growth can be offset by FX losses. Additionally, a Brazilian recession would simultaneously reduce consumer spending (lower TPV), increase loan defaults, and compress SMB revenue — a triple hit to PicPay's business model.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Intense Competition From Nubank, MercadoLibre, and Incumbents.</span> Nubank (NU) has 100M+ users with a stronger organic brand, superior NPS, and proven credit track record. Mercado Pago (MELI) has the advantage of its e-commerce ecosystem creating captive merchant and consumer relationships. Traditional banks — Itaú, Bradesco, Banco do Brasil — have begun investing heavily in digital capabilities. PicPay's early growth was fueled by aggressive cashback subsidies during the pandemic; experts question whether the user retention is durable now that subsidies have been rationalized. If PicPay cannot differentiate beyond price, it becomes a subscale player in a market dominated by Nubank and incumbents.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Scale Economies</span> <span class="fw-rating moderate">Moderate</span><br>
+  PicPay's digital platform has high fixed costs (technology, compliance, AI infrastructure) that are amortized over 42.7 million active users, driving the cost-to-serve down to R$20.4 per user — a metric that should continue declining as revenue scales without proportional headcount growth. The AI deployment across customer service, marketing, and operations provides genuine scale economies: the 1,000+ avoided hires represent fixed cost savings that compound with every additional user. However, the lending business (52% of revenue) requires proportional capital allocation for each loan originated, limiting the pure operating leverage of a traditional software platform. Scale economies are moderate — real on the platform side, constrained by capital intensity on the lending side.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Network Effects</span> <span class="fw-rating strong">Strong</span><br>
+  PicPay exhibits strong two-sided network effects: as 42.7M consumers adopt the wallet for Pix payments, P2P transfers, and bill payments, the platform becomes more attractive for merchants (SMBs), which in turn drives more consumer adoption. Before Pix existed, PicPay revolutionized informal payments by allowing users to pay personal trainers, gardeners, and other service providers via credit card without POS machines — creating a viral adoption loop in the informal economy. The company's 11% share of all Pix transactions and the identification that 10M of its individual consumers also own businesses creates a powerful flywheel: each new user adds value to existing users, and each new merchant adds utility for consumers. The social payment features (splitting bills, group payments) further reinforce virality within social circles.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Counter-Positioning</span> <span class="fw-rating moderate">Moderate</span><br>
+  PicPay's counter-positioning is most visible against traditional Brazilian banks (Itaú, Bradesco, Banco do Brasil). These incumbents generate enormous profits from high-fee, branch-heavy models; aggressively pursuing a zero-fee digital wallet strategy would cannibalize their existing revenue streams. However, Nubank has already proven the digital-first model in Brazil, meaning PicPay is not the first mover in counter-positioning — it is a follower. Against Nubank specifically, PicPay lacks counter-positioning advantages, as both pursue similar strategies. The counter-positioning is moderate: strong against traditional banks, but weak against other digital-native fintechs.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Switching Costs</span> <span class="fw-rating moderate">Moderate</span><br>
+  As 35% of active customers now treat PicPay as their primary banking relationship, switching costs are building — users have direct deposit, credit history, insurance policies, investments, and merchant relationships tied to the platform. The progressive credit limit strategy, where users must establish 12+ months of platform history before accessing unsecured credit, creates a time-based switching cost: leaving PicPay means restarting the credit-building process elsewhere. However, for the 65% of users who have not yet made PicPay their primary bank, switching costs remain low — Pix is interoperable, and Brazil's Open Finance regulations explicitly facilitate bank-switching. Switching costs are moderate and increasing with credit penetration.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Branding</span> <span class="fw-rating weak">Weak</span><br>
+  PicPay has high brand awareness in Brazil (67M accounts) but limited brand loyalty compared to Nubank, which benefits from organic word-of-mouth and a "cult following" among Brazilian consumers. AlphaSense expert calls reveal that PicPay's marketing is perceived as imitating Nubank rather than forging a unique identity, with a former brand specialist noting the company "acts as a market follower rather than a pioneer in consumer connection." The pandemic-era growth fueled by cashback subsidies created transactional loyalty (users came for the incentives) rather than brand loyalty (users came for the experience). The PicPay brand is functional and widely recognized but does not command pricing power or habitual preference.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">6. Cornered Resource</span> <span class="fw-rating strong">Strong</span><br>
+  PicPay's most defensible asset is its proprietary behavioral and transactional data from 60+ million users, which provides a foundation for machine learning algorithms that traditional banks cannot easily replicate. A former Head of Data Science at StoneCo emphasized that PicPay's access to the daily transactional habits of its user base provides "a superior foundation for machine learning algorithms" with up to 2.7x greater accuracy in credit models versus standard bureau data. Combined with 12.3% of Brazil's Open Finance consents (account aggregation data from external banks), this creates a data moat that compounds with each transaction. Additionally, PicPay's authorization from the Brazilian Central Bank to operate as a payment institution and bank is a regulatory cornered resource — new entrants face multi-year licensing processes.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">7. Process Power</span> <span class="fw-rating moderate">Moderate</span><br>
+  PicPay has developed sophisticated AI-powered processes for credit underwriting (progressive limit strategy, 87% pre-approval rates), customer service automation (100% AI-initiated chat), and fraud prevention (multi-vendor facial recognition and document verification). The integration of Banco Original's retail operations in 2023 — migrating millions of accounts and substantial assets into the PicPay ecosystem — demonstrated meaningful organizational capability in complex banking migrations. However, the company has also experienced "severe growing pains" according to former executives, including operational inefficiencies and recent layoffs, suggesting process power is still maturing. The Hub AI platform (1,000+ AI agents for 4,000+ employees) represents an emerging process advantage that should compound over time.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> PicPay is a 2–3 power business with genuine strength in Network Effects (two-sided wallet/merchant ecosystem with 11% Pix market share) and Cornered Resource (proprietary data from 60M+ users enabling 2.7x credit model accuracy advantage). Scale Economies, Switching Costs, Counter-Positioning, and Process Power are moderate and building as the credit portfolio scales and users deepen engagement. Branding is the weakest dimension — PicPay is perceived as a follower to Nubank rather than a category-defining brand. The structural moat is real but still maturing; the trajectory favors strengthening as credit penetration increases and data advantages compound.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Threat of New Entrants</span> <span class="fw-rating low">Low</span><br>
+  Entering the Brazilian digital banking market requires: (a) Central Bank authorization as a payment institution or bank — a multi-year regulatory process; (b) substantial capital to fund a credit portfolio (PicPay's portfolio is R$24B); (c) a massive user base to generate the behavioral data required for competitive underwriting (PicPay has 67M accounts built over 14 years); and (d) compliance infrastructure for a highly regulated financial environment. While the Pix system lowered barriers for payments, the lending and banking businesses require regulatory licenses, capital adequacy compliance, and institutional capabilities that take years to build. International fintechs (Revolut, N26) have not successfully entered Brazil due to regulatory complexity and intense local competition.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Bargaining Power of Suppliers</span> <span class="fw-rating low">Low</span><br>
+  PicPay's primary "suppliers" are: (a) funding sources — customer deposits, CDIs, and capital markets, where PicPay's funding costs have improved from 122% of CDI to ~94% by late 2025; (b) technology providers — Microsoft Azure (OpenAI), cloud infrastructure; (c) third-party service providers like Celcoin for Pix processing. The diversification of funding sources (deposits from 42.7M users, IPO proceeds, institutional markets) reduces dependence on any single supplier. Technology partnerships are competitive (multiple cloud and AI providers available). PicPay evaluates multiple vendors for fraud prevention, payment processing, and other services, maintaining negotiating leverage.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Bargaining Power of Buyers</span> <span class="fw-rating low">Low</span><br>
+  PicPay's 42.7 million active consumers and hundreds of thousands of active merchants represent an extremely fragmented buyer base with no customer concentration risk. No single customer represents a meaningful percentage of revenue. Consumer financial products (credit cards, personal loans, payments) are largely standardized, and buyers are price-sensitive — but PicPay's zero-fee wallet and competitive credit rates, combined with the convenience of an integrated super-app, create sufficient differentiation. For SMBs, PicPay's ability to offer a unified personal/business account experience reduces buyer power by increasing switching costs and creating operational dependency.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Threat of Substitutes</span> <span class="fw-rating moderate">Moderate</span><br>
+  The primary substitutes for PicPay are: (a) Nubank — the dominant digital bank in Brazil with 100M+ users and a stronger brand; (b) Mercado Pago — the fintech arm of MercadoLibre with a captive e-commerce ecosystem; (c) traditional banks' digital offerings — Itaú's Iti, Bradesco's Next, Banco do Brasil's digital platform; and (d) other fintechs — StoneCo, PagSeguro, C6 Bank, Inter. The threat is moderate because while alternatives exist, PicPay's integrated ecosystem (wallet + banking + credit + insurance + marketplace + benefits) creates friction in switching the full relationship. However, for individual products (just credit card, just payments), substitution is relatively easy.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Competitive Rivalry</span> <span class="fw-rating high">High</span><br>
+  Brazil's digital banking market is intensely competitive, with multiple well-funded players pursuing similar strategies of wallet-led acquisition followed by credit monetization. Nubank has a massive scale advantage (100M+ users), MercadoLibre has a captive e-commerce ecosystem, and traditional banks control the majority of deposits and lending. Competition manifests in: take rate compression on merchant acquiring, cashback and promotional spend to attract users, and aggressive credit pricing. The market is growing rapidly (digital banking penetration still expanding), which moderates the zero-sum dynamic, but rivalry for the most profitable customers (higher-income, multi-product users) is fierce.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> PicPay operates in a favorable supply-side environment (low new entrant threat, low supplier and buyer power) but faces a challenging competitive landscape (high rivalry from Nubank, MercadoLibre, and incumbents; moderate substitution risk). The competitive intensity is the primary structural concern — PicPay must differentiate through data-driven underwriting, AI-powered efficiency, and ecosystem breadth rather than price alone. The company's position as Brazil's third-largest digital bank provides scale that smaller competitors cannot match, but it remains subscale relative to Nubank.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 6: WHAT DRIVES THE STOCK? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<p class="prose">The following are the 6 variables that would move PICS's share price materially in the next 12 months:</p>
+
+<p class="prose"><strong>1. Credit Portfolio Growth and NPL Trajectory.</strong> The credit portfolio (R$24.1B, +128% YoY) is the single most important driver. Every quarterly report will be scrutinized for: (a) absolute portfolio growth — Q1 2026 guidance implies R$26.5B; (b) NPL 90+ days — currently 7.2%, management attributes to seasoning; (c) provision expense as a % of revenue; and (d) secured vs. unsecured mix evolution. If NPLs stabilize at 7-8% and the secured mix continues to increase, the market will gain confidence in the credit-led growth model. If NPLs breach 10%, the stock could re-test its lows.</p>
+
+<p class="prose"><strong>2. ARPAC and Monetization Trajectory.</strong> ARPAC (R$71 in Q4 2025, +52% YoY) is the clearest measure of PicPay's cross-selling success. The gap between ARPAC (R$71) and cost-to-serve (R$20.4) represents structural operating leverage. Analysts will track whether ARPAC continues expanding toward R$80-90+ or plateaus as the easiest monetization gains are captured. ARPAC growth directly translates to revenue per user without requiring new user acquisition — making it the highest-quality growth driver.</p>
+
+<p class="prose"><strong>3. Brazil Macro: Selic Rate and BRL/USD.</strong> With Brazil's Selic rate at 14.25%, any movement in monetary policy directly impacts: (a) PicPay's cost of funding (CDI-linked deposits), (b) borrowers' ability to service debt (higher rates = higher defaults), (c) demand for credit (higher rates = less borrowing), and (d) the USD translation of BRL earnings. A Selic rate cut cycle would be unambiguously positive for PICS; further tightening would be negative. The BRL/USD rate matters because PICS reports in USD but earns in BRL — a 10% BRL depreciation wipes out 10% of reported earnings regardless of operating performance.</p>
+
+<p class="prose"><strong>4. Post-IPO Lock-Up Expiry and Insider Activity.</strong> PICS completed its IPO just 3 months ago. Lock-up expiration schedules, insider selling patterns, and secondary offerings will create periodic supply/demand imbalances. The Batista family holds ~98% voting power via Class B shares; any signal that they are selling or that additional capital raises are planned would pressure the stock. Conversely, insider buying would be a powerful confidence signal. The company's capitalization needs (failed 10.5% capital ratio test in 2025) create a real risk of follow-on equity issuance.</p>
+
+<p class="prose"><strong>5. Competitive Dynamics with Nubank.</strong> As the Brazilian digital banking market matures, the market will increasingly evaluate PicPay relative to Nubank. Key comparative metrics: user growth, ARPAC, credit portfolio quality, and profitability per user. If PicPay can demonstrate competitive or superior unit economics (higher ARPAC, lower cost-to-serve) despite smaller scale, it validates the bull case of a profitable #2 player. If Nubank's metrics pull further ahead, PicPay may be re-rated as a structurally disadvantaged competitor.</p>
+
+<p class="prose"><strong>6. Regulatory Developments — Capital Requirements and Open Finance.</strong> The Brazilian Central Bank's capital adequacy requirements directly constrain PicPay's growth rate: faster credit growth requires more capital, which may require dilutive equity raises. Any regulatory changes to capital requirements, Open Finance rules, or Pix monetization policies could materially impact PicPay's economics. Favorable developments (lower capital requirements, expanded Open Finance access) are bullish; unfavorable developments (higher provisioning requirements, Pix fee restrictions) would constrain growth.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<p class="prose">PicPay's revenue can be decomposed into its fundamental unit-economic drivers:</p>
+
+<table class="data" style="font-size:10px; margin-bottom:16px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Revenue Line</th>
+      <th style="text-align:left;">Driver 1</th>
+      <th style="text-align:left;">Driver 2</th>
+      <th style="text-align:left;">Driver 3</th>
+      <th style="text-align:left;">= Revenue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Credit Revenue (52%)</strong></td>
+      <td>Credit Portfolio (R$24.1B)</td>
+      <td>x Net Interest Margin</td>
+      <td>− Provision Expense</td>
+      <td>= Net Credit Revenue</td>
+    </tr>
+    <tr>
+      <td><strong>Wallet/Interchange</strong></td>
+      <td>Active Users (42.7M)</td>
+      <td>x Transactions/User</td>
+      <td>x Avg Interchange/Fee</td>
+      <td>= Transaction Revenue</td>
+    </tr>
+    <tr>
+      <td><strong>SMB / Acquiring</strong></td>
+      <td>Active Merchants (#)</td>
+      <td>x TPV per Merchant</td>
+      <td>x MDR (%)</td>
+      <td>= Acquiring Revenue</td>
+    </tr>
+    <tr>
+      <td><strong>Insurance</strong></td>
+      <td>Active Policies (9M)</td>
+      <td>x Avg Premium</td>
+      <td>x Commission Rate</td>
+      <td>= Insurance Commissions</td>
+    </tr>
+    <tr>
+      <td><strong>Ads &amp; Marketplace</strong></td>
+      <td>Active Users (42.7M)</td>
+      <td>x Engagement Rate</td>
+      <td>x RPM / Take Rate</td>
+      <td>= Ads + Shop Revenue</td>
+    </tr>
+    <tr>
+      <td><strong>Total Revenue</strong></td>
+      <td colspan="3">= Sum of all segments</td>
+      <td>= R$10.3B / $1,862M (FY2025)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose"><strong>Key driver quantification (FY2025 actuals → FY2026E):</strong></p>
+<ul style="font-size: 11px; line-height: 1.7; color: #333; margin-left: 20px; margin-bottom: 10px;">
+  <li><strong>Credit Portfolio:</strong> R$24.1B (FY2025) → R$26.5B (Q1 2026 guide) → ~R$32-35B (FY2026E); 2/3 new originations secured; private payroll ~R$500M/month; personal loans +116% YoY in Q4</li>
+  <li><strong>Active Users:</strong> 42.7M active (67M total accounts); 35% primary bank relationship; 6% wallet share of total credit limits</li>
+  <li><strong>ARPAC:</strong> R$71 Q4 2025 (+52% YoY); Cost-to-serve R$20.4; ARPAC/CTS ratio 3.5x and expanding</li>
+  <li><strong>Card TPV:</strong> R$17.6B Q4 (+42% YoY); R$58.7B FY25 (+50% YoY)</li>
+  <li><strong>Insurance:</strong> 9M active policies; recently acquiring distribution partner Kovr for higher margins</li>
+  <li><strong>Total FY2026E:</strong> $2,479M (+33%), decelerating from +77% in FY2025 as base grows larger</li>
+</ul>
+
+<p class="prose"><strong>Leverage analysis:</strong> The two highest-leverage drivers on total revenue and earnings are: (1) <em>Credit Portfolio Size × Net Interest Margin</em> — credit represents 52% of revenue and is the highest-margin segment. Each R$1B of additional credit portfolio generates approximately R$200-250M of annual interest income (assuming 10-12% NIM on the blended portfolio). The shift toward secured products improves the NIM durability by reducing provision expense. At R$24.1B growing 50%+ annually, small changes in the growth rate produce large revenue differences: R$30B vs. R$35B at year-end 2026 represents ~R$1B+ of revenue variance. (2) <em>ARPAC × Active User Count</em> — each R$1 of ARPAC increase across 42.7M users generates R$170M+ of annual revenue. ARPAC growth is the purest measure of cross-selling success and has the most direct link to profitability because the user acquisition cost is already sunk. The 52% YoY ARPAC growth rate suggests meaningful room to run before maturation.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+  <strong>AlphaSense Research Reports</strong> · Subject: PicS N.V. (PICS) · Reports Reviewed: Company Primer, Expert Call Synthesis, Q4 2025 Earnings Release, 6-K Filing, Prospectus<br>
+  <em>Key themes synthesized from AlphaSense competitive intelligence, expert calls, management commentary, and industry research.</em>
+</div>
+
+<p class="prose"><strong>Data Moat: The Most Misunderstood Aspect of the Business.</strong> The single most important analytical insight from the AlphaSense research is that PicPay is fundamentally misunderstood as a "high-burn payment application" when it has actually evolved into a deeply integrated, data-driven financial institution. The proprietary behavioral and transactional data from 60+ million users provides a foundation for machine learning algorithms that traditional banks cannot replicate. A former Head of Data Science at StoneCo emphasized that while legacy banks possess broader regulatory privileges, PicPay's daily transactional data provides "a superior foundation for machine learning algorithms." The company achieves 2.7x greater accuracy in credit models by combining internal wallet data with Open Finance consents, enabling 87% pre-approved credit rates for users with established platform history. This data-to-credit flywheel — wallet generates data, data powers underwriting, underwriting enables credit products, credit products generate revenue and more data — is the core value creation engine that the market prices as if it were a commoditized payment app.</p>
+
+<p class="prose"><strong>Expert Debate: Is User Retention Durable Without Subsidies?</strong> AlphaSense expert calls reveal a genuine debate about PicPay's moat durability. A former strategy expert at Nubank observed that PicPay's pandemic-era growth was "heavily fueled by aggressive marketing and cashback subsidies" — questioning whether users will stay once incentives are removed. However, a former COO at PicPay argued the opposite: the company "carved out a unique behavioral moat by capturing the offline, informal economy early on" — before Pix existed, PicPay was the only way for consumers to pay informal service providers via credit card without POS machines. A former regional executive highlighted PicPay's ongoing product innovation, including "facial recognition payments at supermarket checkouts" as capabilities unmatched by local peers. The truth appears nuanced: casual users attracted by cashbacks may churn, but the 35% who use PicPay as their primary bank have deeply embedded financial relationships that are increasingly sticky.</p>
+
+<p class="prose"><strong>Leadership and Culture: Aggressive but Rationalizing.</strong> The leadership perception has shifted significantly. Historically, experts viewed PicPay's management as "highly aggressive, prioritizing massive cash-burn strategies." The current CEO Eduardo Chedid (formerly CEO of Elo and VP at Cielo) is actively rationalizing the P&amp;L to demonstrate sustainable economics — the efficiency ratio improved from ~70% to ~55% over 2024-2025. However, internal culture is described as having "severe growing pains" — the aggressive expansion phase led to operational inefficiencies and recent layoffs. A former brand specialist criticized PicPay's marketing as "imitating rivals like Nubank rather than forging a unique identity," suggesting leadership occasionally acts as a market follower. On the positive side, external partners describe the culture as "highly ambitious" and "very open to collaborating with new vendors to aggressively disrupt the market."</p>
+
+<p class="prose"><strong>Regulatory and Capital Structure Risks.</strong> The transition to a full-service financial conglomerate brought stringent Central Bank capital requirements. PicPay's failure to meet the 10.5% capital ratio — requiring an R$800M+ injection — signals that credit growth has outpaced capital generation. The dual-class structure (Batista family holding 98% voting power) limits public shareholder influence and creates governance concerns tied to the family's historical legal issues. Related-party transaction risk exists: PicPay Bank has provided temporary financing to J&amp;F entities. These structural governance issues may create a permanent discount relative to Nubank (which has a single-class structure and founder-led management with strong corporate governance reputation).</p>
+
+<p class="prose"><strong>Key Investor Questions.</strong> (1) What is the realistic steady-state NPL rate for the blended portfolio as it seasons — is 7.2% the peak or just the beginning? (2) Can PicPay maintain 30%+ revenue growth while simultaneously improving the credit mix toward secured products (which have lower yields but lower risk)? (3) What is the capital plan: can retained earnings fund growth, or is a follow-on equity raise inevitable? (4) How will the Kovr insurance acquisition and payroll lending expansion affect the revenue and margin mix in FY2026-2027? (5) At what point does ARPAC growth decelerate as the easiest cross-selling gains are captured — is R$100+ ARPAC achievable?</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 9: SENSITIVITY ANALYSIS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Sensitivity Analysis</div>
+
+<!-- Sensitivity Table 1 -->
+<p class="prose"><strong>Sensitivity Table 1: FY2028E Credit Revenue ($M) — Credit Portfolio Size (R$B) vs. Net Interest Margin (%)</strong></p>
+<p class="prose"><strong>Current: Credit Portfolio ~R$24B growing to ~R$50B by FY2028E; blended NIM ~10%. Assumes ~5.5 BRL/USD.</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Portfolio (R$B) / NIM</th>
+      <th>7%</th>
+      <th>8.5%</th>
+      <th>10%</th>
+      <th>11.5%</th>
+      <th>13%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>R$35B</td><td>$445</td><td>$541</td><td>$636</td><td>$732</td><td>$827</td></tr>
+    <tr><td>R$42B</td><td>$535</td><td>$649</td><td>$764</td><td>$878</td><td>$993</td></tr>
+    <tr><td>R$50B</td><td>$636</td><td>$773</td><td class="base">$909</td><td>$1,045</td><td>$1,182</td></tr>
+    <tr><td>R$58B</td><td>$738</td><td>$896</td><td>$1,055</td><td>$1,213</td><td>$1,371</td></tr>
+    <tr><td>R$65B</td><td>$827</td><td>$1,005</td><td>$1,182</td><td>$1,359</td><td>$1,536</td></tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 2 -->
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 2: FY2028E Net Income ($M) — Revenue ($M) vs. Net Margin (%)</strong></p>
+<p class="prose"><strong>Current (FY2028E Consensus): Revenue = $4,158M x Net Margin = 14.0% = ~$582M Net Income</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Revenue ($M) / Net Margin</th>
+      <th>8%</th>
+      <th>11%</th>
+      <th>14%</th>
+      <th>17%</th>
+      <th>20%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$3,200</td><td>$256</td><td>$352</td><td>$448</td><td>$544</td><td>$640</td></tr>
+    <tr><td>$3,700</td><td>$296</td><td>$407</td><td>$518</td><td>$629</td><td>$740</td></tr>
+    <tr><td>$4,158</td><td>$333</td><td>$457</td><td class="base">$582</td><td>$707</td><td>$832</td></tr>
+    <tr><td>$4,800</td><td>$384</td><td>$528</td><td>$672</td><td>$816</td><td>$960</td></tr>
+    <tr><td>$5,500</td><td>$440</td><td>$605</td><td>$770</td><td>$935</td><td>$1,100</td></tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 3 -->
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 3: Implied Share Price ($) — P/E Multiple (x) vs. FY2028E EPS ($)</strong></p>
+<p class="prose"><strong>Current: EPS = $3.32 (consensus) x P/E = 8x = $26.54 implied share price vs. $11.14 current</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>EPS / P/E Multiple</th>
+      <th>3x</th>
+      <th>5x</th>
+      <th>8x</th>
+      <th>12x</th>
+      <th>16x</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$1.50</td><td class="base" style="background:#f8d7da;">$4.50</td><td>$7.50</td><td>$12.00</td><td>$18.00</td><td>$24.00</td></tr>
+    <tr><td>$2.50</td><td>$7.50</td><td class="base" style="background:#fff3cd;">$12.50</td><td>$20.00</td><td>$30.00</td><td>$40.00</td></tr>
+    <tr><td>$3.32</td><td>$9.96</td><td>$16.60</td><td class="base">$26.54</td><td>$39.84</td><td>$53.12</td></tr>
+    <tr><td>$4.50</td><td>$13.50</td><td>$22.50</td><td>$36.00</td><td class="base" style="background:#d4edda;">$54.00</td><td>$72.00</td></tr>
+    <tr><td>$6.00</td><td>$18.00</td><td>$30.00</td><td>$48.00</td><td>$72.00</td><td class="base" style="background:#d4edda;">$96.00</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 10: 3-YEAR MODEL — 5 SCENARIOS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios</div>
+
+<p class="prose">All figures in $M unless stated. Modeled FY2026E, FY2027E, FY2028E (FYE December). Exit multiple applied to FY2028E EPS. Current share price: $11.14. Diluted shares: 129.59M.</p>
+
+<!-- CASE 1: BEAR SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 1: Bear Severe — Credit Crisis + BRL Collapse</div>
+  <div class="case-desc">NPLs spike to 12%+ as Brazil enters recession; Selic rises to 16%+; BRL depreciates 25% against USD; credit portfolio growth stalls; the company requires dilutive equity raise; ARPAC growth plateaus as consumers retrench.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — NPLs breach 10%; provisions surge, wiping out net income growth; BRL depreciates to 7.0/$; revenue in USD declines despite BRL growth; management slows credit origination. <strong>FY2027</strong> — Credit portfolio stabilizes at R$28B as secured mix reaches 70%; NPLs peak at 12%; dilutive equity raise ($300M) at depressed prices; cost cuts improve efficiency ratio. <strong>FY2028</strong> — Recovery begins; NPLs normalize to 8%; BRL stabilizes; but diluted share count reduces EPS permanently.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Credit Portfolio</span><span>R$30B (stalled)</span></div>
+  <div class="driver-row"><span>NPL 90+ Days</span><span>8% (post-crisis normalization)</span></div>
+  <div class="driver-row"><span>ARPAC</span><span>R$80 (plateaued)</span></div>
+  <div class="driver-row"><span>Net Margin</span><span>6%</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>3x (distressed EM fintech)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$2,100</td><td>$2,000</td><td>$2,300</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+13%</td><td>-5%</td><td>+15%</td></tr>
+    <tr><td>Gross Income</td><td>756</td><td>680</td><td>805</td></tr>
+    <tr><td>EBITDA</td><td>210</td><td>160</td><td>230</td></tr>
+    <tr><td>Net Income</td><td>84</td><td>40</td><td>138</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Margin %</td><td>4.0%</td><td>2.0%</td><td>6.0%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>129.6</td><td>155.0</td><td>155.0</td></tr>
+    <tr><td>EPS</td><td>$0.65</td><td>$0.26</td><td>$0.89</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>--</td><td>--</td><td>3x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>--</td><td>$2.67</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 3x FY2028E EPS of $0.89</div>
+    <div class="exit-price">Implied Share Price: $2.67</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: -76% from $11.14</div>
+  </div>
+</div>
+
+<!-- CASE 2: BEAR MILD -->
+<div class="case-block">
+  <div class="case-name">Case 2: Bear Mild — NPLs Rise, Growth Slows</div>
+  <div class="case-desc">NPLs climb to 9-10%; management slows credit growth to preserve capital; ARPAC grows modestly; BRL weakens but does not collapse; margins disappoint as provisions remain elevated.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Revenue grows 20% but provisions consume margin gains; NPLs reach 9%; ARPAC grows to R$78. <strong>FY2027</strong> — Credit portfolio reaches R$35B at slower pace; secured mix improves to 60%; margins begin expanding as provisioning normalizes. <strong>FY2028</strong> — Revenue $3,500M; net margin 11%; EPS $2.50; the company is profitable but has not delivered on the high-growth thesis.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Credit Portfolio</span><span>R$38B (slower growth)</span></div>
+  <div class="driver-row"><span>NPL 90+ Days</span><span>8.5%</span></div>
+  <div class="driver-row"><span>ARPAC</span><span>R$95</span></div>
+  <div class="driver-row"><span>Net Margin</span><span>11%</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>5x</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$2,250</td><td>$2,850</td><td>$3,500</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+21%</td><td>+27%</td><td>+23%</td></tr>
+    <tr><td>Gross Income</td><td>833</td><td>1,083</td><td>1,365</td></tr>
+    <tr><td>EBITDA</td><td>270</td><td>513</td><td>770</td></tr>
+    <tr><td>Net Income</td><td>135</td><td>285</td><td>385</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Margin %</td><td>6.0%</td><td>10.0%</td><td>11.0%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>129.6</td><td>129.6</td><td>129.6</td></tr>
+    <tr><td>EPS</td><td>$1.04</td><td>$2.20</td><td>$2.97</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>--</td><td>--</td><td>5x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>--</td><td>$14.86</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 5x FY2028E EPS of $2.97</div>
+    <div class="exit-price">Implied Share Price: $14.86</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +33% from $11.14</div>
+  </div>
+</div>
+
+<!-- CASE 3: BASE CASE -->
+<div class="case-block">
+  <div class="case-name">Case 3: Base Case — Consensus Execution, Credit Scaling Works</div>
+  <div class="case-desc">Credit portfolio grows to R$50B by 2028; NPLs stabilize at 7-8% as secured mix increases; ARPAC reaches R$110; margins expand as operating leverage materializes; no dilutive equity raise needed.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Consensus execution: revenue $2,479M (+33%), net income $177M, EPS $1.31; credit portfolio reaches R$32B; ARPAC R$82. <strong>FY2027</strong> — Revenue $3,474M (+40%); credit portfolio R$42B; secured mix 65%; net margin improves to 11.6%; ARPAC R$98. <strong>FY2028</strong> — Revenue $4,158M (+20%); credit portfolio R$50B; net margin 14%; EPS $3.32; ROE 31.5%.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Credit Portfolio</span><span>R$50B (+108% from FY25)</span></div>
+  <div class="driver-row"><span>NPL 90+ Days</span><span>7.0% (improving with secured mix)</span></div>
+  <div class="driver-row"><span>ARPAC</span><span>R$110 (+55% from Q4 2025)</span></div>
+  <div class="driver-row"><span>Net Margin</span><span>14.0%</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>8x</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$2,479</td><td>$3,474</td><td>$4,158</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+33%</td><td>+40%</td><td>+20%</td></tr>
+    <tr><td>Gross Income</td><td>940</td><td>1,413</td><td>1,480</td></tr>
+    <tr><td>EBITDA</td><td>338</td><td>803</td><td>1,396</td></tr>
+    <tr><td>Net Income</td><td>177</td><td>404</td><td>582</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Margin %</td><td>7.1%</td><td>11.6%</td><td>14.0%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>129.6</td><td>129.6</td><td>129.6</td></tr>
+    <tr><td>EPS</td><td>$1.31</td><td>$2.98</td><td>$3.32</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>--</td><td>--</td><td>8x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>--</td><td>$26.54</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 8x FY2028E EPS of $3.32</div>
+    <div class="exit-price">Implied Share Price: $26.54</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +138% from $11.14</div>
+  </div>
+</div>
+
+<!-- CASE 4: BULL MILD -->
+<div class="case-block">
+  <div class="case-name">Case 4: Bull Mild — Faster Monetization + BRL Tailwind</div>
+  <div class="case-desc">ARPAC accelerates beyond R$130 as users adopt multiple products; BRL strengthens to 5.0/$; Selic cuts improve cost of funding and borrower quality; credit portfolio reaches R$60B; the market begins re-rating PICS as a structural growth story.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Q1 results confirm guidance; BRL stabilizes; stock recovers toward IPO price as lock-up fears subside. <strong>FY2027</strong> — Selic cut cycle begins; funding costs decline; NPLs improve to 6%; ARPAC reaches R$115; revenue accelerates to $4,200M. <strong>FY2028</strong> — Revenue $5,500M; credit portfolio R$60B; net margin 17%; EPS $4.50; ROE 35%+; market assigns growth premium.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Credit Portfolio</span><span>R$60B (Selic-cut tailwind)</span></div>
+  <div class="driver-row"><span>NPL 90+ Days</span><span>5.5% (improving macro + secured mix)</span></div>
+  <div class="driver-row"><span>ARPAC</span><span>R$135</span></div>
+  <div class="driver-row"><span>Net Margin</span><span>17%</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>12x (growth fintech premium)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$2,700</td><td>$4,200</td><td>$5,500</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+45%</td><td>+56%</td><td>+31%</td></tr>
+    <tr><td>Gross Income</td><td>1,080</td><td>1,764</td><td>2,310</td></tr>
+    <tr><td>EBITDA</td><td>432</td><td>1,092</td><td>1,650</td></tr>
+    <tr><td>Net Income</td><td>243</td><td>630</td><td>935</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Margin %</td><td>9.0%</td><td>15.0%</td><td>17.0%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>129.6</td><td>129.6</td><td>129.6</td></tr>
+    <tr><td>EPS</td><td>$1.88</td><td>$4.86</td><td>$7.21</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>--</td><td>--</td><td>12x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>--</td><td>$86.56</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 12x FY2028E EPS of $7.21</div>
+    <div class="exit-price">Implied Share Price: $86.56</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +677% from $11.14</div>
+  </div>
+</div>
+
+<!-- CASE 5: BULL SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 5: Bull Severe — Super-App Dominance + Acquisition Premium</div>
+  <div class="case-desc">PicPay becomes Brazil's #2 financial platform by revenue; credit portfolio reaches R$80B; ARPAC surpasses Nubank; potential acquisition by a global payments or banking group at strategic premium; BRL appreciation amplifies USD returns.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Blowout Q1 results; stock re-rates to $20+; credit quality proves out as secured mix reaches 65%. <strong>FY2027</strong> — Revenue $5,500M; acquisition speculation from global payments players (Visa, Mastercard, or a global bank seeking EM fintech exposure). <strong>FY2028</strong> — Revenue $7,500M; net margin 20%; EPS $8.70; acquisition at 50% premium to trading price or market assigns 16x P/E as a structural growth compounder.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Credit Portfolio</span><span>R$80B (dominant market position)</span></div>
+  <div class="driver-row"><span>NPL 90+ Days</span><span>4.5% (best-in-class underwriting)</span></div>
+  <div class="driver-row"><span>ARPAC</span><span>R$165+</span></div>
+  <div class="driver-row"><span>Net Margin</span><span>20%</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>16x (acquisition premium / re-rating)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$3,000</td><td>$5,500</td><td>$7,500</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+61%</td><td>+83%</td><td>+36%</td></tr>
+    <tr><td>Gross Income</td><td>1,260</td><td>2,365</td><td>3,225</td></tr>
+    <tr><td>EBITDA</td><td>510</td><td>1,540</td><td>2,400</td></tr>
+    <tr><td>Net Income</td><td>330</td><td>935</td><td>1,500</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Margin %</td><td>11.0%</td><td>17.0%</td><td>20.0%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>129.6</td><td>129.6</td><td>129.6</td></tr>
+    <tr><td>EPS</td><td>$2.55</td><td>$7.22</td><td>$11.57</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>--</td><td>--</td><td>16x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>--</td><td>$185.19</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 16x FY2028E EPS of $11.57</div>
+    <div class="exit-price">Implied Share Price: $185.19</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +1,563% from $11.14</div>
+  </div>
+</div>
+
+<!-- SVG Bar Chart -->
+<div class="case-chart">
+  <p style="font-size:9px; font-weight:600; margin-bottom:8px;">Implied Share Price by Scenario (FY2028E Exit) vs. Current Price $11.14</p>
+  <svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg" style="width:100%; font-family:Inter,Arial,sans-serif;">
+    <!-- Axes -->
+    <line x1="80" y1="20" x2="80" y2="200" stroke="#ccc" stroke-width="1"/>
+    <line x1="80" y1="200" x2="680" y2="200" stroke="#ccc" stroke-width="1"/>
+    <!-- Y-axis labels (scale: $1 = 0.9px, max ~$200) -->
+    <text x="75" y="204" text-anchor="end" font-size="9" fill="#888">$0</text>
+    <text x="75" y="168" text-anchor="end" font-size="9" fill="#888">$40</text>
+    <text x="75" y="132" text-anchor="end" font-size="9" fill="#888">$80</text>
+    <text x="75" y="96" text-anchor="end" font-size="9" fill="#888">$120</text>
+    <text x="75" y="60" text-anchor="end" font-size="9" fill="#888">$160</text>
+    <text x="75" y="30" text-anchor="end" font-size="9" fill="#888">$200</text>
+    <!-- Gridlines -->
+    <line x1="80" y1="168" x2="680" y2="168" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="132" x2="680" y2="132" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="96" x2="680" y2="96" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="60" x2="680" y2="60" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="30" x2="680" y2="30" stroke="#eee" stroke-width="0.5"/>
+    <!-- Bar scale: $1 = 0.9px (200px for $222) -->
+    <!-- Bear Severe: $2.67 -> height 2.4px -->
+    <rect x="110" y="197.6" width="80" height="2.4" fill="#2563eb"/>
+    <text x="150" y="193" text-anchor="middle" font-size="9" fill="#333">$2.67</text>
+    <text x="150" y="214" text-anchor="middle" font-size="8" fill="#555">Bear Severe</text>
+    <!-- Bear Mild: $14.86 -> height 13.4px -->
+    <rect x="220" y="186.6" width="80" height="13.4" fill="#2563eb"/>
+    <text x="260" y="182" text-anchor="middle" font-size="9" fill="#333">$14.86</text>
+    <text x="260" y="214" text-anchor="middle" font-size="8" fill="#555">Bear Mild</text>
+    <!-- Base: $26.54 -> height 23.9px -->
+    <rect x="330" y="176.1" width="80" height="23.9" fill="#2563eb"/>
+    <text x="370" y="172" text-anchor="middle" font-size="9" fill="#333">$26.54</text>
+    <text x="370" y="214" text-anchor="middle" font-size="8" fill="#555">Base Case</text>
+    <!-- Bull Mild: $86.56 -> height 77.9px -->
+    <rect x="440" y="122.1" width="80" height="77.9" fill="#2563eb"/>
+    <text x="480" y="118" text-anchor="middle" font-size="9" fill="#333">$86.56</text>
+    <text x="480" y="214" text-anchor="middle" font-size="8" fill="#555">Bull Mild</text>
+    <!-- Bull Severe: $185.19 -> height 166.7px (cap at chart area) -->
+    <rect x="550" y="33.3" width="80" height="166.7" fill="#2563eb"/>
+    <text x="590" y="29" text-anchor="middle" font-size="9" fill="#333">$185.19</text>
+    <text x="590" y="214" text-anchor="middle" font-size="8" fill="#555">Bull Severe</text>
+    <!-- Current price line: $11.14 = 10.0px from bottom -> y = 200 - 10 = 190 -->
+    <line x1="80" y1="190" x2="680" y2="190" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="685" y="194" font-size="9" fill="#e74c3c">$11.14 (Current)</text>
+    <!-- Prob-wtd line: $28.66 discounted @30% = $22.05 -> y = 200-19.8 = 180.2 -->
+    <line x1="80" y1="180.2" x2="680" y2="180.2" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="3,2"/>
+    <text x="685" y="184" font-size="8" fill="#f39c12">$22.05 PV@30%</text>
+  </svg>
+  <p style="font-size:8px; color:#888; margin-top:4px;">Probability weights: 5% / 20% / 50% / 20% / 5% · Prob-wtd avg $28.66 discounted @30% CoC = $22.05 · Current: $11.14 · Implied upside: +97.9%</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 11: COMPS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">11. Comparable Companies</div>
+
+<div class="section-title">Selected Financials — Payments &amp; Networks Peers</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>Price</th>
+      <th>Mkt Cap ($M)</th>
+      <th>EV ($M)</th>
+      <th>Sales ($M)</th>
+      <th>EBIT ($M)</th>
+      <th>EBITDA ($M)</th>
+      <th>EV/EBIT</th>
+      <th>EV/EBITDA</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>PicS N.V. (PicPay)</td><td>PICS</td>
+      <td>$11.14</td><td>$1,444</td><td>$6,212</td><td>$1,862</td><td>$77</td><td>$156</td>
+      <td>81.0x</td><td>39.8x</td>
+    </tr>
+    <tr>
+      <td>PagSeguro Digital</td><td>PAGS</td>
+      <td>$10.53</td><td>$3,096</td><td>$2,315</td><td>$3,534</td><td>$1,327</td><td>$1,650</td>
+      <td>1.7x</td><td>1.4x</td>
+    </tr>
+    <tr>
+      <td>Flywire</td><td>FLYW</td>
+      <td>$11.58</td><td>$1,552</td><td>$1,197</td><td>$623</td><td>$22</td><td>$50</td>
+      <td>54.4x</td><td>24.1x</td>
+    </tr>
+    <tr>
+      <td>IDT Corp</td><td>IDT</td>
+      <td>$49.27</td><td>$1,243</td><td>$895</td><td>$1,262</td><td>$113</td><td>$134</td>
+      <td>7.9x</td><td>6.7x</td>
+    </tr>
+    <tr>
+      <td>Payoneer Global</td><td>PAYO</td>
+      <td>$4.83</td><td>$1,787</td><td>$1,367</td><td>$1,053</td><td>$135</td><td>$199</td>
+      <td>10.1x</td><td>6.9x</td>
+    </tr>
+    <tr>
+      <td>EVERTEC</td><td>EVTC</td>
+      <td>—</td><td>$1,718</td><td>$2,765</td><td>—</td><td>—</td><td>—</td>
+      <td>—</td><td>8.4x</td>
+    </tr>
+    <tr>
+      <td>Cantaloupe</td><td>CTLP</td>
+      <td>—</td><td>$797</td><td>$821</td><td>—</td><td>—</td><td>—</td>
+      <td>—</td><td>19.7x</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Average</td><td>--</td>
+      <td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td>
+      <td>18.5x</td><td>11.2x</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Median</td><td>--</td>
+      <td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td>
+      <td>9.0x</td><td>7.6x</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Valuation Multiples — Forward Estimates</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th class="est-col">P/E FY1</th>
+      <th class="est-col">P/E FY2</th>
+      <th class="est-col">EV/Sales</th>
+      <th class="est-col">EV/EBIT FY1</th>
+      <th class="est-col">EV/EBITDA FY1</th>
+      <th>Gross Mgn%</th>
+      <th>EBITDA NTM%</th>
+      <th>Net NTM%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>PicS N.V.</td><td>PICS</td>
+      <td>8.1x</td><td>3.4x</td>
+      <td>3.3x</td><td>81.0x</td><td>39.8x</td>
+      <td>55.5%</td><td>16.7%</td><td>8.6%</td>
+    </tr>
+    <tr>
+      <td>PagSeguro</td><td>PAGS</td>
+      <td>6.3x</td><td>5.8x</td>
+      <td>0.7x</td><td>1.7x</td><td>1.4x</td>
+      <td>50.6%</td><td>25.9%</td><td>12.2%</td>
+    </tr>
+    <tr>
+      <td>Flywire</td><td>FLYW</td>
+      <td>32.8x</td><td>20.9x</td>
+      <td>1.9x</td><td>54.4x</td><td>24.1x</td>
+      <td>57.0%</td><td>22.8%</td><td>7.1%</td>
+    </tr>
+    <tr>
+      <td>IDT Corp</td><td>IDT</td>
+      <td>13.0x</td><td>12.6x</td>
+      <td>0.7x</td><td>7.9x</td><td>6.7x</td>
+      <td>36.9%</td><td>11.7%</td><td>7.1%</td>
+    </tr>
+    <tr>
+      <td>Payoneer</td><td>PAYO</td>
+      <td>19.4x</td><td>15.0x</td>
+      <td>1.3x</td><td>10.1x</td><td>6.9x</td>
+      <td>78.3%</td><td>25.6%</td><td>8.4%</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Average</td><td>--</td>
+      <td>17.9x</td><td>13.6x</td>
+      <td>1.2x</td><td>18.5x</td><td>9.8x</td>
+      <td>55.7%</td><td>21.5%</td><td>8.7%</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Median</td><td>--</td>
+      <td>16.2x</td><td>13.8x</td>
+      <td>1.0x</td><td>9.0x</td><td>6.8x</td>
+      <td>53.8%</td><td>24.2%</td><td>7.7%</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Named Competitors &amp; StreetAccount</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>Mkt Cap ($M)</th>
+      <th>EV ($M)</th>
+      <th>TEV/EBITDA</th>
+      <th class="est-col">P/E FY1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>PicS N.V. (PicPay)</td><td>PICS</td>
+      <td>$1,444</td><td>$6,212</td><td>39.8x</td><td>8.1x</td>
+    </tr>
+    <tr>
+      <td>MercadoLibre</td><td>MELI</td>
+      <td>$87,147</td><td>$101,115</td><td>26.2x</td><td>—</td>
+    </tr>
+    <tr>
+      <td>PagSeguro Digital</td><td>PAGS</td>
+      <td>$3,064</td><td>$9,740</td><td>5.9x</td><td>6.3x</td>
+    </tr>
+    <tr>
+      <td>StoneCo</td><td>STNE</td>
+      <td>$3,890</td><td>$6,177</td><td>—</td><td>—</td>
+    </tr>
+    <tr>
+      <td>XP Inc.</td><td>XP</td>
+      <td>$9,859</td><td>$22,392</td><td>19.7x</td><td>9.4x</td>
+    </tr>
+    <tr>
+      <td>Meliuz</td><td>CASH3-BR</td>
+      <td>$84</td><td>$69</td><td>4.1x</td><td>8.5x</td>
+    </tr>
+    <tr>
+      <td>Itaú Unibanco</td><td>ITUB</td>
+      <td>$93,784</td><td>—</td><td>—</td><td>9.4x</td>
+    </tr>
+    <tr>
+      <td>Banco Bradesco</td><td>BBDC</td>
+      <td>$39,880</td><td>—</td><td>—</td><td>7.3x</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Median</td><td>--</td>
+      <td>--</td><td>--</td><td>12.8x</td><td>8.5x</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:10px;">PICS's LTM EV/EBITDA of 39.8x appears expensive but is inflated by the deposit-heavy balance sheet (consolidated debt of $5.5B inflates EV). On a pure equity basis — the more appropriate metric for a bank — PICS trades at 8.1x FY1 P/E, which is in line with the peer median of 8.5x and below the 16.2x peer median for payments companies. The critical comparison is PagSeguro (PAGS) at 6.3x FY1 P/E: PAGS is larger, more profitable, and has a longer public track record — making the modest premium for PICS reasonable only if credit growth and margin expansion outperform PAGS. Relative to traditional Brazilian banks (Itaú 9.4x, Bradesco 7.3x), PICS trades at a comparable P/E despite growing revenue 5-10x faster, suggesting the market assigns minimal growth premium — likely reflecting post-IPO skepticism and governance discount. If PICS delivers on consensus estimates (FY28E P/E of 2.2x), the current valuation implies either severe EPS misses or permanent multiple compression, creating an asymmetric opportunity if the credit thesis proves out.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<div class="verdict">
+  <p><strong>(i) Market Cap Bucket: $1,444M</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">Small Cap ($1B–$5B). PicPay's $1,444M market cap sits squarely in Theia's sweet spot. The stock's 41% decline from its $19 IPO price (just 3 months ago) has compressed it into the small-cap range, creating forced selling from momentum funds and IPO flippers. At $1.4B, PICS is small enough to be overlooked by large-cap EM funds but large enough to have real institutional-quality financials, a publicly-listed peer set, and meaningful sell-side coverage beginning to build.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(ii) Analyst Coverage: 5 Broker Contributors</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">With only 5 sell-side analysts covering PICS, this is under-covered — exactly at Theia's ideal threshold of fewer than 5 analysts where informational edges are most achievable. The consensus target of $22.77 (+104% upside) reflects unanimous Buy ratings, but with only 5 contributors the consensus is thin and may not reflect all market participants' views. As a recent IPO with limited public financial history, the sell-side is still building models, and there is meaningful scope for proprietary analysis to identify mispricings. Coverage should increase over the next 12 months as the company reports public earnings, creating a catalyst for discovery.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iii) Thesis Alignment: Internet Finance / Digital Banking</strong> <span class="fw-rating strong">Core Thesis</span></p>
+  <p style="margin-top:4px;">PicPay is a direct expression of Theia's internet finance thesis: a digital-first financial platform disrupting traditional banking through technology, data-driven underwriting, and AI-powered operations. The company participates in instant payments (Pix), digital lending, insurance distribution, wealth management, and merchant acquiring — all core internet finance verticals. PicPay's use of Open Finance data (12.3% of Brazilian consents), AI-powered credit models (2.7x accuracy advantage), and its position as a Pix-native financial institution represent the structural digitization of financial services that Theia's thesis targets. While not blockchain-native, PicPay operates at the intersection of digital payments, data monetization, and financial inclusion — the company represents the "pick-and-shovel" infrastructure play on Brazil's financial digitization.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iv) Outcome Dispersion: $2.67 – $185.19</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">The 5-scenario model shows implied prices ranging from $2.67 (Bear Severe, -76%) to $185.19 (Bull Severe, +1,563%) from the current $11.14. This is an exceptionally wide outcome range — a 69x spread between bear and bull severe — driven by genuine uncertainty about: (a) whether the R$24B credit portfolio can scale to R$50-80B without asset quality deterioration, (b) whether Brazil macro (Selic, BRL) provides a tailwind or headwind, (c) whether the market assigns a growth premium or permanent governance discount, and (d) whether PicPay becomes Brazil's #2 financial platform or a subscale competitor to Nubank. The probability-weighted fair value of $22.05 (discounted at 30% CoC) represents 98% upside from current trading. The asymmetric risk/reward — limited downside from a profitable, growing company at 8x earnings vs. massive upside if the credit thesis compounds — is exactly what Theia's screening methodology targets.</p>
+</div>
+
+<div style="background: #d4edda; border-left: 4px solid #155724; padding: 12px 14px; margin: 16px 0; font-size: 11.5px;">
+  <strong>VERDICT: YES — Initiate Position on Broken IPO Dislocation</strong><br><br>
+  PicPay hits all four Theia criteria: small-cap ($1.4B), under-covered (5 analysts), core internet finance thesis alignment (digital banking platform disrupting traditional Brazilian financial services), and extremely wide outcome dispersion ($2.67 to $185 — 69x bear-to-bull spread). The probability-weighted fair value of $22.05 vs. current $11.14 represents 98% upside. PICS is a classic "broken IPO" setup: a company that priced at $19 (12x oversubscribed by sophisticated institutions) just 3 months ago, now trading at $11.14 due to post-IPO selling pressure, Brazil macro fears, and credit quality anxieties — none of which have fundamentally changed the business trajectory. The company is growing revenue 30-40% annually, generating 40%+ ROE, trading at 8x earnings with 5 unanimous Buy ratings from covering analysts, and targeting a credit portfolio that could double by 2027. Key risk is credit quality (7.2% NPL) and governance (dual-class / Batista family control). Key catalyst: Q1 2026 earnings on June 3 — first post-IPO quarterly report.
+</div>
+
+<p class="prose" style="font-size:10px; font-style:italic; margin-top:6px;">Note: Theia seeks small-cap companies that aren't well covered and are strongly aligned on the core internet finance thesis with wide outcome dispersion. PICS scores: Market Cap (Strong) | Coverage (Strong) | Thesis (Core) | Dispersion (Strong)</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 13: RISK SUMMARY -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">13. Risk Summary</div>
+
+<table class="risk-table">
+  <tr>
+    <th>Risk Category</th>
+    <th>Description</th>
+    <th>Severity</th>
+    <th>Mitigant</th>
+  </tr>
+  <tr>
+    <td>Credit Quality / NPL</td>
+    <td>NPLs at 7.2% and rising as R$24B credit portfolio seasons. Progressive limit strategy creates higher early-stage delinquency by design. A macro shock could push NPLs to 10%+ and wipe out earnings.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>Deliberate shift to secured products (2/3 of new originations). Payroll-deducted loans have structurally lower defaults. 2.7x credit model accuracy advantage. R$500M/month in private payroll originations.</td>
+  </tr>
+  <tr>
+    <td>Governance / Dual-Class</td>
+    <td>Batista family controls 98% of voting power. Historical legal issues (Lava Jato). Related-party transactions with J&amp;F entities. Public shareholders have minimal governance influence.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>Independent board majority (5 of 8 directors independent). Dutch incorporation provides regulatory framework. IR team focused on transparency. IPO raised profile with institutional investors.</td>
+  </tr>
+  <tr>
+    <td>Brazil Macro / FX</td>
+    <td>100% BRL revenue exposed to BRL/USD depreciation, Selic rate at 14.25%, potential recession, and political uncertainty. 10% BRL depreciation = 10% USD earnings decline.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>Structural growth in digital banking penetration provides secular tailwind regardless of cycle. Selic cuts (when they come) would be unambiguously positive. Natural hedge: liabilities also in BRL.</td>
+  </tr>
+  <tr>
+    <td>Capital Adequacy</td>
+    <td>Failed 10.5% capital ratio in 2025, requiring R$800M+ injection. Rapid credit growth requires proportional capital. Risk of dilutive follow-on equity raise.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>IPO raised $434M in fresh capital. Profitability inflection (R$502M adjusted NI in 2025) enables organic capital generation. Shift toward capital-light products (insurance, marketplace) diversifies capital needs.</td>
+  </tr>
+  <tr>
+    <td>Competition</td>
+    <td>Nubank has 100M+ users with stronger brand. MercadoLibre has captive e-commerce ecosystem. Traditional banks investing in digital. Risk of being permanently subscale #3-4 player.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Brazil's financial market is large enough for multiple winners. 42.7M active users provide critical scale. Data advantage (2.7x accuracy) enables competitive underwriting. 60K new SMB accounts/month shows differentiation.</td>
+  </tr>
+  <tr>
+    <td>Post-IPO Lock-Up / Overhang</td>
+    <td>Recent IPO (Jan 2026). Lock-up expiry could create selling pressure. Limited public track record reduces investor confidence. Stock already down 41% from IPO price.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Much of the post-IPO selling pressure may already be reflected in the 41% decline. June 3 earnings report provides near-term catalyst. Insider buying would be a powerful signal.</td>
+  </tr>
+  <tr>
+    <td>Regulatory</td>
+    <td>Brazilian Central Bank capital requirements, Open Finance rules, and Pix monetization policies could change. Stricter provisioning requirements would compress earnings.</td>
+    <td><span class="fw-rating low">Low</span></td>
+    <td>Regulatory direction in Brazil has been pro-fintech (Pix, Open Finance). PicPay has Central Bank authorization. Regulatory compliance team in place. Industry association participation.</td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 14: APPENDIX — PYTHON CODE -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section appendix">14. Appendix — Python Code</div>
+
+<p class="prose">Sensitivity table generator and scenario model code for analyst customization:</p>
+
+<div class="section-title">Sensitivity Table Generator</div>
+<div class="code-block">
+import numpy as np
+import pandas as pd
+
+# ─── SENSITIVITY TABLE 1: FY2028E Credit Revenue ($M) ───
+portfolios_brl = [35, 42, 50, 58, 65]        # R$ billions
+nims = [0.07, 0.085, 0.10, 0.115, 0.13]      # Net interest margin
+fx_rate = 5.5                                  # BRL/USD
+
+rows = []
+for p in portfolios_brl:
+    row = []
+    for nim in nims:
+        credit_rev_brl = p * 1000 * nim        # R$ millions
+        credit_rev_usd = credit_rev_brl / fx_rate
+        row.append(round(credit_rev_usd, 0))
+    rows.append(row)
+
+df1 = pd.DataFrame(rows,
+    index=[f"R${x}B" for x in portfolios_brl],
+    columns=[f"{int(n*100)}%" for n in nims])
+print("FY2028E Credit Revenue ($M)")
+print(df1.to_string())
+print(f"\nBase: R$50B x 10% NIM / {fx_rate} = ${50*1000*0.10/fx_rate:.0f}M")
+
+# ─── SENSITIVITY TABLE 2: FY2028E Net Income ($M) ───
+revenues = [3200, 3700, 4158, 4800, 5500]     # $M total revenue
+net_margins = [0.08, 0.11, 0.14, 0.17, 0.20]  # Net margin %
+
+rows2 = []
+for rev in revenues:
+    row = []
+    for m in net_margins:
+        ni = rev * m
+        row.append(round(ni, 0))
+    rows2.append(row)
+
+df2 = pd.DataFrame(rows2,
+    index=[f"${x}M" for x in revenues],
+    columns=[f"{int(m*100)}%" for m in net_margins])
+print("\nFY2028E Net Income ($M)")
+print(df2.to_string())
+print(f"Base: $4,158M x 14.0% = ${4158*0.14:.0f}M")
+
+# ─── SENSITIVITY TABLE 3: Implied Share Price ───
+eps_values = [1.50, 2.50, 3.32, 4.50, 6.00]  # $/share
+pe_multiples = [3, 5, 8, 12, 16]              # x P/E
+
+rows3 = []
+for eps in eps_values:
+    row = []
+    for mult in pe_multiples:
+        price = eps * mult
+        row.append(round(price, 2))
+    rows3.append(row)
+
+df3 = pd.DataFrame(rows3,
+    index=[f"${x:.2f}" for x in eps_values],
+    columns=[f"{x}x" for x in pe_multiples])
+print("\nImplied Share Price ($)")
+print(df3.to_string())
+print(f"Base: $3.32 x 8x = ${3.32*8:.2f}")
+</div>
+
+<div class="section-title" style="margin-top:16px;">5-Scenario Model Generator</div>
+<div class="code-block">
+# ─── PICS 5-SCENARIO 3-YEAR MODEL ───
+scenarios = {
+    "Bear Severe": {
+        "rev":   [2100, 2000, 2300],
+        "net_margin": [0.04, 0.02, 0.06],
+        "dil_shares": [129.6, 155.0, 155.0],
+        "exit_pe": 3,
+    },
+    "Bear Mild": {
+        "rev":   [2250, 2850, 3500],
+        "net_margin": [0.06, 0.10, 0.11],
+        "dil_shares": [129.6, 129.6, 129.6],
+        "exit_pe": 5,
+    },
+    "Base Case": {
+        "rev":   [2479, 3474, 4158],
+        "net_margin": [0.071, 0.116, 0.14],
+        "dil_shares": [129.6, 129.6, 129.6],
+        "exit_pe": 8,
+    },
+    "Bull Mild": {
+        "rev":   [2700, 4200, 5500],
+        "net_margin": [0.09, 0.15, 0.17],
+        "dil_shares": [129.6, 129.6, 129.6],
+        "exit_pe": 12,
+    },
+    "Bull Severe": {
+        "rev":   [3000, 5500, 7500],
+        "net_margin": [0.11, 0.17, 0.20],
+        "dil_shares": [129.6, 129.6, 129.6],
+        "exit_pe": 16,
+    },
+}
+
+current_price = 11.14
+years = ["FY2026E", "FY2027E", "FY2028E"]
+
+for name, s in scenarios.items():
+    print(f"\n{'='*60}")
+    print(f"Scenario: {name}")
+    print(f"{'─'*60}")
+    ni_exit = s["rev"][-1] * s["net_margin"][-1]
+    eps_exit = ni_exit / s["dil_shares"][-1]
+    mult = s["exit_pe"]
+    implied_price = eps_exit * mult
+    upside = (implied_price / current_price - 1) * 100
+    print(f"Exit: {mult}x P/E on FY2028E EPS ${eps_exit:.2f}")
+    print(f"Implied Price: ${implied_price:.2f}  |  Upside: {upside:+.1f}%")
+
+    for i, yr in enumerate(years):
+        rev = s["rev"][i]
+        ni = rev * s["net_margin"][i]
+        eps = ni / s["dil_shares"][i]
+        print(f"  {yr}: Rev ${rev}M | NI ${ni:.0f}M | EPS ${eps:.2f}")
+
+# ─── PROBABILITY-WEIGHTED FAIR VALUE ───
+weights = {"Bear Severe": 0.05, "Bear Mild": 0.20, "Base Case": 0.50,
+           "Bull Mild": 0.20, "Bull Severe": 0.05}
+prices  = {"Bear Severe": 2.67, "Bear Mild": 14.86, "Base Case": 26.54,
+           "Bull Mild": 86.56, "Bull Severe": 185.19}
+coc = 0.30
+
+wtd_avg = sum(weights[k] * prices[k] for k in weights)
+pv = wtd_avg / (1 + coc)
+print(f"\nProbability-Weighted Avg (FY2028E): ${wtd_avg:.2f}")
+print(f"Discounted at {coc*100:.0f}% CoC:           ${pv:.2f}")
+print(f"Current Price:                         ${current_price:.2f}")
+print(f"Implied Upside to PV:                 {(pv/current_price-1)*100:+.1f}%")
+</div>
+
+<div class="source-note" style="margin-top:16px;">
+  PicS N.V. (PicPay) | Preliminary Memo for Theia · Generated April 2, 2026 · Data: FactSet (Apr 2, 2026), AlphaSense Company Primer &amp; Expert Synthesis, Q4 2025 Earnings Release, SEC 6-K Filing, PICS Prospectus · FYE December · Not investment advice.
+</div>
+
+</body>
+</html>
