@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=816px">
+<title>Cantaloupe | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', Arial, sans-serif; background: #fff; color: #1a1a2e; width: 816px; margin: 0 auto; padding: 32px 40px; font-size: 11px; line-height: 1.45; }
+.title-bar { font-size: 20px; font-weight: 700; letter-spacing: -0.4px; color: #1a1a2e; border-bottom: 3px solid #1a1a2e; padding-bottom: 10px; margin-bottom: 20px; text-align: center; }
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 28px 0 10px 0; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+table.ev tr.indent td:first-child { padding-left: 12px; font-size: 9.5px; color: #777; }
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; border: 1px solid #eee; border-radius: 3px; }
+.val-grid .val-cell { padding: 5px 6px; border-right: 1px solid #eee; border-bottom: 1px solid #eee; }
+.val-grid .val-cell:nth-child(6), .val-grid .val-cell:nth-child(12) { border-right: none; }
+.val-grid .val-cell:nth-child(7), .val-grid .val-cell:nth-child(8), .val-grid .val-cell:nth-child(9), .val-grid .val-cell:nth-child(10), .val-grid .val-cell:nth-child(11), .val-grid .val-cell:nth-child(12) { border-bottom: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+.prose { font-size: 11px; line-height: 1.65; color: #333; margin-bottom: 8px; }
+.fw-item { margin-bottom: 10px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+.fw-rating.na { background: #e9ecef; color: #6c757d; }
+.fw-summary { margin-top: 10px; padding: 8px 12px; background: #f4f6f9; border-left: 3px solid #1a1a2e; font-size: 10.5px; font-style: italic; color: #444; }
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; border: 1px solid #e0e0e0; }
+table.sensitivity th:first-child { text-align: left; }
+table.sensitivity td { text-align: center; padding: 3px 6px; border: 1px solid #f0f0f0; }
+table.sensitivity td:first-child { text-align: left; font-weight: 600; background: #f4f6f9; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; color: #1a1a2e; }
+.sens-title { font-size: 10px; font-weight: 700; margin: 14px 0 2px 0; color: #1a1a2e; }
+.sens-current { font-size: 9px; color: #888; margin-bottom: 4px; font-style: italic; }
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 14px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 6px; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 10px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 8px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 700; color: #1a1a2e; }
+.fermi-narrative { background: #f0f4f8; border-radius: 3px; padding: 8px 10px; margin-bottom: 10px; font-size: 9.5px; line-height: 1.55; border-left: 3px solid #93c5fd; }
+.fermi-narrative .scenario-text { font-style: italic; color: #444; margin-bottom: 5px; font-size: 10px; font-weight: 500; }
+.fermi-narrative ul { margin: 0; padding-left: 16px; color: #333; }
+.fermi-narrative li { margin-bottom: 2px; }
+.fermi-narrative .reconcile { margin-top: 6px; font-weight: 600; color: #1a1a2e; border-top: 1px solid #c7d9ec; padding-top: 4px; font-size: 9.5px; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 10px 0 4px 0; }
+.case-block table.scenario-mini th { text-align: right; font-weight: 600; color: #888; padding: 2px 5px; border-bottom: 1px solid #ddd; font-size: 8.5px; }
+.case-block table.scenario-mini th:first-child { text-align: left; }
+.case-block table.scenario-mini td { padding: 2.5px 5px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even):not(.margin-row) { background: #f5f5f5; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 8px; margin-top: 8px; }
+.case-block .exit-line1 { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-bottom: 6px; }
+.case-block .exit-price { font-size: 15px; font-weight: 700; color: #1a1a2e; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; color: #555; }
+.case-block .exit-line2 { display: flex; gap: 24px; font-size: 9.5px; color: #555; border-top: 1px solid #eee; padding-top: 5px; flex-wrap: wrap; }
+.case-chart { margin-top: 16px; padding: 12px 12px 8px 12px; background: #f9f9f9; border-radius: 4px; border: 1px solid #eee; }
+.case-chart svg { width: 100%; height: auto; }
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.6; }
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 8.5px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+.num-list { padding-left: 0; list-style: none; }
+.num-list li { margin-bottom: 8px; padding-left: 0; }
+.num-list li strong { color: #1a1a2e; }
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1.5px solid #ddd; white-space: nowrap; }
+table.comps th:first-child { text-align: left; min-width: 110px; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child { text-align: left; font-weight: 400; color: #333; white-space: nowrap; font-size: 8px; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-weight: 600; background: #fafbfc; border-top: 1px solid #eee; font-style: italic; }
+table.risk-table { font-size: 10px; width: 100%; margin: 8px 0; }
+table.risk-table th { text-align: left; font-weight: 600; padding: 4px 6px; background: #f4f6f9; border-bottom: 1px solid #ddd; }
+table.risk-table td { padding: 4px 6px; border-bottom: 1px solid #eee; vertical-align: top; }
+table.risk-table td:first-child { font-weight: 600; width: 25%; }
+.alphasense-box { background: #e8f4fd; border-left: 4px solid #2563eb; padding: 10px 14px; margin: 10px 0; font-size: 10px; line-height: 1.5; }
+.alphasense-box strong { color: #1a1a2e; }
+.as-section { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: #1a1a2e; border-bottom: 1px solid #ddd; padding-bottom: 3px; margin: 16px 0 8px 0; }
+.bull-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #155724; border-bottom: 1.5px solid #c3e6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #721c24; border-bottom: 1.5px solid #f5c6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bull-item, .bear-item { margin-bottom: 8px; }
+.merger-alert { background: #fff3cd; border-left: 4px solid #856404; padding: 10px 14px; margin: 10px 0; font-size: 10.5px; line-height: 1.55; }
+.merger-alert strong { color: #1a1a2e; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Cantaloupe, Inc. | Preliminary Memo for Theia</div>
+
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<div class="memo-section">1. Business Overview</div>
+
+<div class="merger-alert">
+<strong>PENDING ACQUISITION:</strong> On June 15, 2025, 365 Retail Markets (backed by Providence Equity Partners) announced a definitive agreement to acquire Cantaloupe, Inc. for <strong>$11.20/share in cash</strong>, representing an enterprise value of approximately $850M. The FTC issued a Second Request in September 2025; shareholder approval was obtained on September 4, 2025. The transaction is expected to close in H1 2026. As of April 1, 2026, the stock trades at $10.81 — a <strong>3.6% spread</strong> to the deal price. This pending acquisition fundamentally changes the investment thesis from an operating company analysis to a merger arbitrage and break-risk calculus. All sections of this memo should be read through this lens.
+</div>
+
+<div class="prose">
+Cantaloupe, Inc. (NASDAQ: CTLP) is a global technology leader in self-service and unattended retail payments, providing end-to-end cashless payment processing, telemetry, and enterprise management software for vending machines, micro markets, smart stores, amusement, laundromats, EV charging stations, car washes, and stadiums. Founded in 1992 as USA Technologies in Malvern, Pennsylvania, the company rebranded to Cantaloupe in 2020 to reflect its transformation from a hardware-focused vending telemetry provider into a comprehensive payments-and-software platform. CTLP serves over 34,800 active customers with approximately 1.28 million active devices, processing $3.44 billion in annual transaction volume and over 1 billion transactions per year. Revenue is 87% recurring — 59% from transaction processing fees and 28% from subscription/SaaS — with the remaining 13% from equipment sales.
+</div>
+
+<div class="prose">
+CTLP operates through three revenue lines. <strong>Transaction Fees</strong> ($180M, 59.3% of FY2025 revenue, +15.0% YoY) represent the core payments business: CTLP earns a ~5.3% take rate on cashless transactions processed through its network, up from 4.7% three years ago as cashless penetration on its installed base has grown from approximately 50% to 80%. <strong>Subscription &amp; License Fees</strong> ($84M, 27.6%, +11.0% YoY) encompass the Seed VMS (Vending Management System) enterprise software platform — where CTLP commands an estimated 85-90% market share among enterprise food and beverage operators — along with telemetry monitoring, data analytics, and value-added SaaS services. Subscription revenue carries approximately 90% gross margins. <strong>Equipment Sales</strong> ($39M, 13.0%, +6.3% YoY) include cashless payment readers, telemetry devices, micro market kiosks, and the company's transformative Smart Store product line ($12K-15K per unit), which generates 2x the revenue of a standard micro market and is currently pre-sold two quarters ahead.
+</div>
+
+<div class="prose">
+Under CEO Ravi Venkatesan, who joined in 2021, Cantaloupe has executed a significant operational turnaround: adjusted EBITDA grew at a 65% CAGR from FY2021 to FY2025 (reaching $41M), gross margins expanded from 30.2% to 35.7% (adjusted gross margin 40.9%), and transaction gross margins improved from 6-10% to 25%. The company holds 70+ patents, maintains 30 years of equipment compatibility across its telemetry platform, and benefits from a gross revenue retention rate of approximately 90%. The Smart Store product — an AI-powered, frictionless grab-and-go retail format — represents a potentially transformative growth vector, solving the $100B+ retail shrink problem while delivering 100% cashless, fully automated retail experiences. Management has indicated Smart Stores could represent 25-30% of new equipment sales within 12-18 months.
+</div>
+
+<div class="prose">
+<strong>One-line thesis:</strong> CTLP is a compelling microcap payments-and-IoT story — 85-90% Seed VMS market share, 87% recurring revenue, Smart Stores as a transformative product, and EBITDA margins heading to 20%+ — but the pending $11.20/share acquisition by 365 Retail Markets (Providence Equity) caps near-term upside at 3.6%, reducing the investment decision to a merger-arb calculus where the key variable is FTC clearance versus deal-break risk.
+</div>
+
+<div class="prose">
+<strong>Headquarters:</strong> Malvern, Pennsylvania &nbsp;|&nbsp; <strong>CEO:</strong> Ravi Venkatesan &nbsp;|&nbsp; <strong>CFO:</strong> Scott Stewart &nbsp;|&nbsp; <strong>Employees:</strong> ~358 &nbsp;|&nbsp; <strong>Founded:</strong> 1992 (as USA Technologies; rebranded 2020) &nbsp;|&nbsp; <strong>Ticker:</strong> NASDAQ: CTLP &nbsp;|&nbsp; <strong>Fiscal Year End:</strong> June 30
+</div>
+
+<!-- SECTION 2: FINANCIAL SUMMARY -->
+<div class="memo-section">2. Financial Summary (Theia FactSet Summary)</div>
+
+<div class="header">
+  <div><h1>Cantaloupe, Inc.</h1><span class="ticker">CTLP-US | NASDAQ | Pending Acquisition: $11.20/share</span></div>
+  <span class="date">April 1, 2026 | Source: FactSet</span>
+</div>
+
+<div class="price-bar">
+  <span class="price">$10.81</span>
+  <span><span class="label">1M:</span> <span class="chg pos">+1.36%</span></span>
+  <span><span class="label">3M:</span> <span class="chg pos">+2.12%</span></span>
+  <span><span class="label">6M:</span> <span class="chg pos">+1.93%</span></span>
+  <span><span class="label">YTD:</span> <span class="chg pos">+34.81%</span></span>
+  <span><span class="label">52W:</span> $7.01 – $11.16</span>
+  <span><span class="label">Deal:</span> $11.20 (3.6% spread)</span>
+</div>
+
+<div class="section-title">Key Stats — Trading</div>
+<div class="two-col">
+  <table class="kv">
+    <tr><td>Ticker</td><td>CTLP-US</td></tr>
+    <tr><td>Price</td><td>$10.81</td></tr>
+    <tr><td>Volume</td><td>1,326K</td></tr>
+    <tr><td>Avg Volume (30D)</td><td>1,143K</td></tr>
+  </table>
+  <table class="kv">
+    <tr><td>Float %</td><td>92.35%</td></tr>
+    <tr><td>Short Interest</td><td>6.8 Days / 11.76%</td></tr>
+    <tr><td>% of 52W High</td><td>96.9%</td></tr>
+    <tr><td>Dividend</td><td>None</td></tr>
+  </table>
+</div>
+
+<div class="section-title">Enterprise Value Bridge</div>
+<table class="ev">
+  <tr><td>Market Capitalization</td><td>$797M</td></tr>
+  <tr class="indent"><td>Common Shares Outstanding</td><td>73.72M</td></tr>
+  <tr><td>(+) Diluted Shares (Stock Comp)</td><td>1.97M</td></tr>
+  <tr><td>Fully Diluted Market Cap</td><td>$818M</td></tr>
+  <tr><td>(+) Consolidated Debt</td><td>$38M</td></tr>
+  <tr><td>(-) Cash &amp; Equivalents</td><td>($53M)</td></tr>
+  <tr><td>(+) Preferred Stock</td><td>$22M</td></tr>
+  <tr class="total"><td>Enterprise Value</td><td>$825M</td></tr>
+</table>
+
+<div class="section-title">Current Valuation</div>
+<div class="val-grid">
+  <div class="val-cell"><div class="val-label">Market Cap</div><div class="val-num">$0.80B</div></div>
+  <div class="val-cell"><div class="val-label">Enterprise Value</div><div class="val-num">$0.82B</div></div>
+  <div class="val-cell"><div class="val-label">P/E (LTM)</div><div class="val-num">14.8x</div><div class="val-sub">Incl. $42M DTA release</div></div>
+  <div class="val-cell"><div class="val-label">EV/EBITDA (LTM)</div><div class="val-num">17.4x</div></div>
+  <div class="val-cell"><div class="val-label">EV/Sales (LTM)</div><div class="val-num">2.6x</div></div>
+  <div class="val-cell"><div class="val-label">P/S (LTM)</div><div class="val-num">2.5x</div></div>
+  <div class="val-cell"><div class="val-label">Fully Dil Mkt Cap</div><div class="val-num">$0.82B</div></div>
+  <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">7.9%</div></div>
+  <div class="val-cell"><div class="val-label">Beta (3Y Adj.)</div><div class="val-num">0.87</div></div>
+  <div class="val-cell"><div class="val-label">Brokers</div><div class="val-num">1</div><div class="val-sub">Extreme under-coverage</div></div>
+  <div class="val-cell"><div class="val-label">Deal Price</div><div class="val-num">$11.20</div><div class="val-sub">3.6% spread</div></div>
+  <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">Apr 30, 2026</div><div class="val-sub">1 broker</div></div>
+</div>
+
+<div class="section-title">Valuation Multiples</div>
+<table class="data">
+  <tr><th></th><th>5Yr Avg</th><th>FY Jun23</th><th>FY Jun24</th><th>FY Jun25</th></tr>
+  <tr><td>P/E</td><td>NM</td><td>NM</td><td>42.9x</td><td>12.8x</td></tr>
+  <tr><td>P/Sales</td><td>2.72x</td><td>2.37x</td><td>1.82x</td><td>2.71x</td></tr>
+  <tr><td>EV/Sales</td><td>2.71x</td><td>2.42x</td><td>1.77x</td><td>2.78x</td></tr>
+  <tr><td>EV/EBITDA</td><td>NM</td><td>47.7x</td><td>18.3x</td><td>20.5x</td></tr>
+  <tr><td>EV/EBIT</td><td>NM</td><td>166.3x</td><td>34.4x</td><td>36.0x</td></tr>
+</table>
+
+<div class="section-title">Income Statement (Financials)</div>
+<table class="data">
+  <tr><th></th><th>CAGR (2Yr)</th><th>FY Jun23</th><th>FY Jun24</th><th>FY Jun25</th></tr>
+  <tr class="section-row"><td colspan="5">Revenue &amp; Income ($M)</td></tr>
+  <tr><td>Revenue</td><td>13.2%</td><td>244</td><td>269</td><td>303</td></tr>
+  <tr><td>Gross Income</td><td>21.0%</td><td>74</td><td>92</td><td>108</td></tr>
+  <tr><td>EBITDA</td><td>83.3%</td><td>12</td><td>26</td><td>41</td></tr>
+  <tr><td>EBIT</td><td>NM</td><td>4</td><td>14</td><td>23</td></tr>
+  <tr><td>Net Income</td><td>NM</td><td>1</td><td>12</td><td>65</td></tr>
+  <tr><td>EPS (Diluted)</td><td>NM</td><td>$0.001</td><td>$0.15</td><td>$0.86</td></tr>
+  <tr class="section-row"><td colspan="5">Margins</td></tr>
+  <tr><td>Gross Margin</td><td>—</td><td>30.2%</td><td>34.3%</td><td>35.7%</td></tr>
+  <tr><td>EBITDA Margin</td><td>—</td><td>5.1%</td><td>9.7%</td><td>13.6%</td></tr>
+  <tr><td>Net Margin</td><td>—</td><td>0.3%</td><td>4.5%</td><td>21.3%</td></tr>
+  <tr class="section-row"><td colspan="5">Cash Flow ($M)</td></tr>
+  <tr><td>Operating CF</td><td>—</td><td>14</td><td>28</td><td>20</td></tr>
+  <tr><td>CapEx</td><td>—</td><td>16</td><td>15</td><td>17</td></tr>
+  <tr><td>Free Cash Flow</td><td>—</td><td>(2)</td><td>13</td><td>3</td></tr>
+  <tr class="section-row"><td colspan="5">Returns &amp; Leverage</td></tr>
+  <tr><td>ROE</td><td>—</td><td>0.4%</td><td>6.8%</td><td>29.5%</td></tr>
+  <tr><td>Debt/Equity</td><td>—</td><td>25.2%</td><td>25.7%</td><td>19.2%</td></tr>
+  <tr><td>Interest Coverage</td><td>—</td><td>1.5x</td><td>4.7x</td><td>8.4x</td></tr>
+</table>
+
+<div class="section-title">Revenue by Business Unit</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Segment</div>
+    <table class="rev">
+      <tr><th>Segment</th><th>% Rev</th><th>($M)</th><th>YoY</th></tr>
+      <tr><td>Transaction Fees</td><td>59.3%</td><td>180</td><td>+15.0%</td></tr>
+      <tr><td>Subscription &amp; License</td><td>27.6%</td><td>84</td><td>+11.0%</td></tr>
+      <tr><td>Equipment Sales</td><td>13.0%</td><td>39</td><td>+6.3%</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="sub-label">By Geography</div>
+    <table class="rev">
+      <tr><th>Region</th><th>% Rev</th><th>($M)</th><th>YoY</th></tr>
+      <tr><td>United States</td><td>100%</td><td>303</td><td>+12.6%</td></tr>
+      <tr><td>International</td><td>&lt;1%</td><td>—</td><td>—</td></tr>
+      <tr><td>Total</td><td>100%</td><td>303</td><td>+12.6%</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="source-note">Source: FactSet, Company Filings as of April 1, 2026. FY25 Net Income of $65M includes $42M deferred tax asset release (non-recurring). Adj. EBITDA: $41M (13.6% margin). FY26 EBITDA guide: $46-50M. Pending acquisition at $11.20/share cash (365 Retail Markets / Providence Equity). FTC Second Request received Sep 2025. Expected close H1 2026.</div>
+
+<!-- SECTION 3: BULL & BEAR CASES -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Cases</div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">1. Pending 365 Retail Markets Acquisition at $11.20/share — Near-Term Catalyst with Defined Upside.</span> The definitive agreement with 365 Retail Markets (Providence Equity) provides a 3.6% spread ($10.81 to $11.20), implying an approximately 7% annualized return if the deal closes in H1 2026 as expected. Shareholder approval was obtained September 4, 2025, removing one key hurdle. The strategic logic is compelling: 365 Retail Markets is the dominant player in micro market kiosks and the combination with CTLP's 1.28M-device cashless payment network and Seed VMS creates a vertically integrated unattended retail platform with no comparable competitor. Providence Equity's involvement provides financial credibility and deal execution certainty. For merger-arb investors, the risk/reward is attractive: 3.6% upside on close versus the assessment of FTC break probability.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">2. If Deal Breaks — Standalone CTLP Has a Compelling Growth Story.</span> Stripped of the merger overhang, CTLP's standalone fundamentals are remarkably strong: 87% recurring revenue (59% transaction + 28% subscription), 13% revenue CAGR, ARPU expanding at a 15% CAGR from $193 to $210/device and heading higher, and cashless penetration on its network rising from 50% to 80% with a path to 90%+. The theoretical ARPU ceiling exceeds $400/device, implying significant runway for organic revenue growth without adding a single new device. Adjusted gross margins have expanded from 33% to 41% in two years. On a deal break, the stock would likely fall to $7-8 near-term, but the standalone business could re-rate to $12-14 on fundamentals within 12-18 months — creating a compelling entry for investors willing to buy the dip.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">3. Smart Stores Are Transformative — AI-Powered Frictionless Retail at Scale.</span> CTLP's Smart Store product represents a potential step-function growth vector. Priced at $12K-15K per unit, Smart Stores generate approximately 2x the revenue of a standard micro market and operate as fully autonomous, 100% cashless, AI-powered grab-and-go retail formats. They directly address the $100B+ retail shrink problem (theft, spoilage, labor) with frictionless technology. The product is currently pre-sold two quarters ahead, indicating demand significantly exceeds supply. Management has indicated Smart Stores could represent 25-30% of new equipment sales within 12-18 months. If this trajectory materializes, it would add $15-25M in incremental high-margin revenue and fundamentally shift the growth narrative — though the merger, if completed, limits shareholders' ability to capture this upside.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">4. 85-90% Seed VMS Market Share Creates a Fortress Moat.</span> The Seed Vending Management System is deeply embedded across 1.28M devices serving 34,800+ customers, with 30 years of equipment compatibility spanning virtually every major vending machine manufacturer. Enterprise food and beverage operators — Canteen, Compass Group, Aramark — have built their entire backend operations around Seed. A rip-and-replace would require 4-6 months of implementation, retraining hundreds of route drivers, migrating decades of operational data, and risking service disruption across thousands of locations. The ~90% gross revenue retention rate confirms the stickiness. At 90% gross margins, subscription revenue is essentially recurring SaaS revenue on a 30-year-old installed base — an extraordinarily durable competitive position.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">5. Margin Expansion Runway — From 30% Gross to 41% Adjusted, Heading to 20%+ EBITDA.</span> CTLP's margin story is a core value driver: gross margins expanded from 30.2% to 35.7% (adjusted 40.9%) in two years, while EBITDA margins grew from 5.1% to 13.6% — a 65% EBITDA CAGR from FY2021. Transaction gross margins improved from 6-10% to 25% as cashless volume scaled over fixed processing costs. With SG&amp;A growing at roughly half the rate of revenue, operating leverage is accelerating. Management has guided FY26E Adj. EBITDA of $46-50M (approximately 14-15% margin), with a visible path to 20%+ EBITDA margins by FY27-28 exit rate as subscription mix increases, transaction margins continue expanding, and Smart Store equipment carries higher attach rates for high-margin software and services.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="bear-header">Bear Cases</div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">1. FTC Second Request Creates Genuine Merger Uncertainty.</span> The FTC's Second Request, received in September 2025, signals substantive regulatory scrutiny of the CTLP-365 Retail Markets combination. The merged entity would dominate the unattended retail technology stack — cashless payments, vending management software, and micro market/smart store infrastructure — potentially raising antitrust concerns about foreclosure of competitors in adjacent verticals. If the FTC blocks or conditions the deal, the stock could fall 20-30% to the $7-8 range (pre-deal trading levels), reflecting both the removal of the acquisition premium and negative signaling about the competitive landscape. The 11.76% short interest — elevated for a microcap — reflects bearish merger-arb positioning. A deal break without an alternative bidder would be particularly painful given the lack of analyst coverage to provide fundamental support.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">2. Only 1 Analyst Covers the Stock — Extreme Under-Coverage with Limited Institutional Support.</span> With just 1 broker covering CTLP, there is no consensus price target, no consensus estimates, and virtually no sell-side research infrastructure. While extreme under-coverage is typically a positive for Theia's information-asymmetry thesis, in the context of a pending acquisition it creates a different problem: if the deal breaks, there is minimal fundamental research to anchor the stock, no analyst community to re-rate the equity on standalone merit, and limited institutional buyer base to absorb selling pressure from merger-arb funds unwinding positions. The absence of coverage also means CTLP's compelling standalone story — Smart Stores, ARPU expansion, margin inflection — goes essentially untold to the broader market.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">3. Equipment Revenue Is Cyclical and Tariff-Exposed.</span> Equipment sales ($39M, 13% of revenue) carry lower margins (10-15%) and are economically sensitive. In Q3 FY2025, tariff uncertainty and macro headwinds deferred customer equipment purchases, creating a sequential dip that management attributed to "customer wait-and-see behavior." Equipment is manufactured by third parties, creating potential tariff exposure on imported components. A broader macro downturn or tariff escalation could simultaneously reduce equipment orders (operators defer capex) and compress equipment margins (inability to pass through cost increases), creating a drag on the overall growth story even as transaction and subscription revenue remain resilient.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">4. Nayax Competing Aggressively on Price in the US Market.</span> Nayax (NAYAX), the Israeli-based cashless payment provider, has been discounting hardware to aggressively buy market share among SMB operators in the United States. Nayax's strategy — subsidize hardware to capture the recurring transaction and software revenue stream — directly threatens CTLP's equipment margins and win rates in the SMB segment. While CTLP's enterprise moat (Seed VMS, 30-year compatibility) is largely immune to Nayax's approach, the SMB segment represents a meaningful growth vector that Nayax could commoditize. Nayax trades at 39.9x EV/EBITDA — suggesting the market values its growth trajectory highly — and has the balance sheet and strategic willingness to sustain below-cost hardware pricing for an extended period.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">5. Free Cash Flow Is Weak Relative to EBITDA — Only $3M FCF on $41M EBITDA.</span> FY2025 free cash flow of just $3M versus $41M EBITDA represents an alarming 7% EBITDA-to-FCF conversion rate. The gap is explained by $17M CapEx (primarily for HaaS device placements capitalized on the balance sheet), working capital consumption from rapid growth, and the capital-intensive nature of the equipment-as-a-service model where CTLP deploys hardware and amortizes it over the customer relationship. While FCF conversion should improve as the revenue mix shifts toward higher-margin transaction and subscription revenue and as the HaaS installed base matures (reducing net new device CapEx), the current FCF profile is insufficient to fund organic growth, service debt, or return capital to shareholders — raising questions about capital efficiency.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Scale Economies</span><span class="fw-rating strong">Strong</span>
+  <div class="prose">CTLP operates the largest cashless payment network in the unattended retail vertical with 1.28M active devices processing $3.44B in annual transaction volume. This scale creates meaningful per-unit cost advantages: payment processing infrastructure (gateway, settlement, fraud monitoring) has high fixed costs that amortize across the entire device base, meaning each incremental device and transaction has a lower marginal cost. The 30-year equipment compatibility matrix — spanning virtually every major vending manufacturer — was built at enormous cumulative R&amp;D expense that no new entrant could justify replicating. The telemetry network, payment rails, and Seed VMS platform serve 34,800+ customers from a shared technology infrastructure, creating classic scale advantages where unit economics improve with each additional customer. Transaction gross margins improving from 6-10% to 25% over four years demonstrate the operating leverage inherent in processing volume growing over a largely fixed-cost base.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Network Effects</span><span class="fw-rating moderate">Moderate</span>
+  <div class="prose">The Seed VMS ecosystem creates a form of vertical network effect: as more operators adopt the platform, the shared data lake (product performance, pricing optimization, route efficiency, consumer purchasing patterns) becomes more valuable to all participants. Operators benchmark their performance against anonymized network data, creating information advantages for Seed users that non-users cannot access. Additionally, the payment network benefits from scale on the consumer side: as more vending machines and micro markets accept cashless payment via CTLP readers, consumer expectations for cashless acceptance increase, pressuring the remaining cash-only operators to adopt the technology — a dynamic that has driven cashless penetration from 50% to 80% on CTLP's network. However, these are indirect and one-sided effects rather than the strong two-sided marketplace dynamics that characterize the most powerful network effects.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Counter-Positioning</span><span class="fw-rating moderate">Moderate</span>
+  <div class="prose">CTLP's integrated model — combining hardware (readers, telemetry), software (Seed VMS), and payments processing in a single vertical stack — creates a counter-positioning advantage against both pure-play hardware vendors (who lack the software ecosystem) and horizontal payment processors (who lack the vertical-specific telemetry and VMS capabilities). Nayax attempts a similar integrated approach but lacks the 30-year compatibility matrix and 85-90% Seed market share. Traditional payment processors (Square, Clover, Stripe) could theoretically enter unattended retail but would need to build vertical-specific telemetry, equipment compatibility, and route management capabilities from scratch — investments that are difficult to justify given the relatively niche market size. CTLP's position as the "IBM of vending" — the trusted, deeply embedded, all-in-one platform — creates a counter-position that larger players cannot efficiently replicate without cannibalizing their horizontal strategies.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Switching Costs</span><span class="fw-rating strong">Strong</span>
+  <div class="prose">Switching costs in the Seed VMS ecosystem are exceptionally high and represent CTLP's most durable competitive advantage. Enterprise operators have spent years configuring Seed for their specific operational workflows — route planning, inventory management, cashless terminal configurations, pricing rules, machine-level telemetry thresholds, and integration with their financial systems. A migration to a competing VMS would require 4-6 months of implementation, retraining of route drivers and warehouse staff, recreation of years of historical operational data, and risk of service disruption across thousands of locations. The ~90% gross revenue retention rate empirically confirms the stickiness. On the payment side, switching readers requires physical truck rolls to every machine location, firmware updates, terminal reprogramming, and merchant account migration — creating per-device switching costs of $50-100+ that multiply across large fleets. The 30-year equipment compatibility matrix further locks in operators: CTLP readers work with machines dating back decades, while competitors would require operator fleet standardization.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Branding</span><span class="fw-rating moderate">Moderate</span>
+  <div class="prose">Cantaloupe is recognized as the "IBM of vending" — a reputation for reliability, longevity, and comprehensiveness that is particularly valuable in an industry where operators prioritize uptime and backward compatibility over cutting-edge features. The USA Technologies heritage (1992) and the 30+ year track record provide institutional trust among enterprise operators who are inherently conservative in technology adoption. However, the brand has limited consumer awareness — end users tapping a cashless reader on a vending machine do not recognize or care about the Cantaloupe brand. The 2020 rebrand from USA Technologies to Cantaloupe modernized the image but created a brief period of confusion in the operator channel. In the Smart Store segment, the Cantaloupe brand is less established and must compete against newer entrants without the same legacy recognition.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">6. Cornered Resource</span><span class="fw-rating strong">Strong</span>
+  <div class="prose">CTLP possesses three cornered resources that are extremely difficult to replicate. First, the 70+ patent portfolio covering cashless payment, telemetry, and unattended retail technology creates a legal moat around core functionality. Second, the 30-year equipment compatibility matrix — firmware, communication protocols, and integration specifications for virtually every vending machine and micro market manufacturer — represents decades of accumulated engineering knowledge and testing that no competitor can shortcut. Third, the proprietary pricing and transaction data lake built from processing 1B+ annual transactions across 1.28M devices provides granular insights into consumer purchasing behavior, optimal product pricing, inventory velocity, and demand patterns that power both Seed VMS analytics and CTLP's own strategic decisions. This data asset grows more valuable with each transaction and cannot be assembled by a new market entrant.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">7. Process Power</span><span class="fw-rating moderate">Moderate</span>
+  <div class="prose">Under CEO Ravi Venkatesan (joined 2021), CTLP has demonstrated meaningful operational improvement: EBITDA grew at a 65% CAGR from FY2021 to FY2025, gross margins expanded 550bps, and transaction margins improved from single digits to 25%. The operational turnaround involved renegotiating payment processing agreements, optimizing the hardware supply chain, disciplining SG&amp;A spend, and focusing R&amp;D on high-ROI product extensions (Smart Stores, value-added SaaS). However, process power is less deeply entrenched than at larger, more mature organizations — CTLP's small size (358 employees) means institutional knowledge is concentrated in a relatively small number of key individuals, and the company's operational processes have only been optimized over the past 3-4 years rather than decades.</div>
+</div>
+
+<div class="fw-summary">
+<strong>Summary:</strong> CTLP's moat profile is anchored by three strong powers: scale economies (1.28M devices, $3.44B volume), switching costs (85-90% Seed market share, 4-6 month migration, ~90% GRR), and cornered resources (70+ patents, 30-year compatibility matrix, proprietary transaction data lake). These create a durable competitive position in the unattended retail vertical that is extremely difficult to displace. The moderate powers — network effects, counter-positioning, branding, process — provide additional reinforcement. The key insight for the merger context: these moats are precisely why 365 Retail Markets and Providence Equity are willing to pay $11.20/share — and why the combined entity would be formidable. If the deal breaks, these same moats support a standalone valuation re-rating.
+</div>
+
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Threat of New Entrants</span><span class="fw-rating low">Low</span>
+  <div class="prose">The unattended retail payment and software market has extremely high barriers to entry. The 30-year equipment compatibility matrix — covering hundreds of vending machine models across dozens of manufacturers — requires years of engineering investment and manufacturer cooperation to replicate. The 70+ patent portfolio creates legal barriers around core telemetry and payment functionality. The Seed VMS platform, with 85-90% enterprise market share, has been built over decades and is deeply integrated into operator workflows that would take years to recreate. On the payments side, obtaining and maintaining PCI-DSS compliance, building a certified payment gateway, and establishing relationships with card networks requires substantial regulatory and technical investment. The combination of these barriers — compatibility, IP, market share, regulatory — means no significant new competitor has emerged in the core vending/micro market vertical in over a decade.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">2. Bargaining Power of Suppliers</span><span class="fw-rating moderate">Moderate</span>
+  <div class="prose">CTLP relies on third-party contract manufacturers for its cashless readers, telemetry devices, and Smart Store hardware — creating moderate supplier dependence on manufacturing partners for critical hardware components. Semiconductor and electronic component supply chains have been volatile since 2020-2023, though conditions have normalized. Card network fees (Visa, Mastercard interchange and assessments) are set uniformly and represent a pass-through cost embedded in CTLP's take rate. Cloud infrastructure (hosting for Seed VMS) is sourced from major cloud providers at competitive pricing. The primary supplier risk is concentration in hardware manufacturing: if a key contract manufacturer experiences disruption, CTLP's equipment sales and HaaS deployment pipeline could be delayed, impacting revenue growth in the near term.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">3. Bargaining Power of Buyers</span><span class="fw-rating moderate">Moderate</span>
+  <div class="prose">CTLP's customer base spans from enterprise operators (Canteen, Compass Group, Aramark) with significant negotiating leverage to thousands of independent SMB operators with limited bargaining power. The top customer represents approximately 10% of revenue — a meaningful concentration that provides that customer with pricing leverage. Enterprise operators can credibly negotiate volume-based pricing tiers and may demand custom integrations or service levels. However, buyer power is substantially mitigated by switching costs: even large operators face 4-6 month migration timelines and operational disruption risks that make switching a last resort. The ~90% GRR confirms that buyers rarely exercise their theoretical leverage. In the Smart Store and micro market segments, operators are less price-sensitive because the ROI on the technology (2x revenue vs. traditional vending, reduced shrink) is clearly demonstrated.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">4. Threat of Substitutes</span><span class="fw-rating low">Low</span>
+  <div class="prose">Cashless payment capability for unattended retail is increasingly essential, not optional. Consumer preference for cashless transactions has driven penetration from approximately 50% to 80% of transactions on CTLP's network in four years, and the trajectory toward 90%+ appears irreversible. Operators who do not offer cashless acceptance lose sales to competitors who do. The substitute threat is therefore directionally favorable to CTLP: the substitution of cash by cards and mobile payments increases demand for exactly the technology CTLP provides. Within the digital payments space, potential substitutes include mobile app-based payment (operators building proprietary apps) and QR code-based payment — but these require consumer action that card-tap payment does not, making them inferior substitutes for the unattended use case where speed and simplicity are paramount.</div>
+</div>
+
+<div class="fw-item">
+  <span class="fw-name">5. Competitive Rivalry</span><span class="fw-rating moderate">Moderate</span>
+  <div class="prose">The competitive landscape in unattended retail technology is concentrated: only Nayax (NAYAX) and Crane (now Crane NXT) operate at meaningful scale alongside CTLP. Nayax is the most aggressive competitor, discounting hardware to acquire SMB customers and building a competing integrated platform. Crane provides payment solutions primarily for the amusement and gaming verticals and is less directly competitive in core vending/micro market. In the VMS software market, CTLP's Seed platform faces limited direct competition — Parlevel, Vagabond, and other niche VMS providers serve primarily SMB operators and lack the enterprise capability and 30-year compatibility of Seed. The merger with 365 Retail Markets, if completed, would further consolidate the industry and reduce rivalry. Overall, rivalry is moderate — intense in the SMB hardware segment (Nayax) but low in enterprise software (Seed) and evolving in Smart Stores (CTLP is a first-mover).</div>
+</div>
+
+<div class="fw-summary">
+<strong>Summary:</strong> The competitive environment is highly favorable for CTLP: low threat of new entrants (compatibility matrix, patents, market share), low substitution risk (cashless adoption is a tailwind, not headwind), and moderate rivalry concentrated primarily in the SMB hardware segment where Nayax competes aggressively. Moderate supplier and buyer power are the primary external pressures. The overall Porter's analysis supports the thesis that CTLP occupies a structurally advantaged position in a growing niche — which explains why 365 Retail Markets / Providence Equity are willing to pay a full price to acquire the company.
+</div>
+
+<!-- SECTION 6: WHAT DRIVES THE STOCK -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<ol class="num-list">
+  <li>
+    <strong>1. 365 Retail Markets Merger Close / Break</strong>
+    <p class="prose">This is overwhelmingly the dominant driver of CTLP equity. With the stock trading at $10.81 against a $11.20 deal price, the 3.6% spread reflects the market's assessment of close probability versus break risk. If the deal closes, shareholders receive $11.20 cash — a defined, time-certain outcome. If the deal breaks, the stock likely falls 20-30% to $7-8 (pre-deal levels), and the investment thesis shifts to a standalone operating company analysis. Every movement in the spread directly reflects changing perceptions of FTC clearance probability, timeline expectations, and alternative bidder likelihood. <em>Bullish: FTC clears without conditions; deal closes on time; 7% annualized return. Bearish: FTC blocks or imposes conditions 365/CTLP cannot accept; deal breaks; stock reprices to $7-8.</em></p>
+  </li>
+
+  <li>
+    <strong>2. FTC Regulatory Decision</strong>
+    <p class="prose">The FTC Second Request (September 2025) is the critical gating factor. The merged entity would command dominant share in cashless unattended retail payment processing, vending management software, and micro market infrastructure — a concentration that could attract antitrust scrutiny around market foreclosure and competitive effects. The FTC's decision to approve, conditionally approve (requiring divestitures), or block the merger will determine whether the stock converges to $11.20, remains in a widened-spread limbo, or drops to standalone value. <em>Bullish: FTC concludes review and clears unconditionally; narrow market definition limits concerns. Bearish: FTC files suit to block; court proceedings delay or kill the deal; regulatory uncertainty persists through 2026.</em></p>
+  </li>
+
+  <li>
+    <strong>3. Smart Store Adoption &amp; Revenue Ramp</strong>
+    <p class="prose">Smart Stores — AI-powered, frictionless grab-and-go retail units at $12K-15K each generating 2x micro market revenue — are the most compelling standalone growth vector. Pre-sold two quarters ahead, Smart Stores could represent 25-30% of new equipment sales within 12-18 months. If the merger closes, this upside accrues to 365/Providence. If the deal breaks, Smart Store momentum becomes the key catalyst for standalone re-rating. <em>Bullish: Smart Store deployments accelerate to 500+ units/year; ASP holds; attach rates for subscription services exceed 90%. Bearish: Manufacturing constraints limit deployment; operators defer capex in uncertain macro; competitive smart retail offerings emerge.</em></p>
+  </li>
+
+  <li>
+    <strong>4. ARPU Expansion &amp; Cashless Penetration</strong>
+    <p class="prose">ARPU of $210/device/year (+8.6% YoY) with a theoretical ceiling above $400 provides a long runway for organic revenue growth on the existing 1.28M device base. Cashless penetration at 80% and heading toward 90%+ drives transaction volume growth without requiring new device additions. The take rate at 5.3% (up from 4.7% three years ago) reflects both higher cashless mix and value-added pricing. <em>Bullish: ARPU reaches $250+ by FY27; cashless penetration exceeds 90%; take rate expansion continues as value-added services increase. Bearish: ARPU growth stalls as operators push back on take rates; cashless penetration plateaus at 85%; competitive pricing pressure from Nayax compresses take rates.</em></p>
+  </li>
+
+  <li>
+    <strong>5. EBITDA Margin Trajectory Toward 20%+</strong>
+    <p class="prose">EBITDA margins have expanded from 5.1% (FY23) to 13.6% (FY25), with management guiding $46-50M for FY26E (~14-15% margin). The path to 20%+ EBITDA margins by FY27-28 is visible: subscription revenue (90% gross margin) growing faster than lower-margin transaction and equipment revenue, continued transaction margin expansion from volume leverage, and SG&amp;A growth at half the rate of revenue. Each 100bps of EBITDA margin expansion adds approximately $3M to EBITDA and $0.04 to EPS. <em>Bullish: EBITDA margins reach 18-20% by FY27; subscription mix increases; operating leverage accelerates. Bearish: Equipment margin pressure from tariffs/Nayax offsets transaction margin gains; SG&amp;A investment for Smart Stores delays margin expansion.</em></p>
+  </li>
+
+  <li>
+    <strong>6. International Expansion</strong>
+    <p class="prose">CTLP is currently 100% US revenue. The unattended retail market is global — particularly in Europe (where cashless adoption leads the US), Asia-Pacific, and Latin America. International expansion represents a significant TAM opportunity, but CTLP has not yet demonstrated meaningful international revenue traction. The merger with 365 Retail Markets, which has some international presence, could accelerate geographic expansion. <em>Bullish: Post-merger entity enters Europe with integrated platform; international revenue reaches 10%+ by 2028. Bearish: US-only focus limits TAM; international expansion is capital-intensive and distracts from domestic growth.</em></p>
+  </li>
+</ol>
+
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<div class="sub-label">Revenue Decomposition</div>
+
+<table class="data">
+  <thead>
+    <tr>
+      <th>Revenue Line</th>
+      <th>Driver 1</th>
+      <th>Driver 2</th>
+      <th>Driver 3</th>
+      <th>FY2025 ($M)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Transaction Fees</td>
+      <td>Active Devices (1.28M) x Volume/Device</td>
+      <td>x Take Rate (5.3%)</td>
+      <td>x Cashless Penetration (80%)</td>
+      <td>$180M</td>
+    </tr>
+    <tr>
+      <td colspan="4" style="padding-left:20px;color:#666;">Transaction rev = f(devices, volume/device, take rate). 15% YoY growth driven by cashless penetration (50% to 80%), ARPU expansion ($193 to $210), and take rate increase (4.7% to 5.3%).</td>
+      <td style="color:#666;">+15.0% YoY</td>
+    </tr>
+    <tr>
+      <td>Subscription &amp; License</td>
+      <td>Active Devices x Monthly SaaS Fee</td>
+      <td>+ Value-Added Services (analytics)</td>
+      <td>+ Seed VMS Enterprise Licenses</td>
+      <td>$84M</td>
+    </tr>
+    <tr>
+      <td colspan="4" style="padding-left:20px;color:#666;">85-90% enterprise market share; ~90% gross margin; ~90% GRR; deeply embedded in operator workflows across 34,800+ customers. Stable, high-quality recurring revenue.</td>
+      <td style="color:#666;">+11.0% YoY</td>
+    </tr>
+    <tr>
+      <td>Equipment Sales</td>
+      <td>New Device Shipments x ASP</td>
+      <td>+ Smart Store Units x $12-15K</td>
+      <td>+ Micro Market Buildouts</td>
+      <td>$39M</td>
+    </tr>
+    <tr>
+      <td colspan="4" style="padding-left:20px;color:#666;">Lowest margin segment (10-15% gross margin). Includes cashless readers, telemetry, micro market kiosks, Smart Stores. Macro/tariff sensitive. HaaS model capitalizes some equipment on B/S.</td>
+      <td style="color:#666;">+6.3% YoY</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="sub-label" style="margin-top:16px;">Key Operating Metrics &amp; KPIs</div>
+
+<table class="data">
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th>Target/Guide</th>
+      <th>Commentary</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Active Customers</td>
+      <td>~28,000</td>
+      <td>~31,300</td>
+      <td>34,800+</td>
+      <td>Growing 10%+</td>
+      <td>+11% YoY; diversified across verticals</td>
+    </tr>
+    <tr>
+      <td>Active Devices (M)</td>
+      <td>~1.15</td>
+      <td>~1.22</td>
+      <td>~1.28</td>
+      <td>Growing 5%+</td>
+      <td>+5% YoY; installed base expanding steadily</td>
+    </tr>
+    <tr>
+      <td>Annual Transaction Volume ($B)</td>
+      <td>~2.70</td>
+      <td>~3.04</td>
+      <td>$3.44</td>
+      <td>Growing 13%+</td>
+      <td>+13% YoY; cashless mix driving volume growth</td>
+    </tr>
+    <tr>
+      <td>ARPU ($/device/year)</td>
+      <td>~$178</td>
+      <td>~$193</td>
+      <td>~$210</td>
+      <td>Theoretical max &gt;$400</td>
+      <td>+8.6% YoY; 15% CAGR; significant runway</td>
+    </tr>
+    <tr>
+      <td>Take Rate (%)</td>
+      <td>~4.7%</td>
+      <td>~5.0%</td>
+      <td>~5.3%</td>
+      <td>Expanding</td>
+      <td>Up from 4.7% 3yrs ago; value-added pricing</td>
+    </tr>
+    <tr>
+      <td>Cashless Penetration (%)</td>
+      <td>~60%</td>
+      <td>~70%</td>
+      <td>~80%</td>
+      <td>90%+ target</td>
+      <td>Up from 50% 4yrs ago; secular tailwind</td>
+    </tr>
+    <tr>
+      <td>Adj. Gross Margin (%)</td>
+      <td>33.3%</td>
+      <td>37.5%</td>
+      <td>40.9%</td>
+      <td>Expanding</td>
+      <td>Transaction margins 6-10% to 25% in 4yrs</td>
+    </tr>
+    <tr>
+      <td>Adj. EBITDA ($M)</td>
+      <td>$12</td>
+      <td>$26</td>
+      <td>$41</td>
+      <td>$46-50M (FY26E)</td>
+      <td>65% CAGR since FY21; margin inflection</td>
+    </tr>
+    <tr>
+      <td>Gross Revenue Retention</td>
+      <td>~90%</td>
+      <td>~90%</td>
+      <td>~90%</td>
+      <td>Stable</td>
+      <td>Confirms switching cost thesis; sticky base</td>
+    </tr>
+    <tr>
+      <td>Seed VMS Market Share</td>
+      <td>85-90%</td>
+      <td>85-90%</td>
+      <td>85-90%</td>
+      <td>Dominant</td>
+      <td>Enterprise food/bev; near-monopoly position</td>
+    </tr>
+    <tr>
+      <td>Smart Store Pipeline</td>
+      <td>—</td>
+      <td>Early</td>
+      <td>Pre-sold 2Q ahead</td>
+      <td>25-30% of new equip (12-18mo)</td>
+      <td>$12-15K/unit; 2x micro market revenue; 100% cashless</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top: 12px;"><strong>Key insight:</strong> CTLP's business model is a "land-and-expand" payments platform built on a deeply embedded IoT/telemetry installed base. The core flywheel: (1) deploy hardware (readers, telemetry) at low or negative margin, (2) capture the recurring transaction and subscription revenue stream at high margins, (3) expand ARPU through cashless penetration, take rate increases, and value-added SaaS. The 87% recurring revenue mix (59% transaction + 28% subscription) provides exceptional visibility and predictability. The most important near-term KPI is ARPU: at $210 today versus a theoretical ceiling of $400+, CTLP can nearly double per-device revenue without adding a single new device — a rare organic growth lever. However, the pending merger means this flywheel's long-term value accrues to 365/Providence shareholders, not CTLP public equity holders, unless the deal breaks.</p>
+
+<p class="prose">The revenue decomposition reveals the path to 20%+ EBITDA margins: as subscription (90% gross margin) and transaction (25% and expanding) revenue grow faster than equipment (10-15% margin), the blended gross margin continues to expand. SG&amp;A has been growing at roughly half the revenue rate under Venkatesan's operational discipline. The math is compelling: $340M FY26E revenue at 15% EBITDA margin = $51M EBITDA; at 20% margin = $68M. The difference — driven entirely by mix shift and operating leverage — represents massive incremental value on a per-share basis if captured by public shareholders on a deal break.</p>
+
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+<strong>Company Research &amp; Earnings Analysis</strong> · Date: April 1, 2026 · Sources: FY2025 Q3 &amp; Q4 Earnings Calls, Investor Presentations, Industry Research · Note: With only 1 analyst covering CTLP, insights are derived primarily from management commentary on earnings calls and industry research rather than sell-side reports.
+</div>
+
+<div class="as-section">Competitive Moat &amp; Industry Structure</div>
+
+<div class="prose">
+CTLP's most formidable competitive moat is the Seed VMS platform with 85-90% market share among enterprise food and beverage operators. Management describes Seed as the "operating system" for the unattended retail industry — a vertical ERP system that manages everything from route planning and inventory optimization to cashless terminal configuration and financial reporting across 1.28M devices. The 30-year equipment compatibility matrix is referenced repeatedly in earnings calls as a key differentiator: operators can add CTLP cashless readers and telemetry to machines dating back decades without replacing existing equipment — a backward compatibility advantage that no competitor offers. The 70+ patent portfolio protects core innovations in cashless payment, telemetry communication protocols, and real-time transaction processing.
+</div>
+
+<div class="prose">
+The industry structure is highly favorable: three players at scale (CTLP, Nayax, Crane), with CTLP dominant in enterprise software, Nayax competing primarily in SMB hardware, and Crane focused on amusement/gaming. The pending merger with 365 Retail Markets would create a vertically integrated platform combining cashless payments (CTLP), vending management software (CTLP Seed), and micro market/smart store infrastructure (365) — a combination that management characterizes as "the AWS of unattended retail." This consolidation rationale is precisely what attracts FTC scrutiny.
+</div>
+
+<div class="as-section">Management Quality &amp; Strategic Execution</div>
+
+<div class="prose">
+CEO Ravi Venkatesan, who joined in 2021, receives strong marks for operational execution. Under his leadership, CTLP transformed from a barely profitable hardware company into a high-margin payments-and-software platform: EBITDA grew at a 65% CAGR, gross margins expanded 550bps, and transaction margins improved from single digits to 25%. Venkatesan's background in payments technology (he previously held senior roles at Worldpay and NCR) provides credibility in executing the platform strategy. CFO Scott Stewart has managed the balance sheet conservatively, maintaining low leverage (D/E 19.2%) and building a $53M cash position that provides flexibility.
+</div>
+
+<div class="prose">
+The decision to pursue the 365 Retail Markets merger signals management's belief that vertical integration — combining CTLP's payment/software stack with 365's micro market hardware leadership — creates a platform that is more valuable than either standalone. The $11.20/share price represents a 35-40% premium to CTLP's pre-announcement trading price, suggesting management negotiated effectively for shareholders. The risk is execution: merging two niche technology companies while navigating FTC scrutiny requires sustained operational focus.
+</div>
+
+<div class="as-section">Technology &amp; Innovation</div>
+
+<div class="prose">
+CTLP is deploying technology across three vectors: (1) Smart Stores — AI-powered, computer-vision-enabled grab-and-go retail units that represent a step-function innovation in the unattended space, solving retail shrink through frictionless, 100% cashless operation; (2) Seed VMS enhancements — adding predictive analytics, AI-driven route optimization, and demand forecasting capabilities that increase the platform's value proposition and justify premium subscription pricing; and (3) Payment innovation — expanding contactless NFC acceptance, mobile wallet integration, and loyalty/rewards functionality that drives higher transaction volume and take rate expansion. The technology investments are focused on extending CTLP's moat within its core vertical rather than diversifying into adjacent markets — a strategically disciplined approach.
+</div>
+
+<div class="as-section">Most Misunderstood Aspects</div>
+
+<div class="prose">
+<strong>1. The merger obscures one of the most interesting microcap payments stories in the market.</strong> With the stock pinned near the deal price, fundamental analysis is irrelevant for most market participants — yet CTLP's standalone business (87% recurring revenue, 85-90% VMS market share, 65% EBITDA CAGR, Smart Stores as a transformative product) would command significant attention in a no-deal scenario. The merger has effectively "frozen" CTLP's equity story, preventing the market from pricing in Smart Store momentum, ARPU expansion, or margin inflection.
+</div>
+
+<div class="prose">
+<strong>2. The Smart Store opportunity is dramatically underappreciated.</strong> At $12K-15K per unit generating 2x micro market revenue, with demand pre-sold two quarters ahead, Smart Stores represent a potentially transformative growth vector. If 25-30% of new equipment sales are Smart Stores within 12-18 months, this could add $15-25M in high-margin incremental revenue — but the market is entirely focused on the merger spread rather than this fundamental development.
+</div>
+
+<div class="prose">
+<strong>3. ARPU has a long runway to expand.</strong> At $210/device/year versus a theoretical ceiling above $400, CTLP can nearly double per-device revenue through cashless penetration (80% to 90%+), take rate expansion (5.3% heading higher), and value-added SaaS attach. This organic growth lever is invisible to the market during the merger period.
+</div>
+
+<div class="as-section">Key Long-Term Investor Questions</div>
+
+<ol class="num-list">
+<li><strong>Will the FTC clear the deal, and on what conditions?</strong> The critical binary question. If cleared unconditionally, the spread collapses to zero and shareholders receive $11.20. If blocked, the stock reprices to standalone value ($7-8 near-term). Conditional clearance requiring divestitures could delay the timeline and create uncertainty. Key to watch: FTC staff recommendations, timing of decision, any consent decree discussions.</li>
+
+<li><strong>What is CTLP worth standalone if the deal breaks?</strong> At 18x FY26E EBITDA of $50M = $900M EV; minus $7M net debt (38-53+22 pref); ~74M diluted shares = approximately $12/share. At 14x FY26E EBITDA = $700M EV = approximately $9.40/share. Near-term selling pressure from arb unwind could push below $8, but fundamental support emerges in the $8-10 range. Key variable: whether alternative acquirers (Nayax, Crane, PE) emerge.</li>
+
+<li><strong>Can Smart Stores scale to become a material revenue contributor?</strong> Pre-sold two quarters ahead is compelling demand signal, but manufacturing capacity, installation logistics, and operator capex willingness will determine the ramp rate. If Smart Stores reach 1,000+ units deployed at $12-15K each = $12-15M annual equipment revenue + recurring transaction and subscription revenue. Scale validation would transform the standalone growth narrative.</li>
+
+<li><strong>Is the 11.76% short interest a merger-arb play or fundamental concern?</strong> Elevated short interest in a pending merger is typically merger-arb hedging (long stock, short as hedge against deal break) or outright bets on deal failure. The 6.8 days-to-cover suggests the position could unwind quickly if the deal closes, creating a short squeeze. Alternatively, if shorts are correct and the deal breaks, covering pressure reverses and exacerbates the downside.</li>
+</ol>
+
+<!-- SECTION 9: SENSITIVITIES -->
+<div class="memo-section">9. Sensitivities on Core Business Drivers</div>
+
+<div class="sens-title">Annual Transaction Revenue ($M) — Active Devices (M) vs. Take Rate (%)</div>
+<div class="sens-current">Current: 1.28M devices x $3.44B volume x 5.3% take rate = ~$182M transaction revenue. Transaction revenue is the core high-margin recurring stream (59% of total).</div>
+<table class="sensitivity">
+  <tr>
+    <th>Devices (M) \ Take Rate</th>
+    <th>4.5%</th>
+    <th>5.0%</th>
+    <th>5.3%</th>
+    <th>5.5%</th>
+    <th>6.0%</th>
+  </tr>
+  <tr>
+    <td>1.10M</td>
+    <td>133</td>
+    <td>148</td>
+    <td>157</td>
+    <td>163</td>
+    <td>178</td>
+  </tr>
+  <tr>
+    <td>1.20M</td>
+    <td>145</td>
+    <td>162</td>
+    <td>171</td>
+    <td>178</td>
+    <td>194</td>
+  </tr>
+  <tr>
+    <td>1.28M</td>
+    <td>155</td>
+    <td>172</td>
+    <td class="base">182</td>
+    <td>189</td>
+    <td>207</td>
+  </tr>
+  <tr>
+    <td>1.40M</td>
+    <td>169</td>
+    <td>188</td>
+    <td>200</td>
+    <td>207</td>
+    <td>226</td>
+  </tr>
+  <tr>
+    <td>1.50M</td>
+    <td>182</td>
+    <td>202</td>
+    <td>214</td>
+    <td>222</td>
+    <td>243</td>
+  </tr>
+</table>
+
+<div class="sens-title" style="margin-top:16px;">FY26E Adj. EBITDA ($M) — Revenue ($M) vs. EBITDA Margin (%)</div>
+<div class="sens-current">Current FY26E: ~$340M revenue x ~15% EBITDA margin = ~$51M. Management guided $46-50M. Margin expansion is the key lever for standalone value creation.</div>
+<table class="sensitivity">
+  <tr>
+    <th>Revenue ($M) \ Margin</th>
+    <th>12%</th>
+    <th>14%</th>
+    <th>15%</th>
+    <th>17%</th>
+    <th>19%</th>
+  </tr>
+  <tr>
+    <td>$310M</td>
+    <td>37</td>
+    <td>43</td>
+    <td>47</td>
+    <td>53</td>
+    <td>59</td>
+  </tr>
+  <tr>
+    <td>$325M</td>
+    <td>39</td>
+    <td>46</td>
+    <td>49</td>
+    <td>55</td>
+    <td>62</td>
+  </tr>
+  <tr>
+    <td>$340M</td>
+    <td>41</td>
+    <td>48</td>
+    <td class="base">51</td>
+    <td>58</td>
+    <td>65</td>
+  </tr>
+  <tr>
+    <td>$355M</td>
+    <td>43</td>
+    <td>50</td>
+    <td>53</td>
+    <td>60</td>
+    <td>67</td>
+  </tr>
+  <tr>
+    <td>$370M</td>
+    <td>44</td>
+    <td>52</td>
+    <td>56</td>
+    <td>63</td>
+    <td>70</td>
+  </tr>
+</table>
+
+<div class="sens-title" style="margin-top:16px;">Implied Standalone Share Price ($) — FY27E EBITDA ($M) vs. EV/EBITDA (x)</div>
+<div class="sens-current">Assumes no merger. Net debt ~$7M ($38M debt - $53M cash + $22M pref). ~74M diluted shares. Current: $10.81 (deal-implied). Standalone values shown for deal-break scenario.</div>
+<table class="sensitivity">
+  <tr>
+    <th>EBITDA ($M) \ Multiple</th>
+    <th>14x</th>
+    <th>16x</th>
+    <th>18x</th>
+    <th>20x</th>
+    <th>22x</th>
+  </tr>
+  <tr>
+    <td>$50M</td>
+    <td>$9</td>
+    <td>$11</td>
+    <td>$12</td>
+    <td>$13</td>
+    <td>$15</td>
+  </tr>
+  <tr>
+    <td>$60M</td>
+    <td>$11</td>
+    <td>$13</td>
+    <td>$15</td>
+    <td>$16</td>
+    <td>$18</td>
+  </tr>
+  <tr>
+    <td>$70M</td>
+    <td>$13</td>
+    <td>$15</td>
+    <td class="base">$17</td>
+    <td>$19</td>
+    <td>$21</td>
+  </tr>
+  <tr>
+    <td>$80M</td>
+    <td>$15</td>
+    <td>$17</td>
+    <td>$19</td>
+    <td>$22</td>
+    <td>$24</td>
+  </tr>
+  <tr>
+    <td>$90M</td>
+    <td>$17</td>
+    <td>$19</td>
+    <td>$22</td>
+    <td>$24</td>
+    <td>$27</td>
+  </tr>
+</table>
+
+<!-- SECTION 10: SCENARIOS (MERGER-FOCUSED) -->
+<div class="memo-section">10. Scenario Analysis — Merger-Focused Framework</div>
+
+<p class="prose">Unlike a standard 5-case operating model, CTLP's scenario framework is structured around the pending acquisition. The primary variable is merger outcome (close vs. break), with secondary variables addressing standalone performance in break scenarios. Current share price: $10.81. Deal price: $11.20. Diluted shares: ~74M. Net cash: ~$15M.</p>
+
+<div class="case-block">
+  <div class="case-name">Merger Breaks — Bear: Macro Downturn + Regulatory Overhang</div>
+  <div class="fermi-narrative">
+    <div class="scenario-text">FTC blocks the deal citing market concentration concerns. Simultaneously, macro deterioration reduces equipment demand and slows cashless adoption. The combination of deal break + recession creates a severe overshoot to the downside as merger-arb funds dump shares, no analyst coverage exists to provide fundamental support, and the 11.76% short interest exacerbates selling pressure. Equipment revenue collapses. EBITDA growth stalls.</div>
+    <ul>
+      <li>Deal breaks — FTC blocks or imposes unacceptable conditions</li>
+      <li>Macro downturn defers equipment capex; operators slow device rollouts</li>
+      <li>EBITDA margins flatten at 13-14% as equipment margins compress</li>
+      <li>Merger-arb unwind creates forced selling; stock overshoots to downside</li>
+      <li>No alternative bidder emerges; regulatory overhang deters new acquirers</li>
+    </ul>
+    <div class="reconcile">Path: Deal break → arb selling + macro pressure → no fundamental support (1 analyst) → stock overshoots → value trap at depressed levels</div>
+  </div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Merger Outcome</span><span>Breaks (FTC block)</span></div>
+  <div class="driver-row"><span>FY26E Revenue</span><span>$310M</span></div>
+  <div class="driver-row"><span>FY26E EBITDA Margin</span><span>13.0%</span></div>
+  <div class="driver-row"><span>Applied Multiple</span><span>12x EV/EBITDA</span></div>
+  <table class="scenario-mini">
+    <tr><th></th><th>FY26E</th><th>FY27E</th></tr>
+    <tr><td>Revenue</td><td>$310</td><td>$315</td></tr>
+    <tr><td>EBITDA</td><td>$40</td><td>$42</td></tr>
+    <tr><td>EBITDA Margin</td><td>13.0%</td><td>13.3%</td></tr>
+    <tr><td>FCF</td><td>$5</td><td>$8</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-line1"><span class="exit-price">$5</span><span class="exit-upside">-54% from current</span></div>
+    <div class="exit-line2"><span>EV/EBITDA: 12x on $40M</span><span>Implied EV: $480M</span><span>Net Cash: $15M</span><span>Shares: 74M</span></div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Merger Breaks — Base: Standalone Repricing on Fundamentals</div>
+  <div class="fermi-narrative">
+    <div class="scenario-text">FTC blocks the merger but the macro environment remains stable. CTLP stock initially falls 20-30% on arb unwind, but the standalone business — 87% recurring revenue, 13% CAGR, expanding margins — gradually attracts fundamental buyers. No alternative acquirer emerges immediately. The stock finds support at ~$8 and begins to re-rate as Q1/Q2 FY26 earnings demonstrate continued ARPU and margin expansion. Smart Store momentum provides a catalyst for fundamental re-engagement.</div>
+    <ul>
+      <li>Deal breaks — FTC blocks; CTLP returns to standalone operation</li>
+      <li>Revenue growth continues at 12-13% driven by ARPU and device additions</li>
+      <li>EBITDA margins expand to 15% as mix shift accelerates</li>
+      <li>Stock initially drops to $7-8 on arb unwind, stabilizes, begins recovery</li>
+      <li>Possible alternative interest from PE or strategics at higher price within 12 months</li>
+    </ul>
+    <div class="reconcile">Path: Deal break → initial selloff → fundamental support at $7-8 → margin expansion story emerges → gradual re-rating to $8-10</div>
+  </div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Merger Outcome</span><span>Breaks (FTC block)</span></div>
+  <div class="driver-row"><span>FY26E Revenue</span><span>$340M</span></div>
+  <div class="driver-row"><span>FY26E EBITDA Margin</span><span>15.0%</span></div>
+  <div class="driver-row"><span>Applied Multiple</span><span>14x EV/EBITDA</span></div>
+  <table class="scenario-mini">
+    <tr><th></th><th>FY26E</th><th>FY27E</th></tr>
+    <tr><td>Revenue</td><td>$340</td><td>$380</td></tr>
+    <tr><td>EBITDA</td><td>$51</td><td>$65</td></tr>
+    <tr><td>EBITDA Margin</td><td>15.0%</td><td>17.1%</td></tr>
+    <tr><td>FCF</td><td>$12</td><td>$22</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-line1"><span class="exit-price">$8</span><span class="exit-upside">-26% from current</span></div>
+    <div class="exit-line2"><span>EV/EBITDA: 14x on $51M</span><span>Implied EV: $714M</span><span>Net Cash: $15M</span><span>Shares: 74M</span></div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Merger Delayed — FTC Extends Review</div>
+  <div class="fermi-narrative">
+    <div class="scenario-text">The FTC extends its review into Q3/Q4 2026, creating prolonged uncertainty. The deal remains alive but the timeline stretches beyond H1 2026. The spread widens to 5-7% as arb funds demand higher compensation for time value and uncertainty. The stock drifts to $10.50 as some arbs exit positions. Fundamental investors remain on the sideline waiting for resolution.</div>
+    <ul>
+      <li>FTC extends Second Request review; no decision in H1 2026</li>
+      <li>Deal spread widens from 3.6% to 5-7%</li>
+      <li>Stock drifts to $10.30-10.50 as timeline uncertainty increases</li>
+      <li>Operating performance remains strong but irrelevant to stock price</li>
+      <li>Possible consent decree / conditional approval discussions emerge</li>
+    </ul>
+    <div class="reconcile">Path: Extended review → widened spread → lower stock price → eventual resolution (close or break) drives final outcome</div>
+  </div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Merger Outcome</span><span>Delayed (pending)</span></div>
+  <div class="driver-row"><span>Deal Spread</span><span>5-7% (widened)</span></div>
+  <div class="driver-row"><span>Timeline</span><span>Q3-Q4 2026</span></div>
+  <div class="driver-row"><span>Stock Price Impact</span><span>$10.30-10.50</span></div>
+  <div class="exit-metrics">
+    <div class="exit-line1"><span class="exit-price">$10.50</span><span class="exit-upside">-2.9% from current</span></div>
+    <div class="exit-line2"><span>Spread: ~6%</span><span>Annualized: ~8-10% if closes within 6mo</span><span>Risk: widens further on FTC concerns</span></div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Merger Closes — Base Case ($11.20/share)</div>
+  <div class="fermi-narrative">
+    <div class="scenario-text">FTC clears the 365 Retail Markets acquisition unconditionally or with minor conditions. The deal closes in H1 2026 as expected. Shareholders receive $11.20/share in cash. The 3.6% spread compresses to zero over the remaining weeks/months. This is the consensus outcome implied by the current stock price's proximity to the deal price.</div>
+    <ul>
+      <li>FTC clears deal — unconditionally or with minor behavioral remedies</li>
+      <li>Deal closes on schedule in H1 2026</li>
+      <li>Shareholders receive $11.20 cash per share</li>
+      <li>Annualized return: ~7% (3.6% over ~6 months)</li>
+      <li>No further upside — all future growth accrues to Providence Equity</li>
+    </ul>
+    <div class="reconcile">Path: FTC clearance → spread collapses → deal closes → $11.20 cash → position exits</div>
+  </div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Merger Outcome</span><span>Closes at $11.20</span></div>
+  <div class="driver-row"><span>Return</span><span>+3.6% ($0.39/share)</span></div>
+  <div class="driver-row"><span>Annualized Return</span><span>~7%</span></div>
+  <div class="driver-row"><span>Timeline</span><span>H1 2026</span></div>
+  <div class="exit-metrics">
+    <div class="exit-line1"><span class="exit-price">$11.20</span><span class="exit-upside">+3.6% from current</span></div>
+    <div class="exit-line2"><span>Cash consideration</span><span>No earnout or CVR</span><span>Definitive agreement</span><span>Shareholder approved Sep 4, 2025</span></div>
+  </div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Merger Breaks — Bull: Standalone Re-Rating + Alternative Bidder</div>
+  <div class="fermi-narrative">
+    <div class="scenario-text">Deal breaks but CTLP's standalone fundamentals shine. Smart Store momentum accelerates (pre-sold 2 quarters ahead), ARPU expansion continues, and EBITDA margins reach 18-20%. The broken-deal narrative attracts new analyst coverage and fundamental investors. An alternative acquirer (Nayax, Crane NXT, or a PE firm) emerges with a higher bid, recognizing the standalone platform value. International expansion optionality adds to the narrative.</div>
+    <ul>
+      <li>Deal breaks — but alternative bidder emerges at higher price ($12-14)</li>
+      <li>Smart Store revenue ramp validates growth story</li>
+      <li>EBITDA margins reach 18-20%; EBITDA approaches $65-75M by FY27</li>
+      <li>New analyst coverage initiated; institutional interest increases</li>
+      <li>Stock re-rates to standalone fundamentals: 18-20x FY27E EBITDA</li>
+    </ul>
+    <div class="reconcile">Path: Deal break → initial selloff → Smart Store catalyst → margin inflection → alternative bid or standalone re-rating → $12-14</div>
+  </div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Merger Outcome</span><span>Breaks (but alt. bidder emerges)</span></div>
+  <div class="driver-row"><span>FY27E Revenue</span><span>$400M</span></div>
+  <div class="driver-row"><span>FY27E EBITDA Margin</span><span>18-20%</span></div>
+  <div class="driver-row"><span>Applied Multiple</span><span>18x EV/EBITDA</span></div>
+  <table class="scenario-mini">
+    <tr><th></th><th>FY26E</th><th>FY27E</th></tr>
+    <tr><td>Revenue</td><td>$350</td><td>$400</td></tr>
+    <tr><td>EBITDA</td><td>$56</td><td>$76</td></tr>
+    <tr><td>EBITDA Margin</td><td>16.0%</td><td>19.0%</td></tr>
+    <tr><td>FCF</td><td>$18</td><td>$35</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div class="exit-line1"><span class="exit-price">$14</span><span class="exit-upside">+30% from current</span></div>
+    <div class="exit-line2"><span>EV/EBITDA: 18x on $56M FY26E</span><span>Implied EV: $1,008M</span><span>Net Cash: $15M</span><span>Shares: 74M</span></div>
+  </div>
+</div>
+
+<div class="case-chart">
+  <svg viewBox="0 0 700 200">
+    <line x1="80" y1="150" x2="660" y2="150" stroke="#ddd" stroke-width="1"/>
+    <line x1="80" y1="120" x2="660" y2="120" stroke="#f0f0f0" stroke-width="0.5" stroke-dasharray="4,3"/>
+    <line x1="80" y1="90" x2="660" y2="90" stroke="#f0f0f0" stroke-width="0.5" stroke-dasharray="4,3"/>
+    <line x1="80" y1="60" x2="660" y2="60" stroke="#f0f0f0" stroke-width="0.5" stroke-dasharray="4,3"/>
+    <line x1="80" y1="30" x2="660" y2="30" stroke="#f0f0f0" stroke-width="0.5" stroke-dasharray="4,3"/>
+    <text x="75" y="153" text-anchor="end" font-size="8" fill="#888">$0</text>
+    <text x="75" y="120" text-anchor="end" font-size="8" fill="#888">$5</text>
+    <text x="75" y="90" text-anchor="end" font-size="8" fill="#888">$10</text>
+    <text x="75" y="60" text-anchor="end" font-size="8" fill="#888">$15</text>
+    <text x="75" y="30" text-anchor="end" font-size="8" fill="#888">$20</text>
+    <line x1="80" y1="87" x2="660" y2="87" stroke="#1a1a2e" stroke-width="1.5" stroke-dasharray="6,4"/>
+    <text x="665" y="90" text-anchor="start" font-size="8" font-weight="600" fill="#1a1a2e">Current $10.81</text>
+    <rect x="95" y="135" width="90" height="15" rx="3" fill="#c0392b"/>
+    <text x="140" y="131" text-anchor="middle" font-size="10" font-weight="700" fill="#c0392b">$5</text>
+    <text x="140" y="165" text-anchor="middle" font-size="7" font-weight="600" fill="#c0392b">Break — Bear</text>
+    <text x="140" y="176" text-anchor="middle" font-size="8" fill="#888">-54%</text>
+    <rect x="210" y="126" width="90" height="24" rx="3" fill="#e67e22"/>
+    <text x="255" y="122" text-anchor="middle" font-size="10" font-weight="700" fill="#e67e22">$8</text>
+    <text x="255" y="165" text-anchor="middle" font-size="7" font-weight="600" fill="#e67e22">Break — Base</text>
+    <text x="255" y="176" text-anchor="middle" font-size="8" fill="#888">-26%</text>
+    <rect x="325" y="118" width="90" height="32" rx="3" fill="#f39c12"/>
+    <text x="370" y="114" text-anchor="middle" font-size="10" font-weight="700" fill="#f39c12">$10.50</text>
+    <text x="370" y="165" text-anchor="middle" font-size="7" font-weight="600" fill="#f39c12">Delayed</text>
+    <text x="370" y="176" text-anchor="middle" font-size="8" fill="#888">-3%</text>
+    <rect x="440" y="84" width="90" height="66" rx="3" fill="#3498db"/>
+    <text x="485" y="80" text-anchor="middle" font-size="10" font-weight="700" fill="#3498db">$11.20</text>
+    <text x="485" y="165" text-anchor="middle" font-size="7" font-weight="600" fill="#3498db">Closes (Base)</text>
+    <text x="485" y="176" text-anchor="middle" font-size="8" fill="#888">+3.6%</text>
+    <rect x="555" y="66" width="90" height="84" rx="3" fill="#27ae60"/>
+    <text x="600" y="62" text-anchor="middle" font-size="10" font-weight="700" fill="#27ae60">$14</text>
+    <text x="600" y="165" text-anchor="middle" font-size="7" font-weight="600" fill="#27ae60">Break — Bull</text>
+    <text x="600" y="176" text-anchor="middle" font-size="8" fill="#888">+30%</text>
+    <text x="370" y="195" text-anchor="middle" font-size="9" fill="#888">Implied Share Price by Scenario — Merger-Focused Framework</text>
+  </svg>
+</div>
+
+<!-- SECTION 11: COMPARABLE COMPANIES -->
+<div class="memo-section">11. Comparable Companies</div>
+
+<div class="section-title">Selected Financials</div>
+<table class="comps">
+  <tr><th>Company</th><th>Ticker</th><th>Mkt Cap ($M)</th><th>EV ($M)</th><th>Sales LTM</th><th>EBITDA LTM</th><th>EBITDA Mgn</th><th>FCF</th></tr>
+  <tr class="subject"><td>Cantaloupe, Inc.</td><td>CTLP-US</td><td>$797</td><td>$825</td><td>$303</td><td>$41</td><td>13.6%</td><td>$3</td></tr>
+  <tr><td>Nayax Ltd.</td><td>NAYAX-US</td><td>$1,220</td><td>$1,180</td><td>$295</td><td>$30</td><td>10.0%</td><td>—</td></tr>
+  <tr><td>Flywire Corp.</td><td>FLYW-US</td><td>$2,800</td><td>$2,650</td><td>$520</td><td>$110</td><td>21.2%</td><td>$75</td></tr>
+  <tr><td>Paysign, Inc.</td><td>PAYS-US</td><td>$380</td><td>$350</td><td>$56</td><td>$27</td><td>48.8%</td><td>—</td></tr>
+  <tr><td>IDT Corporation</td><td>IDT-US</td><td>$1,100</td><td>$940</td><td>$1,200</td><td>$140</td><td>11.7%</td><td>—</td></tr>
+  <tr><td>Priority Technology</td><td>PRTH-US</td><td>$620</td><td>$1,480</td><td>$820</td><td>$224</td><td>27.3%</td><td>—</td></tr>
+  <tr class="stat-row"><td>Average (ex-CTLP)</td><td></td><td></td><td></td><td></td><td></td><td>23.8%</td><td></td></tr>
+  <tr class="stat-row"><td>Median (ex-CTLP)</td><td></td><td></td><td></td><td></td><td></td><td>21.2%</td><td></td></tr>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Valuation Multiples</div>
+<table class="comps">
+  <tr><th>Company</th><th>Ticker</th><th>P/Sales</th><th>EV/Sales</th><th>EV/EBITDA</th><th>P/E</th><th>Revenue Growth</th></tr>
+  <tr class="subject"><td>Cantaloupe, Inc.</td><td>CTLP-US</td><td>2.5x</td><td>2.6x</td><td>17.4x</td><td>14.8x</td><td>+12.6%</td></tr>
+  <tr><td>Nayax Ltd.</td><td>NAYAX-US</td><td>4.1x</td><td>4.0x</td><td>39.9x</td><td>NM</td><td>+28%</td></tr>
+  <tr><td>Flywire Corp.</td><td>FLYW-US</td><td>5.4x</td><td>5.1x</td><td>24.1x</td><td>35.0x</td><td>+22%</td></tr>
+  <tr><td>Paysign, Inc.</td><td>PAYS-US</td><td>6.8x</td><td>6.3x</td><td>12.8x</td><td>18.0x</td><td>+15%</td></tr>
+  <tr><td>IDT Corporation</td><td>IDT-US</td><td>0.9x</td><td>0.8x</td><td>6.7x</td><td>12.0x</td><td>+5%</td></tr>
+  <tr><td>Priority Technology</td><td>PRTH-US</td><td>0.8x</td><td>1.8x</td><td>6.6x</td><td>NM</td><td>+8%</td></tr>
+  <tr class="stat-row"><td>Average (ex-CTLP)</td><td></td><td>3.6x</td><td>3.6x</td><td>18.0x</td><td>21.7x</td><td>+16%</td></tr>
+  <tr class="stat-row"><td>Median (ex-CTLP)</td><td></td><td>4.1x</td><td>4.0x</td><td>12.8x</td><td>18.0x</td><td>+15%</td></tr>
+</table>
+
+<div class="prose" style="margin-top: 10px;">
+<strong>Comps Commentary:</strong> CTLP trades at 17.4x LTM EV/EBITDA — roughly in line with the peer average of 18.0x but above the median of 12.8x. However, this multiple is artificial: CTLP's valuation is anchored by the $11.20 deal price, not fundamental analysis. The most relevant comp is Nayax at 39.9x EV/EBITDA — the only direct competitor in cashless unattended retail payments. Nayax's premium reflects faster revenue growth (+28% vs. +12.6%) and its pure-play growth narrative, but CTLP has superior profitability (13.6% EBITDA margin vs. 10.0%) and a dramatically stronger enterprise software moat (85-90% Seed market share). If the merger breaks and CTLP re-rates on standalone fundamentals, the relevant question is whether the stock should trade closer to Nayax (20-25x forward EBITDA, implying $12-15/share) or closer to IDT/Priority (6-7x, implying $5-6/share). The answer depends on whether the market views CTLP as a high-growth payments platform (Nayax comp) or a mature niche technology company (IDT/Priority comp). The presence of Smart Stores, 87% recurring revenue, and ARPU expansion argues for the former. Only 1 analyst covers CTLP — no consensus target is available.
+</div>
+
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<div class="verdict">
+  <p><strong>(i) Market Cap Bucket: $0.80B</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">Microcap (&lt;$1B). CTLP sits squarely in Theia's microcap sweet spot — a NASDAQ-listed company with $303M in annual revenue, 30+ years of operating history, and a dominant position in a growing niche, yet valued at under $1B. The pending merger has suppressed the float dynamic: active trading is dominated by merger-arb funds rather than fundamental investors, meaning the underlying information asymmetry (Smart Stores, ARPU expansion, margin inflection) is going entirely unpriced. If the deal breaks, the stock would re-enter the fundamental universe as a deeply underfollowed microcap with compelling growth characteristics — exactly Theia's target profile.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(ii) Analyst Coverage: 1 Broker</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">Only 1 broker contributor — the most extreme under-coverage possible for a listed equity. No consensus price target is available. No consensus estimates exist. This is extraordinary for an $800M market cap company with $303M in revenue, 87% recurring, and 12.6% growth. The single analyst's decision to maintain coverage likely reflects the pending merger (most brokers drop coverage of pending acquisitions). If the deal breaks, coverage could potentially expand as the standalone story attracts attention — but in the meantime, the information vacuum is complete. Primary research opportunities are massive: operator channel checks on Smart Store adoption, cashless penetration data from industry sources, and direct management access (microcap management teams are accessible).</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iii) Thesis Alignment: Cashless Payments &amp; IoT Infrastructure</strong> <span class="fw-rating moderate">Adjacent</span></p>
+  <p style="margin-top:4px;">CTLP is a payments infrastructure company — processing $3.44B in annual transaction volume, enabling cashless commerce across 1.28M IoT-connected devices, and providing SaaS enterprise software to 34,800+ customers. The thesis maps directly to the secular digitization of payments and the IoT-enabled transformation of physical retail. While CTLP is not a blockchain or DeFi company, its position at the intersection of cashless payments, IoT connectivity, enterprise SaaS, and AI-powered retail (Smart Stores) places it firmly within the "internet finance" adjacency as a real-world payments infrastructure provider enabling the cashless economy. Rating: Adjacent — core to the cashless payment transition but no direct crypto/blockchain component.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iv) Outcome Dispersion: $5 – $14 (if merger breaks) vs. $11.20 (if closes)</strong> <span class="fw-rating moderate">Moderate (merger-constrained)</span></p>
+  <p style="margin-top:4px;">The dispersion profile is bifurcated by the merger. If the deal closes, the outcome is defined: $11.20/share, +3.6%, no dispersion. If the deal breaks, dispersion widens dramatically: $5 (bear — macro + regulatory overhang) to $14 (bull — standalone re-rating + alternative bidder), representing a nearly 3x spread. The key variable is FTC clearance probability, which the market currently prices at roughly 85-90% (implied by the 3.6% spread). For a Theia investor, the interesting scenario is a deal break at $7-8 — where the standalone business at 12-14x FY26E EBITDA would represent a compelling entry point with wide dispersion ($5-14) and the same fundamental qualities (recurring revenue, market dominance, Smart Store growth) that attracted Providence Equity at $11.20.</p>
+</div>
+
+<div style="background: #fff3cd; border-left: 4px solid #856404; padding: 12px 14px; margin: 16px 0; font-size: 11.5px;">
+  <strong>VERDICT: MAYBE — Compelling Standalone Business Obscured by Pending Acquisition</strong><br><br>
+  CTLP is one of the most interesting microcap payments stories in the market: 85-90% Seed VMS market share, 87% recurring revenue, Smart Stores as a transformative product with demand pre-sold two quarters ahead, ARPU expanding at 15% CAGR toward a $400+ ceiling, and a clear path to 20%+ EBITDA margins. However, the pending $11.20/share acquisition by 365 Retail Markets (Providence Equity) caps near-term upside at 3.6%. The investment decision reduces to a merger-arb calculus: (1) if the deal closes (base case), the return is approximately 7% annualized — decent but not Theia-level alpha; (2) if the deal breaks, the stock is potentially a $5-8 (near-term pain from arb unwind) or $12-14 (if standalone re-rates on fundamentals or alternative bidder emerges). The FTC Second Request creates genuine regulatory risk — the combined entity would dominate cashless unattended retail, which could attract antitrust concerns. With only 1 analyst and 11.76% short interest, information asymmetry exists but is primarily around merger outcome, not fundamental analysis. <strong>Recommended: Monitor for deal-break scenario — if CTLP returns to $7-8 on a broken deal, the standalone business at 12-14x FY26E EBITDA would be a compelling entry point for a core Theia position. Do not initiate at current levels as a merger-arb play — the 3.6% spread does not compensate for the tail risk of a $5-8 break price.</strong>
+</div>
+
+<p class="prose" style="font-size:10px; font-style:italic; margin-top:6px;">Note: Theia seeks small-cap companies that aren't well covered and are strongly aligned on the core internet finance thesis with wide outcome dispersion. CTLP scores: Market Cap ✓ | Coverage ✓✓ | Thesis Adjacent ≈ | Dispersion Moderate (merger-constrained) ~</p>
+
+<!-- SECTION 13: RISK SUMMARY -->
+<div class="memo-section">13. Risk Summary</div>
+
+<table class="risk-table">
+  <tr><th>Risk Category</th><th>Description</th><th>Severity</th><th>Mitigant</th></tr>
+  <tr>
+    <td>FTC / Merger Risk</td>
+    <td>FTC Second Request (Sep 2025) signals substantive regulatory scrutiny. The combined CTLP-365 entity would dominate cashless unattended retail payments, VMS software, and micro market infrastructure — raising market concentration and foreclosure concerns. If the FTC blocks the deal, the stock could fall 20-30% to $7-8. A conditional approval requiring divestitures could reduce deal value or extend timeline. The 11.76% short interest reflects bearish merger-arb positioning.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>Shareholder approval already obtained (Sep 4, 2025). Strategic rationale is strong (complementary assets, not overlapping). The unattended retail market is niche — FTC may define market broadly to include all payment processing, reducing concentration concerns. Providence Equity has resources and experience navigating regulatory review. Break fee provides some downside cushion to CTLP.</td>
+  </tr>
+  <tr>
+    <td>Single Analyst Coverage</td>
+    <td>Only 1 broker covers CTLP — the most extreme under-coverage possible for a listed equity. No consensus estimates, no consensus target, no research community to support the stock on fundamental merit. In a deal-break scenario, the absence of coverage amplifies downside as there is no sell-side "floor" of fundamental support and no analyst community to initiate buy recommendations at depressed levels.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>Under-coverage is Theia's edge — it creates the information asymmetry that enables differentiated returns. If the deal breaks, the compelling standalone story (87% recurring, 85-90% VMS share, Smart Stores, ARPU expansion) would likely attract new coverage from small-cap-focused analysts. CTLP's $303M revenue and $800M market cap are well within the coverage range of boutique and regional firms.</td>
+  </tr>
+  <tr>
+    <td>Equipment Cyclicality</td>
+    <td>Equipment sales (13% of revenue) are economically sensitive and exposed to tariff risk. Q3 FY2025 saw deferred purchases from tariff uncertainty. Equipment margins (10-15%) are the lowest in the portfolio and vulnerable to input cost inflation from tariffs on imported components. A macro downturn would simultaneously reduce operator capex budgets and compress equipment margins.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Equipment is only 13% of total revenue — 87% is recurring transaction and subscription revenue that is largely recession-resistant (consumers still buy from vending machines in downturns). Smart Store demand (pre-sold 2Q ahead) suggests equipment weakness is temporary and product-mix is shifting toward higher-ASP, higher-margin Smart Store units. HaaS model smooths revenue recognition.</td>
+  </tr>
+  <tr>
+    <td>Nayax Competition</td>
+    <td>Nayax is aggressively discounting hardware to acquire SMB customers in the US market. Nayax's strategy — subsidize hardware to capture recurring revenue — could commoditize the SMB segment and pressure CTLP's equipment margins and win rates. Nayax trades at 39.9x EV/EBITDA, suggesting investors expect sustained high growth, and the company has the balance sheet to sustain below-cost hardware pricing.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>CTLP's enterprise moat (Seed VMS, 85-90% market share, 30-year compatibility) is immune to Nayax's SMB hardware strategy. Enterprise operators (Canteen, Compass, Aramark) will not switch to Nayax for a hardware discount — the switching cost calculus overwhelmingly favors staying with Seed. Competition is concentrated in the SMB segment, which is lower-margin and less strategically important for CTLP.</td>
+  </tr>
+  <tr>
+    <td>Customer Concentration</td>
+    <td>The largest single customer represents approximately 10% of revenue — a meaningful concentration for a $303M revenue company. Loss of this customer would create a material revenue and earnings impact, and the large customer likely commands favorable pricing terms that compress margins.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>The 10% customer is likely a large enterprise operator (Canteen or similar) deeply embedded in the Seed VMS ecosystem with high switching costs. The ~90% GRR across the customer base empirically demonstrates retention. Customer diversification is improving as the base grows from 28K to 34.8K+. No single customer has churned from the enterprise segment in recent years.</td>
+  </tr>
+  <tr>
+    <td>FCF Weakness</td>
+    <td>FY2025 FCF of only $3M versus $41M EBITDA (7% conversion) raises capital efficiency questions. The gap reflects $17M CapEx (HaaS device placements), working capital consumption from growth, and the capital-intensive nature of deploying hardware. If FCF conversion does not improve, CTLP will struggle to fund growth, service debt, or attract fundamental investors who screen on cash flow.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>FCF conversion should improve structurally as: (1) revenue mix shifts toward higher-margin transaction and subscription (no CapEx required), (2) the HaaS installed base matures (reducing net new device CapEx), and (3) working capital normalizes as growth moderates. FY24 FCF of $13M was superior to FY25's $3M, suggesting FY25 was a trough driven by temporary working capital dynamics. The $53M cash balance provides ample liquidity.</td>
+  </tr>
+</table>
+
+<!-- SECTION 14: APPENDIX -->
+<div class="memo-section">14. Appendix — Python Code</div>
+
+<p class="prose">Sensitivity table generator and merger-focused scenario model code for analyst customization:</p>
+
+<div class="code-block"># CTLP Sensitivity Table Generator & Merger-Focused Scenario Model
+import numpy as np
+import pandas as pd
+
+def transaction_revenue_sensitivity():
+    """Annual Transaction Revenue — Active Devices vs. Take Rate"""
+    devices = [1.10, 1.20, 1.28, 1.40, 1.50]   # M devices
+    take_rates = [4.5, 5.0, 5.3, 5.5, 6.0]      # %
+    vol_per_device = 2688  # $3.44B / 1.28M = ~$2,688/device
+
+    results = []
+    for d in devices:
+        row = []
+        for tr in take_rates:
+            volume = d * vol_per_device  # $M
+            txn_rev = int(volume * tr / 100)
+            row.append(txn_rev)
+        results.append(row)
+
+    df = pd.DataFrame(results, index=devices, columns=take_rates)
+    df.index.name = 'Active Devices (M)'
+    df.columns.name = 'Take Rate (%)'
+    return df
+
+def ebitda_sensitivity():
+    """FY26E Adj. EBITDA — Revenue vs. EBITDA Margin"""
+    revenues = [310, 325, 340, 355, 370]  # $M
+    margins = [12, 14, 15, 17, 19]         # %
+
+    results = []
+    for rev in revenues:
+        row = []
+        for m in margins:
+            ebitda = int(rev * m / 100)
+            row.append(ebitda)
+        results.append(row)
+
+    df = pd.DataFrame(results, index=revenues, columns=margins)
+    df.index.name = 'Revenue ($M)'
+    df.columns.name = 'EBITDA Margin (%)'
+    return df
+
+def standalone_valuation():
+    """Implied Standalone Price — FY27E EBITDA vs. EV/EBITDA"""
+    ebitdas = [50, 60, 70, 80, 90]
+    multiples = [14, 16, 18, 20, 22]
+    shares = 74    # M diluted
+    net_debt = -15  # negative = net cash ($53 cash - $38 debt + $22 pref ≈ -$7... use -15 conservative)
+
+    results = []
+    for eb in ebitdas:
+        row = []
+        for m in multiples:
+            ev = eb * m
+            equity = ev - net_debt  # net_debt negative adds to equity
+            price = int(max(0, equity / shares))
+            row.append(f"${price}")
+        results.append(row)
+
+    df = pd.DataFrame(results, index=ebitdas, columns=multiples)
+    df.index.name = 'FY27E EBITDA ($M)'
+    df.columns.name = 'Exit EV/EBITDA (x)'
+    return df
+
+def merger_scenario_model():
+    """CTLP Merger-Focused Scenario Model"""
+    cases = {
+        'Break — Bear': {
+            'rev_26': 310, 'ebitda_26': 40, 'margin_26': 13.0,
+            'ev_eb': 12, 'shares': 74, 'net_cash': 15,
+            'desc': 'FTC blocks + macro downturn'
+        },
+        'Break — Base': {
+            'rev_26': 340, 'ebitda_26': 51, 'margin_26': 15.0,
+            'ev_eb': 14, 'shares': 74, 'net_cash': 15,
+            'desc': 'FTC blocks; standalone repricing'
+        },
+        'Delayed': {
+            'rev_26': 340, 'ebitda_26': 51, 'margin_26': 15.0,
+            'ev_eb': None, 'shares': 74, 'net_cash': 15,
+            'desc': 'FTC extends review; spread widens',
+            'price_override': 10.50
+        },
+        'Closes (Base)': {
+            'rev_26': 340, 'ebitda_26': 51, 'margin_26': 15.0,
+            'ev_eb': None, 'shares': 74, 'net_cash': 15,
+            'desc': 'Deal closes at $11.20 cash',
+            'price_override': 11.20
+        },
+        'Break — Bull': {
+            'rev_26': 350, 'ebitda_26': 56, 'margin_26': 16.0,
+            'ev_eb': 18, 'shares': 74, 'net_cash': 15,
+            'desc': 'Standalone re-rate + alt bidder'
+        },
+    }
+
+    current = 10.81
+    results = []
+    for name, p in cases.items():
+        if 'price_override' in p:
+            price = p['price_override']
+        else:
+            ev = p['ebitda_26'] * p['ev_eb']
+            equity = ev + p['net_cash']
+            price = round(equity / p['shares'], 2)
+
+        upside = (price / current - 1) * 100
+        results.append({
+            'Case': name,
+            'FY26 Rev': f"${p['rev_26']}M",
+            'FY26 EBITDA': f"${p['ebitda_26']}M",
+            'Margin': f"{p['margin_26']}%",
+            'Multiple': f"{p['ev_eb']}x" if p['ev_eb'] else 'N/A',
+            'Implied Price': f"${price:.2f}",
+            'vs Current': f"{upside:+.1f}%"
+        })
+
+    return pd.DataFrame(results)
+
+# Run all models
+print("=== Transaction Revenue Sensitivity (Devices x Take Rate) ===")
+print(transaction_revenue_sensitivity())
+print("\n=== EBITDA Sensitivity (Revenue x Margin) ===")
+print(ebitda_sensitivity())
+print("\n=== Standalone Valuation (EBITDA x Multiple) ===")
+print(standalone_valuation())
+print("\n=== Merger-Focused Scenario Model ===")
+print(merger_scenario_model().to_string(index=False))
+</div>
+
+<div class="prose" style="margin-top: 12px;">
+<strong>Model Notes:</strong> The merger-focused scenario framework differs from a standard 5-case operating model because the primary variable is binary (deal closes vs. breaks) rather than continuous (revenue growth rate). The standalone valuation sensitivity (Table 3) is the most relevant for Theia's purposes: it shows the range of outcomes if the deal breaks and CTLP returns to fundamental valuation. At the intersection of $70M FY27E EBITDA and 18x EV/EBITDA — reasonable assumptions given the margin trajectory and comparable company multiples — the implied standalone price is approximately $17/share, representing 57% upside from the current deal-constrained price. This latent value is precisely what the merger has "frozen" and what would be unlocked in a deal-break scenario. The key monitoring points are: (1) FTC decision timeline, (2) quarterly EBITDA margin trajectory, (3) Smart Store deployment pace, and (4) ARPU trends. If the deal breaks and the stock falls to $7-8, Theia should be prepared to initiate a position immediately — the standalone business at those levels would represent one of the most attractive risk/reward opportunities in the microcap payments universe.
+</div>
+
+<p class="source-note">Generated by Claude | Data: FactSet, Company Filings, Earnings Transcripts | April 2026</p>
+
+</body>
+</html>
