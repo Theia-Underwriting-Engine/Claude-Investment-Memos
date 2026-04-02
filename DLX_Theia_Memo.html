@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=816px">
+<title>Deluxe Corporation | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', Arial, sans-serif; background: #fff; color: #1a1a2e; width: 816px; margin: 0 auto; padding: 32px 40px; font-size: 11px; line-height: 1.45; }
+.title-bar { font-size: 20px; font-weight: 700; letter-spacing: -0.4px; color: #1a1a2e; border-bottom: 3px solid #1a1a2e; padding-bottom: 10px; margin-bottom: 20px; text-align: center; }
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 28px 0 10px 0; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; } table.kv td:first-child { color: #555; width: 45%; } table.kv td:last-child { text-align: right; font-weight: 600; }
+table.data { font-size: 10px; } table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; } table.data th:first-child { text-align: left; } table.data td { text-align: right; padding: 2px 6px; } table.data td:first-child { text-align: left; font-weight: 500; color: #333; } table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; } table.data tr:nth-child(even) { background: #fafbfc; } table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+.two-col { display: flex; gap: 24px; } .two-col > div { flex: 1; }
+table.ev td { padding: 1.5px 0; } table.ev td:first-child { color: #555; } table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; } table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; } table.ev tr.indent td:first-child { padding-left: 12px; font-size: 9.5px; color: #777; }
+table.rev { font-size: 10px; } table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; } table.rev th:first-child { text-align: left; } table.rev td { text-align: right; padding: 2px 4px; } table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; border: 1px solid #eee; border-radius: 3px; } .val-grid .val-cell { padding: 5px 6px; border-right: 1px solid #eee; border-bottom: 1px solid #eee; } .val-grid .val-cell:nth-child(6), .val-grid .val-cell:nth-child(12) { border-right: none; } .val-grid .val-cell:nth-child(7), .val-grid .val-cell:nth-child(8), .val-grid .val-cell:nth-child(9), .val-grid .val-cell:nth-child(10), .val-grid .val-cell:nth-child(11), .val-grid .val-cell:nth-child(12) { border-bottom: none; } .val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; } .val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; } .val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+.prose { font-size: 11px; line-height: 1.65; color: #333; margin-bottom: 8px; }
+.fw-item { margin-bottom: 10px; } .fw-item .fw-name { font-weight: 700; color: #1a1a2e; } .fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; } .fw-rating.moderate { background: #fff3cd; color: #856404; } .fw-rating.weak { background: #f8d7da; color: #721c24; } .fw-rating.high { background: #f8d7da; color: #721c24; } .fw-rating.low { background: #d4edda; color: #155724; } .fw-rating.na { background: #e9ecef; color: #6c757d; }
+.fw-summary { margin-top: 10px; padding: 8px 12px; background: #f4f6f9; border-left: 3px solid #1a1a2e; font-size: 10.5px; font-style: italic; color: #444; }
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; } table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; border: 1px solid #e0e0e0; } table.sensitivity th:first-child { text-align: left; } table.sensitivity td { text-align: center; padding: 3px 6px; border: 1px solid #f0f0f0; } table.sensitivity td:first-child { text-align: left; font-weight: 600; background: #f4f6f9; } table.sensitivity td.base { background: #e8f4fd; font-weight: 700; color: #1a1a2e; }
+.sens-title { font-size: 10px; font-weight: 700; margin: 14px 0 2px 0; color: #1a1a2e; } .sens-current { font-size: 9px; color: #888; margin-bottom: 4px; font-style: italic; }
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 14px; margin-bottom: 16px; } .case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 6px; } .case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 10px; margin-bottom: 4px; } .case-block .driver-row { background: #e8f4fd; padding: 3px 8px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; } .case-block .driver-row span:first-child { font-weight: 500; color: #333; } .case-block .driver-row span:last-child { font-weight: 700; color: #1a1a2e; }
+.fermi-narrative { background: #f0f4f8; border-radius: 3px; padding: 8px 10px; margin-bottom: 10px; font-size: 9.5px; line-height: 1.55; border-left: 3px solid #93c5fd; } .fermi-narrative .scenario-text { font-style: italic; color: #444; margin-bottom: 5px; font-size: 10px; font-weight: 500; } .fermi-narrative ul { margin: 0; padding-left: 16px; color: #333; } .fermi-narrative li { margin-bottom: 2px; } .fermi-narrative .reconcile { margin-top: 6px; font-weight: 600; color: #1a1a2e; border-top: 1px solid #c7d9ec; padding-top: 4px; font-size: 9.5px; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 10px 0 4px 0; } .case-block table.scenario-mini th { text-align: right; font-weight: 600; color: #888; padding: 2px 5px; border-bottom: 1px solid #ddd; font-size: 8.5px; } .case-block table.scenario-mini th:first-child { text-align: left; } .case-block table.scenario-mini td { padding: 2.5px 5px; text-align: right; color: #1a1a2e; } .case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; } .case-block table.scenario-mini tr:nth-child(even):not(.margin-row) { background: #f5f5f5; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 8px; margin-top: 8px; } .case-block .exit-line1 { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-bottom: 6px; } .case-block .exit-price { font-size: 15px; font-weight: 700; color: #1a1a2e; } .case-block .exit-upside { font-size: 10px; font-weight: 600; color: #555; } .case-block .exit-line2 { display: flex; gap: 24px; font-size: 9.5px; color: #555; border-top: 1px solid #eee; padding-top: 5px; flex-wrap: wrap; }
+.case-chart { margin-top: 16px; padding: 12px 12px 8px 12px; background: #f9f9f9; border-radius: 4px; border: 1px solid #eee; } .case-chart svg { width: 100%; height: auto; }
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.6; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 8.5px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+.num-list { padding-left: 0; list-style: none; } .num-list li { margin-bottom: 8px; padding-left: 0; } .num-list li strong { color: #1a1a2e; }
+table.comps { font-size: 8px; } table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1.5px solid #ddd; white-space: nowrap; } table.comps th:first-child { text-align: left; min-width: 110px; } table.comps td { text-align: right; padding: 2px 4px; } table.comps td:first-child { text-align: left; font-weight: 400; color: #333; white-space: nowrap; font-size: 8px; } table.comps tr.subject td { font-weight: 700; background: #f0f0f0; } table.comps tr.stat-row td { font-weight: 600; background: #fafbfc; border-top: 1px solid #eee; font-style: italic; }
+table.risk-table { font-size: 10px; width: 100%; margin: 8px 0; } table.risk-table th { text-align: left; font-weight: 600; padding: 4px 6px; background: #f4f6f9; border-bottom: 1px solid #ddd; } table.risk-table td { padding: 4px 6px; border-bottom: 1px solid #eee; vertical-align: top; } table.risk-table td:first-child { font-weight: 600; width: 25%; }
+.alphasense-box { background: #e8f4fd; border-left: 4px solid #2563eb; padding: 10px 14px; margin: 10px 0; font-size: 10px; line-height: 1.5; } .alphasense-box strong { color: #1a1a2e; }
+.as-section { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: #1a1a2e; border-bottom: 1px solid #ddd; padding-bottom: 3px; margin: 16px 0 8px 0; }
+.bull-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #155724; border-bottom: 1.5px solid #c3e6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #721c24; border-bottom: 1.5px solid #f5c6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bull-item, .bear-item { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Deluxe Corporation | Preliminary Memo for Theia</div>
+
+<!-- SECTION 1 -->
+<div class="memo-section">1. Business Overview</div>
+<div class="prose">Deluxe Corporation (NYSE: DLX) is a Trusted Payments and Data company serving over 4,000 financial institutions—including 180 of the top 200—and millions of small businesses across the United States and Canada. Founded in 1915 and headquartered in Shoreview, Minnesota, DLX has been executing a multi-year strategic transformation from the nation's dominant check printer into a diversified payments, data analytics, and marketing technology platform. The company processes $40B+ in annual merchant payment volume and over $2 trillion in annual B2B lockbox payment volume, representing approximately 15% of US GDP flowing through its reconciliation infrastructure. The Federal Reserve itself uses DLX's reconciliation and dispute software.</div>
+<div class="prose">The company operates four segments: <strong>Print</strong> (53% of FY2025 revenue, $1.137B — checks, business forms, promotional products; declining -5.7% YoY), <strong>Merchant Services</strong> (19%, $399M — payment processing for small businesses via DLX's own processing platform, not a reseller/ISO; growing +3.8%), <strong>B2B Payments</strong> (14%, $291M — treasury management, lockbox processing, AP/AR automation, Deluxe Payment Exchange; growing +0.9%), and <strong>Data Solutions</strong> (14%, $307M — the industry's largest consumer &amp; small business marketing data lake with 100+ data sources, AI-powered targeting campaigns; growing +31.3%). Under CEO Barry McCarthy's "North Star" transformation program launched in mid-2023, DLX is driving aggressive mix shift toward Payments &amp; Data—reaching 47% of revenue in FY2025 (up from ~30% in 2021) and expected to exceed 50% in 2026. Management targets 60%+ Payments &amp; Data within 3-5 years.</div>
+<div class="prose">FY2025 marked a decisive inflection point: comparable adjusted EBITDA grew 6.2% to $431.5M (20.2% margin, +90bps YoY), adjusted EPS grew 12.6% to $3.67, and free cash flow surged 75% to $175.3M—hitting the 2026 target a full year early. Net leverage declined to 3.2x (on track for sub-3.0x by mid-2026), and the company received two S&amp;P credit rating upgrades in 2025 (B- to B) with a Fitch positive outlook. DLX has now delivered 12 consecutive quarters of YoY EBITDA growth and three straight years where EBITDA growth has outpaced revenue growth. All debt maturities have been extended to 2029, eliminating near-term refinancing risk. The company pays a $1.20 annual dividend (4.3% yield, 30+ consecutive years) while maintaining the capacity for deleveraging and selective M&amp;A.</div>
+<div class="prose"><strong>One-line thesis:</strong> Deluxe is a deeply undervalued payments and data transformation story trading at 6.2x EV/EBITDA with only 3 analysts covering it, where the market still sees a declining check printer despite 47% of revenue now coming from payments and data—creating a potential re-rating opportunity as the mix shift crosses 50%, FCF continues to compound at 14%+ yield, and leverage declines below 3.0x.</div>
+<div class="prose"><strong>Headquarters:</strong> Shoreview, Minnesota &nbsp;|&nbsp; <strong>CEO:</strong> Barry C. McCarthy &nbsp;|&nbsp; <strong>CFO:</strong> William C. (Chip) Zint &nbsp;|&nbsp; <strong>Employees:</strong> ~4,575 &nbsp;|&nbsp; <strong>Founded:</strong> 1915 &nbsp;|&nbsp; <strong>Ticker:</strong> NYSE: DLX</div>
+
+<!-- SECTION 2 -->
+<div class="memo-section">2. Financial Summary (Theia FactSet Summary)</div>
+<div class="header"><div><h1>Deluxe Corporation</h1><span class="ticker">DLX-US | NYSE | CUSIP: 248019101</span></div><span class="date">April 2, 2026 | Source: FactSet</span></div>
+<div class="price-bar">
+  <span class="price">$27.91</span>
+  <span><span class="label">1M:</span> <span class="chg pos">+0.3%</span></span>
+  <span><span class="label">3M:</span> <span class="chg pos">+25.8%</span></span>
+  <span><span class="label">6M:</span> <span class="chg pos">+43.7%</span></span>
+  <span><span class="label">YTD:</span> <span class="chg pos">+25.0%</span></span>
+  <span><span class="label">1Y:</span> <span class="chg pos">+71.8%</span></span>
+  <span><span class="label">52W:</span> $13.61 – $28.60</span>
+</div>
+<div class="section-title">Key Stats — Trading</div>
+<div class="two-col">
+  <table class="kv"><tr><td>Ticker</td><td>DLX-US</td></tr><tr><td>Price</td><td>$27.91</td></tr><tr><td>Avg Volume (30D)</td><td>393K</td></tr><tr><td>Dividend Yield</td><td>4.30%</td></tr></table>
+  <table class="kv"><tr><td>Float %</td><td>97.0%</td></tr><tr><td>Short Interest</td><td>9.9 Days / 7.88%</td></tr><tr><td>% of 52W High</td><td>97.6%</td></tr><tr><td>Annual Dividend</td><td>$1.20</td></tr></table>
+</div>
+<div class="section-title">Enterprise Value Bridge</div>
+<table class="ev">
+  <tr><td>Market Capitalization</td><td>$1,258M</td></tr>
+  <tr class="indent"><td>Common Shares Outstanding</td><td>45.08M</td></tr>
+  <tr><td>(+) Diluted Shares (Stock Comp)</td><td>2.48M</td></tr>
+  <tr><td>Fully Diluted Market Cap</td><td>$1,327M</td></tr>
+  <tr><td>(+) Consolidated Debt</td><td>$1,429M</td></tr>
+  <tr><td>(-) Cash &amp; Equivalents</td><td>($311M)</td></tr>
+  <tr><td>(+) Non-Controlling Interest</td><td>$0.3M</td></tr>
+  <tr><td>(+) Pension Liabilities</td><td>$2.0M</td></tr>
+  <tr class="total"><td>Enterprise Value</td><td>$2,449M</td></tr>
+</table>
+<div class="section-title">Current Valuation</div>
+<div class="val-grid">
+  <div class="val-cell"><div class="val-label">Market Cap</div><div class="val-num">$1.26B</div></div>
+  <div class="val-cell"><div class="val-label">Enterprise Value</div><div class="val-num">$2.45B</div></div>
+  <div class="val-cell"><div class="val-label">P/E (FY1)</div><div class="val-num">6.9x</div></div>
+  <div class="val-cell"><div class="val-label">EV/EBITDA (LTM)</div><div class="val-num">6.2x</div></div>
+  <div class="val-cell"><div class="val-label">EV/Sales (LTM)</div><div class="val-num">1.1x</div></div>
+  <div class="val-cell"><div class="val-label">P/S (LTM)</div><div class="val-num">0.6x</div></div>
+  <div class="val-cell"><div class="val-label">Fully Dil Mkt Cap</div><div class="val-num">$1.33B</div></div>
+  <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">6.9%</div></div>
+  <div class="val-cell"><div class="val-label">Beta (3Y Adj.)</div><div class="val-num">1.16</div></div>
+  <div class="val-cell"><div class="val-label">Avg Rating</div><div class="val-num">OW (1.50)</div></div>
+  <div class="val-cell"><div class="val-label">Target Price</div><div class="val-num">$32.67</div><div class="val-sub">+17.0% upside</div></div>
+  <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">Apr 30, 2026</div></div>
+</div>
+<div class="section-title">Valuation Multiples</div>
+<table class="data">
+  <tr><th></th><th>5Yr Avg</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th class="est">FY2026E</th><th class="est">FY2027E</th></tr>
+  <tr><td>P/E</td><td>20.2x</td><td>36.1x</td><td>19.1x</td><td>12.4x</td><td class="est">6.9x</td><td class="est">6.5x</td></tr>
+  <tr><td>P/Sales</td><td>0.48x</td><td>0.43x</td><td>0.48x</td><td>0.48x</td><td class="est">0.59x</td><td class="est">0.58x</td></tr>
+  <tr><td>EV/Sales</td><td>1.07x</td><td>0.97x</td><td>1.06x</td><td>1.02x</td><td class="est">1.14x</td><td class="est">1.13x</td></tr>
+  <tr><td>EV/EBITDA</td><td>5.95x</td><td>5.45x</td><td>5.85x</td><td>5.50x</td><td class="est">5.44x</td><td class="est">5.25x</td></tr>
+  <tr><td>EV/EBIT</td><td>10.2x</td><td>9.7x</td><td>10.3x</td><td>8.4x</td><td class="est">8.5x</td><td class="est">8.0x</td></tr>
+  <tr><td>P/BV</td><td>1.65x</td><td>1.55x</td><td>1.61x</td><td>1.48x</td><td class="est">1.53x</td><td class="est">1.32x</td></tr>
+</table>
+<div class="section-title">Income Statement (Financials)</div>
+<table class="data">
+  <tr><th></th><th>5Yr CAGR</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th class="est">FY2026E</th><th class="est">FY2027E</th></tr>
+  <tr class="section-row"><td colspan="7">Revenue &amp; Income ($M)</td></tr>
+  <tr><td>Revenue</td><td>3.6%</td><td>2,192</td><td>2,122</td><td>2,133</td><td class="est">2,141</td><td class="est">2,165</td></tr>
+  <tr><td>Gross Income</td><td>2.0%</td><td>1,175</td><td>1,128</td><td>1,132</td><td class="est">1,144</td><td class="est">1,167</td></tr>
+  <tr><td>EBITDA</td><td>3.1%</td><td>389</td><td>385</td><td>397</td><td class="est">450</td><td class="est">466</td></tr>
+  <tr><td>EBIT</td><td>2.4%</td><td>219</td><td>219</td><td>259</td><td class="est">288</td><td class="est">306</td></tr>
+  <tr><td>Net Income</td><td>73.7%</td><td>26</td><td>53</td><td>82</td><td class="est">134</td><td class="est">150</td></tr>
+  <tr><td>EPS (Diluted)</td><td>75.5%</td><td>$0.59</td><td>$1.18</td><td>$1.80</td><td class="est">$2.88</td><td class="est">$3.19</td></tr>
+  <tr class="section-row"><td colspan="7">Margins</td></tr>
+  <tr><td>Gross Margin</td><td>—</td><td>53.6%</td><td>53.2%</td><td>53.1%</td><td class="est">53.4%</td><td class="est">53.9%</td></tr>
+  <tr><td>EBITDA Margin</td><td>—</td><td>17.7%</td><td>18.1%</td><td>18.6%</td><td class="est">21.0%</td><td class="est">21.5%</td></tr>
+  <tr><td>Net Margin</td><td>—</td><td>1.2%</td><td>2.5%</td><td>3.8%</td><td class="est">6.3%</td><td class="est">6.9%</td></tr>
+  <tr><td>FCF Margin</td><td>—</td><td>4.5%</td><td>4.7%</td><td>8.2%</td><td class="est">9.3%</td><td class="est">11.2%</td></tr>
+  <tr class="section-row"><td colspan="7">Cash Flow ($M)</td></tr>
+  <tr><td>Operating CF</td><td>4.5%</td><td>198</td><td>194</td><td>271</td><td class="est">294</td><td class="est">338</td></tr>
+  <tr><td>CapEx</td><td>12.2%</td><td>101</td><td>94</td><td>131</td><td class="est">95</td><td class="est">95</td></tr>
+  <tr><td>Free Cash Flow</td><td>2.5%</td><td>98</td><td>100</td><td>175</td><td class="est">199</td><td class="est">243</td></tr>
+  <tr class="section-row"><td colspan="7">Returns &amp; Leverage</td></tr>
+  <tr><td>ROE</td><td>—</td><td>4.3%</td><td>8.6%</td><td>12.6%</td><td class="est" style="color:#27ae60;">22.3%</td><td class="est" style="color:#27ae60;">20.3%</td></tr>
+  <tr><td>Debt/Equity</td><td>—</td><td>268%</td><td>276%</td><td>256%</td><td class="est">222%</td><td class="est">—</td></tr>
+  <tr><td>Interest Coverage</td><td>2.4x</td><td>1.7x</td><td>1.7x</td><td>2.1x</td><td class="est">2.6x</td><td class="est">2.8x</td></tr>
+</table>
+<div class="section-title">Revenue by Business Unit</div>
+<div class="two-col">
+  <div><div class="sub-label">By Segment</div><table class="rev"><tr><th>Segment</th><th>% Rev</th><th>($M)</th><th>YoY</th></tr><tr><td>Print</td><td>53.3%</td><td>1,137</td><td>-5.7%</td></tr><tr><td>Merchant Services</td><td>18.7%</td><td>399</td><td>+3.8%</td></tr><tr><td>Data Solutions</td><td>14.4%</td><td>307</td><td>+31.3%</td></tr><tr><td>B2B Payments</td><td>13.6%</td><td>291</td><td>+0.9%</td></tr></table></div>
+  <div><div class="sub-label">By Geography</div><table class="rev"><tr><th>Region</th><th>% Rev</th><th>($M)</th><th>YoY</th></tr><tr><td>US &amp; Canada</td><td>100%</td><td>2,133</td><td>+0.5%</td></tr></table></div>
+</div>
+<div class="source-note">Source: FactSet, Company Filings as of April 2, 2026. Adj. EBITDA FY2025: $431.5M (20.2% margin). Adj. EPS FY2025: $3.67. FY2026E guide: Revenue $2.11-2.175B, EBITDA $445-470M, EPS $3.90-4.30, FCF ~$200M.</div>
+
+<!-- SECTION 3 -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Cases</div>
+    <div class="bull-item"><p class="prose"><span class="fw-name">1. Payments &amp; Data Mix Crosses 50% in 2026.</span> In FY2026, P&amp;D is expected to exceed 50% of revenue—a defining inflection point that should fundamentally change how the market perceives DLX. The "check company" narrative breaks as more than half of revenue comes from growing payment processing, data analytics, and B2B automation. In 3-5 years, management targets 60%+ P&amp;D. Each percentage point of mix shift improves the blended growth rate and justifies a higher multiple. The Data segment alone grew 31% in FY2025 with 28% EBITDA margins—a hidden growth asset buried in consolidated numbers.</p></div>
+    <div class="bull-item"><p class="prose"><span class="fw-name">2. Massive Free Cash Flow Inflection.</span> FCF surged 75% in FY2025 to $175M, hitting the 2026 target a full year early. Management guides ~$200M in FY2026 and targets &gt;50% EBITDA-to-FCF conversion long-term. At the current $1.26B market cap, FCF yield is ~14% on FY26E—extremely compelling for a business with this stability. As restructuring costs approach zero and interest expense declines with deleveraging, FCF should compound toward $250M+ by FY2028.</p></div>
+    <div class="bull-item"><p class="prose"><span class="fw-name">3. Deleveraging Creates Equity Upside.</span> Net debt declined $76M in FY2025 to $1.39B (3.2x), with sub-3.0x targeted by mid-2026. Two S&amp;P upgrades in 2025 signal improving credit quality. Every $100M of debt reduction flows directly to equity value. All maturities extended to 2029 eliminates refinancing risk. Lower leverage could catalyze multiple expansion from 6x to 7-8x EV/EBITDA, adding $5-10+ per share.</p></div>
+    <div class="bull-item"><p class="prose"><span class="fw-name">4. Severely Under-Covered with Only 3 Analysts.</span> With just 3 broker contributors (avg OW rating, $32.67 target), DLX is one of the most under-followed $1B+ companies in the market. This creates significant information asymmetry and alpha potential for fundamental researchers willing to do primary work on FI channel checks, check volume tracking, and merchant services competition.</p></div>
+    <div class="bull-item"><p class="prose"><span class="fw-name">5. Data Segment Is a Hidden Growth Engine.</span> Data Solutions revenue grew 31% in FY2025 to $307M with 28% EBITDA margins, powered by the largest consumer &amp; small business marketing data lake in the industry (100+ data sources). GenAI-driven targeting campaigns generate improving unit economics with each campaign. This segment alone could be worth $1B+ as a standalone at peer data analytics multiples (8-12x EV/EBITDA).</p></div>
+  </div>
+  <div>
+    <div class="bear-header">Bear Cases</div>
+    <div class="bear-item"><p class="prose"><span class="fw-name">1. Secular Check Decline Is Permanent.</span> Print (53% of revenue) is in structural decline—checks fell 1.8%, forms 6.5%, and promotional products 15.3% in FY2025. While DLX manages the decline rate better than competitors, the terminal value of the Print segment approaches zero over a multi-decade horizon. Any acceleration in digital adoption could compress revenue faster than payments can grow to offset it. Print generates $367M EBITDA (32% margin) today—losing this anchor without fully replacing it would be devastating.</p></div>
+    <div class="bear-item"><p class="prose"><span class="fw-name">2. High Leverage Limits Flexibility.</span> At 3.2x net debt/EBITDA with $1.43B in total debt at ~7.5% blended interest rate, DLX has limited financial flexibility. Annual interest expense of ~$110M consumes roughly 25% of EBITDA. A recession that pressured EBITDA back toward $375M could push leverage above 4x, risking covenant concerns and eliminating share buyback or M&amp;A optionality. The B and BB- credit ratings leave no margin for error.</p></div>
+    <div class="bear-item"><p class="prose"><span class="fw-name">3. Merchant Services Is Commoditized.</span> Merchant services operates in a hyper-competitive market against Fiserv, Global Payments, Block, Toast, and dozens of others. DLX's $40B processing volume is a rounding error in a $10T+ market. Growth of 3.8% in FY2025 trails industry rates, suggesting potential share loss. The ISO residual buyout ($36M in Q4 2025) improved margins but is non-recurring.</p></div>
+    <div class="bear-item"><p class="prose"><span class="fw-name">4. Transformation Is Really Just Cost Cuts.</span> Despite $110M+ in North Star restructuring spending, total revenue has been essentially flat for three years ($2.19B → $2.13B). Operating leverage has come from cost discipline, not top-line growth. If payments growth doesn't accelerate beyond mid-single digits, the "transformation" is managed decline with better costs—worth 6x EBITDA, not the 8-10x a true growth story commands.</p></div>
+    <div class="bear-item"><p class="prose"><span class="fw-name">5. Dividend Consumes Capital Better Used for Deleveraging.</span> The $1.20/share annual dividend costs ~$55M against ~$175M FCF, consuming 31% of free cash flow. While manageable, prioritizing the dividend over faster deleveraging slows equity value creation. A dividend cut would devastate the stock for income-oriented holders who provide a valuation floor.</p></div>
+  </div>
+</div>
+
+<!-- SECTION 4 -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+<div class="fw-item"><span class="fw-name">1. Scale Economies</span><span class="fw-rating strong">Strong</span><div class="prose">Largest US check producer (90K packages/day), $40B+ merchant processing, $2T+ lockbox volume, 4,000+ FI relationships. Fixed cost infrastructure (print facilities, payment rails, data lake) delivers margin stability even as volumes shift. Cloud-native data platform completed. The North Star program extracted $80M+ in net incremental EBITDA through operational leverage that smaller competitors cannot replicate.</div></div>
+<div class="fw-item"><span class="fw-name">2. Network Effects</span><span class="fw-rating weak">Weak</span><div class="prose">Not a platform business. More users don't make the product more valuable for other users. Some modest data network effects through the marketing data lake (more campaigns → better targeting models → improved ROI → more campaigns), but this is far from a true network effect.</div></div>
+<div class="fw-item"><span class="fw-name">3. Counter-Positioning</span><span class="fw-rating moderate">Moderate</span><div class="prose">Legacy check competitors (regional printers) cannot easily pivot to payments and data. However, payments incumbents (Fiserv, Global Payments) are vastly larger and better positioned in the growth segments. DLX's counter-positioning is strongest against print peers (who can't follow it into payments) and weakest against payments peers (who don't need checks).</div></div>
+<div class="fw-item"><span class="fw-name">4. Switching Costs</span><span class="fw-rating strong">Strong</span><div class="prose">4,000+ FI relationships with deeply embedded payment processing, lockbox operations, and check fulfillment that span decades. Banks and credit unions rely on DLX for daily check production, lockbox processing, and merchant services. The "One Deluxe" cross-sell strategy further increases switching costs by bundling multiple services into a single FI relationship. Replacing DLX would require switching checks, payments, and data simultaneously—an operational nightmare for risk-averse FI procurement teams.</div></div>
+<div class="fw-item"><span class="fw-name">5. Branding</span><span class="fw-rating moderate">Moderate</span><div class="prose">100+ year brand trusted by the vast majority of major US financial institutions. ATSI/Axy customer service award winner for a decade+. The Deluxe brand carries weight with FI decision-makers as a reliable, service-oriented partner. However, brand awareness for non-check products (merchant services, data) among end consumers and small businesses remains lower.</div></div>
+<div class="fw-item"><span class="fw-name">6. Cornered Resource</span><span class="fw-rating moderate">Moderate</span><div class="prose">Largest consumer and small business marketing data lake with 100+ data sources—genuinely difficult to replicate. The Federal Reserve uses DLX's reconciliation/dispute software—a unique institutional relationship. However, larger tech companies (Google, Meta, Oracle) have more comprehensive consumer data assets, limiting the scarcity premium.</div></div>
+<div class="fw-item"><span class="fw-name">7. Process Power</span><span class="fw-rating strong">Strong</span><div class="prose">North Star operational discipline (12 workstreams, $80M+ net incremental EBITDA, ~$40M SG&amp;A reduction) demonstrates embedded organizational capabilities for managing complex transformation. The ability to manage print decline at -3-5% annually while simultaneously growing payments/data and expanding margins requires process excellence across manufacturing, logistics, technology, and customer service that took decades to build.</div></div>
+<div class="fw-summary"><strong>Summary:</strong> DLX's strongest moats are scale economies (dominant in check, lockbox, and FI distribution), switching costs (deep, multi-product FI relationships spanning decades), and process power (operational discipline through transformation). The company has limited network effects and faces a fundamental challenge: its strongest competitive advantages are in declining markets (print), while its growing segments (payments, data) face stronger competition. The moat is durable for managing the transition but narrower in the growth segments where DLX is subscale versus pure-play competitors.</div>
+
+<!-- SECTION 5 -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+<div class="fw-item"><span class="fw-name">1. Threat of New Entrants</span><span class="fw-rating low">Low</span><div class="prose">Check printing requires massive infrastructure, FI relationships built over decades, and regulatory compliance. Payment processing requires licenses, banking relationships, and scale. The data segment requires years of data accumulation across 100+ sources. New entrants to any of DLX's core businesses are extremely rare; the threat comes from existing large players expanding, not startups.</div></div>
+<div class="fw-item"><span class="fw-name">2. Bargaining Power of Suppliers</span><span class="fw-rating low">Low</span><div class="prose">Print inputs (paper, ink) are commodity. Cloud infrastructure and payment network fees are standardized. No single supplier has significant leverage over DLX's operations.</div></div>
+<div class="fw-item"><span class="fw-name">3. Bargaining Power of Buyers</span><span class="fw-rating moderate">Moderate</span><div class="prose">Large FIs have leverage and alternatives (Fiserv, Jack Henry, FIS for payments; regional printers for checks). However, switching costs are high, and DLX's bundled "One Deluxe" offering creates stickiness. No single client represents material concentration risk across 4,000+ FIs and millions of SMBs.</div></div>
+<div class="fw-item"><span class="fw-name">4. Threat of Substitutes</span><span class="fw-rating high">High</span><div class="prose">Digital payments are the primary substitute for checks (Zelle, Venmo, ACH, real-time payments), driving secular decline. DLX partially hedges by owning both sides—checks AND digital payments—but the substitute threat to the Print segment is existential on a 10-20 year horizon. The Data segment has lower substitution risk; the B2B lockbox business benefits from regulatory requirements that mandate paper processing for certain payment types.</div></div>
+<div class="fw-item"><span class="fw-name">5. Competitive Rivalry</span><span class="fw-rating moderate">Moderate</span><div class="prose">In print, DLX is dominant with limited direct competition. In merchant services, rivalry is intense (Fiserv, Global Payments, Block, Worldpay) but DLX occupies a niche serving smaller FIs and small businesses through its FI distribution channel. In data, DLX competes with Acxiom/LiveRamp, Oracle Data Cloud, and Experian. The competitive landscape is bifurcated: favorable in legacy businesses, challenging in growth segments.</div></div>
+<div class="fw-summary"><strong>Summary:</strong> The competitive environment is bifurcated. DLX operates in a favorable position in its legacy print business (dominant, limited rivalry) but faces a much more competitive landscape in payments and data. The key strategic question is whether DLX can leverage its 4,000+ FI relationships to win payments and data business before check volumes decline to critical levels. The high substitution threat for checks is the single most important structural risk.</div>
+
+<!-- SECTION 6 -->
+<div class="memo-section">6. What Drives the Stock?</div>
+<ol class="num-list">
+  <li><strong>1. Payments &amp; Data Revenue Mix</strong><p class="prose">Whether P&amp;D exceeds 50% of revenue in 2026 as targeted. Each percentage point of mix shift improves the blended growth rate and supports multiple expansion from 6x toward 8x EV/EBITDA. The market currently values DLX as a check printer; crossing 50% breaks the narrative. <em>Bullish: P&amp;D crosses 52%+ in 2026 with accelerating growth. Bearish: Mix stalls below 50% due to print stabilization or payments growth miss.</em></p></li>
+  <li><strong>2. Print Decline Rate</strong><p class="prose">Core check volumes decline 2-3% annually; promotional products fell 15%+. The market can tolerate -3-5% print decline if payments growth offsets it. Each 1% of incremental print decline on a $1.1B base = ~$11M of revenue headwind. <em>Bullish: Print decline moderates to -2-3% with stable check orders. Bearish: Print decline accelerates beyond -7% on economic downturn or digital adoption spike.</em></p></li>
+  <li><strong>3. EBITDA Margin Expansion</strong><p class="prose">12 consecutive quarters of YoY EBITDA growth validates the North Star program. FY2026 guides $445-470M adj. EBITDA (21-22% margin, +100-200bps). The long-term framework targets $470M by 2026 with continued expansion driven by mix shift and operating leverage. <em>Bullish: Margins expand faster than guided, approaching 23%+. Bearish: Margin expansion stalls as North Star savings are fully exhausted.</em></p></li>
+  <li><strong>4. Leverage Reduction &amp; Credit Upgrades</strong><p class="prose">Targeting below 3.0x by mid-2026 from 3.2x at YE2025. Two S&amp;P upgrades in 2025 (B- to B). Continued deleveraging toward 2.5x could trigger further upgrades and reduce interest expense from ~$110M. <em>Bullish: Below 2.5x by 2028; investment-grade trajectory. Bearish: EBITDA miss pushes leverage back above 3.5x; credit concerns resurface.</em></p></li>
+  <li><strong>5. Free Cash Flow Generation</strong><p class="prose">FCF surged 75% to $175M in FY2025, hitting 2026 target early. FY2026 guide: ~$200M. At 14% FCF yield on FY26E, the stock is priced for minimal growth. Long-term target: &gt;50% EBITDA-to-FCF conversion, driving FCF toward $250M+. <em>Bullish: FCF exceeds $200M; supports accelerated deleveraging or buyback announcement. Bearish: FCF disappoints on working capital or one-time items.</em></p></li>
+  <li><strong>6. Dividend Yield as Floor</strong><p class="prose">4.3% yield provides downside support. 30+ consecutive years of dividend payments. Management committed to maintaining $0.30/quarter. The yield attracts income investors who provide a valuation floor. <em>Bullish: Enterprise value grows so yield compresses naturally; eventually augmented with buybacks. Bearish: Dividend cut would signal fundamental weakness and remove the floor.</em></p></li>
+</ol>
+
+<!-- SECTION 7 -->
+<div class="memo-section">7. What Drives the Business?</div>
+<div class="sub-label">Revenue Decomposition</div>
+<table class="data">
+  <thead><tr><th>Revenue Line</th><th>Driver 1</th><th>Driver 2</th><th>Driver 3</th><th>FY2025 ($M)</th></tr></thead>
+  <tbody>
+    <tr><td>Print</td><td>Check Orders/Day (90K)</td><td>× Revenue/Order</td><td>× Working Days</td><td>$1,137M</td></tr>
+    <tr><td colspan="4" style="padding-left:20px;color:#666;">Checks -1.8%/yr, Forms -6.5%, Promo -15.3%; 32.3% EBITDA margin; declining but highly profitable</td><td style="color:#666;">-5.7% YoY</td></tr>
+    <tr><td>Merchant Services</td><td>Processing Vol ($40B+)</td><td>× Take Rate (bps)</td><td>+ Value-Added Svcs</td><td>$399M</td></tr>
+    <tr><td colspan="4" style="padding-left:20px;color:#666;">Own processing platform (not ISO); 21.6% EBITDA margin; ISO residual buyout ($36M) boosts 2026 margins</td><td style="color:#666;">+3.8% YoY</td></tr>
+    <tr><td>Data Solutions</td><td># Campaigns</td><td>× Revenue/Campaign</td><td>+ Data Licensing</td><td>$307M</td></tr>
+    <tr><td colspan="4" style="padding-left:20px;color:#666;">Largest SMB data lake (100+ sources); GenAI targeting; 28.1% EBITDA margin; 17 new logos in Q1 alone</td><td style="color:#666;">+31.3% YoY</td></tr>
+    <tr><td>B2B Payments</td><td>Lockbox Volume</td><td>× Price/Item</td><td>+ AP/AR Automation</td><td>$291M</td></tr>
+    <tr><td colspan="4" style="padding-left:20px;color:#666;">$2T+ annual lockbox volume; treasury mgmt; Deluxe Payment Exchange; Visa Direct (dlxFastFunds)</td><td style="color:#666;">+0.9% YoY</td></tr>
+  </tbody>
+</table>
+<div class="sub-label" style="margin-top:16px;">Key Operating Metrics &amp; Transformation KPIs</div>
+<table class="data">
+  <thead><tr><th>Metric</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 Guide</th><th>Commentary</th></tr></thead>
+  <tbody>
+    <tr><td>Payments &amp; Data Mix</td><td>~40%</td><td>43%</td><td>47%</td><td>&gt;50%</td><td>From ~30% in 2021; 60%+ target in 3-5yrs</td></tr>
+    <tr><td>Adj. EBITDA ($M)</td><td>$390</td><td>$406</td><td>$432</td><td>$445-470M</td><td>12 consec. qtrs YoY growth; 20.2% margin</td></tr>
+    <tr><td>Adj. EPS</td><td>$3.02</td><td>$3.26</td><td>$3.67</td><td>$3.90-4.30</td><td>+12.6% in FY25; accelerating</td></tr>
+    <tr><td>Free Cash Flow ($M)</td><td>$98</td><td>$100</td><td>$175</td><td>~$200</td><td>+75% YoY; hit 2026 target in 2025</td></tr>
+    <tr><td>Net Leverage (x)</td><td>—</td><td>3.6x</td><td>3.2x</td><td>&lt;3.0x mid-2026</td><td>Net debt reduced $76M in FY25</td></tr>
+    <tr><td>FI Customers</td><td>4,000+</td><td>4,000+</td><td>4,000+</td><td>4,000+</td><td>180 of top 200 FIs; decades-long relationships</td></tr>
+    <tr><td>SG&amp;A Reduction</td><td>—</td><td>~14%</td><td>+$40M saved</td><td>15-20% target</td><td>North Star: $80M+ net incr. EBITDA</td></tr>
+    <tr><td>Dividend/Share</td><td>$1.20</td><td>$1.20</td><td>$1.20</td><td>$1.20</td><td>30+ consecutive years; 4.3% yield</td></tr>
+  </tbody>
+</table>
+<p class="prose" style="margin-top:12px;"><strong>Key insight:</strong> The two variables with most leverage on DLX's equity value are (1) <strong>print decline rate</strong> and (2) <strong>payments &amp; data growth rate</strong>. If print declines 4%/year and P&amp;D grows 6%/year, total revenue is roughly flat—but mix shifts dramatically, improving the growth profile and justifying a higher multiple. The deleveraging creates a powerful equity amplifier: every $100M of EBITDA growth at 6x = $600M EV increase, 100% of which flows to equity. Combined with $75-100M/year of net debt reduction, equity value can compound at 15%+ annually even with flat revenue. This "value creation algorithm" is the core bull thesis—and at 6.2x EBITDA with 14% FCF yield, the market is paying almost nothing for it.</p>
+
+<!-- SECTION 8 -->
+<div class="memo-section">8. AlphaSense Insights</div>
+<div class="alphasense-box"><strong>Source Document Insights</strong> · Date: April 2, 2026 · Sources: Q4/Q3/Q2/Q1 2025 Earnings Transcripts, Q4 2024 Earnings, Sidoti Small Cap Conferences (March 2025/2026), Stephens Investment Conference (Nov 2024) · Analysis: DLX Management Commentary &amp; Strategy</div>
+<div class="as-section">Competitive Moat &amp; Industry Structure</div>
+<div class="prose">DLX is the undisputed leader in US check production and the largest provider of checks to financial institutions—a position that generates ~$367M in annual EBITDA at 32%+ margins despite secular volume declines. In merchant services, DLX owns its processing platform (unlike ISOs), giving it margin advantage and data control over the $40B+ in annual volume. The $2T+ lockbox processing volume positions DLX as critical B2B financial infrastructure. The 4,000+ FI relationships—including 180 of the top 200—provide a distribution moat for cross-selling payments and data products through the "One Deluxe" strategy. In Data Solutions, the proprietary consumer &amp; small business data lake with 100+ sources creates a differentiated targeting capability that CEO McCarthy describes as "getting smarter with every campaign" via GenAI.</div>
+<div class="as-section">Management Quality &amp; Capital Allocation</div>
+<div class="prose">CEO Barry McCarthy has executed a disciplined transformation from pure check printer to payments &amp; data company. The North Star program delivered $80M+ net incremental EBITDA ahead of schedule while keeping restructuring costs at the low end ($110M vs. $115-135M guided). Capital allocation priorities are clear: (1) deleveraging below 3.0x, (2) organic investment targeting &gt;15% IRR projects, (3) small tuck-in M&amp;A only (CheckMatch in Q3 2025; ISO residual buyout for $36M in Q4 2025), (4) maintain dividend. CFO Chip Zint has been transparent on guidance, progressively raising estimates through 2025—FCF guidance was raised four times. The Safeguard divestiture (Feb 2026, $25M pending) demonstrates continued portfolio pruning discipline, divesting lower-margin print distribution while maintaining reseller relationships on higher-margin check products.</div>
+<div class="as-section">Technology &amp; AI</div>
+<div class="prose">GenAI deployed in Data Solutions powers the marketing data lake with AI-driven targeting tools that improve campaign ROI with each iteration. AI in B2B lockbox operations improves matching rates and reduces labor costs. AI-powered chatbots deployed in Merchant and B2B customer service reduce support costs. The Visa Direct integration (dlxFastFunds) announced in FY2025 enables near-real-time fund settlement on the Deluxe Payments Platform. A cloud-native data platform was completed in 2025, enabling real-time analytics across the enterprise.</div>
+<div class="as-section">Most Misunderstood Aspects</div>
+<div class="prose"><strong>1. Market still prices DLX as a check company</strong> despite 47% P&amp;D mix. The stock trades at 6.2x EV/EBITDA—a check printer multiple—while the underlying business has fundamentally changed. At 50%+ P&amp;D in 2026, the narrative should shift.</div>
+<div class="prose"><strong>2. FCF inflection is underappreciated.</strong> FCF grew from $98M to $175M in two years (+79%). At $1.26B market cap, FCF yield is 14%—extreme for a company with this stability, 4,000+ FI customers, and 30+ year dividend track record.</div>
+<div class="prose"><strong>3. Data segment is a hidden growth asset.</strong> $307M revenue growing 31% with 28% EBITDA margins, buried in consolidated numbers alongside the declining print segment. On a standalone basis, the Data business would command a materially higher multiple.</div>
+<div class="prose"><strong>4. Net debt declining rapidly.</strong> $76M reduction in FY2025 to $1.39B (3.2x). Targeting sub-3.0x by mid-2026. Two S&amp;P upgrades validate the credit trajectory. Yet the stock hasn't re-rated commensurately—the market hasn't given credit for the improving balance sheet.</div>
+<div class="as-section">Key Long-Term Investor Questions</div>
+<ol class="num-list">
+<li><strong>Can payments growth accelerate beyond mid-single digits?</strong> Merchant (+3.8%) and B2B (+0.9%) are growing modestly. Management guides mid-single-digit Merchant and low-single-digit B2B for FY2026. If payments growth can reach 7-8%, total revenue could inflect to positive growth even with print declining.</li>
+<li><strong>Will the print decline rate remain manageable?</strong> At -3-5%/year, the decline is predictable and manageable. But an acceleration to -8-10% (from macro stress, digital adoption, or regulatory changes) would overwhelm the payments growth offset.</li>
+<li><strong>Is there M&amp;A optionality as leverage declines?</strong> Management has stated that $1B-1.5B in capital deployment capacity will be available over ~4 years (including 3x EBITDA leverage). The discipline to date (small tuck-ins only) is reassuring, but a larger acquisition could accelerate the transformation—or destroy value if mispriced.</li>
+</ol>
+
+<!-- SECTION 9 -->
+<div class="memo-section">9. Sensitivities on Core Business Drivers</div>
+<div class="sens-title">FY2026E Total Revenue ($M) — Print Revenue Decline (%) vs. Payments &amp; Data Growth (%)</div>
+<div class="sens-current">Current: Print $1,137M declining ~4%; P&amp;D $996M growing ~5%. Base total ~$2,141M.</div>
+<table class="sensitivity">
+  <tr><th>Print Decl. \ P&amp;D Gr.</th><th>0%</th><th>3%</th><th>6%</th><th>9%</th><th>12%</th></tr>
+  <tr><td>-2%</td><td>2,110</td><td>2,140</td><td>2,170</td><td>2,200</td><td>2,229</td></tr>
+  <tr><td>-4%</td><td>2,087</td><td>2,117</td><td class="base">2,147</td><td>2,177</td><td>2,206</td></tr>
+  <tr><td>-6%</td><td>2,064</td><td>2,094</td><td>2,124</td><td>2,154</td><td>2,183</td></tr>
+  <tr><td>-8%</td><td>2,041</td><td>2,071</td><td>2,101</td><td>2,131</td><td>2,160</td></tr>
+  <tr><td>-10%</td><td>2,019</td><td>2,049</td><td>2,078</td><td>2,108</td><td>2,138</td></tr>
+</table>
+<div class="sens-title" style="margin-top:16px;">FY2026E Adj. EBITDA ($M) — Revenue ($M) vs. EBITDA Margin (%)</div>
+<div class="sens-current">Current Guide: ~$2,141M × ~21.2% = ~$454M EBITDA (midpoint of $445-470M guide).</div>
+<table class="sensitivity">
+  <tr><th>Revenue \ Margin</th><th>18%</th><th>19%</th><th>21%</th><th>22%</th><th>24%</th></tr>
+  <tr><td>$2,000M</td><td>360</td><td>380</td><td>420</td><td>440</td><td>480</td></tr>
+  <tr><td>$2,050M</td><td>369</td><td>390</td><td>431</td><td>451</td><td>492</td></tr>
+  <tr><td>$2,140M</td><td>385</td><td>407</td><td class="base">449</td><td>471</td><td>514</td></tr>
+  <tr><td>$2,180M</td><td>392</td><td>414</td><td>458</td><td>480</td><td>523</td></tr>
+  <tr><td>$2,250M</td><td>405</td><td>428</td><td>473</td><td>495</td><td>540</td></tr>
+</table>
+<div class="sens-title" style="margin-top:16px;">Implied Share Price ($) — FY2028E EBITDA ($M) vs. Exit EV/EBITDA (x)</div>
+<div class="sens-current">Assumes net debt $1.0B at FY2028 (continued deleveraging), 47M diluted shares. Current: $27.91.</div>
+<table class="sensitivity">
+  <tr><th>EBITDA \ Multiple</th><th>5.0x</th><th>5.5x</th><th>6.0x</th><th>6.5x</th><th>7.0x</th></tr>
+  <tr><td>$380M</td><td>$19</td><td>$23</td><td>$27</td><td>$31</td><td>$35</td></tr>
+  <tr><td>$430M</td><td>$24</td><td>$29</td><td>$34</td><td>$38</td><td>$43</td></tr>
+  <tr><td>$480M</td><td>$30</td><td>$35</td><td class="base">$40</td><td>$45</td><td>$50</td></tr>
+  <tr><td>$530M</td><td>$35</td><td>$41</td><td>$46</td><td>$52</td><td>$58</td></tr>
+  <tr><td>$580M</td><td>$40</td><td>$47</td><td>$53</td><td>$59</td><td>$65</td></tr>
+</table>
+
+<!-- SECTION 10 -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios</div>
+<p class="prose">All figures in $M unless stated. Modeled FY2026E–FY2028E. Current: $27.91, 47M diluted shares, Net debt $1.12B (3.2x leverage).</p>
+
+<div class="case-block">
+  <div class="case-name">Bear Severe — Print Collapse &amp; Leverage Spiral</div>
+  <div class="fermi-narrative"><div class="scenario-text">Check adoption declines accelerate to -8-10%/year as digital payments spike. Promotional products revenue evaporates. Payments growth stalls at 1-2%. EBITDA contracts toward $350M. Leverage rises above 4x. Credit downgrades. Dividend at risk.</div>
+    <ul><li>Print decline: -8-10% annually</li><li>P&amp;D growth: 1-2%</li><li>EBITDA margin compresses to 18%</li><li>Net debt paydown stalls; leverage rises</li></ul>
+    <div class="reconcile">Path: Print accelerates → revenue contracts → margin pressure → leverage concern → equity value compressed</div></div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Print Decline Rate</span><span>-8 to -10%/yr</span></div>
+  <div class="driver-row"><span>P&amp;D Growth Rate</span><span>1-2%</span></div>
+  <div class="driver-row"><span>Adj. EBITDA Margin (FY28)</span><span>18.4%</span></div>
+  <table class="scenario-mini"><tr><th></th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr>
+    <tr><td>Revenue</td><td>$2,050</td><td>1,975</td><td>1,900</td></tr><tr><td>Gross Income</td><td>1,089</td><td>1,045</td><td>1,000</td></tr><tr><td>EBITDA</td><td>389</td><td>370</td><td>350</td></tr><tr><td>EBIT</td><td>225</td><td>210</td><td>195</td></tr><tr><td>Net Income</td><td>30</td><td>22</td><td>18</td></tr><tr><td>EPS</td><td>$0.64</td><td>$0.47</td><td>$0.38</td></tr><tr><td>EBITDA Margin</td><td>19.0%</td><td>18.7%</td><td>18.4%</td></tr><tr><td>FCF</td><td>$120</td><td>100</td><td>$85</td></tr></table>
+  <div class="exit-metrics"><div class="exit-line1"><span class="exit-price">$10</span><span class="exit-upside">-64% from current</span></div>
+    <div class="exit-line2"><span>Exit EV/EBITDA: 4.5x</span><span>Net Debt: $1.15B</span><span>Implied Equity: $425M</span></div></div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bear Mild — Stagnation &amp; No Re-Rating</div>
+  <div class="fermi-narrative"><div class="scenario-text">Print declines at current pace. Payments grows low-single-digits. Revenue essentially flat. Margins expand modestly from cost discipline but no top-line inflection. Market maintains "show me" discount. Stock dead money for 2-3 years despite dividend.</div>
+    <ul><li>Print: -5%/yr (current pace)</li><li>P&amp;D: +3-4%</li><li>EBITDA margin: 21% (modest improvement)</li><li>Leverage: slow decline to 2.8x</li></ul>
+    <div class="reconcile">Path: Flat execution → no catalyst → multiple stuck at 5x → value trap despite cash generation</div></div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Print Decline Rate</span><span>-5%/yr</span></div>
+  <div class="driver-row"><span>P&amp;D Growth Rate</span><span>3-4%</span></div>
+  <div class="driver-row"><span>Adj. EBITDA Margin (FY28)</span><span>21.0%</span></div>
+  <table class="scenario-mini"><tr><th></th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr>
+    <tr><td>Revenue</td><td>$2,100</td><td>2,070</td><td>2,050</td></tr><tr><td>Gross Income</td><td>1,117</td><td>1,101</td><td>1,091</td></tr><tr><td>EBITDA</td><td>420</td><td>425</td><td>430</td></tr><tr><td>EBIT</td><td>255</td><td>260</td><td>268</td></tr><tr><td>Net Income</td><td>65</td><td>70</td><td>75</td></tr><tr><td>EPS</td><td>$1.38</td><td>$1.49</td><td>$1.60</td></tr><tr><td>EBITDA Margin</td><td>20.0%</td><td>20.5%</td><td>21.0%</td></tr><tr><td>FCF</td><td>$160</td><td>170</td><td>$175</td></tr></table>
+  <div class="exit-metrics"><div class="exit-line1"><span class="exit-price">$20</span><span class="exit-upside">-28% from current</span></div>
+    <div class="exit-line2"><span>Exit EV/EBITDA: 4.7x</span><span>Net Debt: $1.05B</span><span>Implied Equity: $972M</span></div></div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Base — Consensus Execution &amp; Mix Shift Validated</div>
+  <div class="fermi-narrative"><div class="scenario-text">P&amp;D crosses 50% of revenue in 2026. North Star delivers target EBITDA. Leverage falls below 3.0x. Print decline manageable at -4%. Payments growth at mid-single digits. Market begins to re-rate as the transformation narrative gains credibility with a broader investor audience. Dividend maintained; potential for buyback initiation.</div>
+    <ul><li>Print: -4%/yr</li><li>P&amp;D: +6-7%</li><li>EBITDA margin: 23%</li><li>Leverage: below 2.5x by FY28</li></ul>
+    <div class="reconcile">Path: Guidance met → P&amp;D crosses 50% → leverage below 3x → modest re-rating</div></div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Print Decline Rate</span><span>-4%/yr</span></div>
+  <div class="driver-row"><span>P&amp;D Growth Rate</span><span>6-7%</span></div>
+  <div class="driver-row"><span>Adj. EBITDA Margin (FY28)</span><span>23.0%</span></div>
+  <table class="scenario-mini"><tr><th></th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr>
+    <tr><td>Revenue</td><td>$2,141</td><td>2,170</td><td>2,200</td></tr><tr><td>Gross Income</td><td>1,144</td><td>1,172</td><td>1,210</td></tr><tr><td>EBITDA</td><td>450</td><td>480</td><td>506</td></tr><tr><td>EBIT</td><td>288</td><td>315</td><td>340</td></tr><tr><td>Net Income</td><td>134</td><td>155</td><td>175</td></tr><tr><td>EPS</td><td>$2.88</td><td>$3.30</td><td>$3.72</td></tr><tr><td>EBITDA Margin</td><td>21.0%</td><td>22.1%</td><td>23.0%</td></tr><tr><td>FCF</td><td>$199</td><td>230</td><td>$260</td></tr></table>
+  <div class="exit-metrics"><div class="exit-line1"><span class="exit-price">$38</span><span class="exit-upside">+36% from current</span></div>
+    <div class="exit-line2"><span>Exit EV/EBITDA: 5.5x</span><span>Net Debt: $0.95B</span><span>Implied Equity: $1,833M</span></div></div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bull Mild — Payments Acceleration &amp; Multiple Re-Rating</div>
+  <div class="fermi-narrative"><div class="scenario-text">Payments growth accelerates to mid-to-high single digits as "One Deluxe" cross-sell gains traction and Visa Direct drives B2B volumes. Data segment sustains double-digit growth. P&amp;D reaches 55%+ of revenue. Margin expansion front-loaded. Two more credit upgrades. Analyst coverage doubles from 3 to 6. Multiple re-rates from 6x toward 7x.</div>
+    <ul><li>Print: -3%/yr (check volumes stabilize)</li><li>P&amp;D: +8-10%</li><li>EBITDA margin: 24%</li><li>Leverage: below 2.0x; potential for buybacks</li></ul>
+    <div class="reconcile">Path: Payments inflects → P&amp;D reaches 55%+ → EBITDA growth 10%+ → analyst coverage expands → re-rating</div></div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Print Decline Rate</span><span>-3%/yr</span></div>
+  <div class="driver-row"><span>P&amp;D Growth Rate</span><span>8-10%</span></div>
+  <div class="driver-row"><span>Adj. EBITDA Margin (FY28)</span><span>24.0%</span></div>
+  <table class="scenario-mini"><tr><th></th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr>
+    <tr><td>Revenue</td><td>$2,175</td><td>2,250</td><td>2,340</td></tr><tr><td>Gross Income</td><td>1,166</td><td>1,226</td><td>1,287</td></tr><tr><td>EBITDA</td><td>470</td><td>520</td><td>562</td></tr><tr><td>EBIT</td><td>310</td><td>355</td><td>395</td></tr><tr><td>Net Income</td><td>150</td><td>190</td><td>225</td></tr><tr><td>EPS</td><td>$3.19</td><td>$4.04</td><td>$4.79</td></tr><tr><td>EBITDA Margin</td><td>21.6%</td><td>23.1%</td><td>24.0%</td></tr><tr><td>FCF</td><td>$215</td><td>275</td><td>$330</td></tr></table>
+  <div class="exit-metrics"><div class="exit-line1"><span class="exit-price">$55</span><span class="exit-upside">+97% from current</span></div>
+    <div class="exit-line2"><span>Exit EV/EBITDA: 6.2x</span><span>Net Debt: $0.8B</span><span>Implied Equity: $2,684M</span></div></div>
+</div>
+
+<div class="case-block">
+  <div class="case-name">Bull Severe — Full Transformation &amp; Strategic Premium</div>
+  <div class="fermi-narrative"><div class="scenario-text">Full transformation achieved with P&amp;D reaching 60%+ of revenue. Payments growth 10%+. Data segment breaks out as standalone growth asset. Revenue inflects to positive growth. PE or strategic acquirer (Fiserv, FIS) expresses interest. Investment grade achieved. Multiple re-rates to 7.5x+.</div>
+    <ul><li>Print: -2%/yr (base stabilization)</li><li>P&amp;D: +12-15% (Data breakout + Merchant acceleration)</li><li>EBITDA margin: 26% (full mix shift + operating leverage)</li><li>Leverage: below 1.5x; M&amp;A or significant buyback capacity</li></ul>
+    <div class="reconcile">Path: Payments boom → Data breakout → P&amp;D at 60%+ → PE/strategic interest → investment grade → re-rate to 7.5x</div></div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>Print Decline Rate</span><span>-2%/yr</span></div>
+  <div class="driver-row"><span>P&amp;D Growth Rate</span><span>12-15%</span></div>
+  <div class="driver-row"><span>Adj. EBITDA Margin (FY28)</span><span>26.0%</span></div>
+  <table class="scenario-mini"><tr><th></th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr>
+    <tr><td>Revenue</td><td>$2,200</td><td>2,350</td><td>2,520</td></tr><tr><td>Gross Income</td><td>1,188</td><td>1,293</td><td>1,411</td></tr><tr><td>EBITDA</td><td>490</td><td>575</td><td>655</td></tr><tr><td>EBIT</td><td>330</td><td>410</td><td>490</td></tr><tr><td>Net Income</td><td>165</td><td>240</td><td>295</td></tr><tr><td>EPS</td><td>$3.51</td><td>$5.11</td><td>$6.28</td></tr><tr><td>EBITDA Margin</td><td>22.3%</td><td>24.5%</td><td>26.0%</td></tr><tr><td>FCF</td><td>$235</td><td>350</td><td>$420</td></tr></table>
+  <div class="exit-metrics"><div class="exit-line1"><span class="exit-price">$75</span><span class="exit-upside">+169% from current</span></div>
+    <div class="exit-line2"><span>Exit EV/EBITDA: 6.5x</span><span>Net Debt: $0.6B</span><span>Implied Equity: $3,658M</span></div></div>
+</div>
+
+<div class="case-chart">
+  <svg viewBox="0 0 700 200">
+    <line x1="80" y1="150" x2="660" y2="150" stroke="#ddd" stroke-width="1"/>
+    <line x1="80" y1="120" x2="660" y2="120" stroke="#f0f0f0" stroke-width="0.5" stroke-dasharray="4,3"/>
+    <line x1="80" y1="90" x2="660" y2="90" stroke="#f0f0f0" stroke-width="0.5" stroke-dasharray="4,3"/>
+    <line x1="80" y1="60" x2="660" y2="60" stroke="#f0f0f0" stroke-width="0.5" stroke-dasharray="4,3"/>
+    <line x1="80" y1="30" x2="660" y2="30" stroke="#f0f0f0" stroke-width="0.5" stroke-dasharray="4,3"/>
+    <text x="75" y="153" text-anchor="end" font-size="8" fill="#888">$0</text>
+    <text x="75" y="120" text-anchor="end" font-size="8" fill="#888">$20</text>
+    <text x="75" y="90" text-anchor="end" font-size="8" fill="#888">$40</text>
+    <text x="75" y="60" text-anchor="end" font-size="8" fill="#888">$60</text>
+    <text x="75" y="30" text-anchor="end" font-size="8" fill="#888">$80</text>
+    <line x1="80" y1="103" x2="660" y2="103" stroke="#1a1a2e" stroke-width="1.5" stroke-dasharray="6,4"/>
+    <text x="665" y="106" text-anchor="start" font-size="8" font-weight="600" fill="#1a1a2e">Current $27.91</text>
+    <rect x="110" y="133" width="80" height="17" rx="3" fill="#c0392b"/>
+    <text x="150" y="129" text-anchor="middle" font-size="10" font-weight="700" fill="#c0392b">$10</text>
+    <text x="150" y="165" text-anchor="middle" font-size="8" font-weight="600" fill="#c0392b">Bear Severe</text>
+    <text x="150" y="176" text-anchor="middle" font-size="8" fill="#888">-64%</text>
+    <rect x="225" y="116" width="80" height="34" rx="3" fill="#e67e22"/>
+    <text x="265" y="112" text-anchor="middle" font-size="10" font-weight="700" fill="#e67e22">$20</text>
+    <text x="265" y="165" text-anchor="middle" font-size="8" font-weight="600" fill="#e67e22">Bear Mild</text>
+    <text x="265" y="176" text-anchor="middle" font-size="8" fill="#888">-28%</text>
+    <rect x="340" y="86" width="80" height="64" rx="3" fill="#3498db"/>
+    <text x="380" y="82" text-anchor="middle" font-size="10" font-weight="700" fill="#3498db">$38</text>
+    <text x="380" y="165" text-anchor="middle" font-size="8" font-weight="600" fill="#3498db">Base</text>
+    <text x="380" y="176" text-anchor="middle" font-size="8" fill="#888">+36%</text>
+    <rect x="455" y="57" width="80" height="93" rx="3" fill="#27ae60"/>
+    <text x="495" y="53" text-anchor="middle" font-size="10" font-weight="700" fill="#27ae60">$55</text>
+    <text x="495" y="165" text-anchor="middle" font-size="8" font-weight="600" fill="#27ae60">Bull Mild</text>
+    <text x="495" y="176" text-anchor="middle" font-size="8" fill="#888">+97%</text>
+    <rect x="570" y="23" width="80" height="127" rx="3" fill="#16a085"/>
+    <text x="610" y="19" text-anchor="middle" font-size="10" font-weight="700" fill="#16a085">$75</text>
+    <text x="610" y="165" text-anchor="middle" font-size="8" font-weight="600" fill="#16a085">Bull Severe</text>
+    <text x="610" y="176" text-anchor="middle" font-size="8" fill="#888">+169%</text>
+    <text x="370" y="195" text-anchor="middle" font-size="9" fill="#888">Implied Share Price by Scenario — FY2028E Exit</text>
+  </svg>
+</div>
+
+<!-- SECTION 11 -->
+<div class="memo-section">11. Comparable Companies</div>
+<div class="section-title">Selected Financials</div>
+<table class="comps">
+  <tr><th>Company</th><th>Ticker</th><th>Mkt Cap ($M)</th><th>EV ($M)</th><th>Sales</th><th>EBITDA</th><th>EBITDA Mgn</th></tr>
+  <tr class="subject"><td>Deluxe Corporation</td><td>DLX-US</td><td>$1,327</td><td>$2,449</td><td>$2,133</td><td>$397</td><td>18.6%</td></tr>
+  <tr><td>Pitney Bowes</td><td>PBI-US</td><td>$1,694</td><td>$3,480</td><td>$1,893</td><td>$499</td><td>26.3%</td></tr>
+  <tr><td>Stagwell</td><td>STGW-US</td><td>$1,577</td><td>$2,844</td><td>$2,901</td><td>$383</td><td>13.2%</td></tr>
+  <tr><td>Clear Channel Outdoor</td><td>CCO-US</td><td>$1,284</td><td>$6,207</td><td>$1,604</td><td>$479</td><td>29.9%</td></tr>
+  <tr><td>Emerald Holding</td><td>EEX-US</td><td>$909</td><td>$1,312</td><td>$463</td><td>$116</td><td>25.0%</td></tr>
+  <tr class="stat-row"><td>Average</td><td></td><td></td><td></td><td></td><td></td><td>22.6%</td></tr>
+  <tr class="stat-row"><td>Median</td><td></td><td></td><td></td><td></td><td></td><td>25.0%</td></tr>
+</table>
+<div class="section-title" style="margin-top:12px;">Valuation Multiples</div>
+<table class="comps">
+  <tr><th>Company</th><th>Ticker</th><th>P/Sales</th><th>EV/Sales</th><th>EV/EBITDA</th><th>EV/EBIT</th><th>P/E FY1</th><th>P/E FY2</th><th>Div Yield</th></tr>
+  <tr class="subject"><td>Deluxe Corporation</td><td>DLX-US</td><td>0.60x</td><td>1.15x</td><td>6.2x</td><td>9.5x</td><td>6.9x</td><td>6.5x</td><td>4.3%</td></tr>
+  <tr><td>Pitney Bowes</td><td>PBI-US</td><td>0.90x</td><td>1.84x</td><td>7.0x</td><td>9.0x</td><td>7.8x</td><td>7.2x</td><td>0%</td></tr>
+  <tr><td>Stagwell</td><td>STGW-US</td><td>0.54x</td><td>0.98x</td><td>7.4x</td><td>19.7x</td><td>6.0x</td><td>5.2x</td><td>0%</td></tr>
+  <tr><td>Clear Channel</td><td>CCO-US</td><td>0.80x</td><td>3.87x</td><td>13.0x</td><td>20.4x</td><td>NM</td><td>NM</td><td>0%</td></tr>
+  <tr><td>Emerald Holding</td><td>EEX-US</td><td>1.00x</td><td>2.83x</td><td>11.3x</td><td>15.5x</td><td>23.0x</td><td>16.9x</td><td>0%</td></tr>
+  <tr class="stat-row"><td>Average</td><td></td><td>0.77x</td><td>2.13x</td><td>9.0x</td><td>14.8x</td><td>10.9x</td><td>8.9x</td><td></td></tr>
+  <tr class="stat-row"><td>Median</td><td></td><td>0.80x</td><td>1.84x</td><td>7.4x</td><td>15.5x</td><td>7.3x</td><td>6.8x</td><td></td></tr>
+</table>
+<div class="prose" style="margin-top:10px;"><strong>Comps Commentary:</strong> DLX trades at the cheapest EV/EBITDA (6.2x) and forward P/E (6.9x) in its comp set, despite having the most diversified revenue base and strongest FCF generation profile. The discount vs. Pitney Bowes (7.0x)—the closest functional comparable—reflects DLX's lower EBITDA margins (18.6% vs. 26.3%) and higher print concentration. However, DLX's margin trajectory is improving faster (+90bps YoY vs. PBI), and DLX is the only comp paying a 4.3% dividend. The deep discount to the broader marketing services peers (median 7.4x) reflects the market's continued perception of DLX as a declining print business. As P&amp;D revenue exceeds 50% of total and margins expand toward 22-24%, DLX should trade closer to 7-8x EV/EBITDA—implying 15-30% upside from multiple expansion alone.</div>
+
+<!-- SECTION 12 -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+<div class="verdict"><p><strong>(i) Market Cap Bucket: $1.26B</strong> <span class="fw-rating strong">Strong Fit</span></p><p style="margin-top:4px;">Small Cap ($1B–$5B). Down from $80+ pre-pandemic; significant value destruction already priced in. The stock has recovered 72% in the past year but remains at the low end of its historical range, creating a discounted entry into the transformation story.</p></div>
+<div class="verdict"><p><strong>(ii) Analyst Coverage: 3 Brokers</strong> <span class="fw-rating strong">Strong Fit</span></p><p style="margin-top:4px;">Only 3 broker contributors is extremely under-covered for a $1.26B company with $2.1B in revenue. Average OW rating with $32.67 target. The 7.88% short interest suggests active bearish conviction, creating opportunity for fundamental research to arbitrage the disconnect. Channel checks on FI check volumes, merchant processing trends, and data analytics adoption could generate highly differentiated insights.</p></div>
+<div class="verdict"><p><strong>(iii) Thesis Alignment: Payments &amp; Data Transformation</strong> <span class="fw-rating moderate">Adjacent</span></p><p style="margin-top:4px;">DLX is a payments infrastructure company processing $40B+ in merchant volume and $2T+ in B2B lockbox volume. B2B Payments includes treasury management, AP/AR automation, and the Deluxe Payment Exchange. The Visa Direct integration (dlxFastFunds) aligns with the real-time payments trend. Data Solutions leverages GenAI for financial marketing. Adjacent to the internet finance thesis—deeply in fintech/payments infrastructure but no blockchain component.</p></div>
+<div class="verdict"><p><strong>(iv) Outcome Dispersion: $10 – $75</strong> <span class="fw-rating strong">Strong Fit</span></p><p style="margin-top:4px;">Wide ~7.5x spread driven by: (a) binary print decline trajectory, (b) leverage amplifying equity outcomes (small changes in EBITDA create large equity swings), (c) payments growth uncertainty, (d) potential for dramatic multiple re-rating from 6x to 8x+ if transformation crosses 50% P&amp;D.</p></div>
+<div style="background:#fff3cd;border-left:4px solid #856404;padding:12px 14px;margin:16px 0;font-size:11.5px;">
+  <strong>VERDICT: YES — Deep Value Transformation with Extreme Under-Coverage &amp; Asymmetric FCF Yield</strong><br><br>
+  DLX is a compelling Theia opportunity: $1.26B market cap with only 3 analysts, trading at 6.2x EV/EBITDA with a 4.3% dividend yield and 14% FCF yield (FY26E). The payments &amp; data transformation is at a critical inflection (crossing 50% in 2026), FCF has inflected dramatically (+75% YoY to $175M), and deleveraging is creating equity value at 15%+ annual rate. The leverage amplifies both upside and downside, creating the wide dispersion ($10-$75) that enables fundamental research to generate alpha. With only 3 analysts, information asymmetry is extreme. <strong>Recommended: Initiate position; key catalyst Q1 2026 earnings (Apr 30) for mix shift confirmation and leverage trajectory.</strong>
+</div>
+<p class="prose" style="font-size:10px;font-style:italic;margin-top:6px;">Note: Theia seeks small-cap companies that aren't well covered and are strongly aligned on the core internet finance thesis with wide outcome dispersion. DLX scores: Market Cap ✓ | Coverage ✓✓ | Thesis Adjacent ≈ | Dispersion ✓</p>
+
+<!-- SECTION 13 -->
+<div class="memo-section">13. Risk Summary</div>
+<table class="risk-table">
+  <tr><th>Risk Category</th><th>Description</th><th>Severity</th><th>Mitigant</th></tr>
+  <tr><td>Secular Print Decline</td><td>Check volumes decline 2-3%/yr; promo products -15%; terminal value approaches zero over decades. 53% of current revenue.</td><td><span class="fw-rating high">High</span></td><td>Managing decline at predictable rates; extracting 32% EBITDA margins; 100+ yrs of checks still generate $1.1B revenue annually.</td></tr>
+  <tr><td>High Leverage / Interest</td><td>$1.43B debt at ~7.5% blended; ~$110M annual interest = 25% of EBITDA. B/BB- credit ratings.</td><td><span class="fw-rating high">High</span></td><td>All maturities extended to 2029; deleveraging on track (3.2x → sub-3.0x); two S&amp;P upgrades in 2025; FCF $175M+ supports paydown.</td></tr>
+  <tr><td>Payments Competition</td><td>Fiserv, Global Payments, Block vastly larger in merchant processing. DLX is subscale at $40B volume.</td><td><span class="fw-rating high">High</span></td><td>Own processing platform (not ISO); 4,000+ FI distribution; niche in small FI/SMB; "One Deluxe" bundling creates cross-sell moat.</td></tr>
+  <tr><td>Transformation Execution</td><td>Revenue flat for 3 years despite $110M restructuring. Growth relies on mix shift, not top line.</td><td><span class="fw-rating moderate">Moderate</span></td><td>North Star delivered $80M+ EBITDA; FCF hit 2026 target in 2025; operational discipline demonstrated for 12 consecutive quarters.</td></tr>
+  <tr><td>Dividend Sustainability</td><td>$55M annual dividend vs. $175M FCF (31% payout). Prioritizing dividend over faster deleveraging.</td><td><span class="fw-rating moderate">Moderate</span></td><td>30+ consecutive years; manageable payout ratio; management committed. Only cut in extreme stress scenario.</td></tr>
+  <tr><td>Macro / SMB Exposure</td><td>Small business customers sensitive to economic downturn. Merchant volumes could decline in recession.</td><td><span class="fw-rating moderate">Moderate</span></td><td>Diversified across 4,000+ FIs and millions of SMBs. Print provides counter-cyclical stability (check volumes historically stable in downturns).</td></tr>
+</table>
+
+<!-- SECTION 14 -->
+<div class="memo-section">14. Appendix — Python Code</div>
+<p class="prose">Sensitivity table generator and scenario model code for analyst customization:</p>
+<div class="code-block"># DLX Sensitivity & 5-Case Model
+import numpy as np, pandas as pd
+
+def revenue_sensitivity():
+    """FY26E Revenue — Print Decline vs. P&D Growth"""
+    print_base, pd_base = 1137, 996
+    print_decl = [-2, -4, -6, -8, -10]
+    pd_growth = [0, 3, 6, 9, 12]
+    results = []
+    for pd_ in print_decl:
+        row = []
+        for pg in pd_growth:
+            p = print_base * (1 + pd_/100)
+            d = pd_base * (1 + pg/100)
+            row.append(int(p + d))
+        results.append(row)
+    return pd.DataFrame(results, index=print_decl, columns=pd_growth)
+
+def ebitda_sensitivity():
+    """FY26E EBITDA — Revenue vs. Margin"""
+    revs = [2000, 2050, 2140, 2180, 2250]
+    margins = [18, 19, 21, 22, 24]
+    results = [[int(r*m/100) for m in margins] for r in revs]
+    return pd.DataFrame(results, index=revs, columns=margins)
+
+def price_sensitivity():
+    """Implied Price — FY28E EBITDA vs. EV/EBITDA"""
+    ebitdas = [380, 430, 480, 530, 580]
+    multiples = [5.0, 5.5, 6.0, 6.5, 7.0]
+    shares, nd = 47, 1000
+    results = [[f"${int((e*m - nd)/shares)}" for m in multiples] for e in ebitdas]
+    return pd.DataFrame(results, index=ebitdas, columns=multiples)
+
+def five_case():
+    cases = {
+        'Bear Severe': {'rev':1900,'ebitda':350,'ev_eb':4.5,'nd':1150,'sh':47},
+        'Bear Mild':   {'rev':2050,'ebitda':430,'ev_eb':4.7,'nd':1050,'sh':47},
+        'Base':        {'rev':2200,'ebitda':506,'ev_eb':5.5,'nd':950,'sh':47},
+        'Bull Mild':   {'rev':2340,'ebitda':562,'ev_eb':6.2,'nd':800,'sh':47},
+        'Bull Severe': {'rev':2520,'ebitda':655,'ev_eb':6.5,'nd':600,'sh':47},
+    }
+    results = []
+    for n, p in cases.items():
+        eq = p['ebitda']*p['ev_eb'] - p['nd']
+        pr = eq / p['sh']
+        results.append({'Case':n, 'Rev':f"${p['rev']}M", 'EBITDA':f"${p['ebitda']}M",
+            'Multiple':f"{p['ev_eb']}x", 'Price':f"${pr:.0f}",
+            'Upside':f"{(pr/27.91-1)*100:+.0f}%"})
+    return pd.DataFrame(results)
+
+for t,f in [("Revenue",revenue_sensitivity),("EBITDA",ebitda_sensitivity),
+            ("Price",price_sensitivity),("5-Case",five_case)]:
+    print(f"\n=== {t} ==="); print(f())
+</div>
+<p class="source-note">Generated by Claude | Data: FactSet, Company Filings, Earnings Transcripts, Conference Presentations | April 2026</p>
+
+</body>
+</html>
