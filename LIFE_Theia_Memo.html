@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ethos Technologies, Inc. | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 8px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child, table.comps td:nth-child(2) { text-align: left; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-style: italic; background: #fafbfc; font-weight: 600; border-top: 1px solid #eee; }
+table.comps th.est-col { color: #2563eb; }
+
+table.risk-table { font-size: 10px; width: 100%; margin: 8px 0; }
+table.risk-table th { text-align: left; font-weight: 600; padding: 4px 6px; background: #f4f6f9; border-bottom: 1px solid #ddd; }
+table.risk-table td { padding: 4px 6px; border-bottom: 1px solid #eee; vertical-align: top; }
+table.risk-table td:first-child { font-weight: 600; width: 25%; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.alphasense-box { background: #e8f4fd; border-left: 4px solid #2563eb; padding: 10px 14px; margin: 10px 0; font-size: 10px; line-height: 1.5; }
+
+.bull-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #155724; border-bottom: 1.5px solid #c3e6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #721c24; border-bottom: 1.5px solid #f5c6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+
+.bull-item, .bear-item { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Ethos Technologies, Inc. | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">Ethos Technologies, Inc. (NASDAQ: LIFE) is a vertically integrated, technology-driven life insurance distribution platform that connects consumers, independent agents, and insurance carriers through a single digital ecosystem. Founded in a Stanford University dorm room by co-founders Peter Colis (CEO) and Lingke Wang (President), Ethos has built a proprietary algorithmic underwriting engine that compresses what was historically a six-to-eight-week, medically invasive purchase process into a seamless 10-minute online experience. The company operates as a licensed insurance agent and third-party administrator (TPA) across 49 US states, handling end-to-end distribution, underwriting, policy issuance, and long-term policy administration. Critically, Ethos does not bear any balance sheet or mortality risk — all underwriting exposure sits with its carrier partners (Banner Life/Legal &amp; General America, TruStage, Ameritas, Protective, North American Sammons, and Aflac), making it a capital-light, asset-light platform business with 98% gross margins.</p>
+
+<p class="prose">Ethos generates revenue through commission payments from its carrier partners, earned both at initial policy placement and on recurring renewals over the 10+ year life of each policy. Revenue flows through two channels: Direct-to-Consumer (DTC), accounting for 63% of FY2025 revenue, where Ethos acquires customers through television, digital, and social media advertising; and Third-Party (3P) agent distribution, accounting for 37%, where 15,000+ independent agents use the Ethos Agent Operating System to sell policies instantly, receive next-day commission payments, and access CRM tools, lead generation, and agency management features. The company's proprietary underwriting engine evaluates ~250,000 data points per applicant — pharmaceutical records, medical claims, billing data, credit-based insurance scores — and applies 1M+ rules of logic with ~40,000 rules firing per individual application. This enables 95% of applicants to receive instant coverage decisions and over 90% to receive a risk-adjusted offer, a capability no legacy carrier has replicated at scale. In FY2025, Ethos generated $388M in revenue (+52% YoY), $89M in adjusted EBITDA (23% margin), and achieved a Rule of 40 score of 75, with 500,000+ cumulative policies activated. The company IPO'd on NASDAQ in September 2025 at $19.00/share, raising ~$200M.</p>
+
+<p class="prose"><strong>Key facts:</strong> Founded 2016 · Headquarters San Francisco, CA · CEO &amp; Co-Founder Peter Colis · President &amp; Co-Founder Lingke Wang · CFO Christopher Capozzi · CTO Vipul Sharma · Employees ~614 · IPO September 2025 (NASDAQ: LIFE) · FY end December · Market Cap $700M · CUSIP 29765A101 · ISIN US29765A1016</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 2: FINANCIAL SUMMARY (FACTSET) -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Theia FactSet Summary</div>
+
+<div class="header">
+  <div>
+    <h1>Ethos Technologies, Inc.</h1>
+    <span class="ticker">LIFE · NASDAQ · CUSIP 29765A101</span>
+  </div>
+  <div class="date">FactSet Snapshot · April 2, 2026</div>
+</div>
+
+<!-- Price Bar -->
+<div class="price-bar">
+  <div>
+    <span class="label">Price (Apr 1, 2026) </span>
+    <span class="price">$11.13</span>
+  </div>
+  <div><span class="label">1M </span><span class="chg">-5.24%</span></div>
+  <div><span class="label">3M </span><span class="chg">—</span></div>
+  <div><span class="label">6M </span><span class="chg">—</span></div>
+  <div><span class="label">YTD </span><span class="chg">—</span></div>
+  <div><span class="label">1Y </span><span class="chg">—</span></div>
+  <div><span class="label">52-Wk Range </span><span style="font-weight:600;">$9.45 – $19.00</span></div>
+</div>
+
+<!-- Key Stats + EV Bridge -->
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv" style="font-size:10px;">
+      <tr><td>Exchange / Ticker</td><td>NASDAQ · LIFE</td></tr>
+      <tr><td>Price (Apr 1, 2026)</td><td>$11.13</td></tr>
+      <tr><td>Volume</td><td>522,539</td></tr>
+      <tr><td>30-Day Avg Volume</td><td>498,858</td></tr>
+      <tr><td>Float %</td><td>41.39%</td></tr>
+      <tr><td>Short Interest</td><td>5.87% of float / 1.8 days</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev" style="font-size:10px;">
+      <tr><td>Basic Shares</td><td>62.87M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">Class A Common Stock</td><td style="font-size:9px;">30.79M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">Class B Convertible</td><td style="font-size:9px;">32.08M</td></tr>
+      <tr><td>+ Stock Compensation</td><td>11.31M</td></tr>
+      <tr><td>= Fully Diluted Shares</td><td>74.18M</td></tr>
+      <tr><td>× Share Price</td><td>$11.13</td></tr>
+      <tr><td>= Fully Dil. Market Cap</td><td>$826M</td></tr>
+      <tr><td>+ Consolidated Debt</td><td>$24M</td></tr>
+      <tr><td>− Cash &amp; Equivalents</td><td>($126M)</td></tr>
+      <tr class="total"><td>= Enterprise Value</td><td>$724M</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- Current Valuation — horizontal 6x2 grid -->
+<div class="section-title">Current Valuation</div>
+<div style="border: 1px solid #eee; border-radius: 4px; margin-bottom: 8px;">
+  <div class="val-grid">
+    <div class="val-cell"><div class="val-label">Mkt Cap</div><div class="val-num">$700M</div><div class="val-sub">Basic shares</div></div>
+    <div class="val-cell"><div class="val-label">EV</div><div class="val-num">$724M</div><div class="val-sub">$24M debt, $126M cash</div></div>
+    <div class="val-cell"><div class="val-label">P/E (LTM)</div><div class="val-num">9.8x</div><div class="val-sub">FY25 EPS $1.13</div></div>
+    <div class="val-cell"><div class="val-label">EV/EBITDA (LTM)</div><div class="val-num">9.1x</div><div class="val-sub">EBITDA $79M</div></div>
+    <div class="val-cell"><div class="val-label">EV/Sales (LTM)</div><div class="val-num">1.9x</div><div class="val-sub">Rev $388M</div></div>
+    <div class="val-cell"><div class="val-label">P/S (LTM)</div><div class="val-num">1.8x</div><div class="val-sub">Rev $388M</div></div>
+  </div>
+  <div style="border-top: 1px solid #eee;">
+    <div class="val-grid">
+      <div class="val-cell"><div class="val-label">Fully Dil. Mkt Cap</div><div class="val-num">$826M</div><div class="val-sub">74.18M dil. shares</div></div>
+      <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">13.29%</div><div class="val-sub">FactSet estimate</div></div>
+      <div class="val-cell"><div class="val-label">Beta (3Y Adj)</div><div class="val-num">1.96</div><div class="val-sub">Adjusted beta</div></div>
+      <div class="val-cell"><div class="val-label">Avg Analyst Rating</div><div class="val-num">Buy</div><div class="val-sub">6 brokers · 1.11</div></div>
+      <div class="val-cell"><div class="val-label">Cons. Target Price</div><div class="val-num">$20.25</div><div class="val-sub">+82% upside</div></div>
+      <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">Jun 3</div><div class="val-sub">Q1 FY2026</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Valuation Multiples Table -->
+<div class="section-title">Valuation Multiples</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Metric</th>
+      <th>5Yr Avg</th>
+      <th>Dec '23</th>
+      <th>Dec '24</th>
+      <th>Dec '25</th>
+      <th class="est" style="color:#2563eb;">Dec '26E</th>
+      <th class="est" style="color:#2563eb;">Dec '27E</th>
+      <th class="est" style="color:#2563eb;">Dec '28E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="8">PRICE MULTIPLES</td></tr>
+    <tr><td>P/E</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="est">NM</td><td class="est">8.6x</td><td class="est">5.2x</td></tr>
+    <tr><td>P/Sales</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="est">1.3x</td><td class="est">1.1x</td><td class="est">1.0x</td></tr>
+    <tr><td>P/Book Value</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="est">2.3x</td><td class="est">1.7x</td><td class="est">—</td></tr>
+    <tr><td>P/FCF</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="est">NM</td><td class="est">45.7x</td><td class="est">—</td></tr>
+    <tr class="section-row"><td colspan="8">EV MULTIPLES</td></tr>
+    <tr><td>EV/Sales</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="est">1.4x</td><td class="est">1.1x</td><td class="est">1.0x</td></tr>
+    <tr><td>EV/EBITDA</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="est">7.1x</td><td class="est">5.3x</td><td class="est">4.3x</td></tr>
+    <tr><td>EV/EBIT</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="est">NM</td><td class="est">19.7x</td><td class="est">12.6x</td></tr>
+  </tbody>
+</table>
+<p style="font-size:8px; color:#aaa; margin-top:2px;">Note: Historical multiples unavailable — LIFE IPO'd Sep 2025. FY2026E GAAP EBIT/Net Income negative due to stock-based compensation; adjusted EBITDA guided $99–103M.</p>
+
+<!-- Revenue Exposure -->
+<div class="section-title">Revenue Exposure (FY2025 Actuals, FYE December)</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Distribution Channel</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Channel</th><th>$M</th><th>% Rev</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Direct-to-Consumer</td><td>$244</td><td>63%</td><td>+65%</td></tr>
+        <tr><td>Third-Party (Agent)</td><td>$144</td><td>37%</td><td>+33%</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>$388</td><td>100%</td><td>+52%</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:8px; color:#aaa; margin-top:4px;">FactSet classifies 100% as "Life Insurance Services." Channel split from investor presentation.</p>
+  </div>
+  <div>
+    <div class="sub-label">By Geography</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Region</th><th>$M</th><th>% Rev</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>United States</td><td>$388</td><td>100%</td><td>+52%</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>$388</td><td>100%</td><td>+52%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Financials Table -->
+<div class="section-title">Financials</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">$M (FY Dec)</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th class="est" style="color:#2563eb;">FY2026E</th>
+      <th class="est" style="color:#2563eb;">FY2027E</th>
+      <th class="est" style="color:#2563eb;">FY2028E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">INCOME STATEMENT</td></tr>
+    <tr><td>Revenue</td><td>$160</td><td>$255</td><td>$388</td><td class="est">$513</td><td class="est">$632</td><td class="est">$701</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Revenue Growth %</td><td>—</td><td>+59.6%</td><td>+52.0%</td><td class="est">+32.3%</td><td class="est">+23.3%</td><td class="est">+10.9%</td></tr>
+    <tr><td>Gross Profit</td><td>$148</td><td>$243</td><td>$375</td><td class="est">$505</td><td class="est">$627</td><td class="est">—</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Gross Margin %</td><td>92.7%</td><td>95.3%</td><td>96.6%</td><td class="est">98.6%</td><td class="est">99.1%</td><td class="est">—</td></tr>
+    <tr><td>EBITDA</td><td>$3</td><td>$54</td><td>$79</td><td class="est">$102</td><td class="est">$136</td><td class="est">$170</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">EBITDA Margin %</td><td>1.8%</td><td>21.3%</td><td>20.4%</td><td class="est">19.8%</td><td class="est">21.6%</td><td class="est">24.2%</td></tr>
+    <tr><td>EBIT</td><td>($3)</td><td>$49</td><td>$73</td><td class="est">($152)</td><td class="est">$37</td><td class="est">$57</td></tr>
+    <tr><td>Net Income</td><td>$2</td><td>$49</td><td>$71</td><td class="est">($160)</td><td class="est">$38</td><td class="est">$59</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Net Margin %</td><td>1.1%</td><td>19.2%</td><td>18.4%</td><td class="est">NM</td><td class="est">6.0%</td><td class="est">8.4%</td></tr>
+    <tr><td>EPS (Dil)</td><td>$0.03</td><td>$0.78</td><td>$1.13</td><td class="est">($2.31)</td><td class="est">$0.51</td><td class="est">$0.75</td></tr>
+    <tr class="section-row"><td colspan="7">CASH FLOW</td></tr>
+    <tr><td>Operating Cash Flow</td><td>($37)</td><td>($11)</td><td>$36</td><td class="est">$9</td><td class="est">$24</td><td class="est">$55</td></tr>
+    <tr><td>CapEx</td><td>($0.3)</td><td>($1)</td><td>($6)</td><td class="est">($4)</td><td class="est">($5)</td><td class="est">($9)</td></tr>
+    <tr><td>Free Cash Flow</td><td>($37)</td><td>($12)</td><td>$30</td><td class="est">$0.1</td><td class="est">$15</td><td class="est">$46</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">FCF Margin %</td><td>NM</td><td>NM</td><td>7.9%</td><td class="est">0.0%</td><td class="est">2.4%</td><td class="est">6.6%</td></tr>
+    <tr class="section-row"><td colspan="7">BALANCE SHEET</td></tr>
+    <tr><td>Cash &amp; ST Investments</td><td>$129</td><td>$103</td><td>$126</td><td class="est">$90</td><td class="est">$98</td><td class="est">—</td></tr>
+    <tr><td>Total Debt</td><td>$7</td><td>$36</td><td>$27</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+    <tr><td>Shareholders' Equity</td><td>$245</td><td>$297</td><td>$380</td><td class="est">$491</td><td class="est">$628</td><td class="est">—</td></tr>
+    <tr class="section-row"><td colspan="7">RETURNS &amp; LEVERAGE</td></tr>
+    <tr><td>ROE</td><td>—</td><td>18.0%</td><td>21.0%</td><td class="est">NM</td><td class="est">20.0%</td><td class="est">—</td></tr>
+    <tr><td>Debt/Equity</td><td>2.9%</td><td>12.2%</td><td>7.0%</td><td class="est">2.5%</td><td class="est">0.9%</td><td class="est">—</td></tr>
+    <tr><td>Current Ratio</td><td>5.5x</td><td>2.6x</td><td>2.2x</td><td class="est">1.9x</td><td class="est">1.9x</td><td class="est">—</td></tr>
+  </tbody>
+</table>
+
+<!-- Valuation Summary -->
+<div class="section-title">Valuation Summary</div>
+<p class="prose">Ethos currently trades at 1.4x FY2026E EV/Sales and 7.1x FY2026E EV/EBITDA — a substantial discount to the IPO price of $19.00 and the consensus target of $20.25 (+82% upside). The stock is down 41% from its IPO price, trading near its 52-week low of $9.45, having suffered a sharp re-rating following Q4 2025 earnings when FY2026 revenue guidance of $510–514M (+32% growth) decelerated sharply from the 65% Q4 run-rate. The GAAP P/E is not meaningful for FY2026E due to ~$225M in IPO-related stock-based compensation; adjusted EBITDA of ~$101M (20% margin) is the superior profitability metric. On a FY2028E basis, valuation compresses to 4.3x EV/EBITDA and 1.0x EV/Sales — exceptionally cheap for a 98% gross margin platform business still growing 10%+ with a clear path to mid-20s% EBITDA margins. The company holds $157M in cash plus investments and $290M in commission receivables (long-duration asset converting over ~10 years), providing significant balance sheet cushion. With only 6 broker contributors covering the name (all Buy-rated), the Street is overwhelmingly bullish but coverage is thin — exactly the type of under-followed setup Theia targets.</p>
+
+<div class="source-note">Source: FactSet snapshot export, April 2, 2026. Estimates reflect consensus of 6 broker contributors. FYE December.</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 3: BULL & BEAR CASES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Cases</div>
+    <div class="bull-item"><strong>1. GEICO-of-Life-Insurance Analogy.</strong> Ethos is replicating what GEICO/Progressive did to auto insurance — replacing agent-dominated, high-friction distribution with instant, online purchasing. The $140B US life insurance premium market is ripe for digital disruption, and Ethos has no scaled direct competitors left standing.</div>
+    <div class="bull-item"><strong>2. Compounding Data Flywheel.</strong> Every application processed improves the 250,000-data-point underwriting engine, which improves risk selection, which attracts more carriers and agents, which generates more data. This is a structural moat that widens with scale — competitors cannot replicate 6+ years of proprietary underwriting data.</div>
+    <div class="bull-item"><strong>3. AI as Structural Tailwind.</strong> Ethos's cloud-native, unified data infrastructure is perfectly positioned to leverage AI for marketing optimization, fraud detection, and underwriting refinement. If AI reduces cost of distribution (largest cost center), margin expansion accelerates dramatically. Legacy carriers on fragmented tech stacks cannot deploy AI effectively.</div>
+    <div class="bull-item"><strong>4. Product Expansion Unlocks TAM.</strong> Recent launches of indexed universal life (North American) and cancer insurance (Aflac) expand beyond term life into the broader $140B+ market. Annuities, supplementary health, and mutual funds are future product vectors that leverage existing consumer relationships (NPS >70).</div>
+    <div class="bull-item"><strong>5. Agent Platform Only 1% Penetrated.</strong> 15,000 agents on platform represents low-single-digit % of the US life insurance agent market. Agent-to-agent organic referral drives zero-cost recruitment, and each new agent generates recurring, compounding revenue with no incremental CAC.</div>
+  </div>
+  <div>
+    <div class="bear-header">Bear Cases</div>
+    <div class="bear-item"><strong>1. Extreme Carrier Concentration.</strong> Three carriers account for 88% of FY2025 revenue (38%, 36%, 14%). If any anchor carrier changes pricing, tightens underwriting appetite, or terminates the relationship, Ethos faces an existential revenue shock with limited near-term replacement options.</div>
+    <div class="bear-item"><strong>2. Growth Deceleration Is Real.</strong> Revenue guidance decelerated from 65% Q4 growth to 32% FY2026, challenging the "leverage story." If growth continues slowing toward 10-15% by FY2028, the stock re-rates from growth multiple to value multiple — which at current levels could still mean downside.</div>
+    <div class="bear-item"><strong>3. D2C Unit Economics Remain Fragile.</strong> Pure D2C life insurance acquisition proved structurally expensive, forcing the pivot to 3P agents. If LTV/CAC ratios invert due to rising digital marketing costs or lower policy retention, the 63% of revenue from DTC faces margin pressure.</div>
+    <div class="bear-item"><strong>4. Algorithmic Underwriting Risk.</strong> By bypassing medical exams, the engine may miss specific health data. Regulatory scrutiny around AI bias in coverage decisions is intensifying. A major underwriting miss or regulatory action could damage carrier confidence and trigger partner attrition.</div>
+    <div class="bear-item"><strong>5. Governance Overhang.</strong> 54% of institutional shares voted against reappointing the 70-year-old chairman, signaling governance concerns. Dual-class share structure (Class B convertible) concentrates voting power, limiting public shareholder influence over strategic direction.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item"><span class="fw-name">1. Scale Economies</span><span class="fw-rating strong">Strong</span><br><span class="prose">Ethos's 98% gross margin platform amortizes fixed technology costs (underwriting engine, admin system, data infrastructure) across growing policy volume. Each incremental policy carries near-zero marginal cost. The company's ML models improve with data density, creating cost advantages that scale non-linearly. Revenue per employee of ~$631K demonstrates exceptional operational leverage.</span></div>
+
+<div class="fw-item"><span class="fw-name">2. Network Effects</span><span class="fw-rating strong">Strong</span><br><span class="prose">Three-sided network effects are the core of the business: more consumers generate more underwriting data → better risk models → attracts more carriers → broader product portfolio → attracts more agents → more consumers. Agent-to-agent referral creates organic growth loops. The company has become the largest source of new premiums for most carrier partners, making it harder for competitors to attract the same carrier capacity.</span></div>
+
+<div class="fw-item"><span class="fw-name">3. Counter-Positioning</span><span class="fw-rating strong">Strong</span><br><span class="prose">Legacy carriers (Northwestern Mutual, Prudential, MassMutual) have tried and failed to launch direct digital strategies because doing so would cannibalize their existing agent-dependent distribution networks, alienate their agent forces, and require rebuilding tech stacks from scratch. Ethos's asset-light, no-balance-sheet-risk model is structurally impossible for carriers to replicate without dismantling their existing businesses.</span></div>
+
+<div class="fw-item"><span class="fw-name">4. Switching Costs</span><span class="fw-rating moderate">Moderate</span><br><span class="prose">For agents, switching away from the Ethos Agent OS means losing CRM data, lead pipelines, next-day payment benefits, and agency management tools. For carriers, deep technical integrations and Ethos's status as their largest premium source create meaningful switching friction. However, consumers have low switching costs — they can shop across multiple platforms before purchasing.</span></div>
+
+<div class="fw-item"><span class="fw-name">5. Branding</span><span class="fw-rating moderate">Moderate</span><br><span class="prose">Ethos has invested heavily in upper-funnel brand advertising (TV, sports, social media) and achieved an NPS of 70+ — higher than Netflix, Spotify, or Apple. However, the brand is still young (IPO'd 2025) and life insurance purchasing is infrequent, limiting habitual brand loyalty. Brand awareness is growing but not yet a dominant purchase driver versus price.</span></div>
+
+<div class="fw-item"><span class="fw-name">6. Cornered Resource</span><span class="fw-rating strong">Strong</span><br><span class="prose">Six years of proprietary underwriting data comprising 500,000+ policies, 1M+ rules of logic, and the Proprietary Information Graph represent a non-replicable data asset. The engine's 40,000 rules firing per applicant across 250,000 data points creates IP that cannot be purchased or reverse-engineered. Deep, multi-year carrier integrations with dedicated IT roadmap prioritization are effectively cornered distribution relationships.</span></div>
+
+<div class="fw-item"><span class="fw-name">7. Process Power</span><span class="fw-rating moderate">Moderate</span><br><span class="prose">The Stanford-founded engineering culture, rapid A/B testing cadence (3-day experiments vs. 3-week industry standard), and continuous ML feedback loops create embedded organizational capabilities. However, the company is still pre-scale as a public entity, and process advantages have not yet been tested across multiple leadership transitions.</span></div>
+
+<div class="verdict"><strong>Summary:</strong> Ethos's strongest powers are Scale Economies, Network Effects, Counter-Positioning, and Cornered Resource — a rare combination for a sub-$1B market cap company. The three-sided platform with compounding data flywheel and structural inability of incumbents to replicate the model creates durable competitive advantages that should widen with scale.</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item"><span class="fw-name">1. Threat of New Entrants</span><span class="fw-rating low">Low</span><br><span class="prose">Building a competitive digital life insurance platform requires: (a) 6+ years of underwriting data to train ML models, (b) state-by-state licensing across 49 states, (c) deep carrier partnerships requiring years of trust-building, and (d) hundreds of millions in capital for technology and marketing. Bestow, the closest digital competitor, pivoted to white-label SaaS after failing to make D2C economics work. Northwestern Mutual, Prudential, and MassMutual all attempted and shuttered their direct digital strategies.</span></div>
+
+<div class="fw-item"><span class="fw-name">2. Bargaining Power of Suppliers</span><span class="fw-rating high">High</span><br><span class="prose">Ethos's "suppliers" are its carrier partners who hold all the balance sheet risk. Three carriers account for 88% of revenue — extreme concentration that gives each carrier significant leverage over commission rates, underwriting standards, and capacity allocation. If a carrier decides to tighten terms or withdraw, Ethos faces an immediate and material revenue impact. However, this is partially mitigated by Ethos being the carriers' largest premium source, creating mutual dependency.</span></div>
+
+<div class="fw-item"><span class="fw-name">3. Bargaining Power of Buyers</span><span class="fw-rating low">Low</span><br><span class="prose">Consumers (individuals purchasing life insurance) are highly fragmented — no single customer is material. Life insurance is an emotional, considered purchase where speed and ease matter more than pure price comparison. NPS >70 suggests strong customer satisfaction and low price sensitivity relative to experience quality. Agent customers similarly have low individual bargaining power given Ethos's unique value proposition.</span></div>
+
+<div class="fw-item"><span class="fw-name">4. Threat of Substitutes</span><span class="fw-rating low">Low</span><br><span class="prose">Life insurance is a non-discretionary financial product for families needing income protection. There is no functional substitute for a death benefit — savings accounts, investments, and other insurance products do not replicate the same protection. ~10 million Americans purchase individual life insurance annually regardless of market conditions.</span></div>
+
+<div class="fw-item"><span class="fw-name">5. Competitive Rivalry</span><span class="fw-rating moderate">Moderate</span><br><span class="prose">The life insurance distribution market is highly fragmented (largest carrier has ~9% share), which is favorable. However, competition for agent mindshare among independent distributors is intense, and legacy carriers have massive existing agent networks. In the digital channel, Ethos is effectively the only scaled player remaining, which dramatically reduces rivalry for D2C customers.</span></div>
+
+<div class="verdict"><strong>Summary:</strong> The competitive environment is favorable — low threat of new entrants, low buyer power, and no substitutes create a structurally attractive position. The primary risk is High supplier power from carrier concentration (88% in 3 partners), which is the single most important force to monitor. Competitive rivalry is moderate and trending lower as digital competitors exit the market.</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 6: WHAT DRIVES THE STOCK? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<div class="prose"><strong>1. Revenue Growth Trajectory vs. Guidance.</strong> The stock dropped ~38% over 120 days following Q4 earnings when FY2026 guidance decelerated from 65% Q4 growth to 32% annual. Every subsequent quarter's revenue print vs. guidance will be the most important catalyst. Beating $512M guidance resets the growth narrative; missing it confirms deceleration fears. <em>Bullish:</em> Revenue acceleration beyond 32%. <em>Bearish:</em> Further deceleration below 25%.</div>
+
+<div class="prose"><strong>2. D2C Unit Economics (LTV/CAC).</strong> With sales &amp; marketing as the #1 cost line and DTC at 63% of revenue, investors will track contribution margin per D2C policy. The company targets cash profitability by month 2 of policy life. If AI reduces marketing costs or conversion rates improve, margins expand. If digital ad costs inflate, margins compress. <em>Bullish:</em> Contribution margin expands above 43%. <em>Bearish:</em> LTV/CAC ratio inverts on rising CAC.</div>
+
+<div class="prose"><strong>3. Carrier Diversification Progress.</strong> Management stated the 10-K will show carrier concentration declining ~10 percentage points. Investors need to see the 88% concentration in 3 carriers meaningfully decrease through new product launches and new carrier partnerships. <em>Bullish:</em> Top-3 concentration drops below 75%. <em>Bearish:</em> Carrier loss or tightening of underwriting appetite.</div>
+
+<div class="prose"><strong>4. Agent Growth &amp; Productivity.</strong> Agent count grew from 10,000 (FY2024) to 15,000 (FY2025). Monitoring both agent recruitment pace and revenue per agent is critical — together they determine 3P channel trajectory. <em>Bullish:</em> Agent count exceeds 20,000 with rising per-agent productivity. <em>Bearish:</em> Agent recruitment stalls or per-agent revenue declines.</div>
+
+<div class="prose"><strong>5. New Product Traction (IUL, Cancer Insurance).</strong> Indexed universal life and cancer insurance launched in Q4 2025. Management ascribed minimal revenue to new products in guidance. Early traction data in coming quarters will signal whether product diversification is working. <em>Bullish:</em> New products contribute $30M+ by FY2027. <em>Bearish:</em> New products fail to scale and drag R&D costs.</div>
+
+<div class="prose"><strong>6. AI Integration &amp; Cost Leverage.</strong> If AI/LLM adoption by consumers changes life insurance shopping behavior (e.g., AI agents recommending Ethos), it could compress marketing costs while expanding reach. Ethos's GEO optimization efforts and LLM integrations are early-stage wildcards. <em>Bullish:</em> AI-driven D2C acquisition cuts CAC by 20%+. <em>Bearish:</em> AI tools disintermediate Ethos or commoditize insurance comparison.</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<div class="section-title">Revenue Decomposition</div>
+<table class="data" style="font-size:10px;">
+  <thead>
+    <tr><th style="text-align:left;">Revenue Line</th><th style="text-align:left;">Formula</th><th>FY2025</th><th>% of Rev</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Direct-to-Consumer</td><td style="text-align:left;">Marketing Spend × Revenue / Marketing $ (ROAS)</td><td>$244M</td><td>63%</td></tr>
+    <tr><td style="padding-left:12px; font-size:9px; color:#666;">— or equivalently</td><td style="text-align:left; font-size:9px; color:#666;">D2C Leads × Conversion Rate × ARPU ($1,954)</td><td></td><td></td></tr>
+    <tr><td>Third-Party (Agent)</td><td style="text-align:left;">Active Agents × Policies/Agent × ARPU ($1,954)</td><td>$144M</td><td>37%</td></tr>
+    <tr style="font-weight:700; border-top:1px solid #ccc;"><td>Total Revenue</td><td></td><td>$388M</td><td>100%</td></tr>
+  </tbody>
+</table>
+
+<div class="section-title">Detailed Driver Tables</div>
+
+<p class="prose" style="margin-top:6px;"><strong>D2C Channel Drivers:</strong></p>
+<table class="data" style="font-size:9px;">
+  <thead><tr><th style="text-align:left;">Driver</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>Trend</th></tr></thead>
+  <tbody>
+    <tr><td>D2C Revenue ($M)</td><td>~$89</td><td>~$155</td><td>$244</td><td>+58% CAGR</td></tr>
+    <tr><td>D2C Policies Activated</td><td>~46K</td><td>~79K</td><td>~125K</td><td>Growing</td></tr>
+    <tr><td>ARPU (Total)</td><td>~$1,700</td><td>~$1,870</td><td>$1,954</td><td>Steadily rising</td></tr>
+    <tr><td>Q4 D2C Rev ($M)</td><td>—</td><td>—</td><td>$74.2</td><td>+93% Y/Y</td></tr>
+    <tr><td>Payback Period</td><td>—</td><td>—</td><td>~2 months</td><td>Stable</td></tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:6px;"><strong>3P Agent Channel Drivers:</strong></p>
+<table class="data" style="font-size:9px;">
+  <thead><tr><th style="text-align:left;">Driver</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>Trend</th></tr></thead>
+  <tbody>
+    <tr><td>3P Revenue ($M)</td><td>~$71</td><td>~$100</td><td>$144</td><td>+42% CAGR</td></tr>
+    <tr><td>Active Agents on Platform</td><td>~8,000</td><td>~10,000</td><td>15,000</td><td>+50% Y/Y</td></tr>
+    <tr><td>Revenue / Agent</td><td>~$8,900</td><td>~$10,000</td><td>~$9,600</td><td>Stable</td></tr>
+    <tr><td>Q4 3P Rev ($M)</td><td>—</td><td>—</td><td>$35.9</td><td>+27% Y/Y</td></tr>
+    <tr><td>Agent Acquisition Cost</td><td>—</td><td>—</td><td>~$0</td><td>Organic referral</td></tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:8px;"><strong>Key leverage points:</strong> The two most impactful drivers are (1) <strong>D2C marketing ROAS</strong> — every 10% improvement in conversion rate flows almost entirely to contribution profit given 98% gross margins, and (2) <strong>active agent count growth</strong> — agents are acquired at near-zero marginal cost through organic referrals and generate recurring revenue. ARPU is the third key lever, driven by product mix (IUL and permanent life products carry higher premiums than term) and carrier take rate negotiations.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box"><strong>Competitive Moat — Expert View:</strong> Industry experts consistently describe Ethos's data moat as "formidable" and "compounding." The proprietary underwriting engine processing 250K data points with 1M+ rules creates a widening technological gap. Experts note the flywheel effect — higher volumes → better risk data → more carriers → broader agent network — makes it "exceptionally difficult for legacy competitors to catch up, effectively displacing smaller mom-and-pop operations that lack the capital to compete at scale." The comparison to Bestow is instructive: Bestow pivoted to pure white-label SaaS after failing at D2C, while Ethos maintained its consumer brand and became the primary premium source for several top-tier carriers. (Sources: Expert calls with former Nationwide CU, Dai-ichi Life executive, former NYL VP)</div>
+
+<div class="alphasense-box"><strong>Most Misunderstood Aspect:</strong> The viability of pure D2C life insurance acquisition. Early market assumptions that a massive D2C market would emerge proved wrong — digital marketing costs were "exorbitantly expensive" and unit economics "deeply flawed." Ethos's pivoting to hybrid B2B2C was a survival move, not strategic optionality. The second misunderstanding: algorithmic underwriting does occasionally miss health data that physical labs catch, forcing conservative pricing on some policies. Ethos mitigates this with 100,000+ post-issue human audits — a cost not always appreciated by investors. (Sources: Former Ethos CFO, Former Director of Product at Ethos)</div>
+
+<div class="alphasense-box"><strong>Management &amp; Culture:</strong> Experts "consistently praise" leadership for strategic adaptability — the pivot from pure D2C to hybrid B2B2C when CAC proved unsustainable is cited as exceptional execution. Former CFO highlighted "ruthless management focus on optimizing LTV/CAC ratio." However, governance concerns emerged: 54% of institutional shares voted against reappointing the 70-year-old chairman, with investors citing succession risk and demanding board refreshment. The dual-class share structure gives insiders outsized control. (Sources: Former Ethos CFO, news reports)</div>
+
+<div class="alphasense-box"><strong>AI Impact — Structural Tailwind:</strong> Because Ethos operates on a unified, cloud-native data infrastructure (unlike carriers on fragmented legacy systems), it is "perfectly positioned to leverage generative AI for deeper funnel analysis and more nuanced risk interpretation." Experts believe AI will widen, not narrow, Ethos's moat — legacy carriers with "garbage in, garbage out" data cannot effectively deploy AI. Regulatory constraints prevent using black-box AI for underwriting (must be disputable, reportable, correctable), which protects Ethos's rules-based engine from disruption. (Sources: VP at Alpine Intel, Earnings call commentary)</div>
+
+<div class="alphasense-box"><strong>Key Investor Questions:</strong> (1) Can growth re-accelerate beyond 32% guidance, or is the deceleration structural? (2) Will carrier concentration decline meaningfully, and how fast can new carrier partnerships ramp? (3) Is the D2C expansion path sustainable as digital advertising costs rise industry-wide? (4) How will the post-IPO SBC overhang resolve — will the ~$225M in FY2026E SBC suppress GAAP earnings for multiple years? (5) Can new product launches (IUL, cancer insurance) reach meaningful revenue contribution by FY2027?</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 9: SENSITIVITIES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Sensitivities on Core Business Drivers</div>
+
+<p class="prose"><strong>Table 1: Total Revenue ($M) as a function of D2C Revenue Growth (%) vs. 3P Agent Count</strong></p>
+<p style="font-size:8px; color:#888; margin-bottom:4px;">Current: D2C growth ~58% (FY25), Active agents ~15,000. Assumes 3P Rev/Agent = $10,000 and D2C base of $244M.</p>
+<table class="sensitivity">
+  <thead>
+    <tr><th></th><th>12,000 Agents</th><th>15,000 Agents</th><th>18,000 Agents</th><th>21,000 Agents</th><th>25,000 Agents</th></tr>
+  </thead>
+  <tbody>
+    <tr><td style="font-weight:600;">D2C +20%</td><td>$413</td><td>$443</td><td>$473</td><td>$503</td><td>$543</td></tr>
+    <tr><td style="font-weight:600;">D2C +30%</td><td>$437</td><td>$467</td><td>$497</td><td>$527</td><td>$567</td></tr>
+    <tr><td style="font-weight:600;">D2C +40%</td><td>$462</td><td>$492</td><td class="base">$522</td><td>$552</td><td>$592</td></tr>
+    <tr><td style="font-weight:600;">D2C +50%</td><td>$486</td><td>$516</td><td>$546</td><td>$576</td><td>$616</td></tr>
+    <tr><td style="font-weight:600;">D2C +60%</td><td>$510</td><td>$540</td><td>$570</td><td>$600</td><td>$640</td></tr>
+  </tbody>
+</table>
+
+<p class="prose"><strong>Table 2: Adjusted EBITDA ($M) as a function of Revenue ($M) vs. Adj. EBITDA Margin (%)</strong></p>
+<p style="font-size:8px; color:#888; margin-bottom:4px;">Current: FY2025 Revenue $388M, Adj EBITDA margin 23%. FY2026E guidance midpoint: $512M rev, ~$101M adj EBITDA (20%).</p>
+<table class="sensitivity">
+  <thead>
+    <tr><th></th><th>$460M</th><th>$490M</th><th>$512M</th><th>$540M</th><th>$570M</th></tr>
+  </thead>
+  <tbody>
+    <tr><td style="font-weight:600;">17% Margin</td><td>$78</td><td>$83</td><td>$87</td><td>$92</td><td>$97</td></tr>
+    <tr><td style="font-weight:600;">19% Margin</td><td>$87</td><td>$93</td><td>$97</td><td>$103</td><td>$108</td></tr>
+    <tr><td style="font-weight:600;">20% Margin</td><td>$92</td><td>$98</td><td class="base">$102</td><td>$108</td><td>$114</td></tr>
+    <tr><td style="font-weight:600;">22% Margin</td><td>$101</td><td>$108</td><td>$113</td><td>$119</td><td>$125</td></tr>
+    <tr><td style="font-weight:600;">25% Margin</td><td>$115</td><td>$123</td><td>$128</td><td>$135</td><td>$143</td></tr>
+  </tbody>
+</table>
+
+<p class="prose"><strong>Table 3: Implied Share Price ($) as a function of FY2028E EBITDA ($M) vs. Exit EV/EBITDA Multiple</strong></p>
+<p style="font-size:8px; color:#888; margin-bottom:4px;">Current: Share price $11.13. Assumes net debt = ($100M) (i.e., $100M net cash), diluted shares 74.18M.</p>
+<table class="sensitivity">
+  <thead>
+    <tr><th></th><th>5.0x</th><th>6.0x</th><th>7.0x</th><th>8.0x</th><th>9.0x</th></tr>
+  </thead>
+  <tbody>
+    <tr><td style="font-weight:600;">$130M EBITDA</td><td>$10.13</td><td>$11.88</td><td>$13.64</td><td>$15.39</td><td>$17.14</td></tr>
+    <tr><td style="font-weight:600;">$150M EBITDA</td><td>$11.48</td><td>$13.50</td><td>$15.52</td><td>$17.53</td><td>$19.55</td></tr>
+    <tr><td style="font-weight:600;">$170M EBITDA</td><td>$12.82</td><td>$15.12</td><td class="base">$17.40</td><td>$19.67</td><td>$21.96</td></tr>
+    <tr><td style="font-weight:600;">$190M EBITDA</td><td>$14.15</td><td>$16.73</td><td>$19.27</td><td>$21.81</td><td>$24.37</td></tr>
+    <tr><td style="font-weight:600;">$210M EBITDA</td><td>$15.50</td><td>$18.33</td><td>$21.15</td><td>$23.96</td><td>$26.78</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 10: FIVE SCENARIOS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">10. Five Scenarios (3-Year Model)</div>
+
+<!-- Bear Severe -->
+<div class="case-block">
+  <div class="case-name">Bear Case (Severe) — Carrier Loss &amp; D2C Stall</div>
+  <div class="case-desc">A major carrier partner (38% of revenue) tightens underwriting appetite or renegotiates commission rates downward. D2C marketing ROAS deteriorates as digital ad costs rise. Agent growth stalls at ~18K due to competitive pressure from legacy carriers enhancing their own digital tools.</div>
+  <div class="driver-label">Key Drivers (FY2028E)</div>
+  <div class="driver-row"><span>D2C Revenue Growth (FY26–28 CAGR)</span><span>+8%</span></div>
+  <div class="driver-row"><span>Active Agents</span><span>18,000</span></div>
+  <div class="driver-row"><span>ARPU</span><span>$1,850</span></div>
+  <div class="driver-row"><span>Adj. EBITDA Margin</span><span>15%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$440M</td><td>$490M</td><td>$530M</td></tr>
+    <tr><td>Gross Profit</td><td>433M</td><td>483M</td><td>522M</td></tr>
+    <tr><td>EBITDA</td><td>75M</td><td>83M</td><td>80M</td></tr>
+    <tr><td>EBITDA Margin</td><td>17.0%</td><td>17.0%</td><td>15.0%</td></tr>
+    <tr><td>Net Income (GAAP)</td><td>($150M)</td><td>$15M</td><td>$20M</td></tr>
+    <tr><td>EPS</td><td>($2.02)</td><td>$0.20</td><td>$0.27</td></tr>
+    <tr><td>Free Cash Flow</td><td>($5M)</td><td>$5M</td><td>$15M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:9px; color:#555;">Exit: 5.0x FY2028E EV/EBITDA ($80M) + $100M net cash = $500M equity ÷ 74.18M shares</div>
+    <div class="exit-price">$6.74</div>
+    <div class="exit-upside">-39.4% from current price</div>
+  </div>
+</div>
+
+<!-- Bear Mild -->
+<div class="case-block">
+  <div class="case-name">Bear Case (Mild) — Growth Deceleration, Margin Stall</div>
+  <div class="case-desc">Revenue growth decelerates in line with guidance but new products fail to gain traction. Carrier concentration remains above 80%. Adj EBITDA margin stays flat at ~20% as marketing spend remains elevated to sustain growth. Agent count grows modestly.</div>
+  <div class="driver-label">Key Drivers (FY2028E)</div>
+  <div class="driver-row"><span>D2C Revenue Growth (FY26–28 CAGR)</span><span>+12%</span></div>
+  <div class="driver-row"><span>Active Agents</span><span>22,000</span></div>
+  <div class="driver-row"><span>ARPU</span><span>$1,950</span></div>
+  <div class="driver-row"><span>Adj. EBITDA Margin</span><span>20%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$500M</td><td>$580M</td><td>$650M</td></tr>
+    <tr><td>Gross Profit</td><td>492M</td><td>571M</td><td>640M</td></tr>
+    <tr><td>EBITDA</td><td>95M</td><td>116M</td><td>130M</td></tr>
+    <tr><td>EBITDA Margin</td><td>19.0%</td><td>20.0%</td><td>20.0%</td></tr>
+    <tr><td>Net Income (GAAP)</td><td>($155M)</td><td>$30M</td><td>$45M</td></tr>
+    <tr><td>EPS</td><td>($2.09)</td><td>$0.40</td><td>$0.61</td></tr>
+    <tr><td>Free Cash Flow</td><td>$0M</td><td>$12M</td><td>$35M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:9px; color:#555;">Exit: 6.0x FY2028E EV/EBITDA ($130M) + $100M net cash = $880M equity ÷ 74.18M shares</div>
+    <div class="exit-price">$11.86</div>
+    <div class="exit-upside">+6.6% from current price</div>
+  </div>
+</div>
+
+<!-- Base -->
+<div class="case-block">
+  <div class="case-name">Base Case — Consensus Estimates</div>
+  <div class="case-desc">Revenue tracks consensus with 32% growth in FY2026, decelerating to ~11% by FY2028 as the business matures. Adj EBITDA margins expand toward mid-20s% as SBC normalizes and operating leverage kicks in. Agent count reaches 25K+ with stable per-agent economics. New products contribute incremental revenue.</div>
+  <div class="driver-label">Key Drivers (FY2028E)</div>
+  <div class="driver-row"><span>D2C Revenue Growth (FY26–28 CAGR)</span><span>+15%</span></div>
+  <div class="driver-row"><span>Active Agents</span><span>25,000</span></div>
+  <div class="driver-row"><span>ARPU</span><span>$2,050</span></div>
+  <div class="driver-row"><span>Adj. EBITDA Margin</span><span>24%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$513M</td><td>$632M</td><td>$701M</td></tr>
+    <tr><td>Gross Profit</td><td>505M</td><td>627M</td><td>693M</td></tr>
+    <tr><td>EBITDA</td><td>102M</td><td>136M</td><td>170M</td></tr>
+    <tr><td>EBITDA Margin</td><td>19.8%</td><td>21.6%</td><td>24.2%</td></tr>
+    <tr><td>Net Income (GAAP)</td><td>($160M)</td><td>$38M</td><td>$59M</td></tr>
+    <tr><td>EPS</td><td>($2.31)</td><td>$0.51</td><td>$0.75</td></tr>
+    <tr><td>Free Cash Flow</td><td>$0M</td><td>$15M</td><td>$46M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:9px; color:#555;">Exit: 7.0x FY2028E EV/EBITDA ($170M) + $100M net cash = $1,290M equity ÷ 74.18M shares</div>
+    <div class="exit-price">$17.39</div>
+    <div class="exit-upside">+56.2% from current price</div>
+  </div>
+</div>
+
+<!-- Bull Mild -->
+<div class="case-block">
+  <div class="case-name">Bull Case (Mild) — Growth Exceeds Guidance, Margin Expansion</div>
+  <div class="case-desc">D2C ROAS improves as AI-driven marketing optimization reduces CAC. New product launches (IUL, cancer insurance) contribute $40M+ by FY2028. Agent platform reaches 30K+ agents with rising productivity. Carrier concentration declines below 70% as new partnerships scale. Adj EBITDA margins reach 27%.</div>
+  <div class="driver-label">Key Drivers (FY2028E)</div>
+  <div class="driver-row"><span>D2C Revenue Growth (FY26–28 CAGR)</span><span>+20%</span></div>
+  <div class="driver-row"><span>Active Agents</span><span>30,000</span></div>
+  <div class="driver-row"><span>ARPU</span><span>$2,150</span></div>
+  <div class="driver-row"><span>Adj. EBITDA Margin</span><span>27%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$545M</td><td>$700M</td><td>$830M</td></tr>
+    <tr><td>Gross Profit</td><td>537M</td><td>693M</td><td>821M</td></tr>
+    <tr><td>EBITDA</td><td>114M</td><td>168M</td><td>224M</td></tr>
+    <tr><td>EBITDA Margin</td><td>20.9%</td><td>24.0%</td><td>27.0%</td></tr>
+    <tr><td>Net Income (GAAP)</td><td>($140M)</td><td>$65M</td><td>$105M</td></tr>
+    <tr><td>EPS</td><td>($1.89)</td><td>$0.88</td><td>$1.42</td></tr>
+    <tr><td>Free Cash Flow</td><td>$10M</td><td>$50M</td><td>$90M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:9px; color:#555;">Exit: 8.0x FY2028E EV/EBITDA ($224M) + $100M net cash = $1,892M equity ÷ 74.18M shares</div>
+    <div class="exit-price">$25.51</div>
+    <div class="exit-upside">+129.1% from current price</div>
+  </div>
+</div>
+
+<!-- Bull Severe -->
+<div class="case-block">
+  <div class="case-name">Bull Case (Severe) — Platform Becomes Industry Standard</div>
+  <div class="case-desc">Ethos becomes the dominant life insurance distribution platform in the US, capturing 5%+ of new policies. AI-driven D2C acquisition compresses CAC by 30%+. International expansion begins. Product portfolio expands to annuities and supplementary health. 40K+ agents. Carrier concentration below 60% with 10+ carrier partnerships. Revenue compounds at 25%+ through FY2028.</div>
+  <div class="driver-label">Key Drivers (FY2028E)</div>
+  <div class="driver-row"><span>D2C Revenue Growth (FY26–28 CAGR)</span><span>+25%</span></div>
+  <div class="driver-row"><span>Active Agents</span><span>40,000</span></div>
+  <div class="driver-row"><span>ARPU</span><span>$2,300</span></div>
+  <div class="driver-row"><span>Adj. EBITDA Margin</span><span>30%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$580M</td><td>$780M</td><td>$1,000M</td></tr>
+    <tr><td>Gross Profit</td><td>572M</td><td>773M</td><td>990M</td></tr>
+    <tr><td>EBITDA</td><td>130M</td><td>210M</td><td>300M</td></tr>
+    <tr><td>EBITDA Margin</td><td>22.4%</td><td>26.9%</td><td>30.0%</td></tr>
+    <tr><td>Net Income (GAAP)</td><td>($130M)</td><td>$95M</td><td>$170M</td></tr>
+    <tr><td>EPS</td><td>($1.75)</td><td>$1.28</td><td>$2.29</td></tr>
+    <tr><td>Free Cash Flow</td><td>$25M</td><td>$85M</td><td>$160M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:9px; color:#555;">Exit: 9.0x FY2028E EV/EBITDA ($300M) + $100M net cash = $2,800M equity ÷ 74.18M shares</div>
+    <div class="exit-price">$37.75</div>
+    <div class="exit-upside">+239.2% from current price</div>
+  </div>
+</div>
+
+<!-- SVG Bar Chart -->
+<div class="case-chart">
+  <p style="font-size:10px; font-weight:700; margin-bottom:8px;">Implied Share Price by Scenario (FY2028E Exit)</p>
+  <svg viewBox="0 0 700 180" xmlns="http://www.w3.org/2000/svg">
+    <!-- Bars -->
+    <rect x="40" y="130" width="100" height="30" fill="#bbb" rx="2"/>
+    <text x="90" y="125" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1a2e">$6.74</text>
+    <text x="90" y="170" text-anchor="middle" font-size="8" fill="#555">Bear Severe</text>
+
+    <rect x="170" y="108" width="100" height="52" fill="#bbb" rx="2"/>
+    <text x="220" y="103" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1a2e">$11.86</text>
+    <text x="220" y="170" text-anchor="middle" font-size="8" fill="#555">Bear Mild</text>
+
+    <rect x="300" y="75" width="100" height="85" fill="#bbb" rx="2"/>
+    <text x="350" y="70" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1a2e">$17.39</text>
+    <text x="350" y="170" text-anchor="middle" font-size="8" fill="#555">Base</text>
+
+    <rect x="430" y="42" width="100" height="118" fill="#bbb" rx="2"/>
+    <text x="480" y="37" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1a2e">$25.51</text>
+    <text x="480" y="170" text-anchor="middle" font-size="8" fill="#555">Bull Mild</text>
+
+    <rect x="560" y="10" width="100" height="150" fill="#bbb" rx="2"/>
+    <text x="610" y="7" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1a2e">$37.75</text>
+    <text x="610" y="170" text-anchor="middle" font-size="8" fill="#555">Bull Severe</text>
+
+    <!-- Current price line -->
+    <line x1="30" y1="114" x2="670" y2="114" stroke="#1a1a2e" stroke-width="1.5" stroke-dasharray="6,3"/>
+    <text x="672" y="117" font-size="8" fill="#1a1a2e" font-weight="600">$11.13 Current</text>
+  </svg>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 11: COMPS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">11. Comps</div>
+
+<div class="section-title">AI / Insurtech Comps — Selected Financials</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th>Company</th>
+      <th>Ticker</th>
+      <th>FY Period</th>
+      <th>Price</th>
+      <th>Mkt Cap ($M)</th>
+      <th>EV ($M)</th>
+      <th>Sales ($M)</th>
+      <th>EBIT ($M)</th>
+      <th>EBITDA ($M)</th>
+      <th>EV/EBIT</th>
+      <th>EV/EBITDA</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject"><td>Ethos Technologies A</td><td>LIFE-US</td><td>12/2025</td><td>$11.13</td><td>$826</td><td>$724</td><td>$388</td><td>$73</td><td>$79</td><td>9.9x</td><td>9.1x</td></tr>
+    <tr><td>iFAST</td><td>AIY-SG</td><td>12/2025</td><td>$7.12</td><td>$2,207</td><td>$1,221</td><td>$396</td><td>$97</td><td>$122</td><td>12.6x</td><td>10.0x</td></tr>
+    <tr><td>IRESS</td><td>IRE-AU</td><td>12/2025</td><td>$4.84</td><td>$921</td><td>$965</td><td>$359</td><td>$59</td><td>$77</td><td>16.3x</td><td>12.5x</td></tr>
+    <tr><td>Bairong</td><td>6608-HK</td><td>06/2025</td><td>$1.04</td><td>$817</td><td>$350</td><td>$446</td><td>$26</td><td>$37</td><td>13.5x</td><td>9.3x</td></tr>
+    <tr><td>Alkami Technology</td><td>ALKT-US</td><td>12/2025</td><td>$16.01</td><td>$1,799</td><td>$2,051</td><td>$444</td><td>($49)</td><td>($22)</td><td>NM</td><td>NM</td></tr>
+    <tr><td>Jiangsu Hoperun</td><td>300339-CN</td><td>09/2025</td><td>$5.76</td><td>$4,493</td><td>$4,587</td><td>$514</td><td>$18</td><td>—</td><td>252.4x</td><td>—</td></tr>
+    <tr class="stat-row"><td>Average</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>60.9x</td><td>10.3x</td></tr>
+    <tr class="stat-row"><td>Median</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>13.5x</td><td>9.7x</td></tr>
+  </tbody>
+</table>
+
+<div class="section-title">Valuation Multiples</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th>Company</th>
+      <th>Ticker</th>
+      <th>EV ($M)</th>
+      <th>P/E (Actual)</th>
+      <th>P/E (FY1)</th>
+      <th>P/E (FY2)</th>
+      <th>EV/Sales</th>
+      <th>EV/EBIT</th>
+      <th>EV/EBITDA</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject"><td>Ethos Technologies A</td><td>LIFE-US</td><td>$724</td><td>9.8x</td><td>NM</td><td>8.8x</td><td>1.9x</td><td>9.9x</td><td>9.1x</td></tr>
+    <tr><td>iFAST</td><td>AIY-SG</td><td>$1,221</td><td>28.1x</td><td>20.8x</td><td>17.5x</td><td>3.1x</td><td>12.6x</td><td>10.0x</td></tr>
+    <tr><td>IRESS</td><td>IRE-AU</td><td>$965</td><td>17.6x</td><td>14.9x</td><td>13.6x</td><td>2.7x</td><td>16.3x</td><td>12.5x</td></tr>
+    <tr><td>Bairong</td><td>6608-HK</td><td>$350</td><td>10.9x</td><td>12.6x</td><td>9.9x</td><td>0.8x</td><td>13.5x</td><td>9.3x</td></tr>
+    <tr><td>Alkami Technology</td><td>ALKT-US</td><td>$2,051</td><td>NM</td><td>19.9x</td><td>14.5x</td><td>4.6x</td><td>NM</td><td>NM</td></tr>
+    <tr><td>Jiangsu Hoperun</td><td>300339-CN</td><td>$4,587</td><td>251.6x</td><td>—</td><td>—</td><td>8.9x</td><td>252.4x</td><td>—</td></tr>
+    <tr class="stat-row"><td>Average</td><td></td><td></td><td>63.6x</td><td>17.1x</td><td>12.8x</td><td>3.7x</td><td>60.9x</td><td>10.3x</td></tr>
+    <tr class="stat-row"><td>Median</td><td></td><td></td><td>17.6x</td><td>17.4x</td><td>13.6x</td><td>2.9x</td><td>13.5x</td><td>9.7x</td></tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:6px;">Ethos trades at a modest discount to the peer median on EV/EBITDA (9.1x vs. 9.7x median) despite significantly higher revenue growth (52% vs. peer median of ~20%) and dramatically higher gross margins (98% vs. peer median of ~57%). The discount reflects the stock's post-IPO de-rating, carrier concentration risk, and the short public track record. On EV/Sales (1.9x vs. 2.9x median), the discount is even more pronounced — suggesting the market is not yet crediting Ethos's superior unit economics and growth profile. The P/E comparison is distorted by IPO-related SBC making FY2026E GAAP earnings meaningless; on a FY2 P/E basis, LIFE at 8.8x trades at a steep discount to the peer median of 13.6x.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<p class="prose" style="font-size:9px; color:#888; margin-bottom:8px;">Theia seeks small cap companies that aren't well covered and are strongly aligned on core internet finance thesis with wide outcome dispersion.</p>
+
+<div class="fw-item"><strong>(i) Market Cap Bucket: $700M — Microcap</strong> <span class="fw-rating strong">Strong</span><br><span class="prose">At $700M market cap (fully diluted $826M), Ethos sits squarely in Theia's sweet spot between microcap and small cap. The stock is down 41% from IPO and near its 52-week low, creating a potential entry point for patient capital willing to underwrite the platform story.</span></div>
+
+<div class="fw-item"><strong>(ii) Analyst Coverage: 6 Brokers</strong> <span class="fw-rating strong">Strong</span><br><span class="prose">Only 6 sell-side analysts cover LIFE (Goldman, Barclays, Baird, Citi, Deutsche Bank, JPMorgan, Bank of America) — a thin coverage universe for a company with this growth profile. All 6 are Buy-rated with a $20.25 consensus target (+82% upside), suggesting strong conviction but limited diversity of views. This creates the information asymmetry Theia seeks.</span></div>
+
+<div class="fw-item"><strong>(iii) Internet Finance Thesis Alignment: Core Thesis</strong> <span class="fw-rating strong">Strong</span><br><span class="prose">Ethos is a textbook internet finance investment — a technology platform digitizing one of the largest, most archaic segments of financial services (life insurance distribution). The company's AI-powered underwriting engine, digital-first distribution model, and platform economics (98% gross margins, network effects, data flywheel) align directly with Theia's thesis around technology-driven financial services disruption.</span></div>
+
+<div class="fw-item"><strong>(iv) Outcome Dispersion: $6.74 to $37.75</strong> <span class="fw-rating strong">Strong</span><br><span class="prose">The bear-to-bull range of $6.74 to $37.75 (5.6x spread) represents exceptionally wide outcome dispersion — exactly the type of asymmetric setup where deep research can generate alpha. The base case alone implies 56% upside. Key binary risks (carrier concentration, D2C unit economics, growth trajectory) create the kind of informational edge opportunity that Theia's research process is designed to exploit.</span></div>
+
+<div class="verdict"><strong>Verdict: Yes — Ethos is a strong Theia candidate.</strong> Sub-$1B market cap, 6 analyst coverage, core internet finance thesis alignment, and massive outcome dispersion ($6.74–$37.75). The stock is trading at 7x adj. EBITDA with 32%+ revenue growth, 98% gross margins, and structural competitive advantages that should widen with scale. The primary work items are: (1) diligence on carrier relationship stability and concentration trajectory, (2) independent verification of D2C unit economics and marketing efficiency trends, and (3) assessment of post-IPO SBC normalization timeline. If carrier risk is manageable, this is a compelling risk/reward at $11.13 with a clear path to $17–25 over 2–3 years.</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 13: RISK SUMMARY -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">13. Risk Summary</div>
+
+<table class="risk-table">
+  <thead>
+    <tr><th>Risk Category</th><th>Description</th><th>Severity</th><th>Mitigant</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Carrier Concentration</td>
+      <td>3 carriers = 88% of FY2025 revenue. Loss of any anchor partner would cause immediate, material revenue decline.</td>
+      <td><span class="fw-rating high">High</span></td>
+      <td>Evergreen contracts with extended cancellation notice periods. Mgmt says concentration declining ~10pp. Building product redundancy across 10 products with 6 carriers.</td>
+    </tr>
+    <tr>
+      <td>Growth Deceleration</td>
+      <td>Revenue growth decelerating from 65% (Q4) to 32% (FY2026 guidance). Market expects continued deceleration toward 10–15% by FY2028.</td>
+      <td><span class="fw-rating moderate">Moderate</span></td>
+      <td>Guidance philosophy is conservative (minimal new product credit). New product launches (IUL, cancer) and agent growth provide upside optionality. Q1 2026 guidance of 53% growth suggests momentum continuing.</td>
+    </tr>
+    <tr>
+      <td>D2C Unit Economics</td>
+      <td>Digital advertising costs are structurally rising. Pure D2C life insurance acquisition proved unsustainably expensive for competitors. LTV/CAC could invert.</td>
+      <td><span class="fw-rating moderate">Moderate</span></td>
+      <td>Diversified marketing channels (TV, social, radio — not over-reliant on any one). 2-month payback target. AI/ML continuously optimizing ROAS. 3P agent channel provides lower-CAC growth alternative.</td>
+    </tr>
+    <tr>
+      <td>Algorithmic Underwriting</td>
+      <td>Bypassing medical exams may miss specific health data. Regulatory scrutiny of AI bias in coverage decisions is intensifying.</td>
+      <td><span class="fw-rating moderate">Moderate</span></td>
+      <td>100,000+ post-issue human audits. Rules-based engine (not black box) is disputable, reportable, correctable. Carrier partners continuously audit underwriting results and hold Ethos to same ROE targets as core business.</td>
+    </tr>
+    <tr>
+      <td>Post-IPO SBC Overhang</td>
+      <td>~$225M estimated SBC in FY2026E distorts GAAP profitability. May create sustained selling pressure as lockup expirations occur.</td>
+      <td><span class="fw-rating moderate">Moderate</span></td>
+      <td>SBC is a timing issue, not an economic one. Adj EBITDA of $99–103M demonstrates real profitability. SBC should normalize by FY2027–2028.</td>
+    </tr>
+    <tr>
+      <td>Governance</td>
+      <td>54% institutional vote against chairman reappointment. Dual-class share structure concentrates insider control.</td>
+      <td><span class="fw-rating weak">Low</span></td>
+      <td>Board includes experienced directors from Sequoia, Accel, Oracle, Evercore. Founding team maintains strong execution track record.</td>
+    </tr>
+    <tr>
+      <td>Macro / Interest Rate</td>
+      <td>Economic shocks could reduce life insurance purchases. Rising rates may cause carriers to tighten underwriting standards or reduce commissions.</td>
+      <td><span class="fw-rating weak">Low</span></td>
+      <td>~10M Americans buy life insurance annually regardless of macro. Ethos targets mass/middle market — less cyclical than high-end products. Asset-light model has minimal direct rate exposure.</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 14: APPENDIX -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">14. Appendix — Python Code</div>
+
+<p class="prose">Parameterized Python code for sensitivity tables and 5-case model generation. Modify inputs to explore alternative scenarios.</p>
+
+<div class="code-block">import numpy as np
+import pandas as pd
+
+# ═══════════════════════════════════════════════════════════
+# SENSITIVITY TABLE 1: Total Revenue ($M)
+# D2C Revenue Growth (%) vs. Active Agent Count
+# ═══════════════════════════════════════════════════════════
+
+dtc_base = 244          # FY2025 D2C revenue ($M)
+rev_per_agent = 10_000  # 3P revenue per agent ($)
+
+dtc_growth_rates = [0.20, 0.30, 0.40, 0.50, 0.60]
+agent_counts = [12_000, 15_000, 18_000, 21_000, 25_000]
+
+print("Table 1: Total Revenue ($M) — D2C Growth vs. Agent Count")
+print(f"{'D2C Growth':<12}", end="")
+for ac in agent_counts:
+    print(f"{ac:>12,} Agents", end="")
+print()
+for g in dtc_growth_rates:
+    dtc_rev = dtc_base * (1 + g)
+    print(f"  +{g:.0%}       ", end="")
+    for ac in agent_counts:
+        tp_rev = ac * rev_per_agent / 1e6
+        total = dtc_rev + tp_rev
+        print(f"      ${total:>6.0f}M", end="")
+    print()
+
+# ═══════════════════════════════════════════════════════════
+# SENSITIVITY TABLE 3: Implied Share Price ($)
+# FY2028E EBITDA ($M) vs. Exit EV/EBITDA Multiple
+# ═══════════════════════════════════════════════════════════
+
+net_cash = 100        # $M net cash at exit
+diluted_shares = 74.18  # M shares
+
+ebitda_range = [130, 150, 170, 190, 210]
+multiples = [5.0, 6.0, 7.0, 8.0, 9.0]
+
+print("\nTable 3: Implied Share Price ($) — EBITDA vs. EV/EBITDA Multiple")
+print(f"{'EBITDA ($M)':<14}", end="")
+for m in multiples:
+    print(f"  {m:.1f}x     ", end="")
+print()
+for ebitda in ebitda_range:
+    print(f"  ${ebitda:<10}  ", end="")
+    for m in multiples:
+        ev = ebitda * m
+        equity = ev + net_cash
+        price = equity / diluted_shares
+        print(f"  ${price:>6.2f}   ", end="")
+    print()
+
+# ═══════════════════════════════════════════════════════════
+# 5-CASE MODEL
+# ═══════════════════════════════════════════════════════════
+
+cases = {
+    "Bear Severe": {"rev_28": 530, "ebitda_margin_28": 0.15, "exit_mult": 5.0},
+    "Bear Mild":   {"rev_28": 650, "ebitda_margin_28": 0.20, "exit_mult": 6.0},
+    "Base":        {"rev_28": 701, "ebitda_margin_28": 0.242, "exit_mult": 7.0},
+    "Bull Mild":   {"rev_28": 830, "ebitda_margin_28": 0.27, "exit_mult": 8.0},
+    "Bull Severe": {"rev_28": 1000, "ebitda_margin_28": 0.30, "exit_mult": 9.0},
+}
+
+current_price = 11.13
+
+print("\n5-Case Model Summary")
+print(f"{'Case':<16} {'Rev ($M)':>10} {'EBITDA ($M)':>12} {'Margin':>8} "
+      f"{'EV ($M)':>10} {'Price':>8} {'Return':>8}")
+print("-" * 76)
+for name, c in cases.items():
+    ebitda = c["rev_28"] * c["ebitda_margin_28"]
+    ev = ebitda * c["exit_mult"]
+    equity = ev + net_cash
+    price = equity / diluted_shares
+    ret = (price / current_price - 1) * 100
+    print(f"{name:<16} {c['rev_28']:>10.0f} {ebitda:>12.0f} "
+          f"{c['ebitda_margin_28']:>7.1%} {ev:>10.0f} "
+          f"${price:>6.2f} {ret:>+7.1f}%")</div>
+
+<div class="source-note">Source: FactSet snapshot (April 2, 2026), company earnings releases, conference transcripts, AlphaSense expert calls and deep-dive reports. All estimates consensus of 6 broker contributors unless otherwise noted.</div>
+
+</body>
+</html>
