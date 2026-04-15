@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BitGo Holdings, Inc. | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 8px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child, table.comps td:nth-child(2) { text-align: left; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-style: italic; background: #fafbfc; font-weight: 600; border-top: 1px solid #eee; }
+table.comps th.est-col { color: #2563eb; }
+
+table.risk-table { font-size: 10px; width: 100%; margin: 8px 0; }
+table.risk-table th { text-align: left; font-weight: 600; padding: 4px 6px; background: #f4f6f9; border-bottom: 1px solid #ddd; }
+table.risk-table td { padding: 4px 6px; border-bottom: 1px solid #eee; vertical-align: top; }
+table.risk-table td:first-child { font-weight: 600; width: 25%; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.alphasense-box { background: #e8f4fd; border-left: 4px solid #2563eb; padding: 10px 14px; margin: 10px 0; font-size: 10px; line-height: 1.5; }
+
+.bull-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #155724; border-bottom: 1.5px solid #c3e6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #721c24; border-bottom: 1.5px solid #f5c6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+
+.bull-item, .bear-item { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">BitGo Holdings, Inc. | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">BitGo Holdings, Inc. (NYSE: BTGO) is the first publicly traded, federally chartered digital asset infrastructure company in the United States. Founded in 2013 by Mike Belshe in Palo Alto, California, BitGo pioneered multi-signature wallet technology (2-of-3 key architecture) and has grown into the dominant institutional-grade custody, trading, and settlement platform for digital assets. The company holds an OCC-chartered national trust bank license (BitGo Bank &amp; Trust) and operates 7+ regulated custodial entities globally, including licenses from NYDFS, Switzerland's FINMA, Germany's BaFin (MiCA-compliant), Dubai's VARA, and Singapore's MAS, with South Korea forthcoming. BitGo completed its IPO on January 22, 2026 on the NYSE at $18/share, raising approximately $198M and valuing the company at ~$2.1B. As of year-end 2025, BitGo serves 5,322 institutional clients across 100+ countries, maintains $81.6B in Assets on Platform (AoP), $15.6B in staked assets, and supports 1,700+ digital assets. The company employs approximately 603 people.</p>
+
+<p class="prose">BitGo's product suite spans five core business lines. <strong>Qualified Custody</strong> provides bankruptcy-remote, cold-storage safekeeping for institutional digital assets — the foundational product that underpins all other services. <strong>Go Network</strong> is a 24/7 off-exchange settlement layer that enables institutional counterparties to trade and settle without moving assets to centralized exchange hot wallets, directly addressing the counterparty risk exposed by the FTX collapse. <strong>BitGo Prime</strong> offers trading (spot, derivatives launched January 2026 with $3B+ notional in 3 months), lending ($207.4M book, +114% YoY), and borrowing services. <strong>Staking</strong> operates through 40+ validator partners, generating yield on $15.6B of staked assets. <strong>Stablecoin-as-a-Service (StaaS)</strong> is a new product launched in FY2025 that enables third parties to issue white-label stablecoins using BitGo's infrastructure — USD1 reached $5B+ AUM within 3 months, and SoFiUSD is in development. Additional emerging products include Crypto-as-a-Service (CaaS API) for fintechs, an MCP server for AI/agentic wallets, and a Bitcoin treasury strategy (1,673 BTC held at year-end 2025). BitGo's key partnerships include Fidelity (Solana ETF custody), 21Shares (global ETF custody), SoFi (SoFiUSD stablecoin), Susquehanna (prediction markets), and Figure (tokenized equities ATS). Critically, BitGo does not trade against its clients and does not rehypothecate client assets — a structural impartiality that distinguishes it from vertically integrated exchanges like Coinbase.</p>
+
+<p class="prose"><strong>Revenue composition:</strong> FY2025 gross revenue was $16.15B, of which Digital Asset Sales (principal trading volume) comprised 96.4%. However, this gross figure is misleading — BitGo acts as a principal in digital asset trades, buying and selling crypto for institutional clients, and the gross revenue includes the full notional value of transactions. The actual economic value captured is the spread (~21 bps average take rate in FY2025). Starting in FY2026, consensus estimates shift to net revenue reporting (~$223M FY2026E), which reflects the true economic revenue. Other revenue streams include Staking ($385M gross, ~$27M net at ~7% take rate), Subscriptions &amp; Services ($121.5M, +57% YoY), StaaS ($66.7M at ~16 bps average take rate on AUM), and Interest Income ($1.5M). BitGo operates a dual-class share structure with CEO Mike Belshe holding >50% voting power through Class B shares.</p>
+
+<p class="prose"><strong>Key facts:</strong> Founded 2013 &middot; Headquarters Palo Alto, CA &middot; CEO/CTO/President Michael A. Belshe (Co-Founder) &middot; CFO Edward Reginelli &middot; COO Jody Mettler &middot; CCO Jeff Horowitz &middot; Employees ~603 &middot; IPO January 22, 2026 (NYSE: BTGO) &middot; FY end December &middot; Market Cap $1,186M &middot; CUSIP 091947101 &middot; ISIN US0919471013</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 2: FINANCIAL SUMMARY (FACTSET) -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Theia FactSet Summary</div>
+
+<div class="header">
+  <div>
+    <h1>BitGo Holdings, Inc.</h1>
+    <span class="ticker">BTGO &middot; NYSE &middot; ISIN US0919471013</span>
+  </div>
+  <div class="date">FactSet Snapshot &middot; April 15, 2026</div>
+</div>
+
+<!-- Price Bar -->
+<div class="price-bar">
+  <div>
+    <span class="label">Price (Apr 14, 2026) </span>
+    <span class="price">$10.27</span>
+  </div>
+  <div><span class="label">1M </span><span class="chg">-2.75%</span></div>
+  <div><span class="label">3M </span><span style="font-weight:600; color:#888;">N/A</span></div>
+  <div><span class="label">6M </span><span style="font-weight:600; color:#888;">N/A</span></div>
+  <div><span class="label">YTD </span><span style="font-weight:600; color:#888;">N/A</span></div>
+  <div><span class="label">1Y </span><span style="font-weight:600; color:#888;">N/A</span></div>
+  <div><span class="label">52-Wk Range </span><span style="font-weight:600;">$7.25 &ndash; $24.50</span></div>
+</div>
+
+<!-- Key Stats + EV Bridge -->
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats &mdash; Trading</div>
+    <table class="kv" style="font-size:10px;">
+      <tr><td>Exchange / Ticker</td><td>NYSE &middot; BTGO</td></tr>
+      <tr><td>Price (Apr 14, 2026)</td><td>$10.27</td></tr>
+      <tr><td>Volume / 30-Day Avg</td><td>808,606 / 581,140</td></tr>
+      <tr><td>Float %</td><td>61.06%</td></tr>
+      <tr><td>Short Interest</td><td>3.95% of float</td></tr>
+      <tr><td>Days to Cover</td><td>3.6 days</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev" style="font-size:10px;">
+      <tr><td>Basic Shares (Class A + B)</td><td>115.47M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">+ Stock Comp / Options</td><td style="font-size:9px;">20.06M</td></tr>
+      <tr><td>= Fully Diluted Shares</td><td>135.53M</td></tr>
+      <tr><td>Share Price</td><td>$10.27</td></tr>
+      <tr><td>= Fully Dil. Market Cap</td><td>$1,392M</td></tr>
+      <tr><td>+ Consolidated Debt</td><td>$352.5M</td></tr>
+      <tr><td>&minus; Cash &amp; Equivalents*</td><td>($4,024.6M)</td></tr>
+      <tr><td>+ Non-Controlling Interest</td><td>$2.0M</td></tr>
+      <tr class="total"><td>= Enterprise Value</td><td style="color:#c0392b;">($2,278M)</td></tr>
+    </table>
+    <p style="font-size:7.5px; color:#c0392b; margin-top:3px;">*Negative EV is an artifact: $4B+ cash includes stablecoin reserves &amp; client assets held in trust. True operating cash ~$178M (FY2026E). EV-based multiples are not meaningful.</p>
+  </div>
+</div>
+
+<!-- Current Valuation — horizontal 6x2 grid -->
+<div class="section-title">Current Valuation</div>
+<div style="border: 1px solid #eee; border-radius: 4px; margin-bottom: 8px;">
+  <div class="val-grid">
+    <div class="val-cell"><div class="val-label">Mkt Cap</div><div class="val-num">$1,186M</div><div class="val-sub">Basic shares</div></div>
+    <div class="val-cell"><div class="val-label">EV</div><div class="val-num" style="color:#c0392b;">($2,278M)</div><div class="val-sub">Neg. EV &mdash; see note</div></div>
+    <div class="val-cell"><div class="val-label">P/Sales (FY26E Net)</div><div class="val-num">5.3x</div><div class="val-sub">Net Rev $223M</div></div>
+    <div class="val-cell"><div class="val-label">P/Gross Profit (FY26E)</div><div class="val-num">5.2x</div><div class="val-sub">GP $226M</div></div>
+    <div class="val-cell"><div class="val-label">P/E (FY27E)</div><div class="val-num">37.2x</div><div class="val-sub">First profitable yr</div></div>
+    <div class="val-cell"><div class="val-label">% of 52-Wk High</div><div class="val-num">41.9%</div><div class="val-sub">$10.27 / $24.50</div></div>
+  </div>
+  <div style="border-top: 1px solid #eee;">
+    <div class="val-grid">
+      <div class="val-cell"><div class="val-label">Fully Dil. Mkt Cap</div><div class="val-num">$1,392M</div><div class="val-sub">135.53M dil. shares</div></div>
+      <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">32.87%</div><div class="val-sub">FactSet estimate</div></div>
+      <div class="val-cell"><div class="val-label">Beta (3Y Adj)</div><div class="val-num">1.72</div><div class="val-sub">Adjusted beta</div></div>
+      <div class="val-cell"><div class="val-label">Avg Analyst Rating</div><div class="val-num">Buy</div><div class="val-sub">11 brokers &middot; 1.15</div></div>
+      <div class="val-cell"><div class="val-label">Cons. Target Price</div><div class="val-num">$14.69</div><div class="val-sub">+43% upside</div></div>
+      <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">Jun 03</div><div class="val-sub">Q1 FY2026</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Valuation Multiples Table -->
+<div class="section-title">Valuation Multiples</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Metric</th>
+      <th>5Yr Avg</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th class="est" style="color:#2563eb;">FY2026E</th>
+      <th class="est" style="color:#2563eb;">FY2027E</th>
+      <th class="est" style="color:#2563eb;">FY2028E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="8">PRICE MULTIPLES (on Net Revenue basis for FY2026E+)</td></tr>
+    <tr><td>P/E</td><td>--</td><td>NM</td><td>NM</td><td>NM</td><td class="est">NM</td><td class="est">37.2x</td><td class="est">21.4x</td></tr>
+    <tr><td>P/Sales (Gross)</td><td>--</td><td>NM</td><td>NM</td><td>NM</td><td class="est">--</td><td class="est">--</td><td class="est">--</td></tr>
+    <tr><td>P/Sales (Net)</td><td>--</td><td>--</td><td>--</td><td>--</td><td class="est">5.3x</td><td class="est">4.0x</td><td class="est">3.0x</td></tr>
+    <tr><td>P/Gross Profit</td><td>--</td><td>NM</td><td>NM</td><td>6.1x</td><td class="est">5.2x</td><td class="est">3.9x</td><td class="est">2.9x</td></tr>
+    <tr class="section-row"><td colspan="8">EV MULTIPLES (distorted by negative EV &mdash; not meaningful)</td></tr>
+    <tr><td>EV/Sales</td><td>--</td><td>NM</td><td>NM</td><td>NM</td><td class="est">NM</td><td class="est">NM</td><td class="est">NM</td></tr>
+    <tr><td>EV/EBITDA</td><td>--</td><td>NM</td><td>NM</td><td>NM</td><td class="est">NM</td><td class="est">NM</td><td class="est">NM</td></tr>
+  </tbody>
+</table>
+<p style="font-size:8px; color:#c0392b; margin-top:2px;">Note: All EV-based multiples are not meaningful due to negative Enterprise Value. The $4.0B cash balance includes stablecoin reserves and client assets held in custody/trust, not operating cash. Use P/Sales (Net) and P/Gross Profit as primary valuation metrics.</p>
+
+<!-- Revenue Exposure -->
+<div class="section-title">Revenue Exposure (FY2025 Actuals, FYE December &mdash; Gross Basis)</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Business Unit</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Segment</th><th>$M</th><th>% Rev</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Digital Assets Sales</td><td>$15,577M</td><td>96.4%</td><td>+513%</td></tr>
+        <tr><td>Staking</td><td>$385M</td><td>2.4%</td><td>-16%</td></tr>
+        <tr><td>Subs &amp; Services</td><td>$121.5M</td><td>0.8%</td><td>+57%</td></tr>
+        <tr><td>Stablecoin-as-a-Service</td><td>$66.7M</td><td>0.4%</td><td>NEW</td></tr>
+        <tr><td>Interest Income</td><td>$1.5M</td><td>&lt;0.1%</td><td>+63%</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total (Gross)</td><td>$16,152M</td><td>100%</td><td>+424%</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:8px; color:#c0392b; margin-top:4px;">IMPORTANT: FY2026E+ consensus shifts to NET revenue (~$223M). Gross revenue includes full principal trading volume; net revenue reflects spreads/take rates only.</p>
+  </div>
+  <div>
+    <div class="sub-label">By Geography</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Region</th><th>% Rev</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>United States</td><td>56.9%</td></tr>
+        <tr><td>International</td><td>43.1%</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>100%</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:8px; color:#aaa; margin-top:4px;">Operates across 100+ countries with regulated entities in US, Switzerland, Germany, Dubai, Singapore.</p>
+  </div>
+</div>
+
+<!-- Financials Table -->
+<div class="section-title">Financials</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">$M (FY Dec)</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th class="est" style="color:#2563eb;">FY2026E</th>
+      <th class="est" style="color:#2563eb;">FY2027E</th>
+      <th class="est" style="color:#2563eb;">FY2028E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">INCOME STATEMENT</td></tr>
+    <tr><td>Revenue (Gross thru FY25 / Net FY26E+)</td><td>$926</td><td>$3,081</td><td>$16,152</td><td class="est">$223*</td><td class="est">$299*</td><td class="est">$392*</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Revenue Growth %</td><td>--</td><td>+233%</td><td>+424%</td><td class="est">N/A**</td><td class="est">+34%</td><td class="est">+31%</td></tr>
+    <tr><td>Gross Profit</td><td>$62</td><td>$127</td><td>$195</td><td class="est">$226</td><td class="est">$301</td><td class="est">$414</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Gross Margin % (on gross rev)</td><td>6.7%</td><td>4.1%</td><td>1.2%</td><td class="est">~102%***</td><td class="est">~101%</td><td class="est">~106%</td></tr>
+    <tr><td>EBITDA</td><td>$1</td><td>$110</td><td>($10)</td><td class="est">$28</td><td class="est">$56</td><td class="est">$91</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">EBITDA Margin %</td><td>NM</td><td>3.6%</td><td>NM</td><td class="est">12.6%</td><td class="est">18.7%</td><td class="est">23.2%</td></tr>
+    <tr><td>EBIT</td><td>($0.1)</td><td>$107</td><td>($14)</td><td class="est">$5</td><td class="est">$42</td><td class="est">$81</td></tr>
+    <tr><td>Net Income</td><td>($2)</td><td>$54</td><td>($15)</td><td class="est">($13)</td><td class="est">$42</td><td class="est">$84</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Net Income Margin %</td><td>NM</td><td>1.8%</td><td>NM</td><td class="est">NM</td><td class="est">14.0%</td><td class="est">21.5%</td></tr>
+    <tr><td>EPS (Dil)</td><td>($0.02)</td><td>$0.47</td><td>($0.13)</td><td class="est">($0.95)</td><td class="est">$1.20</td><td class="est">$1.57</td></tr>
+    <tr class="section-row"><td colspan="7">CASH FLOW</td></tr>
+    <tr><td>Operating Cash Flow</td><td>($52)</td><td>($103)</td><td>($35)</td><td class="est">($1)</td><td class="est">$25</td><td class="est">$87</td></tr>
+    <tr><td>CapEx</td><td>($1)</td><td>($2)</td><td>($12)</td><td class="est">($13)</td><td class="est">($15)</td><td class="est">($14)</td></tr>
+    <tr><td>Free Cash Flow</td><td>($53)</td><td>($105)</td><td>($48)</td><td class="est">($12)</td><td class="est">($15)</td><td class="est">--</td></tr>
+    <tr class="section-row"><td colspan="7">BALANCE SHEET</td></tr>
+    <tr><td>Cash &amp; ST Investments</td><td>$6,870</td><td>$526</td><td>$4,025</td><td class="est">$178</td><td class="est">$230</td><td class="est">$332</td></tr>
+    <tr><td>Total Assets</td><td>$6,924</td><td>$683</td><td>$4,549</td><td class="est">$6,133</td><td class="est">$9,690</td><td class="est">$20,123</td></tr>
+    <tr><td>Total Debt</td><td>--</td><td>--</td><td>$353</td><td class="est">--</td><td class="est">--</td><td class="est">--</td></tr>
+    <tr><td>Shareholders' Equity</td><td>$137</td><td>$326</td><td>$317</td><td class="est">$527</td><td class="est">$643</td><td class="est">$938</td></tr>
+  </tbody>
+</table>
+<p style="font-size:8px; color:#c0392b; margin-top:2px;">*FY2026E+ revenue is NET (excludes principal trading volume). FY2023-FY2025 revenue is GROSS (includes full trading notional). This is a massive accounting change &mdash; gross FY2025 was $16.15B; net FY2026E is ~$223M. **YoY growth not comparable due to reporting basis change. ***Gross margin >100% on net basis because gross profit exceeds net revenue (net revenue excludes cost of digital assets sold).</p>
+
+<!-- Ratios -->
+<div class="section-title">Key Ratios</div>
+<table class="kv" style="font-size:10px;">
+  <tr><td>Operating Margin (FY25 / FY26E / FY27E / FY28E)</td><td>-0.09% / 2.4% / 13.9% / 20.6%</td></tr>
+  <tr><td>Net Margin (FY25 / FY26E / FY27E / FY28E)</td><td>-0.09% / -5.9% / 14.0% / 21.5%</td></tr>
+  <tr><td>ROE (FY2025)</td><td>-4.6%</td></tr>
+  <tr><td>Debt/Equity (FY2025)</td><td>113.4%</td></tr>
+  <tr><td>Interest Coverage (FY2025)</td><td>-1.3x</td></tr>
+  <tr><td>Current Ratio (FY2025)</td><td>1.07</td></tr>
+</table>
+
+<!-- Valuation Summary -->
+<div class="section-title">Valuation Summary</div>
+<p class="prose">BitGo currently trades at $10.27, representing a 58% decline from its IPO price of $18 and 42% of its 52-week high of $24.50. The stock's dramatic post-IPO decline reflects a combination of crypto market weakness, broader risk-off sentiment toward newly public companies, and fundamental confusion about BitGo's revenue reporting (the gross-to-net transition makes year-over-year comparisons nearly impossible for non-specialist analysts). On a P/Net Sales basis, BitGo trades at 5.3x FY2026E net revenue of $223M and 4.0x FY2027E, which compresses to 3.0x on FY2028E. On a P/Gross Profit basis &mdash; arguably the most relevant metric given the business model &mdash; the stock trades at 5.2x FY2026E gross profit ($226M), compressing to 2.9x by FY2028E. Traditional EV-based multiples (EV/EBITDA, EV/Sales) are entirely meaningless because BitGo's $4.0B cash balance includes stablecoin reserves and client assets held in trust, generating a negative enterprise value of ($2.28B). True operating cash is approximately $178M (FY2026E estimate). BitGo reaches GAAP profitability in FY2027E ($1.20 EPS), implying 37.2x P/E on first profitable year earnings &mdash; elevated but not unusual for a high-growth infrastructure company turning the profitability corner. By FY2028E, P/E compresses to 21.4x ($1.57 EPS). The consensus target of $14.69 (11 brokers) implies 43% upside, with a unanimous Buy rating (1.15 score). The valuation is compressed by IPO lock-up overhang, post-IPO selling pressure, and the fundamental misunderstanding of the custody business model's balance sheet. The 32.87% WACC reflects the market's perception of extreme risk, which we believe is overdone for a federally chartered, OCC-regulated trust bank with $81.6B in AoP.</p>
+
+<div class="source-note">Source: FactSet snapshot export, April 15, 2026. Estimates reflect consensus of 11 broker contributors. FYE December.</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 3: BULL & BEAR CASES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Cases</div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">GENIUS Act and Stablecoin-as-a-Service Explosion.</span> The GENIUS Act (Guiding and Establishing National Innovation for U.S. Stablecoins) is the single most important regulatory catalyst for BitGo. If enacted, it would create a federal licensing framework for stablecoin issuers that directly plays to BitGo's strengths: OCC-chartered trust bank, qualified custodian, and existing StaaS infrastructure. USD1 reached $5B+ AUM within 3 months of launch, validating the product-market fit. If the GENIUS Act passes and drives a wave of new stablecoin issuance &mdash; banks, fintechs, and corporates issuing their own branded stablecoins backed by treasuries held in BitGo custody &mdash; the StaaS revenue stream could grow from $67M (FY2025) to $300M+ within 3 years. At 15-20 bps take rate on a $200B stablecoin AUM base, this would be transformational. SoFiUSD, the next major client, validates that mainstream fintech is adopting the model. BitGo's regulatory moat (OCC charter + NYDFS + BaFin + VARA) makes it the natural infrastructure partner for any regulated entity seeking to issue stablecoins.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Go Network Becomes the Institutional Settlement Standard.</span> Go Network addresses the single biggest problem exposed by the FTX collapse: counterparty risk in centralized exchange settlement. By enabling institutional counterparties to trade off-exchange while assets remain in BitGo's bankruptcy-remote custody, Go Network eliminates the need to fund exchange hot wallets &mdash; a structural risk that every institutional crypto allocator now understands. If Go Network achieves critical mass and becomes the default settlement layer for institutional crypto trading (analogous to DTCC for equities), the network effects would be enormous: every new participant increases liquidity, reduces settlement costs, and makes the platform more valuable for all users. This could transform BitGo from a custody provider into a systemically important financial market infrastructure (FMI), justifying infrastructure-like multiples (15-20x revenue) rather than exchange multiples (5-8x).</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">ETF Custody Flywheel Accelerates.</span> BitGo already provides custody for Fidelity's Solana ETF and 21Shares' global ETF suite. As the crypto ETF market expands beyond Bitcoin and Ethereum into altcoins (Solana, XRP, staked ETH, multi-asset baskets), the demand for qualified, bankruptcy-remote custody scales proportionally. BitGo's OCC charter and multi-asset support (1,700+ tokens) position it as the custodian of choice for ETF issuers who need regulatory-grade infrastructure. Each ETF mandate brings recurring custody fees, cross-sell opportunities (staking, trading, settlement), and balance sheet growth. If crypto ETF AUM reaches $500B+ globally over the next 3 years, BitGo's share of custody mandates could drive AoP well above $100B and custody revenue into the hundreds of millions.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Derivatives Trading and Prime Brokerage Expansion.</span> BitGo launched derivatives trading in January 2026 and executed $3B+ in notional volume within the first 3 months. The derivatives market in crypto is significantly larger than spot (typically 3-5x in mature markets), and institutional demand for regulated derivatives infrastructure (perpetual swaps, options, structured products) is growing rapidly. If BitGo builds a meaningful share of the institutional crypto derivatives market alongside its existing lending book ($207.4M, +114% YoY), it could develop a full-service prime brokerage offering that generates 3-5x the revenue per client compared to custody alone. The multi-product attach rate data is already encouraging: 70% of revenue-generating clients use 2+ products and 50% use 3+.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">AI/Agentic Wallets and MCP Server Optionality.</span> BitGo's MCP (Model Context Protocol) server for AI/agentic wallets is an early-stage but potentially transformational product. As AI agents increasingly manage financial transactions autonomously, they need secure, programmatic wallet infrastructure with multi-sig controls &mdash; precisely what BitGo has built. If autonomous agents become a significant source of crypto transaction volume (some estimates suggest 10-20% of on-chain activity by 2028), BitGo's first-mover position in agentic wallet infrastructure could create an entirely new revenue stream with no direct competitor. The multi-sig architecture (2-of-3 keys) maps naturally to agentic needs: the AI agent holds one key, the human supervisor holds one, and BitGo holds the recovery key.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="bear-header">Bear Cases</div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Crypto Price Correlation Drives Revenue Volatility.</span> BitGo's revenue is fundamentally tied to digital asset prices. Management explicitly states that revenue "significantly fluctuates" with BTC and ETH prices. A sustained crypto bear market (BTC below $40K, ETH below $1,500) would compress trading volumes, reduce custody AUM, lower staking yields, and shrink StaaS AUM &mdash; all simultaneously. The FY2025 net loss of ($14.8M) was driven largely by BTC treasury unrealized losses, demonstrating how fair-value accounting for the 1,673 BTC position creates direct P&amp;L exposure to crypto prices. In a severe downturn, revenue could decline 40-60% from peak levels, and the stock &mdash; with a 1.72 beta &mdash; would amplify market losses. The concentrated asset exposure (BTC and ETH represent the majority of AoP) means BitGo lacks the diversification to buffer a single-asset drawdown.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Custody Fee Commoditization.</span> Pure custody at 15-20 bps is commoditizing as more players enter the market: Coinbase Custody, Fireblocks, Anchorage, and traditional banks (BNY Mellon, State Street) are all building or acquiring digital asset custody capabilities. As institutional custody becomes table-stakes infrastructure, pricing pressure will compress margins toward zero &mdash; similar to the fee compression in traditional custody/fund administration. BitGo's strategy of cross-selling into prime, staking, and settlement services is the correct response, but if the cross-sell fails and custody fees compress faster than new revenue streams ramp, BitGo could be left as a low-margin utility. The AlphaSense research explicitly flags this risk: custody alone is not a sustainable standalone business.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Post-IPO Execution Risk and Lock-Up Pressure.</span> BitGo went public only 3 months ago at $18/share and has already declined 43% to $10.27. The company has never reported quarterly earnings as a public company (first report is June 3, 2026). Lock-up expiration in July 2026 will release insider shares into the market, potentially creating significant selling pressure. CEO Belshe's dual-class structure (>50% voting power) means minority shareholders have limited governance influence. The FY2026E consensus EPS of ($0.95) implies that BitGo will lose money in its first full year as a public company, which is a challenging narrative for a stock that has already lost nearly half its IPO value. The $20.06M of dilutive shares (stock compensation) represent 17.4% of basic shares &mdash; material dilution for a company that is not yet generating positive free cash flow.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Regulatory Reversal or Enforcement Risk.</span> BitGo's regulatory moat (OCC charter, NYDFS, BaFin, VARA) is currently a competitive advantage, but the regulatory landscape for digital assets remains highly uncertain. A change in OCC leadership, new legislation that restricts bank involvement in crypto, or an enforcement action against BitGo or a client could undermine the regulatory narrative. The GENIUS Act could fail to pass, eliminating the StaaS tailwind. International regulatory environments (MiCA implementation, Dubai VARA evolution) could become more restrictive. And the mere perception of regulatory risk &mdash; e.g., an SEC enforcement action against a BitGo client &mdash; could trigger institutional client outflows and AoP declines.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Coinbase and Integrated Exchange Competition.</span> Coinbase is BitGo's most formidable competitor: it offers custody, trading, staking, and prime brokerage in a vertically integrated platform with a massive retail and institutional client base. Coinbase's brand recognition, fiat on/off-ramps, and exchange liquidity give it structural advantages that BitGo cannot replicate as a pure infrastructure player. If Coinbase successfully defends its institutional custody market share while expanding into settlement (Base L2) and stablecoins (USDC partnership), BitGo could find itself squeezed between Coinbase's scale and Fireblocks' software-only cost structure. The "impartial infrastructure" positioning is philosophically appealing but may not generate sufficient premium pricing if clients ultimately prefer one-stop-shop convenience.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Scale Economies</span> <span class="fw-rating moderate">Moderate</span><br>
+  BitGo's custody platform has high fixed costs (security infrastructure, compliance teams, multi-sig key management systems, regulatory licensing across 7+ jurisdictions) and near-zero marginal cost per additional asset under custody. Once the custody vaults, HSMs (Hardware Security Modules), and compliance frameworks are built, storing the 5,323rd client's assets costs roughly the same as storing the 5,322nd's. This creates operating leverage: gross profit should scale disproportionately to AoP growth. However, the scale advantages are constrained by two factors: (1) the institutional digital asset custody market is still relatively small (~$500B total addressable AoP across all providers), limiting the absolute magnitude of scale benefits, and (2) each new jurisdiction requires incremental regulatory licensing costs, compliance staff, and legal infrastructure that partially offset the marginal cost advantage. The scale economy is real within each regulated jurisdiction but does not compound as powerfully as a pure software company because the regulated trust bank model requires physical and legal infrastructure in each market.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Network Effects</span> <span class="fw-rating strong">Strong</span><br>
+  Go Network exhibits genuine network effects: every institutional counterparty that joins the off-exchange settlement network increases the liquidity available to all other participants, reduces settlement costs, and makes the platform more valuable. This is a classic two-sided network effect &mdash; traders want to be on the network where the most counterparties settle, and counterparties want to be where the most liquidity flows. The network effect compounds with BitGo's custody base: clients already custodying assets at BitGo can access Go Network settlement with zero incremental capital movement, creating a structural advantage over competitors who would require clients to pre-fund settlement accounts. The StaaS network also exhibits indirect network effects: as more stablecoin issuers adopt BitGo's infrastructure, the ecosystem of merchants, exchanges, and DeFi protocols that integrate with BitGo-issued stablecoins grows, making the platform more attractive for the next issuer. The combination of custody + settlement + stablecoin infrastructure creates a multi-layered network effect that is difficult for any single competitor to replicate.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Counter-Positioning</span> <span class="fw-rating strong">Strong</span><br>
+  BitGo's most powerful competitive positioning is its structural impartiality: it does not operate an exchange, does not trade against clients, and does not rehypothecate client assets. This is a genuine counter-position against the vertically integrated exchanges (Coinbase, Binance, Kraken) that serve as both custodian and trading counterparty &mdash; a conflict of interest that was dramatically exposed by FTX's collapse. For these exchanges to match BitGo's positioning, they would need to dismantle their most profitable business lines (exchange trading fees, market-making against client flow, rehypothecation-funded lending). Coinbase earns ~65% of revenue from transaction fees on its exchange; splitting off custody as an independent, non-conflicted service would cannibalize its core business model. Traditional banks (BNY Mellon, State Street) entering crypto custody face a different counter-positioning dynamic: they cannot build the crypto-native technical infrastructure (multi-sig, DeFi integration, 1,700+ token support) without fundamentally restructuring their technology stacks and risk frameworks. BitGo sits in the structural gap between crypto-native exchanges (conflicted) and traditional banks (technically constrained).</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Switching Costs</span> <span class="fw-rating strong">Strong</span><br>
+  Custody switching costs in digital assets are extreme. Moving institutional-scale digital assets between custodians requires: (a) complete re-execution of key ceremony procedures (generating new multi-sig wallet addresses, distributing key shards to new signatories), (b) updating all counterparty settlement instructions across potentially hundreds of trading relationships, (c) migrating staking delegations (which often have unbonding periods of 7-28 days during which assets are illiquid and at risk), (d) re-establishing cold storage policies and insurance coverage, and (e) managing the operational risk of large-value transfers during the migration window. For ETF issuers, switching custodians requires SEC filings and prospectus amendments. The multi-product attach rate data confirms stickiness: 70% of revenue-generating clients use 2+ products and 50% use 3+, meaning clients who custody also trade, stake, lend, and settle through BitGo &mdash; creating a deeply integrated relationship that becomes exponentially harder to unwind with each additional product adopted. The average quarterly custody client spend of $11.1K (1,534 clients) suggests deep operational embedding.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Branding</span> <span class="fw-rating moderate">Moderate</span><br>
+  BitGo has strong brand recognition within the institutional digital asset community: it is the pioneer of multi-sig technology (2013), the first OCC-chartered digital asset trust bank, and the custodian of choice for marquee clients (Fidelity, 21Shares, SoFi, Susquehanna). The brand carries critical trust signals &mdash; federal charter, 12+ years of operating history without a security breach, bankruptcy-remote structure &mdash; that matter enormously when institutions are selecting a custodian for billions of dollars of digital assets. In a market scarred by FTX, Celsius, and BlockFi failures, BitGo's track record is a genuine brand asset. However, the brand is not consumer-facing (BitGo has only 1.2M individual users, compared to Coinbase's 100M+), and in the institutional market, brand recognition reduces sales cycle friction but does not command a significant pricing premium over an equally-qualified competitor. The brand is necessary but not sufficient &mdash; it gets BitGo into the RFP, but custody pricing (15-20 bps) is ultimately competitive.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">6. Cornered Resource</span> <span class="fw-rating strong">Strong</span><br>
+  BitGo's OCC federal charter is a genuine cornered resource. There are fewer than five federally chartered digital asset trust banks in the United States, and the regulatory path to obtaining a new charter has become significantly more difficult since 2022. The charter provides: (a) the ability to custody assets as a national trust bank with federal preemption of state money transmitter laws, (b) access to the Federal Reserve payment system (pending), (c) regulatory credibility that satisfies institutional compliance requirements, and (d) a structural advantage in stablecoin-as-a-service (the GENIUS Act would require stablecoin issuers to use chartered trust banks as reserve custodians). The combination of OCC + NYDFS + BaFin MiCA + Dubai VARA + Singapore MAS creates a regulatory stack that no competitor fully matches &mdash; Coinbase has New York BitLicense but not an OCC charter; Anchorage has an OCC charter but limited international presence; Fireblocks has no banking charter at all. Founder/CEO Mike Belshe is also a cornered resource: deeply technical (former VP of Engineering at Google, co-invented SPDY/HTTP2 protocol), he has built BitGo's entire technology architecture and holds >50% voting control through the dual-class structure.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">7. Process Power</span> <span class="fw-rating moderate">Moderate</span><br>
+  BitGo has developed sophisticated institutional onboarding, key management, and compliance processes refined over 12 years and 5,322 client deployments. The multi-sig key ceremony process &mdash; generating, distributing, and securely storing key shards across geographically distributed vaults &mdash; is a complex operational procedure that requires deep expertise in cryptographic security, physical security, and regulatory compliance. BitGo's ability to support 1,700+ digital assets across multiple chains, each with unique wallet architectures, signing mechanisms, and network requirements, represents accumulated technical knowledge that would take a new entrant years to replicate. However, this process power is not unique &mdash; Coinbase Custody and Anchorage have developed comparable capabilities &mdash; and the company's relatively small workforce (~603 employees) limits the depth of institutional process knowledge compared to traditional custody banks with thousands of operations staff.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> BitGo is a 3-4 power business with genuine strength in Network Effects (Go Network settlement layer), Counter-Positioning (structural impartiality vs. conflicted exchanges), Switching Costs (extreme custody migration friction), and Cornered Resource (OCC federal charter, global regulatory stack, founder-CEO). Scale Economies, Branding, and Process Power are moderate and developing. This is a strong 7 Powers profile for a digital asset infrastructure company &mdash; the combination of counter-positioning and cornered resource creates a regulatory moat that is difficult to replicate and becomes more valuable as institutional adoption of digital assets accelerates.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Threat of New Entrants</span> <span class="fw-rating low">Low</span><br>
+  The barriers to entry in institutional digital asset custody are formidable and increasing. A new entrant would need to: (a) obtain an OCC charter or equivalent state trust charter &mdash; a process that takes 2-5 years with no guarantee of approval and has become significantly harder since the OCC paused new crypto charter applications in 2022; (b) build multi-sig wallet infrastructure supporting 1,700+ tokens across dozens of blockchains; (c) establish physical cold storage vaults with military-grade security; (d) hire compliance teams with expertise in securities law, bank regulatory compliance, and digital asset-specific regulations across multiple jurisdictions; (e) obtain insurance coverage for digital asset custody (a small and expensive market); and (f) build a 5-10 year track record of secure operations to win institutional trust. The capital, time, and regulatory requirements are substantial. The most likely competitive threats come from adjacent incumbents &mdash; traditional custodian banks (BNY Mellon, State Street) adding crypto capabilities, or crypto-native exchanges (Coinbase) deepening their custody offerings &mdash; rather than true new entrants. Both face the counter-positioning dynamics discussed above.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Bargaining Power of Suppliers</span> <span class="fw-rating low">Low</span><br>
+  BitGo's primary "suppliers" are cloud infrastructure providers (for non-custodial services), hardware security module (HSM) manufacturers, blockchain validator operators (40+ staking partners), and engineering talent. Cloud and HSM providers are competitive markets with multiple alternatives. Staking validator partners operate in a commoditized market where BitGo can switch validators without client impact. Engineering talent is the most constrained supplier, but BitGo's Palo Alto location, crypto-native culture, and founder-led technical team give it access to motivated engineers interested in blockchain infrastructure. The MCP/AI partnerships are early-stage and not yet material supplier dependencies. Overall, supplier power is low &mdash; BitGo's infrastructure is built on widely available components, with the differentiation coming from the integration, security, and regulatory layers that BitGo itself controls.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Bargaining Power of Buyers</span> <span class="fw-rating moderate">Moderate</span><br>
+  BitGo's 5,322 institutional clients include some of the world's largest and most sophisticated financial institutions &mdash; hedge funds, ETF issuers, sovereign wealth funds, and crypto-native funds with professional procurement functions. Buyer power is moderated by several factors: (a) switching costs are extreme (as discussed above), reducing the credibility of buyer threats to leave; (b) custody fees (15-20 bps) are small relative to clients' total AUM management costs; and (c) the number of qualified, federally chartered custodians is very small, limiting alternatives. However, buyer power is elevated by two factors: (1) the largest clients (ETF issuers, major funds) have significant individual bargaining power due to the size of their mandates, and (2) as more competitors enter the custody market, the number of viable alternatives increases, giving clients more negotiating leverage. The top 10 clients likely represent a disproportionate share of AoP, creating concentration risk. Overall: moderate &mdash; switching costs and limited alternatives protect pricing, but large clients can negotiate favorable terms.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Threat of Substitutes</span> <span class="fw-rating low">Low</span><br>
+  For institutional digital asset custody, the substitutes are: (a) self-custody (institutions managing their own multi-sig wallets), which is operationally complex and creates single-point-of-failure risk; (b) exchange custody (leaving assets on exchanges), which was discredited by FTX; and (c) MPC (multi-party computation) wallet software like Fireblocks, which provides wallet-level security but not qualified custody or bankruptcy-remote protection. For institutions with fiduciary obligations (ETF issuers, pension funds, RIAs), a qualified custodian is a regulatory requirement &mdash; self-custody and exchange custody are not permissible substitutes. The Go Network settlement layer has no close substitute: there is no other off-exchange, 24/7 institutional settlement network operating at comparable scale. The StaaS product is also difficult to substitute: building white-label stablecoin infrastructure requires a trust bank charter, reserve management capabilities, and integration with blockchain settlement rails &mdash; capabilities that only a handful of institutions possess. The MCP server for agentic wallets has no direct substitute today.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Competitive Rivalry</span> <span class="fw-rating moderate">Moderate</span><br>
+  The institutional digital asset infrastructure market features several well-funded competitors: Coinbase (vertically integrated exchange + custody, ~$60B market cap), Fireblocks (wallet infrastructure, private, $8B last private valuation), Anchorage (OCC-chartered, private), and emerging traditional players (BNY Mellon, State Street, Fidelity building in-house). AlphaSense expert calls characterize the competitive landscape as: BitGo strongest in enterprise/institutional (impartial, OCC-chartered), Coinbase strongest in integrated/fiat (exchange liquidity, brand), Fireblocks strongest in wallet software (developer-friendly, MPC), and Anchorage strongest in SMB/emerging crypto companies. Competition is increasing but not yet destructive because the market is growing faster than competitive intensity &mdash; total institutional crypto AUM is expanding as ETFs, tokenized assets, and stablecoins drive new inflows. The risk is that as the market matures, custody becomes a commoditized utility and competition shifts entirely to prime brokerage, settlement, and stablecoin services. Overall: moderate &mdash; growing market absorbs competitive entry, but fee compression on pure custody is a structural trend.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> BitGo's five-force structure is favorable for a digital asset infrastructure company: low threat of new entrants (regulatory barriers), low supplier power, moderate buyer power (mitigated by switching costs), low substitution risk (qualified custody is a regulatory requirement), and moderate competitive rivalry (growing market, but custody fee pressure). The key structural risk is custody commoditization &mdash; which makes the cross-sell into settlement (Go Network), stablecoins (StaaS), and prime brokerage critical to long-term margin defense. The regulatory moat (OCC charter) is the single most important barrier protecting BitGo's competitive position.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 6: WHAT DRIVES THE STOCK? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<p class="prose">The following are the 6 variables that would move BTGO's share price materially in the next 12 months. These are what analysts build tracking models around and PMs ask about in morning meetings.</p>
+
+<p class="prose"><strong>1. Bitcoin and Ethereum Prices.</strong> BitGo's revenue is directly correlated with crypto prices: higher BTC/ETH prices drive higher trading volumes, higher custody AUM (and therefore custody fees), higher staking AUM (and therefore staking revenue), and higher StaaS AUM. The 1,673 BTC on the balance sheet also creates direct P&amp;L exposure through fair-value accounting &mdash; the FY2025 net loss was driven primarily by unrealized BTC losses. Every 10% move in BTC price translates to approximately $8B of AoP change (assuming current $81.6B AoP), which impacts custody revenue, trading volumes, and client engagement. Crypto prices are the single most important exogenous variable for BTGO &mdash; in a BTC-above-$100K environment, the bull case accelerates; below $50K, the bear case intensifies.</p>
+
+<p class="prose"><strong>2. Stablecoin-as-a-Service AUM Growth and GENIUS Act Progress.</strong> StaaS is BitGo's highest-optionality product line. USD1 reaching $5B+ AUM within 3 months of launch was a proof-of-concept; the question is whether it scales to $20B, $50B, or $100B+. The GENIUS Act is the regulatory catalyst &mdash; if passed, it would require stablecoin issuers to use chartered trust banks for reserve custody, directly benefiting BitGo. Every earnings call will be scrutinized for: StaaS AUM, new stablecoin issuer signings (SoFiUSD timeline), average take rate stability (16 bps in FY2025), and management commentary on GENIUS Act progress. A stablecoin AUM target of $20B+ by year-end 2026 would signal strong traction.</p>
+
+<p class="prose"><strong>3. First Quarterly Earnings as a Public Company (June 3, 2026).</strong> BitGo has never reported quarterly earnings publicly. The June 3 print for Q1 2026 is a critical confidence-building event (or potential confidence-destroying event). The market will focus on: net revenue progression vs. consensus ($223M FY2026E implies ~$56M/quarter average), trading take rate stability (~24 bps in Q4 2025), derivatives trading traction, new client additions, and guidance quality. Management's ability to communicate clearly about the gross-to-net revenue transition &mdash; which has confused many generalist investors &mdash; is essential. A clean beat-and-raise would provide significant relief to a stock trading at 42% of its 52-week high.</p>
+
+<p class="prose"><strong>4. Lock-Up Expiration and Insider Selling.</strong> The IPO lock-up period expires approximately 180 days post-IPO (mid-July 2026). Insiders &mdash; including founder/CEO Belshe with >50% voting power and significant economic interest &mdash; will be able to sell shares for the first time. The overhang of potential insider selling is likely suppressing the stock now, and the actual selling (or notably, the absence of selling) around lock-up expiration will be a material catalyst. If insiders sell aggressively, the stock could test the 52-week low of $7.25; if they hold or announce structured selling programs with price floors, it would signal conviction and remove the overhang.</p>
+
+<p class="prose"><strong>5. Custody AoP and Client Growth Trajectory.</strong> AoP ($81.6B, -9% YoY nominal but +16% price-normalized) and client count (5,322, +104% YoY) are the key operating metrics for the custody business. The price-normalized AoP growth of +16% is more meaningful than the nominal figure because it strips out the effect of crypto price movements. Analysts will track: net new custody clients, AoP per client trends, multi-product attach rate evolution (currently 70% use 2+ products), and the balance between organic AoP growth (new client inflows) and market-driven AoP (crypto price appreciation). Each quarter, the conversation will be: "Is BitGo winning share in institutional custody, or just riding the crypto price cycle?"</p>
+
+<p class="prose"><strong>6. Regulatory Developments and Competitive Dynamics.</strong> Any positive regulatory catalyst (GENIUS Act passage, OCC guidance favorable to crypto custody, new international licensing wins) would be a significant upside driver. Conversely, adverse regulatory actions (SEC enforcement against a BitGo client, OCC charter restrictions, anti-crypto legislation) would be material negatives. On the competitive front, the market will monitor: Coinbase's institutional custody market share, BNY Mellon and State Street's crypto custody buildout progress, and any M&amp;A in the digital asset infrastructure space (e.g., a traditional bank acquiring a crypto custodian, or a crypto company acquiring a bank charter). BitGo's competitive position is currently strong but not static.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<p class="prose">BitGo's revenue can be decomposed into its key product lines using fundamental economic drivers. Note: FY2026E+ figures use net revenue convention.</p>
+
+<table class="data" style="font-size:10px; margin-bottom:16px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Revenue Line</th>
+      <th style="text-align:left;">Driver 1</th>
+      <th style="text-align:left;">Driver 2</th>
+      <th style="text-align:left;">Driver 3</th>
+      <th style="text-align:left;">= Revenue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Trading (Net)</strong></td>
+      <td>Trading Volume ($B)</td>
+      <td>x Take Rate (~21 bps)</td>
+      <td>x Crypto Price Level</td>
+      <td>= Net Trading Revenue</td>
+    </tr>
+    <tr>
+      <td><strong>Staking</strong></td>
+      <td>Staked AUM ($15.6B)</td>
+      <td>x Avg Staking Yield (%)</td>
+      <td>x Take Rate (~7-11%)</td>
+      <td>= Staking Revenue</td>
+    </tr>
+    <tr>
+      <td><strong>Subs &amp; Services</strong></td>
+      <td>Custody Clients (1,534)</td>
+      <td>x Avg Quarterly Spend ($11.1K)</td>
+      <td>+ New Client Adds</td>
+      <td>= S&amp;S Revenue ($121.5M)</td>
+    </tr>
+    <tr>
+      <td><strong>StaaS</strong></td>
+      <td>Stablecoin AUM ($B)</td>
+      <td>x Take Rate (~16 bps)</td>
+      <td>+ New Issuer Signings</td>
+      <td>= StaaS Revenue ($66.7M)</td>
+    </tr>
+    <tr>
+      <td><strong>Total Net Revenue</strong></td>
+      <td>Trading (Net)</td>
+      <td>+ Staking + S&amp;S</td>
+      <td>+ StaaS + Interest</td>
+      <td>= ~$223M (FY2026E)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose"><strong>Key driver quantification (FY2026E estimates):</strong></p>
+<ul style="font-size: 11px; line-height: 1.7; color: #333; margin-left: 20px; margin-bottom: 10px;">
+  <li><strong>Trading (Net):</strong> Gross trading volume correlated to BTC/ETH prices and institutional activity; take rate compressing from ~47 bps (FY2024) to ~21 bps (FY2025) to est. ~15-18 bps (FY2026E) as volume scales and competition increases; net trading revenue = gross volume x take rate</li>
+  <li><strong>Staking:</strong> $15.6B staked AUM growing with crypto prices and new staking products; average yield depends on network staking rates (ETH ~3-4%, SOL ~6-7%); BitGo's take rate ~7-11% of yield; expect modest revenue decline in FY2026 due to lower crypto prices</li>
+  <li><strong>Subscriptions &amp; Services:</strong> $121.5M growing 40-50% YoY driven by new custody client onboarding and higher per-client spend as multi-product attach rates increase; most recurring and predictable revenue stream</li>
+  <li><strong>StaaS:</strong> $66.7M in FY2025 growing rapidly as USD1 scales and SoFiUSD launches; 16 bps average take rate on AUM; upside dependent on GENIUS Act and new issuer signings</li>
+  <li><strong>Total FY2026E:</strong> ~$223M net revenue, with growth driven by S&amp;S (+40-50%), StaaS (potential 100%+ growth if AUM doubles), offset by trading take rate compression and staking price sensitivity</li>
+</ul>
+
+<p class="prose"><strong>Leverage analysis:</strong> The two highest-leverage drivers on total net revenue and valuation are: (1) <em>Stablecoin AUM</em> &mdash; every $1B of incremental StaaS AUM at 16 bps generates approximately $1.6M of annualized revenue that flows through at very high incremental margins (the infrastructure is already built). If StaaS AUM grows from ~$5B (current USD1) to $50B over 3 years, that represents ~$80M of incremental annualized revenue &mdash; a transformational increase relative to the $223M FY2026E net revenue base. The GENIUS Act is the binary catalyst that determines whether this growth trajectory is realistic. (2) <em>Crypto Price Level</em> &mdash; approximately 70%+ of BitGo's economic revenue is directly or indirectly sensitive to digital asset prices. A 50% increase in BTC/ETH prices would simultaneously increase trading volumes (+30-50%), custody AUM (+50%), staking AUM (+50%), and StaaS AUM (stablecoin demand increases in bull markets), potentially driving a 40-60% increase in net revenue. Conversely, a 50% decline in crypto prices would have the inverse effect. This crypto beta is the defining characteristic of BitGo's revenue model and the primary source of both opportunity and risk.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+  <strong>AlphaSense Research Reports</strong> &middot; Subject: BitGo Holdings, Inc. (BTGO) &middot; Reports Reviewed: AlphaSense Primer, Expert Call Transcripts, Q4 FY2025 Earnings, FactSet Snapshot<br>
+  <em>Key themes synthesized from AlphaSense competitive intelligence, management commentary, and industry research.</em>
+</div>
+
+<p class="prose"><strong>Regulatory Moat: The Deepest in Digital Assets.</strong> The most important analytical insight from the AlphaSense research is that BitGo's competitive advantage is not simply "custody" but specifically the regulatory infrastructure stack: OCC federal charter + NYDFS trust license + BaFin MiCA license + Dubai VARA + Singapore MAS, with South Korea forthcoming. This regulatory stack is the deepest and broadest of any digital asset infrastructure company globally. No competitor fully matches it: Coinbase has BitLicense but no OCC charter; Anchorage has an OCC charter but limited international presence; Fireblocks has no banking charter at all; traditional banks have bank charters but no crypto-native technology. The AlphaSense primer specifically argues that this regulatory moat will become increasingly valuable as the digital asset market matures and institutional allocators require federally regulated custodians. The GENIUS Act would further cement this advantage by requiring stablecoin issuers to use chartered trust banks for reserve custody &mdash; effectively creating a regulatory mandate for BitGo's services.</p>
+
+<p class="prose"><strong>Pure-Play Infrastructure: The Impartiality Advantage.</strong> A recurring theme in expert call transcripts is BitGo's structural impartiality: unlike Coinbase, which operates an exchange and trades against client flow, BitGo is a pure infrastructure provider that does not compete with its clients. This positioning was significantly strengthened by the FTX collapse, which demonstrated the catastrophic consequences of commingling custody and trading (FTX used client custodied assets to fund Alameda Research's trading losses). Post-FTX, institutional allocators have become acutely focused on custodian independence &mdash; segregation of custody from trading, bankruptcy-remote structures, and no rehypothecation. BitGo's architecture was designed from inception to satisfy these requirements, giving it a structural credibility advantage that exchange-affiliated custodians must overcome. Expert interviewees note that this impartiality is particularly valued by ETF issuers, pension funds, and sovereign wealth funds &mdash; the largest and most compliance-sensitive institutional categories.</p>
+
+<p class="prose"><strong>Misunderstood Revenue: Institutional Infrastructure, Not Retail Trading.</strong> The AlphaSense analysis highlights a critical market misperception: many generalist investors and analysts treat BitGo's revenue as if it were retail crypto trading revenue &mdash; highly volatile, correlated to crypto prices, and similar to Coinbase or Robinhood. In reality, BitGo's revenue base is predominantly institutional infrastructure: custody subscriptions, settlement fees, stablecoin management fees, and enterprise API integrations. These revenue streams are more recurring, less volatile, and less price-sensitive than retail trading. The gross-to-net revenue transition has exacerbated this confusion: the $16.15B FY2025 gross revenue figure suggests BitGo is a massive trading operation, when in reality the economic revenue (net) is ~$223M, predominantly from infrastructure services. This misclassification leads to: (a) incorrect comps (comparing BTGO to retail crypto platforms rather than infrastructure/custody businesses), (b) overestimating crypto price sensitivity by ignoring the S&amp;S and StaaS components, and (c) failing to credit the recurring nature of custody and subscription revenue.</p>
+
+<p class="prose"><strong>Client Stickiness and Multi-Product Attach Rates.</strong> The AlphaSense research emphasizes BitGo's cross-sell data as the most important leading indicator of business health. As of Q4 2025: 70% of revenue-generating clients use 2+ BitGo products, 50% use 3+, and attach rates are growing quarter-over-quarter. This multi-product penetration creates compounding revenue per client (average quarterly custody client spend: $11.1K) and dramatically increases switching costs (unwinding custody is hard; unwinding custody + trading + staking + settlement + StaaS simultaneously is nearly impossible). Expert interviewees describe this as the "BitGo flywheel": custody is the wedge product (clients must choose a custodian first), which then enables cross-sell into trading, staking, settlement, and stablecoins. The lending book ($207.4M, +114% YoY) is the latest product gaining attach rate momentum. If the flywheel continues to compound, BitGo's revenue per client should increase 3-5x over the next 3 years without adding a single new logo.</p>
+
+<p class="prose"><strong>Key Investor Questions.</strong> Based on the AlphaSense research and management commentary, the questions that would most sharpen conviction on BitGo are: (1) What is the true "operating cash" balance after stripping out stablecoin reserves and client assets, and can management provide this breakdown quarterly? (2) What is the StaaS pipeline beyond USD1 and SoFiUSD &mdash; how many potential issuers are in active discussions, and what is the average AUM per issuer? (3) What are the Go Network's daily settlement volumes and participant count, and how do they compare to centralized exchange settlement? (4) What is the derivatives trading roadmap &mdash; which products (perpetuals, options, structured) and what is the target take rate? (5) What is management's plan for the lock-up expiration in July 2026 &mdash; any structured selling programs or lock-up extensions?</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 9: SENSITIVITY ANALYSIS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Sensitivity Analysis</div>
+
+<!-- Sensitivity Table 1 -->
+<p class="prose"><strong>Sensitivity Table 1: FY2028E Net Revenue ($M) &mdash; Crypto Price Level (BTC) vs. StaaS AUM ($B)</strong></p>
+<p class="prose"><strong>Current: BTC ~$85K (Base), StaaS AUM ~$10B (Base) = ~$392M Net Revenue</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>BTC Price / StaaS AUM</th>
+      <th>$5B</th>
+      <th>$10B</th>
+      <th>$25B</th>
+      <th>$50B</th>
+      <th>$100B</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$40K (Severe Bear)</td><td>$195</td><td>$203</td><td>$227</td><td>$267</td><td>$347</td></tr>
+    <tr><td>$60K (Mild Bear)</td><td>$265</td><td>$273</td><td>$297</td><td>$337</td><td>$417</td></tr>
+    <tr><td>$85K (Base)</td><td>$384</td><td class="base">$392</td><td>$416</td><td>$456</td><td>$536</td></tr>
+    <tr><td>$120K (Mild Bull)</td><td>$478</td><td>$486</td><td>$510</td><td>$550</td><td>$630</td></tr>
+    <tr><td>$180K (Severe Bull)</td><td>$610</td><td>$618</td><td>$642</td><td>$682</td><td>$762</td></tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 2 -->
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 2: FY2028E EPS ($) &mdash; Net Revenue ($M) vs. Net Margin (%)</strong></p>
+<p class="prose"><strong>Current (FY2028E Consensus): Net Revenue = $392M x Net Margin = 21.5% = $84M NI / 135.5M shares = $0.62 base EPS (conservative, diluted)</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Net Revenue / Net Margin</th>
+      <th>10%</th>
+      <th>15%</th>
+      <th>21.5%</th>
+      <th>25%</th>
+      <th>30%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$250M</td><td>$0.18</td><td>$0.28</td><td>$0.40</td><td>$0.46</td><td>$0.55</td></tr>
+    <tr><td>$325M</td><td>$0.24</td><td>$0.36</td><td>$0.52</td><td>$0.60</td><td>$0.72</td></tr>
+    <tr><td>$392M</td><td>$0.29</td><td>$0.43</td><td class="base">$0.62</td><td>$0.72</td><td>$0.87</td></tr>
+    <tr><td>$500M</td><td>$0.37</td><td>$0.55</td><td>$0.79</td><td>$0.92</td><td>$1.11</td></tr>
+    <tr><td>$700M</td><td>$0.52</td><td>$0.77</td><td>$1.11</td><td>$1.29</td><td>$1.55</td></tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 3 -->
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 3: Implied Share Price ($) &mdash; P/E Multiple (x) vs. FY2028E EPS ($)</strong></p>
+<p class="prose"><strong>Current: EPS = $1.57 (consensus) x P/E = 15x = $23.55 implied share price vs. $10.27 current</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>EPS / P/E</th>
+      <th>8x</th>
+      <th>12x</th>
+      <th>15x</th>
+      <th>20x</th>
+      <th>30x</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$0.62</td><td class="base" style="background:#f8d7da;">$4.96</td><td>$7.44</td><td>$9.30</td><td>$12.40</td><td>$18.60</td></tr>
+    <tr><td>$1.00</td><td>$8.00</td><td class="base" style="background:#fff3cd;">$12.00</td><td>$15.00</td><td>$20.00</td><td>$30.00</td></tr>
+    <tr><td>$1.57</td><td>$12.56</td><td>$18.84</td><td class="base">$23.55</td><td>$31.40</td><td>$47.10</td></tr>
+    <tr><td>$2.50</td><td>$20.00</td><td>$30.00</td><td>$37.50</td><td class="base" style="background:#d4edda;">$50.00</td><td>$75.00</td></tr>
+    <tr><td>$4.00</td><td>$32.00</td><td>$48.00</td><td>$60.00</td><td>$80.00</td><td class="base" style="background:#d4edda;">$120.00</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 10: 3-YEAR MODEL — 5 SCENARIOS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">10. 3-Year Model &mdash; 5 Scenarios</div>
+
+<p class="prose">All figures in $M unless stated. Modeled FY2026E, FY2027E, FY2028E (FYE December). Exit multiple applied to FY2028E EPS. Current share price: $10.27. Diluted shares: 135.53M. Note: Because BitGo does not yet generate positive FCF consistently, we use P/E on forward earnings as the primary exit valuation metric. Net revenue convention used throughout.</p>
+
+<!-- CASE 1: BEAR SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 1: Bear Severe &mdash; Crypto Winter + Regulatory Reversal</div>
+  <div class="case-desc">BTC drops below $40K sustained; GENIUS Act fails; StaaS AUM stalls; trading volumes collapse 70%+ from peak; custody fee compression accelerates; lock-up selling creates persistent downward pressure; BTGO trades at distressed small-cap crypto multiples.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> &mdash; BTC crashes to $35K; trading volumes collapse; net revenue misses consensus by 25%; StaaS AUM flat at $5B as GENIUS Act stalls in Congress; lock-up expiration triggers heavy insider selling. <strong>FY2027</strong> &mdash; Prolonged crypto winter; custody clients consolidate to fewer, cheaper providers; trading take rate compresses to 10 bps; staking revenue halves; management cuts headcount 30%. <strong>FY2028</strong> &mdash; Modest recovery; BTC $50K; net revenue stabilizes but permanently reset lower; margins improve from cost cuts but growth is gone.</p>
+  <div class="driver-label">Key Drivers &mdash; FY2028E (Year 3)</div>
+  <div class="driver-row"><span>BTC Price</span><span>~$50K (recovery from $35K trough)</span></div>
+  <div class="driver-row"><span>Net Revenue</span><span>$180M (severe miss)</span></div>
+  <div class="driver-row"><span>Net Margin</span><span>5% (barely profitable)</span></div>
+  <div class="driver-row"><span>EPS</span><span>$0.07</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>NM &mdash; use 1.0x P/Book ($938M BV / 135.5M = $6.92 BVPS)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Net Revenue</td><td>$155</td><td>$150</td><td>$180</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Rev Growth %</td><td>N/A</td><td>-3%</td><td>+20%</td></tr>
+    <tr><td>Gross Income</td><td>$140</td><td>$135</td><td>$162</td></tr>
+    <tr><td>EBITDA</td><td>($15)</td><td>($10)</td><td>$18</td></tr>
+    <tr><td>Net Income</td><td>($45)</td><td>($30)</td><td>$9</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>135.5</td><td>135.5</td><td>135.5</td></tr>
+    <tr><td>EPS</td><td>($0.33)</td><td>($0.22)</td><td>$0.07</td></tr>
+    <tr class="valuation-row"><td>Exit Valuation</td><td>--</td><td>--</td><td>0.7x P/Book</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>--</td><td>$4.85</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 0.7x Book Value ($6.92 BVPS) &mdash; distressed crypto company</div>
+    <div class="exit-price">Implied Share Price: $4.85</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: -53% from $10.27</div>
+  </div>
+</div>
+
+<!-- CASE 2: BEAR MILD -->
+<div class="case-block">
+  <div class="case-name">Case 2: Bear Mild &mdash; Crypto Sideways + Slow Execution</div>
+  <div class="case-desc">BTC ranges $55-75K; trading volumes stagnant; StaaS grows slowly (GENIUS Act delayed to 2027); custody fee compression continues; BitGo achieves profitability but growth underwhelms; stock trades at low-end of digital asset infra multiples.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> &mdash; BTC $65K average; net revenue of $195M (below $223M consensus); StaaS AUM grows to $8B but slower than hoped; derivatives launch has modest traction. <strong>FY2027</strong> &mdash; GENIUS Act delayed but market anticipates eventual passage; net revenue $270M; margins improve; EPS approaches breakeven. <strong>FY2028</strong> &mdash; BTC $75K; net revenue $340M; 15% net margin; EPS $0.38; stock trades at 18x earnings as skeptics demand sustained profitability proof.</p>
+  <div class="driver-label">Key Drivers &mdash; FY2028E (Year 3)</div>
+  <div class="driver-row"><span>BTC Price</span><span>~$75K (range-bound)</span></div>
+  <div class="driver-row"><span>Net Revenue</span><span>$340M (below consensus)</span></div>
+  <div class="driver-row"><span>Net Margin</span><span>15%</span></div>
+  <div class="driver-row"><span>EPS</span><span>$0.38</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>18x</span></div>
+  <table class="scenario-mini">
+    <tr><td>Net Revenue</td><td>$195</td><td>$270</td><td>$340</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Rev Growth %</td><td>N/A</td><td>+38%</td><td>+26%</td></tr>
+    <tr><td>Gross Income</td><td>$195</td><td>$270</td><td>$340</td></tr>
+    <tr><td>EBITDA</td><td>$15</td><td>$40</td><td>$68</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>7.7%</td><td>14.8%</td><td>20.0%</td></tr>
+    <tr><td>Net Income</td><td>($20)</td><td>$18</td><td>$51</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>135.5</td><td>135.5</td><td>135.5</td></tr>
+    <tr><td>EPS</td><td>($0.15)</td><td>$0.13</td><td>$0.38</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>--</td><td>--</td><td>18x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>--</td><td>$6.84</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 18x FY2028E EPS of $0.38</div>
+    <div class="exit-price">Implied Share Price: $6.84</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: -33% from $10.27</div>
+  </div>
+</div>
+
+<!-- CASE 3: BASE CASE -->
+<div class="case-block">
+  <div class="case-name">Case 3: Base Case &mdash; Consensus Execution, Crypto Market Recovery</div>
+  <div class="case-desc">BTC $85-100K; net revenue tracks consensus; StaaS scales to $15-20B AUM; GENIUS Act passes late 2026/early 2027; derivatives and prime brokerage gain traction; profitability achieved FY2027; stock re-rates toward IPO price as fundamentals prove out.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> &mdash; Net revenue $223M (consensus); StaaS AUM $12B; derivatives volume accelerates; first earnings report builds confidence; EPS ($0.95) reflects IPO costs and ramp investments. <strong>FY2027</strong> &mdash; GENIUS Act passes; StaaS AUM $20B; net revenue $299M; EPS $1.20; stock begins re-rating. <strong>FY2028</strong> &mdash; BTC $100K; net revenue $392M; EPS $1.57; EBITDA margin 23%; market credits infrastructure-grade recurring revenue; valuation normalizes to 15x forward earnings.</p>
+  <div class="driver-label">Key Drivers &mdash; FY2028E (Year 3)</div>
+  <div class="driver-row"><span>BTC Price</span><span>~$100K</span></div>
+  <div class="driver-row"><span>Net Revenue</span><span>$392M (consensus)</span></div>
+  <div class="driver-row"><span>Net Margin</span><span>21.5%</span></div>
+  <div class="driver-row"><span>EPS</span><span>$1.57</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>15x</span></div>
+  <table class="scenario-mini">
+    <tr><td>Net Revenue</td><td>$223</td><td>$299</td><td>$392</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Rev Growth %</td><td>N/A</td><td>+34%</td><td>+31%</td></tr>
+    <tr><td>Gross Income</td><td>$226</td><td>$301</td><td>$414</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>~102%</td><td>~101%</td><td>~106%</td></tr>
+    <tr><td>EBITDA</td><td>$28</td><td>$56</td><td>$91</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>12.6%</td><td>18.7%</td><td>23.2%</td></tr>
+    <tr><td>EBIT</td><td>$5</td><td>$42</td><td>$81</td></tr>
+    <tr><td>Net Income</td><td>($13)</td><td>$42</td><td>$84</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Margin %</td><td>NM</td><td>14.0%</td><td>21.5%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>135.5</td><td>135.5</td><td>135.5</td></tr>
+    <tr><td>EPS</td><td>($0.95)</td><td>$1.20</td><td>$1.57</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>--</td><td>15x</td><td>15x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>$18.00</td><td>$23.55</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 15x FY2028E EPS of $1.57</div>
+    <div class="exit-price">Implied Share Price: $23.55</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +129% from $10.27</div>
+  </div>
+</div>
+
+<!-- CASE 4: BULL MILD -->
+<div class="case-block">
+  <div class="case-name">Case 4: Bull Mild &mdash; Stablecoin Explosion + Crypto Bull Market</div>
+  <div class="case-desc">BTC $120-150K; GENIUS Act passes in 2026; StaaS AUM $50B+; derivatives market grows 5x; Go Network becomes default institutional settlement; BitGo recognized as infrastructure play, not just "crypto company"; P/E re-rates to 20x+.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> &mdash; BTC rallies to $120K; GENIUS Act passes; StaaS AUM triples to $15B; net revenue beats consensus at $260M. <strong>FY2027</strong> &mdash; Stablecoin market booms; StaaS AUM $35B; derivatives volume $50B+ notional; net revenue $400M; EPS $2.00. <strong>FY2028</strong> &mdash; BTC $150K; StaaS AUM $50B; Go Network processes $500B+ annual settlement; net revenue $550M; EPS $2.50; market re-rates BitGo as financial market infrastructure.</p>
+  <div class="driver-label">Key Drivers &mdash; FY2028E (Year 3)</div>
+  <div class="driver-row"><span>BTC Price</span><span>~$150K</span></div>
+  <div class="driver-row"><span>Net Revenue</span><span>$550M (stablecoin-driven)</span></div>
+  <div class="driver-row"><span>Net Margin</span><span>25%</span></div>
+  <div class="driver-row"><span>EPS</span><span>$2.50</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>20x (infrastructure premium)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Net Revenue</td><td>$260</td><td>$400</td><td>$550</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Rev Growth %</td><td>N/A</td><td>+54%</td><td>+38%</td></tr>
+    <tr><td>Gross Income</td><td>$265</td><td>$408</td><td>$561</td></tr>
+    <tr><td>EBITDA</td><td>$42</td><td>$96</td><td>$154</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>16.2%</td><td>24.0%</td><td>28.0%</td></tr>
+    <tr><td>Net Income</td><td>$5</td><td>$80</td><td>$139</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Margin %</td><td>1.9%</td><td>20.0%</td><td>25.3%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>135.5</td><td>135.5</td><td>135.5</td></tr>
+    <tr><td>EPS</td><td>$0.04</td><td>$1.48</td><td>$2.50</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>--</td><td>20x</td><td>20x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>$29.60</td><td>$50.00</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 20x FY2028E EPS of $2.50</div>
+    <div class="exit-price">Implied Share Price: $50.00</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +387% from $10.27</div>
+  </div>
+</div>
+
+<!-- CASE 5: BULL SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 5: Bull Severe &mdash; Systemically Important FMI + Strategic Premium</div>
+  <div class="case-desc">BTC $180K+; BitGo becomes systemically important financial market infrastructure (the "DTCC of crypto"); StaaS AUM $100B+; Go Network is the global institutional settlement standard; strategic acquisition by a major financial institution at 50%+ premium; or re-rating to 30x+ P/E as a financial infrastructure monopoly.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> &mdash; BTC surges above $150K; GENIUS Act passes with bipartisan support; USD1 becomes top-5 stablecoin; 5 new stablecoin issuers sign with BitGo; net revenue $280M, beating consensus by 25%. <strong>FY2027</strong> &mdash; StaaS AUM $60B; Go Network processes $1T+ annual settlement; derivatives notional $200B+; BitGo is systematically important; major bank (JPMorgan, Goldman) approaches for acquisition or strategic partnership; EPS $3.00. <strong>FY2028</strong> &mdash; StaaS AUM $100B; net revenue $800M; EPS $4.00; BitGo either acquired at 50%+ premium or re-rated to 30x P/E as the undisputed digital asset infrastructure monopoly.</p>
+  <div class="driver-label">Key Drivers &mdash; FY2028E (Year 3)</div>
+  <div class="driver-row"><span>BTC Price</span><span>$180K+</span></div>
+  <div class="driver-row"><span>Net Revenue</span><span>$800M (StaaS + settlement driven)</span></div>
+  <div class="driver-row"><span>Net Margin</span><span>30%</span></div>
+  <div class="driver-row"><span>EPS</span><span>$4.00</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>30x (FMI premium)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Net Revenue</td><td>$280</td><td>$520</td><td>$800</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Rev Growth %</td><td>N/A</td><td>+86%</td><td>+54%</td></tr>
+    <tr><td>Gross Income</td><td>$285</td><td>$530</td><td>$816</td></tr>
+    <tr><td>EBITDA</td><td>$56</td><td>$156</td><td>$280</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>20.0%</td><td>30.0%</td><td>35.0%</td></tr>
+    <tr><td>Net Income</td><td>$28</td><td>$130</td><td>$240</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Margin %</td><td>10.0%</td><td>25.0%</td><td>30.0%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>135.5</td><td>135.5</td><td>135.5</td></tr>
+    <tr><td>EPS</td><td>$0.21</td><td>$2.40</td><td>$4.00</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>--</td><td>30x</td><td>30x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>$72.00</td><td>$120.00</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 30x FY2028E EPS of $4.00</div>
+    <div class="exit-price">Implied Share Price: $120.00</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +1,068% from $10.27</div>
+  </div>
+</div>
+
+<!-- SVG Bar Chart -->
+<div class="case-chart">
+  <p style="font-size:9px; font-weight:600; margin-bottom:8px;">Implied Share Price by Scenario (FY2028E Exit) vs. Current Price $10.27</p>
+  <svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg" style="width:100%; font-family:Inter,Arial,sans-serif;">
+    <!-- Axes -->
+    <line x1="80" y1="20" x2="80" y2="200" stroke="#ccc" stroke-width="1"/>
+    <line x1="80" y1="200" x2="680" y2="200" stroke="#ccc" stroke-width="1"/>
+    <!-- Y-axis labels (scale: $1 = 1.5px, so $120 = 180px) -->
+    <text x="75" y="204" text-anchor="end" font-size="9" fill="#888">$0</text>
+    <text x="75" y="173" text-anchor="end" font-size="9" fill="#888">$20</text>
+    <text x="75" y="143" text-anchor="end" font-size="9" fill="#888">$40</text>
+    <text x="75" y="113" text-anchor="end" font-size="9" fill="#888">$60</text>
+    <text x="75" y="83" text-anchor="end" font-size="9" fill="#888">$80</text>
+    <text x="75" y="53" text-anchor="end" font-size="9" fill="#888">$100</text>
+    <text x="75" y="23" text-anchor="end" font-size="9" fill="#888">$120</text>
+    <!-- Gridlines -->
+    <line x1="80" y1="173" x2="680" y2="173" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="143" x2="680" y2="143" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="113" x2="680" y2="113" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="83" x2="680" y2="83" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="53" x2="680" y2="53" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="23" x2="680" y2="23" stroke="#eee" stroke-width="0.5"/>
+    <!-- Bar scale: $1 = 1.5px -->
+    <!-- Bear Severe: $4.85 -> height 7.3px -->
+    <rect x="110" y="192.7" width="80" height="7.3" fill="#2563eb"/>
+    <text x="150" y="189" text-anchor="middle" font-size="9" fill="#333">$4.85</text>
+    <text x="150" y="214" text-anchor="middle" font-size="8" fill="#555">Bear Severe</text>
+    <!-- Bear Mild: $6.84 -> height 10.3px -->
+    <rect x="220" y="189.7" width="80" height="10.3" fill="#2563eb"/>
+    <text x="260" y="185" text-anchor="middle" font-size="9" fill="#333">$6.84</text>
+    <text x="260" y="214" text-anchor="middle" font-size="8" fill="#555">Bear Mild</text>
+    <!-- Base: $23.55 -> height 35.3px -->
+    <rect x="330" y="164.7" width="80" height="35.3" fill="#2563eb"/>
+    <text x="370" y="160" text-anchor="middle" font-size="9" fill="#333">$23.55</text>
+    <text x="370" y="214" text-anchor="middle" font-size="8" fill="#555">Base Case</text>
+    <!-- Bull Mild: $50.00 -> height 75px -->
+    <rect x="440" y="125" width="80" height="75" fill="#2563eb"/>
+    <text x="480" y="121" text-anchor="middle" font-size="9" fill="#333">$50.00</text>
+    <text x="480" y="214" text-anchor="middle" font-size="8" fill="#555">Bull Mild</text>
+    <!-- Bull Severe: $120.00 -> height 180px -->
+    <rect x="550" y="20" width="80" height="180" fill="#2563eb"/>
+    <text x="590" y="16" text-anchor="middle" font-size="9" fill="#333">$120.00</text>
+    <text x="590" y="214" text-anchor="middle" font-size="8" fill="#555">Bull Severe</text>
+    <!-- Current price line: $10.27 = 15.4px from bottom -> y = 200 - 15.4 = 184.6 -->
+    <line x1="80" y1="184.6" x2="680" y2="184.6" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="685" y="188" font-size="9" fill="#e74c3c">$10.27 (Current)</text>
+    <!-- Prob-wtd PV: $21.11 = 31.7px -> y = 200 - 31.7 = 168.3 -->
+    <line x1="80" y1="168.3" x2="680" y2="168.3" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="3,2"/>
+    <text x="685" y="172" font-size="8" fill="#f39c12">$21.11 PV@30%</text>
+  </svg>
+  <p style="font-size:8px; color:#888; margin-top:4px;">Probability weights: 5% / 20% / 50% / 20% / 5% &middot; Prob-wtd avg $27.44 discounted @30% CoC = $21.11 &middot; Current: $10.27 &middot; Implied upside: +105.5%</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 11: COMPS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">11. Comparable Companies</div>
+
+<div class="section-title">Comps Set 1: Blockchain &amp; Bitcoin Infrastructure</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>Mkt Cap</th>
+      <th>EV</th>
+      <th class="est-col">TEV/EBITDA</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>BitGo Holdings A</td><td>BTGO</td>
+      <td>$1,186M</td><td>NM</td><td>NM</td>
+    </tr>
+    <tr>
+      <td>Sharplink</td><td>--</td>
+      <td>$1,408M</td><td>$861M</td><td>NM</td>
+    </tr>
+    <tr>
+      <td>Keel Infrastructure</td><td>--</td>
+      <td>$1,609M</td><td>$1,410M</td><td>53.6x</td>
+    </tr>
+    <tr>
+      <td>HIVE Digital</td><td>HIVE</td>
+      <td>$615M</td><td>($18M)</td><td>NM</td>
+    </tr>
+    <tr>
+      <td>Gemini Space Station A</td><td>--</td>
+      <td>$612M</td><td>$987M</td><td>NM</td>
+    </tr>
+    <tr>
+      <td>Bit Digital</td><td>BTBT</td>
+      <td>$493M</td><td>$234M</td><td>NM</td>
+    </tr>
+    <tr>
+      <td>Chaince Digital</td><td>--</td>
+      <td>$331M</td><td>$293M</td><td>NM</td>
+    </tr>
+    <tr>
+      <td>Bakkt A</td><td>BKKT</td>
+      <td>$274M</td><td>$94M</td><td>NM</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Comps Set 2: Digital Asset Infrastructure (Broader)</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>Mkt Cap</th>
+      <th>EV</th>
+      <th class="est-col">EV/EBITDA</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>BitGo Holdings A</td><td>BTGO</td>
+      <td>$1,186M</td><td>NM</td><td>NM</td>
+    </tr>
+    <tr>
+      <td>WonderFi Technologies</td><td>WNDR</td>
+      <td>$163M</td><td>$142M</td><td>NM</td>
+    </tr>
+    <tr>
+      <td>HashKey Holdings</td><td>--</td>
+      <td>$1,617M</td><td>$1,315M</td><td>NM</td>
+    </tr>
+    <tr>
+      <td>Bitcoin Group</td><td>--</td>
+      <td>$179M</td><td>$167M</td><td>103.1x</td>
+    </tr>
+    <tr>
+      <td>Metaplanet</td><td>--</td>
+      <td>$2,727M</td><td>$2,991M</td><td>70.5x</td>
+    </tr>
+    <tr>
+      <td>CoinShares</td><td>--</td>
+      <td>$526M</td><td>--</td><td>NM</td>
+    </tr>
+    <tr>
+      <td>Galaxy Digital A</td><td>GLXY</td>
+      <td>$9,229M</td><td>$5,529M</td><td>9.1x</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:10px;">BitGo's comps are challenging to analyze because: (1) the negative EV makes EV-based multiples meaningless, (2) most blockchain/crypto peers are also unprofitable or report NM EBITDA, and (3) the gross-to-net revenue transition makes revenue-based comparisons difficult. Among the broader digital asset infrastructure set, Galaxy Digital (9.1x EV/EBITDA) is the most relevant profitable comp &mdash; a diversified digital asset financial services firm with trading, mining, and asset management. Galaxy's 9.1x suggests that if BitGo achieves sustainable profitability, a mid-single-digit to low-teens EV/EBITDA multiple is reasonable. Metaplanet (70.5x) and Keel Infrastructure (53.6x) trade at extreme premiums driven by BTC treasury narratives rather than operating fundamentals. On a P/Sales basis (the most meaningful metric given negative EV), BitGo at 5.3x FY2026E net revenue is cheap relative to Galaxy Digital's implied ~3.5x on much larger revenue, suggesting the market is either undervaluing BitGo's infrastructure model or correctly discounting the execution risk of a newly public, pre-profit company. The consensus Buy rating (1.15, 11 brokers) with a $14.69 target (+43% upside) reflects strong sell-side conviction, but the wide gap between the target and current price indicates the market wants proof of execution before re-rating.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<div class="verdict">
+  <p><strong>(i) Market Cap Bucket: $1,186M</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">Small Cap ($1B&ndash;$5B). BitGo's $1,186M market cap sits at the lower end of Theia's small-cap sweet spot, where informational inefficiency is at its highest. The stock is a recent IPO (January 2026) that has declined 43% from its $18 IPO price and 58% from its $24.50 52-week high, creating exactly the kind of dislocation that Theia targets. At $1.2B, BitGo is small enough to be excluded from most institutional mandates (many funds have $2B+ minimum market cap requirements), creating persistent underownership. The dual-class structure and 39% non-float shares further reduce the effective investable universe, amplifying the informational edge opportunity. The 581K average daily volume provides adequate liquidity for a small-cap position but is thin enough that any meaningful institutional buying would move the stock.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(ii) Analyst Coverage: 11 Broker Contributors</strong> <span class="fw-rating moderate">Moderate Fit</span></p>
+  <p style="margin-top:4px;">With 11 sell-side analysts covering BTGO, this is moderately covered &mdash; above Theia's ideal threshold of fewer than 5 analysts but justified by the recent IPO (brokers who participated in the offering are contractually required to initiate coverage). The coverage is likely to thin as the mandatory post-IPO coverage period expires and smaller brokers drop the name if the stock remains depressed. The consensus target of $14.69 (+43% upside) with a near-unanimous Buy rating (1.15) reflects strong conviction from covering analysts, but the gross-to-net revenue transition creates significant analytical complexity that generalist analysts may not fully appreciate. The coverage gap is most evident in the confusion around the negative EV: several sell-side models appear to use headline cash ($4.0B) without adjusting for stablecoin reserves and client assets, producing misleading valuation outputs.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iii) Thesis Alignment: Digital Asset Infrastructure / Blockchain</strong> <span class="fw-rating strong">Core Thesis</span></p>
+  <p style="margin-top:4px;">BitGo is as close to a "pure-play Theia investment" as exists in the public markets. It is the first federally chartered, publicly traded digital asset infrastructure company, serving as the custodial, settlement, and stablecoin backbone for institutional crypto adoption. BitGo directly benefits from every major secular trend in Theia's thesis: institutional crypto adoption (custody), stablecoin growth (StaaS), tokenized assets (Figure partnership), ETF expansion (Fidelity, 21Shares custody), DeFi-TradFi convergence (Go Network), and agentic AI (MCP server). The OCC charter makes BitGo a regulated bridge between traditional finance and digital assets &mdash; the exact infrastructure layer that Theia's thesis identifies as the highest-value opportunity in the internet finance stack. Core Thesis alignment is unambiguous.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iv) Outcome Dispersion: $4.85 &ndash; $120.00</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">The 5-scenario model shows implied prices ranging from $4.85 (Bear Severe, -53%) to $120.00 (Bull Severe, +1,068%) from the current $10.27. This is an extraordinarily wide outcome range &mdash; a 24.7x spread between bear and bull severe &mdash; driven by the combination of: (a) early-stage public company risk (3 months post-IPO, pre-profit), (b) crypto price exposure (1.72 beta), (c) massive StaaS optionality (GENIUS Act binary catalyst), and (d) potential infrastructure monopoly dynamics (Go Network, custody network effects). The probability-weighted fair value of $21.11 (discounted at 30% CoC) represents 105.5% upside from current trading. The asymmetry is striking: the base case alone ($23.55) represents +129% upside, and the probability-weighted value is more than double the current price. The downside in bear severe ($4.85, -53%) is painful but survivable for a position-sized allocation, while the bull cases offer transformational returns. This is exactly the type of convex, asymmetric risk/reward profile that Theia's methodology is designed to identify.</p>
+</div>
+
+<div style="background: #d4edda; border-left: 4px solid #155724; padding: 12px 14px; margin: 16px 0; font-size: 11.5px;">
+  <strong>VERDICT: YES &mdash; Initiate Position on Post-IPO Dislocation + Core Thesis Alignment</strong><br><br>
+  BitGo hits all four Theia criteria with exceptional strength: small-cap ($1,186M), moderately covered (11 brokers, likely to thin), Core Thesis alignment (first publicly traded OCC-chartered digital asset infrastructure company), and extraordinary outcome dispersion ($4.85 to $120.00) with probability-weighted upside of 105.5%. The stock has declined 43% from its IPO price and 58% from its 52-week high, creating a dislocation driven by post-IPO selling pressure, crypto market weakness, analytical confusion around the gross-to-net revenue transition, and lock-up expiration fear &mdash; none of which represent permanent impairment of the business franchise. BitGo's regulatory moat (OCC charter, 7+ global licenses), structural impartiality (no exchange, no rehypothecation), and multi-product infrastructure platform (custody + settlement + stablecoins + prime + staking) create a durable competitive position that is being priced as if it were a speculative crypto trading app. The GENIUS Act is the binary catalyst that could unlock the StaaS optionality, potentially adding hundreds of millions in high-margin recurring revenue. Key catalyst: June 3 Q1 FY2026 earnings (first-ever public quarterly report). Position sizing should reflect the 1.72 beta and early-stage execution risk, but the asymmetric payoff profile justifies a meaningful allocation within Theia's digital asset infrastructure sleeve.
+</div>
+
+<p class="prose" style="font-size:10px; font-style:italic; margin-top:6px;">Note: Theia seeks small-cap companies that are not well covered and are strongly aligned on the core internet finance thesis with wide outcome dispersion. BTGO scores: Market Cap (Strong) | Coverage (Moderate) | Thesis (Core) | Dispersion (Strong)</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 13: RISK SUMMARY -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">13. Risk Summary</div>
+
+<table class="risk-table">
+  <tr>
+    <th>Risk Category</th>
+    <th>Description</th>
+    <th>Severity</th>
+    <th>Mitigant</th>
+  </tr>
+  <tr>
+    <td>Crypto Price Correlation</td>
+    <td>Revenue "significantly fluctuates" with BTC/ETH prices (management's own language). 70%+ of economic revenue is directly or indirectly crypto-price-sensitive. 1,673 BTC on balance sheet creates additional P&amp;L volatility through fair-value accounting. 1.72 beta amplifies market moves.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>S&amp;S revenue ($121.5M, +57% YoY) is more recurring and less price-sensitive. StaaS revenue grows with AUM which is partially price-insensitive (stablecoins are pegged). Multi-product attach rates reduce single-variable exposure. Position sizing can manage portfolio-level crypto beta.</td>
+  </tr>
+  <tr>
+    <td>Post-IPO Execution Risk</td>
+    <td>3 months post-IPO with zero public quarterly earnings track record. FY2026E EPS of ($0.95) means first full public year is GAAP unprofitable. Lock-up expiration in July 2026 could trigger significant insider selling. 43% decline from IPO price creates negative sentiment.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>June 3 earnings will provide first data point on execution quality. Strong sell-side conviction (11 brokers, Buy rating, $14.69 target). Management team with 12+ years of private operating history. IPO proceeds strengthen balance sheet.</td>
+  </tr>
+  <tr>
+    <td>Custody Fee Commoditization</td>
+    <td>Pure custody at 15-20 bps is commoditizing. Traditional banks (BNY Mellon, State Street) and crypto-native competitors (Coinbase, Fireblocks, Anchorage) are building/expanding custody capabilities. Pricing pressure could compress custody margins toward zero.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Cross-sell strategy: 70% of clients use 2+ products, 50% use 3+. Custody is the "wedge" that enables higher-margin services (trading, staking, settlement, StaaS). OCC charter provides qualified custody status that software-only competitors (Fireblocks) cannot offer.</td>
+  </tr>
+  <tr>
+    <td>Regulatory Risk</td>
+    <td>Digital asset regulation remains highly uncertain. OCC leadership changes, adverse legislation, GENIUS Act failure, or enforcement actions could undermine BitGo's regulatory moat. International regulatory environments (MiCA, VARA) could become more restrictive.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>7+ regulated entities provide geographic diversification. OCC charter is the most durable federal license available. Bipartisan momentum for stablecoin regulation (GENIUS Act). BitGo's compliance infrastructure positions it to adapt to regulatory changes better than less-regulated competitors.</td>
+  </tr>
+  <tr>
+    <td>Dual-Class Structure / Governance</td>
+    <td>CEO Belshe holds >50% voting power through Class B shares. Minority shareholders have limited governance influence. No external accountability mechanism for capital allocation decisions (e.g., BTC treasury strategy of 1,673 BTC).</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Founder control is common in crypto/tech (Coinbase, Galaxy). Belshe's 12-year track record building BitGo provides credibility. Lead Independent Director Vivek Pattipati provides board-level oversight. Alignment of economic interests (Belshe has large equity stake).</td>
+  </tr>
+  <tr>
+    <td>Revenue Reporting Confusion</td>
+    <td>Gross-to-net revenue transition makes YoY comparisons impossible and confuses generalist analysts. Negative EV from custodial cash creates misleading FactSet screens. Market may systematically misprice the stock due to data quality issues.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Confusion creates buying opportunity for informed investors. Sell-side analysts are transitioning to net revenue models. Management commentary at June 3 earnings can clarify reporting framework. Over 2-3 quarters, the market will establish a net-revenue-based valuation consensus.</td>
+  </tr>
+  <tr>
+    <td>Coinbase Competition</td>
+    <td>Coinbase ($60B+ mkt cap) offers vertically integrated custody + exchange + staking + Base L2 + USDC partnership. Scale, brand, and exchange liquidity advantages may be difficult to overcome. Coinbase could aggressively price custody to win institutional mandates.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>BitGo's impartiality (no exchange, no rehypothecation) is a genuine differentiator post-FTX. OCC charter vs. Coinbase's BitLicense is a regulatory advantage for the most compliance-sensitive institutions. Multi-product attach rates demonstrate stickiness against Coinbase competition.</td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 14: APPENDIX — PYTHON CODE -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section appendix">14. Appendix &mdash; Python Code</div>
+
+<p class="prose">Sensitivity table generator and scenario model code for analyst customization:</p>
+
+<div class="section-title">Sensitivity Table Generator</div>
+<div class="code-block">
+import numpy as np
+import pandas as pd
+
+# ─── SENSITIVITY TABLE 1: FY2028E Net Revenue ($M) ───
+# Crypto Price Level (BTC) vs. StaaS AUM ($B)
+btc_prices = [40_000, 60_000, 85_000, 120_000, 180_000]
+staas_aum_b = [5, 10, 25, 50, 100]
+base_btc = 85_000
+base_staas = 10  # $B
+
+# Revenue model (simplified):
+# Trading net rev scales ~linearly with BTC price (proxy for volume * take rate)
+# Staking scales ~linearly with BTC price
+# S&S relatively stable (~$170M at base)
+# StaaS = AUM * 16 bps
+def net_rev(btc, staas):
+    btc_ratio = btc / base_btc
+    trading_net = 120 * btc_ratio    # ~$120M base trading net rev
+    staking_net = 30 * btc_ratio     # ~$30M base staking net rev
+    ss_rev = 170                      # $170M S&S (relatively stable)
+    staas_rev = staas * 1e9 * 0.0016 / 1e6  # 16 bps on AUM in $M
+    interest = 2                      # ~$2M interest
+    return trading_net + staking_net + ss_rev + staas_rev + interest
+
+rows = []
+for btc in btc_prices:
+    row = []
+    for staas in staas_aum_b:
+        rev = net_rev(btc, staas)
+        row.append(round(rev, 0))
+    rows.append(row)
+
+df1 = pd.DataFrame(rows,
+    index=[f"${x//1000}K" for x in btc_prices],
+    columns=[f"${x}B" for x in staas_aum_b])
+print("FY2028E Net Revenue ($M) — BTC Price vs StaaS AUM")
+print(df1.to_string())
+print(f"\nBase: BTC ${base_btc//1000}K, StaaS ${base_staas}B -> ${net_rev(base_btc, base_staas):.0f}M")
+
+# ─── SENSITIVITY TABLE 2: FY2028E EPS ───
+net_revenues = [250, 325, 392, 500, 700]  # $M
+net_margins = [0.10, 0.15, 0.215, 0.25, 0.30]
+diluted_shares = 135.53  # M
+
+rows2 = []
+for rev in net_revenues:
+    row = []
+    for m in net_margins:
+        ni = rev * m
+        eps = ni / diluted_shares
+        row.append(round(eps, 2))
+    rows2.append(row)
+
+df2 = pd.DataFrame(rows2,
+    index=[f"${x}M" for x in net_revenues],
+    columns=[f"{m*100:.1f}%" for m in net_margins])
+print("\nFY2028E EPS ($)")
+print(df2.to_string())
+
+# ─── SENSITIVITY TABLE 3: Implied Share Price ───
+eps_values = [0.62, 1.00, 1.57, 2.50, 4.00]
+pe_multiples = [8, 12, 15, 20, 30]
+
+rows3 = []
+for eps in eps_values:
+    row = []
+    for pe in pe_multiples:
+        price = eps * pe
+        row.append(round(price, 2))
+    rows3.append(row)
+
+df3 = pd.DataFrame(rows3,
+    index=[f"${x:.2f}" for x in eps_values],
+    columns=[f"{x}x" for x in pe_multiples])
+print("\nImplied Share Price ($)")
+print(df3.to_string())
+print(f"Base: $1.57 x 15x = ${1.57*15:.2f}")
+</div>
+
+<div class="section-title" style="margin-top:16px;">5-Scenario Model Generator</div>
+<div class="code-block">
+# ─── BTGO 5-SCENARIO 3-YEAR MODEL ───
+scenarios = {
+    "Bear Severe": {
+        "net_rev": [155, 150, 180],
+        "ebitda":  [-15, -10, 18],
+        "ni":      [-45, -30, 9],
+        "eps":     [-0.33, -0.22, 0.07],
+        "exit_method": "0.7x P/Book",
+        "exit_price": 4.85,
+    },
+    "Bear Mild": {
+        "net_rev": [195, 270, 340],
+        "ebitda":  [15, 40, 68],
+        "ni":      [-20, 18, 51],
+        "eps":     [-0.15, 0.13, 0.38],
+        "exit_method": "18x P/E",
+        "exit_price": 6.84,
+    },
+    "Base Case": {
+        "net_rev": [223, 299, 392],
+        "ebitda":  [28, 56, 91],
+        "ni":      [-13, 42, 84],
+        "eps":     [-0.95, 1.20, 1.57],
+        "exit_method": "15x P/E",
+        "exit_price": 23.55,
+    },
+    "Bull Mild": {
+        "net_rev": [260, 400, 550],
+        "ebitda":  [42, 96, 154],
+        "ni":      [5, 80, 139],
+        "eps":     [0.04, 1.48, 2.50],
+        "exit_method": "20x P/E",
+        "exit_price": 50.00,
+    },
+    "Bull Severe": {
+        "net_rev": [280, 520, 800],
+        "ebitda":  [56, 156, 280],
+        "ni":      [28, 130, 240],
+        "eps":     [0.21, 2.40, 4.00],
+        "exit_method": "30x P/E",
+        "exit_price": 120.00,
+    },
+}
+
+current_price = 10.27
+diluted_shares = 135.53  # M
+years = ["FY2026E", "FY2027E", "FY2028E"]
+
+for name, s in scenarios.items():
+    print(f"\n{'='*60}")
+    print(f"Scenario: {name}")
+    print(f"{'─'*60}")
+    implied = s["exit_price"]
+    upside = (implied / current_price - 1) * 100
+    print(f"Exit: {s['exit_method']} on FY2028E")
+    print(f"Implied Price: ${implied:.2f}  |  Upside: {upside:+.1f}%")
+
+    for i, yr in enumerate(years):
+        rev = s["net_rev"][i]
+        ebitda = s["ebitda"][i]
+        eps = s["eps"][i]
+        print(f"  {yr}: Net Rev ${rev}M | EBITDA ${ebitda}M | EPS ${eps:.2f}")
+
+# ─── PROBABILITY-WEIGHTED FAIR VALUE ───
+weights = {"Bear Severe": 0.05, "Bear Mild": 0.20, "Base Case": 0.50,
+           "Bull Mild": 0.20, "Bull Severe": 0.05}
+prices  = {"Bear Severe": 4.85, "Bear Mild": 6.84, "Base Case": 23.55,
+           "Bull Mild": 50.00, "Bull Severe": 120.00}
+coc = 0.30
+
+wtd_avg = sum(weights[k] * prices[k] for k in weights)
+pv = wtd_avg / (1 + coc)
+print(f"\nProbability-Weighted Avg (FY2028E): ${wtd_avg:.2f}")
+print(f"Discounted at {coc*100:.0f}% CoC:           ${pv:.2f}")
+print(f"Current Price:                         ${current_price:.2f}")
+print(f"Implied Upside to PV:                 {(pv/current_price-1)*100:+.1f}%")
+</div>
+
+<div class="source-note" style="margin-top:16px;">
+  BitGo Holdings, Inc. | Preliminary Memo for Theia &middot; Generated April 15, 2026 &middot; Data: FactSet (Apr 15, 2026), AlphaSense Primer &amp; Expert Calls, Q4 FY2025 Earnings &middot; FYE December &middot; Not investment advice.
+</div>
+
+</body>
+</html>
