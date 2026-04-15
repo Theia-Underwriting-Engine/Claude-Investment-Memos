@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Equifax, Inc. | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 8px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child, table.comps td:nth-child(2) { text-align: left; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-style: italic; background: #fafbfc; font-weight: 600; border-top: 1px solid #eee; }
+table.comps th.est-col { color: #2563eb; }
+
+table.risk-table { font-size: 10px; width: 100%; margin: 8px 0; }
+table.risk-table th { text-align: left; font-weight: 600; padding: 4px 6px; background: #f4f6f9; border-bottom: 1px solid #ddd; }
+table.risk-table td { padding: 4px 6px; border-bottom: 1px solid #eee; vertical-align: top; }
+table.risk-table td:first-child { font-weight: 600; width: 25%; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.alphasense-box { background: #e8f4fd; border-left: 4px solid #2563eb; padding: 10px 14px; margin: 10px 0; font-size: 10px; line-height: 1.5; }
+
+.bull-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #155724; border-bottom: 1.5px solid #c3e6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #721c24; border-bottom: 1.5px solid #f5c6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+
+.bull-item, .bear-item { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Equifax, Inc. | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">Equifax, Inc. (NYSE: EFX) is one of the three major global consumer credit bureaus alongside Experian and TransUnion, and one of the largest data analytics and technology companies in the world. Founded in 1899 (originally as Retail Credit Company) and headquartered in Atlanta, Georgia, Equifax has evolved from a traditional credit reporting agency into a diversified data, analytics, and AI-powered technology company generating $6.07 billion in FY2025 revenue. The company operates three business segments: Workforce Solutions (EWS), which generated $2.58 billion (42.5% of revenue) and houses The Work Number (TWN), a proprietary database containing 209 million active employment records and 813 million total records used for income and employment verification; U.S. Information Solutions (USIS), generating $2.08 billion (34.2% of revenue), which delivers the traditional consumer credit bureau business alongside differentiated data assets including the NCTUE (430 million exclusive telecom/utility records), DataX, Teletrack, and the IXI wealth data network; and International, generating $1.41 billion (23.3% of revenue) across Latin America, Europe, Asia Pacific, and Canada.</p>
+
+<p class="prose">The crown jewel of Equifax's business model is its proprietary data moat: approximately 90% of global revenue is generated through the direct sale or derivation of exclusive data assets that no competitor can replicate. The Work Number database, secured through exclusive, long-term agreements with major payroll providers, serves as both a risk underwriting tool and a mission-critical workflow automation engine that eliminates manual back-office verification tasks for mortgage lenders and government agencies. Beyond traditional credit files receiving 1.6 billion monthly updates, Equifax holds deep repositories of alternative data including DataX and Teletrack for underbanked consumers, the NCTUE for telecom/utility payment histories, and proprietary data exchanges in Canada (FraudIQ Exchange) and Australia (Income Verification Exchange). Management considers this exclusive data ownership a critical strategic advantage that insulates the company from AI-driven commoditization, as standard AI tools rely on publicly available information and cannot legally or technically scrape Equifax's FCRA-regulated proprietary databases.</p>
+
+<p class="prose">Equifax has invested $3 billion in a comprehensive cloud transformation that was 90% complete by end of 2025, with 100% completion expected by end of 2026. This migration to the Equifax Cloud has enabled the company to leverage its patented EFX.AI technology platform &mdash; in 2025, 100% of new models and scores were AI-powered, delivering a nearly 30% performance lift over legacy models. The company achieved a record 15% Vitality Index in 2025, generating approximately $900 million in new product revenue from over 180 new products. Equifax holds over 400 AI-related patents, either secured or pending. The company also launched the Ignite AI Advisor, a purpose-built agentic AI analytics engine, and the TWN Indicator &mdash; bundling employment and income data at no additional cost with traditional credit files in mortgage, auto, and card markets.</p>
+
+<p class="prose"><strong>Key facts:</strong> Founded 1899 &middot; Headquarters Atlanta, GA &middot; CEO Mark W. Begor &middot; CFO &amp; COO John W. Gamble Jr. &middot; CTO Jamil Farshchi &middot; Employees ~15,000 &middot; NYSE: EFX &middot; FY end December &middot; Market Cap $22,490M &middot; CUSIP 294429105 &middot; ISIN US2944291051</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 2: FINANCIAL SUMMARY (FACTSET) -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Theia FactSet Summary</div>
+
+<div class="header">
+  <div>
+    <h1>Equifax, Inc.</h1>
+    <span class="ticker">EFX &middot; NYSE &middot; ISIN US2944291051</span>
+  </div>
+  <div class="date">FactSet Snapshot &middot; April 15, 2026</div>
+</div>
+
+<!-- Price Bar -->
+<div class="price-bar">
+  <div>
+    <span class="label">Price (Apr 14, 2026) </span>
+    <span class="price">$186.43</span>
+  </div>
+  <div><span class="label">1M </span><span class="chg pos">+2.3%</span></div>
+  <div><span class="label">3M </span><span class="chg">-14.0%</span></div>
+  <div><span class="label">6M </span><span class="chg">-17.9%</span></div>
+  <div><span class="label">YTD </span><span class="chg">-13.1%</span></div>
+  <div><span class="label">1Y </span><span class="chg">-16.4%</span></div>
+  <div><span class="label">52-Wk Range </span><span style="font-weight:600;">$166.02 &ndash; $281.03</span></div>
+</div>
+
+<!-- Key Stats + EV Bridge -->
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats &mdash; Trading</div>
+    <table class="kv" style="font-size:10px;">
+      <tr><td>Exchange / Ticker</td><td>NYSE &middot; EFX</td></tr>
+      <tr><td>Price (Apr 14, 2026)</td><td>$186.43</td></tr>
+      <tr><td>30-Day Avg Volume</td><td>1.61M shares/day</td></tr>
+      <tr><td>Float %</td><td>99.43%</td></tr>
+      <tr><td>Short Interest</td><td>3.98% of float</td></tr>
+      <tr><td>Days to Cover</td><td>2.7 days</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev" style="font-size:10px;">
+      <tr><td>Basic Shares (Common)</td><td>120.63M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">+ Stock Compensation</td><td style="font-size:9px;">0.87M</td></tr>
+      <tr><td>= Fully Diluted Shares</td><td>121.51M</td></tr>
+      <tr><td>Share Price</td><td>$186.43</td></tr>
+      <tr><td>= Fully Dil. Market Cap</td><td>$22,652M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">+ Consolidated Debt</td><td style="font-size:9px;">$5,093M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">&minus; Cash &amp; Equivalents</td><td style="font-size:9px;">($181M)</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">+ Non-Controlling Interest</td><td style="font-size:9px;">$134M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">+ Pension Liabilities</td><td style="font-size:9px;">$106M</td></tr>
+      <tr class="total"><td>= Enterprise Value</td><td>$27,805M</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- Current Valuation — horizontal 6x2 grid -->
+<div class="section-title">Current Valuation</div>
+<div style="border: 1px solid #eee; border-radius: 4px; margin-bottom: 8px;">
+  <div class="val-grid">
+    <div class="val-cell"><div class="val-label">Mkt Cap</div><div class="val-num">$22,490M</div><div class="val-sub">Basic shares</div></div>
+    <div class="val-cell"><div class="val-label">EV</div><div class="val-num">$27,805M</div><div class="val-sub">$5.1B debt, $181M cash</div></div>
+    <div class="val-cell"><div class="val-label">P/E (FY26E)</div><div class="val-num">22.0x</div><div class="val-sub">EPS $7.00</div></div>
+    <div class="val-cell"><div class="val-label">EV/EBITDA (FY26E)</div><div class="val-num">13.0x</div><div class="val-sub">EBITDA $2,140M</div></div>
+    <div class="val-cell"><div class="val-label">EV/Sales (FY26E)</div><div class="val-num">4.1x</div><div class="val-sub">Rev $6,735M</div></div>
+    <div class="val-cell"><div class="val-label">P/FCF (FY26E)</div><div class="val-num">22.5x</div><div class="val-sub">FCF $1,027M</div></div>
+  </div>
+  <div style="border-top: 1px solid #eee;">
+    <div class="val-grid">
+      <div class="val-cell"><div class="val-label">Fully Dil. Mkt Cap</div><div class="val-num">$22,652M</div><div class="val-sub">121.51M dil. shares</div></div>
+      <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">8.55%</div><div class="val-sub">FactSet estimate</div></div>
+      <div class="val-cell"><div class="val-label">Beta (3Y Adj)</div><div class="val-num">1.23</div><div class="val-sub">Adjusted beta</div></div>
+      <div class="val-cell"><div class="val-label">Avg Analyst Rating</div><div class="val-num">OW</div><div class="val-sub">24 brokers &middot; 1.39</div></div>
+      <div class="val-cell"><div class="val-label">Cons. Target Price</div><div class="val-num">$228.71</div><div class="val-sub">+23% upside</div></div>
+      <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">Apr 21</div><div class="val-sub">Q4 FY2025 / FY2026 reporting</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Valuation Multiples Table -->
+<div class="section-title">Valuation Multiples</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Metric</th>
+      <th>5Yr Avg</th>
+      <th>Dec '23</th>
+      <th>Dec '24</th>
+      <th>Dec '25</th>
+      <th class="est" style="color:#2563eb;">Dec '26E</th>
+      <th class="est" style="color:#2563eb;">Dec '27E</th>
+      <th class="est" style="color:#2563eb;">Dec '28E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="8">PRICE MULTIPLES</td></tr>
+    <tr><td>P/E</td><td>46.5x</td><td>56.2x</td><td>52.7x</td><td>40.8x</td><td class="est">22.0x</td><td class="est">18.4x</td><td class="est">15.2x</td></tr>
+    <tr><td>P/Sales</td><td>5.6x</td><td>5.8x</td><td>5.6x</td><td>4.4x</td><td class="est">3.4x</td><td class="est">3.1x</td><td class="est">2.8x</td></tr>
+    <tr><td>P/Book Value</td><td>7.0x</td><td>6.7x</td><td>6.6x</td><td>5.7x</td><td class="est">4.9x</td><td class="est">4.7x</td><td class="est">4.6x</td></tr>
+    <tr><td>P/FCF</td><td>69.0x</td><td>59.4x</td><td>39.2x</td><td>23.7x</td><td class="est">22.5x</td><td class="est">17.3x</td><td class="est">13.6x</td></tr>
+    <tr class="section-row"><td colspan="8">EV MULTIPLES</td></tr>
+    <tr><td>EV/Sales</td><td>6.6x</td><td>7.0x</td><td>6.5x</td><td>5.2x</td><td class="est">4.1x</td><td class="est">3.8x</td><td class="est">3.4x</td></tr>
+    <tr><td>EV/EBITDA</td><td>20.9x</td><td>23.1x</td><td>21.0x</td><td>16.9x</td><td class="est">13.0x</td><td class="est">11.5x</td><td class="est">10.1x</td></tr>
+    <tr><td>EV/EBIT</td><td>32.5x</td><td>37.7x</td><td>33.9x</td><td>27.5x</td><td class="est">20.9x</td><td class="est">16.6x</td><td class="est">13.6x</td></tr>
+  </tbody>
+</table>
+
+<!-- Revenue Exposure -->
+<div class="section-title">Revenue Exposure (FY2025 Actuals, FYE Dec)</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Business Unit</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Segment</th><th>$M</th><th>% Rev</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Workforce Solutions</td><td>$2,582M</td><td>42.5%</td><td>+6.1%</td></tr>
+        <tr><td>U.S. Information Solutions</td><td>$2,079M</td><td>34.2%</td><td>+9.8%</td></tr>
+        <tr><td>International</td><td>$1,414M</td><td>23.3%</td><td>+4.4%</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>$6,075M</td><td>100%</td><td>+6.9%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <div class="sub-label">By Geography</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Region</th><th>$M</th><th>% Rev</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>United States</td><td>$4,661M</td><td>76.7%</td><td>+7.7%</td></tr>
+        <tr><td>Latin America</td><td>$403M</td><td>6.6%</td><td>+4.8%</td></tr>
+        <tr><td>United Kingdom</td><td>$326M</td><td>5.4%</td><td>+7.6%</td></tr>
+        <tr><td>Australia</td><td>$318M</td><td>5.2%</td><td>+2.9%</td></tr>
+        <tr><td>Canada</td><td>$271M</td><td>4.5%</td><td>+2.5%</td></tr>
+        <tr><td>Europe</td><td>$71M</td><td>1.2%</td><td>+6.6%</td></tr>
+        <tr><td>Asia Pacific</td><td>$24M</td><td>0.4%</td><td>-8.0%</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>$6,075M</td><td>100%</td><td>+6.9%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Financials Table -->
+<div class="section-title">Financials</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">$M (FY Dec)</th>
+      <th>Dec '23</th>
+      <th>Dec '24</th>
+      <th>Dec '25</th>
+      <th class="est" style="color:#2563eb;">Dec '26E</th>
+      <th class="est" style="color:#2563eb;">Dec '27E</th>
+      <th class="est" style="color:#2563eb;">Dec '28E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">INCOME STATEMENT</td></tr>
+    <tr><td>Revenue</td><td>$5,265</td><td>$5,681</td><td>$6,075</td><td class="est">$6,735</td><td class="est">$7,374</td><td class="est">$8,071</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Revenue Growth %</td><td>--</td><td>+7.9%</td><td>+6.9%</td><td class="est">+10.9%</td><td class="est">+9.5%</td><td class="est">+9.4%</td></tr>
+    <tr><td>Gross Profit</td><td>$2,319</td><td>$2,493</td><td>$2,709</td><td class="est">$3,771</td><td class="est">$4,129</td><td class="est">$4,568</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Gross Margin %</td><td>44.0%</td><td>43.9%</td><td>44.6%</td><td class="est">56.0%</td><td class="est">56.0%</td><td class="est">56.6%</td></tr>
+    <tr><td>EBITDA</td><td>$1,582</td><td>$1,760</td><td>$1,865</td><td class="est">$2,140</td><td class="est">$2,421</td><td class="est">$2,747</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">EBITDA Margin %</td><td>30.0%</td><td>31.0%</td><td>30.7%</td><td class="est">31.8%</td><td class="est">32.8%</td><td class="est">34.0%</td></tr>
+    <tr><td>EBIT</td><td>$971</td><td>$1,090</td><td>$1,145</td><td class="est">$1,328</td><td class="est">$1,679</td><td class="est">$2,043</td></tr>
+    <tr><td>Net Income</td><td>$545</td><td>$604</td><td>$660</td><td class="est">$814</td><td class="est">$1,008</td><td class="est">$1,265</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Net Margin %</td><td>10.4%</td><td>10.6%</td><td>10.9%</td><td class="est">12.1%</td><td class="est">13.7%</td><td class="est">15.7%</td></tr>
+    <tr><td>EPS (Dil)</td><td>$4.40</td><td>$4.84</td><td>$5.32</td><td class="est">$7.00</td><td class="est">$8.60</td><td class="est">$10.55</td></tr>
+    <tr class="section-row"><td colspan="7">CASH FLOW</td></tr>
+    <tr><td>Operating Cash Flow</td><td>$1,117</td><td>$1,325</td><td>$1,616</td><td class="est">$1,630</td><td class="est">$1,825</td><td class="est">$2,286</td></tr>
+    <tr><td>CapEx</td><td>($601)</td><td>($512)</td><td>($481)</td><td class="est">($499)</td><td class="est">($524)</td><td class="est">($558)</td></tr>
+    <tr><td>Free Cash Flow</td><td>$516</td><td>$813</td><td>$1,134</td><td class="est">$1,027</td><td class="est">$1,221</td><td class="est">$1,505</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">FCF Margin %</td><td>9.8%</td><td>14.3%</td><td>18.7%</td><td class="est">15.2%</td><td class="est">16.6%</td><td class="est">18.6%</td></tr>
+    <tr class="section-row"><td colspan="7">BALANCE SHEET</td></tr>
+    <tr><td>Cash &amp; ST Investments</td><td>$217</td><td>$170</td><td>$181</td><td class="est">$284</td><td class="est">$446</td><td class="est">$523</td></tr>
+    <tr><td>Total Debt</td><td>&mdash;</td><td>&mdash;</td><td>$5,093</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+    <tr><td>Shareholders' Equity</td><td>$4,534</td><td>$4,797</td><td>$4,604</td><td class="est">$4,610</td><td class="est">$4,769</td><td class="est">$4,859</td></tr>
+    <tr><td>BVPS</td><td>$36.77</td><td>$38.68</td><td>$38.24</td><td class="est">$38.45</td><td class="est">$40.45</td><td class="est">$41.14</td></tr>
+  </tbody>
+</table>
+<p style="font-size:8px; color:#aaa; margin-top:4px;">Note: Gross margin estimates for FY2026E+ reflect consensus methodology that may differ from reported GAAP basis. FICO mortgage score royalties pass through at zero margin, depressing reported EBITDA margins by ~200bps in FY2025.</p>
+
+<!-- Credit / Leverage Ratios -->
+<div class="section-title">Credit / Leverage Ratios</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Metric</th>
+      <th>Dec '23</th>
+      <th>Dec '24</th>
+      <th>Dec '25</th>
+      <th class="est" style="color:#2563eb;">Dec '26E</th>
+      <th class="est" style="color:#2563eb;">Dec '27E</th>
+      <th class="est" style="color:#2563eb;">Dec '28E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Debt/Equity</td><td>126.0%</td><td>104.5%</td><td>110.6%</td><td class="est">108.2%</td><td class="est">94.1%</td><td class="est">62.3%</td></tr>
+    <tr><td>Interest Coverage</td><td>4.0x</td><td>4.8x</td><td>5.4x</td><td class="est">5.8x</td><td class="est">7.6x</td><td class="est">10.5x</td></tr>
+    <tr><td>ROE</td><td>12.8%</td><td>12.9%</td><td>14.0%</td><td class="est">22.4%</td><td class="est">25.4%</td><td class="est">30.3%</td></tr>
+    <tr><td>Current Ratio</td><td>0.67</td><td>0.75</td><td>0.60</td><td class="est">0.69</td><td class="est">0.81</td><td class="est">1.03</td></tr>
+    <tr><td>Dividend/Share</td><td>$1.56</td><td>$1.56</td><td>$1.89</td><td class="est">$2.10</td><td class="est">$2.33</td><td class="est">$2.64</td></tr>
+  </tbody>
+</table>
+
+<!-- Valuation Summary -->
+<div class="section-title">Valuation Summary</div>
+<p class="prose">Equifax currently trades at 22.0x FY2026E P/E and 13.0x FY2026E EV/EBITDA, a meaningful discount to its 5-year average P/E of 46.5x &mdash; reflecting the stock's 34% decline from its 52-week high of $281.03 amid broader macro uncertainty around the U.S. mortgage market and elevated interest rates. The EV/EBITDA multiple at 13.0x sits below the 5-year average of 20.9x, yet the compression appears overdone relative to the company's improving fundamentals: free cash flow inflected to $1.13B in FY2025 (120% cash conversion, 18.7% FCF margin), the $3B cloud migration is nearing completion, and new AI-powered products are driving record Vitality Index performance. On a FY2028E basis, valuation compresses to 15.2x P/E and 10.1x EV/EBITDA &mdash; well below the peer group median of 12.9x EV/EBITDA &mdash; for a company with irreplaceable proprietary data assets, 90% of revenue from proprietary sources, and a $1.2 billion embedded mortgage recovery catalyst. The consensus target of $228.71 (24 brokers, Overweight) implies 23% upside. Equifax trades at a modest premium to TransUnion (14.2x EV/EBITDA) but a discount to Fair Isaac (27.1x) and below the peer average of 15.1x, reflecting the market's under-appreciation of the data moat's durability and the margin expansion trajectory as FICO royalty pass-through effects normalize. The 1.20% dividend yield provides modest income support.</p>
+
+<div class="source-note">Source: FactSet snapshot export, April 15, 2026. Estimates reflect consensus of 24 broker contributors. FYE December.</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 3: BULL & BEAR CASES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Cases</div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">1. Mortgage Market Mean Reversion &mdash; $1.2B Revenue Catalyst.</span> Mortgage inquiries remain 50% below 2015-2019 normalized levels. Management has quantified that a simple mean reversion to pre-pandemic volumes would generate an incremental $1.2 billion in revenue and over $950 million in incremental EBITDA, translating to $5.75+ in adjusted EPS upside. At Equifax's very high variable margins on mortgage data delivery, even a partial recovery (e.g., 30-40% of the way back to normalized levels) would create several hundred million dollars of near-pure-profit revenue. The 13M+ mortgages with rates above 5% represent a massive refinancing pool that would activate with any meaningful rate decline.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">2. VantageScore Transition Creates Margin Expansion + Competitive Moat.</span> The FHFA's expected acceptance of VantageScore 4.0 for agency mortgage originations represents a structural positive for Equifax. A full conversion from FICO to VantageScore would reduce revenue by ~$270M (zero-margin FICO pass-through) but increase EBITDA by ~$160M and expand margins by 380 basis points, adding ~$1/share to EPS. Equifax is providing free VantageScores with every paid FICO score and already has 200+ lenders testing or in production. VantageScore performs at least as well as FICO at half the cost &mdash; creating a win-win for lenders and Equifax. This transition eliminates a pure pass-through cost item and strengthens Equifax's competitive position as a direct score provider.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">3. Government Vertical Accelerates &mdash; $5B TAM.</span> The government sector represents Equifax's fastest-growing business, driven by OB3 legislation, state-level implementation of tightened social service eligibility requirements, and federal agency engagement on program integrity. Equifax launched a continuous evaluation solution for SNAP in Q4 2025, and states are actively contracting for income verification to reduce the $160B in annual improper social service payments. EWS has significant medium- and long-term revenue growth supporting government programs in the $5 billion government TAM, with revenue growth above EWS's long-term 13-15% framework.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">4. AI-Powered Product Innovation Sustains Vitality.</span> The record 15% Vitality Index in 2025 ($900M in new product revenue) demonstrates the compounding returns from the $3B cloud migration and EFX.AI platform. Every new model delivers 30% performance lift over legacy, and the 400+ AI patent portfolio creates intellectual property moats. Products like TWN Indicator (bundling employment data free with credit files), Synthetic Identity Risk, and Credit Abuse Risk are unique to Equifax and drive both new customer acquisition and wallet share expansion. The Ignite AI Advisor platform enables agentic AI-driven analytics, opening new use cases in portfolio management and real-time decisioning.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">5. Capital Return Acceleration &mdash; $3B Buyback + Growing Dividend.</span> With the capital-intensive cloud build-out complete, Equifax is entering a free cash flow inflection with $1B+ annual FCF at 100%+ cash conversion. The company authorized a $3B, four-year share repurchase program and raised the quarterly dividend by 28% to $0.50/share. In 2025, Equifax returned $1.2 billion to shareholders (6x the prior year). With $1.5B available for M&amp;A and capital returns in 2026, the combination of bolt-on acquisitions ($500-700M earmarked annually) and aggressive buybacks at current depressed valuations should compound EPS growth above revenue growth.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="bear-header">Bear Cases</div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">1. Prolonged Mortgage Market Weakness.</span> Elevated interest rates and persistent affordability challenges continue to suppress mortgage origination volumes. US mortgage originations declined in 2025 and are expected to drop low single digits in 2026. If rates remain elevated for an extended period and the expected refinancing wave fails to materialize, Equifax's mortgage-dependent revenue (20% of total) would remain depressed, capping revenue growth at mid-single digits and preventing the embedded $1.2B recovery catalyst from being realized. Every 100bps of mortgage market weakness reduces Equifax revenue growth by approximately 100bps.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">2. FICO Royalty Compression of Reported Margins.</span> FICO mortgage score royalties, which pass through at zero margin, represented ~3% of revenue in 2025 and will increase to ~6% in 2026 as FICO raises prices. This depresses reported EBITDA margins by 200+ basis points in 2025 and will further compress reported margins in 2026, creating a confusing narrative where underlying margins are expanding (ex-FICO up 75bps) but reported margins appear stagnant or declining. This FICO pass-through creates a structural headwind to EV/EBITDA multiple expansion and makes peer comparisons misleading.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">3. Regulatory &amp; Data Privacy Risk (CFPB Scrutiny).</span> Equifax faces active regulatory oversight from the CFPB, including multiple Civil Investigative Demands regarding data accuracy, dispute handling, and legacy server coding issues. New rules removing medical debt from consumer credit reports could alter the predictive value of traditional credit files. Internationally, GDPR and emerging AI governance frameworks increase compliance costs and elongate R&amp;D cycles. Industry insiders caution that compounding compliance requirements could structurally compress profit margins over time. The 2017 data breach, while largely resolved, continues to affect consumer trust and limits D2C product expansion.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">4. Fintech and Data Aggregator Disruption.</span> Beyond the Big Three, Equifax faces mounting pressure from fintech companies and data aggregators like Plaid and Pinwheel that leverage consumer-permissioned transaction data to bypass legacy credit reporting mechanisms entirely. These competitors represent a growing threat to EWS's Work Number database, particularly outside traditional mortgage underwriting. Open banking platforms operate with greater flexibility, lower cost structures, and may appeal to digital-native lending institutions. Rising data acquisition costs from payroll providers demanding higher revenue shares could also pressure EWS margins.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">5. Debt Load and Balance Sheet Leverage.</span> With $5.1 billion in consolidated debt and a Debt/Equity ratio of 111%, Equifax carries meaningfully more leverage than typical data/analytics companies. Interest coverage at 5.4x is adequate but not conservative, and $1.35B in bonds mature in 2026 (4.80% May '26 and 5.10% Apr '26) requiring refinancing in an elevated rate environment. While FCF generation is strong, the combination of debt service, dividend commitments ($233M), buybacks ($500M+), and M&amp;A ($500-700M) leaves limited margin for error if the business experiences an unexpected downturn.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Scale Economies</span> <span class="fw-rating strong">Strong</span><br>
+  Equifax's $3B cloud infrastructure investment creates massive fixed-cost leverage. The single data fabric enables near-zero marginal cost per additional query or product sold. With $6.1B in revenue against a largely fixed technology and data infrastructure, each incremental dollar of mortgage or verification revenue flows through at extremely high variable margins &mdash; management highlighted "very high variable margins" on mortgage data delivery. The cloud platform enables repeatable deployments and reduces human error, while 1,900 engineers using AI coding tools generated 1M+ lines of code, amplifying R&amp;D productivity. A challenger would need to replicate the $3B cloud investment and decades of proprietary data accumulation to compete at comparable unit economics.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Network Effects</span> <span class="fw-rating moderate">Moderate</span><br>
+  Equifax benefits from data network effects: as more employers contribute payroll data to The Work Number, the database becomes more comprehensive and valuable to lenders, which in turn increases demand, which incentivizes more employers to participate (EWS added 20M active records in 2025, bringing totals to 209M active). The TWN database creates a flywheel: employers contribute data &rarr; lenders verify income/employment &rarr; regulatory agencies mandate verification &rarr; more employers join. Similarly, the NCTUE with 430M records becomes more valuable as more telecom and utility companies contribute. However, these are data accumulation effects rather than classic two-sided marketplace network effects &mdash; the value growth is more linear than exponential.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Counter-Positioning</span> <span class="fw-rating weak">Weak</span><br>
+  Equifax is not a disruptor with a business model incumbents cannot copy. It IS the incumbent &mdash; the largest and most established of the Big Three credit bureaus. If anything, fintech companies and open banking platforms represent counter-positioned threats TO Equifax, as consumer-permissioned data models could eventually bypass the regulatory framework that protects traditional credit bureaus. The Big Three's business model relies on the regulatory requirement that lenders use credit reports from authorized agencies &mdash; this is a regulatory moat, not a counter-positioning advantage.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Switching Costs</span> <span class="fw-rating strong">Strong</span><br>
+  Financial institutions have their decisioning platforms and APIs deeply hardwired into Equifax's infrastructure. The TWN database is mission-critical for mortgage lenders who cannot complete income verification without it &mdash; no competitor has a comparable employment database. Government agencies that have integrated Equifax's verification solutions for SNAP, CMS, and other social service programs face enormous switching costs in retraining case workers, rebuilding integrations, and accepting accuracy risk during transition. Banks and lenders using Equifax's proprietary alternative data assets (NCTUE, DataX, Teletrack, IXI) would lose access to unique data sets that cannot be obtained elsewhere. The bundling strategy &mdash; adding TWN Indicator free with credit files &mdash; further embeds Equifax into customer workflows.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Branding</span> <span class="fw-rating moderate">Moderate</span><br>
+  Equifax is one of the three most recognized names in consumer credit reporting, with brand awareness among both B2B clients and consumers. The brand carries trust in B2B channels &mdash; lenders, employers, and government agencies choose Equifax for mission-critical verification and analytics. However, the 2017 data breach significantly damaged consumer trust, and Equifax has largely avoided the direct-to-consumer (D2C) market as a result &mdash; industry insiders note this as a "massive untapped opportunity" that lingering reputational caution prevents. The brand enables B2B sales but does not command meaningful pricing premium over TransUnion or Experian in commodity credit reporting.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">6. Cornered Resource</span> <span class="fw-rating strong">Strong</span><br>
+  Equifax's most powerful moat. The Work Number database (209M active employment records, 813M total) is secured through exclusive, long-term agreements with major payroll providers. The NCTUE (430M exclusive telecom/utility records), DataX, Teletrack, and IXI wealth data network are proprietary to Equifax and cannot be obtained elsewhere. The 1.6B monthly credit file updates, combined with these alternative data sets, form a "single data fabric" that no competitor can replicate. Management emphasizes: "Only Equifax can access our unique and proprietary datasets." The FCRA regulatory framework further protects this resource &mdash; data collection is governed by strict compliance requirements that make it exceptionally difficult for new entrants to accumulate comparable databases. The 400+ AI patents add an intellectual property layer on top of the data moat.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">7. Process Power</span> <span class="fw-rating moderate">Moderate</span><br>
+  Equifax has developed sophisticated data ingestion, standardization, and AI model development processes refined over 125+ years. The $3B cloud migration represents an organizational achievement that transformed the company's technology stack, operational processes, and culture. The "AI 4 EFX" initiative has driven 90% of the global workforce to use AI tools daily, and AI triage agents automatically resolve nearly 50% of Security Operations Center tickets. CEO Mark Begor is praised as a "field general" who personally conducts 50+ client visits annually. However, some former insiders criticize top leadership for maintaining an overly aggressive quarterly revenue focus that sometimes sacrifices long-term strategy, and the process power is not unique enough to be irreplicable.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> Equifax is a 3-power business with exceptional strength in Cornered Resource (irreplaceable proprietary databases &mdash; TWN, NCTUE, DataX, IXI &mdash; protected by FCRA regulations and exclusive agreements), Switching Costs (mission-critical integrations, unique data dependencies, embedded workflow automation), and Scale Economies ($3B cloud infrastructure creating massive operating leverage on incremental revenue). The data moat is the defining characteristic &mdash; 90% of revenue from proprietary data that money alone cannot buy. The combination of cornered resource and switching costs creates a durable oligopoly position that should persist for decades.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Threat of New Entrants</span> <span class="fw-rating low">Low</span><br>
+  The consumer credit bureau market has exceptionally high barriers to entry. Accumulating comprehensive consumer credit files requires decades of data relationships with thousands of financial institutions. The FCRA regulatory framework creates compliance barriers that new entrants cannot easily navigate. Equifax's proprietary data assets (TWN, NCTUE) represent cornered resources requiring exclusive agreements with payroll providers and telecom companies that take years to secure. The $3B+ technology investment creates a capital barrier. While fintech data aggregators (Plaid, Pinwheel) represent potential disruptors in specific use cases, they cannot replicate the breadth and depth of a full credit bureau's data and regulatory infrastructure. The global data analytics market is expanding from $260B (2020) to $889B projected by 2030, but the credit bureau oligopoly remains firmly entrenched.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Bargaining Power of Suppliers</span> <span class="fw-rating moderate">Moderate</span><br>
+  Equifax's key "suppliers" are the employers and payroll providers contributing data to The Work Number, financial institutions contributing data to credit files, and cloud infrastructure (Google Cloud/GCP). Major payroll providers have increasing leverage as they recognize the value of the employment data they contribute, and rising data acquisition costs represent a growing margin pressure. Industry experts note Plaid and Pinwheel as competitive threats to TWN's dominance, which could give payroll providers more negotiating leverage. Cloud infrastructure costs are manageable given Equifax's scale and the competitive dynamics among hyperscalers. FICO's aggressive pricing increases (royalties doubling from 3% to 6% of revenue) represent a form of supplier power that directly compresses Equifax's reported margins.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Bargaining Power of Buyers</span> <span class="fw-rating low">Low</span><br>
+  Equifax's customer base is highly diversified with the single largest client accounting for approximately 3% of total revenue. Mortgage lenders, auto lenders, card issuers, employers, and government agencies all depend on Equifax's proprietary data for decisioning that cannot be obtained elsewhere. The mission-critical nature of income verification (for mortgage underwriting) and credit reporting (for lending decisions) makes these products non-discretionary. Subscription models now account for 25% of total revenue. Buyers cannot credibly threaten to switch because TWN data is exclusive to Equifax, and NCTUE records are proprietary. The bundling of TWN Indicator with credit files makes the Equifax offering strictly superior to unbundled competitor alternatives.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Threat of Substitutes</span> <span class="fw-rating moderate">Moderate</span><br>
+  Open banking and consumer-permissioned data represent a genuine substitution threat to traditional credit reporting. Fintech platforms can increasingly access bank transaction data directly, potentially bypassing the need for traditional credit bureau queries in some lending decisions. Buy Now Pay Later (BNPL) providers and digital-first lenders may develop alternative risk assessment models using real-time transaction data rather than historical credit files. However, the substitution threat is constrained by regulation (FCRA requires credit bureau reports for most regulated lending), data breadth (no single fintech platform can match the comprehensiveness of a 1.6B-monthly-update credit file), and institutional inertia (banks have spent decades building decisioning infrastructure around credit bureau data). For employment and income verification via TWN, there is no meaningful substitute at scale.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Competitive Rivalry</span> <span class="fw-rating moderate">Moderate</span><br>
+  The Big Three credit bureaus (Equifax, Experian, TransUnion) compete intensely on product innovation, data quality, and pricing, but the market is an oligopoly with rational competitors focused on profitability rather than destructive price wars. Each bureau has differentiated data assets: Equifax has TWN and NCTUE; Experian has Ascend platform and strong international presence; TransUnion has OneTru platform. The rivalry is "coopetition" &mdash; all three compete for lender wallet share while jointly benefiting from the regulatory framework that requires lenders to pull credit reports. Competition is intensifying at the margins: aggressive bundling tactics, FICO pricing disputes, and VantageScore adoption represent areas of active competitive positioning. The broader data analytics competitive landscape also includes Moody's, Verisk, S&amp;P Global, and FICO, though these companies compete more in adjacent markets than in core credit reporting.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> The competitive environment is favorable for Equifax due to the oligopolistic market structure, high barriers to entry, low buyer power from a diversified customer base, and regulatory moats that protect the incumbent credit bureau model. The primary long-term risk is the moderate threat of fintech-driven substitution through open banking and consumer-permissioned data, though this threat is currently limited by regulatory requirements and the unmatched breadth of traditional credit bureau data. The FICO supplier power dynamic represents an unusual near-term margin headwind that is likely transitory.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 6: WHAT DRIVES THE STOCK? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<p class="prose">The following are the 6 variables that would move EFX's share price materially in the next 12 months. These are what analysts build tracking models around and PMs ask about in morning meetings.</p>
+
+<p class="prose"><strong>1. U.S. Mortgage Market Volume and Recovery Timing.</strong> This is the single most important variable for EFX's stock. Mortgage revenue represents ~20% of total Equifax revenue, and the extremely high variable margins on mortgage data delivery amplify the P&amp;L impact. Every shift in mortgage credit inquiries directly impacts EWS (verification volumes) and USIS (credit pulls, preapprovals). The embedded catalyst is $1.2 billion in incremental revenue at normalized volumes &mdash; representing 20% revenue upside from current levels. Bullish: rate cuts &rarr; refinancing wave &rarr; mortgage volumes surge. Bearish: rates stay elevated &rarr; housing market stagnates &rarr; volumes remain depressed.</p>
+
+<p class="prose"><strong>2. FICO vs. VantageScore Transition (Margin Impact).</strong> The FHFA's timeline for formally accepting VantageScore for agency mortgage originations is the second-largest stock driver. Full conversion would reduce reported revenue by ~$270M but INCREASE EBITDA by $160M and EPS by ~$1/share by eliminating zero-margin FICO pass-through costs. 200+ lenders are already testing VantageScore. Bullish: FHFA greenlights VantageScore &rarr; rapid conversion &rarr; margin expansion + competitive moat strengthens. Bearish: FHFA delays indefinitely &rarr; FICO raises prices further &rarr; margin compression continues.</p>
+
+<p class="prose"><strong>3. Government Vertical Penetration (OB3 + State Adoption).</strong> Government represents Equifax's fastest-growing business with a $5B TAM. OB3 legislation and tightened social service eligibility requirements are driving broad-based state-level engagement to reduce the $160B in annual improper payments. Revenue impact from OB3 is expected in the second half of 2026 and into 2027. Bullish: states rapidly adopt EWS solutions &rarr; government revenue accelerates above the 13-15% framework. Bearish: government budget cuts &rarr; delayed implementation &rarr; market TAM estimate proves inflated.</p>
+
+<p class="prose"><strong>4. Non-Mortgage Diversified Markets Growth.</strong> Equifax calls these "Diversified Markets" &mdash; the 80% of revenue that is NOT mortgage. This includes auto, card, personal loans, employers, identity/fraud, commercial, insurance, healthcare, and consumer direct. USIS Diversified Markets grew 5% organically in Q4 2025 (highest since 2021), and Verifier Diversified Markets grew 11%. Bullish: broad-based lending recovery &rarr; multiple verticals accelerate &rarr; revenue growth exceeds 10%. Bearish: consumer credit quality deteriorates &rarr; lenders tighten underwriting &rarr; inquiry volumes decline.</p>
+
+<p class="prose"><strong>5. AI Product Innovation and Vitality Index.</strong> The Vitality Index (% revenue from products launched in last 3 years) reached a record 15% in 2025, generating $900M in new product revenue. Management targets maintaining double-digit Vitality above the 10% long-term goal. Key products to watch: TWN Indicator adoption in auto/card/personal loans, Ignite AI Advisor expansion internationally, Credit Abuse Risk model traction, and Synthetic Identity Risk. Bullish: Vitality stays above 15% &rarr; new products expand TAM and win market share. Bearish: product innovation plateaus &rarr; competitors match AI capabilities &rarr; Vitality declines toward 10%.</p>
+
+<p class="prose"><strong>6. Capital Allocation and Leverage Trajectory.</strong> With $1B+ in annual FCF, Equifax's capital allocation between debt reduction, buybacks ($3B program), dividends (growing), and bolt-on M&amp;A ($500-700M annually) will be a key focus. Debt/Equity at 111% is elevated; the path to de-levering (target 62% by FY2028E) while maintaining aggressive buybacks at depressed valuations would compound EPS growth. Bullish: aggressive buyback at low prices + accretive M&amp;A &rarr; EPS grows faster than earnings. Bearish: over-leveraged balance sheet limits flexibility in a downturn &rarr; forced to slow buybacks &rarr; EPS growth slows.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<p class="prose">Equifax's revenue can be decomposed into its key business segments using fundamental economic drivers:</p>
+
+<table class="data" style="font-size:10px; margin-bottom:16px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Revenue Line</th>
+      <th style="text-align:left;">Driver 1</th>
+      <th style="text-align:left;">Driver 2</th>
+      <th style="text-align:left;">Driver 3</th>
+      <th style="text-align:left;">= Revenue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>EWS &mdash; Verification</strong></td>
+      <td>Inquiry Volume (Mortgage + Non-Mortgage)</td>
+      <td>x Price per Verification</td>
+      <td>x Hit Rate + Gov't Penetration</td>
+      <td>= Verification Revenue</td>
+    </tr>
+    <tr>
+      <td><strong>EWS &mdash; Employer Svcs</strong></td>
+      <td>Employer Client Count</td>
+      <td>x Revenue per Client</td>
+      <td>UC Claims + I-9 + Tax Credits</td>
+      <td>= Employer Services Revenue</td>
+    </tr>
+    <tr>
+      <td><strong>USIS &mdash; Online Info</strong></td>
+      <td>Credit Inquiries (Hard + Soft)</td>
+      <td>x Revenue per Inquiry</td>
+      <td>+ Identity/Fraud Products</td>
+      <td>= Online Info Revenue</td>
+    </tr>
+    <tr>
+      <td><strong>USIS &mdash; Mortgage</strong></td>
+      <td>Hard Credit Inquiries</td>
+      <td>x Rev per Pull + Preapprovals</td>
+      <td>+ FICO Royalty Pass-through (0% margin)</td>
+      <td>= Mortgage Revenue</td>
+    </tr>
+    <tr>
+      <td><strong>International</strong></td>
+      <td>Credit Bureau Inquiries</td>
+      <td>x Price per Inquiry</td>
+      <td>x Local Market Volume + FX</td>
+      <td>= International Revenue</td>
+    </tr>
+    <tr>
+      <td><strong>Total</strong></td>
+      <td>EWS ($2,582M)</td>
+      <td>+ USIS ($2,079M)</td>
+      <td>+ International ($1,414M)</td>
+      <td>= $6,075M (FY2025)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose"><strong>Key KPIs by segment:</strong></p>
+<ul style="font-size: 11px; line-height: 1.7; color: #333; margin-left: 20px; margin-bottom: 10px;">
+  <li><strong>Workforce Solutions:</strong> TWN Active Records (209M), Record Growth Rate, Government Penetration Rate, Verifier Diversified Markets Growth (11% in Q4 2025)</li>
+  <li><strong>U.S. Information Solutions:</strong> Hard Credit Inquiry Volume, USIS Diversified Markets Growth (5% organic in Q4 2025), Consumer Direct Subscribers, FICO Pass-through as % of Revenue</li>
+  <li><strong>International:</strong> Local Currency Growth Rate, Brazil Boa Vista Market Share, Canadian FraudIQ Exchange Volume, Australian Income Verification Exchange Adoption</li>
+</ul>
+
+<p class="prose"><strong>Most leveraged drivers:</strong> (1) <em>Mortgage inquiry volume</em> &mdash; given the extremely high variable margins, even modest recovery drives outsized EBITDA; each 10% increase in mortgage inquiries translates to approximately $120M in revenue and $95M+ in EBITDA due to the variable cost structure. (2) <em>TWN record count and government penetration</em> &mdash; more records = more value per verification = more use cases; the 209M active records represent a self-reinforcing data asset that compounds in value. (3) <em>VantageScore conversion timing</em> &mdash; a structural margin shift independent of volume that would add $160M to EBITDA and ~$1/share to EPS while eliminating the confusing FICO pass-through drag on reported margins.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+  <strong>AlphaSense Research Reports</strong> &middot; Subject: Equifax, Inc. (EFX) &middot; Reports Reviewed: AlphaSense Company Primer &amp; Expert Insights, Q4 2025 Earnings Transcript (Feb 4, 2026), FactSet Snapshot<br>
+  <em>Key themes synthesized from AlphaSense competitive intelligence, management commentary, and industry research.</em>
+</div>
+
+<p class="prose"><strong>Competitive Moat &amp; Misunderstood Aspects.</strong> The most critical analytical insight is that 90% of Equifax's revenue derives from proprietary "Only Equifax" data assets. TWN is widely misunderstood as merely a risk underwriting tool &mdash; it actually serves as a mission-critical workflow automation engine that eliminates manual back-office verification processes for mortgage lenders and government agencies. Equifax wins through bundling TWN employment data with core credit data, creating a comprehensive solution competitors cannot match. Banks and financial institutions have decisioning platforms deeply hardwired into Equifax's infrastructure, creating immense switching costs that go far beyond simple data substitution. The FCRA regulatory framework provides an additional layer of protection that prevents new entrants from easily replicating the data accumulation model.</p>
+
+<p class="prose"><strong>AI &amp; Technology Transformation.</strong> The $3B cloud migration is a completed moat, not just a capex cycle &mdash; 90% complete as of year-end 2025 with 100% expected by end of 2026, enabling a single data fabric for AI deployment across all business units. In 2025, 100% of new models and scores were powered by EFX.AI with a 30% performance lift over legacy models. The company's 1,900 engineers using AI coding tools generated 1M+ lines of code, dramatically amplifying R&amp;D productivity. AI triage agents now resolve nearly 50% of Security Operations Center tickets automatically. Management frames this as "AI acts as a performance multiplier" specifically for Equifax's walled garden of proprietary data &mdash; emphasizing that generic AI tools cannot replicate this advantage because they lack access to the underlying FCRA-protected datasets.</p>
+
+<p class="prose"><strong>Leadership Assessment.</strong> CEO Mark Begor is praised by industry observers as a "field general" who personally conducts 50+ client visits annually and drove the multi-year $3B cloud migration to near-completion. However, criticism from former insiders suggests an overly aggressive quarterly revenue focus that sometimes sacrifices long-term strategic positioning. Recent EWS leadership turnover is viewed positively &mdash; new executives with consumer finance backgrounds are expected to pivot toward more customer-centric innovation rather than pure volume optimization. Employee engagement score of 81% surpasses industry benchmarks, suggesting the cultural transformation accompanying the technology migration has been largely successful.</p>
+
+<p class="prose"><strong>Key Investor Questions.</strong> Based on the earnings transcripts and research reports, the questions that would most sharpen conviction on Equifax are: (1) Is the government TAM ($5B) inflated from historical periods with zero competition? New entrants plus budget cuts could slow growth below the 13-15% framework. (2) The D2C opportunity represents a massive untapped market that Equifax has avoided due to 2017 breach reputational overhang &mdash; will management ever enter this market aggressively? (3) Rising payroll provider revenue share demands could pressure EWS margins &mdash; how sustainable is the current data acquisition cost structure? (4) What is the realistic timeline for VantageScore conversion, and how should investors model the transition period when both FICO and VantageScore coexist? (5) With $1.35B in bonds maturing in 2026, what refinancing costs should be expected in the current rate environment?</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 9: SENSITIVITY ANALYSIS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Sensitivity Analysis</div>
+
+<!-- Sensitivity Table 1 -->
+<p class="prose"><strong>Sensitivity Table 1: Estimated Annual Mortgage Revenue ($M) &mdash; U.S. Mortgage Hard Credit Inquiry Volume (Index vs. 2015-2019 Avg) vs. Revenue per Inquiry ($)</strong></p>
+<p class="prose"><strong>Current: ~50% of normalized inquiry volume, ~$5.50 revenue per inquiry = $1,375M mortgage revenue</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Inquiry Index / Rev per Inquiry</th>
+      <th>$4.50</th>
+      <th>$5.00</th>
+      <th>$5.50</th>
+      <th>$6.00</th>
+      <th>$6.50</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>40%</td><td>$900</td><td>$1,000</td><td>$1,100</td><td>$1,200</td><td>$1,300</td></tr>
+    <tr><td>50%</td><td>$1,125</td><td>$1,250</td><td class="base">$1,375</td><td>$1,500</td><td>$1,625</td></tr>
+    <tr><td>60%</td><td>$1,350</td><td>$1,500</td><td>$1,650</td><td>$1,800</td><td>$1,950</td></tr>
+    <tr><td>75%</td><td>$1,688</td><td>$1,875</td><td>$2,063</td><td>$2,250</td><td>$2,438</td></tr>
+    <tr><td>100%</td><td>$2,250</td><td>$2,500</td><td>$2,750</td><td>$3,000</td><td>$3,250</td></tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 2 -->
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 2: FY2028E EBITDA ($M) &mdash; Total Revenue ($M) vs. EBITDA Margin (%)</strong></p>
+<p class="prose"><strong>Current (FY2028E Consensus): Revenue = $8,071M x EBITDA Margin = 34.0% = ~$2,744M EBITDA</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Revenue / EBITDA Margin</th>
+      <th>28%</th>
+      <th>30%</th>
+      <th>32%</th>
+      <th>34%</th>
+      <th>36%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$7,200M</td><td>$2,016</td><td>$2,160</td><td>$2,304</td><td>$2,448</td><td>$2,592</td></tr>
+    <tr><td>$7,600M</td><td>$2,128</td><td>$2,280</td><td>$2,432</td><td>$2,584</td><td>$2,736</td></tr>
+    <tr><td>$8,071M</td><td>$2,260</td><td>$2,421</td><td>$2,583</td><td class="base">$2,744</td><td>$2,906</td></tr>
+    <tr><td>$8,500M</td><td>$2,380</td><td>$2,550</td><td>$2,720</td><td>$2,890</td><td>$3,060</td></tr>
+    <tr><td>$9,200M</td><td>$2,576</td><td>$2,760</td><td>$2,944</td><td>$3,128</td><td>$3,312</td></tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 3 -->
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 3: Implied Share Price ($) &mdash; FY2028E EPS ($) vs. P/E Exit Multiple (x)</strong></p>
+<p class="prose"><strong>Current: EPS = $10.55 (base case) x P/E = 22x = $232 implied share price vs. $186.43 current</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>EPS / P/E Multiple</th>
+      <th>15x</th>
+      <th>18x</th>
+      <th>22x</th>
+      <th>25x</th>
+      <th>28x</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$7.50</td><td>$113</td><td>$135</td><td>$165</td><td>$188</td><td>$210</td></tr>
+    <tr><td>$9.00</td><td>$135</td><td>$162</td><td>$198</td><td>$225</td><td>$252</td></tr>
+    <tr><td>$10.55</td><td>$158</td><td>$190</td><td class="base">$232</td><td>$264</td><td>$295</td></tr>
+    <tr><td>$12.50</td><td>$188</td><td>$225</td><td>$275</td><td>$313</td><td>$350</td></tr>
+    <tr><td>$15.00</td><td>$225</td><td>$270</td><td>$330</td><td>$375</td><td>$420</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 10: 3-YEAR MODEL — 5 SCENARIOS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">10. 3-Year Model &mdash; 5 Scenarios</div>
+
+<p class="prose">All figures in $M unless stated. Modeled FY2026E, FY2027E, FY2028E (FYE December). Exit multiple applied to FY2028E EPS. Current share price: $186.43. Diluted shares: 121.51M.</p>
+
+<!-- CASE 1: BEAR SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 1: Bear Severe &mdash; Recession + Mortgage Collapse + Regulatory Tightening</div>
+  <div class="case-desc">Sustained high rates crush mortgage volumes further; hiring freezes reduce EWS verification volumes; government budget cuts delay OB3 implementation; CFPB enforcement actions increase compliance costs; consumer credit quality deteriorates sharply.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> &mdash; Mortgage inquiries decline further to 35% of normalized levels; hiring freezes reduce EWS verification volumes; government budget priorities shift away from program integrity. <strong>FY2027</strong> &mdash; Recession deepens; lenders tighten underwriting across all verticals; CFPB enforcement actions create compliance overhang; FICO raises prices further compressing reported margins. <strong>FY2028</strong> &mdash; Slow recovery from lower base; mortgage market remains depressed; non-mortgage markets stabilize but growth constrained.</p>
+  <div class="driver-label">Key Drivers &mdash; FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Mortgage Inquiry Index</span><span>35% of normalized (further decline)</span></div>
+  <div class="driver-row"><span>Non-Mortgage Revenue Growth</span><span>+2% (recession)</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>30.3% (FICO drag + higher compliance costs)</span></div>
+  <div class="driver-row"><span>Exit P/E Multiple</span><span>15x (de-rated for low growth)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$6,400</td><td>$6,500</td><td>$6,600</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+5.3%</td><td>+1.6%</td><td>+1.5%</td></tr>
+    <tr><td>Gross Income</td><td>2,816</td><td>2,860</td><td>2,904</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>44.0%</td><td>44.0%</td><td>44.0%</td></tr>
+    <tr><td>EBITDA</td><td>1,900</td><td>1,950</td><td>2,000</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>29.7%</td><td>30.0%</td><td>30.3%</td></tr>
+    <tr><td>EBIT</td><td>850</td><td>900</td><td>950</td></tr>
+    <tr><td>Net Income</td><td>700</td><td>750</td><td>900</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Margin %</td><td>10.9%</td><td>11.5%</td><td>13.6%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>121.5</td><td>119.0</td><td>117.0</td></tr>
+    <tr><td>EPS</td><td>$5.76</td><td>$6.30</td><td>$7.69</td></tr>
+    <tr><td>FCF</td><td>$750</td><td>$800</td><td>$850</td></tr>
+    <tr><td>FCF/Share</td><td>$6.17</td><td>$6.72</td><td>$7.26</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>--</td><td>--</td><td>15x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>--</td><td>$115</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 15x FY2028E EPS of $7.69</div>
+    <div class="exit-price">Implied Share Price: $115</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: -38% from $186.43</div>
+  </div>
+</div>
+
+<!-- CASE 2: BEAR MILD -->
+<div class="case-block">
+  <div class="case-name">Case 2: Bear Mild &mdash; Mortgage Stagnation + Slow Growth</div>
+  <div class="case-desc">Rates stay range-bound; mortgage volumes flat to slightly down; non-mortgage growth mid-single digits; VantageScore delayed; government ramp slower than expected; margins expand modestly.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> &mdash; Mortgage market flatlines at 50% of normalized; non-mortgage diversified markets grow 6%; government vertical ramp slower than management guidance. <strong>FY2027</strong> &mdash; Modest improvement across all segments; VantageScore remains in testing with no formal FHFA approval; FICO pass-through continues to weigh on reported margins. <strong>FY2028</strong> &mdash; Revenue growth stabilizes at mid-single digits; margins expand modestly as cloud migration completes but full benefits delayed.</p>
+  <div class="driver-label">Key Drivers &mdash; FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Mortgage Inquiry Index</span><span>50% (flat)</span></div>
+  <div class="driver-row"><span>Non-Mortgage Revenue Growth</span><span>+6%</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>32.0%</span></div>
+  <div class="driver-row"><span>Exit P/E Multiple</span><span>18x</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$6,600</td><td>$7,100</td><td>$7,500</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+8.6%</td><td>+7.6%</td><td>+5.6%</td></tr>
+    <tr><td>Gross Income</td><td>2,970</td><td>3,195</td><td>3,375</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>45.0%</td><td>45.0%</td><td>45.0%</td></tr>
+    <tr><td>EBITDA</td><td>2,050</td><td>2,250</td><td>2,400</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>31.1%</td><td>31.7%</td><td>32.0%</td></tr>
+    <tr><td>EBIT</td><td>1,050</td><td>1,250</td><td>1,450</td></tr>
+    <tr><td>Net Income</td><td>780</td><td>950</td><td>1,080</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Margin %</td><td>11.8%</td><td>13.4%</td><td>14.4%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>121.5</td><td>120.0</td><td>118.5</td></tr>
+    <tr><td>EPS</td><td>$6.42</td><td>$7.92</td><td>$9.11</td></tr>
+    <tr><td>FCF</td><td>$900</td><td>$1,050</td><td>$1,200</td></tr>
+    <tr><td>FCF/Share</td><td>$7.41</td><td>$8.75</td><td>$10.13</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>--</td><td>--</td><td>18x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>--</td><td>$164</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 18x FY2028E EPS of $9.11</div>
+    <div class="exit-price">Implied Share Price: $164</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: -12% from $186.43</div>
+  </div>
+</div>
+
+<!-- CASE 3: BASE CASE -->
+<div class="case-block">
+  <div class="case-name">Case 3: Base Case &mdash; Consensus Execution + Gradual Mortgage Recovery</div>
+  <div class="case-desc">Consensus estimates from FactSet (24 broker avg). Mortgage market stabilizes with gradual recovery; Diversified Markets grows high single digits; government vertical accelerates in H2; VantageScore guidance conservatively excludes conversion; ex-FICO margins expand 75bps.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> &mdash; Revenue $6,735M (+10.9%); mortgage inquiry index stabilizes at 50-55% of normalized; USIS Diversified Markets growth accelerates to 7-8%; government revenue begins inflecting from OB3 implementation. <strong>FY2027</strong> &mdash; Gradual mortgage recovery to 55-60% of normalized; government vertical growth exceeds 13-15% framework; Vitality Index maintained above 12%; ex-FICO margins expand. <strong>FY2028</strong> &mdash; Mortgage recovery continues to 60% of normalized; cloud migration 100% complete drives full margin benefit; buyback program reducing diluted shares.</p>
+  <div class="driver-label">Key Drivers &mdash; FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Mortgage Inquiry Index</span><span>60% (gradual recovery)</span></div>
+  <div class="driver-row"><span>Non-Mortgage Revenue Growth</span><span>+8%</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>34.0%</span></div>
+  <div class="driver-row"><span>Exit P/E Multiple</span><span>22x (historical avg compression)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$6,735</td><td>$7,374</td><td>$8,071</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+10.9%</td><td>+9.5%</td><td>+9.4%</td></tr>
+    <tr><td>Gross Income</td><td>3,771</td><td>4,129</td><td>4,568</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>56.0%</td><td>56.0%</td><td>56.6%</td></tr>
+    <tr><td>EBITDA</td><td>2,140</td><td>2,421</td><td>2,747</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>31.8%</td><td>32.8%</td><td>34.0%</td></tr>
+    <tr><td>EBIT</td><td>1,328</td><td>1,679</td><td>2,043</td></tr>
+    <tr><td>Net Income</td><td>814</td><td>1,008</td><td>1,265</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Margin %</td><td>12.1%</td><td>13.7%</td><td>15.7%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>121.5</td><td>119.0</td><td>117.0</td></tr>
+    <tr><td>EPS</td><td>$6.70</td><td>$8.47</td><td>$10.81</td></tr>
+    <tr><td>FCF</td><td>$1,027</td><td>$1,221</td><td>$1,505</td></tr>
+    <tr><td>FCF/Share</td><td>$8.45</td><td>$10.26</td><td>$12.86</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>--</td><td>--</td><td>22x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>--</td><td>$238</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 22x FY2028E EPS of $10.81</div>
+    <div class="exit-price">Implied Share Price: $238</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +28% from $186.43</div>
+  </div>
+</div>
+
+<!-- CASE 4: BULL MILD -->
+<div class="case-block">
+  <div class="case-name">Case 4: Bull Mild &mdash; Mortgage Recovery + VantageScore Adoption</div>
+  <div class="case-desc">Meaningful rate cuts trigger refinancing wave; mortgage volumes recover to 75% of normalized; VantageScore receives FHFA approval and adoption begins; government revenue accelerates above framework; ex-FICO margins expand significantly; aggressive buyback at favorable prices.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> &mdash; Rate cuts begin; mortgage inquiry index recovers to 60%; refinancing wave starts; government OB3 revenue inflects; USIS Diversified Markets growth accelerates to 10%. <strong>FY2027</strong> &mdash; Mortgage recovery gains momentum to 70% of normalized; VantageScore receives FHFA greenlight; lender adoption begins; government vertical exceeds 15% growth; aggressive buyback at sub-$200 prices. <strong>FY2028</strong> &mdash; Mortgage at 75% of normalized; partial VantageScore conversion adds $80M to EBITDA; non-mortgage growth broad-based; share count declining from buybacks.</p>
+  <div class="driver-label">Key Drivers &mdash; FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Mortgage Inquiry Index</span><span>75% (meaningful recovery)</span></div>
+  <div class="driver-row"><span>VantageScore</span><span>Partial conversion begins (net margin positive)</span></div>
+  <div class="driver-row"><span>Non-Mortgage Revenue Growth</span><span>+10%</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>35.2%</span></div>
+  <div class="driver-row"><span>Exit P/E Multiple</span><span>25x (re-rating on growth acceleration)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$7,000</td><td>$7,900</td><td>$8,800</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+15.2%</td><td>+12.9%</td><td>+11.4%</td></tr>
+    <tr><td>Gross Income</td><td>3,990</td><td>4,503</td><td>5,016</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>57.0%</td><td>57.0%</td><td>57.0%</td></tr>
+    <tr><td>EBITDA</td><td>2,300</td><td>2,700</td><td>3,100</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>32.9%</td><td>34.2%</td><td>35.2%</td></tr>
+    <tr><td>EBIT</td><td>1,550</td><td>1,900</td><td>2,300</td></tr>
+    <tr><td>Net Income</td><td>960</td><td>1,200</td><td>1,500</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Margin %</td><td>13.7%</td><td>15.2%</td><td>17.0%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>121.5</td><td>118.0</td><td>115.0</td></tr>
+    <tr><td>EPS</td><td>$7.90</td><td>$10.17</td><td>$13.04</td></tr>
+    <tr><td>FCF</td><td>$1,200</td><td>$1,450</td><td>$1,700</td></tr>
+    <tr><td>FCF/Share</td><td>$9.88</td><td>$12.29</td><td>$14.78</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>--</td><td>--</td><td>25x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>--</td><td>$326</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 25x FY2028E EPS of $13.04</div>
+    <div class="exit-price">Implied Share Price: $326</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +75% from $186.43</div>
+  </div>
+</div>
+
+<!-- CASE 5: BULL SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 5: Bull Severe &mdash; Full Mortgage Normalization + VantageScore + Government Surge</div>
+  <div class="case-desc">Full mortgage market recovery to 2015-2019 normalized levels; complete VantageScore conversion eliminates FICO pass-through and adds $160M to EBITDA; government vertical exceeds $5B TAM expectations; aggressive share buyback at trough valuations compounds EPS; AI products expand TAM; D2C market finally entered.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> &mdash; Aggressive rate cuts trigger massive refinancing wave; mortgage inquiry index surges to 70%; VantageScore receives early FHFA approval; government OB3 implementation accelerates across 30+ states. <strong>FY2027</strong> &mdash; Full mortgage recovery underway to 90% of normalized; VantageScore conversion accelerates, eliminating $135M in FICO pass-through; D2C market entry announced; share count declining rapidly from buybacks at sub-$200 prices. <strong>FY2028</strong> &mdash; Mortgage at 100% of normalized; full VantageScore conversion adds $160M to EBITDA; government revenue exceeds TAM expectations; AI products driving 18%+ Vitality Index.</p>
+  <div class="driver-label">Key Drivers &mdash; FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Mortgage Inquiry Index</span><span>100% (full normalization)</span></div>
+  <div class="driver-row"><span>VantageScore</span><span>Full conversion (+$160M EBITDA)</span></div>
+  <div class="driver-row"><span>Non-Mortgage Revenue Growth</span><span>+12%</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>38.8%</span></div>
+  <div class="driver-row"><span>Exit P/E Multiple</span><span>28x (premium for normalized growth + margin expansion)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$7,200</td><td>$8,500</td><td>$9,800</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+18.5%</td><td>+18.1%</td><td>+15.3%</td></tr>
+    <tr><td>Gross Income</td><td>4,176</td><td>4,930</td><td>5,684</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>58.0%</td><td>58.0%</td><td>58.0%</td></tr>
+    <tr><td>EBITDA</td><td>2,500</td><td>3,200</td><td>3,800</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>34.7%</td><td>37.6%</td><td>38.8%</td></tr>
+    <tr><td>EBIT</td><td>1,800</td><td>2,400</td><td>3,000</td></tr>
+    <tr><td>Net Income</td><td>1,050</td><td>1,400</td><td>1,800</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Margin %</td><td>14.6%</td><td>16.5%</td><td>18.4%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>121.5</td><td>117.0</td><td>113.0</td></tr>
+    <tr><td>EPS</td><td>$8.64</td><td>$11.97</td><td>$15.93</td></tr>
+    <tr><td>FCF</td><td>$1,400</td><td>$1,800</td><td>$2,200</td></tr>
+    <tr><td>FCF/Share</td><td>$11.52</td><td>$15.38</td><td>$19.47</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>--</td><td>--</td><td>28x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>--</td><td>$446</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 28x FY2028E EPS of $15.93</div>
+    <div class="exit-price">Implied Share Price: $446</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +139% from $186.43</div>
+  </div>
+</div>
+
+<!-- SVG Bar Chart -->
+<div class="case-chart">
+  <p style="font-size:9px; font-weight:600; margin-bottom:8px;">Implied Share Price by Scenario (FY2028E Exit) vs. Current Price $186.43</p>
+  <svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg" style="width:100%; font-family:Inter,Arial,sans-serif;">
+    <!-- Axes -->
+    <line x1="80" y1="20" x2="80" y2="200" stroke="#ccc" stroke-width="1"/>
+    <line x1="80" y1="200" x2="680" y2="200" stroke="#ccc" stroke-width="1"/>
+    <!-- Y-axis labels (scale: $1 = 0.4px, so $100 = 40px, $450 = 180px) -->
+    <text x="75" y="204" text-anchor="end" font-size="9" fill="#888">$0</text>
+    <text x="75" y="164" text-anchor="end" font-size="9" fill="#888">$100</text>
+    <text x="75" y="124" text-anchor="end" font-size="9" fill="#888">$200</text>
+    <text x="75" y="84" text-anchor="end" font-size="9" fill="#888">$300</text>
+    <text x="75" y="44" text-anchor="end" font-size="9" fill="#888">$400</text>
+    <!-- Gridlines -->
+    <line x1="80" y1="164" x2="680" y2="164" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="124" x2="680" y2="124" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="84" x2="680" y2="84" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="44" x2="680" y2="44" stroke="#eee" stroke-width="0.5"/>
+    <!-- Bar scale: $1 = 0.4px -->
+    <!-- Bear Severe: $115 -> height 46px, y = 200 - 46 = 154 -->
+    <rect x="110" y="154" width="80" height="46" fill="#2563eb"/>
+    <text x="150" y="150" text-anchor="middle" font-size="9" fill="#333">$115</text>
+    <text x="150" y="214" text-anchor="middle" font-size="8" fill="#555">Bear Severe</text>
+    <!-- Bear Mild: $164 -> height 65.6px, y = 200 - 65.6 = 134.4 -->
+    <rect x="220" y="134.4" width="80" height="65.6" fill="#2563eb"/>
+    <text x="260" y="130" text-anchor="middle" font-size="9" fill="#333">$164</text>
+    <text x="260" y="214" text-anchor="middle" font-size="8" fill="#555">Bear Mild</text>
+    <!-- Base: $238 -> height 95.2px, y = 200 - 95.2 = 104.8 -->
+    <rect x="330" y="104.8" width="80" height="95.2" fill="#2563eb"/>
+    <text x="370" y="100" text-anchor="middle" font-size="9" fill="#333">$238</text>
+    <text x="370" y="214" text-anchor="middle" font-size="8" fill="#555">Base Case</text>
+    <!-- Bull Mild: $326 -> height 130.4px, y = 200 - 130.4 = 69.6 -->
+    <rect x="440" y="69.6" width="80" height="130.4" fill="#2563eb"/>
+    <text x="480" y="65" text-anchor="middle" font-size="9" fill="#333">$326</text>
+    <text x="480" y="214" text-anchor="middle" font-size="8" fill="#555">Bull Mild</text>
+    <!-- Bull Severe: $446 -> height 178.4px, y = 200 - 178.4 = 21.6 -->
+    <rect x="550" y="21.6" width="80" height="178.4" fill="#2563eb"/>
+    <text x="590" y="17" text-anchor="middle" font-size="9" fill="#333">$446</text>
+    <text x="590" y="214" text-anchor="middle" font-size="8" fill="#555">Bull Severe</text>
+    <!-- Current price line: $186.43 = 74.6px from bottom -> y = 200 - 74.6 = 125.4 -->
+    <line x1="80" y1="125.4" x2="680" y2="125.4" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="685" y="129" font-size="9" fill="#e74c3c">$186.43 (Current)</text>
+    <!-- Prob-wtd PV: $218.79 = 87.5px -> y = 200 - 87.5 = 112.5 -->
+    <line x1="80" y1="112.5" x2="680" y2="112.5" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="3,2"/>
+    <text x="685" y="116" font-size="8" fill="#f39c12">$218.79 PV@12%</text>
+  </svg>
+  <p style="font-size:8px; color:#888; margin-top:4px;">Probability weights: 5% / 20% / 50% / 20% / 5% &middot; Prob-wtd avg $245.05 discounted @12% CoC = $218.79 &middot; Current: $186.43 &middot; Implied upside: +17.4%</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 11: COMPS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">11. Comparable Companies</div>
+
+<div class="section-title">Comps Set 1: Credit and Information Services (Peer Group)</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>Price</th>
+      <th>Mkt Cap</th>
+      <th>EV</th>
+      <th>Sales</th>
+      <th>EBIT</th>
+      <th>EBITDA</th>
+      <th>EV/EBIT</th>
+      <th>EV/EBITDA</th>
+      <th>P/E Actual</th>
+      <th class="est-col">P/E FY1</th>
+      <th class="est-col">P/E FY2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Equifax</td><td>EFX</td>
+      <td>$186.43</td><td>$22,652</td><td>$27,805</td><td>$6,075</td><td>$1,145</td><td>$1,865</td>
+      <td>24.3x</td><td>14.9x</td><td>35.0x</td><td>21.7x</td><td>18.1x</td>
+    </tr>
+    <tr>
+      <td>Fair Isaac</td><td>FICO</td>
+      <td>$1,007.28</td><td>$24,186</td><td>$27,221</td><td>$2,063</td><td>$990</td><td>$1,006</td>
+      <td>27.5x</td><td>27.1x</td><td>37.3x</td><td>24.4x</td><td>19.1x</td>
+    </tr>
+    <tr>
+      <td>TransUnion</td><td>TRU</td>
+      <td>$72.40</td><td>$14,216</td><td>$18,341</td><td>$4,576</td><td>$920</td><td>$1,495</td>
+      <td>19.9x</td><td>12.3x</td><td>31.3x</td><td>15.2x</td><td>13.1x</td>
+    </tr>
+    <tr>
+      <td>First Advantage</td><td>FA</td>
+      <td>$12.04</td><td>$2,126</td><td>$3,966</td><td>$1,574</td><td>$141</td><td>$390</td>
+      <td>28.1x</td><td>10.2x</td><td>&mdash;</td><td>10.0x</td><td>8.5x</td>
+    </tr>
+    <tr>
+      <td>Moody's</td><td>MCO</td>
+      <td>$438.06</td><td>$78,356</td><td>$82,564</td><td>$7,718</td><td>$3,455</td><td>$3,935</td>
+      <td>23.9x</td><td>21.0x</td><td>32.0x</td><td>26.3x</td><td>23.4x</td>
+    </tr>
+    <tr>
+      <td>Information Services</td><td>ISC</td>
+      <td>$30.91</td><td>$581</td><td>$678</td><td>$184</td><td>$46</td><td>$63</td>
+      <td>14.9x</td><td>10.8x</td><td>30.1x</td><td>15.1x</td><td>14.5x</td>
+    </tr>
+    <tr>
+      <td>Experian</td><td>EXPN</td>
+      <td>$36.15</td><td>$32,664</td><td>$37,810</td><td>$7,964</td><td>$1,975</td><td>$2,795</td>
+      <td>19.1x</td><td>13.5x</td><td>24.3x</td><td>20.4x</td><td>18.0x</td>
+    </tr>
+    <tr>
+      <td>Enento Group</td><td>ENENTO</td>
+      <td>$16.86</td><td>$404</td><td>$564</td><td>$172</td><td>$37</td><td>$50</td>
+      <td>15.1x</td><td>11.3x</td><td>26.0x</td><td>13.9x</td><td>12.6x</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Average</td><td>--</td>
+      <td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td>
+      <td>21.6x</td><td>15.1x</td><td>--</td><td>18.4x</td><td>--</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Median</td><td>--</td>
+      <td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td>
+      <td>21.9x</td><td>12.9x</td><td>--</td><td>17.8x</td><td>--</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Comps Set 2: Named Competitors</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>Price</th>
+      <th>Mkt Cap</th>
+      <th>EV</th>
+      <th>Sales</th>
+      <th>EBIT</th>
+      <th>EBITDA</th>
+      <th>EV/EBIT</th>
+      <th>EV/EBITDA</th>
+      <th class="est-col">P/E FY1</th>
+      <th class="est-col">P/E FY2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Equifax</td><td>EFX</td>
+      <td>$186.43</td><td>$22,652</td><td>$27,805</td><td>$6,075</td><td>$1,145</td><td>$1,865</td>
+      <td>24.3x</td><td>14.9x</td><td>21.7x</td><td>18.1x</td>
+    </tr>
+    <tr>
+      <td>Fair Isaac</td><td>FICO</td>
+      <td>$1,007</td><td>$24,186</td><td>$27,221</td><td>$2,063</td><td>$990</td><td>$1,006</td>
+      <td>27.5x</td><td>27.1x</td><td>24.4x</td><td>19.1x</td>
+    </tr>
+    <tr>
+      <td>TransUnion</td><td>TRU</td>
+      <td>$72.40</td><td>$14,216</td><td>$18,341</td><td>$4,576</td><td>$920</td><td>$1,495</td>
+      <td>19.9x</td><td>12.3x</td><td>15.2x</td><td>13.1x</td>
+    </tr>
+    <tr>
+      <td>Gen Digital</td><td>GEN</td>
+      <td>$18.91</td><td>$11,718</td><td>$19,506</td><td>$4,727</td><td>$1,765</td><td>$2,243</td>
+      <td>11.1x</td><td>8.7x</td><td>7.4x</td><td>6.7x</td>
+    </tr>
+    <tr>
+      <td>Experian</td><td>EXPN</td>
+      <td>$36.15</td><td>$32,664</td><td>$37,810</td><td>$7,964</td><td>$1,975</td><td>$2,795</td>
+      <td>19.1x</td><td>13.5x</td><td>20.4x</td><td>18.0x</td>
+    </tr>
+    <tr>
+      <td>Wolters Kluwer</td><td>WKL</td>
+      <td>$76.76</td><td>$17,389</td><td>$21,871</td><td>$6,913</td><td>$1,744</td><td>$2,266</td>
+      <td>12.5x</td><td>9.7x</td><td>11.6x</td><td>10.5x</td>
+    </tr>
+    <tr>
+      <td>ACI Worldwide</td><td>ACIW</td>
+      <td>$41.45</td><td>$4,333</td><td>$4,929</td><td>$1,760</td><td>$339</td><td>$445</td>
+      <td>14.5x</td><td>11.1x</td><td>16.9x</td><td>14.6x</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Average</td><td>--</td>
+      <td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td>
+      <td>18.4x</td><td>13.9x</td><td>16.8x</td><td>--</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Median</td><td>--</td>
+      <td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td>
+      <td>19.1x</td><td>12.3x</td><td>16.9x</td><td>--</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:10px;">Equifax trades at 14.9x EV/EBITDA versus the peer group median of 12.9x, a modest premium justified by its unmatched proprietary data assets (TWN, NCTUE) and the embedded $1.2B mortgage recovery catalyst that peers lack. Fair Isaac commands the highest premium (27.1x) due to FICO's near-monopoly pricing power in credit scoring, while TransUnion (12.3x) trades at a discount reflecting lower growth and less proprietary data differentiation. Equifax's FY1 P/E of 21.7x sits above the peer median (17.8x) but converges meaningfully on FY2 (18.1x vs. 16.2x), suggesting the market is pricing moderate near-term growth with limited credit for the operating leverage trajectory.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<div class="verdict">
+  <p><strong>(i) Market Cap Bucket: $22.5B</strong> <span class="fw-rating weak">Weak</span></p>
+  <p style="margin-top:4px;">Large Cap (&gt;$10B). Equifax's $22,490M market cap places it firmly outside Theia's small-cap sweet spot. At this size, the company is broadly covered by institutional investors, included in major indices (S&amp;P 500), and unlikely to offer the informational asymmetries that Theia seeks. While the stock's 34% decline from its 52-week high creates a value opportunity, the large-cap classification limits the alpha potential from under-coverage.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(ii) Analyst Coverage: 24 Broker Contributors</strong> <span class="fw-rating weak">Weak</span></p>
+  <p style="margin-top:4px;">With 24 sell-side analysts covering EFX, this is one of the most thoroughly covered names in financial data and analytics. The consensus target of $228.71 reflects well-informed estimates from major banks (JPMorgan, Morgan Stanley, Baird, UBS, Barclays, Deutsche Bank, RBC, Wells Fargo, Stifel, Citi, etc.). Finding differentiated insights ahead of this level of coverage is challenging, though the market may be under-appreciating the VantageScore and government vertical catalysts.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iii) Thesis Alignment: Data Analytics / Credit Infrastructure</strong> <span class="fw-rating moderate">Adjacent</span></p>
+  <p style="margin-top:4px;">Equifax is not a blockchain or crypto company, but it is foundational infrastructure for the financial services ecosystem. It processes credit decisions, enables income/employment verification for lending, and provides the data backbone for consumer finance. The company's embrace of AI (EFX.AI, Ignite, agentic AI) and the VantageScore disruption of FICO's monopoly align with the broader digitization of financial services thesis. Rating: Adjacent &mdash; the company directly benefits from the modernization and digitization of lending and financial infrastructure, but has no blockchain component.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iv) Outcome Dispersion: $115 &ndash; $446</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">The 5-scenario model shows implied prices ranging from $115 (Bear Severe, -38%) to $446 (Bull Severe, +139%) from the current $186.43. This is a 3.9x spread driven by genuine uncertainty around mortgage recovery timing, VantageScore conversion, and government adoption pace. The probability-weighted fair value of $219 represents 17% upside from current trading. The asymmetry favors the upside: 3 of 5 scenarios show the stock above current price, and the $1.2B embedded mortgage recovery catalyst provides optionality that the market is not fully pricing.</p>
+</div>
+
+<div style="background: #fff3cd; border-left: 4px solid #856404; padding: 12px 14px; margin: 16px 0; font-size: 11.5px;">
+  <strong>VERDICT: MAYBE &mdash; High-Quality Business Outside Sweet Spot</strong><br><br>
+  Equifax is an exceptional business with irreplaceable proprietary data assets, a completed $3B technology transformation, and a massive embedded mortgage recovery catalyst. However, its $22.5B market cap and 24-analyst coverage place it squarely outside Theia's ideal screening criteria for small-cap, under-covered opportunities. The investment case is compelling on fundamentals &mdash; the probability-weighted fair value of $219 offers 17% upside with meaningful optionality from VantageScore conversion, government vertical acceleration, and mortgage recovery. For a large-cap allocation or as a data/analytics sector bet, EFX is attractive. But for Theia's specific mandate of finding mispriced small-cap gems, the alpha opportunity is limited by the degree of institutional coverage and the efficient pricing of known catalysts.
+</div>
+
+<p class="prose" style="font-size:10px; font-style:italic; margin-top:6px;">Note: Theia seeks small-cap companies that aren't well covered and are strongly aligned on the core internet finance thesis with wide outcome dispersion. EFX scores: Market Cap (Weak) | Coverage (Weak) | Thesis (Adjacent) | Dispersion (Strong)</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 13: RISK SUMMARY -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">13. Risk Summary</div>
+
+<table class="risk-table">
+  <tr>
+    <th>Risk Category</th>
+    <th>Description</th>
+    <th>Severity</th>
+    <th>Mitigant</th>
+  </tr>
+  <tr>
+    <td>Prolonged Mortgage Weakness</td>
+    <td>Mortgage represents ~20% of revenue with extremely high variable margins. Sustained high rates prevent recovery of the embedded $1.2B revenue catalyst. Each 100bps of mortgage weakness = ~100bps revenue drag.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>Non-mortgage "Diversified Markets" growing high single digits and now 80% of revenue. Government vertical accelerating. Business designed to grow 7-10% even in depressed mortgage environment.</td>
+  </tr>
+  <tr>
+    <td>FICO Royalty Margin Drag</td>
+    <td>FICO score pass-through doubling from 3% to 6% of revenue at zero margin. Depresses reported EBITDA margins by 200+ bps, confusing reported financials and peer comparisons.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Zero impact on operating profit dollars or FCF. VantageScore conversion would eliminate this entirely. Management increasing transparency with ex-FICO disclosures.</td>
+  </tr>
+  <tr>
+    <td>CFPB Regulatory Scrutiny</td>
+    <td>Active Civil Investigative Demands on data accuracy, dispute handling, legacy coding. Medical debt removal rules may alter predictive value of credit files. International data privacy regulations increasing compliance costs.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Industry-wide regulatory risk affecting all three bureaus equally. Equifax's $3B cloud migration positions it better than competitors to handle data accuracy requirements. Deep compliance infrastructure and dedicated legal/regulatory teams.</td>
+  </tr>
+  <tr>
+    <td>Fintech / Open Banking Disruption</td>
+    <td>Data aggregators (Plaid, Pinwheel) leveraging consumer-permissioned data could bypass traditional credit reporting for some use cases. Digital-first lenders may adopt alternative underwriting models.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>FCRA regulations mandate credit bureau data for most regulated lending. TWN employment data has no consumer-permissioned alternative at scale. 90% proprietary data moat protected by exclusive agreements and regulatory framework.</td>
+  </tr>
+  <tr>
+    <td>Balance Sheet Leverage</td>
+    <td>$5.1B debt, 111% Debt/Equity, $1.35B bonds maturing in 2026 requiring refinancing. Interest coverage adequate at 5.4x but not conservative.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Strong FCF generation ($1B+ annually) supports rapid de-leveraging. Debt/Equity projected to decline to 62% by FY2028E. Investment-grade credit profile. Cash conversion consistently above 95%.</td>
+  </tr>
+  <tr>
+    <td>Data Breach / Cybersecurity</td>
+    <td>2017 breach remains a reputational overhang limiting D2C expansion. AI-powered synthetic identity fraud and deepfake attacks represent evolving threats requiring continuous cybersecurity investment.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Invested heavily in security infrastructure post-2017. 81% employee engagement on security-first culture. AI triage agents resolve 50% of SOC tickets. Annual security investments are ongoing and substantial.</td>
+  </tr>
+  <tr>
+    <td>Government TAM Uncertainty</td>
+    <td>$5B TAM estimate may be inflated from historical periods of zero competition. New entrants + federal budget cuts could slow government vertical growth below the 13-15% framework.</td>
+    <td><span class="fw-rating low">Low</span></td>
+    <td>OB3 legislation creates mandatory compliance timeline for states. Strong state-level engagement already converting to revenue. Federal focus on reducing $160B in improper payments provides durable demand driver.</td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 14: APPENDIX — PYTHON CODE -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section appendix">14. Appendix &mdash; Python Code</div>
+
+<p class="prose">Sensitivity table generator and scenario model code for analyst customization:</p>
+
+<div class="section-title">Sensitivity Table Generator</div>
+<div class="code-block">
+import numpy as np
+import pandas as pd
+
+# ─── SENSITIVITY TABLE 1: Mortgage Revenue ($M) ───
+inquiry_index = [0.40, 0.50, 0.60, 0.75, 1.00]     # % of 2015-2019 normalized
+rev_per_inquiry = [4.50, 5.00, 5.50, 6.00, 6.50]    # $/inquiry
+base_index = 0.50
+base_rev_per = 5.50
+# Normalized annual mortgage revenue base = $5,000M total inquiry pool
+norm_base = 5000  # implied normalized annual mortgage revenue at 100% index
+
+rows = []
+for idx in inquiry_index:
+    row = []
+    for rpi in rev_per_inquiry:
+        # Revenue = index * norm_base * (rpi / base_rev_per)
+        revenue = idx * norm_base * (rpi / base_rev_per)
+        row.append(f"${round(revenue, 0):.0f}")
+    rows.append(row)
+
+df1 = pd.DataFrame(rows,
+    index=[f"{int(x*100)}%" for x in inquiry_index],
+    columns=[f"${x:.2f}" for x in rev_per_inquiry])
+print("Mortgage Revenue ($M)")
+print(df1.to_string())
+print(f"\nBase: {base_index*100:.0f}% index x ${base_rev_per:.2f}/inquiry = ${base_index*norm_base:.0f}M")
+
+# ─── SENSITIVITY TABLE 2: FY2028E EBITDA ($M) ───
+revenues = [7200, 7600, 8071, 8500, 9200]            # $M total revenue
+ebitda_margins = [0.28, 0.30, 0.32, 0.34, 0.36]      # EBITDA margin %
+base_rev = 8071
+base_ebitda_mgn = 0.34
+
+rows2 = []
+for rev in revenues:
+    row = []
+    for m in ebitda_margins:
+        ebitda = rev * m
+        row.append(f"${round(ebitda, 0):.0f}")
+    rows2.append(row)
+
+df2 = pd.DataFrame(rows2,
+    index=[f"${x}M" for x in revenues],
+    columns=[f"{int(m*100)}%" for m in ebitda_margins])
+print("\nFY2028E EBITDA ($M)")
+print(df2.to_string())
+print(f"Base: ${base_rev}M x {base_ebitda_mgn*100:.0f}% = ${base_rev*base_ebitda_mgn:.0f}M")
+
+# ─── SENSITIVITY TABLE 3: Implied Share Price ($) ───
+eps_values = [7.50, 9.00, 10.55, 12.50, 15.00]       # $/share EPS
+pe_multiples = [15, 18, 22, 25, 28]                    # x P/E
+
+rows3 = []
+for eps in eps_values:
+    row = []
+    for mult in pe_multiples:
+        price = eps * mult
+        row.append(f"${round(price, 0):.0f}")
+    rows3.append(row)
+
+df3 = pd.DataFrame(rows3,
+    index=[f"${x:.2f}" for x in eps_values],
+    columns=[f"{x}x" for x in pe_multiples])
+print("\nImplied Share Price ($)")
+print(df3.to_string())
+print(f"Base: $10.55 x 22x = ${10.55*22:.0f}")
+</div>
+
+<div class="section-title" style="margin-top:16px;">5-Scenario Model Generator</div>
+<div class="code-block">
+# ─── EFX 5-SCENARIO 3-YEAR MODEL ───
+scenarios = {
+    "Bear Severe": {
+        "rev":   [6400, 6500, 6600],
+        "gm":    [0.440, 0.440, 0.440],
+        "ebitda_mgn": [0.297, 0.300, 0.303],
+        "ni":    [700, 750, 900],
+        "fcf":   [750, 800, 850],
+        "shares": [121.5, 119.0, 117.0],
+        "exit_pe": 15,
+    },
+    "Bear Mild": {
+        "rev":   [6600, 7100, 7500],
+        "gm":    [0.450, 0.450, 0.450],
+        "ebitda_mgn": [0.311, 0.317, 0.320],
+        "ni":    [780, 950, 1080],
+        "fcf":   [900, 1050, 1200],
+        "shares": [121.5, 120.0, 118.5],
+        "exit_pe": 18,
+    },
+    "Base Case": {
+        "rev":   [6735, 7374, 8071],
+        "gm":    [0.560, 0.560, 0.566],
+        "ebitda_mgn": [0.318, 0.328, 0.340],
+        "ni":    [814, 1008, 1265],
+        "fcf":   [1027, 1221, 1505],
+        "shares": [121.5, 119.0, 117.0],
+        "exit_pe": 22,
+    },
+    "Bull Mild": {
+        "rev":   [7000, 7900, 8800],
+        "gm":    [0.570, 0.570, 0.570],
+        "ebitda_mgn": [0.329, 0.342, 0.352],
+        "ni":    [960, 1200, 1500],
+        "fcf":   [1200, 1450, 1700],
+        "shares": [121.5, 118.0, 115.0],
+        "exit_pe": 25,
+    },
+    "Bull Severe": {
+        "rev":   [7200, 8500, 9800],
+        "gm":    [0.580, 0.580, 0.580],
+        "ebitda_mgn": [0.347, 0.376, 0.388],
+        "ni":    [1050, 1400, 1800],
+        "fcf":   [1400, 1800, 2200],
+        "shares": [121.5, 117.0, 113.0],
+        "exit_pe": 28,
+    },
+}
+
+current_price = 186.43
+diluted_shares = 121.51  # M
+years = ["FY2026E", "FY2027E", "FY2028E"]
+
+for name, s in scenarios.items():
+    print(f"\n{'='*60}")
+    print(f"Scenario: {name}")
+    print(f"{'─'*60}")
+    eps_exit = s["ni"][-1] / s["shares"][-1]
+    mult = s["exit_pe"]
+    implied_price = eps_exit * mult
+    upside = (implied_price / current_price - 1) * 100
+    print(f"Exit: {mult}x P/E on FY2028E EPS ${eps_exit:.2f}")
+    print(f"Implied Price: ${implied_price:.0f}  |  Upside: {upside:+.1f}%")
+
+    for i, yr in enumerate(years):
+        rev = s["rev"][i]
+        ni = s["ni"][i]
+        fcf = s["fcf"][i]
+        eps = ni / s["shares"][i]
+        print(f"  {yr}: Rev ${rev}M | NI ${ni}M | FCF ${fcf}M | EPS ${eps:.2f}")
+
+# ─── PROBABILITY-WEIGHTED FAIR VALUE ───
+weights = {"Bear Severe": 0.05, "Bear Mild": 0.20, "Base Case": 0.50,
+           "Bull Mild": 0.20, "Bull Severe": 0.05}
+prices  = {"Bear Severe": 115, "Bear Mild": 164, "Base Case": 238,
+           "Bull Mild": 326, "Bull Severe": 446}
+coc = 0.12  # 12% cost of capital for large-cap
+
+wtd_avg = sum(weights[k] * prices[k] for k in weights)
+pv = wtd_avg / (1 + coc)
+print(f"\nProbability-Weighted Avg (FY2028E): ${wtd_avg:.2f}")
+print(f"Discounted at {coc*100:.0f}% CoC:           ${pv:.2f}")
+print(f"Current Price:                         ${current_price:.2f}")
+print(f"Implied Upside to PV:                 {(pv/current_price-1)*100:+.1f}%")
+</div>
+
+<div class="source-note" style="margin-top:16px;">
+  Equifax, Inc. | Preliminary Memo for Theia &middot; Generated April 15, 2026 &middot; Data: FactSet (Apr 15, 2026), AlphaSense Company Primer &amp; Expert Insights (Apr 15, 2026), Q4 2025 Earnings Transcript (Feb 4, 2026) &middot; FYE December &middot; Not investment advice.
+</div>
+
+</body>
+</html>
