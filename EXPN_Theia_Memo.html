@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Experian PLC | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 8px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+.fw-rating.adjacent { background: #fff3cd; color: #856404; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child, table.comps td:nth-child(2) { text-align: left; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-style: italic; background: #fafbfc; font-weight: 600; border-top: 1px solid #eee; }
+table.comps th.est-col { color: #2563eb; }
+
+table.risk-table { font-size: 10px; width: 100%; margin: 8px 0; }
+table.risk-table th { text-align: left; font-weight: 600; padding: 4px 6px; background: #f4f6f9; border-bottom: 1px solid #ddd; }
+table.risk-table td { padding: 4px 6px; border-bottom: 1px solid #eee; vertical-align: top; }
+table.risk-table td:first-child { font-weight: 600; width: 25%; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.alphasense-box { background: #e8f4fd; border-left: 4px solid #2563eb; padding: 10px 14px; margin: 10px 0; font-size: 10px; line-height: 1.5; }
+
+.bull-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #155724; border-bottom: 1.5px solid #c3e6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #721c24; border-bottom: 1.5px solid #f5c6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+
+.bull-item, .bear-item { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Experian PLC | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">Experian PLC (LSE: EXPN-GB) is one of the world's three major consumer and business credit bureaus, alongside Equifax and TransUnion. The company operates a highly diversified, dual-sided business model that leverages proprietary information assets to serve both enterprise clients and individual consumers. Processing over 1.1 billion new data points monthly from roughly 12,000 contributors in the United States alone, Experian has built formidable barriers to entry that are effectively impossible to replicate. The company operates through two primary segments: Business-to-Business (B2B, 72.7% of revenue) providing credit risk assessment, verification, fraud prevention, and decisioning tools to banks and lenders via platforms like the Ascend Technology Platform and PowerCurve; and Consumer Services (27.3% of revenue) which has evolved from a simple credit report provider into a comprehensive financial marketplace with over 208 million free members globally, offering credit monitoring, the Experian Marketplace for credit cards, personal loans, auto and home insurance, and innovative features like "No Ding Decline" which lets consumers check their eligibility without impacting their credit score.</p>
+
+<p class="prose">Geographically, North America accounts for approximately 67% of revenue, Latin America (primarily Brazil) 14%, UK &amp; Ireland 12%, and EMEA/Asia Pacific 7%. Experian's strategic initiatives include cloud migration to AWS (85-90% complete by end of FY2026), aggressive AI integration across products, VantageScore 4.0 adoption for the $1 trillion mortgage market opportunity, and vertical expansion into Health ($650M revenue, 40% EBIT margins), Automotive, and Targeting/Marketing businesses which collectively generate 21% of group revenue. Recent acquisitions include ClearSale ($329M, Brazil fraud prevention), illion (Australia credit bureau), Audigent (digital advertising), and the pending acquisition of RateGravity. Experian trades on the London Stock Exchange and is a constituent of the FTSE 100.</p>
+
+<p class="prose"><strong>Key facts:</strong> Founded 1996 (credit bureau heritage to 1826) · Headquarters Dublin, Ireland (operational HQ in Nottingham, UK and Costa Mesa, CA) · CEO Brian J. Cassin · CFO Lloyd Pitchford, MBA · Chairman Michael John Rogers · Employees ~23,300 · FY end March 31 · Market Cap $32,458M · ISIN GB00B19NLV48 · SEDOL B19NLV4</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 2: FINANCIAL SUMMARY (FACTSET) -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Theia FactSet Summary</div>
+
+<div class="header">
+  <div>
+    <h1>Experian PLC</h1>
+    <span class="ticker">EXPN-GB · LSE · ISIN GB00B19NLV48</span>
+  </div>
+  <div class="date">FactSet Snapshot · April 14, 2026</div>
+</div>
+
+<!-- Price Bar -->
+<div class="price-bar">
+  <div>
+    <span class="label">Price (Apr 14, 2026) </span>
+    <span class="price">$36.15</span>
+  </div>
+  <div><span class="label">1M </span><span class="chg pos">+2.39%</span></div>
+  <div><span class="label">3M </span><span class="chg">-16.61%</span></div>
+  <div><span class="label">6M </span><span class="chg">-21.49%</span></div>
+  <div><span class="label">YTD </span><span class="chg">-17.95%</span></div>
+  <div><span class="label">1Y </span><span class="chg">-17.95%</span></div>
+  <div><span class="label">52-Wk Range </span><span style="font-weight:600;">$32.13 – $55.27</span></div>
+</div>
+
+<!-- Key Stats + EV Bridge -->
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv" style="font-size:10px;">
+      <tr><td>Exchange / Ticker</td><td>LSE · EXPN-GB</td></tr>
+      <tr><td>SEDOL</td><td>B19NLV4</td></tr>
+      <tr><td>Open / Prev Close</td><td>$36.38 / $36.15</td></tr>
+      <tr><td>52-Week Range</td><td>$32.13 – $55.27 (65.4% of high)</td></tr>
+      <tr><td>Volume</td><td>1,996,631</td></tr>
+      <tr><td>30-Day Avg Volume</td><td>3,680,601</td></tr>
+      <tr><td>Float %</td><td>99.82%</td></tr>
+      <tr><td>Short Interest</td><td>-- Days / -- % of Float</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev" style="font-size:10px;">
+      <tr><td>Price</td><td>$36.15</td></tr>
+      <tr><td>Basic Shares (Ordinary)</td><td>897.78M</td></tr>
+      <tr><td>= Market Cap</td><td>$32,458M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">+ Stock Comp</td><td style="font-size:9px;">5.70M shares</td></tr>
+      <tr><td>= Fully Diluted Shares</td><td>903.48M</td></tr>
+      <tr><td>= Fully Dil. Market Cap</td><td>$32,664M</td></tr>
+      <tr><td>+ Consolidated Debt</td><td>$5,485M</td></tr>
+      <tr><td>- Cash &amp; Equivalents</td><td>($363M)</td></tr>
+      <tr><td>- Investments in Unconsol. Subs</td><td>($16M)</td></tr>
+      <tr><td>+ Non-Controlling Interest</td><td>$40M</td></tr>
+      <tr class="total"><td>= Enterprise Value</td><td>$37,810M</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- Current Valuation — horizontal 6x2 grid -->
+<div class="section-title">Current Valuation</div>
+<div style="border: 1px solid #eee; border-radius: 4px; margin-bottom: 8px;">
+  <div class="val-grid">
+    <div class="val-cell"><div class="val-label">Mkt Cap</div><div class="val-num">$32,458M</div><div class="val-sub">Basic shares</div></div>
+    <div class="val-cell"><div class="val-label">EV</div><div class="val-num">$37,810M</div><div class="val-sub">$5.5B debt, $363M cash</div></div>
+    <div class="val-cell"><div class="val-label">P/E (LTM)</div><div class="val-num">24.5x</div><div class="val-sub">LTM earnings</div></div>
+    <div class="val-cell"><div class="val-label">EV/EBITDA (LTM)</div><div class="val-num">13.5x</div><div class="val-sub">LTM EBITDA</div></div>
+    <div class="val-cell"><div class="val-label">EV/Sales (LTM)</div><div class="val-num">4.8x</div><div class="val-sub">LTM revenue</div></div>
+    <div class="val-cell"><div class="val-label">P/S (LTM)</div><div class="val-num">4.2x</div><div class="val-sub">LTM revenue</div></div>
+  </div>
+  <div style="border-top: 1px solid #eee;">
+    <div class="val-grid">
+      <div class="val-cell"><div class="val-label">Fully Dil. Mkt Cap</div><div class="val-num">$32,664M</div><div class="val-sub">903.48M dil. shares</div></div>
+      <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">9.27%</div><div class="val-sub">FactSet estimate</div></div>
+      <div class="val-cell"><div class="val-label">Beta (3Y Adj)</div><div class="val-num">1.11</div><div class="val-sub">Adjusted beta</div></div>
+      <div class="val-cell"><div class="val-label">Avg Analyst Rating</div><div class="val-num">Buy</div><div class="val-sub">1.13 · 18 brokers</div></div>
+      <div class="val-cell"><div class="val-label">Cons. Target Price</div><div class="val-num">$54.48</div><div class="val-sub">+50.7% upside</div></div>
+      <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">May 20</div><div class="val-sub">FY2026 Results</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Valuation Multiples Table -->
+<div class="section-title">Valuation Multiples</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Metric</th>
+      <th>5Yr Avg</th>
+      <th>Mar'23</th>
+      <th>Mar'24</th>
+      <th>Mar'25</th>
+      <th class="est" style="color:#2563eb;">Mar'26E</th>
+      <th class="est" style="color:#2563eb;">Mar'27E</th>
+      <th class="est" style="color:#2563eb;">Mar'28E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="8">PRICE MULTIPLES</td></tr>
+    <tr><td>P/E</td><td>35.9x</td><td>39.3x</td><td>33.5x</td><td>36.4x</td><td class="est">19.3x</td><td class="est">18.0x</td><td class="est">15.9x</td></tr>
+    <tr><td>P/Sales</td><td>5.4x</td><td>4.5x</td><td>5.6x</td><td>5.6x</td><td class="est">3.7x</td><td class="est">3.6x</td><td class="est">3.3x</td></tr>
+    <tr><td>P/Book Value</td><td>8.7x</td><td>7.6x</td><td>8.6x</td><td>8.3x</td><td class="est">5.5x</td><td class="est">5.3x</td><td class="est">4.7x</td></tr>
+    <tr><td>P/FCF</td><td>21.2x</td><td>18.3x</td><td>23.5x</td><td>21.7x</td><td class="est">19.6x</td><td class="est">17.7x</td><td class="est">15.5x</td></tr>
+    <tr class="section-row"><td colspan="8">EV MULTIPLES</td></tr>
+    <tr><td>EV/Sales</td><td>6.1x</td><td>5.2x</td><td>6.2x</td><td>6.3x</td><td class="est">4.5x</td><td class="est">4.1x</td><td class="est">3.8x</td></tr>
+    <tr><td>EV/EBITDA</td><td>17.8x</td><td>15.0x</td><td>18.0x</td><td>17.9x</td><td class="est">12.6x</td><td class="est">11.5x</td><td class="est">10.6x</td></tr>
+    <tr><td>EV/EBIT</td><td>25.6x</td><td>21.3x</td><td>25.5x</td><td>25.2x</td><td class="est">15.8x</td><td class="est">14.4x</td><td class="est">13.0x</td></tr>
+  </tbody>
+</table>
+
+<!-- Revenue Exposure -->
+<div class="section-title">Revenue Exposure (FY2025 Actuals, FYE March)</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Segment</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Segment</th><th>$M</th><th>% Rev</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>B2B</td><td>$5,469M</td><td>72.7%</td><td>+6.0%</td></tr>
+        <tr><td>Consumer Services</td><td>$2,054M</td><td>27.3%</td><td>+6.1%</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>$7,523M</td><td>100%</td><td>+6.0%</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:8px; color:#aaa; margin-top:4px;">B2B Verticals (Health/Auto/Targeting) = ~21% of group revenue.</p>
+  </div>
+  <div>
+    <div class="sub-label">By Geography</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Region</th><th>$M</th><th>% Rev</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>United States</td><td>$5,044M</td><td>67.0%</td><td>+8.3%</td></tr>
+        <tr><td>Brazil</td><td>$936M</td><td>12.4%</td><td>-5.5%</td></tr>
+        <tr><td>United Kingdom</td><td>$866M</td><td>11.5%</td><td>+3.2%</td></tr>
+        <tr><td>EMEA &amp; Pacific</td><td>$533M</td><td>7.1%</td><td>+14.2%</td></tr>
+        <tr><td>Latin America (ex-Brazil)</td><td>$139M</td><td>1.8%</td><td>+2.2%</td></tr>
+        <tr><td>Ireland / N. America (other)</td><td>$5M</td><td>0.1%</td><td>--</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>$7,523M</td><td>100%</td><td>+6.0%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Financials Table -->
+<div class="section-title">Financials</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">$M (FYE Mar)</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th class="est" style="color:#2563eb;">FY2026E</th>
+      <th class="est" style="color:#2563eb;">FY2027E</th>
+      <th class="est" style="color:#2563eb;">FY2028E</th>
+      <th style="color:#888; font-size:8px;">5Yr CAGR</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="8">INCOME STATEMENT</td></tr>
+    <tr><td>Revenue</td><td>$6,619</td><td>$7,097</td><td>$7,523</td><td class="est">$8,447</td><td class="est">$9,152</td><td class="est">$9,874</td><td>7.8%</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Revenue Growth %</td><td>--</td><td>+7.2%</td><td>+6.0%</td><td class="est">+12.3%</td><td class="est">+8.3%</td><td class="est">+7.9%</td><td></td></tr>
+    <tr><td>Gross Income</td><td>$2,534</td><td>$2,715</td><td>$2,901</td><td class="est">$4,204</td><td class="est">$4,653</td><td class="est">$5,136</td><td></td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Gross Margin %</td><td>38.3%</td><td>38.3%</td><td>38.6%</td><td class="est">49.8%</td><td class="est">50.8%</td><td class="est">52.0%</td><td></td></tr>
+    <tr><td>EBITDA</td><td>$2,275</td><td>$2,449</td><td>$2,628</td><td class="est">$3,005</td><td class="est">$3,287</td><td class="est">$3,570</td><td></td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">EBITDA Margin %</td><td>34.4%</td><td>34.5%</td><td>34.9%</td><td class="est">35.6%</td><td class="est">35.9%</td><td class="est">36.2%</td><td></td></tr>
+    <tr><td>EBIT</td><td>$1,601</td><td>$1,735</td><td>$1,870</td><td class="est">$2,393</td><td class="est">$2,633</td><td class="est">$2,919</td><td></td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Operating Margin %</td><td>24.2%</td><td>24.4%</td><td>24.9%</td><td class="est">28.3%</td><td class="est">28.8%</td><td class="est">29.6%</td><td></td></tr>
+    <tr><td>Net Income</td><td>$770</td><td>$1,199</td><td>$1,166</td><td class="est">$1,643</td><td class="est">$1,822</td><td class="est">$2,056</td><td></td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Net Margin %</td><td>11.6%</td><td>16.9%</td><td>15.5%</td><td class="est">19.5%</td><td class="est">19.9%</td><td class="est">20.8%</td><td></td></tr>
+    <tr><td>EPS (Diluted)</td><td>$0.84</td><td>$1.30</td><td>$1.26</td><td class="est">$1.64</td><td class="est">$1.87</td><td class="est">$2.12</td><td></td></tr>
+    <tr class="section-row"><td colspan="8">CASH FLOW</td></tr>
+    <tr><td>Operating Cash Flow</td><td>$1,717</td><td>$1,747</td><td>$2,005</td><td class="est">$2,587</td><td class="est">$2,914</td><td class="est">$3,183</td><td></td></tr>
+    <tr><td>CapEx</td><td>($627)</td><td>($640)</td><td>($651)</td><td class="est">($629)</td><td class="est">($641)</td><td class="est">($648)</td><td></td></tr>
+    <tr><td>Free Cash Flow</td><td>$1,653</td><td>$1,707</td><td>$1,957</td><td class="est">$1,566</td><td class="est">$1,848</td><td class="est">$2,085</td><td></td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">FCF Margin %</td><td>25.0%</td><td>24.1%</td><td>26.0%</td><td class="est">18.5%</td><td class="est">20.2%</td><td class="est">21.1%</td><td></td></tr>
+    <tr class="section-row"><td colspan="8">BALANCE SHEET</td></tr>
+    <tr><td>Cash &amp; ST Investments</td><td>$209</td><td>$321</td><td>$400</td><td class="est">$528</td><td class="est">$1,072</td><td class="est">$1,924</td><td></td></tr>
+    <tr><td>Total Debt</td><td colspan="2" style="text-align:center;">--</td><td colspan="4" style="text-align:center;">~$5,485M (from EV bridge)</td><td></td></tr>
+    <tr><td>Shareholders' Equity</td><td>$3,929</td><td>$4,634</td><td>$5,054</td><td class="est">$5,644</td><td class="est">$6,288</td><td class="est">$7,060</td><td></td></tr>
+    <tr><td>BVPS</td><td>$4.31</td><td>$5.08</td><td>$5.53</td><td class="est">$6.17</td><td class="est">$6.84</td><td class="est">$7.68</td><td></td></tr>
+    <tr class="section-row"><td colspan="8">RETURNS &amp; LEVERAGE</td></tr>
+    <tr><td>ROE</td><td>20.7%</td><td>27.9%</td><td>24.1%</td><td class="est">28.7%</td><td class="est">29.4%</td><td class="est">29.6%</td><td></td></tr>
+    <tr><td>Debt / Equity</td><td>104.3%</td><td>92.1%</td><td>99.2%</td><td class="est">85.9%</td><td class="est">72.2%</td><td class="est">64.2%</td><td></td></tr>
+    <tr><td>Interest Coverage</td><td>13.6x</td><td>12.6x</td><td>12.0x</td><td class="est">13.3x</td><td class="est">15.0x</td><td class="est">19.3x</td><td></td></tr>
+    <tr><td>Dividend Per Share</td><td>$0.52</td><td>$0.58</td><td>$0.60</td><td class="est">$0.71</td><td class="est">$0.79</td><td class="est">$0.89</td><td></td></tr>
+    <tr><td>Dividend Yield</td><td colspan="5"></td><td style="text-align:center;">1.78%</td><td></td></tr>
+  </tbody>
+</table>
+
+<!-- Valuation Summary -->
+<div class="section-title">Valuation Summary</div>
+<p class="prose">Experian currently trades at 12.6x FY2026E EV/EBITDA and 19.3x FY2026E P/E — a dramatic de-rating from its 5-year average EV/EBITDA of 17.8x and P/E of 35.9x. The stock is down 34.6% from its 52-week high of $55.27, having been caught in the broader large-cap multiple compression driven by elevated interest rates despite consistent operational execution (8% organic growth, 30-50bps annual margin expansion). On a FY2028E basis, the valuation compresses to 10.6x EV/EBITDA and 15.9x P/E, which would represent a historically cheap multiple for a company with Experian's quality profile — 36%+ EBITDA margins, 25%+ ROE, strong FCF generation, and a 5-power competitive moat. The consensus target of $54.48 (18 brokers) implies 50.7% upside, reflecting broad sell-side conviction that the de-rating is overdone. The current 1.78% dividend yield plus ~7% EPS growth implies a ~9% total return at current multiples even without any multiple re-rating.</p>
+
+<div class="source-note">Source: FactSet snapshot export, April 14, 2026. Estimates reflect consensus of 18 broker contributors. FYE March.</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 3: BULL & BEAR CASES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Cases</div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">1. VantageScore 4.0 Disrupts $1 Trillion Mortgage Market.</span> FHFA-approved tri-bureau scoring model incorporating trended credit and alternative data scores 33 million previously unscoreable consumers. Priced aggressively at $0.99 per origination score. Experian also offering it free indefinitely through the Experian Score Choice Bundle. If VantageScore captures even 20% of the mortgage origination market, it would represent a massive incremental revenue stream and weaken FICO's monopoly pricing power.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">2. Consumer Services Scales to $4B Revenue by 2028.</span> Consumer Services has nearly doubled from FY2020 to over $2B today with 208M free members globally. Internal targets of 15% annual growth. The marketplace (credit cards, personal loans, auto/home insurance), premium subscriptions, and innovations like No Ding Decline, Experian Smart Money digital checking, and the Experian Virtual Assistant (EVA) are expanding the addressable market. Insurance marketplace alone reaching $100M annualized run rate.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">3. Cloud Migration Unlocks Structural Margin Expansion.</span> 85-90% cloud completion by end FY2026 will eliminate dual-run costs peaking in FY2025-2026. CapEx trending from 9.5% of revenue toward normalized 7% by FY2029. Management guides 30-50bps of organic margin expansion annually. The combination of operating leverage from Consumer Services scale, AI-driven engineering productivity, and reduced infrastructure costs could drive 200-300bps of cumulative EBIT margin expansion over FY2026-2028.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">4. AI Is a Growth Enabler, Not a Threat.</span> Credit decisioning requires pre-structured, regulated historical data that LLMs cannot generate. Regulatory requirements around model explainability favor established vendors. Internally, Experian leverages AI to drive productivity (AI coding assistants keeping headcount flat while delivering 8% organic growth), enhance products (Cashflow Attributes deliver 25% predictive uplift), and create new revenue (Experian Assistant for Model Risk Management). AI is expanding Experian's TAM, not commoditizing it.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">5. $1B Buyback + Progressive Dividend at 1.8x Net Debt/EBITDA.</span> Balance sheet is under-levered vs. 2.0-2.5x target range. $1B share repurchase program announced January 2026. Dividend growing 7% per year. At current depressed share price, buyback is highly accretive to EPS. Natural deleveraging of 0.4x EBITDA per year absent acquisitions creates further capital return capacity.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="bear-header">Bear Cases</div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">1. CFPB Federal Lawsuit — Regulatory Overhang.</span> CFPB filed federal lawsuit January 2025 alleging "sham investigations" into consumer disputes, seeking injunctions, restitution, and civil monetary penalties. Even if Experian prevails, the regulatory scrutiny creates headline risk, potential conduct remediation costs, and management distraction. Medical debt removal from credit reports and open banking regulations could structurally reduce data assets.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">2. Brazil Macro Headwinds Persist.</span> Interest rates near 15% (SELIC), high consumer indebtedness constraining B2B credit activity. Brazil represented 12.4% of revenue and declined 5.5% YoY. ClearSale acquisition integration temporarily compressing Latin American margins by 240bps. If Brazil's tightening cycle persists, the region could be a drag on group growth for multiple years.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">3. AI Disintermediation Risk — BNPL and Alternative Scores.</span> Fintech competitors like Block, Intuit (Credit Karma), and BNPL providers are building proprietary real-time credit scores from transaction data. While these lack predictive power and regulatory explainability today, they represent a long-tail risk that could gradually chip away at Experian's core market share. Intuit/Credit Karma with massive consumer data could become an existential competitive threat to Consumer Services.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">4. Large Cap Valuation Compression in Rising Rate Environment.</span> Stock already down 34.6% from 52-week high. At $32.5B market cap, Experian trades at 12.6x FY26E EV/EBITDA which is 15% below 5-year average of 17.8x. If rates remain elevated, further multiple compression is possible. Experian carries $5.5B of debt, making it more rate-sensitive than asset-light peers.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">5. Cybersecurity and Data Breach Risk.</span> As custodian of data on over 1 billion consumers and hundreds of millions of businesses globally, any material breach could result in catastrophic legal liabilities, regulatory penalties, loss of client trust, and reputational damage. AI-enabled cyberattacks are escalating in sophistication. Experian's 2026 Data Breach Industry Forecast specifically warns of agentic AI, deepfake job candidates, and cyber break-ins as top threats.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Scale Economies</span> <span class="fw-rating strong">Strong</span><br>
+  Processing 1.1 billion data points monthly from 12,000 contributors creates a self-reinforcing data advantage that reduces the unit cost of each additional query. The cost of building a comparable bureau from scratch is essentially prohibitive. Panmure Liberum notes no major challenger bureaus are emerging. Operating leverage is significant: 30-50bps annual margin expansion on a $9B+ revenue base.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Network Effects</span> <span class="fw-rating strong">Strong</span><br>
+  Classic two-sided network: more lenders contributing data makes the bureau more comprehensive, which attracts more lenders to query it. Consumer side amplified: 208M free members provide permissioned data that enriches the analytical models, attracting more lending partners to the marketplace. The Ascend platform creates B2B network effects as more financial institutions build models on the data.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Counter-Positioning</span> <span class="fw-rating moderate">Moderate</span><br>
+  Fintech disruptors could theoretically build alternative scoring from BNPL/transaction data, but regulatory requirements (FCRA, fair lending laws, model explainability) prevent rapid displacement. Established credit decisioning is considered "too costly, complex, and risky to attempt" to replace. However, open banking regulations could eventually level the playing field.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Switching Costs</span> <span class="fw-rating strong">Strong</span><br>
+  PowerCurve and Ascend decisioning engines are deeply embedded in core banking workflows of Tier 1 institutions. Multi-year B2B contracts. Replacing a credit bureau is considered "a slow, complex, and highly risky operational endeavor" by banking executives. Consumer Services stickiness through expanded product suite and 208M member relationships.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Branding</span> <span class="fw-rating strong">Strong</span><br>
+  One of only three globally recognized credit bureaus. Consumer brand recognition through free credit score products. Fortune's World's Best Workplaces #14. Trust is essential when handling sensitive consumer and commercial data. Brand strength directly translates to consumer marketplace conversion rates.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">6. Cornered Resource</span> <span class="fw-rating strong">Strong</span><br>
+  The proprietary credit database covering 1+ billion consumers and hundreds of millions of businesses is the ultimate cornered resource. Decades of historical credit data that cannot be recreated. Alternative data assets (Cashflow Attributes, Employer Services with 64M active records, vehicle history through AutoCheck). The data compound over time — each additional data point makes the models more accurate.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">7. Process Power</span> <span class="fw-rating moderate">Moderate</span><br>
+  "People First" culture ranked 14th on Fortune's World's Best Workplaces. Ring-fenced innovation hubs granting autonomy to experiment. Brian Cassin's decade-long strategic leadership transforming from pure data vendor to technology platform company. However, process power is less distinctive vs. the data moat.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> Experian is a 5-power business with exceptional strength in Scale Economies, Network Effects, Switching Costs, Branding, and Cornered Resource — all stemming from the irreplaceable proprietary credit data asset and deeply embedded decisioning software. This is one of the strongest 7 Powers profiles of any company in the Theia universe.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Threat of New Entrants</span> <span class="fw-rating low">Low</span><br>
+  Building a credit bureau requires decades of data accumulation, regulatory compliance (FCRA), and trust from 12,000+ data contributors. Capital requirements are massive. No major challenger bureau has emerged. The cost and time to replicate the established network and data infrastructure are formidable barriers.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Bargaining Power of Suppliers</span> <span class="fw-rating low">Low</span><br>
+  Experian's primary "suppliers" are data contributors (lenders, creditors) who provide data as part of the reciprocal bureau model — they must contribute to receive access. Cloud infrastructure from AWS is a competitive market. Engineering talent is the most constrained supplier.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Bargaining Power of Buyers</span> <span class="fw-rating moderate">Moderate</span><br>
+  Large Tier 1 banks have concentrated buying power and sophisticated procurement. However, there are only 3 major credit bureaus globally, and switching is extremely costly. Smaller buyers (mid-market banks, fintechs, consumers) have minimal bargaining power. The software is priced based on the value of predictive accuracy — minor improvements save lenders millions in loan losses.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Threat of Substitutes</span> <span class="fw-rating moderate">Moderate</span><br>
+  BNPL providers building proprietary scores from transaction data, open banking initiatives democratizing data access, and alternative data providers represent a growing substitution risk. However, regulatory requirements for model explainability and the proven predictive power of traditional bureau data limit near-term substitution. VantageScore itself is Experian's offensive play to address alternative scoring.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Competitive Rivalry</span> <span class="fw-rating moderate">Moderate</span><br>
+  A stable oligopoly of three major bureaus (Experian, Equifax, TransUnion) with FICO as the scoring standard. Competition is intense but rational — focused on product innovation, vertical expansion, and geographic growth rather than price wars. Intense pricing competition in D2C marketplace from Intuit/Credit Karma. TransUnion is perceived as slightly behind in cloud infrastructure agility.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> The competitive environment is favorable for Experian — a stable oligopoly with formidable barriers to entry, low supplier power, and limited near-term substitution risk. The primary competitive risks are the gradual erosion of the data moat from open banking/alternative data and the ongoing D2C marketplace battle with Intuit/Credit Karma.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 6: WHAT DRIVES THE STOCK? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<p class="prose">The following are the 6 variables that would move EXPN's share price materially in the next 12 months. These are what analysts build tracking models around and PMs ask about in morning meetings.</p>
+
+<p class="prose"><strong>1. Organic Revenue Growth Rate.</strong> Management guides 6-8% organic + 3% inorganic = 9-11% total. Q3 FY26 delivered 10% constant currency, 8% organic. Acceleration above 8% organic would signal market share gains and validate the vertical expansion strategy; deceleration below 6% would raise growth ceiling concerns and put pressure on the premium multiple relative to Equifax and TransUnion.</p>
+
+<p class="prose"><strong>2. EBIT Margin Progression.</strong> Medium-term target of 30-50bps annual organic expansion. Delivered 100bps constant currency in H1 FY26. Key leverage from Consumer Services scale, cloud completion, and AI productivity gains. Any miss on the margin trajectory would raise questions about investment returns from the multi-year cloud migration and AI spending.</p>
+
+<p class="prose"><strong>3. Consumer Services Growth &amp; Marketplace Monetization.</strong> The fastest-growing segment with highest incremental margins. Insurance marketplace at $100M run rate. Credit card marketplace returning to growth. 208M member base is the strategic asset. Intuit/Credit Karma competition is the key headwind. This is the segment that drives the premium to Equifax/TransUnion.</p>
+
+<p class="prose"><strong>4. Regulatory Environment / CFPB Outcome.</strong> The federal lawsuit outcome, medical debt credit report rules, open banking regulations, and California Delete Act (August 2026) create significant uncertainty. Favorable resolution would remove the major overhang; adverse outcome could require operational changes and material financial penalties.</p>
+
+<p class="prose"><strong>5. Brazil Recovery / Latin America Execution.</strong> 12.4% of revenue, declined 5.5% YoY. ClearSale integration and SELIC rate trajectory are key variables. Recovery to mid-to-high single-digit growth would meaningfully impact the group growth trajectory given Brazil's higher-margin profile.</p>
+
+<p class="prose"><strong>6. Capital Allocation / Buyback Execution.</strong> $1B buyback at current depressed valuation is highly accretive. At 1.8x Net Debt/EBITDA vs. 2.0-2.5x target, significant capacity for buybacks + M&amp;A. Every 1% of shares repurchased adds approximately $0.02 to EPS.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<p class="prose">Experian's revenue can be decomposed into its key business lines using fundamental economic drivers:</p>
+
+<table class="data" style="font-size:10px; margin-bottom:16px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Revenue Line</th>
+      <th style="text-align:left;">Driver 1</th>
+      <th style="text-align:left;">Driver 2</th>
+      <th style="text-align:left;">Driver 3</th>
+      <th style="text-align:left;">= Revenue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>B2B Financial Services</strong></td>
+      <td># of Credit Inquiries</td>
+      <td>x Rev per Inquiry</td>
+      <td>x Cross-sell Rate</td>
+      <td>= Financial Services Rev (~$5.5B)</td>
+    </tr>
+    <tr>
+      <td><strong>B2B Verticals (Health/Auto/Targeting)</strong></td>
+      <td># of Clients</td>
+      <td>x Products per Client</td>
+      <td>x Rev per Product</td>
+      <td>= Verticals Rev (~$1.7B)</td>
+    </tr>
+    <tr>
+      <td><strong>Consumer Subscriptions</strong></td>
+      <td># of Premium Members</td>
+      <td>x ARPU</td>
+      <td>x Retention Rate</td>
+      <td>= Subscription Revenue</td>
+    </tr>
+    <tr>
+      <td><strong>Consumer Marketplace</strong></td>
+      <td># of Free Members (208M)</td>
+      <td>x Marketplace Engagement</td>
+      <td>x Rev per Conversion</td>
+      <td>= Marketplace Revenue</td>
+    </tr>
+    <tr style="font-weight:700; border-top:1px solid #ccc;">
+      <td><strong>Total Revenue</strong></td>
+      <td>B2B Fin Svcs</td>
+      <td>+ B2B Verticals</td>
+      <td>+ Consumer Subs + Mktplace</td>
+      <td>= $7,523M (FY25) / $8,447M (FY26E)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose"><strong>Key leverage drivers:</strong></p>
+<ul style="font-size: 11px; line-height: 1.7; color: #333; margin-left: 20px; margin-bottom: 10px;">
+  <li><strong>B2B Volume Recovery:</strong> Credit inquiry volumes are still below pre-pandemic levels. Every 1% recovery in US lending volumes translates to approximately $55M of incremental B2B revenue at high incremental margins. This is a pure operating leverage story — the data infrastructure is already built and paid for.</li>
+  <li><strong>Consumer ARPU Expansion:</strong> As the marketplace expands from credit cards and personal loans into insurance, mortgages, and banking, revenue per member increases. Growing from approximately $10/member to $15-20/member on the 208M member base would add $1-2B of revenue with minimal incremental cost.</li>
+</ul>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+  <strong>AlphaSense Research Reports</strong> · Subject: Experian PLC (EXPN-GB) · Reports Reviewed: AlphaSense Primer &amp; Deep Dive, FY2025 Earnings Transcripts, FactSet Snapshot, Panmure Liberum Analysis<br>
+  <em>Key themes synthesized from AlphaSense competitive intelligence, management commentary, and industry research.</em>
+</div>
+
+<p class="prose"><strong>Competitive Moat &amp; Data Asset.</strong> Experian's moat stems from highly regulated bureau data that cannot be easily replicated and PowerCurve/Ascend decisioning software embedded into core banking workflows. Industry experts consistently identify the data asset as a formidable barrier to entry with no major challenger bureaus emerging. The true defensive moat lies in deeply embedded decisioning software, not raw credit data alone — Ascend is frequently mispriced as merely an analytical sandbox when it is actually a foundational ecosystem that integrates disparate data silos and locks financial institutions into Experian's broader product suite.</p>
+
+<p class="prose"><strong>AI as Growth Catalyst.</strong> Both management and industry experts view AI as a powerful growth enabler rather than a disintermediation threat. Credit decisioning requires pre-structured, regulated historical data that LLMs cannot generate. Regulatory model explainability requirements slow adoption of unproven AI alternatives. Internally, Experian uses AI coding assistants to maintain flat headcount while delivering 8% organic growth. Product-side: Cashflow Attributes deliver 25% predictive uplift over traditional credit data, EVA virtual assistant has handled 2M+ interactions, and the Experian Assistant for Model Risk Management creates entirely new revenue streams.</p>
+
+<p class="prose"><strong>Market Mispricing.</strong> The market systematically undervalues Experian's defensibility by viewing it as a commoditized data oligopoly, failing to recognize its true moat in deeply embedded decisioning software. Panmure Liberum views the stock as "highly attractive" at approximately 13x EV/EBITDA, 15% below its 12-month rolling average. The Ascend platform's role as a foundational ecosystem — not merely a data query tool — is consistently misunderstood by generalist investors.</p>
+
+<p class="prose"><strong>Culture &amp; Leadership.</strong> "People First" culture, Fortune's World's Best Workplaces #14, 89% employee pride rating. Ring-fenced innovation hubs allow teams to experiment without bureaucratic interference. CEO Brian Cassin has been instrumental in driving the D2C expansion against internal skepticism, transforming Experian from a pure-play data vendor into a technology platform company over his decade-long tenure.</p>
+
+<p class="prose"><strong>Key Investor Questions.</strong> Based on the earnings transcripts and research reports, the questions that would most sharpen conviction on Experian are: (1) What is the timeline for CFPB lawsuit resolution and potential financial exposure? (2) When does Brazil return to mid-to-high single-digit organic growth? (3) Can Consumer Services sustain 10%+ organic growth as data breach headwinds fade? (4) How much margin upside exists beyond the 30-50bps annual target as cloud dual-run costs are fully eliminated? (5) What is the incremental revenue opportunity from VantageScore 4.0 adoption in mortgage origination?</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 9: SENSITIVITY ANALYSIS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Sensitivity Analysis</div>
+
+<!-- Sensitivity Table 1 -->
+<p class="prose"><strong>Sensitivity Table 1: FY2028E Total Revenue ($M) — B2B Organic Growth CAGR (%) vs. Consumer Services Organic Growth CAGR (%)</strong></p>
+<p class="prose"><strong>Current: B2B ~7% organic + Consumer ~10% organic + ~3% inorganic = FY2028E Revenue ~$9,874M</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>B2B Growth \ Consumer Growth</th>
+      <th>5%</th>
+      <th>7.5%</th>
+      <th>10%</th>
+      <th>12.5%</th>
+      <th>15%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>4%</td><td>$8,810</td><td>$8,960</td><td>$9,150</td><td>$9,340</td><td>$9,540</td></tr>
+    <tr><td>5.5%</td><td>$9,080</td><td>$9,230</td><td>$9,430</td><td>$9,620</td><td>$9,820</td></tr>
+    <tr><td>7%</td><td>$9,360</td><td>$9,510</td><td class="base">$9,874</td><td>$9,900</td><td>$10,100</td></tr>
+    <tr><td>8.5%</td><td>$9,640</td><td>$9,790</td><td>$9,990</td><td>$10,190</td><td>$10,390</td></tr>
+    <tr><td>10%</td><td>$9,930</td><td>$10,090</td><td>$10,290</td><td>$10,480</td><td>$10,690</td></tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 2 -->
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 2: FY2028E EBITDA ($M) — Revenue ($M) vs. EBITDA Margin (%)</strong></p>
+<p class="prose"><strong>Current (FY2028E Consensus): Revenue = $9,874M x EBITDA Margin = 36.2% = ~$3,570M EBITDA</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Revenue / EBITDA Margin</th>
+      <th>33.0%</th>
+      <th>34.5%</th>
+      <th>36.2%</th>
+      <th>37.5%</th>
+      <th>39.0%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$9,000M</td><td>$2,970</td><td>$3,105</td><td>$3,258</td><td>$3,375</td><td>$3,510</td></tr>
+    <tr><td>$9,400M</td><td>$3,102</td><td>$3,243</td><td>$3,403</td><td>$3,525</td><td>$3,666</td></tr>
+    <tr><td>$9,874M</td><td>$3,258</td><td>$3,407</td><td class="base">$3,574</td><td>$3,703</td><td>$3,851</td></tr>
+    <tr><td>$10,300M</td><td>$3,399</td><td>$3,554</td><td>$3,729</td><td>$3,863</td><td>$4,017</td></tr>
+    <tr><td>$10,800M</td><td>$3,564</td><td>$3,726</td><td>$3,910</td><td>$4,050</td><td>$4,212</td></tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 3 -->
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 3: Implied Share Price ($) — FY2028E EPS ($) vs. P/E Multiple (x)</strong></p>
+<p class="prose"><strong>Current: FY2028E EPS = $2.12 x 18x P/E = $38.16 implied share price vs. $36.15 current</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>EPS / P/E</th>
+      <th>12x</th>
+      <th>15x</th>
+      <th>18x</th>
+      <th>22x</th>
+      <th>26x</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$1.60</td><td class="base" style="background:#f8d7da;">$19.20</td><td>$24.00</td><td>$28.80</td><td>$35.20</td><td>$41.60</td></tr>
+    <tr><td>$1.85</td><td>$22.20</td><td class="base" style="background:#fff3cd;">$27.75</td><td>$33.30</td><td>$40.70</td><td>$48.10</td></tr>
+    <tr><td>$2.12</td><td>$25.44</td><td>$31.80</td><td class="base">$38.16</td><td>$46.64</td><td>$55.12</td></tr>
+    <tr><td>$2.40</td><td>$28.80</td><td>$36.00</td><td>$43.20</td><td class="base" style="background:#d4edda;">$52.80</td><td>$62.40</td></tr>
+    <tr><td>$2.75</td><td>$33.00</td><td>$41.25</td><td>$49.50</td><td>$60.50</td><td class="base" style="background:#d4edda;">$71.50</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 10: 3-YEAR MODEL — 5 SCENARIOS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios</div>
+
+<p class="prose">All figures in $M unless stated. Modeled FY2026E, FY2027E, FY2028E (FYE March). Exit multiple applied to FY2028E EPS. Current share price: $36.15. Diluted shares: 903.5M. Net Debt: ~$5,122M ($5,485M debt - $363M cash).</p>
+
+<!-- CASE 1: BEAR SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 1: Bear Severe — Regulatory Crackdown + Credit Recession + AI Disruption</div>
+  <div class="case-desc">CFPB lawsuit results in material penalties and operational remediation; US enters credit recession with lending volumes declining 15-20%; Brazil deteriorates further; alternative scoring gains regulatory traction; Consumer marketplace revenue contracts as lenders cut acquisition budgets.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Revenue grows modestly on prior-year momentum but CFPB penalties begin to weigh; Brazil continues to decline. <strong>FY2027</strong> — US credit recession reduces inquiry volumes; Consumer marketplace contracts as lenders pull back on card/loan acquisition; VantageScore adoption stalls. <strong>FY2028</strong> — Trough conditions; revenue barely grows as credit cycle bottoms; margins compress from dual-run costs lingering and CFPB remediation investment.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>B2B Organic Growth</span><span>1% (credit recession)</span></div>
+  <div class="driver-row"><span>Consumer Services Growth</span><span>3% (marketplace contraction)</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>35.0% (margin compression)</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>12x (distressed)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$8,100</td><td>$8,200</td><td>$8,400</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+7.7%</td><td>+1.2%</td><td>+2.4%</td></tr>
+    <tr><td>EBITDA</td><td>$2,800</td><td>$2,850</td><td>$2,940</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>34.6%</td><td>34.8%</td><td>35.0%</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$1.50</td><td>$1.52</td><td>$1.60</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>903.5</td><td>903.5</td><td>903.5</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>--</td><td>--</td><td>12x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>--</td><td>$19.20</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 12x FY2028E EPS of $1.60</div>
+    <div class="exit-price">Implied Share Price: $19.20</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: -46.9% from $36.15</div>
+  </div>
+</div>
+
+<!-- CASE 2: BEAR MILD -->
+<div class="case-block">
+  <div class="case-name">Case 2: Bear Mild — Growth Slows, Margins Disappoint</div>
+  <div class="case-desc">Organic growth decelerates to 4-5% as US credit market stays subdued; Brazil mid-single-digit growth; margin expansion limited to 20bps vs. 30-50bps target due to higher-than-expected cloud dual-run costs and acquisition integration drag; VantageScore adoption slower than expected.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Revenue grows 10% on inorganic contribution but organic disappoints at 5%; Brazil stabilizes but does not recover. <strong>FY2027</strong> — Organic growth remains in the 5% range; Consumer Services grows 6-7% as Intuit/Credit Karma competes aggressively. <strong>FY2028</strong> — Revenue reaches $9.25B but below consensus; margins improve modestly; multiple stays compressed.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>B2B Organic Growth</span><span>5% (below guide)</span></div>
+  <div class="driver-row"><span>Consumer Services Growth</span><span>6% (decelerating)</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>36.0% (below target)</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>15x</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$8,300</td><td>$8,800</td><td>$9,250</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+10.3%</td><td>+6.0%</td><td>+5.1%</td></tr>
+    <tr><td>EBITDA</td><td>$2,930</td><td>$3,130</td><td>$3,330</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>35.3%</td><td>35.6%</td><td>36.0%</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$1.58</td><td>$1.75</td><td>$1.85</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>903.5</td><td>903.5</td><td>903.5</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>--</td><td>--</td><td>15x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>--</td><td>$27.75</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 15x FY2028E EPS of $1.85</div>
+    <div class="exit-price">Implied Share Price: $27.75</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: -23.2% from $36.15</div>
+  </div>
+</div>
+
+<!-- CASE 3: BASE CASE -->
+<div class="case-block">
+  <div class="case-name">Case 3: Base Case — Consensus Execution</div>
+  <div class="case-desc">Management delivers on medium-term framework. 6-8% organic + 3% inorganic. 30-50bps annual margin expansion. Cloud migration complete by FY27. Consumer Services maintains 10%+ growth. Brazil recovers to mid-single-digit. $1B buyback executed at attractive prices. Steady de-rating recovery from current trough.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Consensus execution: revenue $8,447M (+12.3%), EBITDA $3,005M (35.6% margin), EPS $1.64; cloud migration reaches 90% completion. <strong>FY2027</strong> — Organic growth 7-8%; Consumer Services accelerates on insurance marketplace scale; Brazil recovers to mid-single-digit; EBITDA margin 35.9%. <strong>FY2028</strong> — Revenue reaches $9,874M; EBITDA $3,570M; EPS $2.12; cloud dual-run costs fully eliminated; buyback reduces share count.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>B2B Organic Growth</span><span>7% (on guide)</span></div>
+  <div class="driver-row"><span>Consumer Services Growth</span><span>10% (sustained)</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>36.2%</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>18x</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$8,447</td><td>$9,152</td><td>$9,874</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+12.3%</td><td>+8.3%</td><td>+7.9%</td></tr>
+    <tr><td>EBITDA</td><td>$3,005</td><td>$3,287</td><td>$3,570</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>35.6%</td><td>35.9%</td><td>36.2%</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$1.64</td><td>$1.87</td><td>$2.12</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>903.5</td><td>903.5</td><td>903.5</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>18x</td><td>18x</td><td>18x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$29.52</td><td>$33.66</td><td>$38.16</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 18x FY2028E EPS of $2.12</div>
+    <div class="exit-price">Implied Share Price: $38.16</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +5.6% from $36.15</div>
+  </div>
+</div>
+
+<!-- CASE 4: BULL MILD -->
+<div class="case-block">
+  <div class="case-name">Case 4: Bull Mild — VantageScore + D2C Acceleration + Margin Surprise</div>
+  <div class="case-desc">VantageScore 4.0 gains meaningful market share in mortgage origination; Consumer Services accelerates to 12-15% growth driven by insurance marketplace scaling; EBIT margin expansion exceeds target at 60-80bps annually as cloud dual-run costs fade; Brazil recovers to high-single-digit; buyback reduces share count 3%.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Strong execution across all segments; VantageScore gains early traction in mortgage market; insurance marketplace scales past $150M run rate. <strong>FY2027</strong> — Consumer Services growth re-accelerates to 13%+; Brazil recovers; margin expansion exceeds 50bps target. <strong>FY2028</strong> — Revenue exceeds $10.5B; EBITDA margin approaches 38%; buyback accretion visible in EPS; market begins re-rating toward historical average.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>B2B Organic Growth</span><span>8% (above guide)</span></div>
+  <div class="driver-row"><span>Consumer Services Growth</span><span>14% (accelerating)</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>38.1%</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>22x (re-rate toward avg)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$8,600</td><td>$9,500</td><td>$10,500</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+14.3%</td><td>+10.5%</td><td>+10.5%</td></tr>
+    <tr><td>EBITDA</td><td>$3,100</td><td>$3,515</td><td>$4,000</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>36.0%</td><td>37.0%</td><td>38.1%</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$1.72</td><td>$2.05</td><td>$2.40</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>903.5</td><td>903.5</td><td>903.5</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>22x</td><td>22x</td><td>22x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$37.84</td><td>$45.10</td><td>$52.80</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 22x FY2028E EPS of $2.40</div>
+    <div class="exit-price">Implied Share Price: $52.80</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +46.1% from $36.15</div>
+  </div>
+</div>
+
+<!-- CASE 5: BULL SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 5: Bull Severe — Platform Re-Rating + Mortgage Market Disruption</div>
+  <div class="case-desc">VantageScore captures 30%+ of mortgage market, generating $500M+ incremental revenue; Consumer Services reaches $4B revenue; Experian recognized as an AI-powered technology company rather than a legacy data bureau; CFPB lawsuit dismissed; multiple re-rates toward 5-year average of ~18x EV/EBITDA; potential re-listing or ADR creation drives US institutional buying.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Exceptional execution; VantageScore wins major GSE mandates; CFPB lawsuit shows signs of favorable resolution. <strong>FY2027</strong> — Consumer Services growth accelerates to 18%+; D2C revenue approaches $3B; Health vertical exceeds $800M; AI products drive new revenue streams. <strong>FY2028</strong> — Revenue reaches $11.5B; EBITDA margin 40%; Experian re-classified by sell-side as "AI-powered financial technology" rather than "data bureau"; premium re-rating follows.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>B2B Organic Growth</span><span>10% (market share gains)</span></div>
+  <div class="driver-row"><span>Consumer Services Growth</span><span>18% (platform re-acceleration)</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>40.0%</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>26x (premium re-rate)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$8,800</td><td>$10,000</td><td>$11,500</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+17.0%</td><td>+13.6%</td><td>+15.0%</td></tr>
+    <tr><td>EBITDA</td><td>$3,250</td><td>$3,850</td><td>$4,600</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>36.9%</td><td>38.5%</td><td>40.0%</td></tr>
+    <tr><td>EPS (Diluted)</td><td>$1.80</td><td>$2.25</td><td>$2.75</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>903.5</td><td>903.5</td><td>903.5</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>26x</td><td>26x</td><td>26x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$46.80</td><td>$58.50</td><td>$71.50</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 26x FY2028E EPS of $2.75</div>
+    <div class="exit-price">Implied Share Price: $71.50</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +97.8% from $36.15</div>
+  </div>
+</div>
+
+<!-- SVG Bar Chart -->
+<div class="case-chart">
+  <p style="font-size:9px; font-weight:600; margin-bottom:8px;">Implied Share Price by Scenario (FY2028E Exit) vs. Current Price $36.15</p>
+  <svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg" style="width:100%; font-family:Inter,Arial,sans-serif;">
+    <!-- Axes -->
+    <line x1="80" y1="20" x2="80" y2="200" stroke="#ccc" stroke-width="1"/>
+    <line x1="80" y1="200" x2="680" y2="200" stroke="#ccc" stroke-width="1"/>
+    <!-- Y-axis labels (scale: $1 = 2.25px, so $80 = 180px) -->
+    <text x="75" y="204" text-anchor="end" font-size="9" fill="#888">$0</text>
+    <text x="75" y="159" text-anchor="end" font-size="9" fill="#888">$20</text>
+    <text x="75" y="114" text-anchor="end" font-size="9" fill="#888">$40</text>
+    <text x="75" y="69" text-anchor="end" font-size="9" fill="#888">$60</text>
+    <text x="75" y="24" text-anchor="end" font-size="9" fill="#888">$80</text>
+    <!-- Gridlines -->
+    <line x1="80" y1="159" x2="680" y2="159" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="114" x2="680" y2="114" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="69" x2="680" y2="69" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="24" x2="680" y2="24" stroke="#eee" stroke-width="0.5"/>
+    <!-- Bar scale: $1 = 2.25px -->
+    <!-- Bear Severe: $19.20 -> height 43.2px -> y = 200 - 43.2 = 156.8 -->
+    <rect x="110" y="156.8" width="80" height="43.2" fill="#2563eb"/>
+    <text x="150" y="152" text-anchor="middle" font-size="9" fill="#333">$19.20</text>
+    <text x="150" y="214" text-anchor="middle" font-size="8" fill="#555">Bear Severe</text>
+    <!-- Bear Mild: $27.75 -> height 62.4px -> y = 200 - 62.4 = 137.6 -->
+    <rect x="220" y="137.6" width="80" height="62.4" fill="#2563eb"/>
+    <text x="260" y="133" text-anchor="middle" font-size="9" fill="#333">$27.75</text>
+    <text x="260" y="214" text-anchor="middle" font-size="8" fill="#555">Bear Mild</text>
+    <!-- Base: $38.16 -> height 85.9px -> y = 200 - 85.9 = 114.1 -->
+    <rect x="330" y="114.1" width="80" height="85.9" fill="#2563eb"/>
+    <text x="370" y="110" text-anchor="middle" font-size="9" fill="#333">$38.16</text>
+    <text x="370" y="214" text-anchor="middle" font-size="8" fill="#555">Base Case</text>
+    <!-- Bull Mild: $52.80 -> height 118.8px -> y = 200 - 118.8 = 81.2 -->
+    <rect x="440" y="81.2" width="80" height="118.8" fill="#2563eb"/>
+    <text x="480" y="77" text-anchor="middle" font-size="9" fill="#333">$52.80</text>
+    <text x="480" y="214" text-anchor="middle" font-size="8" fill="#555">Bull Mild</text>
+    <!-- Bull Severe: $71.50 -> height 160.9px -> y = 200 - 160.9 = 39.1 -->
+    <rect x="550" y="39.1" width="80" height="160.9" fill="#2563eb"/>
+    <text x="590" y="35" text-anchor="middle" font-size="9" fill="#333">$71.50</text>
+    <text x="590" y="214" text-anchor="middle" font-size="8" fill="#555">Bull Severe</text>
+    <!-- Current price line: $36.15 = 81.3px -> y = 200 - 81.3 = 118.7 -->
+    <line x1="80" y1="118.7" x2="680" y2="118.7" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="685" y="122" font-size="9" fill="#e74c3c">$36.15 (Current)</text>
+    <!-- Prob-wtd PV: $35.47 = 79.8px -> y = 200 - 79.8 = 120.2 -->
+    <line x1="80" y1="120.2" x2="680" y2="120.2" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="3,2"/>
+    <text x="685" y="128" font-size="8" fill="#f39c12">$35.47 PV@12%</text>
+  </svg>
+  <p style="font-size:8px; color:#888; margin-top:4px;">Probability weights: 5% / 20% / 50% / 20% / 5% · Prob-wtd avg $39.73 discounted @12% CoC = $35.47 · Current: $36.15 · Implied downside: -1.9%</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 11: COMPS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">11. Comparable Companies</div>
+
+<div class="section-title">Credit and Information Services Peers</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>Mkt Cap (£M)</th>
+      <th>EV (£M)</th>
+      <th>TEV/EBITDA</th>
+      <th class="est-col">EV/EBIT FY1</th>
+      <th class="est-col">P/E FY1</th>
+      <th class="est-col">P/E FY2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Experian</td><td>EXPN-GB</td>
+      <td>£23,895</td><td>£27,864</td><td>13.0x</td><td>18.4x</td><td>20.4x</td><td>18.0x</td>
+    </tr>
+    <tr>
+      <td>Enento Group</td><td>ENENTO-FI</td>
+      <td>£294</td><td>£416</td><td>11.0x</td><td>14.7x</td><td>13.9x</td><td>12.6x</td>
+    </tr>
+    <tr>
+      <td>Fair Isaac</td><td>FICO-US</td>
+      <td>£17,801</td><td>£20,057</td><td>26.3x</td><td>26.7x</td><td>24.4x</td><td>19.1x</td>
+    </tr>
+    <tr>
+      <td>Equifax</td><td>EFX-US</td>
+      <td>£16,673</td><td>£20,504</td><td>14.5x</td><td>23.6x</td><td>21.7x</td><td>18.1x</td>
+    </tr>
+    <tr>
+      <td>TransUnion</td><td>TRU-US</td>
+      <td>£10,463</td><td>£13,530</td><td>11.9x</td><td>19.4x</td><td>15.2x</td><td>13.1x</td>
+    </tr>
+    <tr>
+      <td>First Advantage</td><td>FA-US</td>
+      <td>£1,565</td><td>£2,933</td><td>9.9x</td><td>27.4x</td><td>10.0x</td><td>8.5x</td>
+    </tr>
+    <tr>
+      <td>Info Services A</td><td>ISC-CA</td>
+      <td>£427</td><td>£500</td><td>10.5x</td><td>14.5x</td><td>15.1x</td><td>14.5x</td>
+    </tr>
+    <tr>
+      <td>Moody's</td><td>MCO-US</td>
+      <td>£57,670</td><td>£60,799</td><td>20.4x</td><td>23.2x</td><td>26.3x</td><td>23.4x</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Average</td><td>--</td>
+      <td>--</td><td>--</td><td>14.7x</td><td>21.0x</td><td>18.4x</td><td>15.9x</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Median</td><td>--</td>
+      <td>--</td><td>--</td><td>12.5x</td><td>21.3x</td><td>17.8x</td><td>16.2x</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Named Competitors</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>Mkt Cap (£M)</th>
+      <th>EV (£M)</th>
+      <th>TEV/EBITDA</th>
+      <th class="est-col">EV/EBIT FY1</th>
+      <th class="est-col">P/E FY1</th>
+      <th class="est-col">P/E FY2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Experian</td><td>EXPN-GB</td>
+      <td>£23,895</td><td>£27,864</td><td>13.0x</td><td>18.4x</td><td>20.4x</td><td>18.0x</td>
+    </tr>
+    <tr>
+      <td>Fair Isaac</td><td>FICO-US</td>
+      <td>£17,801</td><td>£20,057</td><td>26.3x</td><td>26.7x</td><td>24.4x</td><td>19.1x</td>
+    </tr>
+    <tr>
+      <td>TransUnion</td><td>TRU-US</td>
+      <td>£10,463</td><td>£13,530</td><td>11.9x</td><td>19.4x</td><td>15.2x</td><td>13.1x</td>
+    </tr>
+    <tr>
+      <td>Equifax</td><td>EFX-US</td>
+      <td>£16,673</td><td>£20,504</td><td>14.5x</td><td>23.6x</td><td>21.7x</td><td>18.1x</td>
+    </tr>
+    <tr>
+      <td>Gen Digital</td><td>GEN-US</td>
+      <td>£8,625</td><td>£14,392</td><td>8.5x</td><td>10.7x</td><td>7.4x</td><td>6.7x</td>
+    </tr>
+    <tr>
+      <td>Intuit</td><td>INTU-US</td>
+      <td>£76,716</td><td>£79,037</td><td>16.7x</td><td>19.3x</td><td>15.8x</td><td>13.9x</td>
+    </tr>
+    <tr>
+      <td>Omnicom</td><td>OMC-US</td>
+      <td>£16,257</td><td>£18,878</td><td>8.7x</td><td>9.6x</td><td>7.0x</td><td>6.2x</td>
+    </tr>
+    <tr>
+      <td>RELX</td><td>REL-GB</td>
+      <td>£45,981</td><td>£52,880</td><td>14.0x</td><td>17.4x</td><td>18.1x</td><td>16.4x</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Average</td><td>--</td>
+      <td>--</td><td>--</td><td>14.2x</td><td>18.1x</td><td>16.3x</td><td>13.9x</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Median</td><td>--</td>
+      <td>--</td><td>--</td><td>13.5x</td><td>18.8x</td><td>17.0x</td><td>15.2x</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:10px;">Experian trades at 13.0x LTM EV/EBITDA, which is below the credit/info services peer median of 12.5x on a forward basis and roughly in line with the broader peer group. The stock trades at a significant discount to FICO (26.3x), Moody's (20.4x), and Equifax (14.5x) on LTM EV/EBITDA, which appears justified given Experian's lower growth profile relative to FICO but appears unwarranted relative to Equifax and TransUnion given Experian's superior margin profile, higher organic growth, and stronger competitive position. On a FY1 P/E basis, Experian's 20.4x is in line with the peer average of 18.4x but below Moody's (26.3x) and Equifax (21.7x). The current multiple represents a significant de-rating from the 5-year average P/E of 35.9x and EV/EBITDA of 17.8x, suggesting the market is pricing in a permanent de-rating that may be overdone given the strength of the competitive position and margin expansion trajectory.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<div class="verdict">
+  <p><strong>(i) Market Cap Bucket: $32.5B = Large Cap (>$10B)</strong> <span class="fw-rating weak">Weak</span></p>
+  <p style="margin-top:4px;">Outside Theia's sweet spot. At $32.5B, Experian is a FTSE 100 constituent and a well-established large-cap name. The stock is owned by every major global equity fund and passive index tracker. Theia's informational advantage diminishes significantly at this market cap — the company is too large and too liquid for small-cap-focused analytical edge to create alpha.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(ii) Analyst Coverage: 18 Broker Contributors</strong> <span class="fw-rating weak">Weak</span></p>
+  <p style="margin-top:4px;">Well-covered by sell-side. With 18 analysts publishing estimates, Experian is among the most thoroughly covered companies in the European financial data space. Informational edge is extremely difficult to achieve — consensus estimates are well-calibrated, and management provides detailed guidance. The coverage gap, if any, exists in the market's underappreciation of the Ascend platform's ecosystem lock-in and VantageScore's disruptive potential, but this is a narrative mispricing rather than an informational one.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iii) Thesis Alignment: Credit Data &amp; Financial Infrastructure</strong> <span class="fw-rating adjacent">Adjacent</span></p>
+  <p style="margin-top:4px;">Experian is core financial infrastructure — credit bureaus power lending decisions, financial inclusion, and digital financial services globally. The consumer marketplace directly participates in internet finance by connecting consumers with credit products digitally. VantageScore and alternative data initiatives advance financial inclusion by scoring 33M previously unscoreable consumers. However, Experian has no blockchain/crypto component. Rating: Adjacent (not Core because no digital asset exposure; not Tangential because credit infrastructure is foundational to the internet finance ecosystem).</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iv) Outcome Dispersion: $19 – $72</strong> <span class="fw-rating moderate">Moderate</span></p>
+  <p style="margin-top:4px;">The 5-scenario model shows implied prices ranging from $19.20 (Bear Severe, -46.9%) to $71.50 (Bull Severe, +97.8%) from the current $36.15. This is a 3.7x spread between bear and bull severe — meaningful but narrower than typical Theia targets because Experian's large-cap, mature business model has more predictable cash flows. The probability-weighted fair value of $35.47 (discounted at 12% CoC) is within 2% of the current $36.15, suggesting the stock is approximately fairly valued on a probability-weighted basis.</p>
+</div>
+
+<div style="background: #f8d7da; border-left: 4px solid #721c24; padding: 12px 14px; margin: 16px 0; font-size: 11.5px;">
+  <strong>VERDICT: No — Monitor for Dislocation</strong><br><br>
+  Experian fails Theia's core screening criteria on two of four dimensions: the $32.5B market cap is far above Theia's small-cap sweet spot, and 18-analyst coverage means the informational edge is minimal. The stock is approximately fairly valued at current levels — the probability-weighted fair value of $35.47 versus the current $36.15 implies negligible upside on a risk-adjusted basis. However, Experian is a world-class franchise with a 5-power competitive moat, exceptional cash generation ($2B+ annual FCF), and multiple secular tailwinds (VantageScore, AI, financial inclusion, vertical expansion). If a material dislocation occurred — for example, an adverse CFPB ruling causing a 30%+ drawdown, or a broader credit cycle recession pushing the stock below $25 — the risk/reward could become compelling even for a large-cap name. Add to watchlist and monitor for event-driven entry.
+</div>
+
+<p class="prose" style="font-size:10px; font-style:italic; margin-top:6px;">Note: Theia seeks small-cap companies that are not well covered and are strongly aligned on the core internet finance thesis with wide outcome dispersion. EXPN scores: Market Cap (Weak) | Coverage (Weak) | Thesis (Adjacent) | Dispersion (Moderate)</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 13: RISK SUMMARY -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">13. Risk Summary</div>
+
+<table class="risk-table">
+  <tr>
+    <th>Risk Category</th>
+    <th>Description</th>
+    <th>Severity</th>
+    <th>Mitigant</th>
+  </tr>
+  <tr>
+    <td>CFPB Regulatory Litigation</td>
+    <td>Federal lawsuit alleging "sham investigations" into consumer disputes; seeking injunctions, restitution, civil penalties. Headline risk and management distraction even if Experian prevails.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>Experian vigorously defending; characterizing CFPB demands as contrary to FCRA. Prior Boost investigation was dropped. Industry-wide issue affecting all bureaus.</td>
+  </tr>
+  <tr>
+    <td>Data Breach / Cybersecurity</td>
+    <td>Custodian of data on 1B+ consumers. AI-enabled cyberattacks escalating. Material breach would be catastrophic for trust, legal liabilities, and regulatory penalties.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>Defense-in-depth strategy. Global Security Office. Simulated exercises. ISO 27001 certification. However, no defense is absolute against sophisticated attacks.</td>
+  </tr>
+  <tr>
+    <td>Brazil Macro Headwinds</td>
+    <td>SELIC rate near 15%. Consumer indebtedness high. B2B credit activity constrained. ClearSale integration compressing margins by 240bps.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Counter-cyclical Consumer Services buffer (Limpa Nome debt resolution). ClearSale integration expected to complete within 12 months. Easier comps ahead.</td>
+  </tr>
+  <tr>
+    <td>AI Disintermediation</td>
+    <td>BNPL providers and fintechs building proprietary scores from transaction data. Open banking could democratize data access. LLM-based credit analysis emerging.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Regulatory barriers (model explainability, FCRA compliance). Bureau data has proven predictive superiority. AI is currently an enabler, not a threat to the core business.</td>
+  </tr>
+  <tr>
+    <td>D2C Competition (Intuit/Credit Karma)</td>
+    <td>Intuit's massive consumer platform could weaponize data for marketplace competition. Credit Karma has scale advantages in user acquisition.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Experian's proprietary credit data feeds unique consumer insights. 208M member installed base. Product innovation (No Ding Decline, EVA, insurance marketplace).</td>
+  </tr>
+  <tr>
+    <td>Multiple Compression</td>
+    <td>Stock down 34.6% from 52-week high. If rates stay elevated, further de-rating possible. Trading 15% below 5-year average EV/EBITDA.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Trading at 12.6x FY26E EV/EBITDA vs. 17.8x 5-year average. FCF yield provides floor. Progressive dividend (1.78%) and $1B buyback support.</td>
+  </tr>
+  <tr>
+    <td>Medical Debt / Regulatory Changes</td>
+    <td>Medical debt removal from credit reports; California Delete Act (Aug 2026); open banking rules could structurally reduce data assets.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Medical debt is a relatively small data set. Experian has historically adapted to regulatory changes and found new data sources to maintain predictive accuracy.</td>
+  </tr>
+  <tr>
+    <td>Customer Concentration</td>
+    <td>Tier 1 global banks represent disproportionate share of B2B revenue. Concentrated buying power in procurement.</td>
+    <td><span class="fw-rating low">Low</span></td>
+    <td>Diversified across financial services, health, automotive, targeting. No single client >5% of revenue. Expanding mid-market and fintech relationships.</td>
+  </tr>
+  <tr>
+    <td>FX Risk</td>
+    <td>33% of revenue non-USD. GBP reporting with USD functional operations. Currency volatility can distort reported growth.</td>
+    <td><span class="fw-rating low">Low</span></td>
+    <td>Natural hedging through globally distributed cost base. FX impact on revenue and EBIT largely offset. Management guides FX neutral for FY26.</td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 14: APPENDIX — PYTHON CODE -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section appendix">14. Appendix — Python Code</div>
+
+<p class="prose">Sensitivity table generator and scenario model code for analyst customization:</p>
+
+<div class="section-title">Sensitivity Table Generator</div>
+<div class="code-block">
+import numpy as np
+import pandas as pd
+
+# ─── SENSITIVITY TABLE 1: FY2028E Revenue ($M) ───
+# B2B Organic Growth CAGR vs. Consumer Services Organic Growth CAGR
+b2b_base = 5469  # FY25 B2B revenue $M
+consumer_base = 2054  # FY25 Consumer revenue $M
+inorganic_add = 440  # ~3% annual inorganic contribution cumulative
+years = 3
+
+b2b_growth = [0.04, 0.055, 0.07, 0.085, 0.10]
+consumer_growth = [0.05, 0.075, 0.10, 0.125, 0.15]
+
+rows = []
+for bg in b2b_growth:
+    row = []
+    for cg in consumer_growth:
+        b2b_rev = b2b_base * (1 + bg) ** years
+        cons_rev = consumer_base * (1 + cg) ** years
+        total = b2b_rev + cons_rev + inorganic_add
+        row.append(round(total, 0))
+    rows.append(row)
+
+df1 = pd.DataFrame(rows,
+    index=[f"B2B {g*100:.1f}%" for g in b2b_growth],
+    columns=[f"Consumer {g*100:.1f}%" for g in consumer_growth])
+print("FY2028E Total Revenue ($M) — B2B vs. Consumer Organic Growth")
+print(df1.to_string())
+
+# ─── SENSITIVITY TABLE 2: FY2028E EBITDA ($M) ───
+revenues = [9000, 9400, 9874, 10300, 10800]
+ebitda_margins = [0.33, 0.345, 0.362, 0.375, 0.39]
+
+rows2 = []
+for rev in revenues:
+    row = []
+    for m in ebitda_margins:
+        row.append(round(rev * m, 0))
+    rows2.append(row)
+
+df2 = pd.DataFrame(rows2,
+    index=[f"${x:,}M" for x in revenues],
+    columns=[f"{m*100:.1f}%" for m in ebitda_margins])
+print("\nFY2028E EBITDA ($M)")
+print(df2.to_string())
+
+# ─── SENSITIVITY TABLE 3: Implied Share Price ($) ───
+eps_values = [1.60, 1.85, 2.12, 2.40, 2.75]
+pe_multiples = [12, 15, 18, 22, 26]
+
+rows3 = []
+for eps in eps_values:
+    row = []
+    for pe in pe_multiples:
+        row.append(round(eps * pe, 2))
+    rows3.append(row)
+
+df3 = pd.DataFrame(rows3,
+    index=[f"${eps:.2f}" for eps in eps_values],
+    columns=[f"{pe}x" for pe in pe_multiples])
+print("\nImplied Share Price ($)")
+print(df3.to_string())
+</div>
+
+<div class="section-title" style="margin-top:16px;">5-Scenario Model Generator</div>
+<div class="code-block">
+# ─── EXPN 5-SCENARIO 3-YEAR MODEL ───
+scenarios = {
+    "Bear Severe": {
+        "rev":   [8100, 8200, 8400],
+        "ebitda_mgn": [0.346, 0.348, 0.350],
+        "eps":   [1.50, 1.52, 1.60],
+        "exit_pe": 12,
+    },
+    "Bear Mild": {
+        "rev":   [8300, 8800, 9250],
+        "ebitda_mgn": [0.353, 0.356, 0.360],
+        "eps":   [1.58, 1.75, 1.85],
+        "exit_pe": 15,
+    },
+    "Base Case": {
+        "rev":   [8447, 9152, 9874],
+        "ebitda_mgn": [0.356, 0.359, 0.362],
+        "eps":   [1.64, 1.87, 2.12],
+        "exit_pe": 18,
+    },
+    "Bull Mild": {
+        "rev":   [8600, 9500, 10500],
+        "ebitda_mgn": [0.360, 0.370, 0.381],
+        "eps":   [1.72, 2.05, 2.40],
+        "exit_pe": 22,
+    },
+    "Bull Severe": {
+        "rev":   [8800, 10000, 11500],
+        "ebitda_mgn": [0.369, 0.385, 0.400],
+        "eps":   [1.80, 2.25, 2.75],
+        "exit_pe": 26,
+    },
+}
+
+current_price = 36.15
+diluted_shares = 903.48  # M
+years = ["FY2026E", "FY2027E", "FY2028E"]
+
+print(f"{'Case':<16} {'FY28E EPS':>10} {'Exit P/E':>10} {'Implied':>10} {'vs Current':>12}")
+print("-" * 60)
+
+for name, s in scenarios.items():
+    eps_exit = s["eps"][-1]
+    mult = s["exit_pe"]
+    implied_price = eps_exit * mult
+    upside = (implied_price / current_price - 1) * 100
+    print(f"{name:<16} ${eps_exit:>8.2f} {mult:>9}x ${implied_price:>9.2f} {upside:>+10.1f}%")
+
+    for i, yr in enumerate(years):
+        rev = s["rev"][i]
+        ebitda = rev * s["ebitda_mgn"][i]
+        eps = s["eps"][i]
+        print(f"  {yr}: Rev ${rev}M | EBITDA ${ebitda:.0f}M ({s['ebitda_mgn'][i]*100:.1f}%) | EPS ${eps:.2f}")
+
+# ─── PROBABILITY-WEIGHTED FAIR VALUE ───
+weights = {"Bear Severe": 0.05, "Bear Mild": 0.20, "Base Case": 0.50,
+           "Bull Mild": 0.20, "Bull Severe": 0.05}
+prices  = {"Bear Severe": 19.20, "Bear Mild": 27.75, "Base Case": 38.16,
+           "Bull Mild": 52.80, "Bull Severe": 71.50}
+coc = 0.12  # 12% cost of capital (lower for large cap)
+
+wtd_avg = sum(weights[k] * prices[k] for k in weights)
+pv = wtd_avg / (1 + coc)
+print(f"\nProbability-Weighted Avg (FY2028E): ${wtd_avg:.2f}")
+print(f"Discounted at {coc*100:.0f}% CoC:           ${pv:.2f}")
+print(f"Current Price:                         ${current_price:.2f}")
+print(f"Implied Upside to PV:                 {(pv/current_price-1)*100:+.1f}%")
+</div>
+
+<div class="source-note" style="margin-top:16px;">
+  Experian PLC | Preliminary Memo for Theia · Generated April 15, 2026 · Data: FactSet (Apr 14, 2026), AlphaSense Primer &amp; Deep Dive, Panmure Liberum Analysis, FY2025 Earnings Transcripts · FYE March · Not investment advice.
+</div>
+
+</body>
+</html>
