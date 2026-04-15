@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fair Isaac Corporation | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 8px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child, table.comps td:nth-child(2) { text-align: left; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-style: italic; background: #fafbfc; font-weight: 600; border-top: 1px solid #eee; }
+table.comps th.est-col { color: #2563eb; }
+
+table.risk-table { font-size: 10px; width: 100%; margin: 8px 0; }
+table.risk-table th { text-align: left; font-weight: 600; padding: 4px 6px; background: #f4f6f9; border-bottom: 1px solid #ddd; }
+table.risk-table td { padding: 4px 6px; border-bottom: 1px solid #eee; vertical-align: top; }
+table.risk-table td:first-child { font-weight: 600; width: 25%; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.alphasense-box { background: #e8f4fd; border-left: 4px solid #2563eb; padding: 10px 14px; margin: 10px 0; font-size: 10px; line-height: 1.5; }
+
+.bull-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #155724; border-bottom: 1.5px solid #c3e6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #721c24; border-bottom: 1.5px solid #f5c6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+
+.bull-item, .bear-item { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Fair Isaac Corporation | Preliminary Memo for Theia</div>
+
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">Fair Isaac Corporation (NYSE: FICO) is the dominant provider of predictive analytics and credit scoring solutions for the global financial services industry. Founded in 1956 by engineer Bill Fair and mathematician Earl Isaac in San Jose, California, FICO pioneered the application of data science to consumer credit decisioning. The company's flagship product, the FICO Score, serves as the undisputed standard measure of consumer credit risk in the United States, utilized by 90% of top U.S. lenders and systemically embedded across mortgage underwriting, credit card issuance, auto lending, mortgage insurance, capital requirements, and mortgage-backed securities (MBS) ratings. The company operates through two segments: Scores (59% of FY2025 revenue, $1.17B) and Software (41%, $822M). The Scores segment is a near-monopoly toll booth on consumer lending &mdash; FICO does not own or store consumer credit data but provides the proprietary analytic algorithms that sit on top of data housed by the three major U.S. credit bureaus (Equifax, Experian, TransUnion), generating usage-based royalty revenue on every score pull. The Software segment delivers the FICO Platform, an integrated, modular cloud architecture for real-time decisioning, fraud detection, account origination, and customer management, serving over 150 enterprise clients across financial services, telecommunications, and insurance.</p>
+
+<p class="prose">FICO is undergoing two simultaneous transformations that define the investment thesis. First, the Scores business is a "coiled spring" &mdash; FICO has aggressively raised the unit price of its mortgage origination scores from approximately $5 to $10 per co-borrower pull, driving B2B Scores revenue up 27% year-over-year in fiscal 2025 despite persistently suppressed mortgage origination volumes caused by elevated interest rates. If mortgage volumes recover to historical norms while FICO retains its newly established pricing, the revenue uplift would be enormous. Second, the Software segment is transitioning from legacy on-premises applications to a cloud-native SaaS model centered on the FICO Platform. Platform Annual Recurring Revenue (ARR) reached $303M with 33% year-over-year growth and a 122% dollar-based net retention rate as of Q1 FY2026, now representing 40% of total Software ARR of $766M. Key product innovations include FICO Score 10T (incorporating trended credit data, adopted by lenders representing over $377 billion in annual originations), the Mortgage Direct License Program (bypassing credit bureau markups), and the FICO Focused Foundation Model (FFM), a domain-specific generative AI built on curated financial data that delivers 35% performance lifts with 1,000x fewer computing resources than conventional models. Management's capital allocation is highly disciplined and shareholder-friendly: FICO generated a record $739M in free cash flow in fiscal 2025 (+22% YoY) and returned $1.41B through share repurchases at an average price of $1,693/share, funded by maintaining leverage between 2.0x and 3.0x net debt to EBITDA.</p>
+
+<p class="prose"><strong>Key facts:</strong> Founded 1956 &middot; Headquarters Bozeman, MT &middot; CEO Will Lansing (since 2012) &middot; CFO Steven P. Weber &middot; CTO &amp; CPO William Waid &middot; Employees ~3,810 &middot; NYSE: FICO &middot; FY end September &middot; Market Cap $23,895M &middot; CUSIP 303250104 &middot; ISIN US3032501047 &middot; 230+ issued patents, ~80 pending</p>
+
+<!-- SECTION 2: FINANCIAL SUMMARY -->
+<div class="memo-section">2. Theia FactSet Summary</div>
+
+<div class="header">
+  <div>
+    <h1>Fair Isaac Corporation</h1>
+    <span class="ticker">FICO &middot; NYSE &middot; ISIN US3032501047</span>
+  </div>
+  <div class="date">FactSet Snapshot &middot; April 14, 2026</div>
+</div>
+
+<div class="price-bar">
+  <div>
+    <span class="label">Price (Apr 14, 2026) </span>
+    <span class="price">$1,007.28</span>
+  </div>
+  <div><span class="label">1M </span><span class="chg">-8.88%</span></div>
+  <div><span class="label">3M </span><span class="chg">-34.81%</span></div>
+  <div><span class="label">6M </span><span class="chg">-37.02%</span></div>
+  <div><span class="label">YTD </span><span class="chg">-39.03%</span></div>
+  <div><span class="label">1Y </span><span class="chg">-46.42%</span></div>
+  <div><span class="label">52-Wk Range </span><span style="font-weight:600;">$909.00 &ndash; $2,217.60</span></div>
+</div>
+
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats &mdash; Trading</div>
+    <table class="kv" style="font-size:10px;">
+      <tr><td>Exchange / Ticker</td><td>NYSE &middot; FICO</td></tr>
+      <tr><td>Price (Apr 14, 2026)</td><td>$1,007.28</td></tr>
+      <tr><td>30-Day Avg Volume</td><td>387K shares/day</td></tr>
+      <tr><td>Float %</td><td>96.98%</td></tr>
+      <tr><td>Short Interest</td><td>6.02% of float</td></tr>
+      <tr><td>Days to Cover</td><td>3.7 days</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev" style="font-size:10px;">
+      <tr><td>Basic Shares (Common)</td><td>23.72M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">+ Stock Comp / Options</td><td style="font-size:9px;">0.29M</td></tr>
+      <tr><td>= Fully Diluted Shares</td><td>24.01M</td></tr>
+      <tr><td>Share Price</td><td>$1,007.28</td></tr>
+      <tr><td>= Fully Dil. Market Cap</td><td>$24,186M</td></tr>
+      <tr><td>+ Consolidated Debt</td><td>$3,197M</td></tr>
+      <tr><td>&minus; Cash &amp; Equivalents</td><td>($162M)</td></tr>
+      <tr class="total"><td>= Enterprise Value</td><td>$27,221M</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="section-title">Current Valuation</div>
+<div style="border: 1px solid #eee; border-radius: 4px; margin-bottom: 8px;">
+  <div class="val-grid">
+    <div class="val-cell"><div class="val-label">Mkt Cap</div><div class="val-num">$23,895M</div><div class="val-sub">Basic shares</div></div>
+    <div class="val-cell"><div class="val-label">EV</div><div class="val-num">$27,221M</div><div class="val-sub">$3.2B debt, $162M cash</div></div>
+    <div class="val-cell"><div class="val-label">P/Sales (FY26E)</div><div class="val-num">9.8x</div><div class="val-sub">Rev $2,486M</div></div>
+    <div class="val-cell"><div class="val-label">EV/EBITDA (FY26E)</div><div class="val-num">18.2x</div><div class="val-sub">EBITDA $1,499M</div></div>
+    <div class="val-cell"><div class="val-label">P/FCF (FY26E)</div><div class="val-num">23.8x</div><div class="val-sub">FCF $1,003M</div></div>
+    <div class="val-cell"><div class="val-label">FCF Yield</div><div class="val-num">4.2%</div><div class="val-sub">$1,003M / $23,895M</div></div>
+  </div>
+  <div style="border-top: 1px solid #eee;">
+    <div class="val-grid">
+      <div class="val-cell"><div class="val-label">Fully Dil. Mkt Cap</div><div class="val-num">$24,186M</div><div class="val-sub">24.01M dil. shares</div></div>
+      <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">8.88%</div><div class="val-sub">FactSet estimate</div></div>
+      <div class="val-cell"><div class="val-label">Beta (3Y Adj)</div><div class="val-num">1.18</div><div class="val-sub">Adjusted beta</div></div>
+      <div class="val-cell"><div class="val-label">Avg Analyst Rating</div><div class="val-num">OW</div><div class="val-sub">19 brokers &middot; 1.48</div></div>
+      <div class="val-cell"><div class="val-label">Cons. Target Price</div><div class="val-num">$1,707</div><div class="val-sub">+69% upside</div></div>
+      <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">May 06</div><div class="val-sub">Q2 FY2026</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-title">Valuation Multiples</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Metric</th>
+      <th>5Yr Avg</th>
+      <th>Sep '23</th>
+      <th>Sep '24</th>
+      <th>Sep '25</th>
+      <th class="est">Sep '26E</th>
+      <th class="est">Sep '27E</th>
+      <th class="est">Sep '28E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="8">PRICE MULTIPLES</td></tr>
+    <tr><td>P/E</td><td>52.3x</td><td>51.3x</td><td>95.0x</td><td>56.4x</td><td class="est">24.7x</td><td class="est">19.4x</td><td class="est">16.3x</td></tr>
+    <tr><td>P/Sales</td><td>15.6x</td><td>14.6x</td><td>28.4x</td><td>18.5x</td><td class="est">9.8x</td><td class="est">8.4x</td><td class="est">7.3x</td></tr>
+    <tr><td>P/Book Value</td><td>NM</td><td>NM</td><td>NM</td><td>NM</td><td class="est">NM</td><td class="est">NM</td><td class="est">NM</td></tr>
+    <tr><td>P/FCF</td><td>45.4x</td><td>47.4x</td><td>80.2x</td><td>49.7x</td><td class="est">26.6x</td><td class="est">20.1x</td><td class="est">13.4x</td></tr>
+    <tr class="section-row"><td colspan="8">EV MULTIPLES</td></tr>
+    <tr><td>EV/Sales</td><td>16.6x</td><td>15.8x</td><td>29.5x</td><td>19.6x</td><td class="est">10.9x</td><td class="est">9.4x</td><td class="est">8.2x</td></tr>
+    <tr><td>EV/EBITDA</td><td>38.7x</td><td>36.4x</td><td>67.7x</td><td>41.1x</td><td class="est">18.2x</td><td class="est">15.0x</td><td class="est">12.7x</td></tr>
+    <tr><td>EV/EBIT</td><td>40.1x</td><td>37.2x</td><td>69.0x</td><td>41.7x</td><td class="est">18.8x</td><td class="est">15.7x</td><td class="est">13.1x</td></tr>
+  </tbody>
+</table>
+
+<div class="section-title">Revenue Exposure (FY2025 Actuals, FYE September)</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Business Unit</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Segment</th><th>$M</th><th>% Rev</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Scores</td><td>$1,169</td><td>58.7%</td><td>+27.1%</td></tr>
+        <tr><td style="padding-left:10px; font-size:9px;">B2B Scores</td><td style="font-size:9px;">$949</td><td style="font-size:9px;">47.7%</td><td style="font-size:9px;">+33.4%</td></tr>
+        <tr><td style="padding-left:10px; font-size:9px;">B2C Scores</td><td style="font-size:9px;">$220</td><td style="font-size:9px;">11.0%</td><td style="font-size:9px;">+5-8%</td></tr>
+        <tr><td>Software</td><td>$822</td><td>41.3%</td><td>+3.1%</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>$1,991</td><td>100%</td><td>+15.9%</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:8px; color:#aaa; margin-top:4px;">Software ARR $766M (Platform $303M +33%, Non-Platform $463M -8%). Platform NRR 122%.</p>
+  </div>
+  <div>
+    <div class="sub-label">By Geography</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Region</th><th>$M</th><th>% Rev</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>United States</td><td>$1,533</td><td>77.0%</td><td>+22.3%</td></tr>
+        <tr><td>Americas (ex-US)</td><td>$199</td><td>10.0%</td><td>+1.7%</td></tr>
+        <tr><td>EMEA</td><td>$160</td><td>8.0%</td><td>-5.7%</td></tr>
+        <tr><td>Asia Pacific</td><td>$99</td><td>5.0%</td><td>+0.6%</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>$1,991</td><td>100%</td><td>+15.9%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="section-title">Financials</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">$M (FY Sep)</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th class="est">FY2026E</th>
+      <th class="est">FY2027E</th>
+      <th class="est">FY2028E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">INCOME STATEMENT</td></tr>
+    <tr><td>Revenue</td><td>$1,514</td><td>$1,718</td><td>$1,991</td><td class="est">$2,486</td><td class="est">$2,906</td><td class="est">$3,303</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Revenue Growth %</td><td>+7.7%</td><td>+13.5%</td><td>+15.9%</td><td class="est">+24.9%</td><td class="est">+16.9%</td><td class="est">+13.7%</td></tr>
+    <tr><td>Gross Profit</td><td>$1,201</td><td>$1,368</td><td>$1,637</td><td class="est">$2,101</td><td class="est">$2,533</td><td class="est">$3,120</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Gross Margin %</td><td>79.4%</td><td>79.7%</td><td>82.2%</td><td class="est">84.5%</td><td class="est">87.2%</td><td class="est">94.5%</td></tr>
+    <tr><td>EBITDA</td><td>$656</td><td>$747</td><td>$951</td><td class="est">$1,499</td><td class="est">$1,816</td><td class="est">$2,138</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">EBITDA Margin %</td><td>43.3%</td><td>43.5%</td><td>47.8%</td><td class="est">60.3%</td><td class="est">62.5%</td><td class="est">64.7%</td></tr>
+    <tr><td>EBIT</td><td>$641</td><td>$734</td><td>$936</td><td class="est">$1,450</td><td class="est">$1,738</td><td class="est">$2,079</td></tr>
+    <tr><td>Net Income</td><td>$429</td><td>$513</td><td>$652</td><td class="est">$993</td><td class="est">$1,236</td><td class="est">$1,490</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Net Income Margin %</td><td>28.4%</td><td>29.9%</td><td>32.7%</td><td class="est">40.0%</td><td class="est">42.5%</td><td class="est">45.1%</td></tr>
+    <tr><td>EPS (Dil)</td><td>$16.93</td><td>$20.45</td><td>$26.54</td><td class="est">$37.40</td><td class="est">$46.41</td><td class="est">$53.39</td></tr>
+    <tr class="section-row"><td colspan="7">CASH FLOW</td></tr>
+    <tr><td>Operating Cash Flow</td><td>$469</td><td>$633</td><td>$779</td><td class="est">$964</td><td class="est">$1,204</td><td class="est">$1,388</td></tr>
+    <tr><td>CapEx</td><td>($4)</td><td>($26)</td><td>($39)</td><td class="est">($39)</td><td class="est">($43)</td><td class="est">($39)</td></tr>
+    <tr><td>Free Cash Flow</td><td>$465</td><td>$607</td><td>$739</td><td class="est">$1,003</td><td class="est">$1,262</td><td class="est">$1,572</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">FCF Margin %</td><td>30.7%</td><td>35.4%</td><td>37.1%</td><td class="est">40.3%</td><td class="est">43.4%</td><td class="est">47.6%</td></tr>
+    <tr class="section-row"><td colspan="7">BALANCE SHEET</td></tr>
+    <tr><td>Cash &amp; ST Investments</td><td>$137</td><td>$151</td><td>$134</td><td class="est">$362</td><td class="est">$640</td><td class="est">&mdash;</td></tr>
+    <tr><td>Total Debt</td><td>$2,306</td><td>$2,728</td><td>$3,663</td><td class="est">&mdash;</td><td class="est">&mdash;</td><td class="est">&mdash;</td></tr>
+    <tr><td>Shareholders' Equity</td><td>($688)</td><td>($963)</td><td>($1,746)</td><td class="est">($1,835)</td><td class="est">($1,475)</td><td class="est">($788)</td></tr>
+  </tbody>
+</table>
+
+<div class="section-title">Valuation Summary</div>
+<p class="prose">FICO currently trades at 18.2x FY2026E EV/EBITDA and 9.8x FY2026E P/Sales &mdash; a dramatic de-rating from its 5-year average EV/EBITDA of 38.7x and P/Sales of 15.6x. The stock is down 55% from its 52-week high of $2,217.60, caught in a perfect storm of broader tech multiple compression, elevated short interest (6.02%), and consensus fears about VantageScore competition and FHFA regulatory risk. However, the fundamental picture has never been stronger: FY2025 revenue grew 16% with 37% FCF margins, and FY2026E consensus projects 25% revenue growth with 40%+ FCF margins. On a FY2028E basis, the valuation compresses to 12.7x EV/EBITDA and 13.4x P/FCF &mdash; exceptionally cheap for a company with 80%+ gross margins, near-monopoly positioning, and expanding operating leverage. The consensus target of $1,707 (19 brokers) implies 69% upside. FICO's negative book value (driven by aggressive buybacks exceeding cumulative earnings) makes P/BV meaningless; FCF is the correct valuation metric for this capital-light, cash-generative business.</p>
+
+<div class="source-note">Source: FactSet snapshot export, April 14, 2026. Estimates reflect consensus of 19 broker contributors. FYE September.</div>
+
+<!-- SECTION 3: BULL & BEAR CASES -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Cases</div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Mortgage "Coiled Spring" Unleashes Massive Revenue.</span> FICO has doubled mortgage score pricing from ~$5 to ~$10 per pull while mortgage origination volumes remain 40-50% below historical norms due to elevated interest rates. Industry observers describe this as a "coiled spring" &mdash; when interest rates decline and mortgage volumes recover to trend ($3-4T annually), FICO will process surging volumes at substantially higher price points. A mortgage normalization at current pricing could add $500M+ in incremental annual Scores revenue, driving massive incremental margin expansion given the near-zero marginal cost of score delivery. This is not in consensus estimates, which assume no material rate environment improvement.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">FICO Score 10T Becomes the Industry Standard.</span> FICO Score 10T, which incorporates trended credit data for rent, utilities, and telecommunications payments, has already been adopted by lenders representing $377 billion in annual originations. As FHFA mandates the transition from tri-merge to bi-merge credit reporting and GSEs build standardized LLPA grids for Score 10T, adoption should accelerate dramatically. Score 10T enables lenders to increase mortgage approvals by 5% without adding risk and reduce delinquencies by 17% &mdash; a value proposition that justifies premium pricing. As 10T becomes the default, FICO locks in its scoring monopoly for another generation.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">FICO Platform Drives Software Re-Rating.</span> Platform ARR of $303M growing 33% with 122% NRR represents a high-quality SaaS business hidden inside a credit scoring company. As the Platform reaches critical mass (now 40% of Software ARR) and non-platform revenue declines, the Software segment's margin profile should converge toward the Scores segment's 88% operating margin. Record ACV bookings of $38M in Q1 FY2026 (TTM $119M, +36%) suggest accelerating enterprise demand. If the market begins to separately value the Platform business at SaaS multiples (20-30x ARR), the implied sum-of-parts valuation exceeds $2,500/share.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Aggressive Buybacks Compound Per-Share Economics.</span> FICO's capital allocation is formulaic and highly shareholder-friendly: management targets 2-3x net debt/EBITDA and directs all excess FCF to share repurchases. In fiscal 2025 alone, FICO repurchased 833,000 shares for $1.41B at an average price of $1,693/share. With the stock now at $1,007, FICO can retire significantly more shares per dollar of FCF. A new $1.5B repurchase program was authorized in February 2026. At current prices, $1.5B would retire ~1.5M shares (~6% of float), materially accelerating per-share FCF growth. Over three years, buybacks could shrink diluted shares from 24M to under 20M.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">International Expansion and New Use Cases.</span> FICO has launched localized scores in Kenya, Ukraine/Poland, and is expanding BNPL scoring (FICO Score 10 BNPL and 10T BNPL). The UltraFICO Score partnership with Plaid leverages consumer-permissioned bank data for bureau-agnostic risk assessment. These initiatives extend FICO's scoring model beyond the U.S. mortgage market into global consumer lending, open banking, and emerging financial inclusion markets &mdash; a multi-billion dollar TAM expansion that is currently generating zero revenue attribution in consensus models.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="bear-header">Bear Cases</div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">VantageScore at $1 Erodes Pricing Power.</span> VantageScore 4.0, owned by Equifax, Experian, and TransUnion, has dropped its mortgage origination price to $0.99-$1.00 per score &mdash; a 90% discount to FICO's $10. While operational complexities and LLPA uncertainty have slowed adoption, the price gap creates a powerful financial incentive for lenders and credit bureaus to accelerate the transition. If FHFA's "lender choice" policy takes effect and GSEs publish standardized VantageScore LLPA grids, large lenders could begin migrating, potentially eroding FICO's B2B Scores revenue by 10-20% over 3-5 years. FICO's aggressive pricing has also antagonized the credit bureaus, who are its primary distribution partners.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">FHFA "Lender Choice" Undermines Scoring Monopoly.</span> The FHFA has announced policies permitting mortgage originators to choose between FICO Score, FICO Score 10T, or VantageScore 4.0 for loans delivered to Fannie Mae and Freddie Mac. FICO management argues this "lender choice" model will drive a "race to the bottom" in underwriting standards through adverse selection and gaming, but if regulators proceed, it would fundamentally break FICO's de facto monopoly in the conforming mortgage market. Even the threat of this policy shift has contributed to the stock's 55% decline from its highs.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Regulatory Pricing Constraints.</span> FICO faces heightened regulatory scrutiny regarding the transparency and fairness of credit score pricing charged to residential mortgage borrowers. If new governmental actions cap or constrain the fees that can be charged for credit scores, FICO's ability to implement further price increases &mdash; the primary growth driver for Scores revenue &mdash; would be severely limited, potentially capping revenue growth at low-single-digits plus volume.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Software Execution Risk and Competition.</span> While the FICO Platform is growing, the Software segment overall grew only 3% in FY2025 as legacy on-premises revenue declines offset platform gains. The segment's 28-30% operating margin is structurally lower than Scores' 88% due to heavy cloud hosting, R&D, and personnel costs. Competitors including Nice Actimize, Experian, Pegasystems, and SAS compete in fraud detection, origination, and customer management. Expert calls note FICO's software marketing struggles against nimbler competitors, and leadership instability in the software division has been flagged as a concern.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Negative Equity and Leverage Risk.</span> FICO's aggressive buyback program has resulted in negative shareholders' equity of ($1.75B) and total debt of $3.2B (weighted average interest rate 5.22%). In a sustained downturn where Scores revenue declines materially, the company's ability to service debt while maintaining buybacks could be constrained. The $1.0B private placement of 6.25% Senior Notes in March 2026 demonstrates continued reliance on debt markets. If credit markets tighten or FICO's credit profile deteriorates, the leveraged capital structure could shift from accretive to destructive.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Scale Economies</span> <span class="fw-rating strong">Strong</span><br>
+  FICO's Scores business is one of the purest scale economy businesses in existence. The algorithms and models are developed once (high fixed cost) and then applied to every credit decision at near-zero marginal cost. Revenue of $1.17B on Scores with an 88% operating margin means the incremental cost of processing an additional score pull is essentially zero &mdash; the "product" is a mathematical output delivered electronically. The Software segment also benefits from scale economics as the cloud platform is built once and serves 150+ enterprise clients, with customer acquisition and transaction volume scaling across a centralized code base. FICO's R&amp;D spend (~$160M) is amortized over a $2B revenue base, and the 5-year revenue CAGR of 9% demonstrates consistent leverage improvement. The combination of near-zero marginal cost scoring and a platformized software business creates one of the highest operating leverage profiles in enterprise software.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Network Effects</span> <span class="fw-rating moderate">Moderate</span><br>
+  FICO exhibits systemic network effects through its embedded position in the financial infrastructure. As more lenders use FICO Scores, the score becomes more universally understood and trusted, which drives secondary market acceptance (MBS ratings, PMI pricing, capital requirements all reference FICO Scores), which in turn makes it harder for lenders to use alternative scores. The FICO Score is effectively a "language" that the entire lending ecosystem speaks &mdash; loan officers, underwriters, regulators, investors, and insurers all understand what a 720 FICO Score means. This creates a coordination problem for competitors: VantageScore must convince not just lenders but also insurers, rating agencies, regulators, and secondary market participants to adopt a new "language" simultaneously. The FICO Platform exhibits weaker network effects through its ecosystem of pre-built connectors, analytics models, and the Marketplace, where customers share and deploy decision rulesets.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Counter-Positioning</span> <span class="fw-rating strong">Strong</span><br>
+  FICO's counter-positioning is most evident against the credit bureaus themselves. Equifax, Experian, and TransUnion collectively own VantageScore and have every incentive to replace FICO's scoring monopoly. However, they cannot do so quickly because: (a) they would need to convince the entire secondary market (GSEs, MBS investors, PMI companies) to accept VantageScore, which lacks FICO's through-the-cycle historical performance data spanning the Great Recession; (b) large banks remain highly conservative, viewing FICO's compliance reliability as non-negotiable; (c) the FHFA has been significantly delayed in publishing standardized LLPA grids for VantageScore due to the complexity of achieving risk parity with FICO models. The bureaus face a classic counter-positioning dilemma: aggressively promoting VantageScore at $1 destroys their own revenue from FICO score distribution (which they mark up from $4.95 to $10+), while FICO's Direct License Program further undermines their margin by bypassing them entirely.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Switching Costs</span> <span class="fw-rating strong">Strong</span><br>
+  Switching from FICO Scores involves massive operational complexity. Lenders would need to: (a) rebuild their entire credit decisioning infrastructure around a new score; (b) recalibrate risk models, pricing tiers, and capital allocation frameworks; (c) obtain regulatory approval for new scoring models in many jurisdictions; (d) address secondary market uncertainty &mdash; the value of a VantageScore-underwritten mortgage-backed security is unknown until standardized LLPA grids are published and tested; (e) accept transition risk during the migration period. Industry experts note that even with VantageScore at $1 vs. FICO at $10, the operational complexities make complete transition a multi-year, if not multi-decade, process. For the Software segment, switching costs are high for enterprise clients who have integrated the FICO Platform into their real-time decisioning workflows, deployed custom analytics models, and trained staff on FICO tools.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Branding</span> <span class="fw-rating strong">Strong</span><br>
+  The FICO Score is one of the most recognized financial brands in America. Over 200 million consumers have a FICO Score, and the term "FICO Score" is virtually synonymous with "credit score" in the public consciousness. This consumer brand creates reflexive demand &mdash; borrowers ask lenders for their FICO Score, not their "credit score," creating pull-through demand from the consumer side. For lenders, using FICO Scores is a reputational safe harbor: no CRO will be fired for relying on FICO, but adopting an unproven alternative creates career risk. The brand also supports the myFICO.com B2C subscription business (~$220M revenue). FICO was "Named a Leader in 2026 Gartner Magic Quadrant for Decision Intelligence Platforms," reinforcing the brand in enterprise software as well.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">6. Cornered Resource</span> <span class="fw-rating strong">Strong</span><br>
+  FICO's most important cornered resource is its historical performance data. FICO is the only independent analytics provider with known, predictable through-the-cycle performance spanning complete economic cycles, including the Great Recession. This historical track record is fundamental to secondary market acceptance: MBS investors, PMI companies, and rating agencies have decades of empirical evidence linking FICO Scores to default rates. VantageScore lacks this depth of through-the-cycle data. Additionally, FICO's portfolio of 230+ issued patents and ~80 pending applications protects its analytic innovations. The FICO Focused Foundation Model (FFM) &mdash; a domain-specific generative AI delivering 35% performance lifts with 1,000x fewer compute resources &mdash; represents a new category of cornered intellectual property. CEO Will Lansing is widely praised for masterful pricing strategy and disciplined capital allocation, though experts note his understanding of the Software division is less nuanced.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">7. Process Power</span> <span class="fw-rating moderate">Moderate</span><br>
+  FICO has developed sophisticated processes for score model development, validation, and deployment that span decades of institutional knowledge. The company's ability to develop scoring models that pass regulatory scrutiny, maintain predictive accuracy across economic cycles, and satisfy the demands of thousands of lenders simultaneously reflects deep process expertise. The Analytics Workbench and Decision Modeler tools codify much of this institutional knowledge into reusable frameworks. However, process power is moderate rather than strong because the underlying mathematical techniques (logistic regression, machine learning) are well-understood by competitors, and the primary moat comes from data and switching costs rather than proprietary processes.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> FICO is a 5-power business with genuine strength in Scale Economies (near-zero marginal cost scoring), Counter-Positioning (bureaus cannot economically displace FICO), Switching Costs (massive operational complexity of migrating scoring infrastructure), Branding (consumer recognition and institutional trust), and Cornered Resource (through-the-cycle historical data, patents, AI IP). Network Effects and Process Power are moderate amplifiers. This is one of the strongest 7 Powers profiles in all of financial technology &mdash; the combination of systemic embeddedness, regulatory moats, and pricing power creates a business that is exceptionally difficult to disrupt.</p>
+
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Threat of New Entrants</span> <span class="fw-rating low">Low</span><br>
+  Entering the credit scoring market requires: (a) decades of historical performance data that only accumulates through actual lending cycles; (b) regulatory acceptance from federal agencies (FHFA, CFPB, OCC); (c) secondary market adoption from GSEs, MBS investors, PMI companies, and rating agencies; (d) integration with all three major credit bureaus; (e) a patent portfolio protecting scoring methodologies; and (f) a consumer brand that borrowers and lenders trust. The only credible challenger is VantageScore, which was founded in 2006 by the three credit bureaus themselves &mdash; entities with billions of dollars and direct control over the data. Even with these advantages, VantageScore has failed to meaningfully penetrate FICO's mortgage scoring monopoly after nearly 20 years. No startup or tech company could replicate these barriers. In Software, barriers are lower but still substantial: enterprise financial institutions require years of proven reliability and regulatory compliance before adopting new decisioning platforms.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Bargaining Power of Suppliers</span> <span class="fw-rating moderate">Moderate</span><br>
+  FICO's primary "suppliers" are the three major credit bureaus (Equifax, Experian, TransUnion), which house the consumer credit data that FICO's algorithms process. This creates an unusual supplier dynamic: the bureaus are simultaneously FICO's distribution partners, customers, and competitors (through VantageScore). The bureaus have historically earned substantial margins by marking up FICO Scores from $4.95 to $10+ before selling them to lenders. FICO's Direct License Program, launched in October 2025, is designed to bypass this markup by allowing tri-merge resellers to calculate and distribute FICO Scores directly. This has created significant friction with the bureaus, who are "actively working to protect their own margins." Supplier power is moderate &mdash; the bureaus cannot currently refuse to supply FICO Scores to lenders who demand them, but the adversarial relationship introduces distribution risk. For the Software segment, cloud infrastructure (AWS, Azure) suppliers have low bargaining power.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Bargaining Power of Buyers</span> <span class="fw-rating low">Low</span><br>
+  FICO's buyers (lenders, credit card issuers, auto finance companies) have limited bargaining power because: (a) FICO Scores are the only score accepted by the GSEs for conforming mortgage underwriting, making them non-discretionary for mortgage originators; (b) the cost of FICO Scores relative to the value of the lending decision is trivial ($10 per score on a $400K mortgage = 0.0025% of loan value); (c) switching to VantageScore involves massive operational complexity and secondary market risk, as discussed; (d) buyers cannot credibly threaten to walk away during pricing negotiations. FICO has demonstrated this pricing power empirically: it doubled mortgage score prices from ~$5 to ~$10, and lender demand remained essentially unchanged because the scores are embedded in regulatory-mandated workflows. The B2C segment has higher buyer power (consumers can choose not to subscribe to myFICO.com), but it represents only 19% of Scores revenue.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Threat of Substitutes</span> <span class="fw-rating moderate">Moderate</span><br>
+  VantageScore 4.0 is the primary substitute threat. While it has not penetrated the conforming mortgage market meaningfully, it has established dominant positions in credit card and auto lending. The FHFA's announced transition to bi-merge reporting and "lender choice" policies, if implemented, would formally legitimize VantageScore as a substitute for mortgage origination scoring for the first time. The practical threat is moderated by several factors: VantageScore lacks FICO's through-the-cycle performance data, LLPA grids have not been published, secondary market acceptance is uncertain, and industry experts predict the transition will be "gradual &mdash; taking years or decades." Alternative data scoring (using bank account data, rent payments, utility bills) represents a longer-term substitution risk, though FICO is actively addressing this with Score 10T, UltraFICO (with Plaid), and its FFM generative AI. Rating: Moderate rather than Low because the regulatory framework is actively evolving in ways that could enable substitution.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Competitive Rivalry</span> <span class="fw-rating moderate">Moderate</span><br>
+  In credit scoring, competitive rivalry is intensifying. The credit bureaus' decision to slash VantageScore pricing to $0.99-$1.00 represents aggressive competitive behavior, even if adoption has been slow. FICO has responded with the Direct License Program and accelerated Score 10T adoption, creating friction with its own distribution partners. This is a "cold war" competitive dynamic rather than active market share erosion. In the Software segment, rivalry is more conventional: FICO competes against Nice Actimize (fraud), Experian (decisioning), Pegasystems (process automation), SAS (analytics), and Palantir (enterprise analytics) across multiple product categories. The FICO Platform's composable architecture and domain-specific focus provide differentiation, but the software market is intensely competitive and FICO must continuously innovate to maintain its "gold standard" position in fraud detection (Falcon) and decisioning.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> FICO's five-force structure is highly favorable in the Scores segment: low threat of entry, low buyer power, and systemic switching costs create a near-monopoly position with extraordinary pricing power. The moderate ratings for supplier power (bureau friction), substitution threat (VantageScore + regulatory risk), and competitive rivalry (software competition) represent the primary structural risks. The Scores segment alone would rate among the most advantaged businesses in financial technology; the Software segment faces more typical enterprise competitive dynamics.</p>
+
+<!-- SECTION 6: WHAT DRIVES THE STOCK? -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<p class="prose">The following are the 6 variables that would move FICO's share price materially in the next 12 months:</p>
+
+<p class="prose"><strong>1. Mortgage Origination Volume and Interest Rate Path.</strong> FICO's B2B Scores revenue is fundamentally levered to mortgage origination activity. Each 25bp decline in 30-year mortgage rates increases refinance volumes meaningfully, and each refinance generates 2-3 FICO Score pulls at ~$10 each. Consensus estimates assume mortgage volumes remain suppressed; any positive inflection (rate cuts, housing policy changes) would drive immediate upside to Scores revenue with near-100% flow-through to operating income. The MBA Mortgage Applications Index and weekly rate data are the highest-frequency indicators. <strong>Bullish:</strong> Fed cuts 75-100bp by end of 2026. <strong>Bearish:</strong> Rates remain elevated through 2027.</p>
+
+<p class="prose"><strong>2. VantageScore Competitive Dynamics and FHFA Policy.</strong> The market's single largest concern about FICO is the VantageScore threat. Any FHFA announcement regarding LLPA grid publication timelines, lender choice implementation dates, or GSE credit score requirements would be a material stock-moving event. The absence of news is incrementally bullish &mdash; delays in VantageScore implementation extend FICO's monopoly window. Conversely, a concrete FHFA timeline for VantageScore acceptance in conforming mortgages would be a significant negative catalyst. <strong>Bullish:</strong> FHFA delays VantageScore integration indefinitely. <strong>Bearish:</strong> GSE LLPA grids published for VantageScore.</p>
+
+<p class="prose"><strong>3. Scores Pricing Sustainability.</strong> FICO doubled mortgage score prices from ~$5 to ~$10 in recent years. The sustainability of this pricing &mdash; whether lenders passively absorb it, whether regulators intervene, and whether the price gap to VantageScore ($1) creates an irresistible switching incentive &mdash; is the central analytical debate. Each quarterly earnings call will be scrutinized for commentary on pricing realization, lender pushback, and regulatory developments. <strong>Bullish:</strong> No regulatory pricing constraints; lenders accept $10+ pricing. <strong>Bearish:</strong> Congressional or CFPB action to cap score fees.</p>
+
+<p class="prose"><strong>4. Software Platform ARR Growth and Margin Trajectory.</strong> Platform ARR of $303M growing 33% with 122% NRR is the hidden growth engine within FICO. Acceleration above 33% or expansion of NRR above 125% would signal that the Platform is achieving escape velocity. Record ACV bookings ($38M in Q1, TTM $119M) suggest strong momentum. If the Software segment can demonstrate margin expansion toward 35-40% (from 28%), it would validate the SaaS transition thesis. <strong>Bullish:</strong> Platform ARR exceeds $350M; NRR expands to 130%+. <strong>Bearish:</strong> Platform growth decelerates below 25%; non-platform erosion accelerates.</p>
+
+<p class="prose"><strong>5. Share Repurchase Velocity.</strong> At $1,007/share, FICO's $1.5B buyback authorization can retire ~1.5M shares (~6% of float). Management has demonstrated willingness to use leverage (2-3x net debt/EBITDA target) to fund buybacks. The velocity and average price of repurchases directly impacts per-share FCF growth. Any acceleration in buyback activity at these depressed prices would be a strong positive signal. <strong>Bullish:</strong> Management executes full $1.5B buyback at ~$1,000/share. <strong>Bearish:</strong> Buybacks slow due to debt capacity constraints.</p>
+
+<p class="prose"><strong>6. Broader Tech/Growth Multiple Environment.</strong> FICO's 55% decline from its 52-week high is partly attributable to the broader de-rating of high-multiple growth stocks. With a beta of 1.18, FICO is correlated to overall market sentiment toward technology and growth equities. A rotation back into growth (driven by rate cuts or earnings beats) would disproportionately benefit FICO given the magnitude of the drawdown. <strong>Bullish:</strong> Growth rotation; rates decline. <strong>Bearish:</strong> Continued multiple compression; rising rates.</p>
+
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS? -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<p class="prose">FICO's revenue can be decomposed into fundamental economic drivers:</p>
+
+<table class="data" style="font-size:10px; margin-bottom:16px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Revenue Line</th>
+      <th style="text-align:left;">Driver 1</th>
+      <th style="text-align:left;">Driver 2</th>
+      <th style="text-align:left;">Driver 3</th>
+      <th style="text-align:left;">= Revenue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>B2B Scores</strong></td>
+      <td>Score Pulls (#M)</td>
+      <td>&times; Avg Price/Pull ($)</td>
+      <td>&times; Mix (Mtg vs CC vs Auto)</td>
+      <td>= B2B Scores ($949M)</td>
+    </tr>
+    <tr>
+      <td><strong>B2C Scores</strong></td>
+      <td>myFICO Subscribers (#)</td>
+      <td>&times; Avg Subscription $/mo</td>
+      <td>+ Channel Partners</td>
+      <td>= B2C Scores ($220M)</td>
+    </tr>
+    <tr>
+      <td><strong>Software &mdash; Platform</strong></td>
+      <td>Platform ARR ($303M)</td>
+      <td>&times; NRR (122%)</td>
+      <td>+ New Logo ACV</td>
+      <td>= Platform Revenue</td>
+    </tr>
+    <tr>
+      <td><strong>Software &mdash; Non-Platform</strong></td>
+      <td>Legacy ARR ($463M)</td>
+      <td>&times; Retention (~92%)</td>
+      <td>&minus; Platform Migrations</td>
+      <td>= Non-Platform Revenue</td>
+    </tr>
+    <tr>
+      <td><strong>Total Revenue</strong></td>
+      <td>B2B + B2C Scores</td>
+      <td>+ Platform</td>
+      <td>+ Non-Platform</td>
+      <td>= $1,991M (FY25) / $2,486M (FY26E)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose"><strong>Leverage analysis:</strong> The two highest-leverage drivers are: (1) <em>Mortgage Origination Volumes</em> &mdash; each $100B increase in annual mortgage origination volume generates approximately $15-20M in incremental B2B Scores revenue (volume &times; pulls per origination &times; $10/pull), which flows through at ~88% operating margin and near-100% incremental FCF margin given the zero marginal cost of score delivery. If mortgage originations return from ~$2T to their $3.5T historical average, the revenue uplift could exceed $300M annually. (2) <em>Score Pricing</em> &mdash; FICO has raised mortgage score prices from ~$5 to ~$10 per pull. Each additional $1 increase in average score price across ~95M annual mortgage-related pulls generates ~$95M in incremental revenue at near-100% margin. Pricing has been the primary revenue driver over the past three years, more than offsetting flat-to-declining volumes. The combination of pricing and volume leverage on a near-zero-cost product is what makes FICO's Scores business one of the highest operating leverage businesses in technology.</p>
+
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+  <strong>AlphaSense Research Reports</strong> &middot; Subject: Fair Isaac Corporation (FICO) &middot; Reports Reviewed: Company Primer, Business Deep Dive, Earnings Transcripts (Q1-Q4 FY2025, Q1 FY2026), Raymond James Conference Transcript, Expert Calls<br>
+  <em>Key themes synthesized from AlphaSense competitive intelligence, management commentary, and expert network research.</em>
+</div>
+
+<p class="prose"><strong>Systemic Entrenchment: The Deepest Moat in Financial Technology.</strong> The AlphaSense research emphasizes that FICO's moat is not a government-conferred monopoly but rather the unmatched predictive accuracy of its models combined with systemic entrenchment across underwriting, mortgage insurance, capital requirements, and MBS ratings. Global regulatory models and capital planning infrastructure are fundamentally built around FICO's algorithms. Industry experts highlight that replacing FICO is "exceptionally difficult because the entire financial infrastructure is built around it." The score is relied upon not just by lenders but by insurers, rating agencies, regulators, and secondary market participants &mdash; creating a coordination problem for any competitor that extends far beyond the direct lender relationship.</p>
+
+<p class="prose"><strong>Misunderstood Data Relationship and Distribution Strategy.</strong> A frequently misunderstood aspect of FICO's business is its relationship with consumer information. FICO does not own or store consumer credit data; it purely provides the analytic algorithms that sit on top of data housed by its customers and the bureaus. Furthermore, market participants sometimes misunderstand the friction between FICO and the credit bureaus regarding distribution and pricing. The Direct License Program launched in October 2025 allows tri-merge resellers (Xactus, MeridianLink, Cotality, Ascend) to calculate and distribute FICO Scores directly, eliminating the bureaus' $4.95-to-$10 markup. This strategic shift effectively eliminates the bureaus' ability to heavily mark up the score, providing vital pricing transparency and cost savings directly to mortgage lenders while creating significant friction with FICO's traditional distribution partners.</p>
+
+<p class="prose"><strong>AI as Competitive Reinforcement, Not Disruption.</strong> The AlphaSense deep dive reveals that AI advancements are enhancing rather than threatening FICO's competitive position. The FICO Focused Foundation Model (FFM) is a domain-specific generative AI built on curated financial data rather than broad internet-scale training sets, specifically designed to address regulatory concerns about accuracy, hallucinations, and accountability. The FFM delivers more than 35% performance lifts in transaction analytic models (e.g., fraud detection) while requiring up to 1,000 times fewer computing resources than conventional generative AI models. FICO is also researching "agentic" AI systems that leverage blockchain technology for immutable audit trails, ensuring that autonomous agents operate within tightly constrained and auditable parameters &mdash; critical for regulated financial environments. With 230+ patents and ~80 pending applications, these AI innovations are heavily protected intellectual property.</p>
+
+<p class="prose"><strong>The VantageScore Threat: Real but Slow.</strong> Expert calls from former bureau executives, mortgage industry veterans, and data science leaders paint a consistent picture: VantageScore's $1 pricing creates a compelling financial incentive to switch, but the operational complexities make the transition excruciatingly slow. Key findings include: (a) large banks remain "highly conservative, primarily sticking with FICO due to its rich historical data and compliance reliability"; (b) secondary market acceptance is unknown &mdash; no one knows how MBS investors will price VantageScore-underwritten loans; (c) LLPA grids for VantageScore have been "significantly delayed" because GSEs must develop separate grids ensuring risk parity with FICO; (d) the credit bureaus' $1 pricing is widely viewed as "a temporary marketing strategy" to break FICO's monopoly rather than a sustainable price point; (e) experts predict a "competitive duopoly" will emerge over 5-10 years rather than FICO displacement. The bear case is not zero FICO revenue but rather 10-20% market share erosion over a multi-year period.</p>
+
+<p class="prose"><strong>Key Investor Questions.</strong> Based on the AlphaSense research and expert interviews, the questions that would most sharpen conviction on FICO are: (1) When will FHFA publish standardized LLPA grids for VantageScore 4.0, and what is the realistic timeline for lender adoption once grids are available? (2) What is the true price elasticity of FICO's mortgage scores &mdash; at what price point does lender behavior actually change? (3) Can the FICO Platform achieve 40%+ operating margins as it scales, or will cloud hosting costs create a permanent margin ceiling below Scores-level profitability? (4) How does FICO's Direct License Program impact the company's relationship with the credit bureaus, and could bureaus retaliate by restricting data access or favoring VantageScore in other channels? (5) What is the realistic international revenue opportunity for FICO scoring models in markets without established credit infrastructure?</p>
+
+<!-- SECTION 9: SENSITIVITY ANALYSIS -->
+<div class="memo-section">9. Sensitivity Analysis</div>
+
+<p class="prose"><strong>Sensitivity Table 1: FY2028E B2B Scores Revenue ($M) &mdash; Annual Mortgage Origination Volume ($T) vs. Average FICO Score Price Per Pull ($)</strong></p>
+<p class="prose"><strong>Current: ~$2.0T originations, ~$10/pull, ~95M annual mortgage pulls &rarr; ~$950M B2B Scores revenue (FY2025 actual $949M)</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Orig Vol ($T) / Price</th>
+      <th>$8</th>
+      <th>$10</th>
+      <th>$12</th>
+      <th>$14</th>
+      <th>$16</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$1.5T</td><td>$855</td><td>$1,069</td><td>$1,283</td><td>$1,497</td><td>$1,711</td></tr>
+    <tr><td>$2.0T</td><td>$1,045</td><td>$1,306</td><td>$1,567</td><td>$1,829</td><td>$2,090</td></tr>
+    <tr><td>$2.5T</td><td>$1,235</td><td>$1,544</td><td class="base">$1,852</td><td>$2,161</td><td>$2,469</td></tr>
+    <tr><td>$3.0T</td><td>$1,425</td><td>$1,781</td><td>$2,137</td><td>$2,493</td><td>$2,849</td></tr>
+    <tr><td>$3.5T</td><td>$1,615</td><td>$2,019</td><td>$2,422</td><td>$2,826</td><td>$3,229</td></tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 2: FY2028E Total Free Cash Flow ($M) &mdash; Total Revenue ($M) vs. FCF Margin (%)</strong></p>
+<p class="prose"><strong>Current (FY2028E Consensus): Revenue = $3,303M &times; FCF Margin = 47.6% = ~$1,572M FCF</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Revenue / FCF Margin</th>
+      <th>35%</th>
+      <th>40%</th>
+      <th>45%</th>
+      <th>50%</th>
+      <th>55%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$2,500M</td><td>$875</td><td>$1,000</td><td>$1,125</td><td>$1,250</td><td>$1,375</td></tr>
+    <tr><td>$2,800M</td><td>$980</td><td>$1,120</td><td>$1,260</td><td>$1,400</td><td>$1,540</td></tr>
+    <tr><td>$3,303M</td><td>$1,156</td><td>$1,321</td><td>$1,486</td><td class="base">$1,572</td><td>$1,817</td></tr>
+    <tr><td>$3,800M</td><td>$1,330</td><td>$1,520</td><td>$1,710</td><td>$1,900</td><td>$2,090</td></tr>
+    <tr><td>$4,500M</td><td>$1,575</td><td>$1,800</td><td>$2,025</td><td>$2,250</td><td>$2,475</td></tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 3: Implied Share Price ($) &mdash; P/FCF Multiple (x) vs. FY2028E FCF/Share ($)</strong></p>
+<p class="prose"><strong>Current: FCF/Share = $73.12 (base case, ~21.5M dil. shares) &times; P/FCF = 20x = $1,462 implied vs. $1,007 current</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>FCF/Share / P/FCF</th>
+      <th>10x</th>
+      <th>14x</th>
+      <th>20x</th>
+      <th>25x</th>
+      <th>28x</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$35.42</td><td class="base" style="background:#f8d7da;">$354</td><td>$496</td><td>$708</td><td>$886</td><td>$992</td></tr>
+    <tr><td>$56.82</td><td>$568</td><td class="base" style="background:#fff3cd;">$795</td><td>$1,136</td><td>$1,421</td><td>$1,591</td></tr>
+    <tr><td>$73.12</td><td>$731</td><td>$1,024</td><td class="base">$1,462</td><td>$1,828</td><td>$2,047</td></tr>
+    <tr><td>$100.00</td><td>$1,000</td><td>$1,400</td><td>$2,000</td><td class="base" style="background:#d4edda;">$2,500</td><td>$2,800</td></tr>
+    <tr><td>$145.95</td><td>$1,460</td><td>$2,043</td><td>$2,919</td><td>$3,649</td><td class="base" style="background:#d4edda;">$4,087</td></tr>
+  </tbody>
+</table>
+
+<!-- SECTION 10: 3-YEAR MODEL -->
+<div class="memo-section">10. 3-Year Model &mdash; 5 Scenarios</div>
+
+<p class="prose">All figures in $M unless stated. Modeled FY2026E, FY2027E, FY2028E (FYE Sep). Exit multiple applied to FY2028E FCF/share. Current share price: $1,007.28. Current diluted shares: 24.01M. Net debt: $3,035M.</p>
+
+<!-- CASE 1: BEAR SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 1: Bear Severe &mdash; VantageScore Displaces + Regulatory Price Caps</div>
+  <div class="case-desc">FHFA implements lender choice with published LLPA grids; large lenders begin migrating to VantageScore; Congress or CFPB caps score pricing; mortgage volumes remain depressed; software growth stalls; leverage becomes a constraint on buybacks.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> &mdash; VantageScore LLPA grids published; 10% of conforming mortgage volume migrates to VantageScore; regulatory scrutiny freezes FICO's pricing at $10; mortgage originations flat at $2T. <strong>FY2027</strong> &mdash; VantageScore adoption accelerates to 25% of conforming volume; average FICO price erodes to $8 under regulatory pressure; software platform growth decelerates to mid-teens. <strong>FY2028</strong> &mdash; Competitive duopoly established; FICO retains 65-70% mortgage share but at lower pricing; FCF still strong but growth profile permanently impaired.</p>
+  <div class="driver-label">Key Drivers &mdash; FY2028E (Year 3)</div>
+  <div class="driver-row"><span>B2B Scores Revenue Growth</span><span>-5% (volume loss + price pressure)</span></div>
+  <div class="driver-row"><span>Software Revenue Growth</span><span>+8% (platform grows, non-platform declines)</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>48% (mix shift away from Scores)</span></div>
+  <div class="driver-row"><span>FCF Margin</span><span>34%</span></div>
+  <div class="driver-row"><span>Exit P/FCF</span><span>12x (de-rated monopoly)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$2,200</td><td>$2,350</td><td>$2,500</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+10%</td><td>+7%</td><td>+6%</td></tr>
+    <tr><td>Gross Income</td><td>1,716</td><td>1,810</td><td>1,925</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>78%</td><td>77%</td><td>77%</td></tr>
+    <tr><td>EBITDA</td><td>1,100</td><td>1,128</td><td>1,200</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>50%</td><td>48%</td><td>48%</td></tr>
+    <tr><td>Net Income</td><td>620</td><td>630</td><td>660</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>24.0</td><td>24.0</td><td>24.0</td></tr>
+    <tr><td>FCF/Share</td><td>$33.33</td><td>$34.17</td><td>$35.42</td></tr>
+    <tr class="valuation-row"><td>Exit P/FCF Multiple</td><td>&mdash;</td><td>&mdash;</td><td>12x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>&mdash;</td><td>&mdash;</td><td>$425</td></tr>
+    <tr><td>FCF</td><td>$800</td><td>$820</td><td>$850</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 12x FY2028E FCF/share of $35.42</div>
+    <div class="exit-price">Implied Share Price: $425</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: -58% from $1,007.28</div>
+  </div>
+</div>
+
+<!-- CASE 2: BEAR MILD -->
+<div class="case-block">
+  <div class="case-name">Case 2: Bear Mild &mdash; Pricing Pressure + Slow Mortgage Recovery</div>
+  <div class="case-desc">VantageScore gains modest conforming mortgage share (10-15%); FICO's pricing power erodes slightly under competitive pressure; mortgage volumes recover slowly; software growth is adequate but below bull expectations.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> &mdash; Mortgage originations increase modestly to $2.3T; average score price holds at $10 but competitors apply pressure at the margin. <strong>FY2027</strong> &mdash; VantageScore captures 10% of conforming mortgage scoring; FICO retains dominant market share but growth decelerates; platform ARR grows 20%. <strong>FY2028</strong> &mdash; FICO remains dominant but the growth profile is mid-teens rather than 20%+; multiple settles at a moderate level.</p>
+  <div class="driver-label">Key Drivers &mdash; FY2028E (Year 3)</div>
+  <div class="driver-row"><span>B2B Scores Revenue Growth</span><span>+10% (modest volume + flat pricing)</span></div>
+  <div class="driver-row"><span>Software Revenue Growth</span><span>+12% (platform offset by non-platform decline)</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>55%</span></div>
+  <div class="driver-row"><span>FCF Margin</span><span>42%</span></div>
+  <div class="driver-row"><span>Exit P/FCF</span><span>15x</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$2,400</td><td>$2,700</td><td>$3,000</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+21%</td><td>+13%</td><td>+11%</td></tr>
+    <tr><td>Gross Income</td><td>1,920</td><td>2,187</td><td>2,460</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>80%</td><td>81%</td><td>82%</td></tr>
+    <tr><td>EBITDA</td><td>1,296</td><td>1,512</td><td>1,650</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>54%</td><td>56%</td><td>55%</td></tr>
+    <tr><td>Net Income</td><td>780</td><td>920</td><td>1,050</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>23.5</td><td>23.0</td><td>22.0</td></tr>
+    <tr><td>FCF/Share</td><td>$38.30</td><td>$47.83</td><td>$56.82</td></tr>
+    <tr class="valuation-row"><td>Exit P/FCF Multiple</td><td>&mdash;</td><td>&mdash;</td><td>15x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>&mdash;</td><td>&mdash;</td><td>$852</td></tr>
+    <tr><td>FCF</td><td>$900</td><td>$1,100</td><td>$1,250</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 15x FY2028E FCF/share of $56.82</div>
+    <div class="exit-price">Implied Share Price: $852</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: -15% from $1,007.28</div>
+  </div>
+</div>
+
+<!-- CASE 3: BASE CASE -->
+<div class="case-block">
+  <div class="case-name">Case 3: Base Case &mdash; Consensus Execution, Scoring Dominance Maintained</div>
+  <div class="case-desc">FICO maintains mortgage scoring monopoly; pricing holds at $10+; mortgage volumes recover modestly; platform ARR grows 25-30%; aggressive buybacks shrink share count; VantageScore threat remains theoretical but contained.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> &mdash; Revenue $2,486M (+25%); EBITDA $1,499M (60%); Scores pricing holds; Platform ARR crosses $400M. <strong>FY2027</strong> &mdash; Mortgage volumes improve modestly; Score 10T becomes standard for non-conforming market; platform ARR reaches $500M; EBITDA margin expands to 63%. <strong>FY2028</strong> &mdash; Revenue $3,303M; FCF $1,572M; shares decline to ~21.5M through buybacks; VantageScore threat still contained by LLPA delays.</p>
+  <div class="driver-label">Key Drivers &mdash; FY2028E (Year 3)</div>
+  <div class="driver-row"><span>B2B Scores Revenue Growth</span><span>+15% (volume recovery + pricing)</span></div>
+  <div class="driver-row"><span>Software Revenue Growth</span><span>+15% (platform-led)</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>65%</span></div>
+  <div class="driver-row"><span>FCF Margin</span><span>48%</span></div>
+  <div class="driver-row"><span>Exit P/FCF</span><span>20x</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$2,486</td><td>$2,906</td><td>$3,303</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+25%</td><td>+17%</td><td>+14%</td></tr>
+    <tr><td>Gross Income</td><td>2,101</td><td>2,533</td><td>2,973</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>84.5%</td><td>87.2%</td><td>90.0%</td></tr>
+    <tr><td>EBITDA</td><td>1,499</td><td>1,816</td><td>2,138</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>60.3%</td><td>62.5%</td><td>64.7%</td></tr>
+    <tr><td>Net Income</td><td>993</td><td>1,236</td><td>1,490</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>23.5</td><td>22.5</td><td>21.5</td></tr>
+    <tr><td>FCF/Share</td><td>$42.68</td><td>$56.09</td><td>$73.12</td></tr>
+    <tr class="valuation-row"><td>Exit P/FCF Multiple</td><td>&mdash;</td><td>&mdash;</td><td>20x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>&mdash;</td><td>&mdash;</td><td>$1,462</td></tr>
+    <tr><td>FCF</td><td>$1,003</td><td>$1,262</td><td>$1,572</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 20x FY2028E FCF/share of $73.12</div>
+    <div class="exit-price">Implied Share Price: $1,462</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +45% from $1,007.28</div>
+  </div>
+</div>
+
+<!-- CASE 4: BULL MILD -->
+<div class="case-block">
+  <div class="case-name">Case 4: Bull Mild &mdash; Mortgage Recovery + Platform Inflection</div>
+  <div class="case-desc">Mortgage volumes recover to $3T+ as rates decline; FICO Score 10T becomes universal standard; platform ARR exceeds $500M; FHFA delays VantageScore indefinitely; aggressive buybacks shrink shares below 20M; EBITDA margins approach 70%.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> &mdash; Fed begins cutting rates; mortgage originations recover to $2.5T; FICO maintains $10+ pricing. <strong>FY2027</strong> &mdash; Mortgage volumes reach $3T; platform ARR exceeds $450M with 130%+ NRR; Scores revenue exceeds $1.8B. <strong>FY2028</strong> &mdash; Full mortgage recovery at current pricing; Platform approaches software segment profitability; buybacks shrink shares to ~20M; FCF/share exceeds $100.</p>
+  <div class="driver-label">Key Drivers &mdash; FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Mortgage Origination Volume</span><span>$3.0T+ (recovery)</span></div>
+  <div class="driver-row"><span>B2B Score Pricing</span><span>$12+/pull (continued increases)</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>70%</span></div>
+  <div class="driver-row"><span>FCF Margin</span><span>53%</span></div>
+  <div class="driver-row"><span>Exit P/FCF</span><span>25x (quality premium restored)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$2,600</td><td>$3,200</td><td>$3,800</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+31%</td><td>+23%</td><td>+19%</td></tr>
+    <tr><td>Gross Income</td><td>2,210</td><td>2,816</td><td>3,420</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>85%</td><td>88%</td><td>90%</td></tr>
+    <tr><td>EBITDA</td><td>1,638</td><td>2,176</td><td>2,660</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>63%</td><td>68%</td><td>70%</td></tr>
+    <tr><td>Net Income</td><td>1,100</td><td>1,500</td><td>1,900</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>23.0</td><td>21.5</td><td>20.0</td></tr>
+    <tr><td>FCF/Share</td><td>$47.83</td><td>$69.77</td><td>$100.00</td></tr>
+    <tr class="valuation-row"><td>Exit P/FCF Multiple</td><td>&mdash;</td><td>&mdash;</td><td>25x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>&mdash;</td><td>&mdash;</td><td>$2,500</td></tr>
+    <tr><td>FCF</td><td>$1,100</td><td>$1,500</td><td>$2,000</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 25x FY2028E FCF/share of $100.00</div>
+    <div class="exit-price">Implied Share Price: $2,500</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +148% from $1,007.28</div>
+  </div>
+</div>
+
+<!-- CASE 5: BULL SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 5: Bull Severe &mdash; Full Spring Release + Data Analytics Re-Rating</div>
+  <div class="case-desc">Mortgage volumes return to $3.5T+ at $12+ pricing; FICO Score 10T eliminates VantageScore threat for a generation; FICO Platform achieves category-defining status; international scoring launches at scale; market re-rates FICO as a data analytics platform rather than a credit scoring company.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> &mdash; Rate cuts spark mortgage boom; originations surge to $2.8T; FICO implements $12/score pricing. <strong>FY2027</strong> &mdash; Mortgage volume reaches $3.5T; FICO Score 10T becomes sole standard; FFM creates new enterprise revenue; buybacks accelerate at lower prices. <strong>FY2028</strong> &mdash; Revenue approaches $4.5B; EBITDA margin 75%; FCF $2.7B; shares decline to 18.5M; FICO re-rated as data analytics infrastructure at 28x P/FCF.</p>
+  <div class="driver-label">Key Drivers &mdash; FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Mortgage Origination Volume</span><span>$3.5T+ (full normalization)</span></div>
+  <div class="driver-row"><span>B2B Score Pricing</span><span>$14+/pull</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>75% (Scores dominance)</span></div>
+  <div class="driver-row"><span>FCF Margin</span><span>60%</span></div>
+  <div class="driver-row"><span>Exit P/FCF</span><span>28x (data platform premium)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$2,800</td><td>$3,600</td><td>$4,500</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+41%</td><td>+29%</td><td>+25%</td></tr>
+    <tr><td>Gross Income</td><td>2,436</td><td>3,240</td><td>4,140</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>87%</td><td>90%</td><td>92%</td></tr>
+    <tr><td>EBITDA</td><td>1,876</td><td>2,628</td><td>3,375</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>67%</td><td>73%</td><td>75%</td></tr>
+    <tr><td>Net Income</td><td>1,300</td><td>1,900</td><td>2,500</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>22.5</td><td>20.5</td><td>18.5</td></tr>
+    <tr><td>FCF/Share</td><td>$55.56</td><td>$87.80</td><td>$145.95</td></tr>
+    <tr class="valuation-row"><td>Exit P/FCF Multiple</td><td>&mdash;</td><td>&mdash;</td><td>28x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>&mdash;</td><td>&mdash;</td><td>$4,087</td></tr>
+    <tr><td>FCF</td><td>$1,250</td><td>$1,800</td><td>$2,700</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 28x FY2028E FCF/share of $145.95</div>
+    <div class="exit-price">Implied Share Price: $4,087</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +306% from $1,007.28</div>
+  </div>
+</div>
+
+<!-- SVG Bar Chart -->
+<div class="case-chart">
+  <p style="font-size:9px; font-weight:600; margin-bottom:8px;">Implied Share Price by Scenario (FY2028E Exit) vs. Current Price $1,007.28</p>
+  <svg viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg" style="width:100%; font-family:Inter,Arial,sans-serif;">
+    <line x1="80" y1="20" x2="80" y2="220" stroke="#ccc" stroke-width="1"/>
+    <line x1="80" y1="220" x2="680" y2="220" stroke="#ccc" stroke-width="1"/>
+    <text x="75" y="224" text-anchor="end" font-size="9" fill="#888">$0</text>
+    <text x="75" y="184" text-anchor="end" font-size="9" fill="#888">$1,000</text>
+    <text x="75" y="144" text-anchor="end" font-size="9" fill="#888">$2,000</text>
+    <text x="75" y="104" text-anchor="end" font-size="9" fill="#888">$3,000</text>
+    <text x="75" y="64" text-anchor="end" font-size="9" fill="#888">$4,000</text>
+    <line x1="80" y1="184" x2="680" y2="184" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="144" x2="680" y2="144" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="104" x2="680" y2="104" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="64" x2="680" y2="64" stroke="#eee" stroke-width="0.5"/>
+    <!-- Scale: $1 = 0.04px, $1000 = 40px -->
+    <!-- Bear Severe: $425 -> height 17px -->
+    <rect x="110" y="203" width="80" height="17" fill="#2563eb"/>
+    <text x="150" y="199" text-anchor="middle" font-size="9" fill="#333">$425</text>
+    <text x="150" y="234" text-anchor="middle" font-size="8" fill="#555">Bear Severe</text>
+    <!-- Bear Mild: $852 -> height 34.1px -->
+    <rect x="220" y="185.9" width="80" height="34.1" fill="#2563eb"/>
+    <text x="260" y="182" text-anchor="middle" font-size="9" fill="#333">$852</text>
+    <text x="260" y="234" text-anchor="middle" font-size="8" fill="#555">Bear Mild</text>
+    <!-- Base: $1,462 -> height 58.5px -->
+    <rect x="330" y="161.5" width="80" height="58.5" fill="#2563eb"/>
+    <text x="370" y="157" text-anchor="middle" font-size="9" fill="#333">$1,462</text>
+    <text x="370" y="234" text-anchor="middle" font-size="8" fill="#555">Base Case</text>
+    <!-- Bull Mild: $2,500 -> height 100px -->
+    <rect x="440" y="120" width="80" height="100" fill="#2563eb"/>
+    <text x="480" y="116" text-anchor="middle" font-size="9" fill="#333">$2,500</text>
+    <text x="480" y="234" text-anchor="middle" font-size="8" fill="#555">Bull Mild</text>
+    <!-- Bull Severe: $4,087 -> height 163.5px -->
+    <rect x="550" y="56.5" width="80" height="163.5" fill="#2563eb"/>
+    <text x="590" y="52" text-anchor="middle" font-size="9" fill="#333">$4,087</text>
+    <text x="590" y="234" text-anchor="middle" font-size="8" fill="#555">Bull Severe</text>
+    <!-- Current price line: $1,007.28 -> y = 220 - 40.3 = 179.7 -->
+    <line x1="80" y1="179.7" x2="680" y2="179.7" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="685" y="183" font-size="9" fill="#e74c3c">$1,007 (Current)</text>
+    <!-- Prob-wtd PV: $1,254 -> y = 220 - 50.2 = 169.8 -->
+    <line x1="80" y1="169.8" x2="680" y2="169.8" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="3,2"/>
+    <text x="685" y="173" font-size="8" fill="#f39c12">$1,254 PV@30%</text>
+  </svg>
+  <p style="font-size:8px; color:#888; margin-top:4px;">Probability weights: 5% / 20% / 50% / 20% / 5% &middot; Prob-wtd avg $1,630 discounted @30% CoC = $1,254 &middot; Current: $1,007 &middot; Implied upside: +24.5%</p>
+</div>
+
+<!-- SECTION 11: COMPS -->
+<div class="memo-section">11. Comparable Companies</div>
+
+<div class="section-title">Selected Financials &mdash; Credit &amp; Information Services Peers</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>Mkt Cap ($M)</th>
+      <th>EV ($M)</th>
+      <th class="est-col">Sales ($M)</th>
+      <th class="est-col">EBIT ($M)</th>
+      <th class="est-col">EBITDA ($M)</th>
+      <th>GM Actual</th>
+      <th>EBITDA Mgn</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Fair Isaac</td><td>FICO</td>
+      <td>$24,186</td><td>$27,221</td>
+      <td>$2,063</td><td>$990</td><td>$1,006</td>
+      <td>82.9%</td><td>48.8%</td>
+    </tr>
+    <tr>
+      <td>Equifax</td><td>EFX</td>
+      <td>$22,652</td><td>$27,805</td>
+      <td>$6,075</td><td>$1,145</td><td>$1,865</td>
+      <td>44.6%</td><td>30.7%</td>
+    </tr>
+    <tr>
+      <td>TransUnion</td><td>TRU</td>
+      <td>$14,216</td><td>$18,341</td>
+      <td>$4,576</td><td>$920</td><td>$1,495</td>
+      <td>46.5%</td><td>32.7%</td>
+    </tr>
+    <tr>
+      <td>Experian</td><td>EXPN</td>
+      <td>$32,664</td><td>$37,810</td>
+      <td>$7,964</td><td>$1,975</td><td>$2,795</td>
+      <td>24.8%</td><td>35.1%</td>
+    </tr>
+    <tr>
+      <td>Moody's</td><td>MCO</td>
+      <td>$78,356</td><td>$82,564</td>
+      <td>$7,718</td><td>$3,455</td><td>$3,935</td>
+      <td>68.2%</td><td>51.0%</td>
+    </tr>
+    <tr>
+      <td>Verisk Analytics</td><td>VRSK</td>
+      <td>$23,537</td><td>$34,057</td>
+      <td>&mdash;</td><td>&mdash;</td><td>&mdash;</td>
+      <td>&mdash;</td><td>&mdash;</td>
+    </tr>
+    <tr>
+      <td>S&amp;P Global</td><td>SPGI</td>
+      <td>$127,062</td><td>$176,372</td>
+      <td>&mdash;</td><td>&mdash;</td><td>&mdash;</td>
+      <td>&mdash;</td><td>&mdash;</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Average</td><td>&mdash;</td>
+      <td>&mdash;</td><td>&mdash;</td>
+      <td>&mdash;</td><td>&mdash;</td><td>&mdash;</td>
+      <td>46.0%</td><td>37.4%</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Median</td><td>&mdash;</td>
+      <td>&mdash;</td><td>&mdash;</td>
+      <td>&mdash;</td><td>&mdash;</td><td>&mdash;</td>
+      <td>46.5%</td><td>35.1%</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Valuation Multiples</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th class="est-col">EV/EBITDA LTM</th>
+      <th class="est-col">EV/EBITDA FY1</th>
+      <th class="est-col">P/E LTM</th>
+      <th class="est-col">P/E FY1</th>
+      <th class="est-col">EV/Sales FY1</th>
+      <th class="est-col">P/FCF FY1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Fair Isaac</td><td>FICO</td>
+      <td>27.1x</td><td>18.2x</td>
+      <td>37.3x</td><td>24.7x</td>
+      <td>10.9x</td><td>26.6x</td>
+    </tr>
+    <tr>
+      <td>Equifax</td><td>EFX</td>
+      <td>14.9x</td><td>&mdash;</td>
+      <td>35.0x</td><td>21.7x</td>
+      <td>4.6x</td><td>&mdash;</td>
+    </tr>
+    <tr>
+      <td>TransUnion</td><td>TRU</td>
+      <td>12.3x</td><td>&mdash;</td>
+      <td>31.3x</td><td>15.2x</td>
+      <td>4.0x</td><td>&mdash;</td>
+    </tr>
+    <tr>
+      <td>Experian</td><td>EXPN</td>
+      <td>13.5x</td><td>&mdash;</td>
+      <td>24.3x</td><td>20.4x</td>
+      <td>4.7x</td><td>&mdash;</td>
+    </tr>
+    <tr>
+      <td>Moody's</td><td>MCO</td>
+      <td>21.0x</td><td>&mdash;</td>
+      <td>32.0x</td><td>26.3x</td>
+      <td>10.7x</td><td>&mdash;</td>
+    </tr>
+    <tr>
+      <td>S&amp;P Global</td><td>SPGI</td>
+      <td>23.1x</td><td>&mdash;</td>
+      <td>&mdash;</td><td>&mdash;</td>
+      <td>&mdash;</td><td>&mdash;</td>
+    </tr>
+    <tr>
+      <td>MSCI</td><td>MSCI</td>
+      <td>25.7x</td><td>&mdash;</td>
+      <td>&mdash;</td><td>&mdash;</td>
+      <td>&mdash;</td><td>&mdash;</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Average</td><td>&mdash;</td>
+      <td>18.4x</td><td>&mdash;</td>
+      <td>30.7x</td><td>20.9x</td>
+      <td>6.0x</td><td>&mdash;</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Median</td><td>&mdash;</td>
+      <td>21.0x</td><td>&mdash;</td>
+      <td>31.7x</td><td>21.0x</td>
+      <td>4.7x</td><td>&mdash;</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Named Competitors</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>Mkt Cap ($M)</th>
+      <th>EV ($M)</th>
+      <th class="est-col">EV/EBITDA</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Fair Isaac</td><td>FICO</td>
+      <td>$24,186</td><td>$27,221</td><td>27.1x</td>
+    </tr>
+    <tr>
+      <td>TransUnion</td><td>TRU</td>
+      <td>$14,216</td><td>$18,341</td><td>12.3x</td>
+    </tr>
+    <tr>
+      <td>Equifax</td><td>EFX</td>
+      <td>$22,652</td><td>$27,805</td><td>14.9x</td>
+    </tr>
+    <tr>
+      <td>Experian</td><td>EXPN</td>
+      <td>$32,664</td><td>$37,810</td><td>13.5x</td>
+    </tr>
+    <tr>
+      <td>CGI</td><td>GIB.A</td>
+      <td>$15,866</td><td>$17,963</td><td>7.5x</td>
+    </tr>
+    <tr>
+      <td>RELX</td><td>REL</td>
+      <td>$62,473</td><td>$71,753</td><td>14.4x</td>
+    </tr>
+    <tr>
+      <td>Moody's</td><td>MCO</td>
+      <td>$78,356</td><td>$82,564</td><td>21.0x</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Average</td><td>&mdash;</td>
+      <td>&mdash;</td><td>&mdash;</td><td>13.9x</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Median</td><td>&mdash;</td>
+      <td>&mdash;</td><td>&mdash;</td><td>14.2x</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:10px;">FICO trades at 27.1x LTM EV/EBITDA &mdash; a 29% premium to the peer median of 21.0x &mdash; but on a forward FY1 basis trades at 18.2x, which is more in line with the peer group given FICO's exceptional margin expansion trajectory (EBITDA margin expanding from 48% to 65% over FY2025-FY2028E). The premium is fundamentally justified by FICO's near-monopoly Scores position (88% segment operating margin vs. peer median gross margins of 47%), exceptional FCF conversion (37-48% FCF margins vs. peer median net margins of ~20%), and the absence of meaningful alternatives in the conforming mortgage market. FICO's P/E of 24.7x (FY1) is within range of Moody's (26.3x) and Equifax (21.7x), companies with similar data-driven business models but without FICO's scoring monopoly pricing power. On EV/Sales, FICO at 10.9x trades at more than double the peer median of 4.7x, reflecting the dramatically higher profitability of FICO's capital-light algorithm-based model versus peers' more capital-intensive data infrastructure businesses.</p>
+
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<div class="verdict">
+  <p><strong>(i) Market Cap Bucket: $23.9B</strong> <span class="fw-rating weak">Weak Fit</span></p>
+  <p style="margin-top:4px;">Large Cap ($10B+). FICO's $23.9B market cap places it well above Theia's typical small-cap sweet spot ($500M-$5B). However, the stock's 55% decline from its 52-week high of $2,217.60 has created a dislocation that attracts fundamental analysis. At its current market cap, FICO is well-covered by institutional investors and is a component of major indices, limiting the informational edge available to smaller investors.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(ii) Analyst Coverage: 19 Broker Contributors</strong> <span class="fw-rating weak">Weak Fit</span></p>
+  <p style="margin-top:4px;">With 19 sell-side analysts covering FICO, this is heavily covered &mdash; well above Theia's ideal threshold of fewer than 5 analysts. The consensus target of $1,707 (+69% upside) reflects strong sell-side conviction that the drawdown is overdone, with an average rating of Overweight (1.48). The breadth of coverage means FICO's fundamental story is well-understood by the market, reducing the opportunity for analytical edge. However, the market appears to be mispricing the VantageScore threat &mdash; expert calls suggest the transition will take far longer than the stock price implies.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iii) Thesis Alignment: Credit Scoring / Financial Data Infrastructure</strong> <span class="fw-rating moderate">Adjacent</span></p>
+  <p style="margin-top:4px;">FICO is not a blockchain-native or crypto-adjacent company. However, it is deeply embedded in the financial infrastructure that Theia's thesis targets: every consumer lending decision in America flows through FICO's scoring algorithms, and the FICO Platform powers real-time decisioning for fraud detection, origination, and customer management across global financial institutions. The company's foray into alternative data scoring (UltraFICO with Plaid, BNPL scoring), blockchain-based AI audit trails, and the FFM generative AI directly intersect with the "internet finance" thesis of digitized, data-driven financial services. The Scores business is effectively a toll booth on the entire U.S. consumer lending ecosystem &mdash; a positioning that is adjacent to, if not central to, the infrastructure layer of modern financial technology.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iv) Outcome Dispersion: $425 &ndash; $4,087</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">The 5-scenario model shows implied prices ranging from $425 (Bear Severe, -58%) to $4,087 (Bull Severe, +306%) from the current $1,007.28. This is a 9.6x spread between bear and bull severe, driven by genuine uncertainty about: whether mortgage volumes normalize ("coiled spring"), whether VantageScore breaks FICO's monopoly or remains a niche player, and whether FICO's pricing power is sustainable or regulatory-constrained. The probability-weighted fair value of $1,254 (discounted at 30% CoC) represents 24.5% upside. The asymmetric risk/reward is compelling: the downside is limited by FICO's massive FCF generation ($1B+ FY2026E = 4.2% FCF yield floor), while the upside is amplified by the mortgage recovery optionality and the near-zero marginal cost of incremental score volumes.</p>
+</div>
+
+<div style="background: #fff3cd; border-left: 4px solid #856404; padding: 12px 14px; margin: 16px 0; font-size: 11.5px;">
+  <strong>VERDICT: MONITOR &mdash; Compelling Business, Outside Theia's Typical Screen</strong><br><br>
+  FICO possesses one of the strongest competitive moats in all of financial technology &mdash; a near-monopoly scoring position with 88% operating margins, near-zero marginal costs, and extraordinary pricing power. The 55% drawdown from the 52-week high creates a compelling entry point with a probability-weighted fair value of $1,254 (+24.5% upside). However, FICO fails two of four Theia screening criteria: its $23.9B market cap is well above the small-cap target, and 19 analyst coverage means the story is well-understood by the market. The fundamental quality of the business is exceptional, the VantageScore threat appears overpriced by the market, and the mortgage "coiled spring" represents genuine asymmetric optionality. For a portfolio willing to extend beyond the typical Theia small-cap screen, FICO offers an unusually attractive risk/reward profile on the current dislocation. Key catalyst: May 6 Q2 FY2026 earnings &mdash; mortgage volume trends and any FHFA commentary will drive near-term sentiment.
+</div>
+
+<p class="prose" style="font-size:10px; font-style:italic; margin-top:6px;">Note: Theia seeks small-cap companies that aren't well covered and are strongly aligned on the core internet finance thesis with wide outcome dispersion. FICO scores: Market Cap (Weak) | Coverage (Weak) | Thesis (Adjacent) | Dispersion (Strong)</p>
+
+<!-- SECTION 13: RISK SUMMARY -->
+<div class="memo-section">13. Risk Summary</div>
+
+<table class="risk-table">
+  <tr>
+    <th>Risk Category</th>
+    <th>Description</th>
+    <th>Severity</th>
+    <th>Mitigant</th>
+  </tr>
+  <tr>
+    <td>VantageScore Competition</td>
+    <td>VantageScore 4.0 at $1/score vs. FICO's $10 creates a 90% price discount. Owned by the three major credit bureaus with direct data access. FHFA "lender choice" policy could legitimize VantageScore for conforming mortgages.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>Operational complexities of switching (LLPA uncertainty, secondary market acceptance, historical data gaps). Expert consensus: transition takes 5-10+ years. Large banks remain conservative. Bureau $1 pricing likely unsustainable.</td>
+  </tr>
+  <tr>
+    <td>Regulatory Pricing Risk</td>
+    <td>FICO doubled mortgage score prices to $10. Heightened scrutiny from Congress, CFPB, and FHFA regarding fairness and transparency of score pricing. Potential legislation to cap credit score fees.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>Score cost is trivial relative to mortgage value ($10 on $400K loan = 0.0025%). Direct License Program increases pricing transparency. No active legislation currently pending.</td>
+  </tr>
+  <tr>
+    <td>Mortgage Volume Sensitivity</td>
+    <td>B2B Scores revenue is heavily levered to mortgage origination volumes, which have been suppressed 40-50% below historical norms by elevated interest rates. Extended rate elevation would cap Scores growth.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Pricing power has more than offset volume declines (B2B revenue +27% on suppressed volumes). Credit card and auto lending provide diversification within Scores. Volume recovery is "when, not if."</td>
+  </tr>
+  <tr>
+    <td>Credit Bureau Relationship Friction</td>
+    <td>FICO's Direct License Program and price increases have antagonized Equifax, Experian, and TransUnion &mdash; the very partners that distribute its scores. Bureaus could retaliate by favoring VantageScore or restricting data access.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Bureaus cannot refuse lender demand for FICO Scores. Direct License Program reduces bureau dependency. Lender demand for FICO Scores is pull-through &mdash; bureaus must supply what lenders require.</td>
+  </tr>
+  <tr>
+    <td>Software Execution Risk</td>
+    <td>Software segment grew only 3% overall in FY2025. Legacy non-platform revenue declining (-8%). Software operating margin (28-30%) significantly below Scores (88%). Competitive pressure from Nice Actimize, Experian, Pegasystems.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Platform ARR growing 33% with 122% NRR. Record ACV bookings ($38M Q1, TTM $119M). Cloud transition should drive margin expansion as non-platform declines and platform scales. 150+ enterprise platform clients.</td>
+  </tr>
+  <tr>
+    <td>Leverage / Negative Equity</td>
+    <td>Total debt $3.2B with negative shareholders' equity ($1.75B). Weighted average interest rate 5.22%. Continued reliance on debt markets for buyback funding and refinancing.</td>
+    <td><span class="fw-rating low">Low</span></td>
+    <td>Interest coverage 7.0x. $1B+ annual FCF more than covers debt service. Management targets 2-3x net debt/EBITDA. Debt is 87% fixed-rate. $1.0B refinancing in March 2026 demonstrates market access. FCF generation ensures financial flexibility.</td>
+  </tr>
+  <tr>
+    <td>Key Person / Leadership</td>
+    <td>CEO Will Lansing praised for scoring strategy but criticized for software division oversight. Software leadership turnover flagged by former executives. Single-CEO risk given 14-year tenure.</td>
+    <td><span class="fw-rating low">Low</span></td>
+    <td>Strong management bench (CFO Weber, CTO Waid). Scoring business is systemically embedded and would perform regardless of CEO. Software division has its own operational leadership.</td>
+  </tr>
+</table>
+
+<!-- SECTION 14: APPENDIX -->
+<div class="memo-section appendix">14. Appendix &mdash; Python Code</div>
+
+<p class="prose">Sensitivity table generator and scenario model code for analyst customization:</p>
+
+<div class="section-title">Sensitivity Table Generator</div>
+<div class="code-block">
+import numpy as np
+import pandas as pd
+
+# --- SENSITIVITY TABLE 1: FY2028E B2B Scores Revenue ---
+# Revenue = (Origination_Volume * Pulls_per_$T * Price_per_Pull) + Non_Mortgage_B2B
+orig_volumes = [1.5, 2.0, 2.5, 3.0, 3.5]    # $T annual mortgage originations
+prices = [8, 10, 12, 14, 16]                  # $/pull average
+pulls_per_T = 47.5                             # ~47.5M pulls per $1T originations
+non_mtg_b2b = 500                              # ~$500M non-mortgage B2B Scores (est.)
+
+rows = []
+for vol in orig_volumes:
+    row = []
+    for p in prices:
+        mtg_rev = vol * pulls_per_T * p
+        total = mtg_rev + non_mtg_b2b
+        row.append(round(total, 0))
+    rows.append(row)
+
+df1 = pd.DataFrame(rows,
+    index=[f"${x}T" for x in orig_volumes],
+    columns=[f"${x}" for x in prices])
+print("FY2028E B2B Scores Revenue ($M)")
+print(df1.to_string())
+
+# --- SENSITIVITY TABLE 2: FY2028E Free Cash Flow ---
+revenues = [2500, 2800, 3303, 3800, 4500]
+fcf_margins = [0.35, 0.40, 0.45, 0.50, 0.55]
+
+rows2 = []
+for rev in revenues:
+    row = [round(rev * m, 0) for m in fcf_margins]
+    rows2.append(row)
+
+df2 = pd.DataFrame(rows2,
+    index=[f"${x}M" for x in revenues],
+    columns=[f"{int(m*100)}%" for m in fcf_margins])
+print("\nFY2028E Free Cash Flow ($M)")
+print(df2.to_string())
+
+# --- SENSITIVITY TABLE 3: Implied Share Price ---
+fcf_per_share = [35.42, 56.82, 73.12, 100.00, 145.95]
+p_fcf_multiples = [10, 14, 20, 25, 28]
+
+rows3 = []
+for fps in fcf_per_share:
+    row = [round(fps * mult, 0) for mult in p_fcf_multiples]
+    rows3.append(row)
+
+df3 = pd.DataFrame(rows3,
+    index=[f"${x:.2f}" for x in fcf_per_share],
+    columns=[f"{x}x" for x in p_fcf_multiples])
+print("\nImplied Share Price ($)")
+print(df3.to_string())
+</div>
+
+<div class="section-title" style="margin-top:16px;">5-Scenario Model Generator</div>
+<div class="code-block">
+# --- FICO 5-SCENARIO 3-YEAR MODEL ---
+scenarios = {
+    "Bear Severe": {
+        "rev":   [2200, 2350, 2500],
+        "ebitda_mgn": [0.50, 0.48, 0.48],
+        "fcf":   [800, 820, 850],
+        "shares": [24.0, 24.0, 24.0],
+        "exit_p_fcf": 12,
+    },
+    "Bear Mild": {
+        "rev":   [2400, 2700, 3000],
+        "ebitda_mgn": [0.54, 0.56, 0.55],
+        "fcf":   [900, 1100, 1250],
+        "shares": [23.5, 23.0, 22.0],
+        "exit_p_fcf": 15,
+    },
+    "Base Case": {
+        "rev":   [2486, 2906, 3303],
+        "ebitda_mgn": [0.603, 0.625, 0.647],
+        "fcf":   [1003, 1262, 1572],
+        "shares": [23.5, 22.5, 21.5],
+        "exit_p_fcf": 20,
+    },
+    "Bull Mild": {
+        "rev":   [2600, 3200, 3800],
+        "ebitda_mgn": [0.63, 0.68, 0.70],
+        "fcf":   [1100, 1500, 2000],
+        "shares": [23.0, 21.5, 20.0],
+        "exit_p_fcf": 25,
+    },
+    "Bull Severe": {
+        "rev":   [2800, 3600, 4500],
+        "ebitda_mgn": [0.67, 0.73, 0.75],
+        "fcf":   [1250, 1800, 2700],
+        "shares": [22.5, 20.5, 18.5],
+        "exit_p_fcf": 28,
+    },
+}
+
+current_price = 1007.28
+years = ["FY2026E", "FY2027E", "FY2028E"]
+
+for name, s in scenarios.items():
+    fps_exit = s["fcf"][-1] / s["shares"][-1]
+    mult = s["exit_p_fcf"]
+    implied_price = fps_exit * mult
+    upside = (implied_price / current_price - 1) * 100
+    print(f"\n{'='*60}")
+    print(f"Scenario: {name}")
+    print(f"Exit: {mult}x P/FCF on FCF/share ${fps_exit:.2f}")
+    print(f"Implied Price: ${implied_price:.0f}  |  {upside:+.1f}%")
+
+# --- PROBABILITY-WEIGHTED FAIR VALUE ---
+weights = {"Bear Severe": 0.05, "Bear Mild": 0.20, "Base Case": 0.50,
+           "Bull Mild": 0.20, "Bull Severe": 0.05}
+prices  = {"Bear Severe": 425, "Bear Mild": 852, "Base Case": 1462,
+           "Bull Mild": 2500, "Bull Severe": 4087}
+coc = 0.30
+
+wtd_avg = sum(weights[k] * prices[k] for k in weights)
+pv = wtd_avg / (1 + coc)
+print(f"\nProb-Weighted Avg (FY2028E): ${wtd_avg:.0f}")
+print(f"Discounted at {coc*100:.0f}% CoC:       ${pv:.0f}")
+print(f"Current Price:              ${current_price:.2f}")
+print(f"Implied Upside:             {(pv/current_price-1)*100:+.1f}%")
+</div>
+
+<div class="source-note" style="margin-top:16px;">
+  Fair Isaac Corporation | Preliminary Memo for Theia &middot; Generated April 15, 2026 &middot; Data: FactSet (Apr 14, 2026), AlphaSense Company Primer &amp; Business Deep Dive, Earnings Transcripts (Q1-Q4 FY2025, Q1 FY2026), Raymond James Conference Transcript &middot; FYE September &middot; Not investment advice.
+</div>
+
+</body>
+</html>
