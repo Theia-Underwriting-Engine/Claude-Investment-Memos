@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=816">
+<title>TransUnion (TRU) — Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 6px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.verdict.yes { background: #d4edda; border-left: 4px solid #155724; }
+
+table.comps { font-size: 8px; width: 100%; border-collapse: collapse; margin-bottom: 12px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 3px 4px; border-bottom: 1.5px solid #ccc; white-space: nowrap; }
+table.comps th:first-child { text-align: left; }
+table.comps td { text-align: right; padding: 3px 4px; border-bottom: 0.5px solid #eee; }
+table.comps td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.comps tr:nth-child(even) { background: #fafbfc; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-weight: 600; background: #fafbfc; font-style: italic; }
+
+table.risk-table { font-size: 9.5px; width: 100%; border-collapse: collapse; }
+table.risk-table th { text-align: left; font-weight: 600; color: #888; padding: 4px 6px; border-bottom: 1.5px solid #ccc; font-size: 9px; text-transform: uppercase; }
+table.risk-table td { padding: 6px; border-bottom: 1px solid #eee; vertical-align: top; }
+table.risk-table td:first-child { font-weight: 600; color: #1a1a2e; width: 20%; }
+table.risk-table td:nth-child(3) { width: 12%; text-align: center; }
+table.risk-table td:nth-child(4) { width: 28%; }
+
+.bull-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #155724; border-bottom: 2px solid #27ae60; padding-bottom: 3px; margin-bottom: 8px; }
+.bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #721c24; border-bottom: 2px solid #c0392b; padding-bottom: 3px; margin-bottom: 8px; }
+
+.alphasense-box { background: #e8f4fd; border-left: 4px solid #2563eb; padding: 10px 14px; margin: 8px 0; font-size: 10px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">TransUnion | Preliminary Memo for Theia</div>
+
+<!-- ==================== SECTION 1: BUSINESS OVERVIEW ==================== -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">TransUnion is a leading global information and insights company that stewards the data of over one billion individuals across more than 30 countries. Founded in 1968 and headquartered in Chicago, Illinois, the company has evolved from a traditional regional credit reporting agency into an advanced, AI-driven data and analytics provider operating at the intersection of credit risk, fraud prevention, digital marketing, and consumer engagement. TransUnion addresses a total serviceable market of over $50 billion that is expanding at near double-digit rates.</p>
+
+<p class="prose">The company operates through two reportable segments: <strong>U.S. Markets</strong> (78% of revenue) and <strong>International</strong> (22%). Within U.S. Markets, the business is further divided into Financial Services (serving banks, credit unions, fintechs across mortgage, auto, card, and consumer lending), Emerging Verticals (insurance, tech, retail, media, tenant screening, public sector), and Consumer Interactive (direct-to-consumer credit monitoring and identity protection). The core competitive advantage is the company's proprietary identity graph built on OneTru, a unified cloud-native analytics platform integrating credit, device, behavioral, and communications data from 12,000-14,000 active US lender contributors, a 14-billion-device fraud consortium, and hundreds of e-commerce measurement partners.</p>
+
+<p class="prose"><strong>CEO:</strong> Christopher A. Cartwright (since 2019). <strong>CFO:</strong> Todd M. Cello. <strong>Employees:</strong> ~13,500 globally (40% in Global Capability Centers in India, South Africa, Costa Rica). <strong>Chairman:</strong> Pamela A. Joseph. TransUnion completed a $5.5 billion, multi-year strategic transformation program on schedule and within budget at end of 2025, permanently reducing capital intensity from 8% to 6% of revenue and generating $200M in free cash flow savings. The company is now entering what management calls a "new era of innovation-led and scalable growth."</p>
+
+<!-- ==================== SECTION 2: THEIA FACTSET SUMMARY ==================== -->
+<div class="memo-section">2. Financial Summary</div>
+
+<div class="header">
+  <div>
+    <h1>TransUnion</h1>
+    <span class="ticker">TRU-US &nbsp;|&nbsp; NYSE &nbsp;|&nbsp; CUSIP: 89400J107</span>
+  </div>
+  <div class="date">As of April 14, 2026</div>
+</div>
+
+<div class="price-bar">
+  <span class="price">$72.40</span>
+  <span><span class="label">1M</span> <span class="chg pos">+5.6%</span></span>
+  <span><span class="label">3M</span> <span class="chg">-13.3%</span></span>
+  <span><span class="label">6M</span> <span class="chg">-7.0%</span></span>
+  <span><span class="label">YTD</span> <span class="chg">-13.8%</span></span>
+  <span><span class="label">1Y</span> <span class="chg">-1.8%</span></span>
+  <span><span class="label">52W Range</span> <span style="font-weight:600;">$65.23 — $99.39</span></span>
+</div>
+
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv">
+      <tr><td>Primary Ticker</td><td>TRU-US</td></tr>
+      <tr><td>Previous Close</td><td>$72.40</td></tr>
+      <tr><td>Volume</td><td>1,382,829</td></tr>
+      <tr><td>30D Avg Daily Vol</td><td>2,432,666</td></tr>
+      <tr><td>Float (%)</td><td>98.8%</td></tr>
+      <tr><td>Short Interest</td><td>3.9 Days / 5.0% of Float</td></tr>
+      <tr><td>Dividend Yield</td><td>0.69%</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev">
+      <tr><td>Price (As of 14 Apr '26)</td><td>$72.40</td></tr>
+      <tr><td>Basic Shares (M)</td><td>192.6</td></tr>
+      <tr><td>&nbsp;&nbsp;&nbsp;Common Stock</td><td>192.6</td></tr>
+      <tr><td>Market Cap</td><td>$13,944</td></tr>
+      <tr><td>Diluted Shares (SBC)</td><td>3.8</td></tr>
+      <tr><td>Fully Diluted Shares</td><td>196.4</td></tr>
+      <tr><td>Fully Dil Market Cap</td><td>$14,216</td></tr>
+      <tr><td>+ Total Debt</td><td>5,104</td></tr>
+      <tr><td>- Cash & Equivalents</td><td>(856)</td></tr>
+      <tr><td>- Investments in Unsonsol Subs</td><td>(229)</td></tr>
+      <tr><td>+ Non-Controlling Interest</td><td>106</td></tr>
+      <tr class="total"><td>Enterprise Value</td><td>$18,341</td></tr>
+    </table>
+    <div style="font-size:8px;color:#aaa;margin-top:2px;">Millions of USD. Source: FactSet</div>
+  </div>
+</div>
+
+<div class="section-title">Current Valuation</div>
+<div class="val-grid">
+  <div class="val-cell"><div class="val-label">Market Cap</div><div class="val-num">$13.8B</div></div>
+  <div class="val-cell"><div class="val-label">Enterprise Value</div><div class="val-num">$18.3B</div></div>
+  <div class="val-cell"><div class="val-label">P/E (LTM)</div><div class="val-num">31.3x</div></div>
+  <div class="val-cell"><div class="val-label">EV/EBITDA (LTM)</div><div class="val-num">12.1x</div></div>
+  <div class="val-cell"><div class="val-label">EV/Sales (LTM)</div><div class="val-num">4.0x</div></div>
+  <div class="val-cell"><div class="val-label">P/Sales (LTM)</div><div class="val-num">3.1x</div></div>
+</div>
+<div class="val-grid">
+  <div class="val-cell"><div class="val-label">Fully Dil Mkt Cap</div><div class="val-num">$14.2B</div></div>
+  <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">9.1%</div></div>
+  <div class="val-cell"><div class="val-label">Beta (3Y Adj)</div><div class="val-num">1.52</div></div>
+  <div class="val-cell"><div class="val-label">Avg Rating</div><div class="val-num">Buy (1.22)</div></div>
+  <div class="val-cell"><div class="val-label">Target Price</div><div class="val-num">$91.76</div></div>
+  <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">Apr 28, 2026</div></div>
+</div>
+
+<div class="section-title">Valuation Multiples</div>
+<table class="data">
+  <tr><th></th><th>5Yr Avg</th><th>Dec '23</th><th>Dec '24</th><th>Dec '25</th><th class="est">Dec '26E</th><th class="est">Dec '27E</th><th class="est">Dec '28E</th></tr>
+  <tr class="section-row"><td colspan="8">Price Multiples</td></tr>
+  <tr><td>P/E</td><td>40.0x</td><td>NM</td><td>64.1x</td><td>37.0x</td><td class="est">15.2x</td><td class="est">13.1x</td><td class="est">11.1x</td></tr>
+  <tr><td>P/Sales</td><td>4.4x</td><td>3.5x</td><td>4.4x</td><td>3.7x</td><td class="est">2.8x</td><td class="est">2.6x</td><td class="est">2.4x</td></tr>
+  <tr><td>P/Book Value</td><td>4.0x</td><td>3.3x</td><td>4.3x</td><td>3.7x</td><td class="est">2.8x</td><td class="est">2.5x</td><td class="est">2.3x</td></tr>
+  <tr><td>P/FCF</td><td>28.0x</td><td>40.1x</td><td>35.3x</td><td>25.5x</td><td class="est">16.5x</td><td class="est">13.6x</td><td class="est">10.7x</td></tr>
+  <tr class="section-row"><td colspan="8">Enterprise Value Multiples</td></tr>
+  <tr><td>EV/Sales</td><td>5.7x</td><td>4.8x</td><td>5.4x</td><td>4.6x</td><td class="est">3.6x</td><td class="est">3.4x</td><td class="est">3.1x</td></tr>
+  <tr><td>EV/EBITDA</td><td>17.4x</td><td>15.5x</td><td>17.1x</td><td>14.0x</td><td class="est">10.3x</td><td class="est">9.2x</td><td class="est">8.3x</td></tr>
+  <tr><td>EV/EBIT</td><td>29.3x</td><td>27.9x</td><td>28.8x</td><td>22.8x</td><td class="est">17.9x</td><td class="est">15.2x</td><td class="est">12.3x</td></tr>
+</table>
+
+<div class="section-title">Revenue Exposure</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Business Unit (Dec '25)</div>
+    <table class="rev">
+      <tr><th>Segment</th><th>% Rev</th><th>Rev (M)</th><th>Y/Y</th></tr>
+      <tr><td>U.S. Markets</td><td>78.0%</td><td>$3,572</td><td>+10.5%</td></tr>
+      <tr><td>International</td><td>22.0%</td><td>$1,005</td><td>+5.5%</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="sub-label">By Geography (Dec '25)</div>
+    <table class="rev">
+      <tr><th>Region</th><th>% Rev</th><th>Rev (M)</th><th>Y/Y</th></tr>
+      <tr><td>United States</td><td>78.0%</td><td>$3,572</td><td>+10.5%</td></tr>
+      <tr><td>United Kingdom</td><td>5.9%</td><td>$270</td><td>+18.4%</td></tr>
+      <tr><td>India</td><td>5.8%</td><td>$264</td><td>-1.9%</td></tr>
+      <tr><td>Canada</td><td>3.6%</td><td>$167</td><td>+8.2%</td></tr>
+      <tr><td>Latin America</td><td>3.0%</td><td>$135</td><td>+0.5%</td></tr>
+      <tr><td>Asia Pacific</td><td>2.2%</td><td>$101</td><td>-5.0%</td></tr>
+      <tr><td>Africa</td><td>1.6%</td><td>$74</td><td>+11.6%</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="section-title">Financials</div>
+<table class="data">
+  <tr><th></th><th>5Yr CAGR</th><th>Dec '23</th><th>Dec '24</th><th>Dec '25</th><th class="est">Dec '26E</th><th class="est">Dec '27E</th><th class="est">Dec '28E</th></tr>
+  <tr class="section-row"><td colspan="8">Income Statement</td></tr>
+  <tr><td>Revenue</td><td>12.6%</td><td>$3,831</td><td>$4,184</td><td>$4,576</td><td class="est">$5,029</td><td class="est">$5,436</td><td class="est">$5,880</td></tr>
+  <tr><td>Gross Income</td><td>9.9%</td><td>1,790</td><td>1,973</td><td>2,130</td><td class="est">2,942</td><td class="est">3,182</td><td class="est">3,368</td></tr>
+  <tr><td>EBITDA</td><td>11.0%</td><td>1,179</td><td>1,326</td><td>1,495</td><td class="est">1,789</td><td class="est">1,985</td><td class="est">2,219</td></tr>
+  <tr><td>EBIT</td><td>11.3%</td><td>655</td><td>788</td><td>920</td><td class="est">1,025</td><td class="est">1,210</td><td class="est">1,491</td></tr>
+  <tr><td>Net Income</td><td>9.2%</td><td>($206)</td><td>$284</td><td>$455</td><td class="est">$921</td><td class="est">$1,039</td><td class="est">$1,194</td></tr>
+  <tr><td>EPS (Diluted)</td><td>5.3%</td><td>($1.07)</td><td>$1.45</td><td>$2.32</td><td class="est">$2.87</td><td class="est">$3.60</td><td class="est">$4.60</td></tr>
+  <tr class="section-row"><td colspan="8">Margins</td></tr>
+  <tr><td>Gross Margin</td><td></td><td>46.7%</td><td>47.2%</td><td>46.5%</td><td class="est">58.5%</td><td class="est">58.5%</td><td class="est">57.3%</td></tr>
+  <tr><td>EBITDA Margin</td><td></td><td>30.8%</td><td>31.7%</td><td>32.7%</td><td class="est">35.6%</td><td class="est">36.5%</td><td class="est">37.7%</td></tr>
+  <tr><td>Net Margin</td><td></td><td>-5.4%</td><td>6.8%</td><td>10.0%</td><td class="est">18.3%</td><td class="est">19.1%</td><td class="est">20.3%</td></tr>
+  <tr><td>FCF Margin</td><td></td><td>8.7%</td><td>12.4%</td><td>14.5%</td><td class="est">16.9%</td><td class="est">18.7%</td><td class="est">21.0%</td></tr>
+  <tr class="section-row"><td colspan="8">Cash Flow</td></tr>
+  <tr><td>Operating CF</td><td>4.6%</td><td>$642</td><td>$833</td><td>$988</td><td class="est">$1,218</td><td class="est">$1,405</td><td class="est">$1,827</td></tr>
+  <tr><td>CapEx</td><td>9.7%</td><td>(311)</td><td>(316)</td><td>(326)</td><td class="est">(301)</td><td class="est">(320)</td><td class="est">(349)</td></tr>
+  <tr><td>Free Cash Flow</td><td>2.6%</td><td>$331</td><td>$517</td><td>$662</td><td class="est">$852</td><td class="est">$1,016</td><td class="est">$1,238</td></tr>
+  <tr class="section-row"><td colspan="8">Returns & Leverage</td></tr>
+  <tr><td>ROE</td><td></td><td>-5.0%</td><td>6.9%</td><td>10.5%</td><td class="est">18.8%</td><td class="est">19.4%</td><td class="est">20.4%</td></tr>
+  <tr><td>Debt/Equity</td><td></td><td>135.9%</td><td>123.6%</td><td>116.2%</td><td class="est">104.0%</td><td class="est">89.1%</td><td class="est">—</td></tr>
+  <tr><td>Interest Coverage</td><td></td><td>2.3x</td><td>3.0x</td><td>3.9x</td><td class="est">4.2x</td><td class="est">5.1x</td><td class="est">6.5x</td></tr>
+</table>
+<div class="source-note">Monetary values in Millions of USD. Source: FactSet Fundamentals & Estimates. Estimates follow broker majority.</div>
+
+<!-- ==================== SECTION 3: BULL & BEAR CASES ==================== -->
+<div class="memo-section">3. Bull & Bear Cases</div>
+
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Cases</div>
+    <div class="fw-item" style="margin-bottom:10px;">
+      <div class="fw-name">1. VantageScore 4.0 Disrupts FICO Monopoly</div>
+      <p class="prose" style="margin-top:2px;">FHFA loan-level price adjustment matrices enable VantageScore adoption by GSEs, unlocking $900M+ in industry cost savings. TransUnion prices VS 4.0 at $0.99 per score vs. FICO's $4+, driving massive volume gains with accretive margins since VantageScore is pure incremental profit.</p>
+    </div>
+    <div class="fw-item" style="margin-bottom:10px;">
+      <div class="fw-name">2. Mortgage Volume Recovery</div>
+      <p class="prose" style="margin-top:2px;">Nearly 10 million mortgages sit above 6% — a massive refinanceable population if rates decline. Every 10% increase in volumes adds $40M+ adjusted EBITDA and $0.16 to EPS. A full recovery to 2019 levels would add ~$1/share to earnings, representing 20%+ upside to current estimates.</p>
+    </div>
+    <div class="fw-item" style="margin-bottom:10px;">
+      <div class="fw-name">3. OneTru Platform Unlocks Cross-Sell + AI Monetization</div>
+      <p class="prose" style="margin-top:2px;">Completed platform migration enables build-once-deploy-globally innovation. Analytics Orchestrator Agent (with Google Gemini) slashes data science cycles from weeks to minutes. AI-enabled clients consume more data, not less. Management expects $500M+ incremental revenue from new products over 3 years.</p>
+    </div>
+    <div class="fw-item" style="margin-bottom:10px;">
+      <div class="fw-name">4. India Long-Term Growth Compounder</div>
+      <p class="prose" style="margin-top:2px;">TransUnion is the market leader in the world's fastest-growing credit market — 850M consumers under 35, rapid digitization, and massive financial inclusion opportunity. Cyclical headwinds from RBI tightening are bottoming; secular trends intact with new fraud, marketing, and TruIQ products rolling out.</p>
+    </div>
+    <div class="fw-item" style="margin-bottom:10px;">
+      <div class="fw-name">5. Multiple Re-Rating as Transformation Value Emerges</div>
+      <p class="prose" style="margin-top:2px;">Stock trades at 10.3x FY26E EV/EBITDA vs. 17.4x 5-year average and 15.2x peer median. With transformation complete, FICO royalty noise eliminated, and underlying margins expanding 70bps/yr (ex-FICO to 38.2%), the market should re-rate toward peer multiples as execution clarity improves.</p>
+    </div>
+  </div>
+  <div>
+    <div class="bear-header">Bear Cases</div>
+    <div class="fw-item" style="margin-bottom:10px;">
+      <div class="fw-name">1. AI Commoditization Threat to Credit Bureaus</div>
+      <p class="prose" style="margin-top:2px;">Consensus fear that generative AI will commoditize bureau data, enabling fintechs and data aggregators (Plaid, open banking) to bypass traditional bureaus. Industry multiples have already compressed from 25-30x to ~20x earnings on this narrative. If the thesis holds, further derating is possible.</p>
+    </div>
+    <div class="fw-item" style="margin-bottom:10px;">
+      <div class="fw-name">2. FICO Pricing Pressure Squeezes Industry Margins</div>
+      <p class="prose" style="margin-top:2px;">FICO doubled its mortgage score pricing in a single year, compressing margins for resellers including TransUnion. While TRU passes through FICO royalties at zero margin, the pricing shock has confused investors and created an opaque earnings narrative. Potential shift to FICO direct licensing adds uncertainty.</p>
+    </div>
+    <div class="fw-item" style="margin-bottom:10px;">
+      <div class="fw-name">3. Macro Sensitivity — Lending Volumes & Interest Rates</div>
+      <p class="prose" style="margin-top:2px;">Credit inquiry volumes remain depressed across mortgage, auto, and unsecured lending. Persistently high rates suppress refinancing activity and dampen consumer credit demand. Tariff-driven uncertainty could further tighten lending standards, particularly in India and Latin America.</p>
+    </div>
+    <div class="fw-item" style="margin-bottom:10px;">
+      <div class="fw-name">4. Elevated Leverage & Acquisition Risk</div>
+      <p class="prose" style="margin-top:2px;">Net leverage at 2.6x with $5.1B total debt. The $660M Trans Union de Mexico acquisition adds 0.3x temporarily. The $3.1B Neustar deal drew early criticism for overpayment (initial 27x EBITDA). While integration has improved, any macro downturn pressures the balance sheet and limits capital allocation flexibility.</p>
+    </div>
+    <div class="fw-item" style="margin-bottom:10px;">
+      <div class="fw-name">5. Regulatory & Litigation Overhang</div>
+      <p class="prose" style="margin-top:2px;">CFPB consent order (2023, $15M total penalties), ongoing FCRA dispute handling NORA letter, July 2025 cyberattack exposing 4.4M consumer records, and class action lawsuits create persistent legal risk. Credit reporting faces the highest consumer litigation volume of any US industry.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SECTION 4: HELMER'S 7 POWERS ==================== -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Scale Economies</span> <span class="fw-rating strong">Strong</span>
+  <p class="prose" style="margin-top:2px;">TransUnion operates a fundamentally fixed-cost data business — the marginal cost of an additional credit inquiry or analytics query against 1B+ consumer profiles is near zero. The company consolidated from 30+ legacy data centers to just two, and reduced products from 90 to 30 on the OneTru platform. At $4.6B revenue, these scale advantages compound through operating leverage: EBITDA margins are expanding 50-70bps annually even while investing heavily in innovation.</p>
+</div>
+<div class="fw-item">
+  <span class="fw-name">2. Network Effects</span> <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:2px;">The contributory data model creates indirect network effects — 12,000-14,000 US lenders furnish data, which improves credit file accuracy and predictiveness, which attracts more users. The device consortium (14B+ devices over 15 years) exhibits data network effects in fraud detection. Marketing measurement integrations with hundreds of walled gardens and publishers strengthen over time. However, multi-homing is prevalent: most lenders query all three bureaus.</p>
+</div>
+<div class="fw-item">
+  <span class="fw-name">3. Counter-Positioning</span> <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:2px;">TransUnion's VantageScore 4.0 strategy at $0.99/score directly challenges FICO's $4+ pricing. FICO cannot easily match this pricing without destroying its core profit pool. Similarly, TransUnion's integrated credit-fraud-marketing-consumer platform on OneTru creates a bundle that pure-play competitors cannot economically replicate without abandoning their specialist positioning. The counter-positioning is real but limited by the oligopoly structure.</p>
+</div>
+<div class="fw-item">
+  <span class="fw-name">4. Switching Costs</span> <span class="fw-rating strong">Strong</span>
+  <p class="prose" style="margin-top:2px;">Deep integration into customer credit decisioning workflows — lenders embed TransUnion data, scores, and analytics into their automated underwriting systems. Switching requires re-validating models, renegotiating data access, re-certifying regulatory compliance, and retraining staff. The TruIQ platform further embeds TransUnion by hosting customer data alongside proprietary datasets in the cloud. Retention rates exceed 95% in key segments like Marketing Solutions. Individual contracts are monitored and credentialed.</p>
+</div>
+<div class="fw-item">
+  <span class="fw-name">5. Branding</span> <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:2px;">One of only three nationally recognized credit bureaus in the US — the brand carries weight in B2B procurement and direct-to-consumer credit monitoring. However, brand differentiation vs. Equifax and Experian is limited for most use cases; buyers are primarily driven by data quality, pricing, and integration ease. Consumer brand is strengthening via TransUnion Credit Essentials (freemium) and 380M+ consumers served globally.</p>
+</div>
+<div class="fw-item">
+  <span class="fw-name">6. Cornered Resource</span> <span class="fw-rating strong">Strong</span>
+  <p class="prose" style="margin-top:2px;">The proprietary, highly regulated contributory data from thousands of financial institutions is a genuine cornered resource — it cannot be replicated by a new entrant regardless of capital. Each data element is individually contracted, credentialed, monitored, and governed under FCRA, GLBA, state privacy laws, and international equivalents. The identity graph (credit, device, behavioral, communications data unified on OneTru) is described by management as "the only company in the industry that can provide this range of credit, noncredit telephony and device information." The TLO public records asset and Neustar device consortium add proprietary layers that took decades to build.</p>
+</div>
+<div class="fw-item">
+  <span class="fw-name">7. Process Power</span> <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:2px;">The four-year transformation program produced genuine organizational capabilities — Global Capability Centers now lead next-generation platform development, OneTru enables build-once-deploy-globally innovation, and the go-to-market model has been restructured with specialized sellers. AI is embedded across the software development lifecycle (25-30% productivity gains). However, execution history is mixed — the Neustar integration was rocky, cultural integration of large acquisitions has been criticized by insiders, and the leadership style has been described as occasionally top-down.</p>
+</div>
+
+<div class="verdict" style="margin-top:12px;">
+  <strong>Summary:</strong> TransUnion is a 3-power business at its core — <strong>strong scale economies</strong> (fixed-cost data infrastructure), <strong>strong switching costs</strong> (deep workflow integration), and a <strong>strong cornered resource</strong> (regulated, contributory data moat that takes decades to build and cannot be bought). Network effects, counter-positioning, and process power provide additional moderate reinforcement. This is a durable competitive position protected by regulation, data depth, and customer embeddedness.
+</div>
+
+<!-- ==================== SECTION 5: PORTER'S 5 FORCES ==================== -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <span class="fw-name">1. Threat of New Entrants</span> <span class="fw-rating low">Low</span>
+  <p class="prose" style="margin-top:2px;">Extremely high barriers: decades-old contributor relationships with 12,000+ lenders, complex regulatory compliance (FCRA, GLBA, state privacy laws, GDPR internationally), massive proprietary datasets that cannot be scraped or purchased, and established distribution channels into financial institutions. The only realistic "new entrants" are adjacent fintechs (Plaid, open banking) that offer narrow substitutes rather than full credit bureau replacements. The regulatory moat alone — with individual credentialing and monitoring of every data contributor and user — makes replication impractical.</p>
+</div>
+<div class="fw-item">
+  <span class="fw-name">2. Bargaining Power of Suppliers</span> <span class="fw-rating low">Low</span>
+  <p class="prose" style="margin-top:2px;">Data "suppliers" (lenders furnishing credit data) contribute data as part of the bureau consortium model — they furnish data to receive data. This creates mutual dependence, not supplier leverage. Technology infrastructure (cloud) is commodity and multi-vendor. The Neustar/iovation device consortium data is proprietary and internally generated. Key exception: FICO exercises meaningful supplier power over credit score pricing, and their recent royalty increases have directly impacted TransUnion's reported margins.</p>
+</div>
+<div class="fw-item">
+  <span class="fw-name">3. Bargaining Power of Buyers</span> <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:2px;">Large banks and lenders (top 10 may represent meaningful revenue concentration) have some leverage through scale. Most lenders query all three bureaus, creating competitive dynamics on pricing and service. However, TransUnion's differentiated data assets (30 months trended data, alternative data via FactorTrust, device consortium for fraud) and integrated platform reduce pure price comparison. The shift toward value-added analytics (TruIQ, fraud, marketing) is moving the relationship from commodity pulls to embedded analytics partnerships.</p>
+</div>
+<div class="fw-item">
+  <span class="fw-name">4. Threat of Substitutes</span> <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:2px;">Traditional credit reporting has limited substitutes for regulated lending decisions — FCRA mandates use of authorized reporting agencies. However, open banking (Plaid), alternative data providers, and AI-driven underwriting models that use bank transaction data or social signals present partial substitution risk for non-regulated use cases. The tri-merge to bi-merge risk in mortgage is real: industry experts warn a shift could force a pricing war between TransUnion and Experian for the #2 slot alongside Equifax.</p>
+</div>
+<div class="fw-item">
+  <span class="fw-name">5. Competitive Rivalry</span> <span class="fw-rating moderate">Moderate</span>
+  <p class="prose" style="margin-top:2px;">Rational oligopoly among three US credit bureaus (TransUnion, Equifax, Experian) plus FICO as the dominant scoring model. Competition is intensifying in adjacencies — marketing data (vs. Experian, LiveRamp), fraud (vs. LexisNexis, device fingerprinting specialists), and identity (vs. everyone). TransUnion differentiates through the integrated OneTru platform connecting credit, fraud, marketing, and consumer on unified identity. The credit reporting industry is growing, which reduces zero-sum dynamics.</p>
+</div>
+
+<div class="verdict" style="margin-top:12px;">
+  <strong>Summary:</strong> The competitive environment is <strong>favorable</strong>. TransUnion operates in a regulated oligopoly with extremely high barriers to entry, low supplier power (except FICO), and growing addressable markets that reduce rivalry intensity. The primary threats are from substitution (open banking, alternative data) and FICO's pricing power — both are manageable given TransUnion's diversification into non-credit solutions and the VantageScore counter-strategy.
+</div>
+
+<!-- ==================== SECTION 6: WHAT DRIVES THE STOCK? ==================== -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<div class="fw-item" style="margin-bottom:10px;">
+  <span class="fw-name">1. US Lending Volume & Mortgage Activity</span>
+  <p class="prose" style="margin-top:2px;">Mortgage represented 13% of 2025 revenue and is highly sensitive to interest rates. Mortgage inquiries surged 37% Y/Y in Q4 on pricing actions, but underlying origination volumes remain well below 2019 levels. Every 10% volume recovery adds ~$40M EBITDA. <strong>Bullish:</strong> rate cuts, refi wave. <strong>Bearish:</strong> rates stay high, housing freeze persists.</p>
+</div>
+<div class="fw-item" style="margin-bottom:10px;">
+  <span class="fw-name">2. FICO Pricing Dynamics & VantageScore Adoption</span>
+  <p class="prose" style="margin-top:2px;">FICO royalties pass through at zero margin but inflate reported revenue and compress reported margins. VantageScore 4.0 adoption (99-cent pricing, FHFA approval) represents pure upside — not embedded in 2026 guidance. FHFA publishing the loan-level price adjustment matrix is the key catalyst. <strong>Bullish:</strong> VS 4.0 gains traction, FICO direct license = higher TRU margins. <strong>Bearish:</strong> adoption stalls, FICO raises royalties further.</p>
+</div>
+<div class="fw-item" style="margin-bottom:10px;">
+  <span class="fw-name">3. Non-Credit Solution Growth (Marketing, Fraud, TCS)</span>
+  <p class="prose" style="margin-top:2px;">Non-credit solutions now represent ~50% of US Markets revenue and are growing faster than core credit. Trusted Call Solutions grew 30%+ to $160M in 2025 with expectations to exceed $200M in 2026. Marketing accelerated from flat to 7% organic growth. These businesses are less cyclical and diversify the earnings stream. <strong>Bullish:</strong> accelerating adoption, new product launches. <strong>Bearish:</strong> enterprise spending pullback, competitive losses.</p>
+</div>
+<div class="fw-item" style="margin-bottom:10px;">
+  <span class="fw-name">4. Margin Expansion (Ex-FICO)</span>
+  <p class="prose" style="margin-top:2px;">Underlying adjusted EBITDA margins (ex-FICO mortgage royalties) are expanding ~70bps/year, targeting 38.2% at the high end of 2026 guidance — up 240bps since 2023. Transformation program completion eliminates one-time costs in 2026. Free cash flow conversion targeting 90%+ of adjusted net income. <strong>Bullish:</strong> margin beats, operating leverage. <strong>Bearish:</strong> reinvestment spending, India drag.</p>
+</div>
+<div class="fw-item" style="margin-bottom:10px;">
+  <span class="fw-name">5. India Recovery & International Growth</span>
+  <p class="prose" style="margin-top:2px;">India (5.8% of revenue) declined in Q4 as RBI tightening created a cyclical reset. Management expects mid-single-digit recovery in 2026, returning to double-digit growth thereafter. Longer-term, India is the highest-growth market — 850M consumers under 35, rapid digitization. The $660M Trans Union de Mexico acquisition (closed March 2026) adds another growth vector. <strong>Bullish:</strong> India recovers, Mexico accretive. <strong>Bearish:</strong> EM weakness persists, tariff disruptions.</p>
+</div>
+<div class="fw-item" style="margin-bottom:10px;">
+  <span class="fw-name">6. Capital Allocation & Shareholder Returns</span>
+  <p class="prose" style="margin-top:2px;">With leverage declining (2.6x, targeting &lt;2.5x) and FCF conversion at 90%+, TransUnion is pivoting to shareholder-centric capital deployment. $1B buyback authorization, $302M repurchased in 2025, dividend raised 9%. Management expects ~$3B in cumulative FCF over 2026-2028. <strong>Bullish:</strong> aggressive buybacks at depressed valuations. <strong>Bearish:</strong> M&A spending absorbs cash, leverage creeps up.</p>
+</div>
+
+<!-- ==================== SECTION 7: WHAT DRIVES THE BUSINESS? ==================== -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<table class="data" style="margin-bottom:12px;">
+  <tr><th style="width:25%;">Revenue Line</th><th style="width:50%;text-align:left;">Driver Decomposition</th><th>FY25 Rev</th><th>% Total</th></tr>
+  <tr><td><strong>Financial Services</strong></td><td style="text-align:left;">Credit Inquiry Volume x Revenue per Pull x Pricing Actions + Non-Tri-Bureau Revenue (TruIQ, Scores)</td><td>~$1,750M</td><td>~38%</td></tr>
+  <tr><td><strong>Emerging Verticals</strong></td><td style="text-align:left;"># Insurance Quotes x Hit Rate x Price per Solution + Tenant Screens x Price + Tech/Retail/Media Identity Solutions</td><td>~$1,300M</td><td>~28%</td></tr>
+  <tr><td><strong>Consumer Interactive</strong></td><td style="text-align:left;"># B2B Partners x Rev per Partner + DTC Subscribers x ARPU + Breach Remediation Contracts</td><td>~$520M</td><td>~11%</td></tr>
+  <tr><td><strong>Mortgage</strong></td><td style="text-align:left;">Origination Inquiries x Price per Pull + 3rd-Party Score Royalties (FICO pass-through) + Non-Tri-Bureau Revenue</td><td>~$600M</td><td>~13%</td></tr>
+  <tr><td><strong>International</strong></td><td style="text-align:left;">Country Lending Volumes x Bureau Penetration x Price per Pull + Non-Credit Solutions Revenue</td><td>$1,005M</td><td>22%</td></tr>
+</table>
+
+<p class="prose"><strong>Key leverage points:</strong> The two drivers with the most leverage on total revenue are (1) <strong>US lending volume</strong> — mortgage and consumer lending inquiry volumes are highly cyclical and directly drive ~50% of US Financial Services revenue, and (2) <strong>non-credit solution attach rates</strong> — the pace at which existing credit customers adopt marketing, fraud, and TruIQ analytics products. Management now generates roughly half of US Markets revenue from non-core credit, up from a highly credit-weighted mix five years ago. The third critical driver is <strong>pricing power</strong> — TransUnion consistently achieves mid-single-digit pricing increases across its portfolio, supported by product innovation and platform value-add rather than pure cost escalation.</p>
+
+<!-- ==================== SECTION 8: ALPHASENSE INSIGHTS ==================== -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+  <strong>Competitive Moat & Data Durability:</strong> Expert interviews confirm TransUnion's data moat is "extremely difficult to replicate" — built on regulated financial relationships, privacy-by-design governance, and decades of operational integration. Contributory databases create a "living data asset" with 50B+ signals processed monthly. Unlike information companies that aggregate accessible data, TransUnion's data is proprietary, highly regulated, and continuously enriched. AI <em>increases</em> demand for this data rather than commoditizing it — "the most AI-enabled clients consume the most data." Experts uniformly dismiss the AI commoditization bear thesis for regulated credit data.
+</div>
+
+<div class="alphasense-box">
+  <strong>Management & Strategic Execution:</strong> CEO Chris Cartwright is "widely respected as intelligent and experienced." The $5.5B transformation program was completed on time and within the $355-375M budget. However, former executives describe the broader leadership as occasionally "risk-averse and bogged down by micromanagement" with a "top-down decision-making style" that can stifle organizational velocity. The Neustar acquisition was initially criticized (27x EBITDA, 60-80% overpayment at prevailing multiples per experts), but EBITDA has since doubled from $115M to $255M+, reducing the effective multiple to ~10x when including $70M in OneTru platform savings.
+</div>
+
+<div class="alphasense-box">
+  <strong>Technology & Platform:</strong> OneTru is described as "not just a technology upgrade — it's a growth and innovation engine." Five foundational pillars: best-in-class data, industry-leading identity resolution, flexibility-first architecture, global availability, and natively embedded AI. The neuro-symbolic AI approach (combining neural networks with symbolic logic reasoning) is differentiated. Platform migration has delivered 50%+ faster processing, 12x batch improvement, and 25% faster API response times. Client data can be hosted in-cloud (AWS, GCP, Snowflake) natively — a powerful competitive differentiator.
+</div>
+
+<div class="alphasense-box">
+  <strong>What the Market Misunderstands:</strong> The most critical misunderstanding is viewing TransUnion as "purely a lending-cycle play." In reality, non-credit adjacencies now account for ~40% of total revenue and are growing faster than legacy business. Fraud, marketing, and communications solutions provide acyclical revenue streams. The market also underappreciates the VantageScore opportunity (not in guidance, pure upside), the India long-term growth potential (market leader in fastest-growing credit market), and the operating leverage emerging as transformation costs fall away.
+</div>
+
+<div class="alphasense-box">
+  <strong>Key Investor Questions from Expert Calls:</strong>
+  <br>1. Can the tri-merge mortgage model shift to bi-merge, and would TransUnion lose its seat? (Risk: price war for #2 slot with Experian)
+  <br>2. How durable is the FICO pass-through margin neutrality if FICO shifts to direct licensing?
+  <br>3. Can non-credit solutions truly sustain double-digit growth as they scale past $2B?
+  <br>4. Will India's cyclical recovery actually materialize in 2026, or is secular optimism masking structural share loss?
+  <br>5. Does the Neustar integration represent a replicable M&A playbook or a one-time lucky outcome?
+</div>
+
+<!-- ==================== SECTION 9: SENSITIVITIES ==================== -->
+<div class="memo-section">9. Sensitivities</div>
+
+<p class="prose"><strong>Table 1: FY2026E Revenue ($M) — US Lending Volume Growth vs. Non-Credit Solution Growth</strong><br>
+<em>Current: US Lending ~flat to +3%; Non-Credit Solutions ~+10-12%</em></p>
+<table class="sensitivity">
+  <tr><th>Rev ($M)</th><th>Non-Credit +5%</th><th>Non-Credit +8%</th><th>Non-Credit +10%</th><th>Non-Credit +12%</th><th>Non-Credit +15%</th></tr>
+  <tr><td style="font-weight:600;">Lending -5%</td><td>4,710</td><td>4,790</td><td>4,840</td><td>4,890</td><td>4,965</td></tr>
+  <tr><td style="font-weight:600;">Lending 0%</td><td>4,830</td><td>4,910</td><td>4,960</td><td>5,010</td><td>5,085</td></tr>
+  <tr><td style="font-weight:600;">Lending +3%</td><td>4,900</td><td>4,980</td><td class="base">5,029</td><td>5,080</td><td>5,155</td></tr>
+  <tr><td style="font-weight:600;">Lending +6%</td><td>4,970</td><td>5,050</td><td>5,100</td><td>5,150</td><td>5,225</td></tr>
+  <tr><td style="font-weight:600;">Lending +10%</td><td>5,065</td><td>5,145</td><td>5,195</td><td>5,245</td><td>5,320</td></tr>
+</table>
+
+<p class="prose"><strong>Table 2: FY2026E Adjusted EBITDA ($M) — Revenue Growth vs. EBITDA Margin (ex-FICO)</strong><br>
+<em>Current: Revenue ~$5.0B; Adj EBITDA Margin (ex-FICO) ~37.5-38.2%</em></p>
+<table class="sensitivity">
+  <tr><th>EBITDA ($M)</th><th>Margin 35.5%</th><th>Margin 36.5%</th><th>Margin 37.5%</th><th>Margin 38.2%</th><th>Margin 39.5%</th></tr>
+  <tr><td style="font-weight:600;">Rev $4,800</td><td>1,704</td><td>1,752</td><td>1,800</td><td>1,834</td><td>1,896</td></tr>
+  <tr><td style="font-weight:600;">Rev $4,900</td><td>1,740</td><td>1,789</td><td>1,838</td><td>1,872</td><td>1,936</td></tr>
+  <tr><td style="font-weight:600;">Rev $5,029</td><td>1,785</td><td>1,836</td><td>1,886</td><td class="base">1,921</td><td>1,986</td></tr>
+  <tr><td style="font-weight:600;">Rev $5,150</td><td>1,828</td><td>1,880</td><td>1,931</td><td>1,967</td><td>2,034</td></tr>
+  <tr><td style="font-weight:600;">Rev $5,300</td><td>1,882</td><td>1,935</td><td>1,988</td><td>2,025</td><td>2,094</td></tr>
+</table>
+
+<p class="prose"><strong>Table 3: FY2026E Adjusted Diluted EPS — Revenue Growth vs. Share Count (M)</strong><br>
+<em>Current: ~196 diluted shares; EPS consensus $2.87 at ~$5.0B revenue</em></p>
+<table class="sensitivity">
+  <tr><th>EPS ($)</th><th>200M Shares</th><th>196M Shares</th><th>192M Shares</th><th>188M Shares</th><th>184M Shares</th></tr>
+  <tr><td style="font-weight:600;">Rev $4,800</td><td>$2.38</td><td>$2.43</td><td>$2.48</td><td>$2.53</td><td>$2.59</td></tr>
+  <tr><td style="font-weight:600;">Rev $4,900</td><td>$2.55</td><td>$2.60</td><td>$2.66</td><td>$2.71</td><td>$2.77</td></tr>
+  <tr><td style="font-weight:600;">Rev $5,029</td><td>$2.80</td><td class="base">$2.87</td><td>$2.93</td><td>$2.99</td><td>$3.06</td></tr>
+  <tr><td style="font-weight:600;">Rev $5,150</td><td>$3.02</td><td>$3.08</td><td>$3.15</td><td>$3.21</td><td>$3.28</td></tr>
+  <tr><td style="font-weight:600;">Rev $5,300</td><td>$3.28</td><td>$3.35</td><td>$3.42</td><td>$3.49</td><td>$3.56</td></tr>
+</table>
+
+<!-- ==================== SECTION 10: FIVE SCENARIOS ==================== -->
+<div class="memo-section">10. Five Scenarios</div>
+
+<p class="prose">Each scenario flows from core business drivers: US lending volumes, non-credit solution growth, margin expansion trajectory, international recovery, and capital allocation. Base case uses consensus estimates. Cost of capital: 12% (reflecting beta of 1.52 and credit bureau risk profile). Terminal year: FY2028E.</p>
+
+<!-- Case 1: Bear Severe -->
+<div class="case-block">
+  <div class="case-name">Case 1: Bear Severe (10% probability)</div>
+  <div class="case-desc">Recession drives lending volumes down 10-15%. India stagnates. AI commoditization fear deepens, compressing multiples further. FICO direct licensing gains traction, eroding TransUnion's score resale revenue. VantageScore adoption stalls.</div>
+  <div class="driver-label">Key Drivers — FY2028E</div>
+  <div class="driver-row"><span>Revenue Growth (3Y CAGR)</span><span>+4.0%</span></div>
+  <div class="driver-row"><span>FY2028E Revenue</span><span>$5,150M</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>33.0%</span></div>
+  <div class="driver-row"><span>Exit P/E Multiple</span><span>11.0x</span></div>
+  <table class="scenario-mini">
+    <tr><td></td><td><strong>FY26E</strong></td><td><strong>FY27E</strong></td><td><strong>FY28E</strong></td></tr>
+    <tr><td>$Revenue</td><td>$4,750</td><td>$4,940</td><td>$5,150</td></tr>
+    <tr><td>Gross Income</td><td>2,590</td><td>2,720</td><td>2,860</td></tr>
+    <tr><td>EBITDA</td><td>1,568</td><td>1,630</td><td>1,700</td></tr>
+    <tr><td>EBIT</td><td>868</td><td>910</td><td>980</td></tr>
+    <tr><td>Net Income</td><td>520</td><td>560</td><td>620</td></tr>
+    <tr><td>EPS</td><td>$2.65</td><td>$2.90</td><td>$3.25</td></tr>
+    <tr><td>EBITDA Margin</td><td>33.0%</td><td>33.0%</td><td>33.0%</td></tr>
+    <tr><td>$FCF</td><td>$620</td><td>$680</td><td>$750</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:9px;color:#555;">Exit: 11.0x FY28E EPS of $3.25 → Implied share price of $35.75, discounted at 12% for 2.7 years:</div>
+    <div class="exit-price">$26.10</div>
+    <div class="exit-upside" style="color:#c0392b;">-64.0% downside from $72.40</div>
+  </div>
+</div>
+
+<!-- Case 2: Bear Mild -->
+<div class="case-block">
+  <div class="case-name">Case 2: Bear Mild (20% probability)</div>
+  <div class="case-desc">Lending volumes remain flat. Non-credit growth decelerates to mid-single digits. India recovers slowly. Margins expand but at a slower pace due to competitive pricing pressure and lingering FICO margin drag. Market assigns below-average multiple on AI uncertainty.</div>
+  <div class="driver-label">Key Drivers — FY2028E</div>
+  <div class="driver-row"><span>Revenue Growth (3Y CAGR)</span><span>+6.5%</span></div>
+  <div class="driver-row"><span>FY2028E Revenue</span><span>$5,540M</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>35.5%</span></div>
+  <div class="driver-row"><span>Exit P/E Multiple</span><span>13.0x</span></div>
+  <table class="scenario-mini">
+    <tr><td></td><td><strong>FY26E</strong></td><td><strong>FY27E</strong></td><td><strong>FY28E</strong></td></tr>
+    <tr><td>$Revenue</td><td>$4,880</td><td>$5,190</td><td>$5,540</td></tr>
+    <tr><td>Gross Income</td><td>2,730</td><td>2,935</td><td>3,160</td></tr>
+    <tr><td>EBITDA</td><td>1,688</td><td>1,817</td><td>1,967</td></tr>
+    <tr><td>EBIT</td><td>938</td><td>1,060</td><td>1,210</td></tr>
+    <tr><td>Net Income</td><td>610</td><td>720</td><td>840</td></tr>
+    <tr><td>EPS</td><td>$3.15</td><td>$3.75</td><td>$4.40</td></tr>
+    <tr><td>EBITDA Margin</td><td>34.6%</td><td>35.0%</td><td>35.5%</td></tr>
+    <tr><td>$FCF</td><td>$740</td><td>$880</td><td>$1,020</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:9px;color:#555;">Exit: 13.0x FY28E EPS of $4.40 → Implied share price of $57.20, discounted at 12% for 2.7 years:</div>
+    <div class="exit-price">$41.70</div>
+    <div class="exit-upside" style="color:#c0392b;">-42.4% downside from $72.40</div>
+  </div>
+</div>
+
+<!-- Case 3: Base Case -->
+<div class="case-block">
+  <div class="case-name">Case 3: Base Case (35% probability)</div>
+  <div class="case-desc">Consensus estimates: 8-9% organic revenue growth, 7-8% adj EBITDA growth, 8-10% adj EPS growth. Lending volumes recover modestly. Non-credit solutions sustain double-digit growth. India returns to mid-single-digit growth. Margins expand ~50-70bps/yr ex-FICO. No VantageScore adoption assumed.</div>
+  <div class="driver-label">Key Drivers — FY2028E</div>
+  <div class="driver-row"><span>Revenue Growth (3Y CAGR)</span><span>+8.7%</span></div>
+  <div class="driver-row"><span>FY2028E Revenue</span><span>$5,880M</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>37.7%</span></div>
+  <div class="driver-row"><span>Exit P/E Multiple</span><span>15.0x</span></div>
+  <table class="scenario-mini">
+    <tr><td></td><td><strong>FY26E</strong></td><td><strong>FY27E</strong></td><td><strong>FY28E</strong></td></tr>
+    <tr><td>$Revenue</td><td>$5,029</td><td>$5,436</td><td>$5,880</td></tr>
+    <tr><td>Gross Income</td><td>2,942</td><td>3,182</td><td>3,368</td></tr>
+    <tr><td>EBITDA</td><td>1,789</td><td>1,985</td><td>2,219</td></tr>
+    <tr><td>EBIT</td><td>1,025</td><td>1,210</td><td>1,491</td></tr>
+    <tr><td>Net Income</td><td>921</td><td>1,039</td><td>1,194</td></tr>
+    <tr><td>EPS</td><td>$2.87</td><td>$3.60</td><td>$4.60</td></tr>
+    <tr><td>EBITDA Margin</td><td>35.6%</td><td>36.5%</td><td>37.7%</td></tr>
+    <tr><td>$FCF</td><td>$852</td><td>$1,016</td><td>$1,238</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:9px;color:#555;">Exit: 15.0x FY28E EPS of $4.60 → Implied share price of $69.00, discounted at 12% for 2.7 years:</div>
+    <div class="exit-price">$50.30</div>
+    <div class="exit-upside" style="color:#c0392b;">-30.5% downside from $72.40</div>
+  </div>
+</div>
+
+<!-- Case 4: Bull Mild -->
+<div class="case-block">
+  <div class="case-name">Case 4: Bull Mild (25% probability)</div>
+  <div class="case-desc">Management beats and raises (as in 2024 and 2025). Lending volumes recover modestly with rate cuts. India returns to double-digit growth. VantageScore begins gaining traction. Non-credit sustains 12-15% growth. Margins expand faster than guided. Market re-rates toward peer multiples.</div>
+  <div class="driver-label">Key Drivers — FY2028E</div>
+  <div class="driver-row"><span>Revenue Growth (3Y CAGR)</span><span>+10.5%</span></div>
+  <div class="driver-row"><span>FY2028E Revenue</span><span>$6,220M</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>39.0%</span></div>
+  <div class="driver-row"><span>Exit P/E Multiple</span><span>18.0x</span></div>
+  <table class="scenario-mini">
+    <tr><td></td><td><strong>FY26E</strong></td><td><strong>FY27E</strong></td><td><strong>FY28E</strong></td></tr>
+    <tr><td>$Revenue</td><td>$5,200</td><td>$5,680</td><td>$6,220</td></tr>
+    <tr><td>Gross Income</td><td>3,060</td><td>3,390</td><td>3,760</td></tr>
+    <tr><td>EBITDA</td><td>1,872</td><td>2,130</td><td>2,426</td></tr>
+    <tr><td>EBIT</td><td>1,110</td><td>1,350</td><td>1,640</td></tr>
+    <tr><td>Net Income</td><td>750</td><td>950</td><td>1,180</td></tr>
+    <tr><td>EPS</td><td>$3.90</td><td>$5.00</td><td>$6.25</td></tr>
+    <tr><td>EBITDA Margin</td><td>36.0%</td><td>37.5%</td><td>39.0%</td></tr>
+    <tr><td>$FCF</td><td>$950</td><td>$1,180</td><td>$1,450</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:9px;color:#555;">Exit: 18.0x FY28E EPS of $6.25 → Implied share price of $112.50, discounted at 12% for 2.7 years:</div>
+    <div class="exit-price">$82.00</div>
+    <div class="exit-upside" style="color:#27ae60;">+13.3% upside from $72.40</div>
+  </div>
+</div>
+
+<!-- Case 5: Bull Severe -->
+<div class="case-block">
+  <div class="case-name">Case 5: Bull Severe (10% probability)</div>
+  <div class="case-desc">Mortgage refi wave as rates drop below 5.5%. VantageScore adoption accelerates broadly across GSEs and lenders — pure margin upside. India enters secular double-digit growth phase. Non-credit solutions inflect as AI-driven products go mainstream. Market fully re-rates to data/analytics peer multiples. Aggressive buybacks at depressed levels amplify EPS.</div>
+  <div class="driver-label">Key Drivers — FY2028E</div>
+  <div class="driver-row"><span>Revenue Growth (3Y CAGR)</span><span>+13.0%</span></div>
+  <div class="driver-row"><span>FY2028E Revenue</span><span>$6,620M</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>41.0%</span></div>
+  <div class="driver-row"><span>Exit P/E Multiple</span><span>22.0x</span></div>
+  <table class="scenario-mini">
+    <tr><td></td><td><strong>FY26E</strong></td><td><strong>FY27E</strong></td><td><strong>FY28E</strong></td></tr>
+    <tr><td>$Revenue</td><td>$5,400</td><td>$5,980</td><td>$6,620</td></tr>
+    <tr><td>Gross Income</td><td>3,240</td><td>3,650</td><td>4,100</td></tr>
+    <tr><td>EBITDA</td><td>2,000</td><td>2,330</td><td>2,714</td></tr>
+    <tr><td>EBIT</td><td>1,250</td><td>1,520</td><td>1,860</td></tr>
+    <tr><td>Net Income</td><td>870</td><td>1,100</td><td>1,380</td></tr>
+    <tr><td>EPS</td><td>$4.60</td><td>$5.90</td><td>$7.50</td></tr>
+    <tr><td>EBITDA Margin</td><td>37.0%</td><td>39.0%</td><td>41.0%</td></tr>
+    <tr><td>$FCF</td><td>$1,100</td><td>$1,380</td><td>$1,720</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:9px;color:#555;">Exit: 22.0x FY28E EPS of $7.50 → Implied share price of $165.00, discounted at 12% for 2.7 years:</div>
+    <div class="exit-price">$120.30</div>
+    <div class="exit-upside" style="color:#27ae60;">+66.2% upside from $72.40</div>
+  </div>
+</div>
+
+<p class="prose"><strong>Probability-Weighted Fair Value:</strong> (10% x $26.10) + (20% x $41.70) + (35% x $50.30) + (25% x $82.00) + (10% x $120.30) = <strong>$59.60</strong>. This implies approximately 17.7% downside from the current price of $72.40, suggesting the stock is fairly to slightly overvalued on a probability-weighted basis at current levels. However, the skew is meaningful: the bull scenarios carry significantly more dollar upside than the bear scenarios carry downside, and management has a track record of beating and raising guidance.</p>
+
+<!-- SVG Bar Chart -->
+<div class="case-chart">
+<svg viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg">
+  <!-- Y-axis -->
+  <line x1="80" y1="20" x2="80" y2="210" stroke="#ccc" stroke-width="1"/>
+  <!-- X-axis -->
+  <line x1="80" y1="210" x2="680" y2="210" stroke="#ccc" stroke-width="1"/>
+  <!-- Gridlines -->
+  <line x1="80" y1="170" x2="680" y2="170" stroke="#eee" stroke-width="0.5"/>
+  <line x1="80" y1="130" x2="680" y2="130" stroke="#eee" stroke-width="0.5"/>
+  <line x1="80" y1="90" x2="680" y2="90" stroke="#eee" stroke-width="0.5"/>
+  <line x1="80" y1="50" x2="680" y2="50" stroke="#eee" stroke-width="0.5"/>
+  <!-- Y-axis labels -->
+  <text x="75" y="213" text-anchor="end" font-size="9" fill="#888">$0</text>
+  <text x="75" y="173" text-anchor="end" font-size="9" fill="#888">$40</text>
+  <text x="75" y="133" text-anchor="end" font-size="9" fill="#888">$80</text>
+  <text x="75" y="93" text-anchor="end" font-size="9" fill="#888">$120</text>
+  <!-- Bars (scale: $1 = 1.0px from 210 baseline) -->
+  <!-- Bear Severe: $26.10 -->
+  <rect x="120" y="183.9" width="80" height="26.1" fill="#bbb" rx="2"/>
+  <text x="160" y="180" text-anchor="middle" font-size="9" font-weight="600" fill="#1a1a2e">$26</text>
+  <text x="160" y="228" text-anchor="middle" font-size="8" fill="#555">Bear Severe</text>
+  <!-- Bear Mild: $41.70 -->
+  <rect x="230" y="168.3" width="80" height="41.7" fill="#999" rx="2"/>
+  <text x="270" y="165" text-anchor="middle" font-size="9" font-weight="600" fill="#1a1a2e">$42</text>
+  <text x="270" y="228" text-anchor="middle" font-size="8" fill="#555">Bear Mild</text>
+  <!-- Base: $50.30 -->
+  <rect x="340" y="159.7" width="80" height="50.3" fill="#777" rx="2"/>
+  <text x="380" y="156" text-anchor="middle" font-size="9" font-weight="600" fill="#1a1a2e">$50</text>
+  <text x="380" y="228" text-anchor="middle" font-size="8" fill="#555">Base</text>
+  <!-- Bull Mild: $82.00 -->
+  <rect x="450" y="128" width="80" height="82" fill="#555" rx="2"/>
+  <text x="490" y="124" text-anchor="middle" font-size="9" font-weight="600" fill="#1a1a2e">$82</text>
+  <text x="490" y="228" text-anchor="middle" font-size="8" fill="#555">Bull Mild</text>
+  <!-- Bull Severe: $120.30 -->
+  <rect x="560" y="89.7" width="80" height="120.3" fill="#333" rx="2"/>
+  <text x="600" y="86" text-anchor="middle" font-size="9" font-weight="600" fill="#1a1a2e">$120</text>
+  <text x="600" y="228" text-anchor="middle" font-size="8" fill="#555">Bull Severe</text>
+  <!-- Current price line: $72.40 -->
+  <line x1="80" y1="137.6" x2="680" y2="137.6" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <text x="682" y="140" font-size="8" fill="#c0392b" font-weight="600">Current: $72.40</text>
+  <!-- PV line: $59.60 -->
+  <line x1="80" y1="150.4" x2="680" y2="150.4" stroke="#e67e22" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="682" y="153" font-size="8" fill="#e67e22" font-weight="600">PV: $59.60</text>
+</svg>
+</div>
+
+<!-- ==================== SECTION 11: COMPS ==================== -->
+<div class="memo-section">11. Comparable Companies</div>
+
+<div class="sub-label">Selected Financials — Credit & Information Services Peers</div>
+<table class="comps">
+  <tr><th>Company</th><th>Ticker</th><th>Price</th><th>Mkt Cap (M)</th><th>EV (M)</th><th>Sales (M)</th><th>EBITDA (M)</th><th>EV/EBIT</th><th>EV/EBITDA</th></tr>
+  <tr class="subject"><td>TransUnion</td><td>TRU</td><td>$72.40</td><td>$14,216</td><td>$18,341</td><td>$4,576</td><td>$1,495</td><td>19.9x</td><td>12.3x</td></tr>
+  <tr><td>Equifax</td><td>EFX</td><td>$186.43</td><td>$22,652</td><td>$27,805</td><td>$6,075</td><td>$1,865</td><td>24.3x</td><td>14.9x</td></tr>
+  <tr><td>Fair Isaac (FICO)</td><td>FICO</td><td>$1,007.28</td><td>$24,186</td><td>$27,221</td><td>$2,063</td><td>$1,006</td><td>27.5x</td><td>27.1x</td></tr>
+  <tr><td>Experian</td><td>EXPN</td><td>$36.15</td><td>$32,664</td><td>$37,810</td><td>$7,964</td><td>$2,795</td><td>19.1x</td><td>13.5x</td></tr>
+  <tr><td>First Advantage</td><td>FA</td><td>$12.04</td><td>$2,126</td><td>$3,966</td><td>$1,574</td><td>$390</td><td>28.1x</td><td>10.2x</td></tr>
+  <tr><td>Moody's</td><td>MCO</td><td>$438.06</td><td>$78,356</td><td>$82,564</td><td>$7,718</td><td>$3,935</td><td>23.9x</td><td>21.0x</td></tr>
+  <tr><td>Information Services A</td><td>ISC</td><td>$30.91</td><td>$581</td><td>$678</td><td>$184</td><td>$63</td><td>14.9x</td><td>10.8x</td></tr>
+  <tr><td>Enento Group</td><td>ENENTO</td><td>$16.86</td><td>$404</td><td>$564</td><td>$172</td><td>$50</td><td>15.1x</td><td>11.3x</td></tr>
+  <tr class="stat-row"><td>Peer Average</td><td></td><td></td><td></td><td></td><td></td><td></td><td>21.8x</td><td>15.5x</td></tr>
+  <tr class="stat-row"><td>Peer Median</td><td></td><td></td><td></td><td></td><td></td><td></td><td>23.9x</td><td>13.5x</td></tr>
+</table>
+
+<div class="sub-label">Valuation Multiples — Named Competitors</div>
+<table class="comps">
+  <tr><th>Company</th><th>Ticker</th><th>P/E (LTM)</th><th>P/E FY1</th><th>P/E FY2</th><th>EV/Sales</th><th>EV/EBITDA</th><th>EBITDA Mgn</th><th>Net Mgn</th></tr>
+  <tr class="subject"><td>TransUnion</td><td>TRU</td><td>31.3x</td><td>15.2x</td><td>13.1x</td><td>4.0x</td><td>12.3x</td><td>32.7%</td><td>10.0%</td></tr>
+  <tr><td>Fair Isaac</td><td>FICO</td><td>37.3x</td><td>24.4x</td><td>19.1x</td><td>13.2x</td><td>27.1x</td><td>48.8%</td><td>31.9%</td></tr>
+  <tr><td>Equifax</td><td>EFX</td><td>35.0x</td><td>21.7x</td><td>18.1x</td><td>4.6x</td><td>14.9x</td><td>30.7%</td><td>10.9%</td></tr>
+  <tr><td>Gen Digital</td><td>GEN</td><td>19.5x</td><td>7.4x</td><td>6.7x</td><td>4.1x</td><td>8.7x</td><td>47.5%</td><td>12.8%</td></tr>
+  <tr><td>Verisk Analytics</td><td>VRSK</td><td>26.3x</td><td>22.4x</td><td>19.9x</td><td>8.4x</td><td>15.2x</td><td>55.5%</td><td>29.6%</td></tr>
+  <tr><td>Experian</td><td>EXPN</td><td>24.3x</td><td>20.4x</td><td>18.0x</td><td>4.7x</td><td>13.5x</td><td>35.1%</td><td>17.1%</td></tr>
+  <tr><td>LiveRamp</td><td>RAMP</td><td>24.8x</td><td>11.4x</td><td>9.3x</td><td>1.7x</td><td>17.3x</td><td>10.0%</td><td>8.6%</td></tr>
+  <tr><td>Red Violet</td><td>RDVT</td><td>40.4x</td><td>27.4x</td><td>23.8x</td><td>5.6x</td><td>21.2x</td><td>26.4%</td><td>14.6%</td></tr>
+  <tr class="stat-row"><td>Peer Average</td><td></td><td>29.7x</td><td>19.3x</td><td>16.4x</td><td>6.0x</td><td>16.8x</td><td>36.3%</td><td>17.9%</td></tr>
+  <tr class="stat-row"><td>Peer Median</td><td></td><td>26.3x</td><td>21.7x</td><td>18.1x</td><td>4.7x</td><td>15.2x</td><td>35.1%</td><td>14.6%</td></tr>
+</table>
+
+<p class="prose">TransUnion trades at a significant discount to its peer group on virtually every metric: 15.2x FY1 P/E vs. 21.7x peer median, 12.3x EV/EBITDA vs. 15.2x median, and 4.0x EV/Sales vs. 4.7x median. The discount reflects lingering concerns around AI commoditization, FICO pricing pressure, and the GAAP earnings complexity from mortgage royalty pass-throughs. Given the completion of the transformation program and accelerating margin expansion (ex-FICO), this discount appears excessive. A re-rating to peer median EV/EBITDA of 15.2x would imply ~$92 per share, a 27% premium to the current price.</p>
+
+<!-- ==================== SECTION 12: IS THIS A THEIA INVESTMENT? ==================== -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<p class="prose" style="font-style:italic;color:#555;">Theia seeks small cap companies that aren't well covered and are strongly aligned on core internet finance thesis with wide outcome dispersion.</p>
+
+<div class="verdict">
+  <strong>(i) Market Cap Bucket: $13.8B — Large Cap</strong> <span class="fw-rating weak">Weak</span>
+  <br>At $13.8B market cap, TransUnion falls outside Theia's small-cap sweet spot. This is a large-cap information services company covered by major institutional investors. The size makes it harder to find genuinely mispriced opportunities relative to the firm's typical hunting ground.
+</div>
+
+<div class="verdict">
+  <strong>(ii) Analyst Coverage: 23 Broker Contributors</strong> <span class="fw-rating weak">Weak</span>
+  <br>Well-covered by 23 sell-side analysts including all major banks (JPMorgan, Morgan Stanley, Baird, Deutsche Bank, RBC, Wells Fargo, Barclays, Autonomous Research). This is one of the most heavily covered names in the credit services space, leaving limited informational edge. Consensus target of $91.76 with a strong Buy average rating (1.22).
+</div>
+
+<div class="verdict">
+  <strong>(iii) Thesis Alignment: Adjacent</strong> <span class="fw-rating moderate">Moderate</span>
+  <br>TransUnion is a core enabler of the digital financial services ecosystem — it provides the identity resolution, credit decisioning, and fraud prevention infrastructure that fintechs, neobanks, and digital lenders depend on. The company serves as critical infrastructure for Theia's internet finance thesis: every digital lending decision, fintech credit product, and blockchain-adjacent identity verification touches bureau data. However, it is not a blockchain company itself, making this an adjacent rather than core thesis fit.
+</div>
+
+<div class="verdict">
+  <strong>(iv) Outcome Dispersion: Wide</strong> <span class="fw-rating strong">Strong</span>
+  <br>The five-scenario analysis produces a range from $26.10 (Bear Severe) to $120.30 (Bull Severe) — a 4.6x spread. Key sources of dispersion: VantageScore adoption (not in guidance, pure upside), mortgage volume recovery vs. prolonged freeze, AI narrative resolution (commoditization fear vs. data moat reality), and India's cyclical recovery trajectory. The sell-side target range of $65-$100+ reflects similar uncertainty. This is a genuine stock-picking opportunity.
+</div>
+
+<div class="verdict yes">
+  <strong>Verdict: Maybe — Right dynamics, wrong size</strong>
+  <br>TransUnion has wide outcome dispersion, strong competitive moats, and adjacent thesis alignment — all attractive Theia characteristics. The VantageScore catalyst, mortgage recovery optionality, and AI-driven product cycle create a multi-layered opportunity. However, the $13.8B market cap and 23-analyst coverage make this a well-known, well-followed name where Theia's small-cap informational edge is limited. Best suited as a watchlist name with potential to act on a significant dislocation (e.g., a macro-driven selloff to $55-60 where the risk/reward becomes asymmetric).
+</div>
+
+<!-- ==================== SECTION 13: RISK SUMMARY ==================== -->
+<div class="memo-section">13. Risk Summary</div>
+
+<table class="risk-table">
+  <tr><th>Risk Category</th><th>Description</th><th>Severity</th><th>Mitigant</th></tr>
+  <tr>
+    <td>AI Commoditization</td>
+    <td>Market fear that generative AI will erode credit bureau data moats, enabling new entrants to replicate analytical capabilities at low cost</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Data is proprietary, regulated, and continuously enriched by 50B+ monthly signals; AI-enabled clients consume MORE data; expert consensus dismisses this thesis for regulated credit data</td>
+  </tr>
+  <tr>
+    <td>FICO Pricing & Licensing</td>
+    <td>FICO doubled mortgage score pricing; potential shift to direct licensing could bypass resellers like TransUnion</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>FICO royalties are zero-margin pass-through; any shift to direct licensing or VantageScore adoption actually improves TRU margins; pricing VantageScore at $0.99 vs. FICO $4+ is a counter-strategy</td>
+  </tr>
+  <tr>
+    <td>Macro / Lending Volume</td>
+    <td>Persistently high interest rates suppress mortgage and consumer lending volumes, directly reducing credit inquiry revenue</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>50% of US Markets revenue now comes from non-credit solutions; emerging verticals (insurance, tech, retail) provide acyclical diversification; any rate cuts create immediate volume upside</td>
+  </tr>
+  <tr>
+    <td>Leverage & Capital Allocation</td>
+    <td>2.6x net leverage with $5.1B debt; $660M Mexico acquisition adds 0.3x; Neustar's initial 27x multiple drew criticism</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Deleveraging to &lt;2.5x target; FCF conversion at 90%+; $1B revolver upsized; Neustar EBITDA doubled from $115M to $255M, reducing effective multiple to ~10x; M&A bar raised — bolt-ons only</td>
+  </tr>
+  <tr>
+    <td>Regulatory & Litigation</td>
+    <td>CFPB consent order, FCRA NORA letter, July 2025 cyberattack (4.4M records), class action lawsuits; credit reporting has highest consumer litigation volume</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Regulatory compliance is a competitive moat (barrier to entry); 2022 CFPB lawsuit dismissed with prejudice; enhanced cybersecurity via OneTru platform; litigation reserves maintained</td>
+  </tr>
+  <tr>
+    <td>India Cyclical Headwinds</td>
+    <td>India (5.8% of revenue) declined 4% in Q4 2025 as RBI tightened unsecured lending standards; tariff uncertainty dampened commercial lending</td>
+    <td><span class="fw-rating low">Low</span></td>
+    <td>Cyclical, not structural — management expects mid-single-digit recovery in 2026; US-India trade deal reduces uncertainty; 850M consumers under 35 represent enormous secular opportunity; new fraud/marketing products expanding TAM</td>
+  </tr>
+  <tr>
+    <td>Tri-Merge to Bi-Merge Risk</td>
+    <td>Mortgage industry potentially shifting from tri-bureau to bi-bureau credit pulls; TransUnion risks losing its seat to Equifax + Experian</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>VantageScore 4.0's superior predictive architecture (30 months trended data, alternative data) and 99-cent pricing differentiate TransUnion's value proposition; TruIQ analytics create stickiness beyond raw credit pulls</td>
+  </tr>
+</table>
+
+<!-- ==================== SECTION 14: APPENDIX — PYTHON CODE ==================== -->
+<div class="memo-section appendix">14. Appendix — Python Code</div>
+
+<p class="prose">Parameterized code for sensitivity table generation and 5-case model. Modify the input dictionaries to explore alternative assumptions.</p>
+
+<div class="section-title">Sensitivity Table Generator</div>
+<div class="code-block">import numpy as np
+import pandas as pd
+
+# === Table 1: Revenue Sensitivity ===
+# US Lending Volume Growth vs Non-Credit Solution Growth
+lending_growth = [-0.05, 0.0, 0.03, 0.06, 0.10]
+noncredit_growth = [0.05, 0.08, 0.10, 0.12, 0.15]
+base_lending_rev = 2350  # FY25 US lending-tied revenue ($M)
+base_noncredit_rev = 2226  # FY25 non-credit + international ($M)
+
+rev_table = pd.DataFrame(index=[f"Lending {g:+.0%}" for g in lending_growth],
+                         columns=[f"Non-Credit +{g:.0%}" for g in noncredit_growth])
+for i, lg in enumerate(lending_growth):
+    for j, ng in enumerate(noncredit_growth):
+        rev_table.iloc[i, j] = int(base_lending_rev * (1 + lg) + base_noncredit_rev * (1 + ng))
+
+print("FY2026E Revenue ($M) — Lending Volume vs Non-Credit Growth")
+print(rev_table.to_string())
+
+# === Table 2: EBITDA Sensitivity ===
+revenues = [4800, 4900, 5029, 5150, 5300]
+margins = [0.355, 0.365, 0.375, 0.382, 0.395]
+ebitda_table = pd.DataFrame(
+    index=[f"Rev ${r:,}" for r in revenues],
+    columns=[f"Margin {m:.1%}" for m in margins],
+    data=[[int(r * m) for m in margins] for r in revenues]
+)
+print("\nFY2026E Adj EBITDA ($M) — Revenue vs EBITDA Margin (ex-FICO)")
+print(ebitda_table.to_string())
+
+# === Table 3: EPS Sensitivity ===
+share_counts = [200, 196, 192, 188, 184]
+# Assume ~$2.87 EPS at $5,029M rev and 196M shares (base)
+# NI margin ~11.2% at base
+ni_margin = 0.112
+eps_table = pd.DataFrame(
+    index=[f"Rev ${r:,}" for r in revenues],
+    columns=[f"{s}M Shares" for s in share_counts],
+    data=[[round(r * ni_margin / s, 2) for s in share_counts] for r in revenues]
+)
+print("\nFY2026E Adjusted Diluted EPS")
+print(eps_table.to_string())</div>
+
+<div class="section-title">5-Scenario Model Generator</div>
+<div class="code-block">import numpy as np
+
+scenarios = {
+    "Bear Severe": {
+        "probability": 0.10,
+        "revenue_28": 5150, "ebitda_margin_28": 0.330, "eps_28": 3.25,
+        "exit_pe": 11.0, "desc": "Recession, AI fear, FICO disruption"
+    },
+    "Bear Mild": {
+        "probability": 0.20,
+        "revenue_28": 5540, "ebitda_margin_28": 0.355, "eps_28": 4.40,
+        "exit_pe": 13.0, "desc": "Flat lending, slow India, below-avg multiple"
+    },
+    "Base Case": {
+        "probability": 0.35,
+        "revenue_28": 5880, "ebitda_margin_28": 0.377, "eps_28": 4.60,
+        "exit_pe": 15.0, "desc": "Consensus: 8-9% organic growth"
+    },
+    "Bull Mild": {
+        "probability": 0.25,
+        "revenue_28": 6220, "ebitda_margin_28": 0.390, "eps_28": 6.25,
+        "exit_pe": 18.0, "desc": "Beat & raise, VantageScore traction, peer re-rate"
+    },
+    "Bull Severe": {
+        "probability": 0.10,
+        "revenue_28": 6620, "ebitda_margin_28": 0.410, "eps_28": 7.50,
+        "exit_pe": 22.0, "desc": "Refi wave, VS adoption, India inflection"
+    }
+}
+
+current_price = 72.40
+discount_rate = 0.12
+years_to_terminal = 2.7
+discount_factor = 1 / (1 + discount_rate) ** years_to_terminal
+
+weighted_pv = 0
+print(f"{'Case':<16} {'Prob':>5} {'EPS28':>7} {'P/E':>5} {'Target':>8} {'PV':>8} {'vs Curr':>8}")
+print("-" * 60)
+for name, s in scenarios.items():
+    target = s["eps_28"] * s["exit_pe"]
+    pv = target * discount_factor
+    upside = (pv / current_price - 1) * 100
+    weighted_pv += s["probability"] * pv
+    print(f"{name:<16} {s['probability']:>5.0%} ${s['eps_28']:>5.2f} {s['exit_pe']:>4.0f}x ${target:>7.2f} ${pv:>7.2f} {upside:>+7.1f}%")
+
+print(f"\nProbability-Weighted PV: ${weighted_pv:.2f}")
+print(f"Current Price: ${current_price:.2f}")
+print(f"Implied Upside/Downside: {(weighted_pv/current_price - 1)*100:+.1f}%")</div>
+
+<div class="source-note" style="margin-top:16px;">
+  TransUnion (TRU) | Preliminary Memo for Theia | Generated April 15, 2026<br>
+  Sources: FactSet, AlphaSense, Company Filings (10-K, 10-Q, 8-K), Earnings Transcripts (Q1-Q4 2025), Investor Day (March 10, 2026), Barclays & RBC Conference Transcripts, Expert Calls<br>
+  This memo is for informational purposes only and does not constitute investment advice.
+</div>
+
+</body>
+</html>
