@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intuit, Inc. | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 8px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child, table.comps td:nth-child(2) { text-align: left; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-style: italic; background: #fafbfc; font-weight: 600; border-top: 1px solid #eee; }
+table.comps th.est-col { color: #2563eb; }
+
+table.risk-table { font-size: 10px; width: 100%; margin: 8px 0; }
+table.risk-table th { text-align: left; font-weight: 600; padding: 4px 6px; background: #f4f6f9; border-bottom: 1px solid #ddd; }
+table.risk-table td { padding: 4px 6px; border-bottom: 1px solid #eee; vertical-align: top; }
+table.risk-table td:first-child { font-weight: 600; width: 25%; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.alphasense-box { background: #e8f4fd; border-left: 4px solid #2563eb; padding: 10px 14px; margin: 10px 0; font-size: 10px; line-height: 1.5; }
+
+.bull-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #155724; border-bottom: 1.5px solid #c3e6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #721c24; border-bottom: 1.5px solid #f5c6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+
+.bull-item, .bear-item { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Intuit, Inc. | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">Intuit, Inc. (NASDAQ: INTU) is the dominant global financial technology platform serving approximately 100 million customers across five flagship brands: QuickBooks (small business accounting, payments, and payroll), TurboTax (consumer and assisted tax preparation), Credit Karma (personal finance and credit monitoring), Mailchimp (email marketing and customer engagement), and Intuit Enterprise Suite (mid-market ERP). Founded in 1983 in Palo Alto, California and now headquartered in Mountain View, California, Intuit has evolved from a desktop accounting software company into an AI-powered platform that manages over $2 trillion in invoices, processes $105 billion in tax refunds annually, and pays 18 million workers through QuickBooks Payroll. The company is organized around three "Big Bets" that define its strategic roadmap: (1) revolutionizing speed-to-benefit through AI-driven "done-for-you" experiences, replacing manual workflows with autonomous agents; (2) connecting customers to experts, products, and benefits by accelerating money movement at the center of its platform; and (3) disrupting the mid-market with Intuit Enterprise Suite, an AI-native ERP system targeting the $300 billion total addressable market where the company estimates only 6% penetration today.</p>
+
+<p class="prose">Intuit's AI strategy is among the most advanced in enterprise software. The company has built GenOS, a proprietary AI operating system with over 9,800 model deployments in production, powering virtual agents that serve 3 million+ customers with 85%+ repeat engagement rates. The Anthropic partnership for Claude Agent Builder and the OpenAI ChatGPT integration signal Intuit's ambition to be a platform for AI-powered financial services rather than merely a software vendor. The company's data moat is formidable: billions of daily financial transactions refined by human experts create a "golden dataset" that trains increasingly accurate models for tax optimization, cash flow prediction, and business intelligence. FedNow certification positions Intuit for instant payment rails, while partnerships with Affirm (pay-over-time for business invoices) and Circle/USDC (stablecoin settlement) extend the platform into next-generation internet finance infrastructure. The combined Consumer platform, effective August 2025, integrates TurboTax, Credit Karma, and ProTax into a unified financial identity experience, creating powerful cross-sell dynamics between tax preparation, credit products, and financial recommendations.</p>
+
+<p class="prose"><strong>Key facts:</strong> Founded 1983 · Headquarters Mountain View, CA · CEO &amp; Chairman Sasan K. Goodarzi · CFO Sandeep S. Aujla · CTO Alex Balazs · Employees ~18,200 (FY2025) · NASDAQ: INTU · FY end July · Market Cap $101.4B · CUSIP 461202103 · ISIN US4612021034 · ~600 local TurboTax service centers · $300B TAM at ~6% penetration</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 2: FINANCIAL SUMMARY (FACTSET) -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Theia FactSet Summary</div>
+
+<div class="header">
+  <div>
+    <h1>Intuit, Inc.</h1>
+    <span class="ticker">INTU · NASDAQ · ISIN US4612021034</span>
+  </div>
+  <div class="date">FactSet Snapshot · April 14, 2026</div>
+</div>
+
+<!-- Price Bar -->
+<div class="price-bar">
+  <div>
+    <span class="label">Price (Apr 14, 2026) </span>
+    <span class="price">$366.80</span>
+  </div>
+  <div><span class="label">1M </span><span class="chg">-13.13%</span></div>
+  <div><span class="label">3M </span><span class="chg">-31.09%</span></div>
+  <div><span class="label">6M </span><span class="chg">-41.45%</span></div>
+  <div><span class="label">YTD </span><span class="chg">-42.31%</span></div>
+  <div><span class="label">1Y </span><span class="chg">-35.67%</span></div>
+  <div><span class="label">52-Wk Range </span><span style="font-weight:600;">$342.11 – $813.70</span></div>
+</div>
+
+<!-- Key Stats + EV Bridge -->
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv" style="font-size:10px;">
+      <tr><td>Exchange / Ticker</td><td>NASDAQ · INTU</td></tr>
+      <tr><td>Price (Apr 14, 2026)</td><td>$366.80</td></tr>
+      <tr><td>30-Day Avg Volume</td><td>3.68M shares/day</td></tr>
+      <tr><td>Float %</td><td>97.84%</td></tr>
+      <tr><td>Short Interest</td><td>2.55% of float</td></tr>
+      <tr><td>Days to Cover</td><td>2.5 days</td></tr>
+      <tr><td>Dividend Yield</td><td>1.31% ($4.80/yr)</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev" style="font-size:10px;">
+      <tr><td>Basic Shares (Common)</td><td>276.55M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">+ Stock Comp / Options</td><td style="font-size:9px;">7.61M</td></tr>
+      <tr><td>= Fully Diluted Shares</td><td>284.16M</td></tr>
+      <tr><td>Share Price</td><td>$366.80</td></tr>
+      <tr><td>= Fully Dil. Market Cap</td><td>$104,230M</td></tr>
+      <tr><td>+ Consolidated Debt</td><td>$6,160M</td></tr>
+      <tr><td>- Cash &amp; Equivalents</td><td>($2,975M)</td></tr>
+      <tr class="total"><td>= Enterprise Value</td><td>$107,415M</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- Current Valuation — horizontal 6x2 grid -->
+<div class="section-title">Current Valuation</div>
+<div style="border: 1px solid #eee; border-radius: 4px; margin-bottom: 8px;">
+  <div class="val-grid">
+    <div class="val-cell"><div class="val-label">Mkt Cap</div><div class="val-num">$101.4B</div><div class="val-sub">Basic shares</div></div>
+    <div class="val-cell"><div class="val-label">EV</div><div class="val-num">$107.4B</div><div class="val-sub">+$6.2B debt, -$3.0B cash</div></div>
+    <div class="val-cell"><div class="val-label">P/E (FY26E)</div><div class="val-num">15.8x</div><div class="val-sub">NI $6,519M</div></div>
+    <div class="val-cell"><div class="val-label">EV/EBITDA (FY26E)</div><div class="val-num">11.8x</div><div class="val-sub">EBITDA $9,130M</div></div>
+    <div class="val-cell"><div class="val-label">P/FCF (FY26E)</div><div class="val-num">14.4x</div><div class="val-sub">FCF $7,299M</div></div>
+    <div class="val-cell"><div class="val-label">FCF Yield</div><div class="val-num">7.0%</div><div class="val-sub">$7,299M / $104,230M</div></div>
+  </div>
+  <div style="border-top: 1px solid #eee;">
+    <div class="val-grid">
+      <div class="val-cell"><div class="val-label">Fully Dil. Mkt Cap</div><div class="val-num">$104.2B</div><div class="val-sub">284.16M dil. shares</div></div>
+      <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">7.72%</div><div class="val-sub">FactSet estimate</div></div>
+      <div class="val-cell"><div class="val-label">Beta (3Y Adj)</div><div class="val-num">0.83</div><div class="val-sub">Adjusted beta</div></div>
+      <div class="val-cell"><div class="val-label">Avg Analyst Rating</div><div class="val-num">Buy</div><div class="val-sub">36 brokers · 1.21</div></div>
+      <div class="val-cell"><div class="val-label">Cons. Target Price</div><div class="val-num">$591.78</div><div class="val-sub">+61% upside</div></div>
+      <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">May 21</div><div class="val-sub">Q3 FY2026</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Valuation Multiples Table -->
+<div class="section-title">Valuation Multiples</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Metric</th>
+      <th>5Yr Avg</th>
+      <th>Jul'23</th>
+      <th>Jul'24</th>
+      <th>Jul'25</th>
+      <th class="est" style="color:#2563eb;">Jul'26E</th>
+      <th class="est" style="color:#2563eb;">Jul'27E</th>
+      <th class="est" style="color:#2563eb;">Jul'28E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="8">PRICE MULTIPLES</td></tr>
+    <tr><td>P/E</td><td>62.6x</td><td>60.7x</td><td>62.0x</td><td>57.4x</td><td class="est">15.8x</td><td class="est">13.9x</td><td class="est">12.1x</td></tr>
+    <tr><td>P/Sales</td><td>11.7x</td><td>10.1x</td><td>11.3x</td><td>11.8x</td><td class="est">4.8x</td><td class="est">4.2x</td><td class="est">3.8x</td></tr>
+    <tr><td>P/Book Value</td><td>10.4x</td><td>8.3x</td><td>9.8x</td><td>11.1x</td><td class="est">4.6x</td><td class="est">3.9x</td><td class="est">3.2x</td></tr>
+    <tr><td>P/FCF</td><td>37.6x</td><td>30.3x</td><td>39.7x</td><td>36.5x</td><td class="est">14.4x</td><td class="est">13.2x</td><td class="est">12.6x</td></tr>
+    <tr class="section-row"><td colspan="8">EV MULTIPLES</td></tr>
+    <tr><td>EV/Sales</td><td>12.1x</td><td>10.6x</td><td>11.7x</td><td>12.1x</td><td class="est">5.1x</td><td class="est">4.5x</td><td class="est">4.0x</td></tr>
+    <tr><td>EV/EBITDA</td><td>42.3x</td><td>38.6x</td><td>41.1x</td><td>39.7x</td><td class="est">11.8x</td><td class="est">10.4x</td><td class="est">9.3x</td></tr>
+    <tr><td>EV/EBIT</td><td>51.0x</td><td>48.5x</td><td>49.5x</td><td>46.2x</td><td class="est">12.4x</td><td class="est">10.8x</td><td class="est">9.5x</td></tr>
+  </tbody>
+</table>
+
+<!-- Revenue Exposure -->
+<div class="section-title">Revenue Exposure (FY2025 Actuals, FYE July)</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Segment</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Segment</th><th>$M</th><th>% Rev</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Global Business Solutions</td><td>$11,077</td><td>58.8%</td><td>+16.2%</td></tr>
+        <tr><td>Consumer (TurboTax)</td><td>$4,870</td><td>25.9%</td><td>+9.6%</td></tr>
+        <tr><td>Credit Karma</td><td>$2,263</td><td>12.0%</td><td>+32.5%</td></tr>
+        <tr><td>ProTax</td><td>$621</td><td>3.3%</td><td>+3.7%</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>$18,831</td><td>100%</td><td>+15.6%</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:8px; color:#aaa; margin-top:4px;">Note: Effective Aug 1, 2025, Consumer combined TurboTax + Credit Karma + ProTax. Q2 FY26: GBS $3,164M (+18%), Consumer $1,487M (+15%).</p>
+  </div>
+  <div>
+    <div class="sub-label">By Geography</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Region</th><th>$M</th><th>% Rev</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>United States</td><td>$17,325</td><td>92.0%</td><td>+15.6%</td></tr>
+        <tr><td>International</td><td>$1,506</td><td>8.0%</td><td>+15.6%</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>$18,831</td><td>100%</td><td>+15.6%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Financials Table -->
+<div class="section-title">Financials</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">$M (FY Jul)</th>
+      <th>Jul'23</th>
+      <th>Jul'24</th>
+      <th>Jul'25</th>
+      <th class="est" style="color:#2563eb;">Jul'26E</th>
+      <th class="est" style="color:#2563eb;">Jul'27E</th>
+      <th class="est" style="color:#2563eb;">Jul'28E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">INCOME STATEMENT</td></tr>
+    <tr><td>Revenue</td><td>$14,368</td><td>$16,285</td><td>$18,831</td><td class="est">$21,247</td><td class="est">$23,885</td><td class="est">$26,854</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Revenue Growth %</td><td>--</td><td>+13.3%</td><td>+15.6%</td><td class="est">+12.8%</td><td class="est">+12.4%</td><td class="est">+12.4%</td></tr>
+    <tr><td>Gross Profit</td><td>$10,742</td><td>$12,337</td><td>$14,502</td><td class="est">$17,603</td><td class="est">$19,728</td><td class="est">$22,080</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Gross Margin %</td><td>74.8%</td><td>75.8%</td><td>77.0%</td><td class="est">82.8%</td><td class="est">82.6%</td><td class="est">82.2%</td></tr>
+    <tr><td>EBITDA</td><td>$3,947</td><td>$4,642</td><td>$5,747</td><td class="est">$9,130</td><td class="est">$10,293</td><td class="est">$11,532</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">EBITDA Margin %</td><td>27.5%</td><td>28.5%</td><td>30.5%</td><td class="est">43.0%</td><td class="est">43.1%</td><td class="est">42.9%</td></tr>
+    <tr><td>EBIT</td><td>$3,141</td><td>$3,853</td><td>$4,938</td><td class="est">$8,672</td><td class="est">$9,910</td><td class="est">$11,257</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Operating Margin %</td><td>21.9%</td><td>23.7%</td><td>26.2%</td><td class="est">40.8%</td><td class="est">41.5%</td><td class="est">41.9%</td></tr>
+    <tr><td>Net Income</td><td>$2,384</td><td>$2,963</td><td>$3,869</td><td class="est">$6,519</td><td class="est">$7,469</td><td class="est">$8,494</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Net Margin %</td><td>16.6%</td><td>18.2%</td><td>20.5%</td><td class="est">30.7%</td><td class="est">31.3%</td><td class="est">31.6%</td></tr>
+    <tr><td>EPS (Dil)</td><td>$8.42</td><td>$10.43</td><td>$13.67</td><td class="est">$15.99</td><td class="est">$18.94</td><td class="est">$22.26</td></tr>
+    <tr class="section-row"><td colspan="7">CASH FLOW</td></tr>
+    <tr><td>Operating Cash Flow</td><td>$5,046</td><td>$4,884</td><td>$6,207</td><td class="est">$7,746</td><td class="est">$8,478</td><td class="est">$9,339</td></tr>
+    <tr><td>CapEx</td><td>($260)</td><td>($250)</td><td>($124)</td><td class="est">($245)</td><td class="est">($285)</td><td class="est">($328)</td></tr>
+    <tr><td>Free Cash Flow</td><td>$4,786</td><td>$4,634</td><td>$6,083</td><td class="est">$7,299</td><td class="est">$8,060</td><td class="est">$7,926</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">FCF Margin %</td><td>33.3%</td><td>28.5%</td><td>32.3%</td><td class="est">34.4%</td><td class="est">33.7%</td><td class="est">29.5%</td></tr>
+    <tr class="section-row"><td colspan="7">BALANCE SHEET</td></tr>
+    <tr><td>Cash &amp; ST Investments</td><td>$3,662</td><td>$4,074</td><td>$4,552</td><td class="est">$6,062</td><td class="est">$9,197</td><td class="est">$9,104</td></tr>
+    <tr><td>Total Debt</td><td>--</td><td>--</td><td>~$6,160</td><td class="est">--</td><td class="est">--</td><td class="est">--</td></tr>
+    <tr><td>Shareholders' Equity</td><td>$17,269</td><td>$18,436</td><td>$19,710</td><td class="est">$22,336</td><td class="est">$26,159</td><td class="est">$30,193</td></tr>
+    <tr><td>BVPS</td><td>$61.58</td><td>$65.78</td><td>$70.61</td><td class="est">$80.09</td><td class="est">$95.09</td><td class="est">$113.02</td></tr>
+    <tr class="section-row"><td colspan="7">RETURNS &amp; LEVERAGE</td></tr>
+    <tr><td>ROE</td><td>14.1%</td><td>16.6%</td><td>20.3%</td><td class="est">29.0%</td><td class="est">27.8%</td><td class="est">26.8%</td></tr>
+    <tr><td>Debt / Equity</td><td>38.7%</td><td>35.6%</td><td>33.7%</td><td class="est">27.2%</td><td class="est">23.2%</td><td class="est">19.8%</td></tr>
+    <tr><td>Interest Coverage</td><td>12.7x</td><td>15.9x</td><td>20.0x</td><td class="est">34.8x</td><td class="est">40.4x</td><td class="est">48.6x</td></tr>
+  </tbody>
+</table>
+
+<!-- Valuation Summary -->
+<div class="section-title">Valuation Summary</div>
+<p class="prose">Intuit currently trades at 15.8x FY2026E P/E and 11.8x FY2026E EV/EBITDA — a dramatic de-rating from its 5-year average P/E of 62.6x and EV/EBITDA of 42.3x. The stock is down 55% from its 52-week high of $813.70, reflecting a combination of broader large-cap growth rotation and investor skepticism about whether Intuit's AI monetization can justify its historical premium valuation. At $366.80, the stock trades at just 45% of its 52-week high — a level of dislocation not seen since the COVID sell-off. The forward FCF yield of 7.0% (FY2026E) is exceptionally attractive for a company with 82%+ gross margins, 30%+ net margins, and a demonstrated ability to compound revenue at 12-15% annually. On a FY2028E basis, the valuation compresses to 12.1x P/E and 9.3x EV/EBITDA — multiples that price Intuit below the median software peer despite its vastly superior scale, profitability, and data moat. The consensus target of $591.78 (36 brokers) implies 61% upside, reflecting near-universal sell-side conviction that the drawdown is overdone. Relative to the software peer median EV/EBITDA of 22.7x (FY1), Intuit trades at a 48% discount, suggesting the market is pricing in a permanent de-rating that appears inconsistent with the company's improving margin trajectory and accelerating AI adoption.</p>
+
+<div class="source-note">Source: FactSet snapshot export, April 14, 2026. Estimates reflect consensus of 36 broker contributors. FYE July.</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 3: BULL & BEAR CASES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Cases</div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">AI Monetization Drives Revenue Re-Acceleration.</span> Intuit's GenOS platform with 9,800+ model deployments and 3M+ customers using virtual AI agents represents the most advanced AI deployment in financial software. The "done-for-you" thesis — where AI agents autonomously complete tax returns, categorize transactions (237M in one month), reconcile books, and generate financial insights — transforms the value proposition from software license to outcome-based pricing. If Intuit successfully shifts even 20% of its customer base from $30-50/month DIY subscriptions to $100-200/month "done-for-you" AI-assisted plans, the incremental revenue potential is $2-4B annually. The 85% repeat engagement rate signals genuine product-market fit, not novelty usage. Combined with the Anthropic partnership for Claude Agent Builder, Intuit is building the foundation for an AI-powered financial operating system that could expand the TAM from $300B to $500B+.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Intuit Enterprise Suite Captures Mid-Market TAM.</span> IES, the company's AI-native mid-market ERP, is growing 40% year-over-year with new contracts up 50% quarter-over-quarter — the fastest-growing product in Intuit's history. The mid-market (companies with 10-500 employees) is historically underserved: too complex for basic accounting software, too small for SAP/Oracle. IES targets this white space with an integrated platform combining accounting, payroll, payments, inventory, and workforce management. The construction edition launch signals vertical-specific expansion that could replicate in healthcare, professional services, and manufacturing. If IES reaches $2B in ARR by FY2029 (implying 35-40% CAGR from current run rate), it would add approximately $8-10 to per-share value at current multiples and fundamentally change the growth narrative from "mature platform" to "multi-decade compounder."</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Margin Expansion Trajectory Is Structural, Not Cyclical.</span> EBITDA margins are projected to expand from 30.5% (FY2025) to 43.0% (FY2026E) — a 1,250 bps improvement in a single year. This is not a one-time benefit: it reflects the structural shift from human-assisted operations to AI-automated delivery. As AI agents handle an increasing share of TurboTax Live sessions, QuickBooks categorization, and customer support, the labor intensity of Intuit's model declines permanently. Operating margins approaching 42% by FY2028E would place Intuit alongside Adobe and FICO as one of the highest-margin software companies globally. Every 100 bps of incremental operating margin translates to approximately $210M in incremental operating income at FY2026E revenue levels — or ~$0.75 per diluted share.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Payments and Financial Services Create Platform Flywheel.</span> Total online payment volume grew 29% YoY in Q2 FY26, and bill pay volume nearly doubled. The FedNow certification, Affirm pay-over-time partnership, and Circle/USDC stablecoin integration are not isolated features — they are building blocks of a comprehensive money-movement platform that positions Intuit to capture take rates on the $2T+ in invoices flowing through QuickBooks. If Intuit captures even 50 basis points of blended take rate on $2.5T of invoice volume, the payments revenue opportunity is $12.5B — larger than the company's entire current revenue base. The flywheel: more payments volume generates better cash flow data, which trains better AI models, which attracts more customers, which generates more payment volume.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Capital Return Accelerates at Depressed Valuation.</span> Intuit repurchased $1.8B in shares during H1 FY2026 (+40% YoY), terminated its 10b5-1 plans, and is accelerating execution against a $3.5B buyback authorization. At $367, every $1B of buybacks retires approximately 2.7M shares — 1% of basic shares outstanding — generating meaningful EPS accretion. The 15% dividend increase ($1.20/quarter) signals management confidence in cash flow sustainability. With FY2026E FCF of $7.3B and current buyback pace, Intuit could retire 5-7% of shares outstanding over the next two years, providing a significant floor under the stock price and compounding EPS growth on top of organic earnings growth.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="bear-header">Bear Cases</div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">IRS Free Filing and Tax Simplification Destroy TurboTax Moat.</span> The IRS Direct File initiative, combined with political momentum for tax simplification, threatens TurboTax's core franchise. TurboTax and ProTax contributed $5.5B (29% of FY2025 revenue), and any meaningful migration to free government-provided filing tools would directly impact the highest-margin segment of Intuit's business. While Intuit has historically navigated free filing threats through lobbying and product differentiation, the combination of AI-powered IRS tools and political will is more formidable than prior iterations. If TurboTax market share declines by even 5 percentage points over 3 years, the revenue impact would be approximately $750M with near-100% margin drop-through — a material hit to earnings regardless of growth in other segments.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">AI Commoditization Erodes Intuit's Competitive Advantages.</span> The rapid proliferation of general-purpose AI agents from OpenAI, Google, Meta, and open-source alternatives raises the question of whether Intuit's proprietary GenOS is truly differentiated or merely a wrapper around commodity models. If ChatGPT, Gemini, or Claude can autonomously complete tax returns, categorize transactions, and generate financial insights without Intuit's platform, the "done-for-you" premium pricing collapses. Former insiders have expressed skepticism about the strategic impact of AI partnerships, suggesting that the "golden dataset" advantage may be overstated — the real competitive moat may be regulatory complexity and integrations rather than data. Internal culture strain (14-16 hour workdays, rising attrition among domain experts) could accelerate talent loss precisely when AI development talent is most critical.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Credit Karma and Mailchimp Integration Risk.</span> Credit Karma ($2.3B revenue, +32.5% growth) and Mailchimp remain semi-independent products with integration skepticism from former insiders. The combined Consumer segment (effective Aug 2025) masks underlying product-level economics and makes it harder for investors to evaluate whether Credit Karma's growth is sustainable or driven by one-time credit cycle tailwinds. Mailchimp's return to double-digit growth has been pushed beyond FY2026, confirming persistent execution challenges. If Credit Karma's growth normalizes to mid-teens and Mailchimp continues to underperform, the combined Consumer segment growth could decelerate to high-single-digits — undermining the narrative of a cohesive platform benefiting from cross-sell synergies.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Valuation Compression in a Higher-Rate Regime.</span> Intuit's 42% YTD drawdown reflects the brutal repricing of growth assets in a sustained higher-rate environment. With the 5-year average P/E at 62.6x and current P/E at 15.8x, the stock has already de-rated by 75% on a multiple basis. But the risk is that the "new normal" for a mature platform company growing 12-13% is 12-15x P/E — implying the stock is approximately fairly valued rather than cheap. If rates remain elevated and growth investors continue to demand faster top-line acceleration to pay premium multiples, Intuit could be stuck in a "value trap" — high quality but low multiple — for an extended period. The 0.83 beta actually works against the stock in a rally, as it would lag a broader market recovery.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">TurboTax Live Full-Service Remains Unproven at Scale.</span> The "assisted tax" opportunity — where Intuit pairs human experts with AI to complete complex returns — is the key growth driver for Consumer segment ASP expansion. However, AlphaSense expert analysis reveals that Live growth skews heavily toward "DIY with assistance" rather than true full-service engagement, suggesting the premium pricing opportunity may be smaller than bulls assume. The ~600 local service centers represent significant fixed-cost infrastructure that has not yet demonstrated positive unit economics at scale. If the assisted model fails to achieve the margin profile of traditional TurboTax DIY, the segment could become a margin drag rather than an earnings driver.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Scale Economies</span> <span class="fw-rating strong">Strong</span><br>
+  Intuit's $21B+ revenue base creates formidable scale advantages that smaller competitors cannot replicate. R&amp;D spend of ~$3B annually (15-16% of revenue) funds AI model training across billions of transactions that no startup can match. The marginal cost of serving an additional QuickBooks or TurboTax customer is near-zero — infrastructure costs are amortized across 100M customers. This scale enables Intuit to invest in GenOS (9,800+ model deployments), maintain 600 physical service centers, and fund 18,200 employees while still generating 43% EBITDA margins. A competitor would need to spend comparable amounts on AI training data and model deployment to match Intuit's product quality, but without the revenue base to justify the investment. The scale advantage is category-defining: Intuit processes more small business financial data than any other platform globally, and this data advantage compounds with every new customer added to the network.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Network Effects</span> <span class="fw-rating strong">Strong</span><br>
+  Intuit operates powerful multi-sided network effects across its platform. The QuickBooks ecosystem connects small businesses (invoicing), their customers (payments), their employees (payroll), their accountants (ProConnect), and financial institutions (banking data feeds) — each additional participant makes the platform more valuable for all others. Credit Karma's network of 100M+ members creates a data flywheel: more users generate more credit behavior data, which improves recommendation quality, which attracts more financial product partners, which brings more users. The $2T+ in invoices managed creates a transaction graph that powers AI-driven cash flow predictions, working capital recommendations, and fraud detection — capabilities that improve with data volume. The Mailchimp integration adds small business marketing data to this graph, enabling Intuit to predict customer acquisition costs and revenue trajectories from email engagement patterns. These are genuine network effects, not mere scale: the platform becomes functionally better (not just cheaper) with each additional participant.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Counter-Positioning</span> <span class="fw-rating moderate">Moderate</span><br>
+  Intuit's counter-positioning is most evident against banks and traditional financial institutions. Banks earn billions from overdraft fees, late payment penalties, and opaque lending products — Intuit's platform transparently compares rates, recommends cheaper alternatives, and enables instant payments that reduce the bank's fee revenue. For a JPMorgan or Bank of America to build a QuickBooks competitor, they would need to cannibalize their own small business banking fees — a classic counter-positioning dynamic. However, counter-positioning against other technology companies (Google, Microsoft, fintech startups) is weaker: these companies face no cannibalization dilemma in entering financial software. The IRS is the most unusual counter-positioned "competitor" — it could theoretically provide free filing to all Americans but faces structural political and bureaucratic constraints that Intuit benefits from (though this advantage is narrowing).</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Switching Costs</span> <span class="fw-rating strong">Strong</span><br>
+  QuickBooks switching costs are among the highest in small business software. As AlphaSense expert analysis confirms, migrating a general ledger is "massive friction" — years of categorized transactions, reconciled bank feeds, customized chart of accounts, integrated payroll history, tax filing records, and accountant workflows are all embedded in QuickBooks. A business owner switching to a competitor would need to: (a) export and re-map years of financial data, (b) reconnect all bank and payment integrations, (c) retrain staff, (d) re-establish accountant access and workflows, (e) accept risk during the transition period that financial data could be corrupted or lost. For TurboTax, switching costs are lower on a per-year basis (users can theoretically switch each filing season) but the platform retains prior-year returns, auto-imports W-2s, and pre-populates data that makes re-filing with Intuit frictionless. The combined platform (QB + TurboTax + Credit Karma) creates cross-product switching costs that are greater than the sum of individual product lock-in.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Branding</span> <span class="fw-rating strong">Strong</span><br>
+  Intuit operates three of the strongest consumer brands in financial technology: TurboTax (synonymous with tax filing for 40+ years), QuickBooks (the default answer when anyone asks "what accounting software should I use?"), and Credit Karma (the largest free credit monitoring platform in the US). These brands carry trust signals that are exceptionally valuable in financial services — users are entrusting their most sensitive data (income, bank accounts, Social Security numbers, credit history) and will pay a premium for perceived reliability and security. The TurboTax brand in particular commands pricing power: TurboTax Deluxe at $69+ is premium-priced versus free alternatives, yet retains dominant market share because the brand is associated with "maximum refund guaranteed." QuickBooks benefits from accountant-driven distribution: when an accountant recommends accounting software to a client, they recommend QuickBooks by default, creating a referral flywheel powered by brand trust.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">6. Cornered Resource</span> <span class="fw-rating strong">Strong</span><br>
+  Intuit's "golden dataset" — billions of daily financial transactions from 100M+ customers, refined by human experts over 40+ years — is a genuine cornered resource. This dataset trains the AI models that power transaction categorization (237M categorized in one month), tax optimization recommendations, cash flow predictions, and fraud detection. No competitor can replicate this data asset: it requires decades of customer trust, regulatory compliance, and institutional knowledge to build. The dataset's value compounds: each new transaction refines the models, which improves the product, which attracts more customers, which generates more data. CEO Sasan Goodarzi's 20+ year tenure at Intuit and strategic vision for the AI transformation represents human capital that is difficult to replace. The company's relationships with the IRS, state tax authorities, and financial institutions for data feeds are also cornered resources — regulatory approval and integration timelines measured in years, not months.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">7. Process Power</span> <span class="fw-rating moderate">Moderate</span><br>
+  Intuit has refined several proprietary processes over its 43-year history. The "follow-me-home" customer research methodology — where Intuit employees physically observe customers using the product — has been a core practice since the company's founding and influences product design in ways that survey-based research cannot replicate. The tax season operational playbook (scaling from ~50M returns in a 4-month window, managing peak load, deploying 600 service centers, coordinating with IRS systems) is a complex logistics operation that new entrants would struggle to execute. However, Intuit's process power is not as distinctive as its data and network advantages: many large software companies develop comparable enterprise processes for product development, customer success, and scale operations. The internal culture strain (14-16 hour workdays, domain expert attrition reported by AlphaSense) suggests that process discipline may be degrading under the pressure of the AI transformation.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> Intuit is a 4-5 power business with strong positions in Scale Economies (100M customers, $21B revenue, $3B R&amp;D), Network Effects (multi-sided platform connecting businesses, consumers, accountants, banks), Switching Costs (general ledger migration friction, cross-product lock-in), Branding (TurboTax, QuickBooks, Credit Karma — three iconic financial brands), and Cornered Resource (40+ years of golden transaction data). Counter-Positioning and Process Power are moderate. This is among the strongest 7 Powers profiles in enterprise software — the combination of data moat, network effects, and brand trust creates a virtually impregnable competitive position in small business financial software and consumer tax preparation.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Threat of New Entrants</span> <span class="fw-rating low">Low</span><br>
+  The barriers to entering Intuit's core markets are among the highest in software. A new entrant would need to: (a) build integrations with thousands of US banks, payroll systems, and tax authorities — a multi-year regulatory and technical effort; (b) accumulate a transaction dataset large enough to train competitive AI models — requiring tens of millions of customers over many years; (c) earn the trust of consumers and small businesses with their most sensitive financial data — a brand-building exercise that cannot be shortcut; (d) replicate the accountant distribution network (millions of ProConnect professionals who recommend QuickBooks); and (e) navigate the extraordinarily complex US tax code, which changes annually and varies by state. The most recent well-funded attempt — FreshBooks, Wave (acquired by H&amp;R Block), Xero — have collectively failed to achieve meaningful US market share against QuickBooks despite decades of investment. The AI era may lower some barriers (e.g., automated bookkeeping), but simultaneously raises others (the data moat becomes more valuable as AI capabilities depend on training data quality and volume).</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Bargaining Power of Suppliers</span> <span class="fw-rating low">Low</span><br>
+  Intuit's primary "suppliers" are cloud infrastructure providers (AWS, GCP), AI model providers (Anthropic, OpenAI), and engineering talent. Cloud infrastructure is commodity: Intuit can shift workloads between AWS, GCP, and Azure with reasonable migration effort, and at $21B+ revenue, Intuit commands significant pricing leverage with all major cloud providers. For AI models, Intuit maintains partnerships with both Anthropic (Claude Agent Builder) and OpenAI (ChatGPT integration), ensuring no single model provider has pricing power. The proprietary GenOS platform with 9,800+ model deployments gives Intuit the ability to swap underlying models while preserving application-layer functionality. Engineering talent in the Bay Area is competitive, but Intuit's brand recognition, compensation packages, and AI-focused mission make it a top-tier employer. Overall, supplier power is minimal — Intuit is a buyer of commodity inputs at scale with multiple substitution options.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Bargaining Power of Buyers</span> <span class="fw-rating low">Low</span><br>
+  Intuit's 100M customer base is extraordinarily fragmented — no single customer represents a meaningful percentage of revenue. Small businesses paying $30-200/month for QuickBooks have virtually no bargaining power; the cost is immaterial relative to their total business expenses, and switching costs are prohibitive. TurboTax consumers are similarly atomized — millions of individual filers paying $50-200/year. Credit Karma users receive a free product (monetized through financial product recommendations), giving them zero pricing leverage. The only segment with moderate buyer power is mid-market IES clients, where deal sizes are larger and procurement is more professional — but even here, the switching costs and lack of viable alternatives constrain buyer negotiating leverage. The 124% cloud NRR (Q2 FY26 implied) and expanding ARPU trends confirm that buyers are spending more, not negotiating down.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Threat of Substitutes</span> <span class="fw-rating moderate">Moderate</span><br>
+  This is Intuit's most significant competitive vulnerability. For TurboTax, the primary substitute is the IRS itself — Direct File and Free File Fillable Forms represent government-provided alternatives that could theoretically eliminate the need for commercial tax software for many filers. For QuickBooks, spreadsheets (Excel/Google Sheets) remain the most common "substitute" for the smallest businesses, and general-purpose AI tools (ChatGPT, Claude) could theoretically automate bookkeeping without dedicated accounting software. Credit Karma faces substitution from bank-provided credit monitoring (now offered free by most major banks) and other fintech apps (Mint was cannibalized, NerdWallet competes). The AI era introduces a new substitute category: autonomous financial agents that could bypass Intuit's platform entirely by connecting directly to bank APIs and tax authority systems. However, the regulatory complexity and data integration requirements of financial services create barriers that pure AI substitutes have not yet overcome.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Competitive Rivalry</span> <span class="fw-rating moderate">Moderate</span><br>
+  Intuit faces competition from several well-funded rivals across its product lines: H&amp;R Block (tax preparation), Xero (cloud accounting, dominant in Australia/UK), FreshBooks (invoicing), Sage (UK-based accounting), and Block/Square (small business payments). In the mid-market, Intuit Enterprise Suite competes with NetSuite (Oracle), Sage Intacct, and Microsoft Dynamics. Credit Karma competes with NerdWallet, LendingTree, and bank-provided credit products. However, Intuit's competitive position is dominant in its core US markets: QuickBooks holds ~80% of US small business accounting market share, and TurboTax handles approximately 40% of all US individual tax returns. The rivalry is moderate rather than intense because: (a) Intuit's scale and data advantages create an asymmetric competitive dynamic — rivals compete for Intuit's scraps rather than challenging its core position; (b) the market is large enough ($300B TAM) that rivals can grow without directly displacing Intuit; and (c) the switching costs create a structural advantage that insulates Intuit from competitive pressure on existing customers.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> Intuit's five-force structure is highly favorable: low threat of new entrants (regulatory complexity, data moat, brand trust), low supplier power (commodity inputs at scale), low buyer power (fragmented, price-insensitive base with high switching costs), moderate substitution risk (IRS free filing and AI agents are real but nascent threats), and moderate rivalry (dominant market share with asymmetric competitive dynamics). The primary structural risk is from substitutes — specifically the IRS Direct File initiative and the long-tail possibility that autonomous AI agents bypass Intuit's platform entirely. These threats are real but evolving slowly, giving Intuit time to adapt through its own AI capabilities.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 6: WHAT DRIVES THE STOCK? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<p class="prose">The following are the 6 variables that would move INTU's share price materially in the next 12 months. These are what analysts build tracking models around and PMs ask about in morning meetings.</p>
+
+<p class="prose"><strong>1. AI Monetization Metrics and "Done-For-You" Adoption.</strong> With 3M+ customers using virtual AI agents and 85%+ repeat engagement, the market is watching for concrete revenue attribution from AI-powered services. The key question on every earnings call: what is the incremental ARPU from AI-assisted customers versus DIY-only customers, and how fast is the mix shifting? If management provides quantitative guidance showing that AI-assisted customers generate 2-3x higher ARPU with superior retention, the stock would re-rate immediately. Conversely, if AI adoption metrics plateau or management continues to provide only qualitative commentary without revenue attribution, the "AI discount" priced into the stock will persist. The May 21 Q3 FY2026 print is the immediate catalyst.</p>
+
+<p class="prose"><strong>2. GBS Growth Rate and Mid-Market IES Traction.</strong> Global Business Solutions ($11.1B, 59% of revenue) is the growth engine. The market is tracking: QBO revenue growth (currently +18% ex-Mailchimp), online ecosystem revenue growth (+25% ex-Mailchimp), IES mid-market revenue growth (40% YoY), and new IES contracts (50% QoQ). Any deceleration in GBS growth below 14% would signal QuickBooks maturation; sustained 18%+ growth would validate the mid-market expansion thesis. IES is the most important "show-me" metric — if new contract wins continue at 50%+ QoQ growth, it would demonstrate that Intuit can successfully compete up-market against NetSuite and Sage Intacct.</p>
+
+<p class="prose"><strong>3. EBITDA Margin Trajectory — 30% to 43% Bridge.</strong> The projected EBITDA margin expansion from 30.5% (FY2025) to 43.0% (FY2026E) is the single largest driver of earnings surprise potential. This 1,250 bps improvement is the most aggressive margin forecast among large-cap software companies and represents the transition from investment phase to harvest phase. Every quarter, the market will evaluate whether margin expansion is tracking to plan or whether AI investment costs, Mailchimp integration expenses, or competitive pricing pressure is slowing the trajectory. If FY2026 exits at 43%+ EBITDA margin, the stock should re-rate toward $450-500; if margins disappoint at 38-40%, the stock likely stays range-bound near current levels.</p>
+
+<p class="prose"><strong>4. Capital Return Pace and Buyback Execution.</strong> Intuit repurchased $1.8B in H1 FY2026 (+40% YoY), terminated 10b5-1 plans, and is accelerating execution against $3.5B buyback authorization. At current prices, Intuit is buying back stock at 14x forward earnings with 7% FCF yield — highly accretive. The pace of buybacks is a strong signal of management's view on intrinsic value. If Intuit increases the buyback authorization or announces a $5B+ accelerated share repurchase program, it would be a powerful catalyst. The 15% dividend increase ($4.80/year) signals confidence in FCF durability but the yield (1.31%) alone is unlikely to drive the stock.</p>
+
+<p class="prose"><strong>5. Credit Karma Growth Sustainability.</strong> Credit Karma grew 32.5% in FY2025 and 23% in Q2 FY26 — the fastest-growing major segment — but the market is debating whether this growth is structural (platform monetization, new product categories) or cyclical (credit market tailwinds, pent-up demand post-COVID). A sustained 20%+ Credit Karma growth rate would validate the $8.1B acquisition price and demonstrate that Intuit can cross-sell financial products to its 100M customer base. Deceleration to low-teens would confirm bear skepticism that Credit Karma is a lead-generation business sensitive to credit cycle dynamics.</p>
+
+<p class="prose"><strong>6. Macro / Multiple Environment for Large-Cap Growth Software.</strong> Intuit's 42% YTD drawdown is partially macro-driven — the rotation from growth to value, rising risk-free rates, and multiple compression across the software sector have punished high-quality compounders indiscriminately. If the macro environment shifts (rate cuts, growth rotation, improving risk appetite), Intuit would benefit from multiple expansion back toward its 5-year average ranges. At 11.8x FY26E EV/EBITDA versus a 5-year average of 42.3x, even a partial mean-reversion to 20x EV/EBITDA would imply significant upside. Conversely, continued macro headwinds could keep multiples compressed regardless of operational execution.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<p class="prose">Intuit's revenue can be decomposed into its key segments using fundamental economic drivers:</p>
+
+<table class="data" style="font-size:10px; margin-bottom:16px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Revenue Line</th>
+      <th style="text-align:left;">Driver 1</th>
+      <th style="text-align:left;">Driver 2</th>
+      <th style="text-align:left;">Driver 3</th>
+      <th style="text-align:left;">= Revenue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>QBO Online Ecosystem</strong></td>
+      <td>QBO Subscribers (~8M)</td>
+      <td>x ARPU (~$310/yr)</td>
+      <td>x Attach Rate (payments, payroll)</td>
+      <td>= Online Ecosystem Rev (~$9.5B)</td>
+    </tr>
+    <tr>
+      <td><strong>QB Desktop / Other GBS</strong></td>
+      <td>Desktop Subs (declining)</td>
+      <td>x ASP ($500+/yr)</td>
+      <td>- Cloud Migration</td>
+      <td>= Desktop + Other (~$1.6B)</td>
+    </tr>
+    <tr>
+      <td><strong>TurboTax</strong></td>
+      <td>US Tax Returns Filed (#M)</td>
+      <td>x TT Market Share (~40%)</td>
+      <td>x Avg ASP ($60-80)</td>
+      <td>= TurboTax Rev (~$4.9B)</td>
+    </tr>
+    <tr>
+      <td><strong>Credit Karma</strong></td>
+      <td>Monthly Active Users (100M+)</td>
+      <td>x Monetization Rate (RPU)</td>
+      <td>x Product Attach (cards, loans)</td>
+      <td>= CK Rev (~$2.3B)</td>
+    </tr>
+    <tr>
+      <td><strong>Total Revenue</strong></td>
+      <td>GBS + Consumer + CK + ProTax</td>
+      <td></td>
+      <td></td>
+      <td>= $18,831M (FY25) / $21,247M (FY26E)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose"><strong>Key driver quantification (FY2026E estimates):</strong></p>
+<ul style="font-size: 11px; line-height: 1.7; color: #333; margin-left: 20px; margin-bottom: 10px;">
+  <li><strong>GBS ($12.6B, +14-15%):</strong> QBO online ecosystem revenue ~$10.5B (+21% ex-Mailchimp) driven by subscriber growth (~10% YoY) + ARPU expansion (payments attach, payroll, AI agents). IES mid-market growing 40% but still small base (~$500M). Mailchimp return to double-digit growth pushed beyond FY2026.</li>
+  <li><strong>Consumer ($8.6B combined, +8-9%):</strong> TurboTax ~$5.3B (+10-12%) driven by Live assisted growth and ASP expansion. Credit Karma ~$2.8B (+20%+) driven by card and loan referral volume. ProTax ~$640M (+5-7%) with limited growth upside.</li>
+  <li><strong>Payments:</strong> Total online payment volume growing 29% YoY; bill pay volume nearly doubling. Blended take rate ~50-60bps on $2T+ invoice volume = ~$1.2B in payments revenue, growing to $1.5B+ by FY2027E.</li>
+</ul>
+
+<p class="prose"><strong>Leverage analysis:</strong> The two highest-leverage drivers on total revenue and EPS are: (1) <em>QBO ARPU Expansion</em> — every $10 increase in annual ARPU across ~8M QBO subscribers translates to approximately $80M of incremental revenue flowing through at ~85% gross margin and ~70% incremental operating margin, adding ~$0.20 per diluted share. The ARPU expansion comes from payments attach (each additional payment customer adds $300-500/year in take-rate revenue), payroll attach, and AI agent upsell. (2) <em>Operating Margin Trajectory</em> — at $21.2B FY2026E revenue, every 100 bps of operating margin improvement translates to $212M of incremental operating income (~$0.56 per diluted share after tax). The bridge from 26.2% (FY2025) to 40.8% (FY2026E) operating margin represents ~$3.1B of incremental operating income — the largest single-year margin expansion in Intuit's history — primarily driven by AI-automated customer service, reduced LiveAgent labor costs, and scale leverage on a largely fixed cost base.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+  <strong>AlphaSense Research Reports</strong> · Subject: Intuit, Inc. (INTU) · Reports Reviewed: AlphaSense Company Primer, Expert Insights Deep Dive, Q2 FY2026 Earnings Transcript, FactSet Snapshot<br>
+  <em>Key themes synthesized from AlphaSense competitive intelligence, expert network interviews, and industry research.</em>
+</div>
+
+<p class="prose"><strong>QuickBooks Switching Costs: The General Ledger Moat.</strong> The most important analytical insight from the AlphaSense expert interviews is the depth of QuickBooks switching costs — described by domain experts as "massive friction" centered on general ledger migration. A small business switching from QuickBooks must re-categorize every historical transaction, re-map the chart of accounts, re-establish bank feeds, re-configure payroll, and retrain all staff and external accountants. The 40-year accumulation of accounting firm relationships (ProConnect) creates a distribution moat that goes beyond product features: accountants who were trained on QuickBooks in college recommend QuickBooks to every client, creating a self-reinforcing adoption cycle. This switching cost analysis is more nuanced than the standard sell-side view — it reveals that Intuit's moat is not primarily about product quality but about the accumulated ecosystem of integrations, relationships, and data that would take a decade to replicate.</p>
+
+<p class="prose"><strong>The "Golden Dataset" — Proprietary Training Data at Unprecedented Scale.</strong> AlphaSense experts highlight Intuit's proprietary "golden dataset" — billions of daily financial transactions from 100M+ customers, categorized and refined by human experts — as the key differentiator for AI model training. This dataset powers the 237M transaction categorizations per month and enables increasingly accurate tax optimization, cash flow prediction, and fraud detection models. The data moat is self-reinforcing: better models attract more customers, who generate more data, which trains better models. Former insiders note that while generic AI models (GPT-4, Claude) can perform basic bookkeeping tasks, they cannot match the accuracy of Intuit's fine-tuned models on domain-specific tasks like multi-state tax optimization, industry-specific expense categorization, and regulatory compliance flagging. The 9,800+ model deployments in GenOS represent years of accumulated fine-tuning that generic models would need to replicate customer-by-customer.</p>
+
+<p class="prose"><strong>Market Misprices AI Disruption Risk — Human-Assisted Services Are Premium and Defensible.</strong> A key theme across both AlphaSense reports is that the market systematically overestimates the threat of AI disruption to Intuit and underestimates the company's ability to use AI as an offensive weapon. TurboTax Live and QB Live pair human experts with AI in a "copilot" model that commands premium pricing (2-5x higher ASP than DIY). The bear case assumes AI replaces Intuit; the AlphaSense analysis suggests AI enhances Intuit by: (a) reducing the cost of human-assisted services while maintaining premium pricing, (b) expanding the addressable market to customers who previously couldn't afford expert assistance, and (c) creating new revenue streams from AI-native products (enterprise agents, automated bookkeeping). However, experts note that Live growth skews toward "DIY with assistance" rather than true full-service, and the full-service model remains unproven at scale.</p>
+
+<p class="prose"><strong>Integration Skepticism: Credit Karma and Mailchimp as Semi-Independent Products.</strong> Former insiders express skepticism about the depth of platform integration between Intuit's acquired products and the core QuickBooks/TurboTax ecosystem. Credit Karma, while growing strongly (+32.5%), operates on largely separate infrastructure and product teams. Mailchimp's return to double-digit growth has been pushed beyond FY2026, confirming persistent execution challenges. The combined Consumer segment (effective Aug 2025) obscures individual product economics and makes it harder to evaluate whether the platform synergy thesis is materializing. The bear interpretation is that Intuit has created a portfolio of strong individual products rather than an integrated platform — and a portfolio deserves a conglomerate discount rather than a platform premium.</p>
+
+<p class="prose"><strong>Key Investor Questions.</strong> Based on the AlphaSense research and earnings transcript, the questions that would most sharpen conviction on Intuit are: (1) What is the incremental ARPU for AI-assisted customers versus DIY-only customers, and what is the mix shift trajectory? (2) What is the IES win rate against NetSuite in competitive mid-market deals, and what is the average IES contract value? (3) What are the unit economics of TurboTax Live full-service versus DIY-with-assistance — specifically, what is the margin profile at scale? (4) How much of Credit Karma's 23% growth is structural (new product categories, platform monetization) versus cyclical (credit market tailwinds)? (5) When will Mailchimp return to double-digit growth, and is there a scenario where Intuit divests or restructures the Mailchimp business?</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 9: SENSITIVITY ANALYSIS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Sensitivity Analysis</div>
+
+<!-- Sensitivity Table 1 -->
+<p class="prose"><strong>Sensitivity Table 1: FY2028E Revenue ($M) — GBS Growth Rate (%) vs. Consumer Segment Growth Rate (%)</strong></p>
+<p class="prose"><strong>Current (FY2028E Consensus): GBS ~$15.6B (12% CAGR) + Consumer ~$11.3B (10% CAGR) = ~$26.9B total revenue</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>GBS Growth / Consumer Growth</th>
+      <th>6%</th>
+      <th>8%</th>
+      <th>10%</th>
+      <th>12%</th>
+      <th>15%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>8%</td><td>$22,850</td><td>$23,380</td><td>$23,930</td><td>$24,490</td><td>$25,350</td></tr>
+    <tr><td>10%</td><td>$24,020</td><td>$24,560</td><td>$25,110</td><td>$25,680</td><td>$26,550</td></tr>
+    <tr><td>12%</td><td>$25,240</td><td>$25,790</td><td class="base">$26,350</td><td>$26,930</td><td>$27,810</td></tr>
+    <tr><td>14%</td><td>$26,530</td><td>$27,080</td><td>$27,650</td><td>$28,240</td><td>$29,140</td></tr>
+    <tr><td>16%</td><td>$27,880</td><td>$28,440</td><td>$29,010</td><td>$29,610</td><td>$30,530</td></tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 2 -->
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 2: FY2028E Free Cash Flow ($M) — Total Revenue ($M) vs. FCF Margin (%)</strong></p>
+<p class="prose"><strong>Current (FY2028E Consensus): Revenue = $26,854M x FCF Margin = 29.5% = ~$7,926M FCF</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Revenue / FCF Margin</th>
+      <th>24%</th>
+      <th>27%</th>
+      <th>30%</th>
+      <th>33%</th>
+      <th>36%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$24,000</td><td>$5,760</td><td>$6,480</td><td>$7,200</td><td>$7,920</td><td>$8,640</td></tr>
+    <tr><td>$25,500</td><td>$6,120</td><td>$6,885</td><td>$7,650</td><td>$8,415</td><td>$9,180</td></tr>
+    <tr><td>$26,854</td><td>$6,445</td><td>$7,251</td><td class="base">$8,056</td><td>$8,862</td><td>$9,667</td></tr>
+    <tr><td>$28,500</td><td>$6,840</td><td>$7,695</td><td>$8,550</td><td>$9,405</td><td>$10,260</td></tr>
+    <tr><td>$30,000</td><td>$7,200</td><td>$8,100</td><td>$9,000</td><td>$9,900</td><td>$10,800</td></tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 3 -->
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 3: Implied Share Price ($) — P/E Multiple (x) vs. FY2028E EPS ($)</strong></p>
+<p class="prose"><strong>Current: EPS = $22.26 (FY2028E consensus) x P/E = 18x = $400.68 implied share price vs. $366.80 current</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>EPS / P/E Multiple</th>
+      <th>10x</th>
+      <th>14x</th>
+      <th>18x</th>
+      <th>22x</th>
+      <th>28x</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$16.00</td><td class="base" style="background:#f8d7da;">$160</td><td>$224</td><td>$288</td><td>$352</td><td>$448</td></tr>
+    <tr><td>$19.00</td><td>$190</td><td class="base" style="background:#fff3cd;">$266</td><td>$342</td><td>$418</td><td>$532</td></tr>
+    <tr><td>$22.26</td><td>$223</td><td>$312</td><td class="base">$401</td><td>$490</td><td>$623</td></tr>
+    <tr><td>$26.00</td><td>$260</td><td>$364</td><td>$468</td><td class="base" style="background:#d4edda;">$572</td><td>$728</td></tr>
+    <tr><td>$30.00</td><td>$300</td><td>$420</td><td>$540</td><td>$660</td><td class="base" style="background:#d4edda;">$840</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 10: 3-YEAR MODEL — 5 SCENARIOS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios</div>
+
+<p class="prose">All figures in $M unless stated. Modeled FY2026E, FY2027E, FY2028E (FYE July). Exit multiple applied to FY2028E EPS. Current share price: $366.80. Diluted shares: 284.16M. Net debt: $3,185M ($6,160M debt - $2,975M cash).</p>
+
+<!-- CASE 1: BEAR SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 1: Bear Severe — IRS Free Filing + AI Commoditization + Recession</div>
+  <div class="case-desc">IRS Direct File gains meaningful traction; generic AI tools prove "good enough" for basic bookkeeping and tax filing; recession reduces SMB formation and Credit Karma loan origination volumes; Mailchimp continues to drag; operating margin expansion stalls at 35%.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — GBS grows 12% but IES traction slows as mid-market clients delay ERP transitions; Consumer grows 5% as free filing pressures TurboTax; Credit Karma decelerates to 12%. <strong>FY2027</strong> — Recession hits SMB formation rates; QBO subscriber growth flattens; TurboTax loses 2-3 points of market share to IRS tools; AI agents gain minimal incremental ARPU. <strong>FY2028</strong> — Recovery begins from lower base; revenue growth stabilizes at 6-7%; margins improve but permanently reset lower than consensus.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Revenue Growth CAGR (3Y)</span><span>7% (severe deceleration)</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>35% (expansion stalls)</span></div>
+  <div class="driver-row"><span>Net Margin</span><span>22%</span></div>
+  <div class="driver-row"><span>EPS</span><span>$16.10</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>10x (de-rated compounder)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$20,200</td><td>$21,600</td><td>$23,100</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+7%</td><td>+7%</td><td>+7%</td></tr>
+    <tr><td>Gross Income</td><td>16,160</td><td>17,280</td><td>18,480</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>80%</td><td>80%</td><td>80%</td></tr>
+    <tr><td>EBITDA</td><td>7,070</td><td>7,560</td><td>8,085</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>35.0%</td><td>35.0%</td><td>35.0%</td></tr>
+    <tr><td>EBIT</td><td>6,464</td><td>6,912</td><td>7,392</td></tr>
+    <tr><td>Net Income</td><td>4,242</td><td>4,536</td><td>4,572</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Margin %</td><td>21%</td><td>21%</td><td>20%</td></tr>
+    <tr><td>EPS (Dil)</td><td>$15.00</td><td>$16.20</td><td>$16.10</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>--</td><td>--</td><td>10x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>--</td><td>$161</td></tr>
+    <tr><td>FCF</td><td>$5,656</td><td>$6,048</td><td>$5,775</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 10x FY2028E EPS of $16.10</div>
+    <div class="exit-price">Implied Share Price: $161</div>
+    <div class="exit-upside" style="color:#1a1a2e;">Downside: -56% from $366.80</div>
+  </div>
+</div>
+
+<!-- CASE 2: BEAR MILD -->
+<div class="case-block">
+  <div class="case-name">Case 2: Bear Mild — Growth Slows, AI Premium Fades</div>
+  <div class="case-desc">Revenue growth decelerates to 9-10%; AI monetization provides modest uplift but fails to re-accelerate growth; Mailchimp and Credit Karma integration remains incomplete; margin expansion achieves consensus but multiple stays compressed.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Revenue $21.0B (+12%) in line with guidance; GBS grows 14% but IES contract growth slows to 30% QoQ; Credit Karma decelerates to 15%. <strong>FY2027</strong> — Revenue $22.9B (+9%); AI agents drive modest ARPU uplift but not enough to offset slowing subscriber growth; operating margins hit 40%. <strong>FY2028</strong> — Revenue $24.8B (+8%); Intuit is a solid but slow-growth compounder trading at below-market multiple; EPS $19.20.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Revenue Growth CAGR (3Y)</span><span>9.5%</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>40%</span></div>
+  <div class="driver-row"><span>Net Margin</span><span>27%</span></div>
+  <div class="driver-row"><span>EPS</span><span>$19.20</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>14x</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$21,000</td><td>$22,890</td><td>$24,810</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+12%</td><td>+9%</td><td>+8%</td></tr>
+    <tr><td>Gross Income</td><td>17,220</td><td>18,770</td><td>20,600</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>82%</td><td>82%</td><td>83%</td></tr>
+    <tr><td>EBITDA</td><td>8,610</td><td>9,156</td><td>9,924</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>41.0%</td><td>40.0%</td><td>40.0%</td></tr>
+    <tr><td>EBIT</td><td>8,190</td><td>8,695</td><td>9,428</td></tr>
+    <tr><td>Net Income</td><td>5,880</td><td>6,177</td><td>6,700</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Margin %</td><td>28%</td><td>27%</td><td>27%</td></tr>
+    <tr><td>EPS (Dil)</td><td>$15.50</td><td>$17.40</td><td>$19.20</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>--</td><td>--</td><td>14x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>--</td><td>$269</td></tr>
+    <tr><td>FCF</td><td>$6,720</td><td>$7,328</td><td>$7,443</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 14x FY2028E EPS of $19.20</div>
+    <div class="exit-price">Implied Share Price: $269</div>
+    <div class="exit-upside" style="color:#1a1a2e;">Downside: -27% from $366.80</div>
+  </div>
+</div>
+
+<!-- CASE 3: BASE CASE -->
+<div class="case-block">
+  <div class="case-name">Case 3: Base Case — Consensus Execution, Margin Expansion Delivers</div>
+  <div class="case-desc">Revenue grows 12-13% annually; EBITDA margins expand to 43%; AI adoption drives modest ARPU uplift; IES gains mid-market traction; Credit Karma sustains 15-20% growth; buybacks retire 3-4% of shares annually; EPS reaches $22.26 (consensus).</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Revenue $21.2B (+13%), EBITDA $9.1B (43% margin), EPS $15.99; GBS +14%, Consumer +8-9%; IES contracts grow 40%+; 3M+ AI agent users. <strong>FY2027</strong> — Revenue $23.9B (+12%), EPS $18.94; AI-driven ARPU expansion becomes measurable; Credit Karma grows 18%. <strong>FY2028</strong> — Revenue $26.9B (+12%), EPS $22.26; EBITDA margin stabilizes at 43%; market begins to credit structural margin improvement with higher multiple.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Revenue Growth CAGR (3Y)</span><span>12.5%</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>42.9%</span></div>
+  <div class="driver-row"><span>Net Margin</span><span>31.6%</span></div>
+  <div class="driver-row"><span>EPS</span><span>$22.26</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>18x</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$21,247</td><td>$23,885</td><td>$26,854</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+13%</td><td>+12%</td><td>+12%</td></tr>
+    <tr><td>Gross Income</td><td>17,603</td><td>19,728</td><td>22,080</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>82.8%</td><td>82.6%</td><td>82.2%</td></tr>
+    <tr><td>EBITDA</td><td>9,130</td><td>10,293</td><td>11,532</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>43.0%</td><td>43.1%</td><td>42.9%</td></tr>
+    <tr><td>EBIT</td><td>8,672</td><td>9,910</td><td>11,257</td></tr>
+    <tr><td>Net Income</td><td>6,519</td><td>7,469</td><td>8,494</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Margin %</td><td>30.7%</td><td>31.3%</td><td>31.6%</td></tr>
+    <tr><td>EPS (Dil)</td><td>$15.99</td><td>$18.94</td><td>$22.26</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>18x</td><td>18x</td><td>18x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$288</td><td>$341</td><td>$401</td></tr>
+    <tr><td>FCF</td><td>$7,299</td><td>$8,060</td><td>$7,926</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 18x FY2028E EPS of $22.26</div>
+    <div class="exit-price">Implied Share Price: $401</div>
+    <div class="exit-upside" style="color:#1a1a2e;">Upside: +9% from $366.80</div>
+  </div>
+</div>
+
+<!-- CASE 4: BULL MILD -->
+<div class="case-block">
+  <div class="case-name">Case 4: Bull Mild — AI Monetization + IES Acceleration + Multiple Re-Rating</div>
+  <div class="case-desc">AI agents drive measurable ARPU uplift; IES wins accelerate in mid-market; Credit Karma sustains 20%+ growth; margins exceed consensus; market re-rates from "mature platform" to "AI-powered compounder"; buybacks accelerate at depressed levels.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Revenue $21.5B (+14%); AI agent customers reach 5M+ with 30% ARPU premium; IES new contracts +60% QoQ. <strong>FY2027</strong> — Revenue $25.0B (+16%); IES reaches $1B ARR; operating margin hits 44%; market recognizes structural margin shift. <strong>FY2028</strong> — Revenue $29.0B (+16%); EPS $26.00; partial multiple re-rating to 22x as the "AI discount" reverses; payments volume reaches $3T.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Revenue Growth CAGR (3Y)</span><span>15.5%</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>45%</span></div>
+  <div class="driver-row"><span>Net Margin</span><span>33%</span></div>
+  <div class="driver-row"><span>EPS</span><span>$26.00</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>22x (partial re-rating)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$21,500</td><td>$25,000</td><td>$29,000</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+14%</td><td>+16%</td><td>+16%</td></tr>
+    <tr><td>Gross Income</td><td>17,845</td><td>20,750</td><td>24,360</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>83%</td><td>83%</td><td>84%</td></tr>
+    <tr><td>EBITDA</td><td>9,460</td><td>11,250</td><td>13,050</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>44.0%</td><td>45.0%</td><td>45.0%</td></tr>
+    <tr><td>EBIT</td><td>9,030</td><td>10,750</td><td>12,470</td></tr>
+    <tr><td>Net Income</td><td>6,880</td><td>8,250</td><td>9,570</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Margin %</td><td>32%</td><td>33%</td><td>33%</td></tr>
+    <tr><td>EPS (Dil)</td><td>$16.50</td><td>$21.00</td><td>$26.00</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>22x</td><td>22x</td><td>22x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$363</td><td>$462</td><td>$572</td></tr>
+    <tr><td>FCF</td><td>$7,525</td><td>$8,750</td><td>$8,700</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 22x FY2028E EPS of $26.00</div>
+    <div class="exit-price">Implied Share Price: $572</div>
+    <div class="exit-upside" style="color:#1a1a2e;">Upside: +56% from $366.80</div>
+  </div>
+</div>
+
+<!-- CASE 5: BULL SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 5: Bull Severe — AI Platform Re-Rating + Payments Flywheel</div>
+  <div class="case-desc">Intuit is recognized as the definitive AI-powered financial operating system; "done-for-you" drives 50%+ ARPU uplift across the platform; IES disrupts mid-market ERP; payments volume hits $4T+ with expanding take rates; multiple re-rates to 28x as investors treat Intuit as a structural compounder with AI optionality.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Revenue $21.8B (+16%); AI-assisted customers reach 10M+; QBO ARPU inflects to $400+. <strong>FY2027</strong> — Revenue $26.2B (+20%); IES reaches $1.5B ARR; payments revenue crosses $2B; Credit Karma monetization inflects with insurance and banking products. <strong>FY2028</strong> — Revenue $31.4B (+20%); EBITDA margin 48%; EPS $30.00; Intuit positioned as a $200B+ market cap AI financial platform.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Revenue Growth CAGR (3Y)</span><span>18.5% (AI-driven re-acceleration)</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>48% (AI leverage)</span></div>
+  <div class="driver-row"><span>Net Margin</span><span>36%</span></div>
+  <div class="driver-row"><span>EPS</span><span>$30.00</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>28x (AI platform premium)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$21,800</td><td>$26,200</td><td>$31,400</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+16%</td><td>+20%</td><td>+20%</td></tr>
+    <tr><td>Gross Income</td><td>18,310</td><td>22,270</td><td>27,020</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>84%</td><td>85%</td><td>86%</td></tr>
+    <tr><td>EBITDA</td><td>9,810</td><td>12,310</td><td>15,072</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>45.0%</td><td>47.0%</td><td>48.0%</td></tr>
+    <tr><td>EBIT</td><td>9,380</td><td>11,790</td><td>14,448</td></tr>
+    <tr><td>Net Income</td><td>7,194</td><td>9,170</td><td>11,304</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Margin %</td><td>33%</td><td>35%</td><td>36%</td></tr>
+    <tr><td>EPS (Dil)</td><td>$17.50</td><td>$24.00</td><td>$30.00</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>28x</td><td>28x</td><td>28x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$490</td><td>$672</td><td>$840</td></tr>
+    <tr><td>FCF</td><td>$7,850</td><td>$9,440</td><td>$10,048</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 28x FY2028E EPS of $30.00</div>
+    <div class="exit-price">Implied Share Price: $840</div>
+    <div class="exit-upside" style="color:#1a1a2e;">Upside: +129% from $366.80</div>
+  </div>
+</div>
+
+<!-- SVG Bar Chart -->
+<div class="case-chart">
+  <p style="font-size:9px; font-weight:600; margin-bottom:8px;">Implied Share Price by Scenario (FY2028E Exit) vs. Current Price $366.80</p>
+  <svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg" style="width:100%; font-family:Inter,Arial,sans-serif;">
+    <!-- Axes -->
+    <line x1="80" y1="20" x2="80" y2="200" stroke="#ccc" stroke-width="1"/>
+    <line x1="80" y1="200" x2="680" y2="200" stroke="#ccc" stroke-width="1"/>
+    <!-- Y-axis labels (scale: $1 = 0.2px, $100 = 20px; range 0-900) -->
+    <text x="75" y="204" text-anchor="end" font-size="9" fill="#888">$0</text>
+    <text x="75" y="164" text-anchor="end" font-size="9" fill="#888">$200</text>
+    <text x="75" y="124" text-anchor="end" font-size="9" fill="#888">$400</text>
+    <text x="75" y="84" text-anchor="end" font-size="9" fill="#888">$600</text>
+    <text x="75" y="44" text-anchor="end" font-size="9" fill="#888">$800</text>
+    <!-- Gridlines -->
+    <line x1="80" y1="164" x2="680" y2="164" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="124" x2="680" y2="124" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="84" x2="680" y2="84" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="44" x2="680" y2="44" stroke="#eee" stroke-width="0.5"/>
+    <!-- Bar scale: $1 = 0.2px (180px range / $900 max) -->
+    <!-- Bear Severe: $161 -> height = 161*0.2 = 32.2px; y = 200-32.2 = 167.8 -->
+    <rect x="110" y="167.8" width="80" height="32.2" fill="#2563eb"/>
+    <text x="150" y="163" text-anchor="middle" font-size="9" fill="#333">$161</text>
+    <text x="150" y="214" text-anchor="middle" font-size="8" fill="#555">Bear Severe</text>
+    <!-- Bear Mild: $269 -> height = 53.8px; y = 200-53.8 = 146.2 -->
+    <rect x="220" y="146.2" width="80" height="53.8" fill="#2563eb"/>
+    <text x="260" y="142" text-anchor="middle" font-size="9" fill="#333">$269</text>
+    <text x="260" y="214" text-anchor="middle" font-size="8" fill="#555">Bear Mild</text>
+    <!-- Base: $401 -> height = 80.2px; y = 200-80.2 = 119.8 -->
+    <rect x="330" y="119.8" width="80" height="80.2" fill="#2563eb"/>
+    <text x="370" y="115" text-anchor="middle" font-size="9" fill="#333">$401</text>
+    <text x="370" y="214" text-anchor="middle" font-size="8" fill="#555">Base Case</text>
+    <!-- Bull Mild: $572 -> height = 114.4px; y = 200-114.4 = 85.6 -->
+    <rect x="440" y="85.6" width="80" height="114.4" fill="#2563eb"/>
+    <text x="480" y="81" text-anchor="middle" font-size="9" fill="#333">$572</text>
+    <text x="480" y="214" text-anchor="middle" font-size="8" fill="#555">Bull Mild</text>
+    <!-- Bull Severe: $840 -> height = 168px; y = 200-168 = 32 -->
+    <rect x="550" y="32" width="80" height="168" fill="#2563eb"/>
+    <text x="590" y="28" text-anchor="middle" font-size="9" fill="#333">$840</text>
+    <text x="590" y="214" text-anchor="middle" font-size="8" fill="#555">Bull Severe</text>
+    <!-- Current price line: $366.80 -> height = 73.4px; y = 200-73.4 = 126.6 -->
+    <line x1="80" y1="126.6" x2="680" y2="126.6" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="685" y="130" font-size="9" fill="#e74c3c">$366.80 (Current)</text>
+    <!-- Prob-wtd PV: $388 -> 77.6px; y = 200-77.6 = 122.4 -->
+    <line x1="80" y1="122.4" x2="680" y2="122.4" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="3,2"/>
+    <text x="685" y="126" font-size="8" fill="#f39c12">$388 PV@10%</text>
+  </svg>
+  <p style="font-size:8px; color:#888; margin-top:4px;">Probability weights: 5% / 20% / 50% / 20% / 5% · Prob-wtd avg $427.15 discounted @10% CoC = $388.32 · Current: $366.80 · Implied upside: +5.9%</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 11: COMPS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">11. Comparable Companies</div>
+
+<div class="section-title">Selected Financials — Software Peers</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th class="est-col">Rev FY1</th>
+      <th class="est-col">EBITDA FY1</th>
+      <th class="est-col">EBITDA Mgn%</th>
+      <th>P/Sales</th>
+      <th>EV/Sales</th>
+      <th class="est-col">EV/EBITDA FY1</th>
+      <th class="est-col">EV/EBITDA FY2</th>
+      <th class="est-col">P/E FY1</th>
+      <th class="est-col">P/E FY2</th>
+      <th class="est-col">P/FCF FY1</th>
+      <th>FCF Yield</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Intuit</td><td>INTU</td>
+      <td>$21,247</td><td>$9,130</td><td>43.0%</td>
+      <td>5.1x</td><td>5.3x</td><td>11.8x</td><td>10.4x</td>
+      <td>15.8x</td><td>13.9x</td><td>14.4x</td><td>2.7%</td>
+    </tr>
+    <tr>
+      <td>CrowdStrike A</td><td>CRWD</td>
+      <td>$5,904</td><td>$1,716</td><td>29.1%</td>
+      <td>20.8x</td><td>20.8x</td><td>58.3x</td><td>45.9x</td>
+      <td>81.9x</td><td>64.8x</td><td>58.5x</td><td>1.1%</td>
+    </tr>
+    <tr>
+      <td>Adobe</td><td>ADBE</td>
+      <td>$26,063</td><td>$12,313</td><td>47.2%</td>
+      <td>4.0x</td><td>4.0x</td><td>7.9x</td><td>7.7x</td>
+      <td>10.0x</td><td>8.9x</td><td>9.0x</td><td>7.2%</td>
+    </tr>
+    <tr>
+      <td>ServiceNow</td><td>NOW</td>
+      <td>$15,979</td><td>$5,911</td><td>37.0%</td>
+      <td>6.9x</td><td>6.6x</td><td>14.8x</td><td>12.3x</td>
+      <td>21.0x</td><td>17.4x</td><td>16.3x</td><td>2.9%</td>
+    </tr>
+    <tr>
+      <td>Cadence Design</td><td>CDNS</td>
+      <td>$5,966</td><td>$2,839</td><td>47.6%</td>
+      <td>15.1x</td><td>15.4x</td><td>28.7x</td><td>24.9x</td>
+      <td>35.9x</td><td>31.8x</td><td>44.3x</td><td>1.9%</td>
+    </tr>
+    <tr>
+      <td>Synopsys</td><td>SNPS</td>
+      <td>$9,626</td><td>$3,830</td><td>39.8%</td>
+      <td>10.0x</td><td>11.2x</td><td>23.5x</td><td>19.3x</td>
+      <td>29.0x</td><td>24.6x</td><td>41.9x</td><td>1.8%</td>
+    </tr>
+    <tr>
+      <td>Palo Alto</td><td>PANW</td>
+      <td>$11,288</td><td>$3,537</td><td>31.3%</td>
+      <td>11.6x</td><td>13.2x</td><td>37.0x</td><td>31.4x</td>
+      <td>43.8x</td><td>40.7x</td><td>29.5x</td><td>2.8%</td>
+    </tr>
+    <tr>
+      <td>AppLovin A</td><td>APP</td>
+      <td>$8,040</td><td>$6,761</td><td>84.1%</td>
+      <td>27.0x</td><td>27.0x</td><td>21.9x</td><td>16.9x</td>
+      <td>27.7x</td><td>21.0x</td><td>29.6x</td><td>1.7%</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Average</td><td>--</td>
+      <td>--</td><td>--</td><td>44.9%</td>
+      <td>12.6x</td><td>13.0x</td><td>25.5x</td><td>21.1x</td>
+      <td>33.1x</td><td>27.9x</td><td>30.4x</td><td>2.8%</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Median</td><td>--</td>
+      <td>--</td><td>--</td><td>41.4%</td>
+      <td>10.8x</td><td>12.2x</td><td>22.7x</td><td>18.1x</td>
+      <td>28.3x</td><td>22.8x</td><td>29.5x</td><td>2.3%</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Named Competitors</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th class="est-col">Rev FY1</th>
+      <th class="est-col">EBITDA FY1</th>
+      <th class="est-col">EBITDA Mgn%</th>
+      <th>P/Sales</th>
+      <th>EV/Sales</th>
+      <th class="est-col">EV/EBITDA FY1</th>
+      <th class="est-col">EV/EBITDA FY2</th>
+      <th class="est-col">P/E FY1</th>
+      <th class="est-col">P/E FY2</th>
+      <th class="est-col">P/FCF FY1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Intuit</td><td>INTU</td>
+      <td>$21,247</td><td>$9,130</td><td>43.0%</td>
+      <td>5.1x</td><td>5.3x</td><td>11.8x</td><td>10.4x</td>
+      <td>15.8x</td><td>13.9x</td><td>14.4x</td>
+    </tr>
+    <tr>
+      <td>Paycom</td><td>PAYC</td>
+      <td>$2,188</td><td>$960</td><td>43.9%</td>
+      <td>3.3x</td><td>3.1x</td><td>6.6x</td><td>6.1x</td>
+      <td>11.4x</td><td>10.3x</td><td>12.7x</td>
+    </tr>
+    <tr>
+      <td>BILL Holdings</td><td>BILL</td>
+      <td>$1,644</td><td>$324</td><td>19.7%</td>
+      <td>2.4x</td><td>2.2x</td><td>10.7x</td><td>9.0x</td>
+      <td>15.5x</td><td>13.7x</td><td>11.9x</td>
+    </tr>
+    <tr>
+      <td>Fair Isaac</td><td>FICO</td>
+      <td>$2,486</td><td>$1,499</td><td>60.3%</td>
+      <td>11.7x</td><td>13.2x</td><td>18.2x</td><td>15.0x</td>
+      <td>24.4x</td><td>19.1x</td><td>26.2x</td>
+    </tr>
+    <tr>
+      <td>Constellation SW</td><td>CSU</td>
+      <td>$13,597</td><td>$3,867</td><td>28.4%</td>
+      <td>3.3x</td><td>3.5x</td><td>10.6x</td><td>9.1x</td>
+      <td>15.7x</td><td>13.2x</td><td>11.0x</td>
+    </tr>
+    <tr>
+      <td>Thomson Reuters</td><td>TRI</td>
+      <td>$8,023</td><td>$3,230</td><td>40.3%</td>
+      <td>5.3x</td><td>5.5x</td><td>12.7x</td><td>11.6x</td>
+      <td>20.1x</td><td>17.7x</td><td>18.5x</td>
+    </tr>
+    <tr>
+      <td>EverCommerce</td><td>EVCM</td>
+      <td>$620</td><td>$186</td><td>30.0%</td>
+      <td>3.7x</td><td>4.4x</td><td>13.9x</td><td>12.9x</td>
+      <td>16.9x</td><td>15.1x</td><td>23.5x</td>
+    </tr>
+    <tr>
+      <td>Blackbaud</td><td>BLKB</td>
+      <td>$1,171</td><td>$436</td><td>37.2%</td>
+      <td>1.5x</td><td>1.8x</td><td>4.7x</td><td>4.5x</td>
+      <td>6.9x</td><td>6.0x</td><td>5.7x</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Average</td><td>--</td>
+      <td>--</td><td>--</td><td>37.1%</td>
+      <td>4.5x</td><td>4.8x</td><td>11.1x</td><td>9.7x</td>
+      <td>15.8x</td><td>13.6x</td><td>15.6x</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Median</td><td>--</td>
+      <td>--</td><td>--</td><td>38.8%</td>
+      <td>3.5x</td><td>4.0x</td><td>11.2x</td><td>9.8x</td>
+      <td>15.7x</td><td>13.8x</td><td>13.6x</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:10px;">Intuit trades at 11.8x FY1 EV/EBITDA — a 48% discount to the software peer median of 22.7x and roughly in line with the named competitor average of 11.1x. This valuation disconnect reflects two dynamics: (1) the software peer set (CrowdStrike, Cadence, Palo Alto) commands premium multiples for faster top-line growth (25-40%) that Intuit's 12-13% revenue growth cannot match; and (2) the named competitor set (Paycom, BILL, Blackbaud) includes smaller, lower-margin businesses that trade at lower multiples due to less scale and narrower moats. On a P/E basis, Intuit at 15.8x FY1 trades at a 44% discount to the software peer median of 28.3x but roughly in line with the named competitor median of 15.7x. On a P/FCF basis (14.4x FY1), Intuit is cheaper than both peer sets (software median 29.5x, named competitor median 13.6x), reflecting the market's underappreciation of Intuit's exceptional FCF generation ($7.3B FY26E, 34% margin). The most relevant comp is Adobe (ADBE): similar scale, margin profile, and growth rate — yet Adobe trades at 7.9x EV/EBITDA (FY1) versus Intuit's 11.8x, while Intuit's EBITDA margin (43%) exceeds Adobe's (47.2% but narrowing). FICO (18.2x EV/EBITDA) demonstrates that data-moat financial software companies can sustain premium multiples — suggesting Intuit's current valuation may be temporarily depressed rather than structurally re-rated.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<div class="verdict">
+  <p><strong>(i) Market Cap Bucket: $101.4B</strong> <span class="fw-rating weak">Weak</span></p>
+  <p style="margin-top:4px;">Large Cap ($100B+). Intuit's $101.4B market cap places it firmly in the mega-cap category, well outside Theia's sweet spot for small-cap companies (typically $500M-$5B) where informational advantages are achievable. At this market cap, Intuit is a core holding for every large-cap growth fund, index fund, and quantitative strategy globally — there is no informational edge to be found. The stock's 42% YTD drawdown has compressed the market cap from ~$180B to $101B, but it remains one of the 75 largest US-listed companies. Position sizing for a concentrated small-cap strategy would be impractical.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(ii) Analyst Coverage: 36 Broker Contributors</strong> <span class="fw-rating weak">Weak</span></p>
+  <p style="margin-top:4px;">With 36 sell-side analysts covering INTU, this is among the most heavily covered stocks in the technology sector. Every major investment bank (Goldman Sachs, Morgan Stanley, JP Morgan, etc.) publishes regular research, and consensus estimates are highly refined with minimal informational gaps. The consensus target of $591.78 reflects a deeply analyzed view from sophisticated institutional research teams. There is no coverage gap to exploit — the market's view on Intuit is as well-informed as any stock in the S&amp;P 500. This is the opposite of Theia's target profile of under-covered, under-researched companies where independent analysis can identify mispricing.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iii) Thesis Alignment: Financial Technology / Internet Finance Infrastructure</strong> <span class="fw-rating moderate">Adjacent</span></p>
+  <p style="margin-top:4px;">Intuit is unquestionably a financial technology company — it processes $2T+ in invoices, $105B in tax refunds, pays 18M workers, and is building next-generation payment rails through FedNow, Affirm, and Circle/USDC partnerships. The platform sits at the intersection of small business finance, consumer financial identity, and AI-powered financial services — directly aligned with Theia's "internet finance" thesis. The stablecoin partnership with Circle and FedNow certification demonstrate that Intuit is actively building infrastructure for the next generation of money movement. However, Intuit is not blockchain-native, does not have meaningful crypto/DeFi exposure, and its core business is traditional accounting and tax software enhanced by AI. Rating: Adjacent — strongly aligned with internet finance infrastructure but not a pure-play digital finance or blockchain company.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iv) Outcome Dispersion: $161 – $840</strong> <span class="fw-rating moderate">Moderate</span></p>
+  <p style="margin-top:4px;">The 5-scenario model shows implied prices ranging from $161 (Bear Severe, -56%) to $840 (Bull Severe, +129%) from the current $366.80. This is a 5.2x spread between bear and bull severe — wide in absolute terms but moderate relative to Theia's preference for 8-10x+ outcome dispersion typical of under-covered small caps. The probability-weighted fair value of $388 (discounted at 10% CoC given the investment-grade quality and low beta) represents only 5.9% upside from current trading — suggesting the stock is approximately fairly valued on a risk-adjusted basis. The limited alpha opportunity reflects the efficiency of a stock covered by 36 analysts: the market has already priced in most of the information embedded in our scenarios. The downside is meaningful (-56% in bear severe) but the upside (+129% in bull severe) is modest for a concentrated position.</p>
+</div>
+
+<div style="background: #f8d7da; border-left: 4px solid #721c24; padding: 12px 14px; margin: 16px 0; font-size: 11.5px;">
+  <strong>VERDICT: NO — World-Class Company, Wrong Profile for Theia</strong><br><br>
+  Intuit is a world-class financial technology platform with among the strongest competitive moats in software: 100M customers, $2T+ invoice volume, 40+ years of golden transaction data, three iconic brands, and a genuinely impressive AI deployment (GenOS, 9,800+ models, 3M+ agent users). The 42% YTD drawdown has created an optically attractive entry point at 15.8x FY26E P/E and 7.0% FCF yield. However, Intuit fails Theia's screening criteria on the two most important dimensions: (1) at $101B market cap, it is 20-50x larger than Theia's target investment; and (2) with 36 analyst coverage, there is zero informational edge available. The thesis alignment is adjacent (strong fintech platform with FedNow/stablecoin exposure) and outcome dispersion is moderate (5.2x spread), but these cannot overcome the fundamental unsuitability of a mega-cap, heavily-covered stock for a concentrated small-cap strategy. Intuit belongs in a large-cap quality compounder portfolio, not in Theia's mandate.
+</div>
+
+<p class="prose" style="font-size:10px; font-style:italic; margin-top:6px;">Note: Theia seeks small-cap companies that aren't well covered and are strongly aligned on the core internet finance thesis with wide outcome dispersion. INTU scores: Market Cap (Weak) | Coverage (Weak) | Thesis (Adjacent) | Dispersion (Moderate)</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 13: RISK SUMMARY -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">13. Risk Summary</div>
+
+<table class="risk-table">
+  <tr>
+    <th>Risk Category</th>
+    <th>Description</th>
+    <th>Severity</th>
+    <th>Mitigant</th>
+  </tr>
+  <tr>
+    <td>IRS Free Filing / Tax Simplification</td>
+    <td>IRS Direct File initiative and political momentum for tax simplification could erode TurboTax market share. TurboTax + ProTax = 29% of FY2025 revenue with near-100% margin contribution.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>TurboTax Live differentiation through expert assistance + AI; 40+ years of brand trust; complexity of state taxes and multi-state filing not addressed by IRS tools; historical resilience against prior free filing initiatives.</td>
+  </tr>
+  <tr>
+    <td>AI Commoditization</td>
+    <td>General-purpose AI agents (ChatGPT, Claude, Gemini) could theoretically automate bookkeeping and tax filing without Intuit's platform, undermining the "done-for-you" premium pricing model.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Golden dataset of billions of transactions creates fine-tuned accuracy that generic models cannot match; regulatory compliance and bank integration requirements create barriers; 9,800+ model deployments in GenOS represent years of domain-specific fine-tuning.</td>
+  </tr>
+  <tr>
+    <td>Margin Expansion Execution</td>
+    <td>The 1,250 bps EBITDA margin expansion from 30.5% to 43.0% in one year is the most aggressive margin forecast among large-cap software; any shortfall would disappoint consensus expectations.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Q2 FY26 already demonstrated record 33.3% non-GAAP operating margin; structural AI automation reduces labor costs; scale leverage on fixed cost base; management has track record of margin delivery.</td>
+  </tr>
+  <tr>
+    <td>Credit Karma Cyclicality</td>
+    <td>Credit Karma's 32.5% growth may be cyclical (credit market tailwinds) rather than structural; deceleration would undermine the combined Consumer segment narrative.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Expanding product categories beyond credit cards (insurance, banking, tax-adjacent products); 100M+ member base provides diversified monetization; cross-platform integration with TurboTax creates structural growth driver.</td>
+  </tr>
+  <tr>
+    <td>Mailchimp Execution</td>
+    <td>Return to double-digit growth pushed beyond FY2026; persistent integration challenges and former insider skepticism about platform synergies.</td>
+    <td><span class="fw-rating low">Low</span></td>
+    <td>Mailchimp is ~10% of GBS revenue; even continued underperformance is not material to total company growth. GBS ex-Mailchimp growing 21% demonstrates the core is strong regardless of Mailchimp trajectory.</td>
+  </tr>
+  <tr>
+    <td>Internal Culture Strain</td>
+    <td>AlphaSense experts report 14-16 hour workdays and rising attrition among domain experts — potentially undermining AI development quality and institutional knowledge retention during the critical transformation period.</td>
+    <td><span class="fw-rating low">Low</span></td>
+    <td>Competitive compensation and Bay Area talent pool; Intuit brand attracts AI-focused engineers; 18,200-employee base provides depth beyond any individual contributor; culture strain is common across tech during AI transformation.</td>
+  </tr>
+  <tr>
+    <td>Leverage / Debt Service</td>
+    <td>$6.2B in consolidated debt with $2.2B new revolver (2031 maturity); debt/equity of 33.7% is manageable but reduces financial flexibility versus zero-debt peers.</td>
+    <td><span class="fw-rating low">Low</span></td>
+    <td>Interest coverage of 20x (FY2025) expanding to 48.6x (FY2028E); investment-grade credit; $7.3B FY2026E FCF provides ample coverage; $2.2B revolver undrawn and available for flexibility.</td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 14: APPENDIX — PYTHON CODE -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section appendix">14. Appendix — Python Code</div>
+
+<p class="prose">Sensitivity table generator and scenario model code for analyst customization:</p>
+
+<div class="section-title">Sensitivity Table Generator</div>
+<div class="code-block">
+import numpy as np
+import pandas as pd
+
+# ─── SENSITIVITY TABLE 1: FY2028E Revenue ($M) ───
+# GBS Growth Rate vs. Consumer Segment Growth Rate
+gbs_fy25 = 11_077  # GBS FY2025 revenue
+con_fy25 = 7_754   # Consumer (TurboTax+CK+ProTax) FY2025 revenue
+gbs_growth_rates = [0.08, 0.10, 0.12, 0.14, 0.16]
+con_growth_rates = [0.06, 0.08, 0.10, 0.12, 0.15]
+years = 3  # FY2025 to FY2028
+
+rows1 = []
+for gbs_g in gbs_growth_rates:
+    row = []
+    for con_g in con_growth_rates:
+        gbs_28 = gbs_fy25 * (1 + gbs_g) ** years
+        con_28 = con_fy25 * (1 + con_g) ** years
+        total = gbs_28 + con_28
+        row.append(f"${round(total, -1):,.0f}")
+    rows1.append(row)
+
+df1 = pd.DataFrame(rows1,
+    index=[f"{int(g*100)}%" for g in gbs_growth_rates],
+    columns=[f"{int(g*100)}%" for g in con_growth_rates])
+df1.index.name = "GBS Growth / Consumer Growth"
+print("FY2028E Total Revenue ($M)")
+print(df1.to_string())
+print(f"\nBase: GBS 12% CAGR + Consumer 10% CAGR -> ~$26,350M")
+
+# ─── SENSITIVITY TABLE 2: FY2028E Free Cash Flow ($M) ───
+revenues = [24_000, 25_500, 26_854, 28_500, 30_000]
+fcf_margins = [0.24, 0.27, 0.30, 0.33, 0.36]
+base_rev = 26_854
+base_fcf_mgn = 0.295
+
+rows2 = []
+for rev in revenues:
+    row = []
+    for m in fcf_margins:
+        fcf = rev * m
+        row.append(f"${round(fcf, 0):,.0f}")
+    rows2.append(row)
+
+df2 = pd.DataFrame(rows2,
+    index=[f"${x:,}" for x in revenues],
+    columns=[f"{int(m*100)}%" for m in fcf_margins])
+print("\nFY2028E Free Cash Flow ($M)")
+print(df2.to_string())
+print(f"Base: ${base_rev:,} x {base_fcf_mgn*100:.1f}% = ${base_rev*base_fcf_mgn:,.0f}M")
+
+# ─── SENSITIVITY TABLE 3: Implied Share Price ($) ───
+eps_values = [16.00, 19.00, 22.26, 26.00, 30.00]
+pe_multiples = [10, 14, 18, 22, 28]
+
+rows3 = []
+for eps in eps_values:
+    row = []
+    for mult in pe_multiples:
+        price = eps * mult
+        row.append(f"${price:,.0f}")
+    rows3.append(row)
+
+df3 = pd.DataFrame(rows3,
+    index=[f"${x:.2f}" for x in eps_values],
+    columns=[f"{x}x" for x in pe_multiples])
+print("\nImplied Share Price ($)")
+print(df3.to_string())
+print(f"Base: $22.26 x 18x = ${22.26*18:.2f}")
+</div>
+
+<div class="section-title" style="margin-top:16px;">5-Scenario Model Generator</div>
+<div class="code-block">
+# ─── INTU 5-SCENARIO 3-YEAR MODEL ───
+scenarios = {
+    "Bear Severe": {
+        "rev":   [20_200, 21_600, 23_100],
+        "gm":    [0.80, 0.80, 0.80],
+        "ebitda_mgn": [0.350, 0.350, 0.350],
+        "ni":    [4_242, 4_536, 4_572],
+        "eps":   [15.00, 16.20, 16.10],
+        "fcf":   [5_656, 6_048, 5_775],
+        "exit_pe": 10,
+    },
+    "Bear Mild": {
+        "rev":   [21_000, 22_890, 24_810],
+        "gm":    [0.82, 0.82, 0.83],
+        "ebitda_mgn": [0.410, 0.400, 0.400],
+        "ni":    [5_880, 6_177, 6_700],
+        "eps":   [15.50, 17.40, 19.20],
+        "fcf":   [6_720, 7_328, 7_443],
+        "exit_pe": 14,
+    },
+    "Base Case": {
+        "rev":   [21_247, 23_885, 26_854],
+        "gm":    [0.828, 0.826, 0.822],
+        "ebitda_mgn": [0.430, 0.431, 0.429],
+        "ni":    [6_519, 7_469, 8_494],
+        "eps":   [15.99, 18.94, 22.26],
+        "fcf":   [7_299, 8_060, 7_926],
+        "exit_pe": 18,
+    },
+    "Bull Mild": {
+        "rev":   [21_500, 25_000, 29_000],
+        "gm":    [0.83, 0.83, 0.84],
+        "ebitda_mgn": [0.440, 0.450, 0.450],
+        "ni":    [6_880, 8_250, 9_570],
+        "eps":   [16.50, 21.00, 26.00],
+        "fcf":   [7_525, 8_750, 8_700],
+        "exit_pe": 22,
+    },
+    "Bull Severe": {
+        "rev":   [21_800, 26_200, 31_400],
+        "gm":    [0.84, 0.85, 0.86],
+        "ebitda_mgn": [0.450, 0.470, 0.480],
+        "ni":    [7_194, 9_170, 11_304],
+        "eps":   [17.50, 24.00, 30.00],
+        "fcf":   [7_850, 9_440, 10_048],
+        "exit_pe": 28,
+    },
+}
+
+current_price = 366.80
+diluted_shares = 284.16  # M
+years = ["FY2026E", "FY2027E", "FY2028E"]
+
+for name, s in scenarios.items():
+    print(f"\n{'='*60}")
+    print(f"Scenario: {name}")
+    print(f"{'─'*60}")
+    eps_exit = s["eps"][-1]
+    mult = s["exit_pe"]
+    implied_price = eps_exit * mult
+    upside = (implied_price / current_price - 1) * 100
+    print(f"Exit: {mult}x P/E on FY2028E EPS ${eps_exit:.2f}")
+    print(f"Implied Price: ${implied_price:.2f}  |  Upside: {upside:+.1f}%")
+
+    for i, yr in enumerate(years):
+        rev = s["rev"][i]
+        fcf = s["fcf"][i]
+        eps = s["eps"][i]
+        print(f"  {yr}: Rev ${rev:,}M | FCF ${fcf:,}M | EPS ${eps:.2f}")
+
+# ─── PROBABILITY-WEIGHTED FAIR VALUE ───
+weights = {"Bear Severe": 0.05, "Bear Mild": 0.20, "Base Case": 0.50,
+           "Bull Mild": 0.20, "Bull Severe": 0.05}
+prices  = {"Bear Severe": 161, "Bear Mild": 269, "Base Case": 401,
+           "Bull Mild": 572, "Bull Severe": 840}
+coc = 0.10  # lower CoC for investment-grade large cap
+
+wtd_avg = sum(weights[k] * prices[k] for k in weights)
+pv = wtd_avg / (1 + coc)
+print(f"\nProbability-Weighted Avg (FY2028E): ${wtd_avg:.2f}")
+print(f"Discounted at {coc*100:.0f}% CoC:           ${pv:.2f}")
+print(f"Current Price:                         ${current_price:.2f}")
+print(f"Implied Upside to PV:                 {(pv/current_price-1)*100:+.1f}%")
+</div>
+
+<div class="source-note" style="margin-top:16px;">
+  Intuit, Inc. | Preliminary Memo for Theia · Generated April 15, 2026 · Data: FactSet (Apr 14, 2026), AlphaSense Company Primer &amp; Expert Insights, Q2 FY2026 Earnings Transcript · FYE July · Not investment advice.
+</div>
+
+</body>
+</html>
