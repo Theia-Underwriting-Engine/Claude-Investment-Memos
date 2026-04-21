@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nelnet, Inc. | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 8px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child, table.comps td:nth-child(2) { text-align: left; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-style: italic; background: #fafbfc; font-weight: 600; border-top: 1px solid #eee; }
+table.comps th.est-col { color: #2563eb; }
+
+table.risk-table { font-size: 10px; width: 100%; margin: 8px 0; }
+table.risk-table th { text-align: left; font-weight: 600; padding: 4px 6px; background: #f4f6f9; border-bottom: 1px solid #ddd; }
+table.risk-table td { padding: 4px 6px; border-bottom: 1px solid #eee; vertical-align: top; }
+table.risk-table td:first-child { font-weight: 600; width: 25%; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.alphasense-box { background: #e8f4fd; border-left: 4px solid #2563eb; padding: 10px 14px; margin: 10px 0; font-size: 10px; line-height: 1.5; }
+
+.bull-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #155724; border-bottom: 1.5px solid #c3e6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #721c24; border-bottom: 1.5px solid #f5c6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+
+.bull-item, .bear-item { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Nelnet, Inc. | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">Nelnet, Inc. (NYSE: NNI) is a diversified financial services and education technology holding company headquartered in Lincoln, Nebraska. Originally founded in 1978 to service federal student loans for two local banks, Nelnet has undergone a dramatic transformation from a company that derived 95% of its pre-tax income from the Federal Family Education Loan Program (FFELP) in 2009 to a diversified enterprise where legacy FFELP represents only 17% of pre-tax income by 2025. The company operates through four reportable segments: Nelnet Financial Services (NFS), which manages a $7.4 billion legacy FFELP loan portfolio alongside a rapidly growing consumer lending and banking operation through Nelnet Bank (a Utah-chartered internet industrial bank with $2.0 billion in loans and $1.76 billion in deposits); Loan Servicing &amp; Systems (NDS, operating as Nelnet Diversified Services), which services $486.2 billion in loans for 13.2 million borrowers under the new Unified Servicing and Data Solution (USDS) contract with the U.S. Department of Education while rapidly expanding into private and consumer loan servicing; Education Technology Services &amp; Payments (NBS, operating as Nelnet Business Services), a high-margin, fee-based platform serving nearly 12,000 K-12 schools through FACTS and over 1,200 higher education institutions through Nelnet Campus Commerce, boasting 97%+ customer retention; and Corporate Activities, which houses venture capital investments (including Hudl, CompanyCam), real estate, solar tax equity syndication, a 27% retained interest in ALLO Communications (a fiber-optic internet provider), and Whitetail Rock Capital Management (an SEC-registered investment advisor).</p>
+
+<p class="prose">Nelnet delivered record GAAP net income of $428.5 million ($11.79 per share) in fiscal year 2025, up from $184.0 million ($5.02 per share) in 2024 &mdash; a dramatic improvement driven by a $175.0 million pre-tax gain from the partial redemption of its ALLO investment (generating $410.9 million in cash), a $30.2 million gain from CompanyCam, a $32.9 million non-recurring government servicing contract modification, and strong fundamental performance across all operating segments. Excluding non-recurring items, core earnings were approximately $291.2 million ($8.01 per share). The company has reinvested roughly 68% of its historical earnings into new businesses and asset classes, deploying $10.5 billion in capital over the past 12 years across consumer/private loan acquisitions ($2.4 billion), FFELP ($872 million), Nelnet Bank ($278 million), business acquisitions ($264 million), ALLO ($500 million), stock buybacks ($744 million), debt repurchases ($1.6 billion), real estate and ABS ($2.9 billion), and dividends ($365 million). Management describes its capital allocation philosophy as &ldquo;Berkshire-like&rdquo; &mdash; reinvesting operating cash flows into a diversified portfolio of businesses within its circle of competence: finance, payments, servicing, software, and education. The company&rsquo;s book value per share has grown at a 16% CAGR from $25 at its December 2003 IPO to over $102 by the end of 2025.</p>
+
+<p class="prose"><strong>Key facts:</strong> Founded 1978 &middot; Headquarters Lincoln, NE &middot; Executive Chairman Mike Dunlap &middot; CEO Jeff Noordhoek &middot; CFO Jim Kruger &middot; COO Terry Heimes &middot; Employees ~5,740 (FY2025) &middot; Dual-class shares (Class A &amp; Class B) &middot; NYSE: NNI &middot; FY end December &middot; Market Cap $4,993M &middot; CUSIP 64031N108 &middot; ISIN US64031N1081</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 2: FINANCIAL SUMMARY (FACTSET) -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Theia FactSet Summary</div>
+
+<div class="header">
+  <div>
+    <h1>Nelnet, Inc. Class A</h1>
+    <span class="ticker">NNI &middot; NYSE &middot; ISIN US64031N1081</span>
+  </div>
+  <div class="date">FactSet Snapshot &middot; April 21, 2026</div>
+</div>
+
+<!-- Price Bar -->
+<div class="price-bar">
+  <div>
+    <span class="label">Price (Apr 20, 2026) </span>
+    <span class="price">$138.72</span>
+  </div>
+  <div><span class="label">1M </span><span class="chg pos">+9.31%</span></div>
+  <div><span class="label">3M </span><span class="chg pos">+5.03%</span></div>
+  <div><span class="label">6M </span><span class="chg pos">+6.54%</span></div>
+  <div><span class="label">YTD </span><span class="chg pos">+4.15%</span></div>
+  <div><span class="label">1Y </span><span class="chg pos">+35.64%</span></div>
+  <div><span class="label">52-Wk Range </span><span style="font-weight:600;">$102.00 &ndash; $142.87</span></div>
+</div>
+
+<!-- Key Stats + EV Bridge -->
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats &mdash; Trading</div>
+    <table class="kv" style="font-size:10px;">
+      <tr><td>Exchange / Ticker</td><td>NYSE &middot; NNI</td></tr>
+      <tr><td>Price (Apr 20, 2026)</td><td>$138.72</td></tr>
+      <tr><td>30-Day Avg Volume</td><td>169K shares/day</td></tr>
+      <tr><td>Float %</td><td>57.26%</td></tr>
+      <tr><td>Short Interest</td><td>2.21% of float</td></tr>
+      <tr><td>Days to Cover</td><td>1.5 days</td></tr>
+      <tr><td>Annual Dividend</td><td>$1.32 (0.95% yield)</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev" style="font-size:10px;">
+      <tr><td>Basic Shares</td><td>35.99M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">Class A Common Stock</td><td style="font-size:9px;">25.38M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">Class B Convertible Common</td><td style="font-size:9px;">10.62M</td></tr>
+      <tr><td>Share Price</td><td>$138.72</td></tr>
+      <tr><td>= Market Cap</td><td>$4,993M</td></tr>
+      <tr><td>+ Stock Comp / Options</td><td>0.17M</td></tr>
+      <tr><td>= Fully Dil. Market Cap</td><td>$5,017M</td></tr>
+      <tr><td>+ Consolidated Debt</td><td>$7,781M</td></tr>
+      <tr><td>&minus; Cash &amp; Equivalents</td><td>($974M)</td></tr>
+      <tr><td>+ Non-Controlling Interest</td><td>($109M)</td></tr>
+      <tr class="total"><td>= Enterprise Value</td><td>$11,716M</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- Current Valuation — horizontal 6x2 grid -->
+<div class="section-title">Current Valuation</div>
+<div style="border: 1px solid #eee; border-radius: 4px; margin-bottom: 8px;">
+  <div class="val-grid">
+    <div class="val-cell"><div class="val-label">Mkt Cap</div><div class="val-num">$4,993M</div><div class="val-sub">Basic shares</div></div>
+    <div class="val-cell"><div class="val-label">EV</div><div class="val-num">$11,716M</div><div class="val-sub">$7.8B debt, $974M cash</div></div>
+    <div class="val-cell"><div class="val-label">P/E (LTM)</div><div class="val-num">12.0x</div><div class="val-sub">NI $421M</div></div>
+    <div class="val-cell"><div class="val-label">EV/EBITDA (LTM)</div><div class="val-num">9.3x</div><div class="val-sub">EBITDA $1,258M</div></div>
+    <div class="val-cell"><div class="val-label">EV/Sales (LTM)</div><div class="val-num">5.2x</div><div class="val-sub">Rev $2,263M</div></div>
+    <div class="val-cell"><div class="val-label">P/FCF (LTM)</div><div class="val-num">12.2x</div><div class="val-sub">FCF $397M</div></div>
+  </div>
+  <div style="border-top: 1px solid #eee;">
+    <div class="val-grid">
+      <div class="val-cell"><div class="val-label">Fully Dil. Mkt Cap</div><div class="val-num">$5,017M</div><div class="val-sub">36.17M dil. shares</div></div>
+      <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">5.26%</div><div class="val-sub">FactSet estimate</div></div>
+      <div class="val-cell"><div class="val-label">Beta (3Y Adj)</div><div class="val-num">0.80</div><div class="val-sub">Low beta / defensive</div></div>
+      <div class="val-cell"><div class="val-label">Avg Analyst Rating</div><div class="val-num">Hold</div><div class="val-sub">1 broker &middot; 2.00</div></div>
+      <div class="val-cell"><div class="val-label">Cons. Target Price</div><div class="val-num">$135.00</div><div class="val-sub">&minus;3% downside</div></div>
+      <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">May 7</div><div class="val-sub">Q1 2026</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Credit / Leverage Ratios -->
+<div class="section-title">Credit &amp; Leverage Ratios</div>
+<div class="val-grid">
+  <div class="val-cell"><div class="val-label">Debt / Equity</div><div class="val-num">211.5%</div><div class="val-sub">5Yr Avg: 375.9%</div></div>
+  <div class="val-cell"><div class="val-label">Interest Coverage</div><div class="val-num">2.5x</div><div class="val-sub">5Yr Avg: 2.3x</div></div>
+  <div class="val-cell"><div class="val-label">Current Ratio</div><div class="val-num">3.1x</div><div class="val-sub">5Yr Avg: 3.0x</div></div>
+  <div class="val-cell"><div class="val-label">ROE</div><div class="val-num">12.0%</div><div class="val-sub">5Yr Avg: 9.4%</div></div>
+  <div class="val-cell"><div class="val-label">Book Value / Share</div><div class="val-num">$102.74</div><div class="val-sub">P/BV: 1.3x</div></div>
+  <div class="val-cell"><div class="val-label">Asset Turnover</div><div class="val-num">0.16x</div><div class="val-sub">Bank-like leverage</div></div>
+</div>
+
+<!-- Valuation Multiples Table -->
+<div class="section-title">Valuation Multiples</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Metric</th>
+      <th>5Yr Avg</th>
+      <th>Dec '23</th>
+      <th>Dec '24</th>
+      <th>Dec '25</th>
+      <th class="est" style="color:#2563eb;">Dec '26E</th>
+      <th class="est" style="color:#2563eb;">Dec '27E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">PRICE MULTIPLES</td></tr>
+    <tr><td>P/E</td><td>17.8x</td><td>37.5x</td><td>21.7x</td><td>11.5x</td><td class="est">15.1x</td><td class="est">13.9x</td></tr>
+    <tr><td>P/Sales</td><td>2.0x</td><td>1.6x</td><td>1.8x</td><td>2.1x</td><td class="est">2.9x</td><td class="est">2.8x</td></tr>
+    <tr><td>P/Book Value</td><td>1.2x</td><td>1.0x</td><td>1.2x</td><td>1.3x</td><td class="est">&mdash;</td><td class="est">&mdash;</td></tr>
+    <tr><td>P/FCF</td><td>8.1x</td><td>9.2x</td><td>6.1x</td><td>12.2x</td><td class="est">&mdash;</td><td class="est">&mdash;</td></tr>
+    <tr class="section-row"><td colspan="7">EV MULTIPLES</td></tr>
+    <tr><td>EV/Sales</td><td>8.1x</td><td>6.8x</td><td>5.3x</td><td>5.1x</td><td class="est">6.9x</td><td class="est">6.6x</td></tr>
+    <tr><td>EV/EBITDA</td><td>15.0x</td><td>13.5x</td><td>10.1x</td><td>9.1x</td><td class="est">&mdash;</td><td class="est">&mdash;</td></tr>
+    <tr><td>EV/EBIT</td><td>16.1x</td><td>14.6x</td><td>10.6x</td><td>9.4x</td><td class="est">&mdash;</td><td class="est">&mdash;</td></tr>
+  </tbody>
+</table>
+
+<!-- Revenue Exposure -->
+<div class="section-title">Revenue Exposure (FY2025 Actuals, FYE December)</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Business Segment</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Segment</th><th>$M</th><th>% Rev</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Asset Gen. &amp; Mgmt (AGM)</td><td>$697</td><td>30.2%</td><td>&minus;17.2%</td></tr>
+        <tr><td>Loan Servicing &amp; Systems (NDS)</td><td>$534</td><td>23.1%</td><td>+3.8%</td></tr>
+        <tr><td>Ed Tech &amp; Payments (NBS)</td><td>$534</td><td>23.1%</td><td>+3.3%</td></tr>
+        <tr><td>Corporate &amp; Other</td><td>$259</td><td>11.2%</td><td>+158.7%</td></tr>
+        <tr><td>NFS Other</td><td>$166</td><td>7.2%</td><td>+32.0%</td></tr>
+        <tr><td>Nelnet Bank</td><td>$119</td><td>5.1%</td><td>+27.8%</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>$2,263</td><td>100%</td><td>+6.6%</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:8px; color:#aaa; margin-top:4px;">Corporate +159% driven by $175M ALLO gain, $30.2M CompanyCam gain, $32.9M govt contract modification.</p>
+  </div>
+  <div>
+    <div class="sub-label">By Geography</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Region</th><th>$M</th><th>% Rev</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>United States</td><td>$2,256</td><td>99.7%</td><td>+5.5%</td></tr>
+        <tr><td>International (Canada/APAC)</td><td>$7</td><td>0.3%</td><td>NM</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>$2,263</td><td>100%</td><td>+6.6%</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:8px; color:#aaa; margin-top:4px;">International exposure expanding with Feb 2026 acquisition of Finastra&rsquo;s Canadian student loan servicing business (2.7M borrowers, 450+ employees).</p>
+  </div>
+</div>
+
+<!-- Financials Table -->
+<div class="section-title">Financials</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">$M (FY Dec)</th>
+      <th>Dec '23</th>
+      <th>Dec '24</th>
+      <th>Dec '25</th>
+      <th class="est" style="color:#2563eb;">Dec '26E</th>
+      <th class="est" style="color:#2563eb;">Dec '27E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="6">INCOME STATEMENT</td></tr>
+    <tr><td>Revenue</td><td>$2,068</td><td>$2,122</td><td>$2,263</td><td class="est">$1,694</td><td class="est">$1,785</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Revenue Growth %</td><td>&mdash;</td><td>+2.6%</td><td>+6.6%</td><td class="est">&minus;25.2%</td><td class="est">+5.4%</td></tr>
+    <tr><td>Gross Profit</td><td>$1,769</td><td>$1,812</td><td>$2,004</td><td class="est">&mdash;</td><td class="est">&mdash;</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Gross Margin %</td><td>85.5%</td><td>85.4%</td><td>88.5%</td><td class="est">&mdash;</td><td class="est">&mdash;</td></tr>
+    <tr><td>EBITDA</td><td>$1,042</td><td>$1,114</td><td>$1,258</td><td class="est">&mdash;</td><td class="est">&mdash;</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">EBITDA Margin %</td><td>50.4%</td><td>52.5%</td><td>55.6%</td><td class="est">&mdash;</td><td class="est">&mdash;</td></tr>
+    <tr><td>EBIT</td><td>$963</td><td>$1,056</td><td>$1,224</td><td class="est">&mdash;</td><td class="est">&mdash;</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Operating Margin %</td><td>46.2%</td><td>47.2%</td><td>50.6%</td><td class="est">&mdash;</td><td class="est">&mdash;</td></tr>
+    <tr><td>Net Income</td><td>$88</td><td>$180</td><td>$421</td><td class="est">&mdash;</td><td class="est">&mdash;</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Net Margin %</td><td>4.3%</td><td>8.5%</td><td>18.6%</td><td class="est">&mdash;</td><td class="est">&mdash;</td></tr>
+    <tr><td>EPS (Dil)</td><td>$2.35</td><td>$4.93</td><td>$11.58</td><td class="est">$9.20</td><td class="est">$10.00</td></tr>
+    <tr class="section-row"><td colspan="6">CASH FLOW</td></tr>
+    <tr><td>Operating Cash Flow</td><td>$432</td><td>$663</td><td>$423</td><td class="est">&mdash;</td><td class="est">&mdash;</td></tr>
+    <tr><td>CapEx</td><td>($74)</td><td>($21)</td><td>($26)</td><td class="est">&mdash;</td><td class="est">&mdash;</td></tr>
+    <tr><td>Free Cash Flow</td><td>$358</td><td>$642</td><td>$397</td><td class="est">&mdash;</td><td class="est">&mdash;</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">FCF Margin %</td><td>17.3%</td><td>30.2%</td><td>17.5%</td><td class="est">&mdash;</td><td class="est">&mdash;</td></tr>
+    <tr class="section-row"><td colspan="6">BALANCE SHEET</td></tr>
+    <tr><td>Cash &amp; ST Investments</td><td>$1,025</td><td>$931</td><td>$974</td><td class="est">&mdash;</td><td class="est">&mdash;</td></tr>
+    <tr><td>Total Assets</td><td>$16,712</td><td>$13,778</td><td>$14,064</td><td class="est">&mdash;</td><td class="est">&mdash;</td></tr>
+    <tr><td>Total Debt</td><td>$10,234</td><td>$7,087</td><td>$7,794</td><td class="est">&mdash;</td><td class="est">&mdash;</td></tr>
+    <tr><td>Shareholders' Equity</td><td>$3,254</td><td>$3,350</td><td>$3,686</td><td class="est">&mdash;</td><td class="est">&mdash;</td></tr>
+    <tr><td>BVPS</td><td>$87.79</td><td>$92.30</td><td>$102.74</td><td class="est">&mdash;</td><td class="est">&mdash;</td></tr>
+  </tbody>
+</table>
+
+<!-- Valuation Summary -->
+<div class="section-title">Valuation Summary</div>
+<p class="prose">Nelnet currently trades at 12.0x LTM P/E and 9.3x LTM EV/EBITDA, well below its 5-year average P/E of 17.8x and 5-year average EV/EBITDA of 15.0x. The stock is near its 52-week high of $142.87, up 36% over the past year &mdash; a significant re-rating driven by record FY2025 earnings and investor recognition of the successful diversification away from FFELP. The forward P/E of 15.1x on the sole broker&rsquo;s FY2026E EPS of $9.20 reflects the market&rsquo;s expectation that FY2025&rsquo;s inflated earnings (boosted by $175M ALLO gain and other one-time items) will normalize, but core earnings power of ~$8&ndash;$10 per share is sustainable from the diversified business mix. The EV/EBITDA of 9.1x is in line with student loan servicer peers (SLM at 4.4x, Navient at 16.2x) but significantly below SoFi at 31.5x, reflecting the market&rsquo;s treatment of NNI as a legacy lender rather than a fintech/education technology platform. With only 1 broker covering the stock, the market is almost certainly mispricing Nelnet &mdash; the company is effectively an uncovered $5B market cap diversified financial services conglomerate with a 0.95% dividend yield, an 80-cent beta, and a book value per share of $103 (P/BV of 1.3x). The ultra-low coverage creates a classic Theia opportunity: institutional knowledge gap, limited sell-side attention, and a complex multi-segment business that requires deep work to understand.</p>
+
+<div class="source-note">Source: FactSet snapshot export, April 21, 2026. Estimates reflect consensus of 1 broker contributor. FYE December.</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 3: BULL & BEAR CASES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Cases</div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Private Student Lending Boom from Federal Borrowing Caps.</span> The One Big Beautiful Bill enacted in July 2025 instituted new federal borrowing caps for graduate students and parents of undergraduates. This structural shift is expected to accelerate the privatization of the student lending market, dramatically expanding Nelnet&rsquo;s addressable market for private education loan originations through Nelnet Bank and consumer loan acquisitions through AGM. If private student lending volumes double over the next 3 years (a plausible scenario given the federal retreat), Nelnet is uniquely positioned with its bank charter, servicing infrastructure, and 12,000+ school relationships through FACTS to capture a disproportionate share. This could add $500M+ in new loan originations annually and $25&ndash;$50M in incremental net interest income.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Nelnet Bank Scales to Material Contributor.</span> Launched in 2020, Nelnet Bank reached $2.0 billion in loans and $1.76 billion in deposits by year-end 2025, growing at 28% YoY. The bank provides a dedicated funding vehicle for consumer and home improvement loan origination programs, partnering with Edge Focus on innovative ABS transactions ($150M inaugural deal in April 2025, $200M Rule 144A in October 2025, and two $100M+ pass-throughs in March 2026). If the bank doubles assets to $4B+ over the next 3 years while maintaining the current spread, it could contribute $40&ndash;$60M in pre-tax income, transforming from a startup division to a core earnings pillar. The bank also enables Nelnet to retain consumer loans on balance sheet rather than selling them, capturing the full economic lifecycle.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Hidden Asset Value Crystallization (ALLO, Hudl, Real Estate).</span> Nelnet retains a 27% voting equity interest in ALLO Communications after the partial redemption that generated $175M in gains. ALLO is a growing fiber-optic internet provider whose value continues to appreciate. Hudl, a sports technology company in which Nelnet holds a significant investment, has expanded aggressively through acquisitions and is shifting toward highly profitable media monetization. The real estate portfolio (multifamily and industrial assets) targets mid- to high-teen annual returns over 3&ndash;7 year hold periods with $130M deployed in 2025 alone. These assets are carried at book value on Nelnet&rsquo;s balance sheet but could be worth substantially more &mdash; an ALLO full exit, Hudl IPO, or real estate portfolio sale would surface significant hidden value.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">AI-Driven Operational Transformation Across All Segments.</span> Nelnet has aggressively integrated AI across its business: AI-powered virtual agents in consumer call centers, an NBS AI Center of Excellence, enterprise-wide AI coding strategy, Project Horizon (full-launch late 2026) to overhaul Campus Commerce&rsquo;s billing platform, and AI-based OCR, quality assurance, and network traffic analysis deployed across NDS. These investments are driving all-time high productivity gains in NBS, dramatic improvements in customer service response times, and structurally lower operating costs in NDS following the consolidation to a single servicing platform and 220-person workforce reduction. If AI delivers even modest margin improvement (200&ndash;300bps across segments), the EPS uplift on a $2B+ revenue base would be significant.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Fundamentally Misunderstood / Sum-of-Parts Re-Rating.</span> The market still views Nelnet primarily through the lens of its runoff FFELP portfolio, but FFELP represents only 17% of pre-tax income. The education technology business (NBS) alone generates $507M in revenue with 97%+ retention and should arguably be valued at 3&ndash;5x revenue ($1.5B&ndash;$2.5B) given its SaaS-like characteristics. The servicing business (NDS) earns $509M in fee revenue with improving margins. Nelnet Bank is an early-stage fintech. The corporate venture portfolio includes ALLO, Hudl, and CompanyCam. A sum-of-parts analysis could plausibly yield $180&ndash;$250 per share, representing 30&ndash;80% upside from the current price. With only 1 analyst covering the stock, this re-rating could be catalyzed by a single high-profile research initiation.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="bear-header">Bear Cases</div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Structural FFELP Runoff Creates Secular Revenue Headwind.</span> The legacy $7.4 billion FFELP portfolio (down from $11.7B in 2023) is in irreversible decline &mdash; new originations were permanently discontinued in 2010, and the portfolio will amortize to zero over the coming decade. FFELP still generates ~17% of pre-tax income through net interest income and floor/derivative income. As the portfolio shrinks by $1&ndash;2B annually through repayments, sales, and consolidations, Nelnet faces a secular drag on the P&amp;L that must be offset by growth in other segments. The accelerated prepayment experience from 2021&ndash;2024 (driven by federal debt relief programs) has stabilized, but the structural decline is permanent and irreversible.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Government Servicing Contract Concentration and Political Risk.</span> The Department of Education accounted for 68% of NDS segment revenue in 2025. The USDS contract that replaced the legacy servicing agreement in April 2024 features lower per-borrower revenue rates, tiered pricing based on volume rather than borrower status, and performance-based allocation of new volumes. Nelnet also experienced direct volume losses as the Department transferred borrowers to a remote-hosted servicer and as post-CARES Act forbearance borrowers were moved to the Debt Management and Collections System. Any further federal consolidation, budget sequestration, or political decision to reduce Nelnet&rsquo;s servicing allocation could materially impact fee revenue. The student loan servicing industry is highly politicized, with prominent politicians regularly targeting servicers for scrutiny.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Consumer Lending Credit Risk and Provision Expense Escalation.</span> Nelnet has aggressively expanded into consumer lending through AGM, purchasing over $4 billion in &ldquo;Pay Later&rdquo; receivables from Klarna and building a $744M installment receivables balance. This rapid growth in unsecured consumer credit introduces meaningful credit risk that Nelnet did not historically face with government-guaranteed FFELP loans. Provision for loan losses already jumped to $67.8M in 2025 from $54.6M in 2024. In a recession scenario with rising unemployment, delinquency rates on consumer/Pay Later receivables could spike, potentially requiring $100M+ in annual provisions that would wipe out AGM segment profitability. The Edge Focus ABS partnerships, while innovative, also concentrate risk in a relatively new credit strategy.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Interest Rate Sensitivity and NII Compression.</span> Nelnet&rsquo;s NFS division is fundamentally a spread business: net interest income reached $354.5M in 2025, up from $292.8M in 2024, driven by expanding loan spreads and a shift toward higher-yielding consumer receivables. However, in a falling rate environment, NII could compress as asset yields decline faster than funding costs adjust &mdash; particularly for the FFELP portfolio where floor/derivatives provide only partial hedging. The 5.26% WACC reflects the company&rsquo;s significant leverage (211% D/E), and a rate-driven NII decline of $50&ndash;$75M would flow directly to pre-tax income.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Conglomerate Discount and Opacity.</span> Nelnet&rsquo;s holding company structure &mdash; spanning student loan servicing, education technology, consumer banking, solar tax equity, real estate, venture capital, fiber-optic internet, and insurance &mdash; makes the company inherently difficult for analysts to model and for generalist investors to understand. The dual-class share structure (Class B held largely by insiders including the Dunlap family at 24.4%) concentrates voting power and limits activist intervention. Management does not provide earnings guidance. With only 1 broker covering the stock and a 57% float, the market&rsquo;s ability to efficiently price NNI is structurally limited. This complexity discount could persist indefinitely regardless of fundamental improvement.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Helmer&rsquo;s 7 Powers</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Scale Economies</span> <span class="fw-rating strong">Strong</span><br>
+  Nelnet services $486.2 billion in loans for 13.2 million borrowers, making it one of the largest student loan servicers in the United States. This massive scale creates significant unit cost advantages: the fixed costs of maintaining the servicing technology platform, compliance infrastructure, and regulatory reporting capabilities are spread across millions of accounts. Following the 2024 consolidation to a single direct loan servicing platform and the reduction of 220 associates, Nelnet&rsquo;s per-borrower servicing cost structure has improved materially. Smaller competitors and fintech entrants simply cannot achieve the same per-unit economics at lower volumes, particularly given the USDS contract&rsquo;s tiered pricing model that rewards larger servicers. In NBS, the FACTS platform serves nearly 12,000 K-12 schools with a largely fixed technology infrastructure &mdash; each incremental school adds revenue with minimal marginal cost. Scale is a genuine power here: industry experts confirm that Nelnet&rsquo;s massive scale allows it to maintain highly aggressive unit economics that smaller, tech-enabled competitors struggle to match.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Network Effects</span> <span class="fw-rating weak">Weak</span><br>
+  Nelnet&rsquo;s businesses exhibit limited direct network effects. The loan servicing platform does not become more valuable as more borrowers use it (unlike a marketplace or social network). The education payments platform (NBS) has some indirect network effects: as more schools adopt FACTS, the platform accumulates more data on tuition payment patterns and financial aid workflows, which improves the product. But this is a stretch &mdash; schools choose Nelnet for its product quality, integrations, and service, not because other schools are using it. The Edge Focus partnership introduces some network-like dynamics in consumer lending (shared machine-learning credit models improve with data volume), but this is a supplier advantage rather than a true network effect. Overall, network effects are not a meaningful source of competitive advantage for Nelnet.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Counter-Positioning</span> <span class="fw-rating moderate">Moderate</span><br>
+  Nelnet occupies a position that few competitors want to replicate: deep entanglement with the U.S. Department of Education&rsquo;s student loan infrastructure, complex regulatory compliance expertise, and willingness to operate in a highly politicized industry. Large banks (Wells Fargo, Bank of America) have exited student loan servicing entirely due to political risk and regulatory burden. New fintech entrants focus on private lending (SoFi) or refinancing rather than government servicing. This creates a form of counter-positioning: the regulatory complexity, political scrutiny, and low-margin government contracts that deter competitors are precisely the capabilities that Nelnet has spent decades building. However, this counter-positioning is defensive rather than growth-enabling &mdash; it protects existing revenue rather than creating premium pricing or rapid expansion.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Switching Costs</span> <span class="fw-rating strong">Strong</span><br>
+  Switching costs are Nelnet&rsquo;s most powerful competitive advantage, particularly in the education technology segment. FACTS has built deep, foundational integrations with major student information systems like Workday and Jenzabar, making its total cost of ownership highly competitive and its product incredibly sticky. Technology directors at partner universities confirm that student billing involves highly complex components &mdash; financial aid, work-study, multiple payment plans &mdash; and replacing Nelnet&rsquo;s customized infrastructure is a daunting, multi-year project. The 97%+ customer retention rate across both K-12 (FACTS) and higher education (Campus Commerce) quantifies this stickiness. In loan servicing, the USDS contract itself creates significant switching costs: the Department of Education cannot easily transfer millions of borrowers between servicers, and the technology migration required for NDS&rsquo;s Velocity platform further entrenches Nelnet&rsquo;s position. In banking and lending, the ABS and securitization structures create contractual lock-in over multi-year terms.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Branding</span> <span class="fw-rating moderate">Moderate</span><br>
+  Nelnet maintains one of the strongest reputations among loan servicers, providing a distinct advantage in winning massive government and commercial contracts. Former directors emphasize that unlike some competitors who look for loopholes to deny borrower assistance, Nelnet genuinely plays by the rules and helps borrowers navigate complex federal conversion processes. This reputation for being a &ldquo;good actor&rdquo; is valuable in winning government contract renewals and school district selections. However, the Nelnet brand also carries a negative perception among some student borrowers who associate it with debt collection, which can occasionally create friction in the campus commerce business where students use the platform for tuition payments. On balance, the brand is a net positive in B2B/B2G contexts but not a pricing power lever.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">6. Cornered Resource</span> <span class="fw-rating moderate">Moderate</span><br>
+  Nelnet controls several quasi-cornered resources: a $7.4 billion FFELP loan portfolio that generates predictable cash flows and cannot be replicated (no new FFELP originations since 2010); a Utah bank charter (Nelnet Bank) that provides a regulatory moat for deposit-taking and lending; deep institutional relationships with the Department of Education spanning decades; and a 27% interest in ALLO Communications, a fiber-optic asset with significant strategic value. The Dunlap family&rsquo;s concentrated ownership (Mike Dunlap holds 24.4%, Angela Muhleisen 13.0%) ensures management continuity and long-term thinking. However, no single cornered resource is irreplaceable in the way that a proprietary patent or unique dataset would be &mdash; competitors with sufficient capital and time could theoretically build comparable infrastructure.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">7. Process Power</span> <span class="fw-rating strong">Strong</span><br>
+  Nelnet has developed deeply embedded organizational capabilities over four decades of navigating the intersection of government regulation, financial services, and education technology. The company&rsquo;s ability to successfully transition from 95% FFELP dependence in 2009 to a diversified holding company in 2025 &mdash; while maintaining compliance with complex federal and state regulations, managing billions in loan portfolios, and simultaneously building a high-growth education technology platform &mdash; demonstrates exceptional process power. The April 2024 USDS contract migration (rebuilding the entire government servicing platform), the June 2024 workforce reduction (220 associates), the November 2025 sale of the solar construction business, and the February 2026 Finastra Canada acquisition all demonstrate a management team that can execute complex operational transitions with discipline. CEO Jeff Noordhoek&rsquo;s willingness to exit failing businesses (&ldquo;When it becomes evident that you are riding a dead horse, it is time to dismount&rdquo;) and CFO Jim Kruger&rsquo;s meticulous capital deployment tracking ($10.5B over 12 years) reflect institutional discipline that is genuinely hard to replicate.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> Nelnet is a 3&ndash;4 power business with genuine strength in Switching Costs (97%+ retention, deep SIS integrations), Scale Economies (13.2M borrowers, 12,000 schools), and Process Power (four decades of regulatory navigation and successful business transformation). Counter-Positioning and Branding are moderate &mdash; the political/regulatory moat deters competitors but doesn&rsquo;t create pricing power. Network Effects are weak. This power profile supports a durable, cash-generative business that compounds through disciplined capital allocation rather than explosive growth.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">5. Porter&rsquo;s 5 Forces</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Threat of New Entrants</span> <span class="fw-rating low">Low</span><br>
+  Barriers to entry in Nelnet&rsquo;s core businesses are substantial. Government loan servicing requires federal contracts, years of compliance track record, and the ability to process millions of borrowers across extraordinarily complex repayment plan rules that change with each administration. The USDS contract has a 5-year base period with extension options, creating a structural barrier. In education technology, FACTS&rsquo; deep integrations with SIS platforms like Workday and Jenzabar took decades to build and would be prohibitively expensive for a new entrant to replicate. Consumer lending requires a bank charter (or bank partnership), significant capital, and regulatory approvals. The only credible new entrants are adjacent fintechs (SoFi, Flywire, Meadow) attacking specific verticals, not the full breadth of Nelnet&rsquo;s diversified platform.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Bargaining Power of Suppliers</span> <span class="fw-rating low">Low</span><br>
+  Nelnet&rsquo;s primary &ldquo;suppliers&rdquo; are technology infrastructure (internal), capital markets (for securitization and funding), and labor. Technology is developed internally, so there is no external supplier dependency. Capital markets access is broad &mdash; Nelnet has executed multiple ABS transactions through Edge Focus and has a revolving credit facility of $435M. Labor in Lincoln, Nebraska is significantly cheaper than coastal tech hubs, and the company&rsquo;s culture of conservative Midwestern values creates strong employee retention. The February 2026 Finastra Canada acquisition (450+ employees in Mississauga, Ontario) provides geographic diversification for labor. Overall, supplier power is minimal.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Bargaining Power of Buyers</span> <span class="fw-rating moderate">Moderate</span><br>
+  Nelnet&rsquo;s largest &ldquo;buyer&rdquo; is the U.S. Department of Education, which accounted for 68% of NDS revenue. This extreme concentration gives the government significant leverage in contract negotiations, as demonstrated by the lower per-borrower revenue rates in the USDS contract versus the legacy agreement. However, the government&rsquo;s options are limited &mdash; only a handful of companies can service federal student loans at Nelnet&rsquo;s scale, and the political cost of service disruptions to millions of borrowers constrains the government&rsquo;s ability to aggressively renegotiate. In NBS, buyer power is dispersed across 12,000+ schools with 97% retention, indicating very low individual buyer leverage. In consumer lending, borrowers are price-sensitive but serviced through long-term contracts, limiting switching behavior.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Threat of Substitutes</span> <span class="fw-rating low">Low</span><br>
+  For government loan servicing, there are no substitutes &mdash; federal student loans must be serviced by approved entities using approved technology platforms. For education technology, schools could theoretically use spreadsheets, generic payment processors, or build in-house &mdash; but the complexity of tuition billing (multiple payment plans, financial aid integration, refund processing, Title IV compliance) makes substitution impractical. FACTS processed over $602M in ACH disbursements through its automated refund solution alone. For consumer lending, alternatives exist (bank loans, credit cards, other fintech lenders) but Nelnet competes on the servicing and origination infrastructure side rather than directly for borrowers. The AI-driven transformation further reduces substitution risk as Nelnet&rsquo;s platform-level capabilities become increasingly difficult to replicate with manual processes.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Competitive Rivalry</span> <span class="fw-rating moderate">Moderate</span><br>
+  In loan servicing, Nelnet competes with a small number of federal servicers under the USDS umbrella, including MOHELA and EdFinancial, plus private servicers. Competitive dynamics are largely volume-based (new borrower allocations depend on performance metrics) rather than price-based. In education technology, Nelnet faces competition from TouchNet, CASHNet, and newer entrants like Flywire and Meadow. Customers report that Nelnet&rsquo;s pricing is generally more flexible and cost-effective than TouchNet&rsquo;s expensive, fully packaged offerings, but newer tech-enabled companies compete on modern UI and API-first architecture. In consumer banking, competition is fierce from established consumer lenders and fintechs. Overall, rivalry is moderate &mdash; each segment faces different competitive dynamics, but Nelnet&rsquo;s diversification provides resilience against any single competitive threat.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> The competitive environment is moderately favorable for Nelnet. Low barriers to entry in core government servicing and education technology, combined with low supplier power and minimal substitution risk, create structural advantages. The key vulnerability is buyer concentration (Department of Education at 68% of NDS revenue), which gives the government meaningful leverage in contract negotiations. Competitive rivalry is manageable due to the fragmented nature of competition across Nelnet&rsquo;s diversified segments.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 6: WHAT DRIVES THE STOCK? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<p class="prose">The following are the 6 variables that would move NNI&rsquo;s share price materially in the next 12 months. These are what an analyst covering the name would build tracking models around.</p>
+
+<p class="prose"><strong>1. FFELP Portfolio Runoff Rate and NII Trajectory.</strong> The pace of FFELP amortization is the single most-watched risk metric. The portfolio declined from $8.9B (Q4&rsquo;24) to $7.9B (Q4&rsquo;25) to $7.4B at year-end 2025. If prepayment rates re-accelerate (due to new government debt relief programs or FFELP consolidation incentives), the runoff accelerates and NII declines faster than expected &mdash; a clear bearish signal. If prepayments remain at stabilized post-August 2024 levels, the gradual runoff is manageable and priced in. <em>Bullish:</em> Prepayments stable, FFELP generates $1B+ cash to redeploy. <em>Bearish:</em> New consolidation wave accelerates runoff to $2B+/year.</p>
+
+<p class="prose"><strong>2. Nelnet Bank Growth and Consumer Lending Credit Quality.</strong> The bank is scaling rapidly ($2.0B in loans, +28% YoY) and the AGM segment is purchasing over $4B in Pay Later receivables from Klarna. Investors will scrutinize: delinquency rates on the consumer loan book, provision expense trajectory ($67.8M in 2025, up from $54.6M in 2024), ABS execution quality with Edge Focus, and whether the bank can maintain deposit growth to fund lending expansion. <em>Bullish:</em> Provisions stable, bank assets hit $3B+, ABS pipeline grows. <em>Bearish:</em> Consumer credit deterioration, provisions exceed $100M, ABS market closes.</p>
+
+<p class="prose"><strong>3. NBS Education Technology Revenue Growth and Retention.</strong> NBS generated record $507M in revenue with 97%+ retention. The market watches for: new school/institution wins (particularly large contracts like the Archdiocese of New York), Project Horizon progress (full launch late 2026), international expansion (Nelnet International in Australia/NZ/APAC), and whether the EANS funding headwind (high-margin Emergency Assistance to Non-Public Schools expired in 2024) is fully absorbed. <em>Bullish:</em> NBS revenue accelerates above 5%, Project Horizon drives upsell. <em>Bearish:</em> Retention dips below 95%, Flywire/Meadow win share.</p>
+
+<p class="prose"><strong>4. One-Time Gains and Capital Allocation Events.</strong> FY2025 earnings were significantly boosted by the ALLO partial redemption ($175M gain), CompanyCam gain ($30.2M), and government contract modification ($32.9M). The market will parse FY2026 to determine whether core earnings (ex-gains) are growing. Future catalysts include: ALLO further monetization (remaining 27% interest), Hudl liquidity events, additional real estate or venture capital gains, and acquisitions (like the $92.9M Finastra Canada deal). <em>Bullish:</em> Additional asset monetization, value-creating acquisitions. <em>Bearish:</em> No gains to offset FFELP decline, dilutive acquisitions.</p>
+
+<p class="prose"><strong>5. Interest Rate Environment.</strong> As a leveraged financial institution ($7.8B in debt, 211% D/E), Nelnet&rsquo;s NII is sensitive to rate movements. Higher rates generally benefit NII on the loan portfolio (wider spreads between asset yields and funding costs), while lower rates compress margins. The FFELP portfolio has floor/derivative protections that partially hedge downside, but the consumer loan portfolio is more exposed. Fed rate cuts would be negative for NII but potentially positive for loan portfolio values and refinancing activity. <em>Bullish:</em> Rates stable/rising, NII expands. <em>Bearish:</em> Aggressive rate cuts, NII compression of $50M+.</p>
+
+<p class="prose"><strong>6. Analyst Initiation and Institutional Discovery.</strong> With only 1 broker covering NNI (consensus is literally one person&rsquo;s estimate), any new sell-side initiation would be a material re-rating catalyst. A well-placed research report from a mid-cap financial services or education technology analyst could bring institutional attention to the stock&rsquo;s sum-of-parts discount, highlight the hidden asset value (ALLO, Hudl, real estate), and challenge the market&rsquo;s treatment of NNI as a declining student loan company. The low float (57%) amplifies any incremental buying pressure. <em>Bullish:</em> New coverage, ETF inclusion, institutional flows. <em>Bearish:</em> Continued neglect, further insider selling.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<p class="prose">Every revenue line at Nelnet can be decomposed into fundamental variables. The table below shows the driver formulas by segment.</p>
+
+<table class="data" style="font-size:9.5px; margin-bottom:12px;">
+  <thead>
+    <tr><th style="text-align:left;">Revenue Line</th><th style="text-align:left;">Driver Formula</th><th style="text-align:left;">FY2025 Actual</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>NFS &mdash; FFELP NII</td><td>Avg FFELP Balance &times; Net Interest Spread</td><td>~$7.9B &times; ~2.5% = ~$198M</td></tr>
+    <tr><td>NFS &mdash; Consumer Loan NII</td><td>Avg Consumer/Private Balance &times; Net Spread</td><td>~$1.8B &times; ~5.5% = ~$99M</td></tr>
+    <tr><td>NFS &mdash; Nelnet Bank</td><td>Avg Loan Balance &times; Spread + Fee Income</td><td>~$2.0B &times; ~5% + fees = $119M</td></tr>
+    <tr><td>NDS &mdash; Govt Servicing</td><td>Borrowers Serviced &times; Rev per Borrower</td><td>~13.2M &times; ~$28 = $364M</td></tr>
+    <tr><td>NDS &mdash; Private/Consumer</td><td>Portfolios Onboarded &times; Rev per Account</td><td>SoFi + Discover + others = $94M</td></tr>
+    <tr><td>NDS &mdash; Software/Outsourced</td><td>Clients &times; Platform License + Outsourcing Fees</td><td>$30M + $3M = $51M</td></tr>
+    <tr><td>NBS &mdash; FACTS (K-12)</td><td>Schools Served &times; Rev per School</td><td>~12,000 &times; ~$26K = $312M</td></tr>
+    <tr><td>NBS &mdash; Campus Commerce</td><td>Institutions &times; Rev per Institution</td><td>~1,200 &times; ~$123K = $148M</td></tr>
+    <tr><td>NBS &mdash; Payments/Intl</td><td>Payment Volume &times; Take Rate</td><td>$507M total NBS revenue</td></tr>
+    <tr><td>Corporate &mdash; ALLO</td><td>Equity Interest &times; Gain/Distribution</td><td>$195M (incl. $175M gain)</td></tr>
+    <tr><td>Corporate &mdash; Venture/Other</td><td>Portfolio Value Changes + Operating Costs</td><td>$64M net (Hudl, real estate, solar)</td></tr>
+  </tbody>
+</table>
+
+<p class="prose"><strong>Which drivers have the most leverage?</strong> (1) <strong>Net interest spread on loan portfolios</strong> &mdash; a 50bps change in spread across the combined $10B+ portfolio translates to ~$50M in pre-tax income, directly impacting EPS by ~$1.00. (2) <strong>Government servicing borrower volume</strong> &mdash; Department of Education borrower allocations and transfers determine the largest single fee-based revenue line; a 10% decline in borrowers serviced reduces NDS revenue by ~$35M. (3) <strong>NBS retention and school additions</strong> &mdash; with 97% retention, even small declines compound negatively, while each 100 new schools added (at ~$26K average) adds ~$2.6M in highly recurring, high-margin revenue. These three drivers collectively explain the vast majority of Nelnet&rsquo;s normalized earnings trajectory.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+  <strong>Competitive Moat: Trust, Scale, and Deep Software Integrations</strong><br>
+  Nelnet&rsquo;s competitive advantages are deeply rooted in its scale, embedded institutional relationships, and industry trust. Within education payments, the company benefits from significant switching costs driven by complex software integrations with major student information systems like Workday. An IT director at a partner university noted that student billing involves highly complex components &mdash; financial aid, work-study, multiple payment plans &mdash; making replacing Nelnet&rsquo;s customized infrastructure a daunting task. Nelnet maintains one of the strongest reputations among loan servicers, providing a distinct advantage in winning massive government and commercial contracts. The company&rsquo;s culture is characterized by a conservative, Midwestern philosophy regarding risk, which has historically influenced its cautious but steady approach to entering new consumer finance markets.
+</div>
+
+<div class="alphasense-box">
+  <strong>The Misunderstood Nelnet: From Lender to Diversified Processor</strong><br>
+  A fundamentally misunderstood aspect of Nelnet is its ongoing transition from a legacy finance company to a diversified processing and services enterprise. Many observers still view Nelnet primarily through the lens of its runoff FFELP portfolio, but management has spent years successfully redirecting cash flows into fee-based businesses like NBS and NDS that now provide durable, recurring revenues. The 2025 pre-tax income mix tells the real story: NBS contributed 27%, NDS contributed 24%, NFS contributed 49% (of which FFELP assets were only 17%), and FFELP servicing was less than 1%. The market&rsquo;s current pricing appears to heavily discount the cash flows from the legacy portfolio due to overwhelming political noise surrounding the sector, failing to give adequate respect to Nelnet&rsquo;s massive free cash flow yield.
+</div>
+
+<div class="alphasense-box">
+  <strong>AI Deployment and Operational Transformation</strong><br>
+  Management has aggressively integrated AI across all segments. In 2024, NDS consolidated all direct loan servicing onto a single technology platform, paired with significant investments in process automation utilizing AI. While technology expenses temporarily depressed 2024 net income, the efficiencies realized throughout 2025 led to a dramatic reduction in operating expenses and marked improvements in customer service. NBS achieved all-time high productivity gains strictly attributed to AI deployments, launched its first AI-powered virtual agent in consumer call centers, and established a dedicated NBS AI Center of Excellence with an enterprise-wide AI coding strategy. Project Horizon, launching fully in late 2026, will overhaul Campus Commerce&rsquo;s billing platform with heavy AI integration.
+</div>
+
+<div class="alphasense-box">
+  <strong>Aggressive Consumer Lending Expansion as Core Growth Driver</strong><br>
+  As legacy student loan portfolios naturally amortize, Nelnet has actively redirected its operational capabilities toward rapidly expanding consumer lending and private education markets. NDS grew consumer loan business revenue to $94M in 2025, a 49% increase, driven by successfully onboarding massive private loan portfolios from SoFi and Discover Financial Services. AGM expanded by initiating the purchase of &ldquo;Pay Later&rdquo; installment receivables in Q3 2025, rapidly building a $548.3M balance by September. The strategic partnership with Edge Focus &mdash; a fintech using proprietary ML credit engines &mdash; has resulted in multiple successful ABS transactions, with Nelnet Bank acting as co-sponsor for Edge Focus&rsquo;s consumer loan asset-backed securitizations.
+</div>
+
+<div class="alphasense-box">
+  <strong>Key Investor Questions</strong><br>
+  (1) How fast will FFELP amortize now that prepayment rates have stabilized? Management expects ~$1B/year of runoff, generating ~$1B of cash to redeploy from on-balance-sheet securitizations. (2) Can Nelnet Bank scale to become a material profit contributor, or will credit losses consume the spread? The bank&rsquo;s growth trajectory ($2B in loans after just 5 years) is impressive but untested through a credit cycle. (3) Will Project Horizon successfully modernize NBS&rsquo;s platform without disrupting the 97% retention rate? The full launch in late 2026 is the execution test. (4) How should investors value the hidden assets (ALLO 27%, Hudl, real estate, $1.8B in off-balance-sheet beneficial interests)? These are not well understood by the 1-analyst consensus. (5) With the new federal borrowing caps, can Nelnet capture a meaningful share of the expanding private student lending market?
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 9: SENSITIVITIES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Sensitivities on Core Business Drivers</div>
+
+<p class="prose" style="font-weight:700;">Net Interest Income ($M): Average Loan Portfolio Balance ($B) vs. Net Interest Spread (bps)</p>
+<p class="prose" style="font-size:9px; color:#666;">Current: ~$10B total portfolio, ~280bps blended spread, ~$280M NII</p>
+<table class="sensitivity">
+  <thead>
+    <tr><th></th><th>200 bps</th><th>240 bps</th><th>280 bps</th><th>320 bps</th><th>360 bps</th></tr>
+  </thead>
+  <tbody>
+    <tr><td style="font-weight:600; text-align:left;">$8.0B</td><td>$160</td><td>$192</td><td>$224</td><td>$256</td><td>$288</td></tr>
+    <tr><td style="font-weight:600; text-align:left;">$9.0B</td><td>$180</td><td>$216</td><td>$252</td><td>$288</td><td>$324</td></tr>
+    <tr><td style="font-weight:600; text-align:left;">$10.0B</td><td>$200</td><td>$240</td><td class="base">$280</td><td>$320</td><td>$360</td></tr>
+    <tr><td style="font-weight:600; text-align:left;">$11.0B</td><td>$220</td><td>$264</td><td>$308</td><td>$352</td><td>$396</td></tr>
+    <tr><td style="font-weight:600; text-align:left;">$12.0B</td><td>$240</td><td>$288</td><td>$336</td><td>$384</td><td>$432</td></tr>
+  </tbody>
+</table>
+
+<p class="prose" style="font-weight:700; margin-top:12px;">NDS Fee Revenue ($M): Govt Borrowers Serviced (M) vs. Blended Revenue per Borrower ($)</p>
+<p class="prose" style="font-size:9px; color:#666;">Current: ~13.2M borrowers, ~$28 blended rev/borrower, ~$364M govt servicing revenue</p>
+<table class="sensitivity">
+  <thead>
+    <tr><th></th><th>$22</th><th>$25</th><th>$28</th><th>$31</th><th>$34</th></tr>
+  </thead>
+  <tbody>
+    <tr><td style="font-weight:600; text-align:left;">10.0M</td><td>$220</td><td>$250</td><td>$280</td><td>$310</td><td>$340</td></tr>
+    <tr><td style="font-weight:600; text-align:left;">11.5M</td><td>$253</td><td>$288</td><td>$322</td><td>$357</td><td>$391</td></tr>
+    <tr><td style="font-weight:600; text-align:left;">13.0M</td><td>$286</td><td>$325</td><td class="base">$364</td><td>$403</td><td>$442</td></tr>
+    <tr><td style="font-weight:600; text-align:left;">14.5M</td><td>$319</td><td>$363</td><td>$406</td><td>$450</td><td>$493</td></tr>
+    <tr><td style="font-weight:600; text-align:left;">16.0M</td><td>$352</td><td>$400</td><td>$448</td><td>$496</td><td>$544</td></tr>
+  </tbody>
+</table>
+
+<p class="prose" style="font-weight:700; margin-top:12px;">Implied Share Price ($): Terminal Year EPS ($) vs. P/E Multiple (x)</p>
+<p class="prose" style="font-size:9px; color:#666;">Current: FY26E EPS $9.20, trailing P/E 12.0x, 5Yr avg P/E 17.8x</p>
+<table class="sensitivity">
+  <thead>
+    <tr><th></th><th>8.0x</th><th>10.0x</th><th>12.0x</th><th>14.0x</th><th>16.0x</th></tr>
+  </thead>
+  <tbody>
+    <tr><td style="font-weight:600; text-align:left;">$6.00</td><td>$48</td><td>$60</td><td>$72</td><td>$84</td><td>$96</td></tr>
+    <tr><td style="font-weight:600; text-align:left;">$8.00</td><td>$64</td><td>$80</td><td>$96</td><td>$112</td><td>$128</td></tr>
+    <tr><td style="font-weight:600; text-align:left;">$10.00</td><td>$80</td><td>$100</td><td class="base">$120</td><td>$140</td><td>$160</td></tr>
+    <tr><td style="font-weight:600; text-align:left;">$12.00</td><td>$96</td><td>$120</td><td>$144</td><td>$168</td><td>$192</td></tr>
+    <tr><td style="font-weight:600; text-align:left;">$14.00</td><td>$112</td><td>$140</td><td>$168</td><td>$196</td><td>$224</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 10: FIVE SCENARIOS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">10. 3-Year Model &mdash; 5 Scenarios</div>
+
+<p class="prose">Each scenario flows from the core business drivers identified in Section 7. The base case uses the sole broker&rsquo;s FY2027E EPS of $10.00 as the terminal year earnings anchor. Scenarios are built by varying FFELP runoff speed, NII spread, consumer loan growth, NDS volumes, and NBS growth rates. All text in black per Theia formatting standards.</p>
+
+<!-- Bear Severe -->
+<div class="case-block">
+  <div class="case-name">Bear Case (Severe)</div>
+  <div class="case-desc">New federal debt relief wave accelerates FFELP runoff; consumer credit cycle turns; government contract volume losses mount; rates fall sharply compressing NII</div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>FFELP Portfolio (Dec &rsquo;27)</span><span>$4.5B (vs. $7.4B today)</span></div>
+  <div class="driver-row"><span>Blended NII Spread</span><span>200 bps (vs. 280 bps base)</span></div>
+  <div class="driver-row"><span>Govt Borrowers Serviced</span><span>10.0M (vs. 13.2M today)</span></div>
+  <div class="driver-row"><span>Consumer Loan Provisions</span><span>$120M (vs. $68M in &rsquo;25)</span></div>
+  <div class="driver-row"><span>NBS Revenue Growth</span><span>0% (retention pressure)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$1,450M</td></tr>
+    <tr><td>EBITDA</td><td>$680M</td></tr>
+    <tr><td>EBIT</td><td>$620M</td></tr>
+    <tr><td>Net Income</td><td>$165M</td></tr>
+    <tr><td>EPS</td><td>$4.60</td></tr>
+    <tr><td>Operating Margin</td><td>42.8%</td></tr>
+    <tr><td>FCF</td><td>$200M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:9px; color:#888;">Exit Multiple: 8.0x P/E (distressed financial, declining earnings) &rarr;</div>
+    <div class="exit-price">$36.80</div>
+    <div class="exit-upside">&minus;73.5% from current $138.72</div>
+  </div>
+</div>
+
+<!-- Bear Mild -->
+<div class="case-block">
+  <div class="case-name">Bear Case (Mild)</div>
+  <div class="case-desc">FFELP runs off at expected pace; NII moderately compresses from rate cuts; consumer credit stable but provisions elevated; NDS loses some volume</div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>FFELP Portfolio (Dec &rsquo;27)</span><span>$5.5B</span></div>
+  <div class="driver-row"><span>Blended NII Spread</span><span>240 bps</span></div>
+  <div class="driver-row"><span>Govt Borrowers Serviced</span><span>11.5M</span></div>
+  <div class="driver-row"><span>Consumer Loan Provisions</span><span>$85M</span></div>
+  <div class="driver-row"><span>NBS Revenue Growth</span><span>+2%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$1,600M</td></tr>
+    <tr><td>EBITDA</td><td>$820M</td></tr>
+    <tr><td>EBIT</td><td>$760M</td></tr>
+    <tr><td>Net Income</td><td>$240M</td></tr>
+    <tr><td>EPS</td><td>$6.70</td></tr>
+    <tr><td>Operating Margin</td><td>47.5%</td></tr>
+    <tr><td>FCF</td><td>$300M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:9px; color:#888;">Exit Multiple: 10.0x P/E (below historical average, modest decline) &rarr;</div>
+    <div class="exit-price">$67.00</div>
+    <div class="exit-upside">&minus;51.7% from current $138.72</div>
+  </div>
+</div>
+
+<!-- Base -->
+<div class="case-block">
+  <div class="case-name">Base Case (Consensus)</div>
+  <div class="case-desc">FFELP gradual runoff at historical norms; NII stable with diversified portfolio; NDS maintains share; NBS grows modestly; no major one-time gains</div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>FFELP Portfolio (Dec &rsquo;27)</span><span>$5.8B</span></div>
+  <div class="driver-row"><span>Blended NII Spread</span><span>280 bps</span></div>
+  <div class="driver-row"><span>Govt Borrowers Serviced</span><span>13.0M</span></div>
+  <div class="driver-row"><span>Consumer Loan Provisions</span><span>$70M</span></div>
+  <div class="driver-row"><span>NBS Revenue Growth</span><span>+4%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$1,785M</td></tr>
+    <tr><td>EBITDA</td><td>$950M</td></tr>
+    <tr><td>EBIT</td><td>$890M</td></tr>
+    <tr><td>Net Income</td><td>$360M</td></tr>
+    <tr><td>EPS</td><td>$10.00</td></tr>
+    <tr><td>Operating Margin</td><td>49.9%</td></tr>
+    <tr><td>FCF</td><td>$400M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:9px; color:#888;">Exit Multiple: 12.0x P/E (in line with current LTM) &rarr;</div>
+    <div class="exit-price">$120.00</div>
+    <div class="exit-upside">&minus;13.5% from current $138.72</div>
+  </div>
+</div>
+
+<!-- Bull Mild -->
+<div class="case-block">
+  <div class="case-name">Bull Case (Mild)</div>
+  <div class="case-desc">FFELP stable, consumer lending scales successfully, NBS acceleration from Project Horizon, NDS wins private servicing share, modest capital gains from portfolio</div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>FFELP Portfolio (Dec &rsquo;27)</span><span>$6.0B</span></div>
+  <div class="driver-row"><span>Blended NII Spread</span><span>310 bps</span></div>
+  <div class="driver-row"><span>Govt Borrowers Serviced</span><span>14.0M</span></div>
+  <div class="driver-row"><span>Consumer Loan Provisions</span><span>$55M</span></div>
+  <div class="driver-row"><span>NBS Revenue Growth</span><span>+7%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$1,950M</td></tr>
+    <tr><td>EBITDA</td><td>$1,100M</td></tr>
+    <tr><td>EBIT</td><td>$1,040M</td></tr>
+    <tr><td>Net Income</td><td>$430M</td></tr>
+    <tr><td>EPS</td><td>$12.00</td></tr>
+    <tr><td>Operating Margin</td><td>53.3%</td></tr>
+    <tr><td>FCF</td><td>$480M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:9px; color:#888;">Exit Multiple: 14.0x P/E (slight premium for diversification re-rating) &rarr;</div>
+    <div class="exit-price">$168.00</div>
+    <div class="exit-upside">+21.1% from current $138.72</div>
+  </div>
+</div>
+
+<!-- Bull Severe -->
+<div class="case-block">
+  <div class="case-name">Bull Case (Severe)</div>
+  <div class="case-desc">Private lending boom from federal caps, Nelnet Bank reaches $4B+, NBS gains from AI/Project Horizon, ALLO/Hudl monetization events, new analyst coverage triggers re-rating</div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>FFELP Portfolio (Dec &rsquo;27)</span><span>$6.2B</span></div>
+  <div class="driver-row"><span>Blended NII Spread</span><span>340 bps</span></div>
+  <div class="driver-row"><span>Govt Borrowers Serviced</span><span>15.0M (Canada expansion)</span></div>
+  <div class="driver-row"><span>Consumer Loan Provisions</span><span>$50M</span></div>
+  <div class="driver-row"><span>NBS Revenue Growth</span><span>+10%</span></div>
+  <div class="driver-row"><span>One-Time Gains (ALLO/Hudl/VC)</span><span>$100M</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$2,200M</td></tr>
+    <tr><td>EBITDA</td><td>$1,300M</td></tr>
+    <tr><td>EBIT</td><td>$1,240M</td></tr>
+    <tr><td>Net Income</td><td>$575M</td></tr>
+    <tr><td>EPS</td><td>$16.00</td></tr>
+    <tr><td>Operating Margin</td><td>56.4%</td></tr>
+    <tr><td>FCF</td><td>$550M</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:9px; color:#888;">Exit Multiple: 16.0x P/E (approaches 5Yr avg 17.8x on earnings re-acceleration) &rarr;</div>
+    <div class="exit-price">$256.00</div>
+    <div class="exit-upside">+84.5% from current $138.72</div>
+  </div>
+</div>
+
+<!-- SVG Bar Chart -->
+<div class="case-chart">
+  <svg viewBox="0 0 700 180" xmlns="http://www.w3.org/2000/svg">
+    <text x="350" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a2e">Implied Share Price by Scenario</text>
+    <!-- Bars -->
+    <rect x="60" y="35" width="80" height="30" rx="3" fill="#bbb"/>
+    <text x="100" y="55" text-anchor="middle" font-size="9" font-weight="600" fill="#fff">$36.80</text>
+    <text x="100" y="80" text-anchor="middle" font-size="8" fill="#888">Bear Severe</text>
+
+    <rect x="180" y="35" width="80" height="30" rx="3" fill="#999"/>
+    <text x="220" y="55" text-anchor="middle" font-size="9" font-weight="600" fill="#fff">$67.00</text>
+    <text x="220" y="80" text-anchor="middle" font-size="8" fill="#888">Bear Mild</text>
+
+    <rect x="300" y="35" width="80" height="30" rx="3" fill="#777"/>
+    <text x="340" y="55" text-anchor="middle" font-size="9" font-weight="600" fill="#fff">$120.00</text>
+    <text x="340" y="80" text-anchor="middle" font-size="8" fill="#888">Base</text>
+
+    <rect x="420" y="35" width="80" height="30" rx="3" fill="#555"/>
+    <text x="460" y="55" text-anchor="middle" font-size="9" font-weight="600" fill="#fff">$168.00</text>
+    <text x="460" y="80" text-anchor="middle" font-size="8" fill="#888">Bull Mild</text>
+
+    <rect x="540" y="35" width="80" height="30" rx="3" fill="#333"/>
+    <text x="580" y="55" text-anchor="middle" font-size="9" font-weight="600" fill="#fff">$256.00</text>
+    <text x="580" y="80" text-anchor="middle" font-size="8" fill="#888">Bull Severe</text>
+
+    <!-- Current price line -->
+    <line x1="40" y1="100" x2="660" y2="100" stroke="#1a1a2e" stroke-width="1.5" stroke-dasharray="6,3"/>
+    <text x="665" y="104" font-size="8" fill="#1a1a2e" font-weight="600">Current: $138.72</text>
+
+    <!-- Scale -->
+    <text x="60" y="125" font-size="7" fill="#aaa">$0</text>
+    <text x="200" y="125" font-size="7" fill="#aaa">$75</text>
+    <text x="340" y="125" font-size="7" fill="#aaa">$150</text>
+    <text x="480" y="125" font-size="7" fill="#aaa">$225</text>
+    <text x="600" y="125" font-size="7" fill="#aaa">$300</text>
+
+    <!-- Scaled bars (proportional) -->
+    <rect x="60" y="135" width="86" height="16" rx="2" fill="#bbb"/>
+    <rect x="60" y="135" width="156" height="16" rx="2" fill="#999" opacity="0.6"/>
+    <rect x="60" y="135" width="280" height="16" rx="2" fill="#777" opacity="0.5"/>
+    <rect x="60" y="135" width="392" height="16" rx="2" fill="#555" opacity="0.4"/>
+    <rect x="60" y="135" width="597" height="16" rx="2" fill="#333" opacity="0.3"/>
+
+    <text x="63" y="147" font-size="7" fill="#fff" font-weight="600">$37</text>
+    <text x="150" y="147" font-size="7" fill="#fff" font-weight="600">$67</text>
+    <text x="270" y="147" font-size="7" fill="#fff" font-weight="600">$120</text>
+    <text x="380" y="147" font-size="7" fill="#fff" font-weight="600">$168</text>
+    <text x="580" y="147" font-size="7" fill="#fff" font-weight="600">$256</text>
+
+    <!-- Current price marker on bar -->
+    <line x1="383" y1="133" x2="383" y2="153" stroke="#c0392b" stroke-width="2"/>
+    <text x="383" y="165" text-anchor="middle" font-size="7" fill="#c0392b" font-weight="600">$138.72</text>
+  </svg>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 11: COMPS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">11. Comparable Companies</div>
+
+<p class="prose" style="font-weight:600; margin-bottom:4px;">FactSet RBICS Industry Group &mdash; Consumer Finance Services</p>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th>Ticker</th>
+      <th>Mkt Cap ($M)</th>
+      <th>EV ($M)</th>
+      <th>Sales ($M)</th>
+      <th>EBITDA ($M)</th>
+      <th>EV/EBIT</th>
+      <th>EV/EBITDA</th>
+      <th>P/E (LTM)</th>
+      <th class="est-col">P/E (FY1)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject"><td>Nelnet A</td><td>NNI</td><td>5,017</td><td>11,716</td><td>2,263</td><td>1,258</td><td>9.6x</td><td>9.3x</td><td>12.0x</td><td>15.1x</td></tr>
+    <tr><td>Shift4 Payments A</td><td>FOUR</td><td>4,102</td><td>8,455</td><td>4,180</td><td>853</td><td>20.1x</td><td>9.9x</td><td>45.7x</td><td>8.8x</td></tr>
+    <tr><td>Enova International</td><td>ENVA</td><td>4,467</td><td>8,549</td><td>3,152</td><td>781</td><td>11.6x</td><td>10.9x</td><td>14.3x</td><td>10.4x</td></tr>
+    <tr><td>Western Union</td><td>WU</td><td>3,075</td><td>4,670</td><td>4,041</td><td>950</td><td>6.0x</td><td>4.9x</td><td>6.2x</td><td>5.3x</td></tr>
+    <tr><td>Remitly Global</td><td>RELY</td><td>4,856</td><td>4,470</td><td>1,635</td><td>107</td><td>54.8x</td><td>41.9x</td><td>66.1x</td><td>40.5x</td></tr>
+    <tr><td>Euronet Worldwide</td><td>EEFT</td><td>3,072</td><td>3,394</td><td>4,244</td><td>669</td><td>6.4x</td><td>5.1x</td><td>11.0x</td><td>6.9x</td></tr>
+    <tr><td>CleanSpark</td><td>CLSK</td><td>3,309</td><td>4,637</td><td>785</td><td>225</td><td>NM</td><td>20.6x</td><td>NM</td><td>NM</td></tr>
+    <tr class="stat-row"><td>Average</td><td></td><td></td><td></td><td></td><td></td><td>18.1x</td><td>14.7x</td><td>25.9x</td><td>14.5x</td></tr>
+    <tr class="stat-row"><td>Median</td><td></td><td></td><td></td><td></td><td></td><td>10.6x</td><td>9.9x</td><td>13.2x</td><td>9.6x</td></tr>
+  </tbody>
+</table>
+
+<p class="prose" style="font-weight:600; margin-top:12px; margin-bottom:4px;">Named Competitors</p>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th>Ticker</th>
+      <th>Mkt Cap ($M)</th>
+      <th>EV ($M)</th>
+      <th>EV/EBIT</th>
+      <th>EV/EBITDA</th>
+      <th>P/E (LTM)</th>
+      <th class="est-col">P/E (FY1)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject"><td>Nelnet A</td><td>NNI</td><td>5,017</td><td>11,716</td><td>9.6x</td><td>9.3x</td><td>12.0x</td><td>15.1x</td></tr>
+    <tr><td>Blackbaud</td><td>BLKB</td><td>1,856</td><td>2,206</td><td>10.0x</td><td>7.2x</td><td>16.5x</td><td>7.5x</td></tr>
+    <tr class="stat-row"><td>Average</td><td></td><td></td><td></td><td>9.8x</td><td>8.2x</td><td>14.2x</td><td>11.3x</td></tr>
+  </tbody>
+</table>
+
+<p class="prose" style="font-weight:600; margin-top:12px; margin-bottom:4px;">StreetAccount Peers (Student Lending / Financial Services)</p>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th>Ticker</th>
+      <th>Mkt Cap ($M)</th>
+      <th>EV ($M)</th>
+      <th>TEV/EBITDA</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject"><td>Nelnet A</td><td>NNI</td><td>4,993</td><td>11,544</td><td>9.2x</td></tr>
+    <tr><td>SLM Corp</td><td>SLM</td><td>4,579</td><td>7,401</td><td>4.4x</td></tr>
+    <tr><td>Navient Corp</td><td>NAVI</td><td>857</td><td>44,889</td><td>16.2x</td></tr>
+    <tr><td>SoFi Technologies</td><td>SOFI</td><td>24,868</td><td>29,504</td><td>31.5x</td></tr>
+    <tr><td>Covista Inc.</td><td>CVST</td><td>4,098</td><td>5,437</td><td>12.1x</td></tr>
+    <tr><td>MAXIMUS</td><td>MFG</td><td>3,744</td><td>6,476</td><td>9.1x</td></tr>
+    <tr class="stat-row"><td>Average (ex-outliers)</td><td></td><td></td><td></td><td>13.8x</td></tr>
+    <tr class="stat-row"><td>Median</td><td></td><td></td><td></td><td>10.6x</td></tr>
+  </tbody>
+</table>
+
+<p class="prose">Nelnet trades at 9.3x LTM EV/EBITDA, roughly in line with the RBICS median of 9.9x and the StreetAccount median of 10.6x. Relative to the closest pure student lending comps (SLM at 4.4x, Navient at 16.2x), NNI sits in the middle &mdash; more expensive than SLM (which is a pure private student lender with no technology/servicing platform) but cheaper than Navient (which carries significantly more leverage). The premium over SLM is arguably justified by Nelnet&rsquo;s higher-quality, diversified revenue streams (NBS education technology, NDS servicing fees) and superior capital allocation track record. The discount to SoFi (31.5x) reflects the market&rsquo;s reluctance to assign fintech multiples to Nelnet despite Nelnet Bank&rsquo;s rapid growth.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<p class="prose" style="font-size:9px; color:#888; margin-bottom:8px;">Theia seeks small cap companies that aren&rsquo;t well covered and are strongly aligned on core internet finance thesis with wide outcome dispersion.</p>
+
+<div class="verdict">
+  <strong>(i) Market Cap Bucket:</strong> $4,993M &mdash; Mid Cap ($5B&ndash;$10B boundary) <span class="fw-rating moderate">Moderate</span><br>
+  Nelnet sits right at the small-cap/mid-cap boundary. At ~$5.0B market cap it is technically entering mid-cap territory, which is acceptable but slightly outside Theia&rsquo;s ideal &lt;$1B microcap sweet spot. However, the low float (57.26%) and concentrated insider ownership mean the effective free-float market cap is closer to $2.9B, which is squarely in small-cap territory.
+</div>
+
+<div class="verdict">
+  <strong>(ii) Analyst Coverage:</strong> 1 broker contributor <span class="fw-rating strong">Strong</span><br>
+  This is extraordinary for a $5B market cap company. With only 1 analyst covering NNI, the stock is as under-covered as a true microcap. The consensus estimate is literally one person&rsquo;s view. This creates a massive informational asymmetry that is ideal for generating alpha through deep fundamental research. Any new sell-side initiation would be a potential re-rating catalyst.
+</div>
+
+<div class="verdict">
+  <strong>(iii) Blockchain / Internet Finance Thesis Alignment:</strong> <span class="fw-rating moderate">Adjacent</span><br>
+  Nelnet does not directly participate in blockchain, but is deeply adjacent to the internet finance thesis. Nelnet Bank is a digital-first bank originating and acquiring consumer loans through fintech partnerships (Edge Focus, Klarna). The company&rsquo;s ABS transactions leverage machine-learning credit engines for underwriting. NBS is a digital payments and financial technology platform processing hundreds of millions in ACH disbursements. The privatization of student lending (driven by new federal borrowing caps) could position Nelnet as a key infrastructure provider for the next generation of education finance. The AI transformation across all segments further aligns with digital finance modernization.
+</div>
+
+<div class="verdict">
+  <strong>(iv) Outcome Dispersion:</strong> Bear Severe $36.80 to Bull Severe $256.00 <span class="fw-rating strong">Strong</span><br>
+  The range of outcomes spans from &minus;73% to +85% from the current price, reflecting genuinely wide dispersion. The key swing factors are: (a) FFELP runoff pace (controllable through portfolio management but ultimately structural), (b) consumer credit cycle (untested at Nelnet&rsquo;s new scale), (c) hidden asset value crystallization (ALLO, Hudl, real estate could add $20&ndash;$40 per share), and (d) the market&rsquo;s willingness to re-rate the conglomerate structure. The 1-analyst coverage means the market is pricing NNI with minimal information, creating potential for significant mispricing in either direction.
+</div>
+
+<div class="verdict" style="border-left-color: #27ae60;">
+  <strong>Verdict: Yes &mdash;</strong> Nelnet is an extraordinarily under-covered $5B diversified financial services and education technology company trading at 12x LTM P/E and 1.3x book value, with a management team that has compounded book value at 16% annually since IPO. The 1-analyst coverage is the strongest informational edge of any company at this market cap that we&rsquo;ve screened. The key thesis is that the market prices NNI as a declining FFELP lender when it is actually a diversified holding company with a high-retention education technology platform (NBS), a rapidly growing digital bank, and a portfolio of hidden assets worth potentially $20&ndash;$40 per share. The wide outcome dispersion, ultra-low coverage, and 0.80 beta (defensive in downturns) make this an attractive Theia candidate for deeper diligence.
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 13: RISK SUMMARY -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">13. Risk Summary</div>
+
+<table class="risk-table">
+  <thead>
+    <tr><th>Risk Category</th><th>Description</th><th>Severity</th><th>Mitigant</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>FFELP Structural Decline</td>
+      <td>$7.4B legacy portfolio in irreversible runoff; new federal debt relief could accelerate prepayments</td>
+      <td><span class="fw-rating high">High</span></td>
+      <td>Prepayments stabilized post-Aug 2024; ~$1B annual cash generation from runoff available for redeployment; declining as % of total income (17%)</td>
+    </tr>
+    <tr>
+      <td>Government Contract Concentration</td>
+      <td>DoE = 68% of NDS revenue; political risk, volume transfers, and regulatory changes could reduce allocations</td>
+      <td><span class="fw-rating high">High</span></td>
+      <td>USDS contract runs through Apr 2028 with extensions; NDS rapidly diversifying into private/consumer servicing ($94M, +49% YoY); Finastra Canada acquisition adds international volume</td>
+    </tr>
+    <tr>
+      <td>Consumer Credit Risk</td>
+      <td>Rapid expansion into consumer/Pay Later lending introduces untested credit risk; provisions already rising ($68M in &rsquo;25)</td>
+      <td><span class="fw-rating moderate">Moderate</span></td>
+      <td>Edge Focus ML credit engine for underwriting; ABS transactions transfer risk to institutional investors; Nelnet Bank maintains diversified portfolio</td>
+    </tr>
+    <tr>
+      <td>Interest Rate Sensitivity</td>
+      <td>NII on $10B+ portfolio sensitive to rate movements; falling rates compress spreads</td>
+      <td><span class="fw-rating moderate">Moderate</span></td>
+      <td>FFELP floor/derivative hedging; diversification toward fee-based revenue (NBS, NDS) reduces NII dependency; consumer loans at higher yields partially offset</td>
+    </tr>
+    <tr>
+      <td>Conglomerate Complexity / Opacity</td>
+      <td>Dual-class structure, no earnings guidance, 6+ segments, holding company discount, only 1 analyst</td>
+      <td><span class="fw-rating moderate">Moderate</span></td>
+      <td>Management tracks and reports capital deployment meticulously ($10.5B over 12 years); annual shareholder letter provides strategic transparency; 16% CAGR in BVPS since IPO demonstrates execution</td>
+    </tr>
+    <tr>
+      <td>Regulatory / Political Risk</td>
+      <td>Student loan servicing is highly politicized; CFPB oversight, state-level regulations, and potential debt forgiveness programs</td>
+      <td><span class="fw-rating moderate">Moderate</span></td>
+      <td>Non-partisan operating philosophy; deep compliance expertise built over 40+ years; diversification away from government dependence; management willingness to adapt to changing administrations</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 14: APPENDIX — PYTHON CODE -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">14. Appendix &mdash; Python Code</div>
+
+<p class="prose">Parameterized sensitivity table and 5-case model generators for analyst customization.</p>
+
+<div class="code-block">import numpy as np
+import pandas as pd
+
+# ═══════════════════════════════════════════════
+# SENSITIVITY TABLE: NII = Portfolio x Spread
+# ═══════════════════════════════════════════════
+portfolios = [8.0, 9.0, 10.0, 11.0, 12.0]   # $B
+spreads    = [200, 240, 280, 320, 360]         # bps
+
+nii_table = pd.DataFrame(
+    [[p * s / 100 for s in spreads] for p in portfolios],
+    index=[f"${p:.1f}B" for p in portfolios],
+    columns=[f"{s} bps" for s in spreads]
+)
+nii_table.index.name = "Portfolio Balance"
+print("=== Net Interest Income ($M) ===")
+print(nii_table.to_string())
+
+# ═══════════════════════════════════════════════
+# SENSITIVITY TABLE: NDS = Borrowers x Rev/Borrower
+# ═══════════════════════════════════════════════
+borrowers = [10.0, 11.5, 13.0, 14.5, 16.0]   # millions
+rev_per   = [22, 25, 28, 31, 34]               # $/borrower
+
+nds_table = pd.DataFrame(
+    [[b * r for r in rev_per] for b in borrowers],
+    index=[f"{b:.1f}M" for b in borrowers],
+    columns=[f"${r}" for r in rev_per]
+)
+nds_table.index.name = "Borrowers Serviced"
+print("\n=== NDS Govt Servicing Revenue ($M) ===")
+print(nds_table.to_string())
+
+# ═══════════════════════════════════════════════
+# 5-CASE SCENARIO MODEL
+# ═══════════════════════════════════════════════
+cases = {
+    "Bear Severe": {"eps": 4.60, "pe": 8.0,  "revenue": 1450},
+    "Bear Mild":   {"eps": 6.70, "pe": 10.0, "revenue": 1600},
+    "Base":        {"eps": 10.0, "pe": 12.0, "revenue": 1785},
+    "Bull Mild":   {"eps": 12.0, "pe": 14.0, "revenue": 1950},
+    "Bull Severe": {"eps": 16.0, "pe": 16.0, "revenue": 2200},
+}
+
+current_price = 138.72
+print("\n=== 5-Case Scenario Model ===")
+print(f"{'Case':<16} {'EPS':>6} {'P/E':>5} {'Implied':>9} {'Upside':>8}")
+print("-" * 48)
+for name, d in cases.items():
+    implied = d["eps"] * d["pe"]
+    upside  = (implied / current_price - 1) * 100
+    print(f"{name:<16} ${d['eps']:>5.2f} {d['pe']:>4.1f}x ${implied:>7.2f} {upside:>+7.1f}%")
+</div>
+
+<div class="source-note" style="margin-top:16px;">
+  Generated April 21, 2026 by Theia Underwriting Engine using FactSet data (April 21, 2026), AlphaSense research reports, and FactSet CallStreet Annual Meeting transcript (May 15, 2025). This document is for informational purposes only and does not constitute investment advice.
+</div>
+
+</body>
+</html>
