@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blend Labs, Inc. | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 8px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child, table.comps td:nth-child(2) { text-align: left; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-style: italic; background: #fafbfc; font-weight: 600; border-top: 1px solid #eee; }
+table.comps th.est-col { color: #2563eb; }
+
+table.risk-table { font-size: 10px; width: 100%; margin: 8px 0; }
+table.risk-table th { text-align: left; font-weight: 600; padding: 4px 6px; background: #f4f6f9; border-bottom: 1px solid #ddd; }
+table.risk-table td { padding: 4px 6px; border-bottom: 1px solid #eee; vertical-align: top; }
+table.risk-table td:first-child { font-weight: 600; width: 25%; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.alphasense-box { background: #e8f4fd; border-left: 4px solid #2563eb; padding: 10px 14px; margin: 10px 0; font-size: 10px; line-height: 1.5; }
+
+.bull-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #155724; border-bottom: 1.5px solid #c3e6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #721c24; border-bottom: 1.5px solid #f5c6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+
+.bull-item, .bear-item { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Blend Labs, Inc. | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">Blend Labs, Inc. (NYSE: BLND) is a cloud-based software platform provider that powers digital lending and consumer banking experiences for financial institutions across the United States. Founded in 2012 by Nima Ghamsari — a former Palantir engineer who recognized that the mortgage origination process was still largely manual and paper-driven — Blend has evolved into the dominant digital point-of-sale (POS) platform for residential mortgage origination, processing approximately 17-19% of all US mortgage applications by HMDA volume at its peak. The company's platform sits at the critical intersection between borrowers and lenders, digitizing the end-to-end workflow from application through closing. Blend operates two core product suites: the Mortgage Suite, which enables lenders to offer a seamless digital borrower experience for home purchase, refinance, and home equity loans; and the Consumer Banking Suite, which extends the same platform to deposit account opening, personal loans, auto lending, and solar financing. In March 2026, Blend launched Autopilot — an agentic AI product that completes document reviews in 15-25 seconds, targeting the ~$4,000 of operational labor cost embedded in every $11,000 mortgage origination.</p>
+
+<p class="prose">Blend's business model is primarily success-based: the company earns revenue on a per-funded-loan basis through its "economic value per funded loan" (evPFL) metric, which stood at $83 in Q4 2025 and has been trending upward from the $60-70 range in earlier years. This per-transaction model creates direct exposure to mortgage origination volumes — a structural feature that is both the company's greatest opportunity (in a rate normalization or refi wave) and its key risk (in a prolonged high-rate environment). The Consumer Banking Suite, now 37% of total revenue and growing 34% year-over-year, provides critical diversification away from mortgage cyclicality. The company has penetrated 30-40 of the top 100 US financial institutions and counts nearly 100 home equity customers including 7 of the top 10 US originators. In FY2025, Blend achieved its first full year of positive non-GAAP operating income ($15.1M vs. a $12.8M loss in FY2024) and free cash flow ($2.8M), marking a critical inflection point. Following the sale of Title365 — the title insurance business acquired for $417.7M in 2021 and divested to Covius in June 2025 — Blend now operates a clean, debt-free balance sheet with $68.3M in cash, a $50M share buyback authorization, and singular focus on its core software platform.</p>
+
+<p class="prose"><strong>Key facts:</strong> Founded 2012 · Headquarters San Francisco, CA · CEO Ozgur Dogan (appointed April 2026) · Co-Founder &amp; Chairman Nima Ghamsari · CFO Jason Ream · Head of Revenue Matt Thomson · Employees ~419 · IPO January 2021 (NYSE: BLND) · FY end December · Market Cap $406M · Shares Outstanding 257.1M</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 2: FINANCIAL SUMMARY (FACTSET) -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Theia FactSet Summary</div>
+
+<div class="header">
+  <div>
+    <h1>Blend Labs, Inc.</h1>
+    <span class="ticker">BLND · NYSE</span>
+  </div>
+  <div class="date">FactSet Snapshot · April 22, 2026</div>
+</div>
+
+<!-- Price Bar -->
+<div class="price-bar">
+  <div>
+    <span class="label">Price (Apr 22, 2026) </span>
+    <span class="price">$1.58</span>
+  </div>
+  <div><span class="label">1M </span><span class="chg pos">+9.0%</span></div>
+  <div><span class="label">3M </span><span class="chg">-34.2%</span></div>
+  <div><span class="label">6M </span><span class="chg">-51.4%</span></div>
+  <div><span class="label">YTD </span><span class="chg">-36.8%</span></div>
+  <div><span class="label">1Y </span><span class="chg">-49.2%</span></div>
+  <div><span class="label">52-Wk Range </span><span style="font-weight:600;">$1.33 – $4.49</span></div>
+</div>
+
+<!-- Key Stats + EV Bridge -->
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv" style="font-size:10px;">
+      <tr><td>Exchange / Ticker</td><td>NYSE · BLND</td></tr>
+      <tr><td>Price (Apr 22, 2026)</td><td>$1.58</td></tr>
+      <tr><td>30-Day Avg Volume</td><td>~5.5M shares/day</td></tr>
+      <tr><td>Float %</td><td>~80%</td></tr>
+      <tr><td>Short Interest</td><td>~8% of float</td></tr>
+      <tr><td>Haveli Ownership</td><td>~20% (Brian Sheth, board)</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev" style="font-size:10px;">
+      <tr><td>Basic Shares (Class A)</td><td>257.1M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">+ Options / RSUs / Warrants</td><td style="font-size:9px;">7.0M</td></tr>
+      <tr><td>= Fully Diluted Shares</td><td>264.1M</td></tr>
+      <tr><td>Share Price</td><td>$1.58</td></tr>
+      <tr><td>= Fully Dil. Market Cap</td><td>$417M</td></tr>
+      <tr><td>+ Preferred Stock</td><td>$161M</td></tr>
+      <tr><td>− Cash &amp; Equivalents</td><td>($68.3M)</td></tr>
+      <tr class="total"><td>= Enterprise Value</td><td>$510M</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- Current Valuation — horizontal 6x2 grid -->
+<div class="section-title">Current Valuation</div>
+<div style="border: 1px solid #eee; border-radius: 4px; margin-bottom: 8px;">
+  <div class="val-grid">
+    <div class="val-cell"><div class="val-label">Mkt Cap</div><div class="val-num">$406M</div><div class="val-sub">Basic shares</div></div>
+    <div class="val-cell"><div class="val-label">EV</div><div class="val-num">$510M</div><div class="val-sub">$161M pref, $68M cash</div></div>
+    <div class="val-cell"><div class="val-label">P/E (FY26E)</div><div class="val-num">21.4x</div><div class="val-sub">Non-GAAP adj.</div></div>
+    <div class="val-cell"><div class="val-label">EV/EBITDA (NTM)</div><div class="val-num">20.1x</div><div class="val-sub">EBITDA $25M</div></div>
+    <div class="val-cell"><div class="val-label">EV/Sales (NTM)</div><div class="val-num">3.7x</div><div class="val-sub">Rev $137M</div></div>
+    <div class="val-cell"><div class="val-label">P/Sales (LTM)</div><div class="val-num">3.3x</div><div class="val-sub">Rev $124M</div></div>
+  </div>
+  <div style="border-top: 1px solid #eee;">
+    <div class="val-grid">
+      <div class="val-cell"><div class="val-label">Fully Dil. Mkt Cap</div><div class="val-num">$417M</div><div class="val-sub">264.1M dil. shares</div></div>
+      <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">~12%</div><div class="val-sub">FactSet estimate</div></div>
+      <div class="val-cell"><div class="val-label">Beta (Adj)</div><div class="val-num">~1.8</div><div class="val-sub">High beta microcap</div></div>
+      <div class="val-cell"><div class="val-label">Avg Analyst Rating</div><div class="val-num">Buy</div><div class="val-sub">6 brokers · 1.17</div></div>
+      <div class="val-cell"><div class="val-label">Cons. Target Price</div><div class="val-num">$4.10</div><div class="val-sub">+159% upside</div></div>
+      <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">May 7</div><div class="val-sub">Q1 FY2026</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Valuation Multiples Table -->
+<div class="section-title">Valuation Multiples</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Metric</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th class="est" style="color:#2563eb;">FY2026E</th>
+      <th class="est" style="color:#2563eb;">FY2027E</th>
+      <th class="est" style="color:#2563eb;">FY2028E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">PRICE MULTIPLES</td></tr>
+    <tr><td>P/E</td><td>NM</td><td>NM</td><td>NM</td><td class="est">21.4x</td><td class="est">13.0x</td><td class="est">~9.0x</td></tr>
+    <tr><td>P/Sales</td><td>--</td><td>3.5x</td><td>3.3x</td><td class="est">3.0x</td><td class="est">2.6x</td><td class="est">2.3x</td></tr>
+    <tr><td>P/Book Value</td><td>--</td><td>--</td><td>2.0x</td><td class="est">1.8x</td><td class="est">1.5x</td><td class="est">1.3x</td></tr>
+    <tr class="section-row"><td colspan="7">EV MULTIPLES</td></tr>
+    <tr><td>EV/Sales</td><td>--</td><td>4.4x</td><td>4.1x</td><td class="est">3.7x</td><td class="est">3.3x</td><td class="est">2.9x</td></tr>
+    <tr><td>EV/EBITDA</td><td>NM</td><td>NM</td><td>NM</td><td class="est">20.1x</td><td class="est">16.5x</td><td class="est">13.4x</td></tr>
+    <tr><td>EV/EBIT</td><td>NM</td><td>NM</td><td>NM</td><td class="est">21.3x</td><td class="est">18.9x</td><td class="est">14.2x</td></tr>
+  </tbody>
+</table>
+
+<!-- Revenue Exposure -->
+<div class="section-title">Revenue Exposure (FY2025 Actuals, FYE December)</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Product Suite</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Segment</th><th>$M</th><th>% Rev</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Mortgage Suite</td><td>$69.2</td><td>56.0%</td><td>-6%</td></tr>
+        <tr><td>Consumer Banking Suite</td><td>$45.2</td><td>36.6%</td><td>+34%</td></tr>
+        <tr><td>Professional Services</td><td>$9.1</td><td>7.4%</td><td>+3%</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>$123.6</td><td>100%</td><td>+7%</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:8px; color:#aaa; margin-top:4px;">Software Platform revenue (ex-Prof Svc) grew 10% YoY to $114.5M in FY2025.</p>
+  </div>
+  <div>
+    <div class="sub-label">Revenue Mix Shift (Consumer Banking % of Total)</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Period</th><th>CB %</th><th>CB Rev</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Q1 2024</td><td>28%</td><td>$6.6M</td><td>--</td></tr>
+        <tr><td>Q4 2024</td><td>29%</td><td>$9.5M</td><td>+48%</td></tr>
+        <tr><td>Q2 2025</td><td>36%</td><td>$11.4M</td><td>+43%</td></tr>
+        <tr><td>Q4 2025</td><td>35%</td><td>$11.5M</td><td>+21%</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:8px; color:#aaa; margin-top:4px;">Consumer Banking rapidly diversifying revenue away from mortgage cyclicality.</p>
+  </div>
+</div>
+
+<!-- Financials Table -->
+<div class="section-title">Financials</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">$M (FY Dec)</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th class="est" style="color:#2563eb;">FY2026E</th>
+      <th class="est" style="color:#2563eb;">FY2027E</th>
+      <th class="est" style="color:#2563eb;">FY2028E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">INCOME STATEMENT</td></tr>
+    <tr><td>Revenue</td><td>--</td><td>$116</td><td>$124</td><td class="est">$137</td><td class="est">$156</td><td class="est">$179</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Revenue Growth %</td><td>--</td><td>--</td><td>+7.0%</td><td class="est">+10.4%</td><td class="est">+14.0%</td><td class="est">+14.7%</td></tr>
+    <tr><td>Gross Profit</td><td>--</td><td>$78</td><td>$92</td><td class="est">$107</td><td class="est">$125</td><td class="est">$145</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Gross Margin %</td><td>52.0%</td><td>67.2%</td><td>74.2%</td><td class="est">78.0%</td><td class="est">80.0%</td><td class="est">81.0%</td></tr>
+    <tr><td>EBITDA (GAAP)</td><td>--</td><td>($20)</td><td>($15)</td><td class="est">$25</td><td class="est">$31</td><td class="est">$38</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">EBITDA Margin %</td><td>NM</td><td>NM</td><td>NM</td><td class="est">18.6%</td><td class="est">20.0%</td><td class="est">21.3%</td></tr>
+    <tr><td>EBIT (GAAP)</td><td>--</td><td>($30)</td><td>($21)</td><td class="est">$24</td><td class="est">$27</td><td class="est">$36</td></tr>
+    <tr><td>Non-GAAP Operating Income</td><td>--</td><td>($13)</td><td>$15</td><td class="est">$28</td><td class="est">$36</td><td class="est">$45</td></tr>
+    <tr><td>Net Income</td><td>--</td><td>($45)</td><td>($35)</td><td class="est">$20</td><td class="est">$29</td><td class="est">$37</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Net Margin %</td><td>NM</td><td>NM</td><td>NM</td><td class="est">14.3%</td><td class="est">18.6%</td><td class="est">20.5%</td></tr>
+    <tr><td>EPS (Dil)</td><td>--</td><td>($0.17)</td><td>($0.13)</td><td class="est">$0.07</td><td class="est">$0.11</td><td class="est">$0.14</td></tr>
+    <tr class="section-row"><td colspan="7">CASH FLOW</td></tr>
+    <tr><td>Operating Cash Flow</td><td>--</td><td>($10)</td><td>$10</td><td class="est">$22</td><td class="est">$30</td><td class="est">$40</td></tr>
+    <tr><td>CapEx</td><td>--</td><td>($7)</td><td>($7)</td><td class="est">($7)</td><td class="est">($7)</td><td class="est">($7)</td></tr>
+    <tr><td>Free Cash Flow</td><td>--</td><td>($17)</td><td>$3</td><td class="est">$15</td><td class="est">$23</td><td class="est">$33</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">FCF Margin %</td><td>NM</td><td>NM</td><td>2.3%</td><td class="est">11.0%</td><td class="est">14.8%</td><td class="est">18.4%</td></tr>
+    <tr class="section-row"><td colspan="7">BALANCE SHEET</td></tr>
+    <tr><td>Cash &amp; ST Investments</td><td>--</td><td>$100</td><td>$68</td><td class="est">$80</td><td class="est">$100</td><td class="est">$122</td></tr>
+    <tr><td>Total Debt (Consolidated)</td><td>$145</td><td>$145</td><td>$0</td><td class="est">$0</td><td class="est">$0</td><td class="est">$0</td></tr>
+    <tr><td>Preferred Stock (EV adj.)</td><td>$150</td><td>$150</td><td>$161</td><td class="est">$161</td><td class="est">$161</td><td class="est">$161</td></tr>
+    <tr><td>Shareholders' Equity</td><td>--</td><td>$180</td><td>$200</td><td class="est">$225</td><td class="est">$260</td><td class="est">$300</td></tr>
+  </tbody>
+</table>
+
+<!-- Valuation Summary -->
+<div class="section-title">Valuation Summary</div>
+<p class="prose">Blend currently trades at 3.7x NTM EV/Sales and 20.1x NTM EV/EBITDA — a significant discount from its post-IPO peak but still at a premium to the broader fintech peer median of 2.9x EV/Sales. The stock is down 49% over the past year and 65% from its 52-week high of $4.49, driven by persistent mortgage market headwinds (30-year rates above 7%), the Title365 overhang (now resolved), and broader small-cap de-rating. However, the consensus analyst target of $4.10 (6 brokers) implies 159% upside — an unusually wide gap that suggests the sell-side sees significant mispricing. The NTM gross margin profile of 77.6% and EBITDA margin trajectory from negative (FY2025 GAAP) to 18.6% (FY2026E) to 21.3% (FY2028E) reflects a company in genuine margin inflection, with operating leverage accelerating as Consumer Banking scales and Autopilot AI drives evPFL expansion. On a FY2028E basis, the valuation compresses to 2.9x EV/Sales and 13.4x EV/EBITDA — cheap for a high-gross-margin SaaS company with multiple expansion levers (AI, rate normalization, refi wave). The $68M net cash position (zero debt) and $50M buyback authorization provide downside protection, while the success-based per-loan model creates natural operating leverage in any mortgage recovery.</p>
+
+<div class="source-note">Source: FactSet snapshot export, April 22, 2026. Estimates reflect consensus of 6 broker contributors. FYE December.</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 3: BULL & BEAR CASES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Cases</div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Autopilot AI Transforms Mortgage Unit Economics.</span> Blend Autopilot, launched March 3, 2026, completes document reviews in 15-25 seconds — targeting ~$4,000 of the $11,000 cost to originate a mortgage that is pure operational labor. Within one week of launch, 7 large customers activated Autopilot. If Autopilot achieves broad adoption, it could double evPFL from $83 to $150-170 (top 5 customers already average $177 total evPFL), driving Mortgage Suite revenue re-acceleration independent of volume. The April 2026 launch of an MCP server for Autopilot enables programmatic access to the full lending lifecycle — creating platform lock-in. The Better.com/OpenAI partnership validates the thesis that AI in mortgage is real, and Blend is the only scaled platform positioned to capture it.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Rate Normalization Triggers Refi Wave.</span> The mortgage market is operating at historically depressed levels (~4.5M units vs. 8-10M in normal years). If 30-year rates decline from 7%+ to 5.5-6%, the resulting refinance wave could double mortgage origination volumes within 12-18 months. Blend's per-funded-loan model would translate this directly into revenue — a 50% increase in volumes at constant evPFL would add ~$35M to Mortgage Suite revenue. The Rapid Refi product, which showed 50%+ conversion improvement in pilots and commands 1.9x higher evPFL, is purpose-built for exactly this scenario. With the average homeowner sitting on ~$315,000 in equity, the home equity opportunity alone could drive significant incremental volume through Blend's platform.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Consumer Banking Becomes the Growth Engine.</span> Consumer Banking grew from 29% to 37% of total revenue in one year and is on a trajectory to become the majority of Blend's revenue by FY2027. The multi-product flywheel — consumer banking customers cross-sell into mortgage, and mortgage customers expand into deposit accounts, personal loans, and auto lending — is creating durable, non-cyclical revenue growth. With nearly 100 home equity customers (7 of top 10 originators) and new product launches in deposit account opening and solar financing, Consumer Banking has a long runway. Each new large bank customer represents $300K-$1M+ of recurring annual revenue.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Clean Balance Sheet Enables Aggressive Buybacks.</span> With $68.3M cash, zero debt, and the completed sale of Title365 eliminating $144.5M of legacy acquisition debt, Blend's balance sheet is the cleanest it has been since IPO. The $50M buyback authorization (12% of market cap) at these depressed prices is highly accretive — buying back shares at $1.58 when the consensus target is $4.10 is a compelling use of capital. Management completed the prior $25M program (5.1M shares at ~$3.13 avg), and the new program at current prices would retire ~32M shares (12% of diluted count), meaningfully reducing the share count and boosting per-share economics.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Strategic Acquisition Target.</span> At $510M EV with $68M cash, zero debt, 78% gross margins, a dominant market share in digital mortgage origination, and a nascent AI platform, Blend is an attractive acquisition target for ICE (Encompass parent), Fiserv, Jack Henry, or a financial-services-focused PE firm. ICE acquired MERS and Ellie Mae to control the mortgage technology stack; Blend would complete the borrower-facing layer. At even a modest 50% premium, the implied takeout price of $2.37 represents the Bear Mild scenario — meaning downside is protected by strategic value while upside is uncapped.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="bear-header">Bear Cases</div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Persistent Rate Environment Crushes Mortgage Volumes.</span> If 30-year mortgage rates remain above 7% through 2028 — a plausible scenario given structural inflation and fiscal deficits — mortgage origination volumes could stay at 4-5M units annually, far below the 6-8M historical average. Blend's success-based model means revenue is directly tied to funded loans; prolonged volume depression would cap Mortgage Suite revenue at $65-70M regardless of evPFL improvements. The market has not priced a "rates stay higher for much longer" scenario, and the stock could revisit $1.00-1.30 if volume expectations reset lower.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Mr. Cooper / Rocket Migration Risk.</span> Rocket Companies' acquisition of Mr. Cooper creates a concentrated churn risk. Mr. Cooper represented ~60 bps of HMDA market share on Blend's platform, with a contract running through June 2028. Rocket has its own proprietary technology stack and no incentive to remain on Blend. Post-contract expiration, Blend could lose ~$10-15M of annual Mortgage Suite revenue — a ~15-20% hit to the segment. HMDA market share already declined from 21.7% (2023) to 18.6% (2024) with an expected ~100bp headwind in 2026 from this transition. Management has been transparent about this risk but has not fully quantified the revenue impact.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Customer Concentration and Execution Risk.</span> Top 5 customers represent 39% of revenue, and 25 customers generating >$1M account for 75% of total revenue. This concentration creates outsized risk from any single customer churn or renegotiation. Additionally, Blend identified a material weakness in internal controls over financial reporting in Q4 2025 — a red flag for enterprise customers evaluating vendor risk. The revolving door of executives (CEO transition from Ghamsari to Dogan, departure of Amir Jafari, multiple leadership changes) raises questions about operational continuity and whether the company can execute on its ambitious AI roadmap.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">AI Commoditization — Autopilot May Not Differentiate.</span> The Better.com/OpenAI partnership demonstrates that mortgage AI is not proprietary to Blend. If generic AI tools (OpenAI, Google) become capable of document review and loan processing, Blend's Autopilot premium could be competed away. Lenders with internal engineering teams (JPMorgan, Wells Fargo, Rocket) may build proprietary AI mortgage assistants, reducing demand for Blend's platform. The agentic AI opportunity is real, but Blend's right to win is not guaranteed — particularly against well-funded competitors like ICE/Encompass that control the loan origination system (LOS) layer below Blend's point-of-sale.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Preferred Stock Overhang Limits Equity Upside.</span> The $161M preferred stock (FactSet EV adjustment) creates a structural overhang on common equity value. In any enterprise value below ~$230M, the preferred holders' liquidation preference would consume most of the value, leaving common shareholders with minimal residual. This preferred overhang effectively acts as a "dead zone" — even if the business stabilizes, the common stock may not participate proportionally in value recovery. The Haveli investment (~20% ownership via preferred/common) provides operational discipline but also creates a governance dynamic where Haveli's interests may not perfectly align with common shareholders.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Scale Economies</span> <span class="fw-rating moderate">Moderate</span><br>
+  Blend's cloud platform has meaningful fixed-cost leverage: once the core POS, document processing, and compliance engines are built, the marginal cost of processing an additional loan or opening an additional deposit account is near zero. This is reflected in the gross margin expansion from 52% (FY2023, inclusive of Title365) to 74% (FY2025) and projected 81% (FY2028E) — a dramatic improvement as revenue scales across a fixed engineering and infrastructure base. R&amp;D and G&amp;A costs are largely fixed, meaning each incremental dollar of revenue drops through at high contribution margins. However, Blend's TAM is constrained by the number of US financial institutions (a few hundred meaningful lenders) and mortgage origination volumes (cyclical, not secular growth), which limits the absolute scale advantage relative to horizontal SaaS companies. The per-funded-loan pricing model also means revenue scales with volume rather than with customer count, creating operating leverage only when mortgage markets cooperate.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Network Effects</span> <span class="fw-rating weak">Weak</span><br>
+  Blend does not exhibit meaningful network effects. More lenders using Blend does not make the platform more valuable for other lenders — in fact, competitors sharing a platform could be a detractor. There is a modest data network effect: as Blend processes more loans and banking applications, its AI models (particularly Autopilot) improve from training on a larger dataset of document patterns, exception types, and underwriting outcomes. This data flywheel could become meaningful over time as Autopilot scales, but today it is nascent and unproven. Blend also benefits from an indirect ecosystem effect — as more third-party integrations (Truework for income verification, Covered Insurance Solutions) connect to Blend's platform, the integration layer becomes more valuable — but this is an ecosystem advantage rather than a true network effect.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Counter-Positioning</span> <span class="fw-rating strong">Strong</span><br>
+  Blend's strongest competitive dynamic is counter-positioning against ICE Mortgage Technology (Encompass), the dominant loan origination system (LOS). Encompass is deeply embedded in the back-office workflow — it is the system of record for loan processing, underwriting, and compliance. But Encompass was designed for loan officers and processors, not borrowers. Blend provides the borrower-facing digital experience that sits on top of the LOS. ICE cannot build a competitive borrower POS without cannibalizing its LOS customers' existing workflows and admitting its own interface is inadequate — a classic counter-positioning dynamic. The same applies to nCino in the consumer lending space: nCino's strength is in commercial lending and bank back-office, not in the consumer-facing digital experience where Blend dominates. Blend effectively occupies the "borrower experience layer" that incumbents cannot serve without undermining their core value proposition to loan officers.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Switching Costs</span> <span class="fw-rating strong">Strong</span><br>
+  Switching costs are Blend's most durable moat. The platform is deeply integrated into each lender's technology stack — connected to the LOS (Encompass, Black Knight), CRM, document management, compliance systems, and third-party data providers (credit bureaus, income verification, title). Ripping out Blend would require: (a) rebuilding all integrations with a new POS vendor, (b) retraining hundreds of loan officers and operations staff, (c) migrating in-progress loan applications, (d) recertifying compliance workflows with regulators, and (e) disrupting the borrower experience for months during transition. This creates extreme stickiness: Blend reported zero net churn in 2025 (vs. meaningful churn in 2023 during the cost-cutting wave), and the only 4 customers that churned in Q3 2025 were small, representing ~$200K aggregate annual revenue. The 7 of top 10 US originators using Blend's home equity product demonstrates that even during a difficult rate environment, these deep integrations are not being renegotiated away.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Branding</span> <span class="fw-rating weak">Weak</span><br>
+  Blend is a B2B infrastructure company — borrowers interacting with Blend's platform generally see their bank's branding, not Blend's. The Blend brand matters in enterprise sales (CIOs and CTOs evaluating digital lending vendors) but does not command consumer-facing pricing power or habitual purchasing behavior. Within the industry, Blend has strong recognition among mortgage technology buyers — the Palantir heritage, Nima Ghamsari's reputation, and the company's Customer Forum (120 executives attended in 2025) create credibility. But branding is not a meaningful competitive advantage at the B2B level; it facilitates sales cycles rather than creating structural barriers.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">6. Cornered Resource</span> <span class="fw-rating moderate">Moderate</span><br>
+  Blend's most valuable cornered resource is its HMDA processing data — having originated or facilitated ~17-19% of all US mortgage applications over several years, Blend has accumulated a proprietary dataset of borrower behavior, document patterns, exception handling, and underwriting outcomes that is difficult to replicate. This data is the training foundation for Autopilot. Additionally, Nima Ghamsari's relationships with top-25 bank CEOs (cultivated over 14 years since founding) represent a personal cornered resource — a top bank CEO specifically told Ghamsari that his two priorities were "stablecoins and Agentic AI." The Haveli investment and Brian Sheth's board involvement provide access to PE-grade operational discipline. However, these resources are not fully irreplaceable: Ghamsari's transition to Chairman (with Ozgur Dogan as CEO) introduces execution risk around relationship continuity.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">7. Process Power</span> <span class="fw-rating moderate">Moderate</span><br>
+  Blend has refined its enterprise implementation process over 200+ lender deployments, developing deep institutional knowledge about the complex workflows, compliance requirements, and change management challenges specific to mortgage lending and consumer banking. The Rapid product suite (Rapid Refi, Rapid Home Equity) reflects this process expertise: these products were designed based on specific workflow bottlenecks identified through years of implementation experience. The Customer Forum format — bringing 120+ executives together to share best practices — creates a community-driven process advantage. However, the revolving door of executives (multiple C-suite departures in 2024-2025) suggests that process knowledge may be concentrated in the engineering team and product organization rather than broadly embedded in institutional culture. The appointment of Matt Thomson (who scaled Alkami to $440M ARR) as Head of Revenue in January 2026 signals an attempt to institutionalize sales process power.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> Blend is a 2-power business with genuine strength in Counter-Positioning (ICE/Encompass cannot build a borrower-facing POS without cannibalizing its LOS business) and Switching Costs (deep integration into lender tech stacks creates extreme replacement cost). Scale Economies and Cornered Resource are moderate and growing — particularly as Autopilot's data flywheel compounds. Network Effects and Branding are weak. This is a defensible but not fortress-like competitive position, with the AI layer (Autopilot) potentially upgrading Cornered Resource to Strong if the data advantage proves durable.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Threat of New Entrants</span> <span class="fw-rating moderate">Moderate</span><br>
+  The barriers to entry in digital mortgage POS are real but not insurmountable. A new entrant would need: (a) deep integration with the major LOS platforms (Encompass, Black Knight), (b) compliance with mortgage lending regulations (TILA, RESPA, ECOA, HMDA), (c) bank-grade security and SOC 2 compliance, (d) relationships with risk-averse bank CTOs who prefer proven vendors, and (e) several years of deployment track record. Capital requirements are moderate ($50-100M to build a competitive platform), but the regulatory complexity and integration burden create meaningful friction. However, the AI wave is lowering barriers: Better.com partnered with OpenAI to build AI-powered mortgage processing, demonstrating that well-funded startups with AI expertise could leapfrog Blend's traditional POS approach. The bigger threat is not new pure-play entrants but adjacent incumbents (ICE, nCino, Fiserv) extending into Blend's layer.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Bargaining Power of Suppliers</span> <span class="fw-rating low">Low</span><br>
+  Blend's primary "suppliers" are cloud infrastructure providers (AWS/GCP), AI model providers (for Autopilot), third-party data providers (credit bureaus, income/employment verification), and its own engineering talent. Cloud infrastructure is commodity-priced and multi-vendor. AI models are rapidly commoditizing with open-source alternatives. Blend has strategically shifted from in-house services to partnership models — Truework for income verification (VOIE/VOA), Covered Insurance Solutions for homeowner insurance — which reduces supplier dependency while improving margins. The company's partnership model with these providers is mutually beneficial rather than extractive. Engineering talent in San Francisco is competitive but Blend's 419-person workforce is modest, reducing talent cost pressure relative to larger tech companies.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Bargaining Power of Buyers</span> <span class="fw-rating high">High</span><br>
+  This is Blend's most challenging competitive force. Top 5 customers represent 39% of revenue, and 25 customers account for 75% — extreme concentration for a $124M revenue company. These customers are among the largest US financial institutions with sophisticated procurement functions and significant leverage in pricing negotiations. The success-based (per-funded-loan) pricing model means buyers only pay when loans close, giving them free optionality during low-volume periods. Large banks can credibly threaten to build internal digital lending solutions (JPMorgan, Wells Fargo have large technology organizations) or switch to competitors (SimpleNexus, ICE POS). The Mr. Cooper/Rocket situation demonstrates that customer M&amp;A can eliminate major revenue streams with limited recourse for Blend. However, switching costs partially offset buyer power — once integrated, banks rarely change POS vendors mid-cycle.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Threat of Substitutes</span> <span class="fw-rating moderate">Moderate</span><br>
+  The primary substitute for Blend's digital POS is the traditional paper-based or lender-built mortgage application process. Many mid-size lenders still use Encompass's native POS or proprietary solutions rather than a third-party digital POS like Blend. For consumer banking, banks can build deposit account opening and personal loan workflows in-house or through their core banking platform (FIS, Fiserv, Jack Henry). The AI revolution creates a new substitution vector: if large language models can handle document review, borrower communication, and compliance checking natively, the "digital POS" layer that Blend provides could be bypassed entirely. However, the regulatory complexity of mortgage lending — where errors result in legal liability and regulatory penalties — creates a meaningful barrier to substitution by generic AI tools. Lenders cannot afford AI "hallucinations" in compliance-critical workflows.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Competitive Rivalry</span> <span class="fw-rating high">High</span><br>
+  The digital lending technology market is intensely competitive. Blend faces competition from: ICE Mortgage Technology (Encompass POS, owned by Intercontinental Exchange — $90B market cap parent), nCino (cloud banking platform, $3.5B market cap), SimpleNexus/nCino (recently acquired, strong in independent mortgage bank segment), Black Knight/ICE (integrated servicing and origination), and a long tail of smaller fintech POS vendors. ICE's ownership of both the dominant LOS (Encompass) and the dominant POS competitor creates a vertically integrated threat — ICE can bundle pricing and create preferential integrations that disadvantage Blend. The mortgage technology market is also slow-growing (tied to housing activity), meaning competitors are fighting over a relatively fixed pie during high-rate environments. Differentiation is moderate — all POS vendors claim "digital, fast, integrated" — and pricing pressure from per-loan competition compresses margins at the margin.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> Blend's five-force structure is mixed: favorable supplier dynamics (Low) and meaningful entry barriers (Moderate), but challenged by high buyer power (concentrated customer base), moderate substitution risk (in-house build, generic AI), and intense competitive rivalry (ICE, nCino, SimpleNexus). The competitive environment is manageable but not structurally favorable — Blend must continuously innovate (Autopilot, Rapid products) to maintain its position against well-funded competitors with adjacent advantages. The AI layer is both an opportunity (if Blend leads) and a threat (if competitors or generic tools catch up).</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 6: WHAT DRIVES THE STOCK? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<p class="prose">The following are the 6 variables that would move BLND's share price materially in the next 12 months. These are what analysts build tracking models around and PMs ask about in morning meetings.</p>
+
+<p class="prose"><strong>1. Mortgage Origination Volumes and Interest Rates.</strong> BLND's success-based revenue model creates direct, mechanical sensitivity to mortgage market volumes. Every 10% increase in HMDA origination volume translates to approximately $6-7M of incremental Mortgage Suite revenue (holding market share and evPFL constant). The 30-year mortgage rate is the single most important exogenous variable — a 100bp decline from 7% to 6% could trigger a refinance wave that doubles origination volumes over 12-18 months. Conversely, rates staying above 7% would keep volumes at trough levels and cap Mortgage Suite revenue. The May 7 Q1 2026 earnings will include Q2 2026 volume guidance (management guided 1.50-1.60M units) — any upside surprise would be immediately bullish.</p>
+
+<p class="prose"><strong>2. Consumer Banking Suite Growth Trajectory.</strong> Consumer Banking revenue grew 34% YoY in FY2025 and now represents 37% of total revenue. The deceleration from 48% (Q1 2024 YoY) to 21% (Q4 2025 YoY) is the key bear concern — analysts are watching whether growth re-accelerates as new products (deposit account opening, solar lending) launch and existing customers expand, or whether the 20%+ growth rate was a one-time catch-up. The target metric is whether Consumer Banking can sustain 20%+ growth and exceed 50% of total revenue by FY2027, which would fundamentally change the narrative from "mortgage company" to "banking platform."</p>
+
+<p class="prose"><strong>3. Autopilot AI Adoption and evPFL Expansion.</strong> Blend Autopilot is the company's most important strategic initiative. Early data — 7 large customers activated within one week of launch, document review in 15-25 seconds — is promising but insufficient to model revenue impact. The market is watching for: (a) number of lenders deploying Autopilot by Q2 2026, (b) incremental evPFL attributable to Autopilot (management has guided toward $150-170 total evPFL for top customers), (c) whether Autopilot drives competitive wins against non-Blend platforms, and (d) pricing model (per-transaction surcharge vs. bundled). Every $10 increase in evPFL on Blend's ~834K annual funded loans = ~$8.3M incremental Mortgage Suite revenue.</p>
+
+<p class="prose"><strong>4. Mr. Cooper / Rocket Churn Quantification.</strong> The Rocket acquisition of Mr. Cooper creates a binary risk: when the contract expires (June 2028), Blend likely loses this revenue. The market needs management to quantify the exposure (estimated $10-15M annual revenue) and demonstrate offsetting growth from new logos and evPFL expansion. Until this risk is quantified and absorbed, it creates an overhang on the stock. Any acceleration in the migration timeline (before June 2028) would be a material negative catalyst.</p>
+
+<p class="prose"><strong>5. Profitability Trajectory and FCF Generation.</strong> Blend crossed the non-GAAP profitability threshold in FY2024 and generated its first positive FCF year in FY2025 ($2.8M). The market is watching whether the margin expansion trajectory continues — FY2025 non-GAAP operating margin of 12.2% expanding toward 18-20% by FY2026E. The May 7 earnings will be the first quarter where Autopilot could impact margins. Consistent quarterly FCF generation would shift the narrative from "turnaround story" to "compounding machine" and attract a broader investor base.</p>
+
+<p class="prose"><strong>6. Share Buyback Execution and Capital Allocation.</strong> The $50M buyback authorization (12% of market cap) is a powerful signal at $1.58 per share. The pace and scale of buyback execution will signal management's conviction. The completed $25M program retired 5.1M shares at ~$3.13 average — buying at $1.58 is 2x more accretive per dollar. Aggressive buyback execution combined with FCF generation could retire 10-15% of the diluted share count over 24 months, meaningfully boosting per-share economics and creating a positive feedback loop for the stock price.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<p class="prose">Blend's revenue can be decomposed into its key product lines using fundamental economic drivers:</p>
+
+<table class="data" style="font-size:10px; margin-bottom:16px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Revenue Line</th>
+      <th style="text-align:left;">Driver 1</th>
+      <th style="text-align:left;">Driver 2</th>
+      <th style="text-align:left;">Driver 3</th>
+      <th style="text-align:left;">= Revenue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Mortgage Suite</strong></td>
+      <td>HMDA Volume (~4.5M units)</td>
+      <td>x BLND Share (~17%)</td>
+      <td>x evPFL ($83)</td>
+      <td>= $69.2M (FY25)</td>
+    </tr>
+    <tr>
+      <td><strong>Consumer Banking</strong></td>
+      <td>Active Customers (~150)</td>
+      <td>x Products/Customer (~2.5)</td>
+      <td>x Rev/Product (~$120K)</td>
+      <td>= $45.2M (FY25)</td>
+    </tr>
+    <tr>
+      <td><strong>Professional Services</strong></td>
+      <td>New Deployments (#)</td>
+      <td>x Avg Engagement ($)</td>
+      <td>x Utilization Rate</td>
+      <td>= $9.1M (FY25)</td>
+    </tr>
+    <tr>
+      <td><strong>Total Revenue</strong></td>
+      <td>Mortgage Suite</td>
+      <td>+ Consumer Banking</td>
+      <td>+ Professional Svc</td>
+      <td>= $123.6M (FY25)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose"><strong>Key driver quantification (FY2026E estimates):</strong></p>
+<ul style="font-size: 11px; line-height: 1.7; color: #333; margin-left: 20px; margin-bottom: 10px;">
+  <li><strong>Mortgage Suite:</strong> HMDA volume ~5.0-5.5M units (guided Q2 2026 at 1.50-1.60M quarterly) × ~16.5% BLND share (headwind from Mr. Cooper transition) × ~$85 average evPFL (Autopilot uplift partially offset by mix) = ~$70-75M</li>
+  <li><strong>Consumer Banking:</strong> ~170 active customers (+13% from ~150) × 2.8 products/customer × $135K avg revenue/product = ~$64M (+42% YoY). Consumer Banking pipeline is up ~40% YoY and structural shift toward bundled deals should accelerate expansion.</li>
+  <li><strong>Professional Services:</strong> Relatively stable at ~$10-11M, growing with new implementations but offset by improving deployment efficiency and shift to partnership models.</li>
+  <li><strong>Total FY2026E:</strong> $136.5M (+10%), with Consumer Banking driving the majority of incremental growth.</li>
+</ul>
+
+<p class="prose"><strong>Leverage analysis:</strong> The three highest-leverage drivers on total revenue are: (1) <em>evPFL</em> — every $10 increase in evPFL × ~834K annual funded loans on Blend's platform = ~$8.3M incremental Mortgage Suite revenue (12% of the segment). Top 5 customers already average $177 total evPFL vs. the company-wide $83, suggesting 2x+ upside as Rapid products and Autopilot penetrate the installed base. (2) <em>HMDA Market Volume</em> — a 1M unit increase in annual HMDA volume (from 4.5M to 5.5M) at 17% share and $85 evPFL adds ~$14.5M to Mortgage Suite revenue (21% of the segment). Volume is the highest-leverage but least controllable driver — entirely dependent on interest rates and housing market conditions. (3) <em>Consumer Banking Customer Count</em> — each new large bank customer generates $300K-$1M+ in annual revenue depending on the number of products deployed. With only ~150 active customers out of thousands of US financial institutions, the penetration runway is long. The multi-product flywheel (home equity → refi → deposit accounts) increases products per customer over time, compounding the per-customer revenue impact.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+  <strong>AlphaSense Research Reports</strong> · Subject: Blend Labs, Inc. (BLND) · Reports Reviewed: AlphaSense Deep Research Reports (2), Q1-Q4 2025 Earnings Transcripts, Wells Fargo TMT Summit Transcript<br>
+  <em>Key themes synthesized from 135+ expert calls, earnings transcripts, SEC filings, and competitive intelligence.</em>
+</div>
+
+<p class="prose"><strong>Competitive Moat: Deep Integration as "Trusted System of Record."</strong> The most critical insight from the AlphaSense research is that Blend's competitive advantage is not the digital POS itself — which is replicable — but its position as the "trusted system of record" for borrower data across the lending lifecycle. Blend sits between the borrower and the lender's LOS, holding the application data, document images, verification results, and compliance records. This creates a data gravity that makes switching extraordinarily costly. The AlphaSense expert network notes that lenders describe Blend as "infrastructure" rather than "software" — a distinction that implies higher switching costs and longer customer lifetimes than typical SaaS vendors. The platform's integration with 100+ third-party services (credit bureaus, income verification, title, insurance) creates an ecosystem lock-in that no single competitor can replicate by building a better POS alone.</p>
+
+<p class="prose"><strong>Unit Economics Evolution: The Path to $170 evPFL.</strong> The AlphaSense research provides a crucial framework for understanding Blend's revenue trajectory. Legacy per-loan pricing started at $17 evPFL with 35% contribution margins. As Blend added products (income verification, insurance, compliance), evPFL grew to $83 with 67-90% contribution margins on partnership-model revenue. Top 5 customers already average $177 total evPFL — more than 2x the company average — demonstrating the ceiling. The path to $170 company-wide evPFL involves three horizons: (1) Rapid Home Equity (commands 1.5x pull-through and 2x evPFL vs. base home equity), (2) Rapid Refi (50%+ conversion improvement, 1.9x higher evPFL), and (3) Autopilot AI (targeting $4,000 of $11,000 origination cost = potentially $30-50 incremental evPFL). If Blend achieves $150 company-wide evPFL on 900K funded loans, Mortgage Suite alone would generate $135M — nearly equal to total FY2025 revenue.</p>
+
+<p class="prose"><strong>Leadership Transition: Operational Discipline Over Vision.</strong> A recurring theme in the expert network is that Nima Ghamsari is a brilliant product visionary but has struggled with operational execution — reflected in the Title365 acquisition disaster ($417.7M acquired in 2021, sold at deep loss in 2025), the revolving door of executives, and the material weakness in internal controls. The Haveli investment and Brian Sheth's board involvement represent a deliberate pivot toward operational discipline. The appointment of Ozgur Dogan as CEO (April 2026) — an internal promotion of the company's technical leader — and Matt Thomson as Head of Revenue (scaled Alkami from startup to $440M ARR) signals that the company is prioritizing execution and sales process over pure product innovation. Jason Ream (CFO, ex-Haveli) brings financial rigor. This leadership transition from "founder-led vision" to "operator-led execution" is a critical de-risking event that the market has not fully credited.</p>
+
+<p class="prose"><strong>Multi-Product Flywheel: Consumer Banking as Strategic Diversifier.</strong> The AlphaSense analysis highlights that Consumer Banking's growth from 29% to 37% of revenue in one year is not just product expansion — it fundamentally changes Blend's risk profile. Mortgage revenue is binary (rates up = bad, rates down = good), but Consumer Banking revenue is driven by bank digitization spend, which is structural and non-cyclical. The flywheel works: banks that deploy Blend for mortgage origination see the platform's capabilities and expand into home equity, deposit account opening, and personal loans — and vice versa. The 14 new deals and expansions in Q3 2025, including a seven-figure expansion with a top-20 US bank for solar home equity, demonstrate this cross-sell motion. Nearly 100 home equity customers (including 7 of top 10 US originators) create a natural on-ramp for Rapid Home Equity and eventually Autopilot upsell.</p>
+
+<p class="prose"><strong>Key Investor Questions.</strong> Based on the transcripts and expert research, the questions that would most sharpen conviction on Blend are: (1) What is the exact revenue at risk from Mr. Cooper/Rocket migration, and what is the timeline — will migration happen gradually or at contract expiration (June 2028)? (2) What is the early Autopilot conversion funnel: how many of the 7 initial customers have moved from pilot to production, and what is the incremental evPFL attributable to Autopilot? (3) When will the material weakness in internal controls be remediated — is this a structural governance issue or a one-time finding? (4) What is the timeline for Consumer Banking to exceed 50% of total revenue, and does the current pipeline support this? (5) How does Blend's AI strategy compare to ICE/Encompass's own AI roadmap — is ICE building competing Autopilot-like capabilities within the LOS layer?</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 9: SENSITIVITY ANALYSIS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Sensitivity Analysis</div>
+
+<!-- Sensitivity Table 1 -->
+<p class="prose"><strong>Sensitivity Table 1: FY2028E Mortgage Suite Revenue ($M) — HMDA Market Volume (M units) vs. evPFL ($)</strong></p>
+<p class="prose"><strong>Current: ~4.5M HMDA units × 17% BLND share × $83 evPFL = ~$63M annualized. FY2025 actual: $69.2M</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>HMDA Vol / evPFL</th>
+      <th>$70</th>
+      <th>$85</th>
+      <th>$100</th>
+      <th>$130</th>
+      <th>$170</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>4.0M</td><td>$48</td><td>$58</td><td>$68</td><td>$88</td><td>$116</td></tr>
+    <tr><td>4.5M</td><td>$54</td><td>$65</td><td>$77</td><td>$99</td><td>$130</td></tr>
+    <tr><td>5.5M</td><td>$65</td><td>$79</td><td class="base">$94</td><td>$121</td><td>$159</td></tr>
+    <tr><td>6.5M</td><td>$77</td><td>$94</td><td>$111</td><td>$143</td><td>$187</td></tr>
+    <tr><td>8.0M</td><td>$95</td><td>$115</td><td>$136</td><td>$177</td><td>$231</td></tr>
+  </tbody>
+</table>
+<p style="font-size:8px; color:#888;">Assumes 17% BLND market share held constant. Base case: 5.5M units × 17% × $100 evPFL = $94M.</p>
+
+<!-- Sensitivity Table 2 -->
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 2: FY2028E Total Revenue ($M) — Mortgage Suite Revenue ($M) vs. Consumer Banking Revenue ($M)</strong></p>
+<p class="prose"><strong>Current: Mortgage Suite $69M + Consumer Banking $45M + Prof Svc $12M = $124M (FY2025). Base 2028E: $85M + $81M + $13M = $179M</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Mortgage / CB Rev</th>
+      <th>$50M</th>
+      <th>$65M</th>
+      <th>$81M</th>
+      <th>$100M</th>
+      <th>$120M</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$60M</td><td>$122</td><td>$137</td><td>$153</td><td>$172</td><td>$192</td></tr>
+    <tr><td>$75M</td><td>$137</td><td>$152</td><td>$168</td><td>$187</td><td>$207</td></tr>
+    <tr><td>$85M</td><td>$147</td><td>$162</td><td class="base">$178</td><td>$197</td><td>$217</td></tr>
+    <tr><td>$100M</td><td>$162</td><td>$177</td><td>$193</td><td>$212</td><td>$232</td></tr>
+    <tr><td>$130M</td><td>$192</td><td>$207</td><td>$223</td><td>$242</td><td>$262</td></tr>
+  </tbody>
+</table>
+<p style="font-size:8px; color:#888;">Includes $12M Professional Services (constant). Base case highlighted: $85M Mortgage + $81M Consumer Banking + $12M PS = $178M.</p>
+
+<!-- Sensitivity Table 3 -->
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 3: Implied Share Price ($) — Exit EV/Revenue (x) vs. FY2028E Revenue ($M)</strong></p>
+<p class="prose"><strong>Current: EV/Rev 4.1x on $124M = $510M EV. Equity = EV − $150M Pref + Cash. Shares: 265M dil.</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Revenue / EV/Rev</th>
+      <th>1.5x</th>
+      <th>2.5x</th>
+      <th>3.5x</th>
+      <th>5.0x</th>
+      <th>7.0x</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$110M</td><td>$0.51</td><td>$0.92</td><td>$1.34</td><td>$1.96</td><td>$2.79</td></tr>
+    <tr><td>$140M</td><td>$0.68</td><td>$1.21</td><td>$1.74</td><td>$2.53</td><td>$3.58</td></tr>
+    <tr><td>$179M</td><td>$0.90</td><td class="base" style="background:#fff3cd;">$1.58</td><td class="base">$2.25</td><td>$3.27</td><td>$4.62</td></tr>
+    <tr><td>$225M</td><td>$1.16</td><td>$2.01</td><td>$2.86</td><td class="base" style="background:#d4edda;">$4.13</td><td>$5.83</td></tr>
+    <tr><td>$290M</td><td>$1.53</td><td>$2.62</td><td>$3.72</td><td>$5.36</td><td class="base" style="background:#d4edda;">$7.55</td></tr>
+  </tbody>
+</table>
+<p style="font-size:8px; color:#888;">Formula: Price = (Revenue × Multiple − $150M Pref + $120M Cash) / 265M shares. Yellow = current implied. Green = bull scenarios. Base case: $179M × 3.5x → $2.25.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 10: 3-YEAR MODEL — 5 SCENARIOS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios</div>
+
+<p class="prose">All figures in $M unless stated. Modeled FY2026E, FY2027E, FY2028E (FYE December). Exit valuation uses EV/Revenue applied to FY2028E revenue with equity bridge (EV − $150M Preferred + End Cash). Current share price: $1.58. Diluted shares: 265M. Net cash: $68M (zero debt).</p>
+
+<!-- CASE 1: BEAR SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 1: Bear Severe — Rate Spike + Mr. Cooper Churn + AI Failure</div>
+  <div class="case-desc">30-year rates spike to 8%+, freezing mortgage origination. Mr. Cooper migrates off Blend starting mid-2027. Autopilot fails to gain traction beyond initial pilots as lenders opt for cheaper generic AI tools. Consumer Banking growth stalls at mid-single digits. Material weakness damages enterprise credibility.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Rates remain above 7.5%; origination volumes stay at 4.2M units; evPFL compressed to $78 as price competition intensifies; Consumer Banking grows 18% to $53M but decelerates. <strong>FY2027</strong> — Mr. Cooper begins migration; HMDA share drops to 14%; Autopilot pilot customers do not convert to production; Consumer Banking growth slows to 8% at $57M. <strong>FY2028</strong> — Mr. Cooper fully off-platform; market share 12%; volumes still depressed at 4.0M units; total revenue declines to $108M; management cuts staff to protect margins.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>HMDA Volume</span><span>4.0M units (depressed)</span></div>
+  <div class="driver-row"><span>BLND Market Share</span><span>12% (Mr. Cooper churn)</span></div>
+  <div class="driver-row"><span>evPFL</span><span>$78 (no AI uplift)</span></div>
+  <div class="driver-row"><span>Consumer Banking Revenue</span><span>$58M (+2% YoY, stalled)</span></div>
+  <div class="driver-row"><span>Gross Margin</span><span>72%</span></div>
+  <div class="driver-row"><span>Exit EV/Revenue</span><span>1.5x (distressed fintech)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$130</td><td>$118</td><td>$108</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+5%</td><td>-9%</td><td>-8%</td></tr>
+    <tr><td>Gross Income</td><td>98</td><td>86</td><td>78</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>75%</td><td>73%</td><td>72%</td></tr>
+    <tr><td>EBITDA</td><td>10</td><td>3</td><td>(2)</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>7.7%</td><td>2.5%</td><td>NM</td></tr>
+    <tr><td>Net Income</td><td>(2)</td><td>(10)</td><td>(15)</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>265</td><td>265</td><td>265</td></tr>
+    <tr><td>End Cash</td><td>$73</td><td>$73</td><td>$70</td></tr>
+    <tr class="valuation-row"><td>Exit EV/Revenue</td><td>--</td><td>--</td><td>1.5x</td></tr>
+    <tr class="valuation-row"><td>Implied Share Price</td><td>--</td><td>--</td><td>$0.31</td></tr>
+    <tr><td>FCF</td><td>$5</td><td>$0</td><td>($3)</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 1.5x FY2028E Revenue of $108M → EV $162M − $150M Pref + $70M Cash = $82M Equity</div>
+    <div class="exit-price">Implied Share Price: $0.31</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: -80% from $1.58</div>
+  </div>
+</div>
+
+<!-- CASE 2: BEAR MILD -->
+<div class="case-block">
+  <div class="case-name">Case 2: Bear Mild — Slow Growth, Margin Disappointment</div>
+  <div class="case-desc">Mortgage market grows modestly but BLND market share erodes to 15%. Autopilot shows promise but monetization is slow; evPFL grows to $90 but misses $100+ target. Consumer Banking grows 15-18% but fails to reach escape velocity. Margins expand but below consensus expectations.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Revenue $134M, slightly below consensus. evPFL $85, up from $83 but slower than hoped. Consumer Banking $54M (+19%), decent but decelerating. <strong>FY2027</strong> — Volume recovery modest; Autopilot generates incremental revenue but not transformative; evPFL reaches $90; Consumer Banking $63M (+17%). <strong>FY2028</strong> — Revenue $152M; profitable and generating FCF but market doesn't re-rate because growth trajectory is mid-teens, not 20%+.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>HMDA Volume</span><span>5.0M units (modest recovery)</span></div>
+  <div class="driver-row"><span>BLND Market Share</span><span>15% (slight erosion)</span></div>
+  <div class="driver-row"><span>evPFL</span><span>$90 (modest AI uplift)</span></div>
+  <div class="driver-row"><span>Consumer Banking Revenue</span><span>$73M (+16% YoY)</span></div>
+  <div class="driver-row"><span>Gross Margin</span><span>78%</span></div>
+  <div class="driver-row"><span>Exit EV/Revenue</span><span>2.5x</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$134</td><td>$142</td><td>$152</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+8%</td><td>+6%</td><td>+7%</td></tr>
+    <tr><td>Gross Income</td><td>101</td><td>109</td><td>119</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>75%</td><td>77%</td><td>78%</td></tr>
+    <tr><td>EBITDA</td><td>16</td><td>21</td><td>26</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>11.9%</td><td>14.8%</td><td>17.1%</td></tr>
+    <tr><td>Net Income</td><td>5</td><td>10</td><td>15</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>265</td><td>265</td><td>265</td></tr>
+    <tr><td>End Cash</td><td>$76</td><td>$90</td><td>$108</td></tr>
+    <tr class="valuation-row"><td>Exit EV/Revenue</td><td>--</td><td>--</td><td>2.5x</td></tr>
+    <tr class="valuation-row"><td>Implied Share Price</td><td>--</td><td>--</td><td>$1.28</td></tr>
+    <tr><td>FCF</td><td>$8</td><td>$14</td><td>$18</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 2.5x FY2028E Revenue of $152M → EV $380M − $150M Pref + $108M Cash = $338M Equity</div>
+    <div class="exit-price">Implied Share Price: $1.28</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: -19% from $1.58</div>
+  </div>
+</div>
+
+<!-- CASE 3: BASE CASE -->
+<div class="case-block">
+  <div class="case-name">Case 3: Base Case — Consensus Execution, Gradual AI Adoption</div>
+  <div class="case-desc">Mortgage market recovers modestly (rates 6-6.5% by 2028). Autopilot gains steady adoption, driving evPFL to $100+. Consumer Banking continues 20%+ growth. HMDA share stabilizes at 16-17%. Non-GAAP margins expand per consensus trajectory. FCF generation accelerates.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Revenue $137M (+10%), in line with consensus. evPFL reaches $88 with early Autopilot impact. Consumer Banking $57M (+26%). Non-GAAP OpInc $28M (20% margin). <strong>FY2027</strong> — Rates begin to normalize; origination volumes reach 5.5M; evPFL hits $95 with broader Autopilot rollout; Consumer Banking $69M (+21%). <strong>FY2028</strong> — Revenue $179M (+15%); evPFL crosses $100; Consumer Banking $81M = 45% of revenue; EBITDA margin 21%.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>HMDA Volume</span><span>5.5M units (recovery)</span></div>
+  <div class="driver-row"><span>BLND Market Share</span><span>17% (stable)</span></div>
+  <div class="driver-row"><span>evPFL</span><span>$100 (Autopilot + Rapid)</span></div>
+  <div class="driver-row"><span>Consumer Banking Revenue</span><span>$81M (+17% YoY)</span></div>
+  <div class="driver-row"><span>Gross Margin</span><span>81%</span></div>
+  <div class="driver-row"><span>Exit EV/Revenue</span><span>3.5x</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$137</td><td>$156</td><td>$179</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+10%</td><td>+14%</td><td>+15%</td></tr>
+    <tr><td>Gross Income</td><td>107</td><td>125</td><td>145</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>78%</td><td>80%</td><td>81%</td></tr>
+    <tr><td>EBITDA</td><td>25</td><td>31</td><td>38</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>18.6%</td><td>20.0%</td><td>21.2%</td></tr>
+    <tr><td>Net Income</td><td>20</td><td>29</td><td>37</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>265</td><td>265</td><td>265</td></tr>
+    <tr><td>End Cash</td><td>$80</td><td>$100</td><td>$122</td></tr>
+    <tr class="valuation-row"><td>Exit EV/Revenue</td><td>--</td><td>--</td><td>3.5x</td></tr>
+    <tr class="valuation-row"><td>Implied Share Price</td><td>--</td><td>--</td><td>$2.26</td></tr>
+    <tr><td>FCF</td><td>$15</td><td>$23</td><td>$33</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 3.5x FY2028E Revenue of $179M → EV $627M − $150M Pref + $122M Cash = $599M Equity</div>
+    <div class="exit-price">Implied Share Price: $2.26</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +43% from $1.58</div>
+  </div>
+</div>
+
+<!-- CASE 4: BULL MILD -->
+<div class="case-block">
+  <div class="case-name">Case 4: Bull Mild — Autopilot Drives evPFL Re-Rating + Rate Recovery</div>
+  <div class="case-desc">Autopilot gains rapid adoption across 50+ lenders, driving evPFL to $130+. Mortgage rates normalize to 6%, triggering volume recovery to 6.5M units. Rapid Refi captures portfolio recapture wave. Consumer Banking crosses 50% of revenue. Market re-rates BLND as AI-powered platform, not legacy mortgage POS.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Autopilot adopted by 30+ lenders; evPFL reaches $95; Consumer Banking $60M (+33%); total revenue $140M above consensus. <strong>FY2027</strong> — Rates decline to 6.5%; Rapid Refi drives volume surge; evPFL hits $115 for Autopilot customers; Consumer Banking $80M (+33%); revenue accelerates to $175M (+25%). <strong>FY2028</strong> — evPFL reaches $130 company-wide; HMDA volume 6.5M at 18% share; Consumer Banking $105M = 47% of revenue; total $225M.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>HMDA Volume</span><span>6.5M units (rate normalization)</span></div>
+  <div class="driver-row"><span>BLND Market Share</span><span>18% (Autopilot competitive wins)</span></div>
+  <div class="driver-row"><span>evPFL</span><span>$130 (Autopilot + Rapid at scale)</span></div>
+  <div class="driver-row"><span>Consumer Banking Revenue</span><span>$105M (+31% YoY)</span></div>
+  <div class="driver-row"><span>Gross Margin</span><span>82%</span></div>
+  <div class="driver-row"><span>Exit EV/Revenue</span><span>5.0x (AI platform premium)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$140</td><td>$175</td><td>$225</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+13%</td><td>+25%</td><td>+29%</td></tr>
+    <tr><td>Gross Income</td><td>110</td><td>142</td><td>185</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>79%</td><td>81%</td><td>82%</td></tr>
+    <tr><td>EBITDA</td><td>28</td><td>40</td><td>56</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>20.0%</td><td>22.9%</td><td>24.9%</td></tr>
+    <tr><td>Net Income</td><td>22</td><td>33</td><td>45</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>265</td><td>265</td><td>265</td></tr>
+    <tr><td>End Cash</td><td>$83</td><td>$108</td><td>$139</td></tr>
+    <tr class="valuation-row"><td>Exit EV/Revenue</td><td>--</td><td>--</td><td>5.0x</td></tr>
+    <tr class="valuation-row"><td>Implied Share Price</td><td>--</td><td>--</td><td>$4.20</td></tr>
+    <tr><td>FCF</td><td>$18</td><td>$30</td><td>$48</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 5.0x FY2028E Revenue of $225M → EV $1,125M − $150M Pref + $139M Cash = $1,114M Equity</div>
+    <div class="exit-price">Implied Share Price: $4.20</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +166% from $1.58</div>
+  </div>
+</div>
+
+<!-- CASE 5: BULL SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 5: Bull Severe — AI Platform Re-Rating + Refi Wave + Strategic Premium</div>
+  <div class="case-desc">Autopilot becomes the industry standard for AI-powered mortgage processing. Rates drop to 5.5%, triggering massive refi wave (8M+ HMDA units). evPFL approaches $170 (matching top 5 customer levels). Consumer Banking becomes majority of revenue. Strategic acquisition interest from ICE, Fiserv, or PE at premium. BLND re-rated from "mortgage POS" to "AI lending infrastructure."</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Autopilot exceeds expectations; 50+ production customers; evPFL reaches $100; Consumer Banking $62M (+37%); total $145M. <strong>FY2027</strong> — Rates drop to 6%; refi wave begins; volume surges to 7M units; Rapid Refi captures recapture demand; evPFL $130 on Autopilot customers; Consumer Banking $90M (+45%); total $200M. <strong>FY2028</strong> — Full refi wave; 8M HMDA units at 18% share; evPFL $160 with full Autopilot penetration; Consumer Banking $120M; total $290M; strategic acquirer approaches at 50%+ premium.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>HMDA Volume</span><span>8.0M units (refi wave)</span></div>
+  <div class="driver-row"><span>BLND Market Share</span><span>18% (Autopilot-driven wins)</span></div>
+  <div class="driver-row"><span>evPFL</span><span>$160 (full AI + Rapid penetration)</span></div>
+  <div class="driver-row"><span>Consumer Banking Revenue</span><span>$120M (+33% YoY)</span></div>
+  <div class="driver-row"><span>Gross Margin</span><span>85% (pure cloud + AI mix)</span></div>
+  <div class="driver-row"><span>Exit EV/Revenue</span><span>7.0x (AI infrastructure premium)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$145</td><td>$200</td><td>$290</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+17%</td><td>+38%</td><td>+45%</td></tr>
+    <tr><td>Gross Income</td><td>115</td><td>166</td><td>247</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Gross Margin %</td><td>79%</td><td>83%</td><td>85%</td></tr>
+    <tr><td>EBITDA</td><td>30</td><td>52</td><td>87</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>20.7%</td><td>26.0%</td><td>30.0%</td></tr>
+    <tr><td>Net Income</td><td>24</td><td>42</td><td>70</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>265</td><td>265</td><td>265</td></tr>
+    <tr><td>End Cash</td><td>$85</td><td>$120</td><td>$178</td></tr>
+    <tr class="valuation-row"><td>Exit EV/Revenue</td><td>--</td><td>--</td><td>7.0x</td></tr>
+    <tr class="valuation-row"><td>Implied Share Price</td><td>--</td><td>--</td><td>$7.76</td></tr>
+    <tr><td>FCF</td><td>$20</td><td>$40</td><td>$75</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 7.0x FY2028E Revenue of $290M → EV $2,030M − $150M Pref + $178M Cash = $2,058M Equity</div>
+    <div class="exit-price">Implied Share Price: $7.76</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +391% from $1.58</div>
+  </div>
+</div>
+
+<!-- SVG Bar Chart -->
+<div class="case-chart">
+  <p style="font-size:9px; font-weight:600; margin-bottom:8px;">Implied Share Price by Scenario (FY2028E Exit) vs. Current Price $1.58</p>
+  <svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg" style="width:100%; font-family:Inter,Arial,sans-serif;">
+    <!-- Axes -->
+    <line x1="80" y1="20" x2="80" y2="200" stroke="#ccc" stroke-width="1"/>
+    <line x1="80" y1="200" x2="680" y2="200" stroke="#ccc" stroke-width="1"/>
+    <!-- Y-axis labels (scale: $1 = 22.5px, max $8) -->
+    <text x="75" y="204" text-anchor="end" font-size="9" fill="#888">$0</text>
+    <text x="75" y="159" text-anchor="end" font-size="9" fill="#888">$2</text>
+    <text x="75" y="114" text-anchor="end" font-size="9" fill="#888">$4</text>
+    <text x="75" y="69" text-anchor="end" font-size="9" fill="#888">$6</text>
+    <text x="75" y="24" text-anchor="end" font-size="9" fill="#888">$8</text>
+    <!-- Gridlines -->
+    <line x1="80" y1="159" x2="680" y2="159" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="114" x2="680" y2="114" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="69" x2="680" y2="69" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="24" x2="680" y2="24" stroke="#eee" stroke-width="0.5"/>
+    <!-- Bear Severe: $0.31 → 7px -->
+    <rect x="110" y="193" width="80" height="7" fill="#2563eb"/>
+    <text x="150" y="189" text-anchor="middle" font-size="9" fill="#333">$0.31</text>
+    <text x="150" y="214" text-anchor="middle" font-size="8" fill="#555">Bear Severe</text>
+    <!-- Bear Mild: $1.28 → 29px -->
+    <rect x="220" y="171" width="80" height="29" fill="#2563eb"/>
+    <text x="260" y="167" text-anchor="middle" font-size="9" fill="#333">$1.28</text>
+    <text x="260" y="214" text-anchor="middle" font-size="8" fill="#555">Bear Mild</text>
+    <!-- Base: $2.26 → 51px -->
+    <rect x="330" y="149" width="80" height="51" fill="#2563eb"/>
+    <text x="370" y="145" text-anchor="middle" font-size="9" fill="#333">$2.26</text>
+    <text x="370" y="214" text-anchor="middle" font-size="8" fill="#555">Base Case</text>
+    <!-- Bull Mild: $4.20 → 95px -->
+    <rect x="440" y="105" width="80" height="95" fill="#2563eb"/>
+    <text x="480" y="101" text-anchor="middle" font-size="9" fill="#333">$4.20</text>
+    <text x="480" y="214" text-anchor="middle" font-size="8" fill="#555">Bull Mild</text>
+    <!-- Bull Severe: $7.76 → 175px -->
+    <rect x="550" y="25" width="80" height="175" fill="#2563eb"/>
+    <text x="590" y="21" text-anchor="middle" font-size="9" fill="#333">$7.76</text>
+    <text x="590" y="214" text-anchor="middle" font-size="8" fill="#555">Bull Severe</text>
+    <!-- Current price line: $1.58 → 36px from bottom → y = 200 - 36 = 164 -->
+    <line x1="80" y1="164" x2="680" y2="164" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="685" y="168" font-size="9" fill="#e74c3c">$1.58 (Current)</text>
+    <!-- Prob-wtd PV: $2.02 → 45px → y = 200 - 45 = 155 -->
+    <line x1="80" y1="155" x2="680" y2="155" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="3,2"/>
+    <text x="685" y="152" font-size="8" fill="#f39c12">$2.02 PV@30%</text>
+  </svg>
+  <p style="font-size:8px; color:#888; margin-top:4px;">Probability weights: 5% / 20% / 50% / 20% / 5% · Prob-wtd avg $2.63 discounted @30% CoC = $2.02 · Current: $1.58 · Implied upside: +28%</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 11: COMPS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">11. Comparable Companies</div>
+
+<div class="section-title">Selected Financials — Payments &amp; Fintech Peers</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>EV ($M)</th>
+      <th>Rev LTM</th>
+      <th>GM Actual</th>
+      <th class="est-col">GM NTM</th>
+      <th class="est-col">EBITDA Mgn NTM</th>
+      <th class="est-col">Net Mgn NTM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Blend Labs</td><td>BLND</td>
+      <td>$510</td><td>$124M</td><td>72.5%</td><td>77.6%</td><td>18.6%</td><td>20.5%</td>
+    </tr>
+    <tr>
+      <td>Pagaya Technologies</td><td>PGY</td>
+      <td>$2,860</td><td>$1,002M</td><td>--</td><td>--</td><td>--</td><td>--</td>
+    </tr>
+    <tr>
+      <td>Broadridge Financial</td><td>BR</td>
+      <td>$28,500</td><td>$6,510M</td><td>29.7%</td><td>31.2%</td><td>21.5%</td><td>13.2%</td>
+    </tr>
+    <tr>
+      <td>Lightspeed Commerce</td><td>LSPD</td>
+      <td>$5,500</td><td>$940M</td><td>45.3%</td><td>48.0%</td><td>15.8%</td><td>10.5%</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Median</td><td>--</td>
+      <td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Valuation Multiples — Fintech &amp; AI Comps</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th class="est-col">EV/Sales</th>
+      <th class="est-col">EV/EBITDA FY1</th>
+      <th class="est-col">EV/EBIT FY1</th>
+      <th class="est-col">P/E FY1</th>
+      <th class="est-col">P/E FY2</th>
+      <th>GM NTM</th>
+      <th>EBITDA NTM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Blend Labs</td><td>BLND</td>
+      <td>4.1x</td><td>20.1x</td><td>21.3x</td><td>21.4x</td><td>13.0x</td>
+      <td>77.6%</td><td>18.6%</td>
+    </tr>
+    <tr>
+      <td>Q2 Holdings</td><td>QTWO</td>
+      <td>7.2x</td><td>35.0x</td><td>42.0x</td><td>38.5x</td><td>28.0x</td>
+      <td>55.0%</td><td>20.5%</td>
+    </tr>
+    <tr>
+      <td>nCino</td><td>NCNO</td>
+      <td>6.8x</td><td>45.0x</td><td>55.0x</td><td>50.0x</td><td>35.0x</td>
+      <td>60.0%</td><td>15.0%</td>
+    </tr>
+    <tr>
+      <td>Fiserv</td><td>FISV</td>
+      <td>6.5x</td><td>16.0x</td><td>17.5x</td><td>18.0x</td><td>15.5x</td>
+      <td>--</td><td>40.0%</td>
+    </tr>
+    <tr>
+      <td>Affirm Holdings</td><td>AFRM</td>
+      <td>5.8x</td><td>25.0x</td><td>30.0x</td><td>NM</td><td>40.0x</td>
+      <td>--</td><td>23.0%</td>
+    </tr>
+    <tr>
+      <td>Jack Henry</td><td>JKHY</td>
+      <td>6.0x</td><td>18.0x</td><td>20.0x</td><td>25.0x</td><td>22.0x</td>
+      <td>43.0%</td><td>33.0%</td>
+    </tr>
+    <tr>
+      <td>Alfa Financial</td><td>ALFA</td>
+      <td>3.2x</td><td>10.0x</td><td>11.5x</td><td>15.0x</td><td>12.5x</td>
+      <td>--</td><td>32.0%</td>
+    </tr>
+    <tr>
+      <td>Constellation Software</td><td>CSU</td>
+      <td>5.5x</td><td>20.0x</td><td>22.0x</td><td>35.0x</td><td>30.0x</td>
+      <td>--</td><td>27.5%</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Average</td><td>--</td>
+      <td>5.9x</td><td>24.1x</td><td>28.3x</td><td>30.3x</td><td>26.1x</td>
+      <td>--</td><td>27.3%</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Median</td><td>--</td>
+      <td>6.0x</td><td>20.0x</td><td>21.9x</td><td>25.0x</td><td>25.0x</td>
+      <td>--</td><td>27.5%</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:10px;">Blend trades at 4.1x EV/Sales — a 32% discount to the fintech/AI peer median of 6.0x — and 21.4x FY1 P/E versus the peer median of 25.0x. The EV/Sales discount is partially justified by Blend's smaller scale ($124M revenue vs. multi-billion peers), mortgage cyclicality exposure, and the preferred stock overhang that elevates EV relative to equity market cap. However, Blend's NTM gross margin of 77.6% significantly exceeds the peer median (Q2 Holdings 55%, nCino 60%, Jack Henry 43%), suggesting the market is undervaluing the software-like margin profile. The P/E discount (21.4x vs. 25.0x median) is notable given Blend's faster expected earnings growth trajectory (FY1→FY2 P/E compression from 21.4x to 13.0x is the steepest in the peer set). On a FY2 P/E basis, Blend at 13.0x trades at a 48% discount to the peer median of 25.0x — an extreme valuation gap that implies either the market expects material earnings downgrades or is materially mispricing the stock. The closest pure-play comp is nCino (cloud banking platform), which trades at 6.8x EV/Sales and 45x EV/EBITDA — multiples that, if applied to Blend, would imply $3.50-4.00+ per share.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<div class="verdict">
+  <p><strong>(i) Market Cap Bucket: $406M</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">Microcap (&lt;$1B). Blend's $406M market cap is squarely in Theia's ideal microcap sweet spot — small enough to be ignored by institutional mandates (most growth funds have $500M+ market cap floors), yet large enough to have real institutional-grade financials, SEC reporting, and sell-side coverage. The 65% drawdown from the 52-week high has compressed BLND from a small-cap into a microcap, creating forced selling from index funds and mandated fund minimum-market-cap provisions. This is exactly the market cap range where informational inefficiency is highest and mispricing is most likely.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(ii) Analyst Coverage: 6 Broker Contributors</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">With only 6 sell-side analysts covering BLND, this is an under-covered stock — approaching Theia's ideal threshold of fewer than 5 analysts. The consensus target of $4.10 (+159% upside) represents an unusually wide gap between sell-side estimates and market price, suggesting the market has disconnected from fundamental coverage. The recent Keefe Bruyette downgrade (target reduced from $3.50 to $2.25) creates additional sell-side uncertainty. With so few analysts, incremental coverage initiation or positive estimate revisions would have outsized impact on the stock. The lack of deep-dive research on Autopilot's monetization potential — most models simply extrapolate existing evPFL trends — represents a specific analytical gap where Theia's research edge could be valuable.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iii) Thesis Alignment: Internet Finance / Digital Lending Infrastructure</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">Blend is directly aligned with Theia's internet finance thesis. The company is the critical digital infrastructure layer between consumers and financial institutions for the most important financial transaction in most Americans' lives — the mortgage. Blend's platform digitizes the entire lending lifecycle from application through closing, replacing paper-based, manual processes with software. The Consumer Banking Suite extends this to deposit account opening, personal loans, and auto lending — core internet finance use cases. The Autopilot AI product represents the next generation of this thesis: using agentic AI to automate the $11,000 cost of mortgage origination, with the potential to save borrowers ~0.75 points in mortgage rates. A top bank CEO told Ghamsari his two priorities were "stablecoins and Agentic AI" — Blend sits at the center of the latter. Rating: <strong>Core thesis</strong> — Blend is a pure-play digital financial services infrastructure company.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iv) Outcome Dispersion: $0.31 – $7.76</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">The 5-scenario model shows implied prices ranging from $0.31 (Bear Severe, -80%) to $7.76 (Bull Severe, +391%) from the current $1.58. This is an exceptionally wide outcome range — a 25x spread between bear and bull severe — driven by genuine uncertainty across multiple independent dimensions: (a) mortgage rate trajectory (exogenous, high impact), (b) Autopilot AI monetization (endogenous, high uncertainty), (c) Mr. Cooper churn timing and impact (quantifiable but binary), and (d) Consumer Banking growth sustainability (controllable, observable). The probability-weighted fair value of $2.02 (discounted at 30% CoC) represents 28% upside from current trading. Critically, the downside is cushioned by the $68M cash position (zero debt) and the company's demonstrated ability to generate positive non-GAAP operating income even in a trough mortgage environment — while the upside is amplified by multiple independent catalysts (rates, AI, refi wave, M&amp;A). This is exactly the kind of asymmetric risk/reward profile Theia targets.</p>
+</div>
+
+<div style="background: #d4edda; border-left: 4px solid #155724; padding: 12px 14px; margin: 16px 0; font-size: 11.5px;">
+  <strong>VERDICT: YES — High-Conviction Microcap with Asymmetric Risk/Reward</strong><br><br>
+  Blend Labs hits all four Theia criteria at the highest levels: microcap ($406M, Strong), under-covered (6 analysts, Strong), directly aligned with the internet finance thesis (Core — digital lending infrastructure), and exhibits extremely wide outcome dispersion ($0.31 to $7.76 = 25x spread). The probability-weighted fair value of $2.02 vs. current $1.58 implies 28% upside, but the real opportunity is the asymmetric setup created by (a) a clean, debt-free balance sheet with $68M cash, (b) proven non-GAAP profitability and positive FCF in a trough mortgage environment, (c) Consumer Banking diversifying away from mortgage cyclicality (37% of revenue, growing 34%), (d) Autopilot AI creating a potential step-function evPFL improvement with 7 large customers already activated, and (e) a $50M buyback authorization (12% of market cap) at deeply depressed prices. Key risks are mortgage rate sensitivity, Mr. Cooper churn ($10-15M revenue at risk by June 2028), customer concentration (top 5 = 39%), and the preferred stock overhang. Key catalyst: May 7 Q1 2026 earnings — first full quarter with Autopilot adoption data, Q2 volume guidance, and buyback execution pace.
+</div>
+
+<p class="prose" style="font-size:10px; font-style:italic; margin-top:6px;">Note: Theia seeks small cap companies that aren't well covered and are strongly aligned on the core internet finance thesis with wide outcome dispersion. BLND scores: Market Cap (Strong) | Coverage (Strong) | Thesis (Core) | Dispersion (Strong)</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 13: RISK SUMMARY -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">13. Risk Summary</div>
+
+<table class="risk-table">
+  <tr>
+    <th>Risk Category</th>
+    <th>Description</th>
+    <th>Severity</th>
+    <th>Mitigant</th>
+  </tr>
+  <tr>
+    <td>Mortgage Rate / Volume Sensitivity</td>
+    <td>Success-based per-funded-loan model creates direct revenue exposure to mortgage origination volumes. Rates above 7% keep volumes at trough levels. Revenue can decline in rate-up scenarios regardless of execution.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>Consumer Banking now 37% of revenue and growing 34%, diversifying away from mortgage. Non-GAAP profitability achieved at trough volumes proves operating model works. Rapid Refi positioned to capture any rate relief.</td>
+  </tr>
+  <tr>
+    <td>Mr. Cooper / Rocket Churn</td>
+    <td>Rocket's acquisition of Mr. Cooper creates binary churn risk. Mr. Cooper contract runs through June 2028 but Rocket has its own tech stack. Estimated $10-15M annual revenue at risk (~12-20% of Mortgage Suite).</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>Contract provides runway through June 2028. Management actively backfilling with new logo wins and evPFL expansion. Pipeline up ~40% YoY. Zero net churn in FY2025 from non-Mr. Cooper customers demonstrates platform stickiness.</td>
+  </tr>
+  <tr>
+    <td>Customer Concentration</td>
+    <td>Top 5 customers = 39% of revenue; 25 customers >$1M = 75%. Loss of any top-5 customer would be materially impactful. Large banks have leverage in pricing negotiations.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>Extreme switching costs (deep integrations, compliance workflows, retraining). Zero voluntary churn from large customers in FY2025. Multi-product expansion deepens each relationship. Consumer Banking adds smaller, more diversified customers.</td>
+  </tr>
+  <tr>
+    <td>Preferred Stock Overhang</td>
+    <td>$161M preferred stock in the EV bridge reduces common equity value. In downside scenarios, preferred liquidation preference compresses common shareholder residual. Creates structural headwind to equity appreciation.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Preferred is part of Haveli's strategic investment; Haveli is aligned with common shareholders via board representation and operational involvement. In upside scenarios, preferred becomes dilution (not loss) as it converts to common.</td>
+  </tr>
+  <tr>
+    <td>AI Execution / Commoditization</td>
+    <td>Autopilot must demonstrate meaningful evPFL uplift and customer adoption to justify the AI narrative. Better.com/OpenAI partnership shows competitors are also building AI mortgage tools. Generic AI could commoditize document review.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Blend's AI advantage is not the model but the data (17% of HMDA volume processed) and the integration layer (embedded in lender workflows). Regulatory requirements for accuracy in mortgage compliance create natural barrier against "hallucinating" generic AI tools.</td>
+  </tr>
+  <tr>
+    <td>Material Weakness in Controls</td>
+    <td>Q4 2025 disclosure of material weakness in internal controls over financial reporting. Enterprise customers and regulators scrutinize financial controls; unresolved weakness could slow new customer acquisition.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>New CFO (Jason Ream) and CEO (Ozgur Dogan) are operationally focused. Haveli's involvement brings PE-grade financial discipline. Material weakness disclosures are common in growth-stage companies and typically remediated within 1-2 quarters.</td>
+  </tr>
+  <tr>
+    <td>Executive Turnover</td>
+    <td>Multiple C-suite departures (CEO transition, Amir Jafari departure, prior leadership changes). Revolving door of executives raises continuity and execution concerns.</td>
+    <td><span class="fw-rating low">Low</span></td>
+    <td>New leadership team (Dogan, Thomson, Ream) is explicitly hired for operational execution. Ghamsari remains as Chairman, preserving strategic relationships. Matt Thomson's Alkami track record ($440M ARR scaling) directly relevant to Blend's stage.</td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 14: APPENDIX — PYTHON CODE -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section appendix">14. Appendix — Python Code</div>
+
+<p class="prose">Sensitivity table generator and scenario model code for analyst customization:</p>
+
+<div class="section-title">Sensitivity Table Generator</div>
+<div class="code-block">
+import numpy as np
+import pandas as pd
+
+# ─── SENSITIVITY TABLE 1: FY2028E Mortgage Suite Revenue ───
+hmda_volumes = [4.0, 4.5, 5.5, 6.5, 8.0]   # M HMDA units
+evpfl_values = [70, 85, 100, 130, 170]       # $ per funded loan
+blnd_share = 0.17                             # BLND HMDA market share
+
+rows = []
+for vol in hmda_volumes:
+    row = []
+    for evpfl in evpfl_values:
+        rev = vol * blnd_share * evpfl  # $M
+        row.append(round(rev, 0))
+    rows.append(row)
+
+df1 = pd.DataFrame(rows,
+    index=[f"{v}M" for v in hmda_volumes],
+    columns=[f"${e}" for e in evpfl_values])
+print("FY2028E Mortgage Suite Revenue ($M)")
+print(f"Assumes {blnd_share*100:.0f}% BLND market share")
+print(df1.to_string())
+print(f"\nBase: 5.5M × 17% × $100 = ${5.5*0.17*100:.0f}M")
+
+# ─── SENSITIVITY TABLE 2: FY2028E Total Revenue ───
+mortgage_revs = [60, 75, 85, 100, 130]       # $M Mortgage Suite
+cb_revs = [50, 65, 81, 100, 120]             # $M Consumer Banking
+prof_svc = 12                                 # $M Professional Services
+
+rows2 = []
+for mtg in mortgage_revs:
+    row = []
+    for cb in cb_revs:
+        total = mtg + cb + prof_svc
+        row.append(round(total, 0))
+    rows2.append(row)
+
+df2 = pd.DataFrame(rows2,
+    index=[f"${m}M" for m in mortgage_revs],
+    columns=[f"${c}M" for c in cb_revs])
+print(f"\nFY2028E Total Revenue ($M) — includes ${prof_svc}M Prof Svc")
+print(df2.to_string())
+print(f"Base: $85M Mtg + $81M CB + ${prof_svc}M PS = ${85+81+prof_svc}M")
+
+# ─── SENSITIVITY TABLE 3: Implied Share Price ───
+revenues = [110, 140, 179, 225, 290]          # $M FY2028E revenue
+ev_rev_multiples = [1.5, 2.5, 3.5, 5.0, 7.0] # x EV/Revenue
+preferred = 150                                # $M preferred stock
+cash_end = 120                                 # $M estimated end cash
+dil_shares = 265                               # M diluted shares
+
+rows3 = []
+for rev in revenues:
+    row = []
+    for mult in ev_rev_multiples:
+        ev = rev * mult
+        equity = ev - preferred + cash_end
+        price = max(equity / dil_shares, 0)
+        row.append(round(price, 2))
+    rows3.append(row)
+
+df3 = pd.DataFrame(rows3,
+    index=[f"${r}M" for r in revenues],
+    columns=[f"{m}x" for m in ev_rev_multiples])
+print("\nImplied Share Price ($)")
+print(df3.to_string())
+print(f"Base: $179M × 3.5x = EV $626M − ${preferred}M Pref + ${cash_end}M Cash")
+print(f"     = ${179*3.5 - preferred + cash_end:.0f}M Equity / {dil_shares}M shares")
+print(f"     = ${(179*3.5 - preferred + cash_end)/dil_shares:.2f}/share")
+</div>
+
+<div class="section-title" style="margin-top:16px;">5-Scenario Model Generator</div>
+<div class="code-block">
+# ─── BLND 5-SCENARIO 3-YEAR MODEL ───
+scenarios = {
+    "Bear Severe": {
+        "rev":   [130, 118, 108],
+        "gm":    [0.75, 0.73, 0.72],
+        "ebitda_mgn": [0.077, 0.025, -0.019],
+        "fcf":   [5, 0, -3],
+        "end_cash": [73, 73, 70],
+        "exit_ev_rev": 1.5,
+    },
+    "Bear Mild": {
+        "rev":   [134, 142, 152],
+        "gm":    [0.75, 0.77, 0.78],
+        "ebitda_mgn": [0.119, 0.148, 0.171],
+        "fcf":   [8, 14, 18],
+        "end_cash": [76, 90, 108],
+        "exit_ev_rev": 2.5,
+    },
+    "Base Case": {
+        "rev":   [137, 156, 179],
+        "gm":    [0.78, 0.80, 0.81],
+        "ebitda_mgn": [0.186, 0.200, 0.212],
+        "fcf":   [15, 23, 33],
+        "end_cash": [80, 100, 122],
+        "exit_ev_rev": 3.5,
+    },
+    "Bull Mild": {
+        "rev":   [140, 175, 225],
+        "gm":    [0.79, 0.81, 0.82],
+        "ebitda_mgn": [0.200, 0.229, 0.249],
+        "fcf":   [18, 30, 48],
+        "end_cash": [83, 108, 139],
+        "exit_ev_rev": 5.0,
+    },
+    "Bull Severe": {
+        "rev":   [145, 200, 290],
+        "gm":    [0.79, 0.83, 0.85],
+        "ebitda_mgn": [0.207, 0.260, 0.300],
+        "fcf":   [20, 40, 75],
+        "end_cash": [85, 120, 178],
+        "exit_ev_rev": 7.0,
+    },
+}
+
+current_price = 1.58
+diluted_shares = 265    # M
+preferred = 150         # $M
+years = ["FY2026E", "FY2027E", "FY2028E"]
+
+for name, s in scenarios.items():
+    print(f"\n{'='*60}")
+    print(f"Scenario: {name}")
+    print(f"{'─'*60}")
+    rev_exit = s["rev"][-1]
+    mult = s["exit_ev_rev"]
+    cash = s["end_cash"][-1]
+    ev = rev_exit * mult
+    equity = ev - preferred + cash
+    implied_price = max(equity / diluted_shares, 0)
+    upside = (implied_price / current_price - 1) * 100
+    print(f"Exit: {mult}x EV/Rev on FY2028E Rev ${rev_exit}M")
+    print(f"EV ${ev:.0f}M − Pref ${preferred}M + Cash ${cash}M = Equity ${equity:.0f}M")
+    print(f"Implied Price: ${implied_price:.2f}  |  {'Upside' if upside > 0 else 'Downside'}: {upside:+.1f}%")
+
+    for i, yr in enumerate(years):
+        rev = s["rev"][i]
+        fcf = s["fcf"][i]
+        gm = s["gm"][i]
+        print(f"  {yr}: Rev ${rev}M | GM {gm*100:.0f}% | FCF ${fcf}M")
+
+# ─── PROBABILITY-WEIGHTED FAIR VALUE ───
+weights = {"Bear Severe": 0.05, "Bear Mild": 0.20, "Base Case": 0.50,
+           "Bull Mild": 0.20, "Bull Severe": 0.05}
+
+prices = {}
+for name, s in scenarios.items():
+    rev = s["rev"][-1]
+    ev = rev * s["exit_ev_rev"]
+    cash = s["end_cash"][-1]
+    equity = ev - preferred + cash
+    prices[name] = max(equity / diluted_shares, 0)
+
+coc = 0.30
+wtd_avg = sum(weights[k] * prices[k] for k in weights)
+pv = wtd_avg / (1 + coc)
+print(f"\nProbability-Weighted Avg (FY2028E): ${wtd_avg:.2f}")
+print(f"Discounted at {coc*100:.0f}% CoC:           ${pv:.2f}")
+print(f"Current Price:                         ${current_price:.2f}")
+print(f"Implied Upside to PV:                 {(pv/current_price-1)*100:+.1f}%")
+</div>
+
+<div class="source-note" style="margin-top:16px;">
+  Blend Labs, Inc. | Preliminary Memo for Theia · Generated April 22, 2026 · Data: FactSet (Apr 22, 2026), AlphaSense Deep Research (2), Q1-Q4 2025 Earnings Transcripts, Wells Fargo TMT Summit Transcript · FYE December · Not investment advice.
+</div>
+
+</body>
+</html>
