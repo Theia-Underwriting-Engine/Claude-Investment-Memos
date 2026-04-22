@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MSCI Inc. | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 8px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child, table.comps td:nth-child(2) { text-align: left; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-style: italic; background: #fafbfc; font-weight: 600; border-top: 1px solid #eee; }
+table.comps th.est-col { color: #2563eb; }
+
+table.risk-table { font-size: 10px; width: 100%; margin: 8px 0; }
+table.risk-table th { text-align: left; font-weight: 600; padding: 4px 6px; background: #f4f6f9; border-bottom: 1px solid #ddd; }
+table.risk-table td { padding: 4px 6px; border-bottom: 1px solid #eee; vertical-align: top; }
+table.risk-table td:first-child { font-weight: 600; width: 25%; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.alphasense-box { background: #e8f4fd; border-left: 4px solid #2563eb; padding: 10px 14px; margin: 10px 0; font-size: 10px; line-height: 1.5; }
+
+.bull-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #155724; border-bottom: 1.5px solid #c3e6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #721c24; border-bottom: 1.5px solid #f5c6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+
+.bull-item, .bear-item { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">MSCI Inc. | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">MSCI Inc. (NYSE: MSCI) is a leading global provider of mission-critical decision support tools, research, data, and technology for the institutional investment community. The company's integrated solutions empower clients to define their investment universe, construct and analyze portfolios, measure performance, and manage risk across diverse asset classes including equities, fixed income, private assets, and real estate. MSCI operates a highly durable, asset-light business model characterized by predictable recurring revenues — approximately 97% of total revenues are recurring, split between annual subscriptions and asset-based fees (ABF) derived from exchange-traded funds and other investment products benchmarked to MSCI indices. The firm serves a vast, diversified global ecosystem of approximately 6,800 clients spanning asset managers, asset owners, wealth managers, banks, brokerages, hedge funds, and insurance companies across more than 95 countries.</p>
+
+<p class="prose">MSCI's business is structured into three primary reportable segments. The <strong>Index</strong> segment (57% of revenue) is the foundational franchise, providing equity and fixed income indexes that serve as the global common language for institutional investing — including market cap, factor, thematic, and custom indexes used for benchmarking, asset allocation, and the creation of indexed financial products like ETFs. With more than $21 trillion in AUM benchmarked to MSCI indices — including $7.4 trillion of indexed equity AUM and $2.4 trillion in equity ETFs — MSCI has built one of the most powerful network-effects businesses in financial services. The <strong>Analytics</strong> segment (23% of revenue) delivers risk management, performance attribution, and portfolio management applications through products like RiskMetrics RiskManager and BarraOne, serving hedge funds, banks, and traditional asset managers. <strong>Sustainability &amp; Climate</strong> (11% of revenue) provides ESG ratings, climate risk tools, and physical risk assessments across 9,000+ entities. The remaining <strong>All Other — Private Assets</strong> segment (9% of revenue) combines Real Assets and Private Capital Solutions, offering business intelligence, benchmarking, and transparency tools for private markets — an area MSCI is aggressively expanding through strategic acquisitions including PM Insights, Vantager, and Compass Financial Technologies.</p>
+
+<p class="prose">MSCI has recently completed three strategic bolt-on acquisitions in early 2026: <strong>Vantager</strong> (an AI-enabled GP due diligence platform), <strong>Compass Financial Technologies</strong> (a Swiss-based index calculation provider expanding into commodities, digital assets, and equity derivatives), and <strong>PM Insights</strong> (daily secondary market pricing and reference data for $5.5 trillion in private company market cap). The company is in an AI-first transformation, embedding agentic AI across data capture, product development, and client-facing tools like IndexAI Insights and AI Portfolio Insights. MSCI recently made AI a condition of employment, with the vast majority of its 6,000+ professionals using AI models daily.</p>
+
+<p class="prose"><strong>Key facts:</strong> Founded 1998 (spun from Morgan Stanley) · IPO Nov 2007 · Headquarters New York, NY · Chairman, President &amp; CEO Henry A. Fernandez · CFO Andrew C. Wiechmann · COO Jorge Mina · Employees ~6,800 · FY end December · Market Cap $43,681M · CUSIP 55354G100 · ISIN US55354G1004</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 2: FINANCIAL SUMMARY (FACTSET) -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Theia FactSet Summary</div>
+
+<div class="header">
+  <div>
+    <h1>MSCI Inc. Class A</h1>
+    <span class="ticker">MSCI · NYSE · CUSIP 55354G100</span>
+  </div>
+  <div class="date">FactSet Snapshot · April 22, 2026</div>
+</div>
+
+<!-- Price Bar -->
+<div class="price-bar">
+  <div>
+    <span class="label">Price (Apr 21, 2026) </span>
+    <span class="price">$597.39</span>
+  </div>
+  <div><span class="label">1M </span><span class="chg pos">+12.3%</span></div>
+  <div><span class="label">3M </span><span class="chg pos">+5.0%</span></div>
+  <div><span class="label">6M </span><span class="chg pos">+15.5%</span></div>
+  <div><span class="label">YTD </span><span class="chg pos">+8.2%</span></div>
+  <div><span class="label">1Y </span><span class="chg pos">+15.3%</span></div>
+  <div><span class="label">52-Wk Range </span><span style="font-weight:600;">$501.08 – $626.28</span></div>
+</div>
+
+<!-- Key Stats + EV Bridge -->
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv" style="font-size:10px;">
+      <tr><td>Exchange / Ticker</td><td>NYSE · MSCI</td></tr>
+      <tr><td>Price (Apr 21, 2026)</td><td>$597.39</td></tr>
+      <tr><td>Volume</td><td>1.42M</td></tr>
+      <tr><td>30-Day Avg Volume</td><td>543,596</td></tr>
+      <tr><td>Float %</td><td>96.4%</td></tr>
+      <tr><td>Short Interest</td><td>2.4 days / 1.7% of float</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev" style="font-size:10px;">
+      <tr><td>Price (Apr 21 '26)</td><td>$597.39</td></tr>
+      <tr><td>&nbsp;&nbsp;Common Stock</td><td>73.12M</td></tr>
+      <tr><td>Market Cap</td><td>$43,681</td></tr>
+      <tr><td>&nbsp;&nbsp;Stock Compensation</td><td>0.41M</td></tr>
+      <tr><td>Fully Dil Mkt Cap</td><td>$43,926</td></tr>
+      <tr><td>+ Consolidated Debt</td><td>$6,404</td></tr>
+      <tr><td>- Cash &amp; Equivalents</td><td>($385)</td></tr>
+      <tr><td>+ Pension Liabilities</td><td>$62</td></tr>
+      <tr class="total"><td>Enterprise Value</td><td>$50,007</td></tr>
+    </table>
+    <div class="source-note">Millions of USD, Source: FactSet</div>
+  </div>
+</div>
+
+<!-- Current Valuation Grid -->
+<div class="section-title">Current Valuation</div>
+<div class="val-grid">
+  <div class="val-cell"><div class="val-label">Market Cap</div><div class="val-num">$43,681M</div></div>
+  <div class="val-cell"><div class="val-label">EV</div><div class="val-num">$50,007M</div></div>
+  <div class="val-cell"><div class="val-label">P/E (LTM)</div><div class="val-num">34.1x</div></div>
+  <div class="val-cell"><div class="val-label">EV/EBITDA</div><div class="val-num">24.9x</div></div>
+  <div class="val-cell"><div class="val-label">EV/Sales</div><div class="val-num">15.4x</div></div>
+  <div class="val-cell"><div class="val-label">P/S (LTM)</div><div class="val-num">13.5x</div></div>
+</div>
+<div class="val-grid">
+  <div class="val-cell"><div class="val-label">Fully Dil Mkt Cap</div><div class="val-num">$43,926M</div></div>
+  <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">7.7%</div></div>
+  <div class="val-cell"><div class="val-label">Beta (3Y Adj)</div><div class="val-num">0.89</div></div>
+  <div class="val-cell"><div class="val-label">Avg Rating</div><div class="val-num">OW</div><div class="val-sub">1.33 (20 brokers)</div></div>
+  <div class="val-cell"><div class="val-label">Target Price</div><div class="val-num">$688</div></div>
+  <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">Jul 21, 2026</div></div>
+</div>
+
+<!-- Valuation Multiples -->
+<div class="section-title">Valuation Multiples</div>
+<table class="data">
+  <tr><th></th><th>5Yr Avg</th><th>Dec '23</th><th>Dec '24</th><th>Dec '25</th><th class="est">Dec '26E</th><th class="est">Dec '27E</th><th class="est">Dec '28E</th></tr>
+  <tr><td>P/E</td><td>46.5x</td><td>39.3x</td><td>42.7x</td><td>36.6x</td><td class="est">31.7x</td><td class="est">27.7x</td><td class="est">24.5x</td></tr>
+  <tr><td>P/Sales</td><td>18.1x</td><td>17.9x</td><td>16.6x</td><td>14.0x</td><td class="est">13.1x</td><td class="est">12.0x</td><td class="est">11.1x</td></tr>
+  <tr><td>P/Book Value</td><td>NM</td><td>NM</td><td>NM</td><td>NM</td><td class="est">—</td><td class="est">—</td><td class="est">—</td></tr>
+  <tr><td>P/FCF</td><td>37.7x</td><td>37.2x</td><td>32.4x</td><td>28.8x</td><td class="est">31.2x</td><td class="est">27.6x</td><td class="est">25.5x</td></tr>
+  <tr><td>EV/Sales</td><td>19.4x</td><td>19.4x</td><td>17.9x</td><td>15.4x</td><td class="est">14.4x</td><td class="est">13.2x</td><td class="est">12.2x</td></tr>
+  <tr><td>EV/EBITDA</td><td>32.1x</td><td>31.8x</td><td>29.3x</td><td>24.9x</td><td class="est">23.2x</td><td class="est">21.1x</td><td class="est">19.4x</td></tr>
+  <tr><td>EV/EBIT</td><td>36.1x</td><td>35.4x</td><td>33.3x</td><td>28.1x</td><td class="est">25.5x</td><td class="est">23.0x</td><td class="est">21.0x</td></tr>
+</table>
+<div class="source-note">Source: FactSet Fundamentals &amp; Estimates. Estimates in blue.</div>
+
+<!-- Financials -->
+<div class="section-title">Financials</div>
+<table class="data">
+  <tr><th></th><th>5Yr CAGR</th><th>Dec '23</th><th>Dec '24</th><th>Dec '25</th><th class="est">Dec '26E</th><th class="est">Dec '27E</th><th class="est">Dec '28E</th></tr>
+  <tr class="section-row"><td>INCOME STATEMENT</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>Revenue</td><td>13.1%</td><td>$2,529</td><td>$2,856</td><td>$3,134</td><td class="est">$3,477</td><td class="est">$3,776</td><td class="est">$4,086</td></tr>
+  <tr><td>Gross Income</td><td>12.7%</td><td>1,947</td><td>2,161</td><td>2,391</td><td class="est">2,644</td><td class="est">2,902</td><td class="est">3,036</td></tr>
+  <tr><td>EBITDA</td><td>14.2%</td><td>1,546</td><td>1,742</td><td>1,932</td><td class="est">2,158</td><td class="est">2,366</td><td class="est">2,581</td></tr>
+  <tr><td>EBIT</td><td>14.1%</td><td>1,387</td><td>1,535</td><td>1,714</td><td class="est">1,963</td><td class="est">2,170</td><td class="est">2,382</td></tr>
+  <tr><td>Net Income</td><td>14.8%</td><td>1,149</td><td>1,109</td><td>1,202</td><td class="est">1,424</td><td class="est">1,568</td><td class="est">1,754</td></tr>
+  <tr><td>EPS (Diluted)</td><td>17.1%</td><td>$14.39</td><td>$14.05</td><td>$15.69</td><td class="est">$19.72</td><td class="est">$21.68</td><td class="est">$24.32</td></tr>
+  <tr class="section-row"><td>MARGINS</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>Gross Margin</td><td></td><td>77.0%</td><td>75.7%</td><td>76.3%</td><td class="est">76.0%</td><td class="est">76.8%</td><td class="est">74.3%</td></tr>
+  <tr><td>EBITDA Margin</td><td></td><td>61.1%</td><td>61.0%</td><td>61.6%</td><td class="est">62.1%</td><td class="est">62.7%</td><td class="est">63.2%</td></tr>
+  <tr><td>Net Margin</td><td></td><td>45.4%</td><td>38.8%</td><td>38.4%</td><td class="est">41.0%</td><td class="est">41.5%</td><td class="est">42.9%</td></tr>
+  <tr><td>FCF Margin</td><td></td><td>48.0%</td><td>51.3%</td><td>48.8%</td><td class="est">45.2%</td><td class="est">46.8%</td><td class="est">45.7%</td></tr>
+  <tr class="section-row"><td>CASH FLOW</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>Net Operating CF</td><td>14.1%</td><td>1,236</td><td>1,498</td><td>1,568</td><td class="est">1,796</td><td class="est">2,046</td><td class="est">2,285</td></tr>
+  <tr><td>CapEx</td><td>20.6%</td><td>(91)</td><td>(115)</td><td>(130)</td><td class="est">(166)</td><td class="est">(166)</td><td class="est">(174)</td></tr>
+  <tr><td>Free Cash Flow</td><td>14.1%</td><td>$1,213</td><td>$1,464</td><td>$1,529</td><td class="est">$1,571</td><td class="est">$1,768</td><td class="est">$1,868</td></tr>
+  <tr class="section-row"><td>RETURNS &amp; LEVERAGE</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>ROA</td><td></td><td>—</td><td>—</td><td>—</td><td class="est">24.6%</td><td class="est">25.8%</td><td class="est">—</td></tr>
+  <tr><td>Debt/Equity</td><td></td><td>NM</td><td>NM</td><td>NM</td><td class="est">NM</td><td class="est">NM</td><td class="est">—</td></tr>
+  <tr><td>Interest Coverage</td><td></td><td>7.4x</td><td>8.3x</td><td>8.2x</td><td class="est">7.1x</td><td class="est">7.9x</td><td class="est">8.7x</td></tr>
+  <tr><td>Dividend Yield</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>DPS</td><td></td><td>$5.52</td><td>$6.40</td><td>$7.20</td><td class="est">$8.26</td><td class="est">$9.19</td><td class="est">$10.52</td></tr>
+</table>
+<div class="source-note">Millions of USD. Source: FactSet. Book value is negative due to aggressive buybacks.</div>
+
+<!-- Revenue Exposure -->
+<div class="section-title">Revenue Exposure</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Business Unit (FY2025)</div>
+    <table class="rev">
+      <tr><th>Segment</th><th>% Rev</th><th>Rev ($M)</th><th>YoY</th></tr>
+      <tr><td>Index</td><td>57.0%</td><td>1,787</td><td>+11.9%</td></tr>
+      <tr><td>Analytics</td><td>22.8%</td><td>714</td><td>+5.8%</td></tr>
+      <tr><td>Sustainability &amp; Climate</td><td>11.3%</td><td>354</td><td>+8.4%</td></tr>
+      <tr><td>All Other — Private Assets</td><td>8.9%</td><td>279</td><td>+8.1%</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="sub-label">By Geography (FY2025)</div>
+    <table class="rev">
+      <tr><th>Region</th><th>% Rev</th><th>Rev ($M)</th><th>YoY</th></tr>
+      <tr><td>United States</td><td>40.4%</td><td>1,267</td><td>+8.4%</td></tr>
+      <tr><td>Europe, Middle East &amp; Africa</td><td>22.3%</td><td>698</td><td>+10.5%</td></tr>
+      <tr><td>United Kingdom</td><td>17.3%</td><td>543</td><td>+13.3%</td></tr>
+      <tr><td>Asia &amp; Australia</td><td>11.4%</td><td>357</td><td>+7.4%</td></tr>
+      <tr><td>Other Americas</td><td>4.5%</td><td>141</td><td>+9.1%</td></tr>
+      <tr><td>Japan</td><td>4.1%</td><td>128</td><td>+11.8%</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 3: BULL & BEAR CASES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Case</div>
+    <div class="bull-item"><strong>1. Secular shift to passive &amp; index investing accelerates.</strong> With only ~$7.4T of $21T AUM actually indexed, massive runway remains. The rapid rise of active ETFs (70-80% use index components), custom indexing, and direct indexing all drive incremental licensing fees to MSCI with minimal marginal cost.</div>
+    <div class="bull-item"><strong>2. Asset-based fees compound with market appreciation.</strong> ABF run rate of $872M is growing 25% YoY, driven by record $103B quarterly inflows into MSCI-linked ETFs. International equity rotation away from US assets directly benefits MSCI's dominant ex-US franchise (35% share of ex-US equity ETF AUM).</div>
+    <div class="bull-item"><strong>3. Private markets become the next growth engine.</strong> Management projects 1/6th of global investable dollars will be in private markets by 2030. Acquisitions of PM Insights, Vantager, and Burgiss position MSCI to bring public-market transparency standards to an opaque $15T+ market.</div>
+    <div class="bull-item"><strong>4. AI amplifies operating leverage.</strong> AI is already saving "tens of millions" annually, with management reinvesting savings into new products at an accelerating pace. AI-driven custom index creation and IndexAI Insights unlock new revenue streams while lowering unit costs.</div>
+    <div class="bull-item"><strong>5. Hedge fund &amp; trading ecosystem is early innings.</strong> Subscription run rate growth with hedge funds of 17% in Q1 2026, with 27% growth in Index specifically. This client segment is underpenetrated and increasingly adopting MSCI as an enterprise-wide platform for custom baskets, OTC derivatives, and systematic strategies.</div>
+  </div>
+  <div>
+    <div class="bear-header">Bear Case</div>
+    <div class="bear-item"><strong>1. Valuation premium compresses in risk-off environment.</strong> At 31.7x forward P/E and 23.2x EV/EBITDA, MSCI is priced for consistent double-digit growth. Any deceleration in subscription run rate or ETF flows could trigger multiple compression toward financial data peers at 17-20x EBITDA.</div>
+    <div class="bear-item"><strong>2. BlackRock concentration risk.</strong> BlackRock accounts for 11.7% of consolidated revenue and ~20% of Index segment revenue. The extended partnership through 2035 required fee floor concessions on superscale ETFs, demonstrating BlackRock's leverage. Loss or renegotiation would be materially negative.</div>
+    <div class="bear-item"><strong>3. ESG/Sustainability headwinds persist.</strong> Anti-ESG political sentiment in the US has created a chilling effect on new sustainability fund creation. Americas subscription sales have been declining, and new European regulations (ESMA supervision from July 2026) add compliance cost without guaranteed revenue uplift.</div>
+    <div class="bear-item"><strong>4. Chronic underinvestment risk.</strong> Intense margin optimization (59% adjusted EBITDA margin) has drawn criticism from experts and former employees who argue R&D has been starved. If tech-forward competitors invest more aggressively in AI-native platforms, MSCI's legacy architecture could become a liability.</div>
+    <div class="bear-item"><strong>5. AI commoditization threat.</strong> If AI makes index creation trivially cheap, low-cost calculation agents like Solactive could erode MSCI's pricing power. While experts believe MSCI's proprietary data moat defends against this, the perception of replicability could cap multiple expansion.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item"><span class="fw-name">1. Scale Economies</span><span class="fw-rating strong">Strong</span><br><span class="prose">MSCI's index and analytics businesses are essentially software-as-a-service with near-zero marginal cost per additional client. The company has built decades of historical data, proprietary risk algorithms, and index methodologies that cost hundreds of millions to create but nothing incremental to license. With 62% EBITDA margins and improving, scale economies are powerful and compounding.</span></div>
+
+<div class="fw-item"><span class="fw-name">2. Network Effects</span><span class="fw-rating strong">Strong</span><br><span class="prose">MSCI indices exhibit powerful two-sided network effects: asset owners mandate MSCI benchmarks as policy benchmarks, which compels asset managers to subscribe, which drives ETF creation, which attracts more flows, which creates more derivatives and futures demand. The $21 trillion AUM ecosystem is self-reinforcing — the more products linked to MSCI, the more entrenched the standard becomes. This is MSCI's single most important competitive advantage.</span></div>
+
+<div class="fw-item"><span class="fw-name">3. Counter-Positioning</span><span class="fw-rating moderate">Moderate</span><br><span class="prose">MSCI's aggressive expansion into private markets and AI-native products represents partial counter-positioning against incumbents like Preqin and PitchBook, who lack MSCI's integrated public+private framework. However, MSCI's own move into these areas is more about capability extension than a fundamentally new business model that incumbents can't copy.</span></div>
+
+<div class="fw-item"><span class="fw-name">4. Switching Costs</span><span class="fw-rating strong">Strong</span><br><span class="prose">Extremely high. Switching index providers requires asset managers to alter product marketing, overhaul internal risk systems, convince asset owners to accept new benchmarks, and retrain staff. The "One MSCI" ecosystem — where Index, Analytics, and Sustainability data are deeply integrated into client workflows — creates compounding procedural switching costs. Retention rate of 95.4% across all product lines is direct evidence of this power.</span></div>
+
+<div class="fw-item"><span class="fw-name">5. Branding</span><span class="fw-rating strong">Strong</span><br><span class="prose">The MSCI brand is synonymous with global equity benchmarking in the same way Bloomberg is synonymous with terminals. "MSCI World," "MSCI Emerging Markets," and "MSCI ACWI" are industry-standard vocabulary. This brand premium enables 4%+ annual price increases with minimal client pushback and supports premium pricing on custom index solutions.</span></div>
+
+<div class="fw-item"><span class="fw-name">6. Cornered Resource</span><span class="fw-rating strong">Strong</span><br><span class="prose">MSCI has accumulated decades of proprietary historical market data, private asset performance metrics, ESG ratings on 9,000+ entities, and risk algorithms that are nearly impossible for a new entrant to replicate. The company's index methodologies are trusted by institutional chief investment officers globally — a form of institutional IP that took 25+ years to build and cannot be purchased at any price.</span></div>
+
+<div class="fw-item"><span class="fw-name">7. Process Power</span><span class="fw-rating moderate">Moderate</span><br><span class="prose">MSCI's organizational culture of financial discipline, aggressive sales execution, and product innovation has delivered 13% revenue CAGR and 17% EPS CAGR since IPO — a remarkable record. However, the highly centralized management style under Henry Fernandez and past underinvestment concerns suggest this process power has limitations and is partially founder-dependent.</span></div>
+
+<div class="verdict"><strong>Summary:</strong> MSCI possesses one of the deepest competitive moat structures in financial services. The strongest powers are Network Effects, Switching Costs, Cornered Resource, and Branding — creating a near-impenetrable oligopoly position in global index provision alongside S&amp;P Dow Jones and FTSE Russell. The moat is widening, not narrowing.</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item"><span class="fw-name">1. Threat of New Entrants</span><span class="fw-rating low">Low</span><br><span class="prose">Barriers are extremely high. Building a credible global index franchise requires decades of historical data, regulatory track record, institutional trust, and a critical mass of linked products. Low-cost index calculators like Solactive have gained some share in niche areas but have failed to penetrate the institutional benchmark market where MSCI, S&amp;P, and FTSE Russell operate as a triopoly. Complex regulatory frameworks (EU Benchmark Regulation) add further barriers.</span></div>
+
+<div class="fw-item"><span class="fw-name">2. Bargaining Power of Suppliers</span><span class="fw-rating low">Low</span><br><span class="prose">MSCI's primary inputs are data (market data, corporate filings, ESG research) and technology infrastructure. The company has significant internal data collection capabilities and has reduced supplier dependency through proprietary data gathering, AI-automated ESG research, and strategic acquisitions. Cloud infrastructure (Azure) is the main external dependency, mitigated by the Microsoft strategic partnership.</span></div>
+
+<div class="fw-item"><span class="fw-name">3. Bargaining Power of Buyers</span><span class="fw-rating moderate">Moderate</span><br><span class="prose">While MSCI serves 6,800+ clients (fragmented base), concentration exists: BlackRock alone represents 11.7% of revenue. Large asset managers have some leverage in ETF fee negotiations, evidenced by the fee floor concessions in the extended BlackRock partnership. However, switching costs are so high that even large clients rarely leave — they negotiate modestly at the margin while remaining on the platform.</span></div>
+
+<div class="fw-item"><span class="fw-name">4. Threat of Substitutes</span><span class="fw-rating low">Low</span><br><span class="prose">For benchmark indexing, there is no functional substitute — active managers can choose not to benchmark, but the overwhelming secular trend is toward indexation, not away from it. For Analytics, some large institutions build internal risk models, but these lack the breadth and regulatory acceptance of MSCI's validated frameworks. AI-generated alternative data could theoretically substitute for some Analytics functions, but MSCI is embedding AI into its own products faster than competitors can build from scratch.</span></div>
+
+<div class="fw-item"><span class="fw-name">5. Competitive Rivalry</span><span class="fw-rating moderate">Moderate</span><br><span class="prose">The index business is a stable oligopoly with MSCI, S&amp;P Global, and FTSE Russell (LSEG) as the three dominant players. Competition is focused more on geographic and asset-class expansion than on price warfare. MSCI is the undisputed leader in international and emerging market equities. In Analytics, competition is more fragmented (Bloomberg, FactSet, Morningstar), but MSCI's factor models and risk platforms maintain defensible positions. Sustainability &amp; Climate faces the most competitive pressure, with Sustainalytics (Morningstar) and ISS as meaningful rivals.</span></div>
+
+<div class="verdict"><strong>Summary:</strong> The competitive environment is highly favorable for MSCI. The triopoly structure of the index industry, combined with massive switching costs and the secular growth of indexation, creates an industry with exceptional structural profitability. The main competitive risk lies in the evolving Sustainability &amp; Climate landscape and potential fee compression on the largest ETF relationships.</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 6: WHAT DRIVES THE STOCK? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<p class="prose"><strong>1. ETF AUM &amp; flows linked to MSCI indices.</strong> The single most watched variable. Record $103B of quarterly inflows in Q1 2026, with $2.4T total ETF AUM. Bullish: continued ex-US rotation, European ETF growth, active ETF expansion. Bearish: risk-off environment, equity market correction, emerging market outflows.</p>
+
+<p class="prose"><strong>2. Subscription run rate growth trajectory.</strong> Recurring subscription run rate of $2.49B growing 8.9% — this is the "quality" metric analysts focus on as it represents predictable, contractual revenue. The acceleration from ~7% to 10%+ in Index subscriptions (Q1 2026) was a major positive catalyst. Deceleration would be a red flag.</p>
+
+<p class="prose"><strong>3. Retention rates across product lines.</strong> Total retention at 95.4% in Q1 2026, with Index at nearly 97%. Any deterioration signals client budget pressure or competitive losses. The S&amp;C segment has shown slightly lower retention (~93% in EMEA), which bears monitoring.</p>
+
+<p class="prose"><strong>4. Custom indexing &amp; non-market-cap index adoption.</strong> The fastest-growing part of the Index franchise. Management describes this as "the vast majority of the investment process being systematized" beyond traditional market cap. Custom index demand from hedge funds, wealth managers, and active ETF sponsors is accelerating and has higher revenue per client.</p>
+
+<p class="prose"><strong>5. Private Capital Solutions momentum.</strong> PCS subscription run rate growth accelerated to nearly 16% in Q1 2026. Success here validates MSCI's thesis that private markets need public-market-style transparency. Vantager, PM Insights, and Total Plan offerings are early-stage growth drivers with significant TAM.</p>
+
+<p class="prose"><strong>6. Capital allocation &amp; buyback pace.</strong> MSCI repurchased $464M in Q1 2026 alone (at $556 avg). The company has retired ~40% of shares outstanding over the past decade. Buyback aggressiveness signals management confidence and supports EPS growth (17% CAGR vs 13% revenue CAGR). Any slowdown would be noteworthy.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<div class="section-title">Revenue Decomposition by Segment</div>
+<table class="data">
+  <tr><th>Revenue Line</th><th>Driver 1</th><th>Driver 2</th><th>Driver 3</th></tr>
+  <tr><td>Index — Subscriptions ($1,050M run rate)</td><td># Licensed Modules</td><td>Price/Module (4%+ annual increases)</td><td>Net New Client Wins</td></tr>
+  <tr><td>Index — Asset-Based Fees ($872M run rate)</td><td>AUM in MSCI-Linked ETFs ($2.4T)</td><td>Avg Fee Rate (~2.4 bps)</td><td>Market Appreciation + Net Flows</td></tr>
+  <tr><td>Analytics ($763M run rate)</td><td># Seats/Modules Licensed</td><td>Price/Seat</td><td>Cross-Sell (Factor, Multi-Asset)</td></tr>
+  <tr><td>Sustainability &amp; Climate ($376M run rate)</td><td># Entities Rated (9,000+)</td><td>Price/Rating Package</td><td>Regulatory-Driven Demand</td></tr>
+  <tr><td>All Other — Private Assets ($296M run rate)</td><td># GP/LP Clients</td><td>Price/Module (Total Plan, Transparency)</td><td>AUM in Private Markets</td></tr>
+</table>
+
+<p class="prose" style="margin-top:10px;"><strong>Key leverage points:</strong> The two drivers with the most leverage on total revenue are (1) <strong>AUM in MSCI-linked products</strong>, which drives ABF revenue with near-100% incremental margins and is influenced by both market levels and net flows, and (2) <strong>subscription run rate growth</strong>, which compounds at 9-10% organically and reflects the combination of price increases (~4% annual), cross-sell/upsell within existing clients, and new logo wins. The third key variable is <strong>retention rate</strong> — at 95.4%, each 100bps improvement or deterioration translates to ~$25M in annual revenue impact.</p>
+
+<div class="section-title">Run Rate Summary (as of March 31, 2026)</div>
+<table class="data">
+  <tr><th>Segment</th><th>Run Rate ($M)</th><th>YoY Growth</th><th>Organic Growth</th></tr>
+  <tr><td>Index — Recurring Subscriptions</td><td>$1,050</td><td>10.7%</td><td>10.4%</td></tr>
+  <tr><td>Index — Asset-Based Fees</td><td>$872</td><td>25.1%</td><td>24.9%</td></tr>
+  <tr><td style="font-weight:700;">Total Index</td><td style="font-weight:700;">$1,922</td><td style="font-weight:700;">16.8%</td><td style="font-weight:700;">16.6%</td></tr>
+  <tr><td>Analytics</td><td>$763</td><td>7.9%</td><td>7.4%</td></tr>
+  <tr><td>Sustainability &amp; Climate</td><td>$376</td><td>6.6%</td><td>4.2%</td></tr>
+  <tr><td>All Other — Private Assets</td><td>$296</td><td>8.4%</td><td>7.8%</td></tr>
+  <tr><td style="font-weight:700;">Total Run Rate</td><td style="font-weight:700;">$3,357</td><td style="font-weight:700;">12.7%</td><td style="font-weight:700;">12.1%</td></tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box"><strong>Competitive Moat — Deeper Than Index Creation:</strong> A commonly misunderstood aspect of MSCI is that its moat lies not in index creation itself (which AI could theoretically commoditize) but in the <strong>absolute quality of its underlying data and the complex methodologies trusted by institutional chief investment officers</strong>. Switching index providers requires asset managers to alter product marketing, overhaul internal risk systems, and convince asset owners to accept new benchmarks — a process so painful that it rarely happens. Former BlackRock insiders note that replacing MSCI benchmarks would be "exceptionally difficult" given the vast brand recognition for retail and institutional ETF asset gathering.</div>
+
+<div class="alphasense-box"><strong>AI as Competitive Moat Enhancer, Not Threat:</strong> Despite concerns that AI could lower barriers to entry, executives and experts believe AI <strong>actually strengthens</strong> MSCI's competitive standing. The company owns proprietary, highly restricted data sets across global markets that enable it to train customized AI models competitors cannot replicate. AI tools have already saved "tens of millions of dollars" by automating data collection in private assets, ESG controversies, and EU taxonomy reporting, processing regulatory data up to 4x faster. Rather than taking these savings as margin, leadership is aggressively reinvesting into new product development — a strategic pivot from historical underinvestment criticism.</div>
+
+<div class="alphasense-box"><strong>Management — Visionary but Founder-Dependent:</strong> CEO Henry Fernandez is praised as a visionary who scaled MSCI from a simple index provider into a comprehensive financial data powerhouse. However, experts describe his leadership style as <strong>exceptionally demanding and detail-oriented</strong>, with deep personal involvement in daily operations including weekly sales pipeline meetings. This centralized, founder-centric dynamic raises succession planning concerns — President Baer Pettit retired in March 2026 after 25 years, and the internal bench is viewed as capable but unproven in leading independently.</div>
+
+<div class="alphasense-box"><strong>What the Market Misunderstands — Private Markets TAM:</strong> Management projects approximately <strong>one-sixth of all global investable dollars will reside in private markets by 2030</strong>, creating a massive addressable market for transparency, benchmarking, and valuation tools. MSCI's strategy of bringing "public-market levels of transparency" to private markets through acquisitions (PM Insights, Vantager, Burgiss at $600M) and organic development represents a multi-billion-dollar opportunity that is not yet reflected in consensus estimates. Private Capital Solutions run rate growth accelerated to 16% in Q1 2026.</div>
+
+<div class="alphasense-box"><strong>Key Investor Questions — Fee Compression &amp; BlackRock:</strong> The average basis point fee earned on ETFs has compressed from ~3.5bps historically to ~2.4bps currently. Former MSCI executives suggest the pace of compression has slowed and may be plateauing, as major passive asset managers have already squeezed significant costs. The BlackRock relationship (11.7% of revenue, ~20% of Index) is characterized by mutual dependency — BlackRock needs MSCI's brand for retail asset gathering as much as MSCI needs BlackRock's AUM scale. The extended partnership through 2035, though requiring fee floor concessions, provides long-term revenue visibility.</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 9: SENSITIVITIES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Sensitivities on Core Business Drivers</div>
+
+<p class="prose"><strong>Sensitivity 1: Index ABF Revenue as a Function of ETF AUM ($T) vs. Avg Fee Rate (bps)</strong><br>Current: ~$2.4T AUM, ~2.4 bps avg fee → ~$872M ABF run rate</p>
+<table class="sensitivity">
+  <tr><th>ABF Rev ($M)</th><th>2.0 bps</th><th>2.2 bps</th><th>2.4 bps</th><th>2.6 bps</th><th>2.8 bps</th></tr>
+  <tr><td>$2.0T</td><td>400</td><td>440</td><td>480</td><td>520</td><td>560</td></tr>
+  <tr><td>$2.2T</td><td>440</td><td>484</td><td>528</td><td>572</td><td>616</td></tr>
+  <tr><td>$2.4T</td><td>480</td><td>528</td><td class="base">576</td><td>624</td><td>672</td></tr>
+  <tr><td>$2.7T</td><td>540</td><td>594</td><td>648</td><td>702</td><td>756</td></tr>
+  <tr><td>$3.0T</td><td>600</td><td>660</td><td>720</td><td>780</td><td>840</td></tr>
+</table>
+<div class="source-note">Note: ABF run rate reflects point-in-time AUM × fee rate. Actual fee is blended across products. Base case cell highlighted.</div>
+
+<p class="prose" style="margin-top:12px;"><strong>Sensitivity 2: Total Subscription Revenue as a Function of Subscription Run Rate Growth (%) vs. Retention Rate (%)</strong><br>Current: $2,485M recurring subscription run rate, ~9% growth, 95.4% retention</p>
+<table class="sensitivity">
+  <tr><th>FY27E Sub Rev ($M)</th><th>93.0%</th><th>94.0%</th><th>95.4%</th><th>96.0%</th><th>97.0%</th></tr>
+  <tr><td>+6% Growth</td><td>2,498</td><td>2,523</td><td>2,558</td><td>2,573</td><td>2,598</td></tr>
+  <tr><td>+8% Growth</td><td>2,547</td><td>2,572</td><td>2,608</td><td>2,623</td><td>2,648</td></tr>
+  <tr><td>+9% Growth</td><td>2,572</td><td>2,597</td><td class="base">2,633</td><td>2,648</td><td>2,673</td></tr>
+  <tr><td>+11% Growth</td><td>2,621</td><td>2,647</td><td>2,683</td><td>2,698</td><td>2,724</td></tr>
+  <tr><td>+13% Growth</td><td>2,671</td><td>2,696</td><td>2,733</td><td>2,748</td><td>2,774</td></tr>
+</table>
+
+<p class="prose" style="margin-top:12px;"><strong>Sensitivity 3: FY2028E EPS as a Function of Revenue Growth (%) vs. EBITDA Margin (%)</strong><br>Current consensus: ~$4,086M revenue, ~63% EBITDA margin, ~$24.32 EPS</p>
+<table class="sensitivity">
+  <tr><th>FY28E EPS</th><th>59%</th><th>61%</th><th>63%</th><th>65%</th><th>67%</th></tr>
+  <tr><td>+6% Rev Growth</td><td>$20.52</td><td>$21.39</td><td>$22.26</td><td>$23.13</td><td>$24.00</td></tr>
+  <tr><td>+7% Rev Growth</td><td>$21.14</td><td>$22.03</td><td>$22.93</td><td>$23.82</td><td>$24.72</td></tr>
+  <tr><td>+8% Rev Growth</td><td>$21.77</td><td>$22.69</td><td class="base">$23.61</td><td>$24.53</td><td>$25.45</td></tr>
+  <tr><td>+10% Rev Growth</td><td>$23.06</td><td>$24.04</td><td>$25.01</td><td>$25.99</td><td>$26.97</td></tr>
+  <tr><td>+12% Rev Growth</td><td>$24.40</td><td>$25.43</td><td>$26.47</td><td>$27.50</td><td>$28.54</td></tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 10: FIVE SCENARIOS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">10. Five Scenarios — 3-Year Model (FY2028E Exit)</div>
+
+<!-- BEAR SEVERE -->
+<div class="case-block">
+  <div class="case-name">Bear Case (Severe)</div>
+  <div class="case-desc">Global equity market correction triggers 20%+ decline in MSCI-linked ETF AUM. Subscription growth decelerates to low-single digits as asset managers consolidate vendors. BlackRock renegotiates terms aggressively. ESG backlash intensifies, causing S&C revenues to decline. Fee compression accelerates.</div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>ETF AUM Linked to MSCI</span><span>$1.9T (−20%)</span></div>
+  <div class="driver-row"><span>Avg ABF Fee Rate</span><span>2.1 bps (−13%)</span></div>
+  <div class="driver-row"><span>Subscription Run Rate Growth</span><span>4%</span></div>
+  <div class="driver-row"><span>Retention Rate</span><span>93%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$3,520</td></tr>
+    <tr><td>EBITDA</td><td>2,042</td></tr>
+    <tr><td>EBITDA Margin</td><td>58.0%</td></tr>
+    <tr><td>Net Income</td><td>1,183</td></tr>
+    <tr><td>EPS</td><td>$17.50</td></tr>
+    <tr><td>Free Cash Flow</td><td>$1,250</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:9px;color:#888;">Exit Multiple: 22x P/E (bear de-rating from 5yr avg 46x)</div>
+    <div class="exit-price">$385</div>
+    <div class="exit-upside" style="color:#c0392b;">−35.6% from current ($597)</div>
+  </div>
+</div>
+
+<!-- BEAR MILD -->
+<div class="case-block">
+  <div class="case-name">Bear Case (Mild)</div>
+  <div class="case-desc">Flat-to-modestly rising equity markets. Subscription growth moderates to mid-single digits. ABF growth slows as ETF flows normalize. S&C growth remains anemic. Cost discipline maintained but limited margin expansion.</div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>ETF AUM Linked to MSCI</span><span>$2.3T (−4%)</span></div>
+  <div class="driver-row"><span>Avg ABF Fee Rate</span><span>2.3 bps (−4%)</span></div>
+  <div class="driver-row"><span>Subscription Run Rate Growth</span><span>6%</span></div>
+  <div class="driver-row"><span>Retention Rate</span><span>94.5%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$3,800</td></tr>
+    <tr><td>EBITDA</td><td>2,280</td></tr>
+    <tr><td>EBITDA Margin</td><td>60.0%</td></tr>
+    <tr><td>Net Income</td><td>1,390</td></tr>
+    <tr><td>EPS</td><td>$20.80</td></tr>
+    <tr><td>Free Cash Flow</td><td>$1,520</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:9px;color:#888;">Exit Multiple: 26x P/E (modest de-rating)</div>
+    <div class="exit-price">$541</div>
+    <div class="exit-upside" style="color:#c0392b;">−9.4% from current ($597)</div>
+  </div>
+</div>
+
+<!-- BASE -->
+<div class="case-block">
+  <div class="case-name">Base Case</div>
+  <div class="case-desc">Consensus estimates. Steady equity market appreciation of 6-8% annually. Subscription run rate growth of 9-10%. ABF growth moderates but remains double-digit. Continued margin expansion from AI-driven efficiencies. Buybacks maintain mid-teens EPS growth.</div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>ETF AUM Linked to MSCI</span><span>$2.8T (+17%)</span></div>
+  <div class="driver-row"><span>Avg ABF Fee Rate</span><span>2.3 bps (stable)</span></div>
+  <div class="driver-row"><span>Subscription Run Rate Growth</span><span>9%</span></div>
+  <div class="driver-row"><span>Retention Rate</span><span>95.4%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$4,086</td></tr>
+    <tr><td>EBITDA</td><td>2,581</td></tr>
+    <tr><td>EBITDA Margin</td><td>63.2%</td></tr>
+    <tr><td>Net Income</td><td>1,754</td></tr>
+    <tr><td>EPS</td><td>$24.32</td></tr>
+    <tr><td>Free Cash Flow</td><td>$1,868</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:9px;color:#888;">Exit Multiple: 30x P/E (consistent with FY1 consensus)</div>
+    <div class="exit-price">$730</div>
+    <div class="exit-upside" style="color:#27ae60;">+22.2% from current ($597)</div>
+  </div>
+</div>
+
+<!-- BULL MILD -->
+<div class="case-block">
+  <div class="case-name">Bull Case (Mild)</div>
+  <div class="case-desc">Strong global equity markets with continued ex-US rotation. Subscription growth accelerates to low-double-digits driven by custom indexing and hedge fund adoption. PCS inflects. AI efficiencies drive margin expansion above consensus. Aggressive buybacks.</div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>ETF AUM Linked to MSCI</span><span>$3.2T (+33%)</span></div>
+  <div class="driver-row"><span>Avg ABF Fee Rate</span><span>2.4 bps (stable)</span></div>
+  <div class="driver-row"><span>Subscription Run Rate Growth</span><span>11%</span></div>
+  <div class="driver-row"><span>Retention Rate</span><span>96%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$4,400</td></tr>
+    <tr><td>EBITDA</td><td>2,860</td></tr>
+    <tr><td>EBITDA Margin</td><td>65.0%</td></tr>
+    <tr><td>Net Income</td><td>1,960</td></tr>
+    <tr><td>EPS</td><td>$28.50</td></tr>
+    <tr><td>Free Cash Flow</td><td>$2,100</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:9px;color:#888;">Exit Multiple: 32x P/E (sustained premium for accelerating growth)</div>
+    <div class="exit-price">$912</div>
+    <div class="exit-upside" style="color:#27ae60;">+52.8% from current ($597)</div>
+  </div>
+</div>
+
+<!-- BULL SEVERE -->
+<div class="case-block">
+  <div class="case-name">Bull Case (Severe)</div>
+  <div class="case-desc">Massive global equity rally with record ETF inflows. Custom indexing becomes mainstream ($5T+ addressable). Private markets transparency becomes mandated, driving PCS to 20%+ growth. AI eliminates 15-20% of cost base. Active ETFs linked to MSCI indices proliferate. MSCI becomes the undisputed "operating system" for global investing.</div>
+  <div class="driver-label">Key Drivers</div>
+  <div class="driver-row"><span>ETF AUM Linked to MSCI</span><span>$3.8T (+58%)</span></div>
+  <div class="driver-row"><span>Avg ABF Fee Rate</span><span>2.5 bps (+4%)</span></div>
+  <div class="driver-row"><span>Subscription Run Rate Growth</span><span>14%</span></div>
+  <div class="driver-row"><span>Retention Rate</span><span>97%</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$4,850</td></tr>
+    <tr><td>EBITDA</td><td>3,250</td></tr>
+    <tr><td>EBITDA Margin</td><td>67.0%</td></tr>
+    <tr><td>Net Income</td><td>2,250</td></tr>
+    <tr><td>EPS</td><td>$33.80</td></tr>
+    <tr><td>Free Cash Flow</td><td>$2,450</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div style="font-size:9px;color:#888;">Exit Multiple: 35x P/E (premium re-rating for best-in-class compounder)</div>
+    <div class="exit-price">$1,183</div>
+    <div class="exit-upside" style="color:#27ae60;">+98.1% from current ($597)</div>
+  </div>
+</div>
+
+<!-- SVG Bar Chart -->
+<div class="case-chart">
+  <svg viewBox="0 0 700 180" xmlns="http://www.w3.org/2000/svg">
+    <text x="350" y="18" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a2e">Implied Share Price by Scenario</text>
+    <!-- Bars -->
+    <rect x="60" y="35" width="80" height="28" fill="#b0b0b0" rx="3"/>
+    <text x="100" y="54" text-anchor="middle" font-size="9" fill="#fff" font-weight="600">$385</text>
+    <text x="100" y="78" text-anchor="middle" font-size="8" fill="#888">Bear Severe</text>
+
+    <rect x="180" y="35" width="80" height="28" fill="#b0b0b0" rx="3"/>
+    <text x="220" y="54" text-anchor="middle" font-size="9" fill="#fff" font-weight="600">$541</text>
+    <text x="220" y="78" text-anchor="middle" font-size="8" fill="#888">Bear Mild</text>
+
+    <rect x="300" y="35" width="80" height="28" fill="#b0b0b0" rx="3"/>
+    <text x="340" y="54" text-anchor="middle" font-size="9" fill="#fff" font-weight="600">$730</text>
+    <text x="340" y="78" text-anchor="middle" font-size="8" fill="#888">Base</text>
+
+    <rect x="420" y="35" width="80" height="28" fill="#b0b0b0" rx="3"/>
+    <text x="460" y="54" text-anchor="middle" font-size="9" fill="#fff" font-weight="600">$912</text>
+    <text x="460" y="78" text-anchor="middle" font-size="8" fill="#888">Bull Mild</text>
+
+    <rect x="540" y="35" width="80" height="28" fill="#b0b0b0" rx="3"/>
+    <text x="580" y="54" text-anchor="middle" font-size="9" fill="#fff" font-weight="600">$1,183</text>
+    <text x="580" y="78" text-anchor="middle" font-size="8" fill="#888">Bull Severe</text>
+
+    <!-- Current price dashed line -->
+    <line x1="40" y1="100" x2="660" y2="100" stroke="#1a1a2e" stroke-dasharray="5,3" stroke-width="1.5"/>
+    <text x="665" y="104" font-size="8" fill="#1a1a2e" font-weight="600">Current: $597</text>
+
+    <!-- Scale bars -->
+    <rect x="60" y="110" width="50" height="14" fill="#f8d7da" rx="2"/>
+    <text x="85" y="120" text-anchor="middle" font-size="7" fill="#721c24">−35.6%</text>
+
+    <rect x="180" y="110" width="50" height="14" fill="#f8d7da" rx="2"/>
+    <text x="205" y="120" text-anchor="middle" font-size="7" fill="#721c24">−9.4%</text>
+
+    <rect x="300" y="110" width="50" height="14" fill="#d4edda" rx="2"/>
+    <text x="325" y="120" text-anchor="middle" font-size="7" fill="#155724">+22.2%</text>
+
+    <rect x="420" y="110" width="50" height="14" fill="#d4edda" rx="2"/>
+    <text x="445" y="120" text-anchor="middle" font-size="7" fill="#155724">+52.8%</text>
+
+    <rect x="540" y="110" width="50" height="14" fill="#d4edda" rx="2"/>
+    <text x="565" y="120" text-anchor="middle" font-size="7" fill="#155724">+98.1%</text>
+  </svg>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 11: COMPS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">11. Comps</div>
+
+<div class="section-title">Named Competitors — Selected Financials</div>
+<table class="comps">
+  <tr><th>Company</th><th>Ticker</th><th>Price</th><th>Mkt Cap ($M)</th><th>EV ($M)</th><th>Sales ($M)</th><th>EBIT ($M)</th><th>EBITDA ($M)</th><th>EV/EBIT</th><th>EV/EBITDA</th></tr>
+  <tr class="subject"><td>MSCI Inc. Class A</td><td>MSCI</td><td>$597.39</td><td>43,926</td><td>50,007</td><td>3,239</td><td>1,793</td><td>2,012</td><td>27.9x</td><td>24.9x</td></tr>
+  <tr><td>S&amp;P Global</td><td>SPGI</td><td>$444.67</td><td>135,233</td><td>150,942</td><td>15,336</td><td>6,430</td><td>7,609</td><td>23.5x</td><td>19.8x</td></tr>
+  <tr><td>Nasdaq</td><td>NDAQ</td><td>$87.60</td><td>50,413</td><td>58,096</td><td>8,262</td><td>2,433</td><td>3,065</td><td>23.9x</td><td>19.0x</td></tr>
+  <tr><td>CME Group</td><td>CME</td><td>$284.40</td><td>104,781</td><td>102,155</td><td>6,521</td><td>4,230</td><td>4,560</td><td>24.2x</td><td>22.4x</td></tr>
+  <tr><td>Moody's Corp.</td><td>MCO</td><td>—</td><td>81,485</td><td>96,956</td><td>—</td><td>—</td><td>—</td><td>—</td><td>24.6x</td></tr>
+  <tr><td>FactSet Research</td><td>FDS</td><td>$240.32</td><td>8,883</td><td>9,964</td><td>2,401</td><td>757</td><td>961</td><td>13.2x</td><td>10.4x</td></tr>
+  <tr><td>Morningstar</td><td>MORN</td><td>$187.89</td><td>7,318</td><td>7,836</td><td>2,446</td><td>525</td><td>715</td><td>14.9x</td><td>11.0x</td></tr>
+  <tr><td>BlackRock</td><td>BLK</td><td>$1,042.85</td><td>174,560</td><td>178,670</td><td>24,922</td><td>8,556</td><td>9,682</td><td>20.9x</td><td>18.5x</td></tr>
+  <tr><td>London Stock Exchange</td><td>LSEG</td><td>$130.36</td><td>64,939</td><td>77,554</td><td>12,312</td><td>2,890</td><td>5,824</td><td>26.8x</td><td>13.3x</td></tr>
+  <tr class="stat-row"><td>Average (ex-MSCI)</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>21.0x</td><td>17.4x</td></tr>
+  <tr class="stat-row"><td>Median (ex-MSCI)</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>23.5x</td><td>18.7x</td></tr>
+</table>
+
+<div class="section-title" style="margin-top:14px;">Named Competitors — Valuation Multiples</div>
+<table class="comps">
+  <tr><th>Company</th><th>Ticker</th><th>P/E (LTM)</th><th class="est-col">P/E (FY1E)</th><th class="est-col">P/E (FY2E)</th><th>EV/Sales</th><th>EBITDA Margin</th><th>Net Margin</th></tr>
+  <tr class="subject"><td>MSCI Inc.</td><td>MSCI</td><td>34.1x</td><td class="est">30.5x</td><td class="est">26.7x</td><td>15.4x</td><td>62.1%</td><td>40.7%</td></tr>
+  <tr><td>S&amp;P Global</td><td>SPGI</td><td>30.3x</td><td class="est">22.7x</td><td class="est">20.2x</td><td>9.8x</td><td>49.6%</td><td>29.2%</td></tr>
+  <tr><td>Nasdaq</td><td>NDAQ</td><td>28.3x</td><td class="est">22.5x</td><td class="est">19.9x</td><td>7.0x</td><td>37.1%</td><td>21.6%</td></tr>
+  <tr><td>CME Group</td><td>CME</td><td>25.5x</td><td class="est">23.1x</td><td class="est">22.0x</td><td>15.7x</td><td>69.9%</td><td>62.0%</td></tr>
+  <tr><td>FactSet</td><td>FDS</td><td>15.5x</td><td class="est">13.5x</td><td class="est">12.4x</td><td>4.1x</td><td>40.0%</td><td>24.5%</td></tr>
+  <tr><td>Morningstar</td><td>MORN</td><td>21.2x</td><td class="est">18.0x</td><td class="est">14.3x</td><td>3.2x</td><td>29.2%</td><td>15.3%</td></tr>
+  <tr><td>BlackRock</td><td>BLK</td><td>29.5x</td><td class="est">19.6x</td><td class="est">17.2x</td><td>7.2x</td><td>38.8%</td><td>22.3%</td></tr>
+  <tr><td>LSEG</td><td>LSEG</td><td>41.5x</td><td class="est">20.5x</td><td class="est">17.9x</td><td>6.3x</td><td>47.3%</td><td>13.4%</td></tr>
+  <tr class="stat-row"><td>Average (ex-MSCI)</td><td></td><td>27.4x</td><td class="est">20.0x</td><td class="est">17.7x</td><td>7.6x</td><td>44.6%</td><td>26.9%</td></tr>
+  <tr class="stat-row"><td>Median (ex-MSCI)</td><td></td><td>28.3x</td><td class="est">20.5x</td><td class="est">17.9x</td><td>7.0x</td><td>40.0%</td><td>22.3%</td></tr>
+</table>
+
+<p class="prose" style="margin-top:10px;">MSCI trades at a meaningful premium to its financial data and infrastructure peer group on virtually every metric: 30.5x FY1 P/E vs. peer median of 20.5x, and 24.9x EV/EBITDA vs. peer median of 18.7x. This premium is justified by MSCI's superior margin profile (62% EBITDA margin, the highest in the group alongside CME), the structural growth tailwinds from global indexation, and the near-irreplaceable competitive position in international equity benchmarking. The premium has persisted for a decade and reflects the market's view that MSCI is more comparable to a high-quality monopoly/oligopoly than a typical financial data provider.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<p class="prose" style="font-style: italic; color: #888; margin-bottom: 12px;">Theia seeks small cap companies that aren't well covered and are strongly aligned on core internet finance thesis with wide outcome dispersion.</p>
+
+<p class="prose"><strong>(i) Market Cap Bucket:</strong> Large Cap ($43.7B) <span class="fw-rating weak">Weak</span><br>MSCI's $43.7B market cap places it firmly in the large-cap category, well outside Theia's sweet spot of microcap and small-cap names. This is a blue-chip compounder, not an undiscovered gem.</p>
+
+<p class="prose"><strong>(ii) Analyst Coverage:</strong> 20 broker contributors <span class="fw-rating weak">Weak</span><br>With 20 sell-side analysts covering the name, MSCI is one of the most thoroughly followed financial data companies in the market. There is minimal information asymmetry available for generating alpha through superior research.</p>
+
+<p class="prose"><strong>(iii) Blockchain / Internet Finance Thesis Alignment:</strong> <span class="fw-rating moderate">Adjacent</span><br>MSCI is not a direct blockchain or crypto participant, but it is highly relevant to the digitization of financial services. The company's acquisition of Compass Financial Technologies expands into commodities, digital assets, and cryptocurrency index calculation. MSCI's custom indexing tools are being used to create structured products including crypto exposures. The private markets transparency thesis (tokenization of private assets could be a "big accelerant" per CFO Wiechmann) provides adjacency. However, MSCI is fundamentally a traditional financial infrastructure company, not a disruptive internet finance play.</p>
+
+<p class="prose"><strong>(iv) Outcome Dispersion:</strong> <span class="fw-rating moderate">Moderate</span><br>The bear-to-bull range spans $385 to $1,183 (3.1x spread), which represents meaningful but not exceptional dispersion for a company of this quality. The base case upside of +22% to consensus target is moderate. The key swing factors — ETF AUM trajectory and subscription growth inflection — could produce outcomes outside this range in tail scenarios, but MSCI's recurring revenue model and 95%+ retention rate inherently dampen volatility.</p>
+
+<div class="verdict"><strong>Verdict: No — Wrong profile for Theia.</strong> MSCI is an exceptional business with a deep competitive moat, strong secular tailwinds, and outstanding financial characteristics. However, at $43.7B market cap with 20 sell-side analysts, this is the antithesis of the small-cap, under-covered opportunity Theia targets. The stock is well-understood by the market, fairly valued at ~30x forward earnings, and offers limited alpha potential through differentiated research. MSCI would be better suited for a quality-compounder or large-cap growth portfolio. The blockchain/internet finance alignment is tangential at best.</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 13: RISK SUMMARY -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">13. Risk Summary</div>
+
+<table class="risk-table">
+  <tr><th>Risk Category</th><th>Description</th><th>Severity</th><th>Mitigant</th></tr>
+  <tr><td>Customer Concentration</td><td>BlackRock represents 11.7% of consolidated revenue and ~20% of Index segment. Loss or aggressive renegotiation would be materially negative.</td><td><span class="fw-rating high">High</span></td><td>Partnership extended through 2035 with mutual dependency. BlackRock needs MSCI brand for retail asset gathering.</td></tr>
+  <tr><td>Equity Market Downturn</td><td>Asset-based fees (26% of run rate) are directly tied to equity market levels. A 20% market decline could reduce ABF by $150-200M annually.</td><td><span class="fw-rating high">High</span></td><td>ABF has historically recovered with markets. Subscription base (74% of run rate) is contractual and resilient. Net flows have been consistently positive even in downturns.</td></tr>
+  <tr><td>Succession Risk</td><td>CEO Henry Fernandez has led MSCI for 25+ years with a highly centralized management style. President Baer Pettit retired in March 2026.</td><td><span class="fw-rating moderate">Moderate</span></td><td>Fernandez retains massive personal stake in the company. COO Jorge Mina and CFO Andy Wiechmann are viewed as capable successors. New CDO Dinesh Gupta hired from Goldman Sachs.</td></tr>
+  <tr><td>ESG Regulatory / Political</td><td>Anti-ESG sentiment in the US suppresses demand. ESMA regulation from July 2026 adds compliance burden. Sustainability segment growth has decelerated significantly.</td><td><span class="fw-rating moderate">Moderate</span></td><td>MSCI is pivoting S&C toward physical risk and climate tools where demand is growing. European regulatory tailwinds offset US headwinds. S&C is only 11% of revenue.</td></tr>
+  <tr><td>Fee Compression</td><td>Average ETF basis point fee has compressed from ~3.5bps to ~2.4bps historically. Continued compression would erode ABF economics.</td><td><span class="fw-rating moderate">Moderate</span></td><td>Former executives suggest compression pace has slowed and may be plateauing. Volume growth in ETF AUM has more than offset fee declines historically.</td></tr>
+  <tr><td>AI Disruption</td><td>AI could theoretically lower barriers to index creation and risk modeling, enabling low-cost competitors to challenge MSCI's pricing power.</td><td><span class="fw-rating low">Low</span></td><td>MSCI's moat is in proprietary data and institutional trust, not computation. MSCI is embedding AI faster than competitors, actually widening the moat. Experts believe AI strengthens, not weakens, MSCI's position.</td></tr>
+  <tr><td>Negative Book Value / Leverage</td><td>Aggressive buybacks have created negative shareholder equity ($-2.7B). Total debt of $6.4B with 3.2x gross leverage.</td><td><span class="fw-rating low">Low</span></td><td>Leverage is within management's 3.0-3.5x target range. Exceptional FCF generation ($1.5B+ annually) provides ample debt service coverage. Interest coverage of 8.2x is healthy.</td></tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 14: APPENDIX -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">14. Appendix — Python Code</div>
+
+<div class="appendix">
+<p class="prose">Parameterized sensitivity tables and 5-case model for MSCI. Adjust inputs to explore scenarios.</p>
+
+<div class="code-block">import numpy as np
+import pandas as pd
+
+# ═══════════════════════════════════════════
+# SENSITIVITY 1: ABF Revenue
+# ═══════════════════════════════════════════
+aum_levels = [2.0, 2.2, 2.4, 2.7, 3.0]  # $T
+fee_rates  = [2.0, 2.2, 2.4, 2.6, 2.8]  # bps
+
+abf_grid = pd.DataFrame(
+    [[aum * 1000 * (fee / 10000) * 1000 for fee in fee_rates] for aum in aum_levels],
+    index=[f"${a}T" for a in aum_levels],
+    columns=[f"{f} bps" for f in fee_rates]
+)
+print("ABF Revenue ($M) = AUM × Fee Rate")
+print(abf_grid.round(0))
+
+# ═══════════════════════════════════════════
+# SENSITIVITY 2: Subscription Revenue
+# ═══════════════════════════════════════════
+base_sub = 2485  # Current subscription run rate ($M)
+growth_rates = [0.06, 0.08, 0.09, 0.11, 0.13]
+retention_rates = [0.93, 0.94, 0.954, 0.96, 0.97]
+
+sub_grid = pd.DataFrame(
+    [[base_sub * (1 + g) * r / 0.954 for r in retention_rates] for g in growth_rates],
+    index=[f"+{int(g*100)}%" for g in growth_rates],
+    columns=[f"{r*100:.1f}%" for r in retention_rates]
+)
+print("\nFY27E Subscription Revenue ($M)")
+print(sub_grid.round(0))
+
+# ═══════════════════════════════════════════
+# 5-CASE MODEL
+# ═══════════════════════════════════════════
+cases = {
+    "Bear Severe": {"rev": 3520, "ebitda_m": 0.58, "pe": 22, "eps": 17.50},
+    "Bear Mild":   {"rev": 3800, "ebitda_m": 0.60, "pe": 26, "eps": 20.80},
+    "Base":        {"rev": 4086, "ebitda_m": 0.632,"pe": 30, "eps": 24.32},
+    "Bull Mild":   {"rev": 4400, "ebitda_m": 0.65, "pe": 32, "eps": 28.50},
+    "Bull Severe": {"rev": 4850, "ebitda_m": 0.67, "pe": 35, "eps": 33.80},
+}
+
+current_price = 597.39
+print(f"\nCurrent Price: ${current_price}")
+print(f"{'Case':<16} {'Revenue':>8} {'EBITDA M':>9} {'EPS':>7} {'P/E':>5} {'Price':>7} {'Upside':>8}")
+print("-" * 62)
+for name, c in cases.items():
+    implied = c["eps"] * c["pe"]
+    upside = (implied / current_price - 1) * 100
+    print(f"{name:<16} ${c['rev']:>6,} {c['ebitda_m']:>8.1%} ${c['eps']:>5.2f} {c['pe']:>4}x ${implied:>6.0f} {upside:>+7.1f}%")
+</div>
+</div>
+
+<div class="source-note" style="margin-top: 20px; font-size: 9px;">
+Sources: FactSet (April 22, 2026), MSCI Inc. Q1 2026 &amp; Q4 2025 Earnings Call Transcripts, MSCI Q1 2026 Earnings Presentation, AlphaSense Company Primer &amp; Expert Insights Reports (April 22, 2026), Raymond James &amp; RBC Conference Transcripts (March 2026). This memo is for informational purposes only and does not constitute investment advice.
+</div>
+
+</body>
+</html>
