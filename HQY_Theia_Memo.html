@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HealthEquity, Inc. | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 8px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child, table.comps td:nth-child(2) { text-align: left; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-style: italic; background: #fafbfc; font-weight: 600; border-top: 1px solid #eee; }
+table.comps th.est-col { color: #2563eb; }
+
+table.risk-table { font-size: 10px; width: 100%; margin: 8px 0; }
+table.risk-table th { text-align: left; font-weight: 600; padding: 4px 6px; background: #f4f6f9; border-bottom: 1px solid #ddd; }
+table.risk-table td { padding: 4px 6px; border-bottom: 1px solid #eee; vertical-align: top; }
+table.risk-table td:first-child { font-weight: 600; width: 25%; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.alphasense-box { background: #e8f4fd; border-left: 4px solid #2563eb; padding: 10px 14px; margin: 10px 0; font-size: 10px; line-height: 1.5; }
+
+.bull-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #155724; border-bottom: 1.5px solid #c3e6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #721c24; border-bottom: 1.5px solid #f5c6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+
+.bull-item, .bear-item { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">HealthEquity, Inc. | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">HealthEquity, Inc. (NASDAQ: HQY) is the nation's largest Health Savings Account (HSA) custodian by total accounts and the second-largest by total HSA assets, operating at the intersection of healthcare and financial services through a technology-enabled platform designed to help consumers manage tax-advantaged healthcare savings and spending. Founded in 2002 by Dr. Stephen Neeleman and headquartered in Draper, Utah, the company has grown from a niche HSA administrator into the dominant platform for consumer-directed healthcare benefits, administering 17.8 million Total Accounts — comprising 10.6 million HSAs and 7.2 million complementary Consumer-Directed Benefits (CDBs) including Flexible Spending Accounts (FSAs), Health Reimbursement Arrangements (HRAs), COBRA, and commuter benefits — with total HSA assets of $36.5 billion as of January 31, 2026. HealthEquity operates a highly scalable business-to-business-to-consumer (B2B2C) distribution model, reaching individual members through an integrated network of more than 200 Network Partners including health plans, benefits brokers, retirement recordkeepers, and pharmacy benefit managers, which collectively support over 100,000 employer clients. The company has grown its share of total U.S. HSA assets from 4% in 2010 to approximately 21% by mid-2025, establishing clear market leadership in a category with powerful secular tailwinds.</p>
+
+<p class="prose">HealthEquity's corporate strategy is anchored by a self-reinforcing "Save, Spend, Invest" flywheel designed to transform the HSA from a passive tax-advantaged benefit into an active financial asset. The "Save" phase helps members build pre-tax balances through payroll deductions and employer contributions. The "Spend" phase captures a share of approximately $15 billion spent annually by members on qualified medical care through the platform, enhanced by the new HealthEquity Marketplace that connects members to eligible products and telehealth services including GLP-1 weight management programs. The "Invest" phase encourages members to transition cash balances into long-term investment vehicles — HSA invested assets surged 26% year-over-year to $18.5 billion by end of fiscal 2026, representing over half of all HSA assets for the first time. The company monetizes this ecosystem through three primary, overlapping revenue streams: Custodial revenue ($636.8M, 48.5% of FY2026 revenue), derived from interest earned on HSA cash assets held by depository and insurance company partners, optimized through the proprietary "Enhanced Rates" program that channels deposits into high-yield insurance bonds and multi-year annuity contracts; Service revenue ($485.0M, 36.9%), consisting of recurring administrative fees paid by employers and network partners; and Interchange revenue ($191.6M, 14.6%), generated from merchant payment network fees whenever members use HealthEquity physical or virtual payment cards for medical expenses.</p>
+
+<p class="prose"><strong>Key facts:</strong> Founded 2002 · Headquarters Draper, UT · President &amp; CEO Scott R. Cutler (since Jan 2025) · Founder &amp; Vice Chairman Dr. Stephen Neeleman · CFO James M. Lucania · Employees ~2,814 (FY2026) · IPO July 2014 (NASDAQ: HQY) · FY end January 31 · Market Cap $6,942M · CUSIP 42226A107 · ISIN US42226A1079</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 2: FINANCIAL SUMMARY (FACTSET) -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Theia FactSet Summary</div>
+
+<div class="header">
+  <div>
+    <h1>HealthEquity, Inc.</h1>
+    <span class="ticker">HQY · NASDAQ · ISIN US42226A1079</span>
+  </div>
+  <div class="date">FactSet Snapshot · May 14, 2026</div>
+</div>
+
+<!-- Price Bar -->
+<div class="price-bar">
+  <div>
+    <span class="label">Price (May 13, 2026) </span>
+    <span class="price">$82.18</span>
+  </div>
+  <div><span class="label">1M </span><span class="chg pos">+1.72%</span></div>
+  <div><span class="label">3M </span><span class="chg pos">+12.02%</span></div>
+  <div><span class="label">6M </span><span class="chg">-18.68%</span></div>
+  <div><span class="label">YTD </span><span class="chg">-9.66%</span></div>
+  <div><span class="label">1Y </span><span class="chg">-15.60%</span></div>
+  <div><span class="label">52-Wk Range </span><span style="font-weight:600;">$72.76 – $116.65</span></div>
+</div>
+
+<!-- Key Stats + EV Bridge -->
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv" style="font-size:10px;">
+      <tr><td>Exchange / Ticker</td><td>NASDAQ · HQY</td></tr>
+      <tr><td>Price (May 13, 2026)</td><td>$82.18</td></tr>
+      <tr><td>30-Day Avg Volume</td><td>931K shares/day</td></tr>
+      <tr><td>Float %</td><td>97.33%</td></tr>
+      <tr><td>Short Interest</td><td>6.15% of float</td></tr>
+      <tr><td>Days to Cover</td><td>5.4 days</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev" style="font-size:10px;">
+      <tr><td>Basic Shares (Common)</td><td>84.48M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">+ Stock Comp / Options</td><td style="font-size:9px;">2.22M</td></tr>
+      <tr><td>= Fully Diluted Shares</td><td>86.70M</td></tr>
+      <tr><td>Share Price</td><td>$82.18</td></tr>
+      <tr><td>= Fully Dil. Market Cap</td><td>$7,125M</td></tr>
+      <tr><td>+ Total Debt</td><td>$957M</td></tr>
+      <tr><td>− Cash &amp; Equivalents</td><td>($319M)</td></tr>
+      <tr class="total"><td>= Enterprise Value</td><td>$7,764M</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- Current Valuation — horizontal 6x2 grid -->
+<div class="section-title">Current Valuation</div>
+<div style="border: 1px solid #eee; border-radius: 4px; margin-bottom: 8px;">
+  <div class="val-grid">
+    <div class="val-cell"><div class="val-label">Mkt Cap</div><div class="val-num">$6,942M</div><div class="val-sub">Basic shares</div></div>
+    <div class="val-cell"><div class="val-label">EV</div><div class="val-num">$7,764M</div><div class="val-sub">$957M debt, $319M cash</div></div>
+    <div class="val-cell"><div class="val-label">P/Sales (FY27E)</div><div class="val-num">4.9x</div><div class="val-sub">Rev $1,411M</div></div>
+    <div class="val-cell"><div class="val-label">EV/EBITDA (FY27E)</div><div class="val-num">12.4x</div><div class="val-sub">EBITDA $625M</div></div>
+    <div class="val-cell"><div class="val-label">P/FCF (FY26A)</div><div class="val-num">16.5x</div><div class="val-sub">FCF $455M</div></div>
+    <div class="val-cell"><div class="val-label">FCF Yield</div><div class="val-num">6.6%</div><div class="val-sub">$455M / $6,942M</div></div>
+  </div>
+  <div style="border-top: 1px solid #eee;">
+    <div class="val-grid">
+      <div class="val-cell"><div class="val-label">Fully Dil. Mkt Cap</div><div class="val-num">$7,125M</div><div class="val-sub">86.70M dil. shares</div></div>
+      <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">7.26%</div><div class="val-sub">FactSet estimate</div></div>
+      <div class="val-cell"><div class="val-label">Beta (3Y Adj)</div><div class="val-num">0.73</div><div class="val-sub">Adjusted beta</div></div>
+      <div class="val-cell"><div class="val-label">Avg Analyst Rating</div><div class="val-num">Buy</div><div class="val-sub">16 brokers · 1.18</div></div>
+      <div class="val-cell"><div class="val-label">Cons. Target Price</div><div class="val-num">$112.88</div><div class="val-sub">+37% upside</div></div>
+      <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">May 28</div><div class="val-sub">Q1 FY2027</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Valuation Multiples Table -->
+<div class="section-title">Valuation Multiples</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Metric</th>
+      <th>5Yr Avg</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th>FY2026</th>
+      <th class="est" style="color:#2563eb;">FY2027E</th>
+      <th class="est" style="color:#2563eb;">FY2028E</th>
+      <th class="est" style="color:#2563eb;">FY2029E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="8">PRICE MULTIPLES</td></tr>
+    <tr><td>P/E</td><td>50.8x</td><td>118.0x</td><td>101.4x</td><td>34.8x</td><td class="est">17.8x</td><td class="est">15.4x</td><td class="est">13.6x</td></tr>
+    <tr><td>P/Sales</td><td>6.5x</td><td>6.6x</td><td>8.2x</td><td>5.7x</td><td class="est">4.9x</td><td class="est">4.5x</td><td class="est">4.3x</td></tr>
+    <tr><td>P/Book Value</td><td>3.3x</td><td>3.2x</td><td>4.5x</td><td>3.5x</td><td class="est">3.0x</td><td class="est">2.6x</td><td class="est">2.2x</td></tr>
+    <tr><td>P/FCF</td><td>28.3x</td><td>27.3x</td><td>29.0x</td><td>16.5x</td><td class="est">--</td><td class="est">--</td><td class="est">--</td></tr>
+    <tr class="section-row"><td colspan="8">EV MULTIPLES</td></tr>
+    <tr><td>EV/Sales</td><td>7.3x</td><td>7.3x</td><td>8.9x</td><td>6.2x</td><td class="est">5.5x</td><td class="est">5.1x</td><td class="est">4.8x</td></tr>
+    <tr><td>EV/EBITDA</td><td>26.1x</td><td>26.0x</td><td>27.1x</td><td>16.8x</td><td class="est">12.4x</td><td class="est">11.0x</td><td class="est">10.3x</td></tr>
+    <tr><td>EV/EBIT</td><td>84.1x</td><td>57.0x</td><td>46.3x</td><td>24.8x</td><td class="est">21.1x</td><td class="est">17.9x</td><td class="est">16.4x</td></tr>
+  </tbody>
+</table>
+
+<!-- Revenue Exposure -->
+<div class="section-title">Revenue Exposure (FY2026 Actuals, FYE January)</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Product</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Segment</th><th>$M</th><th>% Rev</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Custodial</td><td>$636.8</td><td>48.5%</td><td>+16.8%</td></tr>
+        <tr><td>Service</td><td>$485.0</td><td>36.9%</td><td>+1.4%</td></tr>
+        <tr><td>Interchange</td><td>$191.6</td><td>14.6%</td><td>+8.8%</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>$1,313</td><td>100%</td><td>+9.5%</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:8px; color:#aaa; margin-top:4px;">Adj. EBITDA $566M (+20% YoY) = 43% margin. Custodial is the highest-margin segment.</p>
+  </div>
+  <div>
+    <div class="sub-label">By Geography</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Region</th><th>$M</th><th>% Rev</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>United States</td><td>$1,313</td><td>100%</td><td>+9.5%</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>$1,313</td><td>100%</td><td>+9.5%</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:8px; color:#aaa; margin-top:4px;">100% U.S. domestic. HSAs are a U.S.-specific tax-advantaged product.</p>
+  </div>
+</div>
+
+<!-- Financials Table -->
+<div class="section-title">Financials</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">$M (FY Jan)</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th>FY2026</th>
+      <th class="est" style="color:#2563eb;">FY2027E</th>
+      <th class="est" style="color:#2563eb;">FY2028E</th>
+      <th class="est" style="color:#2563eb;">FY2029E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">INCOME STATEMENT</td></tr>
+    <tr><td>Revenue</td><td>$1,000</td><td>$1,200</td><td>$1,313</td><td class="est">$1,411</td><td class="est">$1,528</td><td class="est">$1,625</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Revenue Growth %</td><td>--</td><td>+20.0%</td><td>+9.5%</td><td class="est">+7.5%</td><td class="est">+8.3%</td><td class="est">+6.4%</td></tr>
+    <tr><td>Gross Profit</td><td>$530</td><td>$693</td><td>$805</td><td class="est">$1,008</td><td class="est">$1,111</td><td class="est">$1,218</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Gross Margin %</td><td>53.0%</td><td>57.7%</td><td>61.3%</td><td class="est">71.4%</td><td class="est">72.8%</td><td class="est">75.0%</td></tr>
+    <tr><td>EBITDA</td><td>$281</td><td>$393</td><td>$482</td><td class="est">$625</td><td class="est">$704</td><td class="est">$754</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">EBITDA Margin %</td><td>28.1%</td><td>32.7%</td><td>36.7%</td><td class="est">44.3%</td><td class="est">46.1%</td><td class="est">46.4%</td></tr>
+    <tr><td>EBIT</td><td>$128</td><td>$230</td><td>$327</td><td class="est">$367</td><td class="est">$434</td><td class="est">$472</td></tr>
+    <tr><td>Net Income</td><td>$56</td><td>$97</td><td>$215</td><td class="est">$245</td><td class="est">$298</td><td class="est">$338</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Net Income Margin %</td><td>5.6%</td><td>8.1%</td><td>16.4%</td><td class="est">17.3%</td><td class="est">19.5%</td><td class="est">20.8%</td></tr>
+    <tr><td>EPS (Dil)</td><td>$0.64</td><td>$1.09</td><td>$2.46</td><td class="est">$2.84</td><td class="est">$3.46</td><td class="est">$3.92</td></tr>
+    <tr class="section-row"><td colspan="7">CASH FLOW</td></tr>
+    <tr><td>Operating Cash Flow</td><td>$243</td><td>$340</td><td>$457</td><td class="est">$489</td><td class="est">$543</td><td class="est">$592</td></tr>
+    <tr><td>CapEx</td><td>($46)</td><td>($505)</td><td>($49)</td><td class="est">($48)</td><td class="est">($54)</td><td class="est">($63)</td></tr>
+    <tr><td>Free Cash Flow</td><td>$241</td><td>$338</td><td>$455</td><td class="est">$440</td><td class="est">$488</td><td class="est">$529</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">FCF Margin %</td><td>24.1%</td><td>28.2%</td><td>34.7%</td><td class="est">31.2%</td><td class="est">31.9%</td><td class="est">32.6%</td></tr>
+    <tr class="section-row"><td colspan="7">BALANCE SHEET</td></tr>
+    <tr><td>Cash &amp; ST Investments</td><td>$404</td><td>$296</td><td>$319</td><td class="est">$582</td><td class="est">$995</td><td class="est">$1,387</td></tr>
+    <tr><td>Total Debt</td><td>$933</td><td>$1,108</td><td>$957</td><td class="est">--</td><td class="est">--</td><td class="est">--</td></tr>
+    <tr><td>Shareholders' Equity</td><td>$2,035</td><td>$2,115</td><td>$2,107</td><td class="est">$2,328</td><td class="est">$2,670</td><td class="est">$3,070</td></tr>
+    <tr><td>BVPS</td><td>$23.63</td><td>$24.44</td><td>$24.79</td><td class="est">$27.71</td><td class="est">$31.85</td><td class="est">$37.00</td></tr>
+  </tbody>
+</table>
+
+<!-- Valuation Summary -->
+<div class="section-title">Valuation Summary</div>
+<p class="prose">HealthEquity currently trades at 4.9x FY2027E P/Sales and 12.4x FY2027E EV/EBITDA — representing a meaningful de-rating from its 5-year average EV/EBITDA of 26.1x. The stock is down 30% from its 52-week high of $116.65, having been caught in the broader healthcare services sell-off despite accelerating profitability and record HSA account growth. The P/E of 17.8x on FY2027E reflects genuine GAAP profitability — unlike many high-growth companies, HealthEquity is solidly profitable with net margins of 16.4% in FY2026, and EPS projected to grow from $2.46 to $3.92 over the next three years. At 16.5x trailing P/FCF, the stock offers a 6.6% FCF yield, which is attractive for a company with 30%+ FCF margins and strong secular tailwinds. On a FY2029E basis, the valuation compresses to 10.3x EV/EBITDA and 13.6x P/E, which would represent an exceptionally cheap multiple for the dominant player in a structurally growing market with 75% gross margins, 46% EBITDA margins, and a legislatively-expanding TAM. The consensus target of $112.88 (16 brokers) implies 37% upside, reflecting broad sell-side conviction that the drawdown is overdone relative to the company's fundamentals and the OBBBA legislative catalyst.</p>
+
+<div class="source-note">Source: FactSet snapshot export, May 14, 2026. Estimates reflect consensus of 16 broker contributors. FYE January.</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 3: BULL & BEAR CASES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Cases</div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">OBBBA Legislative Tailwind Creates Massive TAM Expansion.</span> The "One Big Beautiful Bill Act" (OBBBA), signed in July 2025, permanently categorizes all Bronze and Catastrophic ACA exchange plans as HSA-compatible HDHPs, instantly unlocking HSA eligibility for approximately 7 million Americans (90% previously ineligible) enrolled in Bronze plans. The legislation also expands qualified medical expenses to include telehealth and Direct Primary Care (DPC) arrangements. This represents a structural, non-reversible expansion of HealthEquity's total addressable market — the shift from Silver to Bronze plans on ACA exchanges has already reached 40% nationally (the highest ever), and this trend will only accelerate as enhanced Premium Tax Credits expire, forcing consumers toward lower-premium, higher-deductible Bronze plans that now come with HSA eligibility. If HealthEquity captures even 20% of the 7M newly eligible population over 3 years, that represents 1.4M incremental HSAs at an average revenue per account well above the current base given the retail direct-enrollment channel.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Enhanced Rates Program Locks In Above-Market Yields.</span> HealthEquity's proprietary Enhanced Rates program — which channels HSA cash deposits into high-yield insurance bonds and multi-year annuity contracts — is a genuinely differentiated custodial strategy that competitors have not replicated at scale. By end of FY2027, management targets transitioning 60% of all HSA cash into these enhanced contracts, which lock in a blended base rate of approximately 3.92% across maturities through January 2028. This effectively immunizes custodial revenue against interest rate cuts — because only a small fraction of contracts reprice in any given year, HealthEquity's blended yield compression in a rate-cutting cycle would be far slower than the market assumes. Forward interest rate hedges ($2.35–$2.4B notional on U.S. Treasuries) provide additional protection. If rates remain elevated or decline only modestly, HealthEquity's custodial margins could significantly exceed consensus expectations.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Investment Flywheel Accelerates.</span> HSA invested assets surged 26% year-over-year to $18.5 billion, crossing the threshold to represent over half of all HSA assets for the first time. Yet over 90% of HealthEquity's 10.6M HSA members have not yet opened an investment account — representing a massive untapped opportunity to increase lifetime account value without acquiring new customers. The platform's three-tier advisory model (Self-driven, GPS guidance, AutoPilot portfolio management) is designed to systematically convert cash savers into long-term investors. Each dollar that moves from cash to invested assets generates higher custodial yields (investment management fees) while simultaneously increasing account stickiness and reducing churn. If HealthEquity can increase investment account penetration from ~8% to 15% over 3 years, the incremental invested assets and fee revenue would be transformational.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">AI-Driven Margin Expansion and Service Cost Reduction.</span> Artificial intelligence is fundamentally transforming HealthEquity's cost structure. The Expedited Claims AI tool eliminates manual receipt processing, with over half of all claims processed in under two minutes — reducing service costs per account while increasing member satisfaction by 18%. The partnership with Parloa to deploy "agentic AI" across voice and chat networks enables natural conversations that understand complex member intents and execute account actions in real time. HSAnswers, an AI-powered educational assistant, deflects routine inquiries from human agents. These technologies have driven a 70% year-over-year reduction in fraud-related service costs and are bending the overall service cost curve, allowing total account volume to grow considerably faster than underlying service expenses. If AI continues to drive unit cost reduction at current trajectory, EBITDA margins could approach 50% by FY2029 versus the consensus 46%.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Healthcare Affordability Crisis Is a Structural Secular Tailwind.</span> Employer benefit costs are growing at 2–3x the pace of wages, with average family premiums rising 26% since 2020 and 53% since 2015. Industry surveys indicate 86% of employers anticipate significant pressure through 2027. This forces enterprises to steer workforces toward HDHPs paired with HSAs — a dynamic so powerful that HealthEquity generated over 1 million new HSAs from sales in each of the last two fiscal years, even while the U.S. economy added only 181,000 jobs. National HSA assets have reached $146 billion across 39+ million accounts, and the market is still in early innings of structural adoption. HealthEquity, as the largest and most deeply integrated custodian, is the primary beneficiary of this megatrend.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="bear-header">Bear Cases</div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Interest Rate Sensitivity and Custodial Yield Compression.</span> Custodial revenue ($636.8M, 48.5% of total) is derived from interest earned on HSA cash — making it inherently sensitive to the interest rate environment. While the Enhanced Rates program provides substantial insulation, a severe and prolonged rate-cutting cycle (e.g., Fed funds rate falling to 2% or below) would eventually compress blended custodial yields as enhanced contracts mature and reprice. The market may also perceive interest rate risk as greater than the actual exposure, creating persistent valuation overhang. In a sustained low-rate environment reminiscent of 2020–2021, custodial margins would compress meaningfully even with Enhanced Rates, potentially reducing total EBITDA margins by 300–500 basis points from current levels.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Fidelity and Institutional Competitors Gain Share.</span> Fidelity represents the most significant competitive threat — leveraging its massive wealth management and 401(k) recordkeeping relationships to cross-sell HSAs directly to CFOs, often using aggressive zero-fee pricing strategies that undercut HealthEquity. Optum (UnitedHealth Group) competes by tightly bundling HSAs with UnitedHealthcare's medical, dental, and vision products. WEX and smaller tech-forward competitors like Lively target employer accounts with modern, customizable platforms that expose HealthEquity's innovation gaps. Because HealthEquity operates as an independent provider without a bundled insurance or wealth management offering, it can be at a disadvantage when employers seek fully integrated, multi-line benefits packages. If Fidelity or Optum accelerate their HSA strategies, HealthEquity's new account growth rate could decelerate from mid-single-digits toward low-single-digits.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">WageWorks Technical Debt and Integration Risk.</span> Despite promoting its digital wallet and cloud architecture, experts reveal that HealthEquity carries significant technical debt — particularly from the complex integration of its 2019 WageWorks acquisition ($2B). The company has historically struggled with backend technological integration, and prolonged delays leave it exposed to operational risk, client dissatisfaction, and potential loss of employer accounts to more agile providers. The migration to the V5 cloud-based platform has addressed many issues (92% faster response times, 5x platform stability improvement), but legacy system complexity remains a drag on product velocity and innovation speed relative to tech-first competitors.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Regulatory and Legislative Risk — HSA Tax Advantages.</span> HealthEquity's entire economic foundation rests on favorable U.S. tax laws regarding Health Savings Accounts. Any legislative action that diminishes, caps, or eliminates the tax-advantaged status of HSAs would fundamentally destroy the company's core value proposition and devastate its business model. While bipartisan support for HSAs remains strong (the OBBBA expanded eligibility), a future administration could pursue single-payer healthcare ("Medicare for All") legislation that would drastically shrink the addressable market for HDHPs and their paired HSAs. Additionally, as HealthEquity increasingly deploys AI for claims adjudication and customer service, emerging regulatory risks tied to data privacy, algorithmic bias, and the legalities of using personal healthcare information to train models represent a growing compliance burden.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Cybersecurity and Fraud Vulnerability.</span> HealthEquity has been materially impacted by cyberattacks and sophisticated account fraud in recent years. Bad actors exploited the platform's lack of deposit holds, poor identity verification systems, and easy account takeover processes to drain member funds, resulting in elevated fraud reimbursement expenses ($11M in Q4 FY2025 alone). While management has dramatically improved security — deploying passkey authentication, partnering with Visa for AI-powered fraud detection (500+ risk attributes), and reducing quarterly fraud costs to ~$0.3M — the reputational damage from past breaches lingers, and any future security incident involving sensitive healthcare and financial data could cause severe and potentially permanent reputational harm. The target run rate of 1 basis point of total HSA assets per year for security costs (~$3.7M) leaves limited room for error.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Scale Economies</span> <span class="fw-rating strong">Strong</span><br>
+  HealthEquity's platform exhibits powerful scale economies across all three revenue streams. Custodial revenue has near-zero marginal cost — each incremental dollar of HSA assets deposited generates interest income without proportional cost increases. The Enhanced Rates program amplifies this: larger aggregate deposits give HealthEquity greater bargaining power with depository and insurance company partners, enabling better yield terms that smaller custodians cannot access. Service revenue benefits from fixed technology platform costs spread across 17.8 million accounts — the cost to maintain the V5 cloud platform, mobile app, and AI systems is largely independent of account volume, creating strong operating leverage (EBITDA margins expanded from 28% in FY2024 to 43% in FY2026). Interchange revenue scales with card transaction volume. The company's 5-year revenue CAGR of 12.4% has been achieved while driving EBITDA margins from ~22% to 43%, demonstrating that the incremental economics are highly favorable. At 10.6M HSAs — roughly 5x the scale of most competitors — HealthEquity's cost-per-account advantage is structurally significant and widening.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Network Effects</span> <span class="fw-rating moderate">Moderate</span><br>
+  HealthEquity exhibits indirect network effects through its B2B2C distribution ecosystem. The platform is deeply integrated with 200+ Network Partners (health plans, benefits brokers, retirement recordkeepers, pharmacy benefit managers) through bidirectional data integrations and customized APIs. As more partners integrate with HealthEquity, the platform becomes more valuable to employers (who want seamless connectivity with their existing benefits ecosystem) and to additional partners (who want access to HealthEquity's 100,000+ employer client base). This creates a virtuous cycle: more partners → more employer clients → more members → more data → better AI/analytics → more partners. However, this is not a classic two-sided marketplace network effect — the value accrues primarily through ecosystem integration complexity rather than direct member-to-member interactions. The network effect is meaningful but not category-defining; a well-resourced competitor (Fidelity, Optum) could theoretically build comparable integrations with sufficient investment and time.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Counter-Positioning</span> <span class="fw-rating strong">Strong</span><br>
+  HealthEquity's counter-positioning against Fidelity, Optum/UnitedHealth, and traditional banks is genuine and powerful. Fidelity's economic model is built around using HSAs as loss leaders to capture broader wealth management relationships — it competes on zero-fee pricing that cannibalizes the service revenue HealthEquity earns. But Fidelity cannot replicate HealthEquity's deep integration with 200+ diverse health plan and benefits partners, because Fidelity's partners would view deep Fidelity integration as a competitive threat to their own financial services relationships. Optum/UnitedHealth bundles HSAs with UnitedHealthcare products — but this bundling strategy alienates the majority of employers who offer multiple insurance carrier options and need a carrier-agnostic HSA provider. HealthEquity's independence and agnostic integration capability is precisely the product that bundled competitors cannot offer without undermining their core business models. This counter-positioning is durable: the more deeply HealthEquity integrates with diverse partners, the more difficult it becomes for bundled competitors to match the breadth of connectivity.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Switching Costs</span> <span class="fw-rating strong">Strong</span><br>
+  HSA switching costs are among the highest in financial services because accounts are individually owned trust accounts. Migrating members to a new administrator requires explicit member consent, significant administrative effort from HR teams, and often triggers account closure fees. Employer retention rates are in the "high 90s" — virtually no employers voluntarily leave HealthEquity's platform. The stickiness is compounded by: (a) years of accumulated transaction history, claims data, and investment account configurations that would need to be rebuilt; (b) deep integration with employer payroll systems, benefits platforms, and HR workflows; (c) member inertia — individual HSA holders rarely change custodians, especially if they have investment accounts with specific portfolio allocations; and (d) the Enhanced Rates program, which locks HSA cash into multi-year contracts that cannot be easily unwound. Customer concentration risk is low (no single partner >6% of HSA accounts, 85% of employers have 500 or fewer employees), meaning no single client defection would be material. The combination of individual account ownership, employer integration complexity, and contractual lock-in creates a switching cost moat that is genuinely formidable.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Branding</span> <span class="fw-rating moderate">Moderate</span><br>
+  HealthEquity has strong brand recognition within the benefits administration ecosystem — it is the go-to name that benefits brokers, HR departments, and health plan administrators associate with HSAs. The company's 24/7, 365-day U.S.-based customer service model has become a key differentiator and brand attribute, with the "Team Purple" culture driving high member satisfaction scores. The mobile app has surpassed 3.6 million downloads, and the Expedited Claims AI tool has won industry recognition awards. However, the brand is B2B-facing rather than consumer-facing — most individual HSA holders do not actively choose HealthEquity; they receive it through their employer's benefits enrollment. The brand reduces sales friction in the broker and employer channel but does not command a meaningful pricing premium over a hypothetical equally-capable competitor. As HealthEquity builds out its direct retail enrollment platform for ACA Bronze plan members, consumer brand recognition will become increasingly important but is currently underdeveloped.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">6. Cornered Resource</span> <span class="fw-rating moderate">Moderate</span><br>
+  HealthEquity's most significant cornered resource is its integrated network of 200+ bidirectional data connections with health plans, benefits brokers, retirement recordkeepers, and pharmacy benefit managers. Replicating these bespoke integrations — each customized with specific data models, API configurations, and compliance requirements — would require years of development and relationship-building from any new entrant. The company's accumulated dataset of 17.8M accounts, $36.5B in HSA assets, and decades of transaction history also represents a data asset that powers AI tools (Expedited Claims, HSAnswers) with domain-specific accuracy that generic models cannot match. CEO Scott Cutler, who joined in January 2025 with a strong technology background from StockX, eBay, and the NYSE, is driving a security and modernization overhaul that experts view optimistically. However, no single individual is irreplaceable, and the integration network — while valuable — is a function of institutional relationships rather than proprietary technology.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">7. Process Power</span> <span class="fw-rating moderate">Moderate</span><br>
+  HealthEquity has developed sophisticated processes for onboarding acquired HSA portfolios — a critical capability in an industry undergoing rapid consolidation. The company's track record of purchasing books of business (including the BenefitWallet HSA portfolio from Conduent for $425M in May 2024), migrating accounts onto its proprietary cloud architecture, and transitioning acquired cash into the higher-yielding Enhanced Rates platform represents accumulated institutional knowledge. The open-enrollment sales execution process — which consistently generates 1M+ new HSAs from sales annually despite macro headwinds — reflects a refined go-to-market machine. The "Team Purple" culture emphasizes member-first customer service that frequently wins over HR departments during competitive evaluations. However, these processes, while well-executed, are not fundamentally unique — large financial services companies develop comparable operational capabilities, and HealthEquity's relatively small workforce (~2,814 employees) limits the depth of institutional process knowledge.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> HealthEquity is a 3–4 power business with genuine strength in Scale Economies (10.6M HSAs with dramatically lower unit costs than competitors), Counter-Positioning (carrier-agnostic independence that bundled competitors cannot replicate), and Switching Costs (individually owned trust accounts with employer retention in the high 90s). Network Effects, Branding, Cornered Resource, and Process Power are moderate and compounding. This is a strong 7 Powers profile for a financial services platform — the combination of scale and switching costs creates a durable moat that should protect the business through interest rate cycles and competitive pressure.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Threat of New Entrants</span> <span class="fw-rating low">Low</span><br>
+  Barriers to entry in HSA administration are formidable. A new entrant would need to: (a) obtain trust company or banking charter authorizations in all 50 states, (b) build bidirectional data integrations with hundreds of health plans, benefits brokers, and retirement recordkeepers — each requiring customized APIs and compliance protocols, (c) develop or license a compliant custodial infrastructure capable of managing billions in trust assets, (d) achieve sufficient scale to negotiate competitive yields with depository and insurance company partners for the Enhanced Rates-style programs that drive custodial economics, and (e) build the regulatory, compliance, and security infrastructure required to hold sensitive healthcare and financial data. The industry is consolidating, not fragmenting: smaller banks and financial institutions are exiting HSA administration (Conduent divested its BenefitWallet portfolio to HealthEquity; smaller custodians routinely sell their books of business). The most likely competitive threat is from adjacent incumbents (Fidelity, Optum) extending their existing capabilities, not from de novo entrants.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Bargaining Power of Suppliers</span> <span class="fw-rating low">Low</span><br>
+  HealthEquity's primary "suppliers" are depository institutions and insurance companies that hold HSA cash deposits (earning a spread on the deposits), technology infrastructure providers (cloud, AI), and its workforce. For depository partners, HealthEquity's $36.5B in HSA assets provides substantial bargaining leverage — these are stable, long-duration deposits that banks and insurance companies value highly, and HealthEquity can negotiate favorable terms by threatening to redirect deposit flows among multiple partners. For technology, the company has built proprietary cloud infrastructure (V5 platform) and AI tools (Expedited Claims, HSAnswers), reducing dependence on any single vendor. The AI partnerships (Parloa for agentic customer service, Visa for fraud detection) are strategic but not sole-sourced — HealthEquity retains the proprietary data and domain knowledge that makes these integrations valuable. Employee talent is the most constrained supplier, but HealthEquity's Utah headquarters provides access to a cost-effective talent pool relative to coastal tech companies.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Bargaining Power of Buyers</span> <span class="fw-rating moderate">Moderate</span><br>
+  HealthEquity's buyers include employers (who select the HSA custodian), benefits brokers (who recommend custodians), and individual members (who hold accounts). Employers have moderate bargaining power — large employers with thousands of employees can negotiate volume-based pricing, and the availability of competing custodians (Fidelity's zero-fee model, Optum's bundled approach) creates pricing pressure. However, buyer power is constrained by switching costs (moving thousands of individually owned accounts requires member-by-member consent), the low cost of HSA administration relative to total benefits spend (immaterial for most employers), and the fragmented nature of HealthEquity's client base (85% of employers have 500 or fewer employees, no single partner >6% of HSA accounts). Benefits brokers have moderate influence on custodian selection but are themselves integrated into HealthEquity's network, creating relationship lock-in. Individual members have very low bargaining power — they typically accept the custodian selected by their employer.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Threat of Substitutes</span> <span class="fw-rating low">Low</span><br>
+  There is no meaningful substitute for the Health Savings Account as a tax-advantaged healthcare savings vehicle. The triple tax advantage (tax-deductible contributions, tax-free growth, tax-free qualified withdrawals) is unique in the U.S. tax code — no other financial product offers equivalent benefits for healthcare savings. FSAs are partial substitutes but have inferior economics ("use it or lose it" provisions, lower contribution limits, no investment option). HRAs are employer-funded only and non-portable. Traditional savings accounts offer no tax advantage. The OBBBA legislation has further entrenched HSAs by expanding eligibility and qualifying expense categories. The primary substitution risk is structural: if the U.S. were to adopt single-payer healthcare, eliminating HDHPs entirely, the addressable market would collapse. Short of that scenario, HSAs are becoming more deeply embedded in the American healthcare financing system with each legislative expansion, making substitution increasingly unlikely.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Competitive Rivalry</span> <span class="fw-rating high">High</span><br>
+  The HSA administration market has consolidated around four dominant players — HealthEquity, Fidelity, Optum, and WEX — with intense competition for new employer accounts and existing portfolio acquisitions. Fidelity competes aggressively on price (zero-fee models) and leverages its massive 401(k) recordkeeping relationships to cross-sell HSAs directly to CFOs. Optum bundles HSAs with UnitedHealthcare products, creating competitive pressure when employers prioritize integrated benefits platforms. WEX competes primarily in direct-to-employer sales with strong broker relationships. Smaller, tech-forward competitors like Lively and Bend offer modern user experiences that highlight HealthEquity's legacy platform limitations. Pricing pressure is real: Fidelity's zero-fee approach forces HealthEquity to compete on service quality, integration breadth, and custodial yield rather than price. However, the market is growing fast enough (national HSA assets $146B+ and expanding) that competition has not prevented HealthEquity from adding 1M+ new HSAs annually. The rivalry is intense on new account acquisition but moderate on retention (high-90s employer retention rates), suggesting that competition primarily affects growth rates rather than the existing installed base.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> HealthEquity's five-force structure is favorable with one notable exception: competitive rivalry is high and intensifying. Low threat of new entrants, low supplier power, low substitution risk, and moderate buyer power create a structurally protected position — but the intensity of competition from Fidelity (zero-fee pricing), Optum (bundled products), and tech-forward disruptors means that HealthEquity must continue investing in platform modernization, AI capabilities, and the Enhanced Rates program to maintain its market leadership. The key insight is that competition affects growth velocity more than installed base retention — which is why the secular tailwind (healthcare affordability crisis, OBBBA) is so important for the thesis.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 6: WHAT DRIVES THE STOCK? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<p class="prose">The following are the 6 variables that would move HQY's share price materially in the next 12 months. These are what analysts build tracking models around and PMs ask about in morning meetings.</p>
+
+<p class="prose"><strong>1. Interest Rate Trajectory and Custodial Yield.</strong> Custodial revenue ($636.8M, 48.5% of total) is the single largest revenue line and the most profitable segment. The market's perception of HealthEquity's interest rate sensitivity — and the degree to which the Enhanced Rates program actually insulates blended yields — is the dominant driver of the stock. Each earnings call is scrutinized for average custodial yield per account, the percentage of HSA cash in Enhanced Rates contracts, and the maturity profile of those contracts. A Federal Reserve rate-cutting cycle that is slower/shallower than expected would be a significant positive catalyst; a rapid rate-cutting cycle would test the Enhanced Rates insulation thesis and likely pressure the stock regardless of actual financial impact.</p>
+
+<p class="prose"><strong>2. HSA Account Growth and New HSAs from Sales.</strong> HealthEquity has generated over 1 million new HSAs from sales in each of the last two fiscal years. This metric is the leading indicator of future revenue and asset growth. The Q1 FY2027 print (May 28) will be the first data point showing whether the OBBBA-driven expansion of HSA eligibility to Bronze plan enrollees is translating into measurable new account growth. A meaningful uptick in new HSAs from sales (particularly from the direct retail enrollment channel) would validate the OBBBA bull case; a flat or declining number would suggest the legislative catalyst is overhyped.</p>
+
+<p class="prose"><strong>3. Total HSA Assets and Investment Account Penetration.</strong> Total HSA assets ($36.5B, +14% YoY) and HSA invested assets ($18.5B, +26% YoY) are the balance sheet metrics that drive the custodial revenue engine. Asset growth compounds through three mechanisms: new account additions, member contributions, and investment appreciation. The investment penetration rate (currently ~8% of members) is the most under-appreciated growth lever — each percentage point increase in penetration represents roughly 106,000 new investment accounts, each generating incremental advisory and management fees. This metric is a leading indicator of the investment flywheel thesis.</p>
+
+<p class="prose"><strong>4. EBITDA Margin Expansion and FY2027 Guidance.</strong> Management guided FY2027 Adjusted EBITDA margin of 43.8–44.3% (vs. 43% in FY2026). The trajectory from 28% (FY2024) to 46%+ (FY2029E consensus) represents one of the most dramatic margin expansion stories in financial services technology. Each quarterly earnings report will be evaluated against this trajectory — margin beats driven by AI cost reduction or Enhanced Rates outperformance would accelerate the re-rating, while margin misses from competitive pricing pressure or fraud expenses would validate the bear case.</p>
+
+<p class="prose"><strong>5. Competitive Dynamics — Fidelity Market Share Gains.</strong> Fidelity's aggressive HSA strategy — zero-fee pricing, cross-selling from 401(k) relationships, superior investment platform — is the most frequently cited bear case among institutional investors. Any data points indicating Fidelity's HSA market share acceleration (from industry reports, broker surveys, or HealthEquity's own commentary on competitive win rates) would pressure the stock. Conversely, evidence that HealthEquity is defending share despite Fidelity's pricing advantage (which the 1M+ new HSAs from sales suggests) would reduce the competitive overhang.</p>
+
+<p class="prose"><strong>6. Capital Allocation — Buybacks, Debt Reduction, M&amp;A.</strong> HealthEquity returned $301M via share repurchases in FY2026 and reduced total debt by ~$100M. With $457M in operating cash flow, the capital allocation framework (organic investment, buybacks, debt paydown, opportunistic M&A) is a meaningful driver of per-share economics. Any announcement of an accretive HSA portfolio acquisition (similar to the $425M BenefitWallet deal) would be a positive catalyst; a large, dilutive acquisition outside core HSA administration would be a negative signal.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<p class="prose">HealthEquity's revenue can be decomposed into its key product lines using fundamental economic drivers:</p>
+
+<table class="data" style="font-size:10px; margin-bottom:16px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Revenue Line</th>
+      <th style="text-align:left;">Driver 1</th>
+      <th style="text-align:left;">Driver 2</th>
+      <th style="text-align:left;">Driver 3</th>
+      <th style="text-align:left;">= Revenue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Custodial</strong></td>
+      <td>HSA Cash Assets ($18.0B)</td>
+      <td>x Blended Yield (~3.5%)</td>
+      <td>+ Enhanced Rates Uplift</td>
+      <td>= Custodial Revenue ($637M)</td>
+    </tr>
+    <tr>
+      <td><strong>Service</strong></td>
+      <td>Total Accounts (17.8M)</td>
+      <td>x Avg Fee/Account (~$27)</td>
+      <td>+ Recordkeeping Fees</td>
+      <td>= Service Revenue ($485M)</td>
+    </tr>
+    <tr>
+      <td><strong>Interchange</strong></td>
+      <td>Card Transactions (#)</td>
+      <td>x Avg Transaction Size</td>
+      <td>x Interchange Rate</td>
+      <td>= Interchange Revenue ($192M)</td>
+    </tr>
+    <tr>
+      <td><strong>Total Revenue</strong></td>
+      <td>Custodial</td>
+      <td>+ Service</td>
+      <td>+ Interchange</td>
+      <td>= $1,313M (FY2026) / $1,411M (FY2027E)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose"><strong>Key driver quantification (FY2027E estimates):</strong></p>
+<ul style="font-size: 11px; line-height: 1.7; color: #333; margin-left: 20px; margin-bottom: 10px;">
+  <li><strong>Custodial:</strong> HSA cash assets ~$19B x blended yield ~3.7% (Enhanced Rates lifting above base rate) = ~$700M custodial revenue; growth driven by new account deposits, employer contributions, and yield optimization</li>
+  <li><strong>Service:</strong> ~18.5M total accounts x ~$27 avg fee/account = ~$500M; growth limited by flat-to-modest fee increases offset by volume growth; recordkeeping fees from investment accounts provide incremental lift</li>
+  <li><strong>Interchange:</strong> Transaction volume growth of 5–7% driven by card penetration and member spending; ~$200M; modest growth as HealthEquity Marketplace drives more transactions through the platform</li>
+  <li><strong>Total FY2027E:</strong> $1,411M (+7.5%), with custodial driving ~65%+ of incremental revenue growth</li>
+</ul>
+
+<p class="prose"><strong>Leverage analysis:</strong> The two highest-leverage drivers on total revenue and FCF are: (1) <em>HSA Cash Assets and Custodial Yield</em> — every 10 basis points of blended custodial yield translates to approximately $18M of incremental custodial revenue ($18.0B HSA cash × 0.10%) flowing through at very high incremental margins (near 100% incremental EBITDA margin on custodial revenue). The difference between a 3.5% and 4.0% blended yield is approximately $90M in annual custodial revenue — a transformational difference that flows almost entirely to EBITDA. (2) <em>Total HSA Assets Growth Rate</em> — total HSA assets grew 14% YoY to $36.5B in FY2026, driven by new account additions, member contributions, and investment appreciation. Each 1% of additional asset growth adds approximately $365M to the asset base, generating ~$13M in incremental custodial revenue at current blended yields. Asset growth compounds: a 14% CAGR over 3 years would take total HSA assets from $36.5B to $54.1B; a 18% CAGR would reach $59.9B — representing $8.4B of incremental assets and ~$300M of incremental annual custodial revenue relative to the lower-growth scenario.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+  <strong>AlphaSense Research Reports</strong> · Subject: HealthEquity, Inc. (HQY) · Reports Reviewed: AlphaSense Deep Dive &amp; Company Primer, Q1–Q4 FY2026 Earnings Transcripts, AGM Transcript, FactSet Snapshot<br>
+  <em>Key themes synthesized from AlphaSense competitive intelligence, expert calls, management commentary, and industry research.</em>
+</div>
+
+<p class="prose"><strong>The "Fintech Innovator" Perception Is Misleading — HealthEquity Is a Legacy Provider With Deep Moats.</strong> Perhaps the most important analytical insight from expert calls is that despite promoting its digital wallet and cloud architecture, HealthEquity actually operates more like an antiquated legacy service provider carrying significant technical debt from its WageWorks acquisition — winning business through brand reputation, unparalleled network integration (200+ partners), and traditional human-led customer service rather than disruptive software. This is simultaneously a bear case (innovation gaps relative to Lively, WEX) and a bull case (the moat is not in the technology but in the ecosystem connectivity and switching costs). Experts consistently distinguish between HealthEquity's competitive positioning (extremely strong due to integration depth and account stickiness) and its technology platform (adequate but not best-in-class). The implication for investors is that HealthEquity's durability is underestimated by those who evaluate it as a fintech, and overestimated by those who assume the technology platform will be a source of competitive advantage.</p>
+
+<p class="prose"><strong>Enhanced Rates Program Is the Most Misunderstood Aspect of the Business.</strong> The market's default assumption is that HealthEquity's custodial revenue will compress linearly with Federal Reserve rate cuts. Expert analysis reveals this assumption is materially wrong. The Enhanced Rates program channels HSA cash into high-yield insurance bonds and multi-year annuity contracts that lock in yields for extended periods — management targets 60% of HSA cash in these enhanced contracts by FY2027. Because only a small fraction of contracts reprice in any given year, the blended yield compression in a rate-cutting cycle would be far slower than the market models. Forward contracts on U.S. Treasuries ($2.35–$2.4B notional) provide additional insulation. The key analytical point: HealthEquity has effectively transformed what was historically a variable-rate, interest-rate-sensitive revenue stream into a significantly more durable, quasi-fixed-rate revenue stream — but the market still values it as though it were fully variable.</p>
+
+<p class="prose"><strong>The Investment Flywheel Is Massively Under-Penetrated.</strong> One of the most compelling data points from the research is that over 90% of HealthEquity's HSA members have not yet opened an investment account, despite invested assets surging 26% to $18.5B and crossing the 50% threshold of total HSA assets. This represents a massive embedded option: converting even a fraction of the 9.7M non-investing HSA holders into investors would dramatically increase lifetime account value without requiring net-new customer acquisition. Management's three-tier advisory model (Self-driven, GPS guidance, AutoPilot) is designed specifically to address this opportunity. The HealthEquity Marketplace — connecting members to eligible products like GLP-1 weight management programs, diagnostics, and telehealth — further deepens engagement and positions the HSA as a healthcare financial operating system rather than a passive savings account.</p>
+
+<p class="prose"><strong>OBBBA Legislation Is a Genuine Game-Changer.</strong> The "One Big Beautiful Bill Act" signed in July 2025 is not merely incremental — it represents a structural expansion of the HSA addressable market. By permanently categorizing all Bronze and Catastrophic ACA plans as HSA-compatible, the law unlocked HSA eligibility for 7 million previously ineligible Americans. The timing is significant: enhanced Premium Tax Credits are expiring, driving consumers from Silver to Bronze plans — with Bronze plan selection hitting 40% nationally (the highest ever). The law also modernizes qualified medical expenses to include telehealth and Direct Primary Care arrangements, expanding the utility of HSA funds. HealthEquity's launch of a direct retail HSA enrollment platform specifically targeting these newly eligible Bronze plan members positions the company to capture a disproportionate share of this new market segment.</p>
+
+<p class="prose"><strong>Key Investor Questions.</strong> Based on the earnings transcripts and expert calls, the questions that would most sharpen conviction on HealthEquity are: (1) What is the actual pace of OBBBA-driven retail HSA enrollment — are the 7M newly eligible Americans converting into accounts at scale? (2) What is the true maturity profile and yield sensitivity of the Enhanced Rates portfolio — how much custodial yield compression would occur in a 200bp Fed rate-cutting cycle? (3) What is the investment account penetration trajectory — can HealthEquity accelerate conversion beyond the current ~8% penetration rate? (4) How is Fidelity's zero-fee HSA strategy performing — is it gaining share among large employers, and at what rate? (5) What is the timeline for AI-driven cost reduction to reduce service expense per account to a level that enables margin expansion even in a flat-growth environment?</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 9: SENSITIVITY ANALYSIS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Sensitivity Analysis</div>
+
+<!-- Sensitivity Table 1 -->
+<p class="prose"><strong>Sensitivity Table 1: FY2029E Total HSA Assets ($B) — HSA Asset CAGR (%) vs. Starting HSA Assets ($B)</strong></p>
+<p class="prose"><strong>Current: Starting HSA Assets = $36.5B, Asset CAGR = 12% over 3 years to FY2029E (Jan 2029) = ~$51.3B</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Starting Assets / CAGR</th>
+      <th>6%</th>
+      <th>9%</th>
+      <th>12%</th>
+      <th>15%</th>
+      <th>18%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$30.0B</td><td>$35.7</td><td>$38.9</td><td>$42.2</td><td>$45.6</td><td>$49.2</td></tr>
+    <tr><td>$33.0B</td><td>$39.3</td><td>$42.7</td><td>$46.4</td><td>$50.2</td><td>$54.2</td></tr>
+    <tr><td>$36.5B</td><td>$43.5</td><td>$47.3</td><td class="base">$51.3</td><td>$55.5</td><td>$59.9</td></tr>
+    <tr><td>$40.0B</td><td>$47.6</td><td>$51.8</td><td>$56.2</td><td>$60.8</td><td>$65.7</td></tr>
+    <tr><td>$44.0B</td><td>$52.4</td><td>$57.0</td><td>$61.8</td><td>$66.9</td><td>$72.2</td></tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 2 -->
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 2: FY2029E Adjusted EBITDA ($M) — Total Revenue ($M) vs. Adj. EBITDA Margin (%)</strong></p>
+<p class="prose"><strong>Current (FY2029E Consensus): Revenue = $1,625M x EBITDA Margin = 46.4% = ~$754M EBITDA</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Revenue / EBITDA Margin</th>
+      <th>38%</th>
+      <th>42%</th>
+      <th>46%</th>
+      <th>50%</th>
+      <th>54%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$1,400M</td><td>$532</td><td>$588</td><td>$644</td><td>$700</td><td>$756</td></tr>
+    <tr><td>$1,500M</td><td>$570</td><td>$630</td><td>$690</td><td>$750</td><td>$810</td></tr>
+    <tr><td>$1,625M</td><td>$618</td><td>$683</td><td class="base">$748</td><td>$813</td><td>$878</td></tr>
+    <tr><td>$1,750M</td><td>$665</td><td>$735</td><td>$805</td><td>$875</td><td>$945</td></tr>
+    <tr><td>$1,900M</td><td>$722</td><td>$798</td><td>$874</td><td>$950</td><td>$1,026</td></tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 3 -->
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 3: Implied Share Price ($) — P/FCF Multiple (x) vs. FY2029E FCF/Share ($)</strong></p>
+<p class="prose"><strong>Current: FCF/Share = $6.45 (base case) x P/FCF = 16x = $103.22 implied share price vs. $82.18 current</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>FCF/Share / P/FCF</th>
+      <th>10x</th>
+      <th>13x</th>
+      <th>16x</th>
+      <th>20x</th>
+      <th>24x</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$4.17</td><td class="base" style="background:#f8d7da;">$41.70</td><td>$54.21</td><td>$66.72</td><td>$83.40</td><td>$100.08</td></tr>
+    <tr><td>$5.66</td><td>$56.60</td><td class="base" style="background:#fff3cd;">$73.58</td><td>$90.56</td><td>$113.20</td><td>$135.84</td></tr>
+    <tr><td>$6.45</td><td>$64.50</td><td>$83.85</td><td class="base">$103.20</td><td>$129.00</td><td>$154.80</td></tr>
+    <tr><td>$7.65</td><td>$76.50</td><td>$99.45</td><td>$122.40</td><td class="base" style="background:#d4edda;">$153.00</td><td>$183.60</td></tr>
+    <tr><td>$9.38</td><td>$93.80</td><td>$121.94</td><td>$150.08</td><td>$187.60</td><td class="base" style="background:#d4edda;">$225.12</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 10: 3-YEAR MODEL — 5 SCENARIOS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios</div>
+
+<p class="prose">All figures in $M unless stated. Modeled FY2027E, FY2028E, FY2029E (FYE January). Exit multiple applied to FY2029E FCF/share. Current share price: $82.18. Diluted shares: 86.70M (declining via buybacks). Net debt: $638M.</p>
+
+<!-- CASE 1: BEAR SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 1: Bear Severe — Rate Collapse + HSA Legislative Risk</div>
+  <div class="case-desc">Fed funds rate falls to 2% rapidly; Enhanced Rates contracts mature into drastically lower yields; Congress caps HSA contribution limits or reduces tax advantages; Fidelity captures significant market share via zero-fee strategy; cybersecurity incident damages trust; account growth stalls.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2027</strong> — Aggressive rate cuts compress custodial yields by 80bp; Enhanced Rates provide partial but insufficient insulation; Fidelity wins 3 large employer accounts; OBBBA enrollment disappoints. <strong>FY2028</strong> — Custodial revenue declines as contracts reprice into sub-3% yields; legislative uncertainty around HSA tax advantages creates valuation overhang; management cuts costs aggressively. <strong>FY2029</strong> — Revenue stabilizes at lower level; EBITDA margins recover partially through cost reduction; stock trades at distressed financial services multiple.</p>
+  <div class="driver-label">Key Drivers — FY2029E (Year 3)</div>
+  <div class="driver-row"><span>HSA Account Growth</span><span>2% (stalled)</span></div>
+  <div class="driver-row"><span>Total HSA Assets</span><span>$40B (compressed yields)</span></div>
+  <div class="driver-row"><span>Custodial Yield</span><span>2.8% (rate collapse)</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>37%</span></div>
+  <div class="driver-row"><span>Exit P/FCF</span><span>10x (distressed finserv)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$1,380</td><td>$1,400</td><td>$1,350</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+5%</td><td>+1%</td><td>-4%</td></tr>
+    <tr><td>EBITDA</td><td>$560</td><td>$540</td><td>$500</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>40.6%</td><td>38.6%</td><td>37.0%</td></tr>
+    <tr><td>Net Income</td><td>$200</td><td>$175</td><td>$155</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>85</td><td>84.5</td><td>84</td></tr>
+    <tr><td>FCF</td><td>$400</td><td>$380</td><td>$350</td></tr>
+    <tr><td>FCF/Share</td><td>$4.71</td><td>$4.50</td><td>$4.17</td></tr>
+    <tr class="valuation-row"><td>Exit P/FCF Multiple</td><td>--</td><td>--</td><td>10x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>--</td><td>$41.67</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 10x FY2029E FCF/share of $4.17</div>
+    <div class="exit-price">Implied Share Price: $41.67</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: -49% from $82.18</div>
+  </div>
+</div>
+
+<!-- CASE 2: BEAR MILD -->
+<div class="case-block">
+  <div class="case-name">Case 2: Bear Mild — Growth Stalls, Margins Plateau</div>
+  <div class="case-desc">Account growth decelerates to 3-4%; custodial yields compress moderately with gradual rate cuts; service revenue remains sluggish; OBBBA drives some incremental enrollment but below expectations; competitive pressure from Fidelity constrains pricing power.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2027</strong> — Revenue of $1,400M (+7%), but custodial yields begin to compress as some Enhanced Rates contracts mature; new HSA growth decelerates to 800K. <strong>FY2028</strong> — Revenue reaches $1,475M (+5%); EBITDA margins plateau at 43% as rate headwinds offset AI-driven cost savings. <strong>FY2029</strong> — Revenue $1,520M (+3%); market assigns lower-growth multiple; stock underperforms but downside limited by FCF generation.</p>
+  <div class="driver-label">Key Drivers — FY2029E (Year 3)</div>
+  <div class="driver-row"><span>HSA Account Growth</span><span>4% (decelerating)</span></div>
+  <div class="driver-row"><span>Total HSA Assets</span><span>$45B</span></div>
+  <div class="driver-row"><span>Custodial Yield</span><span>3.2% (moderate compression)</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>43.4%</span></div>
+  <div class="driver-row"><span>Exit P/FCF</span><span>13x</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$1,400</td><td>$1,475</td><td>$1,520</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+7%</td><td>+5%</td><td>+3%</td></tr>
+    <tr><td>EBITDA</td><td>$600</td><td>$640</td><td>$660</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>42.9%</td><td>43.4%</td><td>43.4%</td></tr>
+    <tr><td>Net Income</td><td>$225</td><td>$250</td><td>$270</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>85</td><td>84</td><td>83</td></tr>
+    <tr><td>FCF</td><td>$420</td><td>$450</td><td>$470</td></tr>
+    <tr><td>FCF/Share</td><td>$4.94</td><td>$5.36</td><td>$5.66</td></tr>
+    <tr class="valuation-row"><td>Exit P/FCF Multiple</td><td>--</td><td>--</td><td>13x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>--</td><td>$73.61</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 13x FY2029E FCF/share of $5.66</div>
+    <div class="exit-price">Implied Share Price: $73.61</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: -10% from $82.18</div>
+  </div>
+</div>
+
+<!-- CASE 3: BASE CASE -->
+<div class="case-block">
+  <div class="case-name">Case 3: Base Case — Consensus Execution, Steady Compounding</div>
+  <div class="case-desc">HSA accounts grow 7%; total assets grow 12-14%; Enhanced Rates insulates custodial yields effectively; EBITDA margins expand toward 46%; OBBBA drives modest incremental enrollment; AI cost reduction on track; share buybacks reduce diluted count; no large M&amp;A.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2027</strong> — Revenue $1,411M (+7.5%), EBITDA $625M (44.3%), FCF $440M; 1M+ new HSAs from sales; total HSA assets approach $42B. <strong>FY2028</strong> — Revenue $1,528M (+8.3%), EBITDA $704M (46.1%); investment penetration increases to 10%; total HSA assets ~$48B. <strong>FY2029</strong> — Revenue $1,625M; EBITDA $754M (46.4%); FCF/share crosses $6.45; market begins to re-rate as margin durability is proven.</p>
+  <div class="driver-label">Key Drivers — FY2029E (Year 3)</div>
+  <div class="driver-row"><span>HSA Account Growth</span><span>7% (sustained)</span></div>
+  <div class="driver-row"><span>Total HSA Assets</span><span>$51B</span></div>
+  <div class="driver-row"><span>Custodial Yield</span><span>3.5% (Enhanced Rates stable)</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>46.4%</span></div>
+  <div class="driver-row"><span>Exit P/FCF</span><span>16x</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$1,411</td><td>$1,528</td><td>$1,625</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+7.5%</td><td>+8.3%</td><td>+6.4%</td></tr>
+    <tr><td>EBITDA</td><td>$625</td><td>$704</td><td>$754</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>44.3%</td><td>46.1%</td><td>46.4%</td></tr>
+    <tr><td>Net Income</td><td>$245</td><td>$298</td><td>$338</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>85</td><td>83.5</td><td>82</td></tr>
+    <tr><td>FCF</td><td>$440</td><td>$488</td><td>$529</td></tr>
+    <tr><td>FCF/Share</td><td>$5.18</td><td>$5.84</td><td>$6.45</td></tr>
+    <tr class="valuation-row"><td>Exit P/FCF Multiple</td><td>--</td><td>--</td><td>16x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>--</td><td>$103.22</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 16x FY2029E FCF/share of $6.45</div>
+    <div class="exit-price">Implied Share Price: $103.22</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +26% from $82.18</div>
+  </div>
+</div>
+
+<!-- CASE 4: BULL MILD -->
+<div class="case-block">
+  <div class="case-name">Case 4: Bull Mild — OBBBA Tailwind + Enhanced Rates Outperformance</div>
+  <div class="case-desc">OBBBA drives 200K+ incremental new HSAs/year from retail channel; Enhanced Rates program locks in above-market yields longer; investment flywheel accelerates with penetration reaching 12%; HealthEquity Marketplace generates meaningful interchange uplift; AI cost reduction exceeds expectations.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2027</strong> — Revenue $1,430M (+9%); OBBBA-driven retail enrollment exceeds expectations; Enhanced Rates lock in 3.9%+ blended yield; investment penetration rises to 10%. <strong>FY2028</strong> — Revenue $1,580M (+10%); Marketplace drives 15%+ interchange growth; EBITDA margin approaches 47%. <strong>FY2029</strong> — Revenue $1,750M (+11%); total HSA assets exceed $55B; EBITDA margin 48%; market re-rates as secular growth story becomes consensus.</p>
+  <div class="driver-label">Key Drivers — FY2029E (Year 3)</div>
+  <div class="driver-row"><span>HSA Account Growth</span><span>10%+ (OBBBA-driven acceleration)</span></div>
+  <div class="driver-row"><span>Total HSA Assets</span><span>$56B</span></div>
+  <div class="driver-row"><span>Custodial Yield</span><span>3.8% (Enhanced Rates outperformance)</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>48%</span></div>
+  <div class="driver-row"><span>Exit P/FCF</span><span>20x (growth premium)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$1,430</td><td>$1,580</td><td>$1,750</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+9%</td><td>+10%</td><td>+11%</td></tr>
+    <tr><td>EBITDA</td><td>$650</td><td>$740</td><td>$840</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>45.5%</td><td>46.8%</td><td>48.0%</td></tr>
+    <tr><td>Net Income</td><td>$270</td><td>$330</td><td>$400</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>84</td><td>82</td><td>81</td></tr>
+    <tr><td>FCF</td><td>$470</td><td>$540</td><td>$620</td></tr>
+    <tr><td>FCF/Share</td><td>$5.60</td><td>$6.59</td><td>$7.65</td></tr>
+    <tr class="valuation-row"><td>Exit P/FCF Multiple</td><td>--</td><td>--</td><td>20x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>--</td><td>$153.09</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 20x FY2029E FCF/share of $7.65</div>
+    <div class="exit-price">Implied Share Price: $153.09</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +86% from $82.18</div>
+  </div>
+</div>
+
+<!-- CASE 5: BULL SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 5: Bull Severe — HSA Mainstream Adoption + Strategic Premium</div>
+  <div class="case-desc">HSAs become mainstream financial savings product beyond healthcare; investment flywheel accelerates massively as 15%+ members convert; AI drives service costs toward near-zero; Marketplace captures significant share of $40B member healthcare spend; potential acquisition by financial services giant at strategic premium.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2027</strong> — Revenue $1,450M (+10%); OBBBA plus expanding employer adoption drives record new HSAs; investment penetration reaches 12%. <strong>FY2028</strong> — Revenue $1,650M (+14%); Marketplace becomes meaningful revenue contributor; EBITDA margin approaches 50%. <strong>FY2029</strong> — Revenue approaches $1,900M; total HSA assets >$60B; FCF $750M; HealthEquity either acquired at strategic premium or re-rated to 24x P/FCF as the undisputed healthcare financial platform.</p>
+  <div class="driver-label">Key Drivers — FY2029E (Year 3)</div>
+  <div class="driver-row"><span>HSA Account Growth</span><span>12%+ (mainstream adoption)</span></div>
+  <div class="driver-row"><span>Total HSA Assets</span><span>$62B</span></div>
+  <div class="driver-row"><span>Custodial Yield</span><span>4.0% (yields + investment fees)</span></div>
+  <div class="driver-row"><span>EBITDA Margin</span><span>52% (AI-driven cost elimination)</span></div>
+  <div class="driver-row"><span>Exit P/FCF</span><span>24x (platform premium)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$1,450</td><td>$1,650</td><td>$1,900</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+10%</td><td>+14%</td><td>+15%</td></tr>
+    <tr><td>EBITDA</td><td>$680</td><td>$810</td><td>$980</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>46.9%</td><td>49.1%</td><td>51.6%</td></tr>
+    <tr><td>Net Income</td><td>$300</td><td>$400</td><td>$500</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>83</td><td>81</td><td>80</td></tr>
+    <tr><td>FCF</td><td>$500</td><td>$610</td><td>$750</td></tr>
+    <tr><td>FCF/Share</td><td>$6.02</td><td>$7.53</td><td>$9.38</td></tr>
+    <tr class="valuation-row"><td>Exit P/FCF Multiple</td><td>--</td><td>--</td><td>24x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>--</td><td>$225.00</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 24x FY2029E FCF/share of $9.38</div>
+    <div class="exit-price">Implied Share Price: $225.00</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +174% from $82.18</div>
+  </div>
+</div>
+
+<!-- SVG Bar Chart -->
+<div class="case-chart">
+  <p style="font-size:9px; font-weight:600; margin-bottom:8px;">Implied Share Price by Scenario (FY2029E Exit) vs. Current Price $82.18</p>
+  <svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg" style="width:100%; font-family:Inter,Arial,sans-serif;">
+    <!-- Axes -->
+    <line x1="80" y1="20" x2="80" y2="200" stroke="#ccc" stroke-width="1"/>
+    <line x1="80" y1="200" x2="680" y2="200" stroke="#ccc" stroke-width="1"/>
+    <!-- Y-axis labels (scale: $250 = 180px, $1 = 0.72px) -->
+    <text x="75" y="204" text-anchor="end" font-size="9" fill="#888">$0</text>
+    <text x="75" y="164" text-anchor="end" font-size="9" fill="#888">$50</text>
+    <text x="75" y="128" text-anchor="end" font-size="9" fill="#888">$100</text>
+    <text x="75" y="92" text-anchor="end" font-size="9" fill="#888">$150</text>
+    <text x="75" y="56" text-anchor="end" font-size="9" fill="#888">$200</text>
+    <text x="75" y="24" text-anchor="end" font-size="9" fill="#888">$250</text>
+    <!-- Gridlines -->
+    <line x1="80" y1="164" x2="680" y2="164" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="128" x2="680" y2="128" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="92" x2="680" y2="92" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="56" x2="680" y2="56" stroke="#eee" stroke-width="0.5"/>
+    <!-- Bar scale: $1 = 0.72px -->
+    <!-- Bear Severe: $41.67 -> height 30.0px -->
+    <rect x="110" y="170" width="80" height="30" fill="#2563eb"/>
+    <text x="150" y="166" text-anchor="middle" font-size="9" fill="#333">$41.67</text>
+    <text x="150" y="214" text-anchor="middle" font-size="8" fill="#555">Bear Severe</text>
+    <!-- Bear Mild: $73.61 -> height 53.0px -->
+    <rect x="220" y="147" width="80" height="53" fill="#2563eb"/>
+    <text x="260" y="143" text-anchor="middle" font-size="9" fill="#333">$73.61</text>
+    <text x="260" y="214" text-anchor="middle" font-size="8" fill="#555">Bear Mild</text>
+    <!-- Base: $103.22 -> height 74.3px -->
+    <rect x="330" y="125.7" width="80" height="74.3" fill="#2563eb"/>
+    <text x="370" y="121" text-anchor="middle" font-size="9" fill="#333">$103.22</text>
+    <text x="370" y="214" text-anchor="middle" font-size="8" fill="#555">Base Case</text>
+    <!-- Bull Mild: $153.09 -> height 110.2px -->
+    <rect x="440" y="89.8" width="80" height="110.2" fill="#2563eb"/>
+    <text x="480" y="85" text-anchor="middle" font-size="9" fill="#333">$153.09</text>
+    <text x="480" y="214" text-anchor="middle" font-size="8" fill="#555">Bull Mild</text>
+    <!-- Bull Severe: $225.00 -> height 162.0px -->
+    <rect x="550" y="38" width="80" height="162" fill="#2563eb"/>
+    <text x="590" y="34" text-anchor="middle" font-size="9" fill="#333">$225.00</text>
+    <text x="590" y="214" text-anchor="middle" font-size="8" fill="#555">Bull Severe</text>
+    <!-- Current price line: $82.18 -> y = 200 - 59.2 = 140.8 -->
+    <line x1="80" y1="140.8" x2="680" y2="140.8" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="685" y="144" font-size="9" fill="#e74c3c">$82.18 (Current)</text>
+    <!-- Prob-wtd PV: $91.90 -> y = 200 - 66.2 = 133.8 -->
+    <line x1="80" y1="133.8" x2="680" y2="133.8" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="3,2"/>
+    <text x="685" y="137" font-size="8" fill="#f39c12">$91.90 PV@20%</text>
+  </svg>
+  <p style="font-size:8px; color:#888; margin-top:4px;">Probability weights: 5% / 20% / 50% / 20% / 5% · Prob-wtd avg $110.28 discounted @20% CoC = $91.90 · Current: $82.18 · Implied upside: +11.8%</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 11: COMPS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">11. Comparable Companies</div>
+
+<div class="section-title">Selected Financials — Payroll / HR Provision Peers</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th class="est-col">Rev FY1</th>
+      <th class="est-col">EBITDA FY1</th>
+      <th class="est-col">EBITDA Mgn%</th>
+      <th class="est-col">EBIT FY1</th>
+      <th class="est-col">FCF FY1</th>
+      <th class="est-col">GM Actual</th>
+      <th class="est-col">GM NTM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>HealthEquity</td><td>HQY</td>
+      <td>$1,313M</td><td>$482M</td><td>36.7%</td><td>$327M</td><td>$455M</td>
+      <td>61.3%</td><td>71.8%</td>
+    </tr>
+    <tr>
+      <td>Automatic Data Processing</td><td>ADP</td>
+      <td>$21,601M</td><td>$6,311M</td><td>29.2%</td><td>$5,727M</td><td>--</td>
+      <td>50.6%</td><td>49.0%</td>
+    </tr>
+    <tr>
+      <td>Barrett Business Svcs</td><td>BBSI</td>
+      <td>$1,255M</td><td>$68M</td><td>5.4%</td><td>$60M</td><td>--</td>
+      <td>20.2%</td><td>20.3%</td>
+    </tr>
+    <tr>
+      <td>Edenred</td><td>EDEN</td>
+      <td>$3,083M</td><td>$1,275M</td><td>41.4%</td><td>$975M</td><td>--</td>
+      <td>52.4%</td><td>90.3%</td>
+    </tr>
+    <tr>
+      <td>TriNet Group</td><td>TNET</td>
+      <td>$4,944M</td><td>$427M</td><td>8.6%</td><td>$304M</td><td>--</td>
+      <td>17.0%</td><td>17.5%</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Median</td><td>--</td>
+      <td>--</td><td>--</td><td>18.9%</td><td>--</td><td>--</td>
+      <td>35.3%</td><td>34.6%</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Valuation Multiples</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th class="est-col">EV/EBITDA FY1</th>
+      <th class="est-col">EV/EBITDA FY2</th>
+      <th class="est-col">P/E FY1</th>
+      <th class="est-col">P/E FY2</th>
+      <th class="est-col">P/FCF FY1</th>
+      <th>EBITDA NTM</th>
+      <th>EBIT NTM</th>
+      <th>Net NTM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>HealthEquity</td><td>HQY</td>
+      <td>12.4x</td><td>11.0x</td>
+      <td>17.8x</td><td>15.4x</td>
+      <td>16.5x</td>
+      <td>44.8%</td><td>26.7%</td><td>18.0%</td>
+    </tr>
+    <tr>
+      <td>Automatic Data Processing</td><td>ADP</td>
+      <td>13.4x</td><td>--</td>
+      <td>18.8x</td><td>17.1x</td>
+      <td>--</td>
+      <td>29.7%</td><td>27.3%</td><td>20.9%</td>
+    </tr>
+    <tr>
+      <td>Barrett Business Svcs</td><td>BBSI</td>
+      <td>7.6x</td><td>--</td>
+      <td>20.3x</td><td>12.9x</td>
+      <td>--</td>
+      <td>5.9%</td><td>4.6%</td><td>3.3%</td>
+    </tr>
+    <tr>
+      <td>Edenred</td><td>EDEN</td>
+      <td>4.1x</td><td>--</td>
+      <td>10.2x</td><td>9.0x</td>
+      <td>--</td>
+      <td>42.3%</td><td>32.6%</td><td>15.7%</td>
+    </tr>
+    <tr>
+      <td>TriNet Group</td><td>TNET</td>
+      <td>--</td><td>--</td>
+      <td>8.7x</td><td>8.2x</td>
+      <td>--</td>
+      <td>8.4%</td><td>5.2%</td><td>3.0%</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Average</td><td>--</td>
+      <td>8.4x</td><td>--</td>
+      <td>14.5x</td><td>11.8x</td>
+      <td>--</td>
+      <td>21.6%</td><td>17.4%</td><td>10.7%</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Median</td><td>--</td>
+      <td>7.6x</td><td>--</td>
+      <td>14.5x</td><td>11.0x</td>
+      <td>--</td>
+      <td>18.9%</td><td>16.3%</td><td>9.5%</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Named Competitors</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th class="est-col">EV/EBITDA FY1</th>
+      <th class="est-col">EV/EBIT FY1</th>
+      <th class="est-col">P/E FY1</th>
+      <th class="est-col">P/FCF FY1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>HealthEquity</td><td>HQY</td>
+      <td>12.4x</td><td>21.1x</td><td>17.8x</td><td>16.5x</td>
+    </tr>
+    <tr>
+      <td>WEX Inc.</td><td>WEX</td>
+      <td>4.1x</td><td>6.1x</td><td>7.0x</td><td>--</td>
+    </tr>
+    <tr>
+      <td>Alight Inc.</td><td>ALIT</td>
+      <td>4.0x</td><td>20.1x</td><td>2.8x</td><td>--</td>
+    </tr>
+    <tr>
+      <td>Willis Towers Watson</td><td>WTW</td>
+      <td>9.9x</td><td>11.7x</td><td>12.4x</td><td>--</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:10px;">HealthEquity trades at 12.4x FY1 EV/EBITDA — a 63% premium to the peer median of 7.6x — and 17.8x FY1 P/E versus the peer median of 14.5x. The premium is partially justified by HealthEquity's dramatically superior margin profile: 44.8% NTM EBITDA margin versus the peer median of 18.9%, reflecting the company's asset-light custodial revenue model and AI-driven cost efficiencies. HealthEquity's 71.8% NTM gross margin is more than double the peer median of 34.6%. On a P/FCF basis, 16.5x trailing is moderate for a company generating 35% FCF margins with visible secular growth tailwinds. Relative to named competitors, WEX (4.1x EV/EBITDA) and Alight (4.0x) trade at substantial discounts reflecting their lower margin profiles, lower growth, and structural challenges — confirming that HealthEquity's premium reflects genuine quality differentiation rather than market mispricing. On a FY2 basis, HealthEquity's EV/EBITDA converges to 11.0x, which for a company with 46%+ EBITDA margins and 7-8% revenue growth is arguably cheap relative to the quality of the earnings stream.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<div class="verdict">
+  <p><strong>(i) Market Cap Bucket: $6.9B</strong> <span class="fw-rating moderate">Moderate Fit</span></p>
+  <p style="margin-top:4px;">Mid Cap ($5B–$10B). HealthEquity's $6,942M market cap sits above Theia's ideal sweet spot for small-cap companies ($1B–$5B) where informational edges are most achievable. However, the stock is down 30% from its 52-week high of $116.65, compressing it from the mid-teens-billion range into a more accessible zone. At $6.9B, HealthEquity is small enough that many large-cap growth funds may not actively cover it, but large enough that the analyst coverage is thorough and the stock is liquid. The moderate fit reflects the tension between the company's quality and the reduced informational edge available at this market cap.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(ii) Analyst Coverage: 16 Broker Contributors</strong> <span class="fw-rating weak">Weak Fit</span></p>
+  <p style="margin-top:4px;">With 16 sell-side analysts covering HQY, this is well-covered — significantly above Theia's ideal threshold of fewer than 5 analysts. The consensus target of $112.88 (+37% upside) reflects broad agreement on the bull case, but with 16 contributors the consensus is likely to be efficient and well-informed. The informational edge available to an independent investor is limited relative to less-covered names. However, the market may be systematically mis-modeling the Enhanced Rates program's rate sensitivity, creating a potential analytical edge for investors who understand the custodial yield mechanics better than consensus.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iii) Thesis Alignment: Healthcare Fintech / Consumer Benefits Infrastructure</strong> <span class="fw-rating weak">Tangential</span></p>
+  <p style="margin-top:4px;">HealthEquity is a technology-enabled financial services platform, but it operates in healthcare benefits administration rather than Theia's core internet finance vertical. The company shares some structural characteristics with Theia's ideal investments — high switching costs, recurring revenue, secular growth tailwinds, AI-driven margin expansion — but the end market (healthcare savings accounts) is tangential to blockchain, digital assets, and capital markets infrastructure. The HSA product is U.S.-specific and driven by tax policy rather than technological disruption. Rating: Tangential (not Core because no blockchain/crypto/capital markets component; not Adjacent because the healthcare benefits vertical is structurally distinct from internet finance).</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iv) Outcome Dispersion: $42 – $225</strong> <span class="fw-rating moderate">Moderate Fit</span></p>
+  <p style="margin-top:4px;">The 5-scenario model shows implied prices ranging from $41.67 (Bear Severe, -49%) to $225.00 (Bull Severe, +174%) from the current $82.18. This is a 5.4x spread between bear and bull severe — meaningful but not extreme by Theia's standards. The probability-weighted fair value of $91.90 (discounted at 20% CoC, reflecting the lower beta of 0.73) represents 11.8% upside from current trading. The dispersion is driven by genuine uncertainty about interest rate trajectory, OBBBA enrollment impact, and the investment flywheel's acceleration — but the downside is well-cushioned by the FCF floor ($455M FY2026 = 6.6% FCF yield) and the upside requires multiple catalysts to compound simultaneously. This moderate dispersion is less attractive than the asymmetric profiles Theia typically targets.</p>
+</div>
+
+<div style="background: #fff3cd; border-left: 4px solid #856404; padding: 12px 14px; margin: 16px 0; font-size: 11.5px;">
+  <strong>VERDICT: WATCHLIST — Quality Compounder, Not an Ideal Theia Position</strong><br><br>
+  HealthEquity is a high-quality business with genuine competitive moats (switching costs, scale, counter-positioning), 35% FCF margins, powerful secular tailwinds (healthcare affordability crisis, OBBBA), and a compelling margin expansion trajectory (28% to 46%+ EBITDA margins over 5 years). However, it fails Theia's screening criteria on two dimensions: (1) the $6.9B market cap and 16-analyst coverage mean the informational edge is limited, and (2) the healthcare benefits vertical is tangential to the core internet finance thesis. The probability-weighted upside of 11.8% is moderate rather than compelling. The stock would become more interesting to Theia at a price below $65 (where the FCF yield exceeds 7% and the outcome dispersion widens) or if coverage thins after the next earnings cycle. Key catalyst to monitor: May 28 Q1 FY2027 earnings — first quarter with OBBBA-driven retail enrollment data and post-rate-cut custodial yield visibility.
+</div>
+
+<p class="prose" style="font-size:10px; font-style:italic; margin-top:6px;">Note: Theia seeks small-cap companies that aren't well covered and are strongly aligned on the core internet finance thesis with wide outcome dispersion. HQY scores: Market Cap (Moderate) | Coverage (Weak) | Thesis (Tangential) | Dispersion (Moderate)</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 13: RISK SUMMARY -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">13. Risk Summary</div>
+
+<table class="risk-table">
+  <tr>
+    <th>Risk Category</th>
+    <th>Description</th>
+    <th>Severity</th>
+    <th>Mitigant</th>
+  </tr>
+  <tr>
+    <td>Interest Rate Sensitivity</td>
+    <td>Custodial revenue (48.5% of total) is derived from interest on HSA cash. A severe rate-cutting cycle would compress blended yields even with Enhanced Rates insulation. Market perception of rate sensitivity may exceed actual exposure.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>Enhanced Rates program channels 60%+ of HSA cash into multi-year contracts that reprice slowly. Forward Treasury hedges ($2.4B notional) lock in 3.92% base rate through Jan 2028. Custodial revenue was $367M even in the zero-rate FY2022 environment.</td>
+  </tr>
+  <tr>
+    <td>Competitive Pressure / Fidelity</td>
+    <td>Fidelity leverages zero-fee pricing and 401(k) cross-selling to capture HSA market share. Optum bundles with UnitedHealthcare. Tech-forward disruptors (Lively, WEX) offer modern platforms that expose HealthEquity's innovation gaps.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>Carrier-agnostic independence and 200+ network integrations create structural barriers. Employer retention in high 90s. 1M+ new HSAs from sales annually despite competition. Market growing fast enough for multiple winners.</td>
+  </tr>
+  <tr>
+    <td>Regulatory / Legislative Risk</td>
+    <td>Entire business model depends on favorable HSA tax laws. Legislative changes to contribution limits, tax advantages, or single-payer healthcare would devastate the business. AI compliance risks emerging.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Strong bipartisan support for HSAs (OBBBA expanded eligibility in 2025). HSAs now a $146B+ asset class affecting 39M+ Americans — politically difficult to eliminate. Any changes would likely be phased over years.</td>
+  </tr>
+  <tr>
+    <td>Cybersecurity / Fraud</td>
+    <td>Historical vulnerability to account fraud and data breaches. Past incidents resulted in $11M+ quarterly fraud costs and reputational damage. Healthcare + financial data creates high-value target for attackers.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>New CISO hired from Mastercard. Passkey authentication, Visa AI fraud detection (500+ risk attributes), zero-trust architecture. Fraud costs reduced to ~$0.3M/quarter. Target: 1bp of total HSA assets/year for security costs.</td>
+  </tr>
+  <tr>
+    <td>WageWorks Technical Debt</td>
+    <td>Complex integration of 2019 $2B WageWorks acquisition created legacy system challenges. Product development velocity constrained relative to tech-first competitors. Innovation gaps visible in user experience.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>V5 cloud platform migration complete with 92% faster response times, 5x stability improvement, 80% reduction in processing delays. Mobile app at 3.6M+ downloads. AI tools (Expedited Claims, HSAnswers) modernizing experience.</td>
+  </tr>
+  <tr>
+    <td>Customer Concentration — Partners</td>
+    <td>B2B2C model means employer/partner relationships are critical. Loss of a major network partner could affect new account growth. 200+ partners creates relationship management complexity.</td>
+    <td><span class="fw-rating low">Low</span></td>
+    <td>No single partner >6% of HSA accounts. 85% of employers have 500 or fewer employees. Direct retail enrollment (OBBBA) reduces dependency on employer channel. Bidirectional integrations create mutual switching costs.</td>
+  </tr>
+  <tr>
+    <td>Market Concentration — U.S. Only</td>
+    <td>100% U.S. revenue. No international diversification. Business model entirely dependent on U.S. healthcare system structure and tax code. Recession could slow employer adoption of HDHPs.</td>
+    <td><span class="fw-rating low">Low</span></td>
+    <td>U.S. healthcare spending is structurally increasing regardless of economic cycle. HSAs are becoming core infrastructure ($146B+ assets). Healthcare affordability crisis actually accelerates HDHP/HSA adoption during downturns as employers seek cost control.</td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 14: APPENDIX — PYTHON CODE -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section appendix">14. Appendix — Python Code</div>
+
+<p class="prose">Sensitivity table generator and scenario model code for analyst customization:</p>
+
+<div class="section-title">Sensitivity Table Generator</div>
+<div class="code-block">
+import numpy as np
+import pandas as pd
+
+# ─── SENSITIVITY TABLE 1: FY2029E Total HSA Assets ($B) ───
+starting_assets = [30.0, 33.0, 36.5, 40.0, 44.0]  # $B starting HSA assets
+asset_cagrs = [0.06, 0.09, 0.12, 0.15, 0.18]       # 3-year CAGR
+base_assets = 36.5
+base_cagr = 0.12
+years = 3  # FY2026 (starting) to FY2029 (ending)
+
+rows = []
+for assets in starting_assets:
+    row = []
+    for g in asset_cagrs:
+        end_assets = assets * (1 + g) ** years
+        row.append(round(end_assets, 1))
+    rows.append(row)
+
+df1 = pd.DataFrame(rows,
+    index=[f"${x}B" for x in starting_assets],
+    columns=[f"{int(g*100)}%" for g in asset_cagrs])
+print("FY2029E Total HSA Assets ($B)")
+print(df1.to_string())
+print(f"\nBase: ${base_assets}B @ {base_cagr*100:.0f}% CAGR -> ${base_assets*(1+base_cagr)**years:.1f}B")
+
+# ─── SENSITIVITY TABLE 2: FY2029E Adjusted EBITDA ($M) ───
+revenues = [1400, 1500, 1625, 1750, 1900]              # $M total revenue
+ebitda_margins = [0.38, 0.42, 0.46, 0.50, 0.54]        # EBITDA margin %
+base_rev = 1625
+base_ebitda_mgn = 0.464
+
+rows2 = []
+for rev in revenues:
+    row = []
+    for m in ebitda_margins:
+        ebitda = rev * m
+        row.append(round(ebitda, 0))
+    rows2.append(row)
+
+df2 = pd.DataFrame(rows2,
+    index=[f"${x}M" for x in revenues],
+    columns=[f"{int(m*100)}%" for m in ebitda_margins])
+print("\nFY2029E Adjusted EBITDA ($M)")
+print(df2.to_string())
+print(f"Base: ${base_rev}M x {base_ebitda_mgn*100:.1f}% = ${base_rev*base_ebitda_mgn:.0f}M")
+
+# ─── SENSITIVITY TABLE 3: Implied Share Price ───
+fcf_per_share = [4.17, 5.66, 6.45, 7.65, 9.38]   # $/share
+p_fcf_multiples = [10, 13, 16, 20, 24]              # x P/FCF
+base_fcf_ps = 6.45
+base_pfcf = 16
+
+rows3 = []
+for fps in fcf_per_share:
+    row = []
+    for mult in p_fcf_multiples:
+        price = fps * mult
+        row.append(round(price, 2))
+    rows3.append(row)
+
+df3 = pd.DataFrame(rows3,
+    index=[f"${x}" for x in fcf_per_share],
+    columns=[f"{x}x" for x in p_fcf_multiples])
+print("\nImplied Share Price ($)")
+print(df3.to_string())
+print(f"Base: ${base_fcf_ps}/share x {base_pfcf}x = ${base_fcf_ps*base_pfcf:.2f}")
+
+# ─── SCENARIO MODEL ───
+scenarios = {
+    "Bear Severe": {"prob": 0.05, "price": 41.67},
+    "Bear Mild":   {"prob": 0.20, "price": 73.61},
+    "Base Case":   {"prob": 0.50, "price": 103.22},
+    "Bull Mild":   {"prob": 0.20, "price": 153.09},
+    "Bull Severe": {"prob": 0.05, "price": 225.00},
+}
+current_price = 82.18
+cost_of_capital = 0.20
+
+prob_wtd = sum(s["prob"] * s["price"] for s in scenarios.values())
+pv = prob_wtd / (1 + cost_of_capital)
+upside = (pv - current_price) / current_price
+
+print(f"\nProb-weighted avg: ${prob_wtd:.2f}")
+print(f"PV @ {cost_of_capital*100:.0f}% CoC: ${pv:.2f}")
+print(f"Current price: ${current_price}")
+print(f"Implied upside: {upside*100:.1f}%")
+</div>
+
+</body>
+</html>
