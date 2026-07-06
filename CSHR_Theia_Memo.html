@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoinShares PLC | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 8px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+table.comps { font-size: 8.5px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child, table.comps td:nth-child(2) { text-align: left; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-style: italic; background: #fafbfc; font-weight: 600; border-top: 1px solid #eee; }
+table.comps th.est-col { color: #2563eb; }
+
+table.risk-table { font-size: 10px; width: 100%; margin: 8px 0; }
+table.risk-table th { text-align: left; font-weight: 600; padding: 4px 6px; background: #f4f6f9; border-bottom: 1px solid #ddd; }
+table.risk-table td { padding: 4px 6px; border-bottom: 1px solid #eee; vertical-align: top; }
+table.risk-table td:first-child { font-weight: 600; width: 25%; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.alphasense-box { background: #e8f4fd; border-left: 4px solid #2563eb; padding: 10px 14px; margin: 10px 0; font-size: 10px; line-height: 1.5; }
+
+.bull-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #155724; border-bottom: 1.5px solid #c3e6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #721c24; border-bottom: 1.5px solid #f5c6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+
+.bull-item, .bear-item { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">CoinShares PLC | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">CoinShares PLC (NASDAQ: CSHR) is Europe's largest and longest-established digital-asset investment manager — a regulated, institutional-grade platform that builds and operates crypto exchange-traded products (ETPs) and runs a balance-sheet-driven trading business. Founded in 2014 by commodities-hedge-fund veterans Daniel Masters, Russell Newton, and Jean-Marie Mognetti (who together launched one of the first regulated Bitcoin funds via Global Advisors in 2014), CoinShares has spent more than a decade building crypto infrastructure strictly inside the regulated financial perimeter — a decade-long head start over the Wall Street asset managers that only entered the category after the U.S. approved spot Bitcoin ETFs in 2024. The company is headquartered in St. Helier, Jersey, and operates a "dual-engine" model: a recurring, fee-paying <strong>Asset Management</strong> segment that earns management fees on aggregate assets under management (AUM), and a <strong>Capital Markets</strong> segment that uses the group's own balance sheet for non-directional (delta-neutral) market-making, liquidity provisioning, digital-asset lending, and optimized proof-of-stake staking. Together the two engines let CoinShares capture upside in crypto bull markets while remaining one of only two European crypto-ETP issuers (alongside 21Shares) that operate profitably through the cycle.</p>
+
+<p class="prose">CoinShares manages a diversified, 30+ product suite across four platforms. The legacy <strong>XBT Provider</strong> — acquired out of a Swedish bankruptcy estate in 2016 with just ~$10M in AUM and grown to a ~$5B peak — remains the group's "cash cow," charging a premium 2.50% (250 bps) fee on Nordic-listed Bitcoin and Ethereum ETNs and generating $92.6M of management fees in FY2025 (73% of total management fees). <strong>CoinShares Physical</strong> is the institutional flagship: physically-backed ETPs listed on SIX, Xetra, Euronext, and the LSE, priced at 15–150 bps, which ranked #1 in Europe by net organic inflows in FY2025 ($1.1B). The <strong>Staked ETP</strong> suite (ETH, SOL, SEI, TON, BNB) charges 0% management fees and instead shares on-chain staking yield with noteholders, while the <strong>BLOCK Index</strong> (licensed to Invesco EMEA) and the U.S. <strong>Valkyrie</strong> platform (spot Bitcoin ETF BRRR, Bitcoin miners ETF WGMI, altcoins ETF DIME) round out the offering. CoinShares commands an estimated ~34% share of the European digital-asset ETP market — a leadership position protected by the region's fragmentation across ~44 national markets, each requiring localized regulatory approvals, distribution, and clearing that foreign entrants find expensive to replicate.</p>
+
+<p class="prose">On March 31, 2026, CoinShares International Limited completed a business combination with Vine Hill Capital Investment Corp. (a SPAC), transitioning its primary listing from Nasdaq Stockholm (ticker CS) to the U.S. Nasdaq, where the newly formed parent, CoinShares PLC, began trading under CSHR on April 1, 2026. The deal — structured as a reverse recapitalization valuing the enterprise at ~$1.53B and anchored by a ~$49M PIPE — places the platform in the world's largest capital market, home to roughly half of global financial assets. In July 2025 CoinShares Asset Management became the first continental European regulated manager authorized under MiCA, opening access to the €33 trillion EU asset-management market, and the pending acquisition of FCA-regulated Bastion Asset Management (announced Oct 2025, $4.5M) is intended to extend the group beyond passive beta into actively-managed, higher-fee crypto alpha strategies.</p>
+
+<p class="prose"><strong>Key facts:</strong> Founded 2014 (PLC reincorporated Aug 29, 2025) · HQ St. Helier, Jersey · CEO &amp; Director Jean-Marie Mognetti · CFO Richard Nash · Chairman/Director Daniel Masters · ~93 employees + 15 contractors (Dec 2025) · U.S. listing via de-SPAC Apr 1, 2026 (prior: Nasdaq Stockholm) · FY end Dec · Market Cap $551M · CUSIP G670AQ104 · SEDOL BS6SC52 · ISIN JE00BS6SC522</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 2: FINANCIAL SUMMARY (FACTSET) -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Theia FactSet Summary</div>
+
+<div class="header">
+  <div>
+    <h1>CoinShares PLC</h1>
+    <span class="ticker">CSHR · NASDAQ · ISIN JE00BS6SC522</span>
+  </div>
+  <div class="date">FactSet Snapshot · July 6, 2026</div>
+</div>
+
+<!-- Price Bar -->
+<div class="price-bar">
+  <div>
+    <span class="label">Price (Jul 6, 2026) </span>
+    <span class="price">$4.03</span>
+  </div>
+  <div><span class="label">1M </span><span class="chg">-6.06%</span></div>
+  <div><span class="label">3M </span><span class="chg">-36.18%</span></div>
+  <div><span class="label">6M </span><span class="chg">-62.62%</span></div>
+  <div><span class="label">YTD </span><span class="chg">-62.58%</span></div>
+  <div><span class="label">1Y </span><span class="chg">-61.27%</span></div>
+  <div><span class="label">52-Wk Range </span><span style="font-weight:600;">$3.50 – $13.70</span></div>
+</div>
+
+<!-- Key Stats + EV Bridge -->
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv" style="font-size:10px;">
+      <tr><td>Exchange / Ticker</td><td>NASDAQ · CSHR</td></tr>
+      <tr><td>Price (Jul 6, 2026)</td><td>$4.03</td></tr>
+      <tr><td>30-Day Avg Volume</td><td>266,807 shares/day</td></tr>
+      <tr><td>Float %</td><td>44.59%</td></tr>
+      <tr><td>Short Interest</td><td>1.56% of float</td></tr>
+      <tr><td>Days to Cover</td><td>3.5 days</td></tr>
+      <tr><td>Beta (3Y Adj)</td><td>0.16</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev" style="font-size:10px;">
+      <tr><td>Basic Shares (Common)</td><td>136.70M</td></tr>
+      <tr><td>Share Price</td><td>$4.03</td></tr>
+      <tr><td>= Market Cap</td><td>$551M</td></tr>
+      <tr><td>− Total Debt</td><td>$0M</td></tr>
+      <tr><td>− Available Capital Position</td><td>($481M)</td></tr>
+      <tr class="total"><td>= Enterprise Value</td><td>~$70M</td></tr>
+    </table>
+    <p style="font-size:8px; color:#aaa; margin-top:4px;">Available capital $481.4M (Dec '25) incl. $280M accrued XBT fees held (hedged) in digital assets. FactSet peer-comp screen shows EV ≈ $0 — the balance sheet backs nearly the entire market cap.</p>
+  </div>
+</div>
+
+<!-- Current Valuation — horizontal 6x2 grid -->
+<div class="section-title">Current Valuation</div>
+<div style="border: 1px solid #eee; border-radius: 4px; margin-bottom: 8px;">
+  <div class="val-grid">
+    <div class="val-cell"><div class="val-label">Mkt Cap</div><div class="val-num">$551M</div><div class="val-sub">136.7M shares</div></div>
+    <div class="val-cell"><div class="val-label">EV</div><div class="val-num">~$70M</div><div class="val-sub">Net-cash rich</div></div>
+    <div class="val-cell"><div class="val-label">P/E (FY26E)</div><div class="val-num">6.7x</div><div class="val-sub">NI $78.8M</div></div>
+    <div class="val-cell"><div class="val-label">P/E (FY27E)</div><div class="val-num">5.8x</div><div class="val-sub">NI $93.1M</div></div>
+    <div class="val-cell"><div class="val-label">P/Sales (FY26E)</div><div class="val-num">3.4x</div><div class="val-sub">Rev $158M</div></div>
+    <div class="val-cell"><div class="val-label">Div Yield</div><div class="val-num">8.2%</div><div class="val-sub">$0.33/sh FY25</div></div>
+  </div>
+  <div style="border-top: 1px solid #eee;">
+    <div class="val-grid">
+      <div class="val-cell"><div class="val-label">Fully Dil. Mkt Cap</div><div class="val-num">$551M</div><div class="val-sub">No dilution gap</div></div>
+      <div class="val-cell"><div class="val-label">WACC</div><div class="val-num">5.27%</div><div class="val-sub">FactSet est.</div></div>
+      <div class="val-cell"><div class="val-label">Beta (3Y Adj)</div><div class="val-num">0.16</div><div class="val-sub">Low mkt beta</div></div>
+      <div class="val-cell"><div class="val-label">Avg Analyst Rating</div><div class="val-num">Buy</div><div class="val-sub">1 broker · 1.00</div></div>
+      <div class="val-cell"><div class="val-label">Cons. Target Price</div><div class="val-num">$9.00</div><div class="val-sub">+123% upside</div></div>
+      <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">Sep 02</div><div class="val-sub">H1 FY2026</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Valuation Multiples Table -->
+<div class="section-title">Valuation Multiples</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Metric</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th class="est" style="color:#2563eb;">FY2026E</th>
+      <th class="est" style="color:#2563eb;">FY2027E</th>
+      <th class="est" style="color:#2563eb;">FY2028E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="6">PRICE MULTIPLES</td></tr>
+    <tr><td>P/E</td><td>3.4x</td><td>4.8x</td><td class="est">6.7x</td><td class="est">5.8x</td><td class="est">5.3x</td></tr>
+    <tr><td>P/Sales</td><td>3.5x</td><td>3.3x</td><td class="est">3.4x</td><td class="est">3.1x</td><td class="est">2.9x</td></tr>
+    <tr><td>P/Book Value</td><td>NM</td><td>NM</td><td class="est">NM</td><td class="est">NM</td><td class="est">NM</td></tr>
+    <tr><td>Dividend Yield</td><td>11.7%*</td><td>8.2%</td><td class="est">~8%</td><td class="est">~8%</td><td class="est">~8%</td></tr>
+    <tr class="section-row"><td colspan="6">EV MULTIPLES (EV ≈ $70M, net-cash rich)</td></tr>
+    <tr><td>EV/Sales</td><td>0.5x</td><td>0.4x</td><td class="est">0.4x</td><td class="est">0.4x</td><td class="est">0.4x</td></tr>
+    <tr><td>EV/EBITDA</td><td>0.7x</td><td>0.6x</td><td class="est">0.8x</td><td class="est">0.7x</td><td class="est">0.6x</td></tr>
+  </tbody>
+</table>
+<p style="font-size:8px; color:#aaa; margin-top:2px;">P/Book NM: statutory equity is distorted by consolidation of ETP note liabilities (FactSet BVPS −$9.40); "available capital position" ($481.4M FY25) is the relevant net-asset measure. *FY24 yield reflects a $0.47 special dividend from the FTX-claim recovery. EV multiples reflect EV ≈ $70M after netting the available capital position against market cap.</p>
+
+<!-- Revenue Exposure -->
+<div class="section-title">Revenue Exposure</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Segment (FY2025, revenue &amp; gains from ops)</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Segment</th><th>$M</th><th>% Rev</th><th>Model</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Asset Management</td><td>$126.4M</td><td>63%</td><td>Fees on AUM</td></tr>
+        <tr><td>Capital Markets</td><td>$73.1M</td><td>37%</td><td>Balance sheet</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>$199.5M</td><td>100%</td><td>—</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:8px; color:#aaa; margin-top:4px;">Total management fees ~$126.8M; XBT Provider = $92.6M (73%). Reported total revenue $165.7M; revenue &amp; gains from ops $197.6M.</p>
+  </div>
+  <div>
+    <div class="sub-label">By Platform (Total AUM, Q4 2025)</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Platform</th><th>$M</th><th>% AUM</th><th>Fee</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>CoinShares Physical</td><td>$2,801M</td><td>38%</td><td>15–150bps</td></tr>
+        <tr><td>XBT Provider</td><td>$2,512M</td><td>34%</td><td>250bps</td></tr>
+        <tr><td>BLOCK Index</td><td>$1,333M</td><td>18%</td><td>65bps</td></tr>
+        <tr><td>Valkyrie (US)</td><td>$758M</td><td>10%</td><td>25–185bps</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total AUM</td><td>$7,404M</td><td>100%</td><td>~170bps</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:8px; color:#aaa; margin-top:4px;">Fee-paying AUM $6.39B (Q4 '25). ~90% Europe / ~10% U.S. Blended fee ~170bps, stable across FY23–FY25.</p>
+  </div>
+</div>
+
+<!-- Financials Table -->
+<div class="section-title">Financials</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">$M (FY Dec)</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th class="est" style="color:#2563eb;">FY2026E</th>
+      <th class="est" style="color:#2563eb;">FY2027E</th>
+      <th class="est" style="color:#2563eb;">FY2028E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="6">INCOME STATEMENT</td></tr>
+    <tr><td>Total Revenue</td><td>$156</td><td>$166</td><td class="est">$158</td><td class="est">$174</td><td class="est">$191</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Revenue Growth %</td><td>--</td><td>+6.6%</td><td class="est">-4.5%</td><td class="est">+9.9%</td><td class="est">+9.9%</td></tr>
+    <tr><td>Adj. EBITDA</td><td>$98</td><td>$114</td><td class="est">$91</td><td class="est">$102</td><td class="est">$112</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">EBITDA Margin %</td><td>63.0%</td><td>69.0%</td><td class="est">57.4%</td><td class="est">58.7%</td><td class="est">58.6%</td></tr>
+    <tr><td>EBIT</td><td>$92</td><td>$108</td><td class="est">$85</td><td class="est">$95</td><td class="est">$105</td></tr>
+    <tr><td>Net Income</td><td>$162</td><td>$114</td><td class="est">$79</td><td class="est">$93</td><td class="est">$103</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Net Income Margin %</td><td>NM*</td><td>69.0%</td><td class="est">49.8%</td><td class="est">53.6%</td><td class="est">53.9%</td></tr>
+    <tr><td>EPS (Dil, pro-forma)</td><td>$1.19</td><td>$0.84</td><td class="est">$0.58</td><td class="est">$0.68</td><td class="est">$0.75</td></tr>
+    <tr class="section-row"><td colspan="6">CASH FLOW</td></tr>
+    <tr><td>Operating Cash Flow</td><td>$110</td><td>$105</td><td class="est">$82</td><td class="est">$95</td><td class="est">$105</td></tr>
+    <tr><td>CapEx</td><td>($2)</td><td>($2)</td><td class="est">($3)</td><td class="est">($3)</td><td class="est">($3)</td></tr>
+    <tr><td>Free Cash Flow</td><td>$108</td><td>$103</td><td class="est">$79</td><td class="est">$92</td><td class="est">$102</td></tr>
+    <tr class="section-row"><td colspan="6">BALANCE SHEET / CAPITAL</td></tr>
+    <tr><td>Available Capital Position</td><td>$465</td><td>$481</td><td class="est">$500</td><td class="est">$540</td><td class="est">$585</td></tr>
+    <tr><td>Total Debt</td><td>$0</td><td>$0</td><td class="est">$0</td><td class="est">$0</td><td class="est">$0</td></tr>
+    <tr><td>Dividend / Share</td><td>$0.80</td><td>$0.33</td><td class="est">~$0.33</td><td class="est">~$0.35</td><td class="est">~$0.38</td></tr>
+  </tbody>
+</table>
+<p style="font-size:8px; color:#aaa; margin-top:2px;">*FY24 net income of $162.4M includes a $36.8M non-recurring gain on the FTX-claim sale and non-operational digital-asset price gains; net margin &gt;100% on the revenue line is not meaningful. EPS shown on a pro-forma post-listing base of 136.7M shares. FY24 dividend/share includes the $0.47 FTX special dividend. FY2026E–27E per FactSet consensus (1 contributor); FY2028E is a Theia estimate.</p>
+
+<!-- Valuation Summary -->
+<div class="section-title">Valuation Summary</div>
+<p class="prose">CoinShares is one of the most unusual valuation setups in the Theia universe: a profitable, cash-generative, dividend-paying market leader trading at an <strong>enterprise value of essentially zero</strong>. At $4.03, the $551M market cap is backed by a $481.4M available-capital position (cash plus hedged accrued fees plus principal investments) and zero debt — so the market is valuing the #1 European digital-asset ETP franchise, its 30+ product suite, its proprietary Galata/MATRIX technology stack, and its dual-engine earnings power at roughly $70M, or under 0.8x forward EBITDA. On a P/E basis the stock trades at 6.7x FY2026E and 5.8x FY2027E consensus earnings, and it yields ~8.2% on the FY2025 dividend. The de-rating has been violent — down 62% YTD and 61% over one year, sitting at just 29% of its 52-week high — driven by a broad crypto-price drawdown that cut Q4 2025 AUM by $2.5B, the technical overhang of a fresh de-SPAC listing (the "DeSPAC reset"), and near-total analyst neglect (one covering broker). The single sell-side target of $9.00 implies +123% upside. The core tension is that CoinShares' earnings are highly crypto-beta — management fees accrue daily on AUM that swings with BTC/ETH prices, and Capital Markets yields spike in high-volatility regimes — so consensus FY2026E net income of $78.8M is set below the FY2025 actual of $114.3M as it normalizes out non-operational gains. That crypto sensitivity is exactly what produces the wide outcome dispersion Theia targets: a sum-of-the-parts at a peer-median 6x EBITDA plus net capital implies ~$7.50/share today, with meaningful upside if a crypto up-cycle re-inflates AUM.</p>
+
+<div class="source-note">Source: FactSet snapshot export, July 6, 2026; CoinShares FY2025 results (US GAAP); AlphaSense primer &amp; deep dive (Jun–Jul 2026). Estimates reflect FactSet consensus (1 contributor) and Theia modeling. FYE December.</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 3: BULL & BEAR CASES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Cases</div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">EV ≈ Zero — Balance Sheet Backs the Whole Market Cap.</span> With a $481M available-capital position, no debt, and a $551M market cap, an investor is effectively buying the operating business — Europe's #1 crypto-ETP franchise generating $114M of net income in FY2025 — for ~$70M of enterprise value. Any normalization of the market's fear premium, plus continued dividend payments (~8% yield) and potential buybacks funded from the capital surplus, could re-rate the equity toward the SOTP fair value of ~$7.50/share (a peer-median 6x EBITDA plus net capital) without any improvement in crypto prices.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Crypto Up-Cycle Re-Inflates AUM.</span> Management fees accrue daily on ~$6.4B of fee-paying AUM. Because CoinShares' cost base is largely fixed (~$40M annual overhead) with ~69% segment EBITDA margins, incremental AUM flows almost entirely to the bottom line. In prior bull markets XBT alone reached ~$5B and total AUM peaked well above current levels; a return of BTC/ETH to cycle highs, combined with net inflows into CoinShares Physical (the #1 European ETP by inflows), could push fee-paying AUM to $10B+ and drive earnings materially above the FY2025 $114M peak.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">MiCA + U.S. Listing Unlock Distribution.</span> In July 2025 CoinShares became the first continental European manager authorized under MiCA — a passportable license into the €33 trillion EU asset-management market — while the April 2026 Nasdaq listing places its model in the world's largest capital market. Deepening distribution via European neobanks and brokers (BoursoBank's 7M clients, Bourse Direct, Nordea's 9M customers, Trade Republic, Scalable Capital) and a growing U.S. presence via Valkyrie provide multiple, non-price-competitive growth vectors.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Active Alpha &amp; Staking Mix-Shift Lifts Fees.</span> The pending Bastion acquisition adds FCA-regulated, quant-driven active management — higher-fee (0.75–1.85%) products that lift blended economics beyond passive beta. The zero-management-fee staked-ETP suite (ETH/SOL/SEI/TON/BNB) monetizes native on-chain yield, and the Capital Markets desk earns 8–10% delta-neutral yields during volatile periods — giving CoinShares revenue lines that grow even when passive ETP fees compress.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Strategic Acquisition Target.</span> A profitable, regulated, ~$550M-cap platform with 34% European market share, MiCA authorization, U.S. registrations, and a cash-rich balance sheet is a highly logical bolt-on for a traditional asset manager (which would gain an instant, compliant crypto franchise) or a larger digital-asset player seeking European scale. The 62% drawdown makes the platform far cheaper to acquire today; even a modest control premium to fair value implies a double from current levels.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="bear-header">Bear Cases</div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Crypto Beta Cuts Both Ways.</span> The same operating leverage that amplifies bull-market earnings works violently in reverse. AUM fell $2.5B in Q4 2025 purely on price, and a sustained crypto winter — BTC/ETH down 50%+ for an extended period, coupled with net redemptions — would compress AUM, management fees, and Capital Markets yields simultaneously, potentially cutting earnings by half or more and validating the market's discount.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">U.S. Fee War Bleeds Into Europe.</span> Post-spot-ETF, BlackRock, Fidelity, and peers have driven U.S. spot-Bitcoin fees below 0.30%, treating them as loss-leaders. CoinShares already cut its flagship BITC fee to 0.25% in early 2025. If European fragmentation erodes and mega-scale issuers pursue share aggressively, the blended ~170 bps fee that underpins the model could compress structurally, permanently lowering the earnings base.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Custody, Counterparty &amp; DeFi Failures.</span> CoinShares has a documented history of severe counterparty losses in market dislocations: a $38.4M full impairment on its FlowBank stake (2024), a £17M loss on the Anchor/Terra collapse (2022), and an FTX write-off (2022). Its ETPs depend on third-party custodians (Komainu, Zodia, BitGo), and the Capital Markets desk engages in on-chain staking and lending — exposing it to hacks, validator slashing, smart-contract bugs, and counterparty defaults that could cause permanent capital loss and reputational damage.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Regulatory Reclassification Risk.</span> MiCA imposes stringent capital, reserve, and licensing demands; the SEC remains cautious on altcoins; and — critically — because CoinShares holds and trades a large volume of digital assets, any determination that assets beyond Bitcoin and Ether are "securities," or changes to the Investment Company Act of 1940, could restrict its product range, raise compliance costs, or alter its status as an investment manager.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Governance &amp; Related-Party Concentration.</span> Leadership is highly centralized around CEO Mognetti and Director Masters, who together own ~33% of shares. AlphaSense flags extensive related-party transactions — the group trades on behalf of both executives and holds digital-asset balances due to them (e.g., 9.08 BTC for Mognetti; $7.9M of trades for Masters in 2024), maintains recharge agreements with Komainu (where Mognetti is a director/shareholder), and transferred control of CoinShares GP I to a Masters-influenced entity. A five-member board and foreign-private-issuer reporting reduce disclosure granularity that institutional allocators expect.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Scale Economies</span> <span class="fw-rating strong">Strong</span><br>
+  CoinShares operates with a largely fixed cost base of ~$40M annual overhead against a scalable AUM-fee revenue model. Because central costs stay roughly flat as assets grow, incremental AUM flows directly to the bottom line — segment EBITDA margin expanded to ~69% in FY2025 from ~63% in FY2024 despite adverse late-year prices. RedEye's analysis notes that using CoinShares' fixed cost base as an industry proxy, only CoinShares and 21Shares operate profitably among European crypto-ETP issuers, meaning the group's scale is a genuine structural cost advantage that sub-scale competitors cannot match. In a business where dozens of issuers list near-identical BTC/ETH wrappers, being able to run profitably at low breakeven AUM is the decisive edge.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Network Effects</span> <span class="fw-rating weak">Weak</span><br>
+  ETPs are not a two-sided network — a Bitcoin ETP does not become more valuable to a holder because other investors own it. There are mild indirect benefits: deeper AUM and trading volume improve secondary-market liquidity and tighten bid-ask spreads on CoinShares' products (supported by its own Capital Markets market-making), which marginally attracts more flows. But this is a liquidity effect, not a true network effect, and it does not create the compounding winner-take-all dynamics of a genuine network business.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Counter-Positioning</span> <span class="fw-rating moderate">Moderate</span><br>
+  For more than a decade, incumbent Wall Street asset managers could not offer crypto products without regulatory, reputational, and career risk — leaving the category to specialist pure-plays like CoinShares, which built regulated infrastructure the incumbents were structurally unwilling to touch. That counter-position has weakened in the U.S. since 2024 as BlackRock and Fidelity entered aggressively. It remains more durable in Europe, where CoinShares' active/staked/index product mix and hedge-fund DNA differ from the plain-vanilla passive products the giants prefer to launch as loss-leaders — but the moat is eroding rather than strengthening, hence a Moderate rating.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Switching Costs</span> <span class="fw-rating weak">Weak</span><br>
+  For end investors, switching between crypto ETPs is easy — they are fungible, exchange-traded wrappers, and holders readily rotate toward lower fees or better liquidity (evidenced by ongoing XBT outflows as investors take profits). Switching costs are somewhat higher at the distribution layer: neobanks and brokers that have integrated CoinShares Physical ETPs (BoursoBank, Bourse Direct, Nordea) face integration friction to swap issuers, and institutional allocators value CoinShares' custody, attestation, and compliance track record. But at the product level, stickiness is low — this is a fee-and-liquidity-competitive market, not a lock-in market.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Branding</span> <span class="fw-rating moderate">Moderate</span><br>
+  CoinShares is one of the most recognized and trusted brands in European digital assets, with a decade-long regulated track record, ISO/IEC 27001 certification since 2019, daily public reserve attestations (LedgerLens), and a reputation for operating strictly inside the regulated perimeter. In a category defined by FTX-style blow-ups, that trust is a real asset — it wins distribution partnerships and institutional mandates and supports a premium fee on legacy products (XBT's 250 bps persists despite cheaper alternatives). However, the brand does not command durable consumer pricing power against BlackRock/IShares-scale competitors, so it is a facilitator rather than a standalone power.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">6. Cornered Resource</span> <span class="fw-rating moderate">Moderate</span><br>
+  CoinShares controls several scarce, hard-to-replicate assets: the MiCA authorization (first continental European manager to obtain it) and its stack of Jersey/AMF/SEC/FINRA/NFA licenses represent years of regulatory work that act as a moat against new entrants; the XBT Provider platform, acquired for ~$10M and now a $2.5B, 250-bps cash cow, is an irreplaceable legacy asset; and the founding team's decade of crypto-and-commodities expertise is genuinely rare. The Komainu custody JV (built with Nomura and Ledger) is another differentiated relationship asset, though CoinShares has moved to a secondary role there. These licenses and legacy platforms are real cornered resources, tempered by the fact that regulatory approvals are increasingly attainable by well-capitalized rivals.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">7. Process Power</span> <span class="fw-rating strong">Strong</span><br>
+  CoinShares' proprietary Galata operating system — an in-house-built bridge connecting TradFi networks with DeFi protocols, executing 100,000+ trades/day across 200+ real-time algorithms and 30+ counterparties — plus the next-generation MATRIX execution-and-risk platform (delivered 2024, ~1,000x faster matching) embed operational capabilities that took a decade to build. This technology lets the Capital Markets desk run delta-neutral market-making and statistical arbitrage that hedge ETP liabilities without directional risk, isolating the balance sheet from crypto volatility while generating high-margin yield. Combined with automated 30-minute collateral reconciliation and multi-custodian controls, this is a genuine, hard-to-replicate process advantage that few crypto peers possess.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> The strongest moats here are <strong>Scale Economies</strong> (profitable at low breakeven where most European peers lose money) and <strong>Process Power</strong> (the Galata/MATRIX technology stack that runs a delta-neutral, balance-sheet-driven trading engine), supported by Moderate Cornered Resource (MiCA + multi-jurisdictional licenses, the XBT legacy platform) and Branding (a decade-long regulated trust advantage). The business is weaker on Network Effects and Switching Costs, because crypto ETPs are fungible, fee-competitive wrappers — which is why fee compression is the key structural risk. This is a real but incomplete moat profile: durable enough to keep CoinShares profitable through the cycle, but not wide enough to prevent long-run fee pressure.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Threat of New Entrants</span> <span class="fw-rating moderate">Moderate</span><br>
+  Barriers are meaningful but falling. A credible new entrant must obtain multi-jurisdictional regulatory approvals (MiCA, national ETP listings, custody arrangements), build institutional-grade custody and attestation, secure authorized participants and market-makers, and earn distribution — a stack that took CoinShares a decade. Europe's fragmentation across ~44 national markets raises the cost further, insulating incumbents. However, the 2024 U.S. spot-ETF approvals demonstrated that well-capitalized giants can enter fast and at scale, and MiCA's harmonization — while a moat for CoinShares' first-mover license — ultimately lowers the entry barrier for others over time. Net: Moderate and directionally rising.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Bargaining Power of Suppliers</span> <span class="fw-rating moderate">Moderate</span><br>
+  CoinShares' key "suppliers" are third-party custodians (Komainu, Zodia, BitGo), staking/validator providers (Blockdaemon, Twinstake), exchanges and trading counterparties, and the underlying blockchains themselves. Custodians hold the crypto backing the ETPs, giving them real leverage, though CoinShares mitigates this with a multi-custodian strategy and its own Komainu stake. The deepest supplier dependency is on external internet infrastructure, exchanges, and DeFi protocols — a systemic failure or insolvency at an integrated venue could impair the delta-neutral hedging the model relies on. Model providers and blockchains are largely commoditized/substitutable, keeping aggregate supplier power moderate.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Bargaining Power of Buyers</span> <span class="fw-rating high">High</span><br>
+  Buyers — retail and institutional investors — hold strong power because crypto ETPs are fungible and price-transparent. With dozens of near-identical BTC/ETH wrappers listed across Europe and the U.S., investors readily rotate toward the lowest fee or deepest liquidity, and the post-spot-ETF fee war has handed them the whip hand. CoinShares defends with brand trust, product breadth (staked/active/index products competitors lack), and captive legacy XBT holders, but it has still been forced to cut its flagship BITC fee to 0.25%. High buyer power is the single most important structural headwind to long-run fee durability.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Threat of Substitutes</span> <span class="fw-rating high">High</span><br>
+  Investors seeking crypto exposure have abundant substitutes for CoinShares' ETPs: direct spot ownership on exchanges, self-custody wallets, competing issuers' ETPs/ETFs (BlackRock IBIT, 21Shares, Bitwise, Grayscale), crypto-proxy equities (MicroStrategy, Coinbase, miners), and futures. For the passive beta portion of the business, substitution is intense and largely fee-driven. CoinShares mitigates this on the margin with regulated, physically-backed, staking-enabled wrappers that many institutions can only access through a compliant vehicle — but the substitute set is broad and cheap, keeping this threat High.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Competitive Rivalry</span> <span class="fw-rating high">High</span><br>
+  Rivalry is intense and bifurcated. In Europe, CoinShares (~34% share) competes with 21Shares, WisdomTree, VanEck, DeFi Technologies/Valour, and Bitwise; in the U.S., its Valkyrie unit sits against BlackRock, Fidelity, Grayscale, and Bitwise in a commoditized, fee-compressing arena. The product is highly substitutable and competition is increasingly on price. CoinShares avoids the worst of the U.S. war by focusing on differentiated active, staked, and index products rather than plain passive, but the overall environment is a crowded, low-differentiation market where scale and cost discipline determine survival.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> The competitive environment is <strong>challenging</strong>: buyer power, substitute threat, and rivalry are all High because crypto ETPs are fungible, fee-competitive wrappers in an increasingly crowded field, and the U.S. fee war is a structural drag on the whole industry. CoinShares' defense is not a wide product moat but rather <strong>cost leadership and process power</strong> — being one of only two European issuers that operate profitably, run a differentiated active/staked/index mix, and use a proprietary trading engine to earn balance-sheet yield. That makes it a survivor and consolidator in a brutal market, but it does not confer the pricing power of a structurally protected franchise. The investment case therefore rests more on the near-zero EV and crypto-beta optionality than on Porter-style competitive insulation.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 6: WHAT DRIVES THE STOCK? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<p class="prose">The following are the 6 variables that would move CSHR's share price materially in the next 12 months — the metrics analysts would build tracking models around and PMs would ask about in morning meetings.</p>
+
+<p class="prose"><strong>1. BTC / ETH Prices and Fee-Paying AUM.</strong> This is the master variable. Management fees accrue daily on ~$6.4B of fee-paying AUM that moves almost one-for-one with digital-asset prices — Q4 2025 alone saw AUM fall $2.5B on price. Rising crypto prices lift AUM, fees, and Capital Markets mark-to-market simultaneously and flow to the bottom line at ~69% incremental margin; falling prices do the reverse. Bullish: BTC/ETH breaking to new highs with net ETP inflows. Bearish: a sustained crypto winter with redemptions.</p>
+
+<p class="prose"><strong>2. Net Flows into CoinShares Physical &amp; Staked ETPs.</strong> Distinct from price, organic net inflows show franchise health. CoinShares Physical was #1 in Europe by net inflows in FY2025 ($1.1B); continued share gains via neobank/broker distribution (BoursoBank, Bourse Direct, Nordea, Trade Republic) would signal the platform is compounding independent of price. Persistent XBT/legacy outflows outpacing Physical inflows would be a warning that the franchise is shrinking under the price noise.</p>
+
+<p class="prose"><strong>3. Blended Fee Rate / Fee Compression.</strong> The ~170 bps blended fee has been remarkably stable across FY2023–25, but the U.S. sub-0.30% fee war and CoinShares' own BITC cut to 0.25% make fee trajectory the key structural swing factor. Bullish: mix-shift toward higher-fee active (Bastion) and staked products holds or lifts the blend. Bearish: European fee compression accelerates as mega-issuers pursue share.</p>
+
+<p class="prose"><strong>4. Capital Markets Yield &amp; Volatility.</strong> The Capital Markets desk earns ~92 bps on associated assets, with delta-neutral strategies generating 8–10% yields in high-volatility regimes and staking/lending adding recurring income. Because these yields rise with volatility and crypto prices, CM revenue is a powerful — but lumpy — swing factor each quarter. Watch the segment's contribution and any principal-investment gains/losses.</p>
+
+<p class="prose"><strong>5. Capital Return &amp; Balance-Sheet Deployment.</strong> With EV near zero and a $481M capital surplus, what management does with the cash is pivotal. Continued/growing dividends (~8% yield), a buyback at a near-zero-EV valuation, or accretive M&amp;A (Bastion-style active-alpha deals) would each help close the gap between price and net asset backing. Signs of value-destructive principal investments (à la FlowBank) would do the opposite.</p>
+
+<p class="prose"><strong>6. Coverage, Index Inclusion &amp; De-SPAC Overhang Clearing.</strong> With just one covering broker and a fresh de-SPAC listing, CSHR suffers from neglect and technical overhang (PIPE/founder unlocks, sponsor selling). Initiation of U.S. sell-side coverage, index inclusion, improved liquidity, and the lapse of lock-ups would broaden the shareholder base and could re-rate a name currently priced for maximum obscurity. Bullish: new coverage and a stabilizing float. Bearish: continued forced/technical selling.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<p class="prose">CoinShares' revenue decomposes into its two engines using fundamental unit-economics drivers:</p>
+
+<table class="data" style="font-size:10px; margin-bottom:16px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Revenue Line</th>
+      <th style="text-align:left;">Driver 1</th>
+      <th style="text-align:left;">Driver 2</th>
+      <th style="text-align:left;">Driver 3</th>
+      <th style="text-align:left;">= Revenue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>AM — Mgmt Fees</strong></td>
+      <td>Avg Fee-Paying AUM</td>
+      <td>x Blended Fee (bps)</td>
+      <td>(AUM = Prices x Units)</td>
+      <td>= Management Fee Revenue</td>
+    </tr>
+    <tr>
+      <td><strong>AM — Staked ETPs</strong></td>
+      <td>Staked AUM</td>
+      <td>x Network Staking Yield</td>
+      <td>x CoinShares Share %</td>
+      <td>= Staking Revenue Share</td>
+    </tr>
+    <tr>
+      <td><strong>Capital Markets</strong></td>
+      <td>Associated / Balance-Sheet Assets</td>
+      <td>x Blended CM Yield (~92bps)</td>
+      <td>x Volatility Multiplier</td>
+      <td>= Capital Markets Revenue</td>
+    </tr>
+    <tr>
+      <td><strong>Total Revenue</strong></td>
+      <td>Asset Management</td>
+      <td>+ Capital Markets</td>
+      <td>± Principal Inv. Gains</td>
+      <td>= $166M (FY25) / $158M (FY26E)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose"><strong>Key driver quantification (FY2025 actuals):</strong></p>
+<ul style="font-size: 11px; line-height: 1.7; color: #333; margin-left: 20px; margin-bottom: 10px;">
+  <li><strong>Asset Management ($126.4M):</strong> ~$6.4B fee-paying AUM × ~170 bps blended fee. XBT alone = $92.6M (250 bps on ~$2.5B, 73% of all management fees); CoinShares Physical, BLOCK (65 bps on &gt;$1B, via Invesco), and Valkyrie make up the balance.</li>
+  <li><strong>Capital Markets ($73.1M):</strong> ~92 bps blended yield on balance-sheet/associated assets — ETH staking ($5.6M Q1 + $4.3M Q2 2025), digital-asset lending (~4.5% yields), and delta-neutral trading (8–10% in high-vol periods).</li>
+  <li><strong>Fixed cost base (~$40M):</strong> largely flat overhead; ~69% segment EBITDA margin means AUM growth converts to profit at very high incremental rates.</li>
+  <li><strong>"Hidden" non-cash revenue:</strong> $120.3M of FY2025 revenue was non-cash accrued XBT/Physical fees held in (hedged) digital assets — $280M of the $481.4M capital position — realized as cash on ETP redemption.</li>
+</ul>
+
+<p class="prose"><strong>Leverage analysis:</strong> The three highest-leverage drivers are: (1) <em>Fee-Paying AUM</em>, which is dominated by <em>BTC/ETH prices</em> — a 25% move in crypto prices moves AUM ~25% and, at ~170 bps and ~69% incremental margin, moves management-fee EBITDA by roughly $19M (25% × $6.4B × 1.70% × 69%), or ~$0.10 of EPS; over a full crypto cycle this is the difference between the bear and bull scenarios. (2) <em>Blended Fee Rate</em> — every 10 bps of blended-fee compression on $6.4B AUM removes ~$6.4M of high-margin revenue, so the long-run fee trajectory is as important as AUM growth. (3) <em>Capital Markets Volatility Multiplier</em> — CM revenue can swing from ~$40M in calm markets to $70M+ in volatile ones, making it the primary source of quarter-to-quarter earnings variability. The upshot: CoinShares is a levered, two-sided bet on crypto-asset value and volatility, with a fixed-cost engine that magnifies both directions.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+  <strong>AlphaSense Research Reports</strong> · Subject: CoinShares PLC (CSHR) · Reports Reviewed: "Company Primer &amp; Overview" (18 pp), "Comprehensive Analysis of Business Fundamentals" (14 pp), FY2025 earnings release, F-1/424B3 prospectus, 13D/A &amp; ownership filings, FactSet snapshot<br>
+  <em>Key themes synthesized from AlphaSense competitive intelligence, management commentary, and industry research.</em>
+</div>
+
+<p class="prose"><strong>The Accounting Distortion That Masked True Profitability.</strong> The single most important analytical insight is that CoinShares' historical financials systematically <em>understated</em> its economics. Under IFRS (IAS 38), digital assets were treated as intangibles, forcing revaluation gains through Other Comprehensive Income while corresponding ETP certificate liabilities were marked to market through the P&amp;L — producing large, artificial net losses that led databases like Morningstar to report negative EPS and obscured a cash-generative business. A Q3 2024 IFRS reclassification (IAS 2 inventories / IFRS 9) and the FY2025 conversion to U.S. GAAP now push all fair-value movements directly through earnings, revealing the real picture: ~69% segment EBITDA margins and $114M of FY2025 net income. Investors screening on stale GAAP/IFRS history may still be mispricing the true earnings power.</p>
+
+<p class="prose"><strong>The "Hidden Assets" on the XBT Platform.</strong> A widely misunderstood balance-sheet feature: XBT management fees are denominated in fiat but held in digital assets (BTC/ETH) inside the ETP collateral structure, recognized daily as they accrue and economically hedged via FX and digital-asset swaps so they are insulated from crypto volatility. As of Dec 31, 2025 these accrued fees had grown to ~$280M of the group's $481.4M available-capital position — earned, risk-free economic value that is systematically unlocked as cash during normal ETP redemption cycles. This is real, hedged capital that the near-zero EV does not credit.</p>
+
+<p class="prose"><strong>The Legacy XBT "Cash Cow" and Distressed-M&amp;A Playbook.</strong> AlphaSense repeatedly highlights CoinShares' disciplined, value-accretive M&amp;A: XBT Provider was bought out of a Swedish bankruptcy estate in 2016 with ~$10M AUM and now generates $92.6M of annual fees at a premium 250 bps (73% of all management fees) despite ongoing structural outflows — an extraordinary return on a distressed purchase. The pattern repeats with Elwood (2021, BLOCK index IP), Napoleon (2021, first AIFM-regulated crypto AM), Valkyrie (2024, U.S. beachhead), and the pending Bastion deal (active alpha). Management has proven it can buy distressed/strategic assets cheaply and extract durable cash flows.</p>
+
+<p class="prose"><strong>Structural European Moat vs. Scale-Driven U.S. Market.</strong> The research frames a stark regional divergence: the U.S. market is homogeneous, scale-driven, and fee-compressed (spot ETFs as sub-0.30% loss-leaders from BlackRock/Fidelity), whereas Europe is fragmented across ~44 national markets with diverse languages, distribution channels, and clearing infrastructures. That fragmentation is a natural barrier that has let CoinShares hold ~34% share (peaking near 50%) and maintain a stable ~170 bps blend where U.S. peers cannot. RedEye notes only CoinShares and 21Shares operate profitably among European issuers, underscoring how sub-scale competitors are structurally disadvantaged.</p>
+
+<p class="prose"><strong>AI, Governance &amp; the Bear Case.</strong> On technology, CoinShares uses AI internally for workflow automation and execution optimization on Galata/MATRIX (contrast with rival DeFi Technologies, which is packaging AI as a customer-facing feature via a Neuronomics stake). On governance, AlphaSense is direct about the risks: a close-knit, founder-dominated structure (Mognetti + Masters), extensive related-party transactions and trading on behalf of executives, recharge agreements with affiliated custodian Komainu, and a five-member board — plus a documented history of counterparty losses (FlowBank $38.4M, Anchor/Terra £17M, FTX). <strong>Key investor questions:</strong> (1) What is the normalized, through-cycle earnings base once non-operational gains are stripped out? (2) How durable is the ~170 bps blended fee as U.S. compression spreads? (3) How will the $481M capital surplus be deployed — buybacks, dividends, or M&amp;A? (4) What governance changes will accompany the shift toward U.S. domestic reporting if FPI status lapses? (5) Can active/staked mix-shift (Bastion) offset passive fee erosion?</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 9: SENSITIVITY ANALYSIS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Sensitivity Analysis</div>
+
+<!-- Sensitivity Table 1 -->
+<p class="prose"><strong>Sensitivity Table 1: Annual Asset-Management Fee Revenue ($M) — Fee-Paying AUM ($B) vs. Blended Management Fee (basis points)</strong></p>
+<p class="prose"><strong>Current: Fee-Paying AUM ≈ $6.4B, Blended Fee ≈ 170 bps → ~$109M AM management-fee revenue</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>AUM ($B) / Fee (bps)</th>
+      <th>140</th>
+      <th>155</th>
+      <th>170</th>
+      <th>185</th>
+      <th>200</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$4.0B</td><td>$56</td><td>$62</td><td>$68</td><td>$74</td><td>$80</td></tr>
+    <tr><td>$5.0B</td><td>$70</td><td>$78</td><td>$85</td><td>$93</td><td>$100</td></tr>
+    <tr><td>$6.4B</td><td>$90</td><td>$99</td><td class="base">$109</td><td>$118</td><td>$128</td></tr>
+    <tr><td>$8.0B</td><td>$112</td><td>$124</td><td>$136</td><td>$148</td><td>$160</td></tr>
+    <tr><td>$10.0B</td><td>$140</td><td>$155</td><td>$170</td><td>$185</td><td>$200</td></tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 2 -->
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 2: FY2028E Net Income ($M) — Total Revenue ($M) vs. Net Margin (%)</strong></p>
+<p class="prose"><strong>Current (FY2028E base): Revenue ≈ $191M x Net Margin ≈ 54% = ~$103M Net Income</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Revenue / Net Margin</th>
+      <th>40%</th>
+      <th>47%</th>
+      <th>54%</th>
+      <th>58%</th>
+      <th>62%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$95M</td><td>$38</td><td>$45</td><td>$51</td><td>$55</td><td>$59</td></tr>
+    <tr><td>$150M</td><td>$60</td><td>$71</td><td>$81</td><td>$87</td><td>$93</td></tr>
+    <tr><td>$191M</td><td>$76</td><td>$90</td><td class="base">$103</td><td>$111</td><td>$118</td></tr>
+    <tr><td>$260M</td><td>$104</td><td>$122</td><td>$140</td><td>$151</td><td>$161</td></tr>
+    <tr><td>$380M</td><td>$152</td><td>$179</td><td>$205</td><td>$220</td><td>$236</td></tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 3 -->
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 3: Implied Share Price ($) — Exit P/E Multiple (x) vs. FY2028E EPS ($)</strong></p>
+<p class="prose"><strong>Current: FY2028E EPS = $0.75 (base) x P/E = 10x = $7.50 implied vs. $4.03 current. Colored corners = 5-scenario cases.</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>EPS / P/E</th>
+      <th>6x</th>
+      <th>8x</th>
+      <th>10x</th>
+      <th>12x</th>
+      <th>15x</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$0.33</td><td class="base" style="background:#f8d7da;">$1.98</td><td>$2.64</td><td>$3.30</td><td>$3.96</td><td>$4.95</td></tr>
+    <tr><td>$0.57</td><td>$3.42</td><td class="base" style="background:#fff3cd;">$4.56</td><td>$5.70</td><td>$6.84</td><td>$8.55</td></tr>
+    <tr><td>$0.75</td><td>$4.50</td><td>$6.00</td><td class="base">$7.50</td><td>$9.00</td><td>$11.25</td></tr>
+    <tr><td>$1.10</td><td>$6.60</td><td>$8.80</td><td>$11.00</td><td class="base" style="background:#d4edda;">$13.20</td><td>$16.50</td></tr>
+    <tr><td>$1.68</td><td>$10.08</td><td>$13.44</td><td>$16.80</td><td>$20.16</td><td class="base" style="background:#d4edda;">$25.20</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 10: 3-YEAR MODEL — 5 SCENARIOS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios</div>
+
+<p class="prose">All figures in $M unless stated. Modeled FY2026E, FY2027E, FY2028E (FYE Dec). Exit multiple applied to FY2028E EPS. Current share price: $4.03. Shares: 136.7M. Available capital: $481M, no debt. Cases flow from the core drivers — crypto prices → fee-paying AUM → management fees, plus Capital Markets yield and blended fee.</p>
+
+<!-- CASE 1: BEAR SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 1: Bear Severe — Crypto Winter + Fee War + Counterparty Loss</div>
+  <div class="case-desc">Sustained crypto bear market (BTC/ETH −50%+ for an extended period); fee-paying AUM halves to ~$3–4B on price and net redemptions; U.S. fee war bleeds into Europe, compressing the blend toward 150 bps; Capital Markets yields collapse in low volatility; a fresh custody/counterparty loss impairs capital.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Prices roll over; AUM slides; CM revenue thins as volatility fades. <strong>FY2027</strong> — Redemptions persist; blended fee drifts to ~155 bps; a principal-investment write-down hits. <strong>FY2028</strong> — Trough conditions; earnings roughly halve versus base; the market prices CSHR as a distressed, structurally-challenged issuer.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Fee-Paying AUM</span><span>~$3.5B (halved)</span></div>
+  <div class="driver-row"><span>Blended Fee</span><span>150 bps (compression)</span></div>
+  <div class="driver-row"><span>Capital Markets Yield</span><span>~60 bps (low vol)</span></div>
+  <div class="driver-row"><span>Net Margin</span><span>~47%</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>6x (distressed)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$130</td><td>$108</td><td>$95</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>-22%</td><td>-17%</td><td>-12%</td></tr>
+    <tr><td>Adj. EBITDA</td><td>60</td><td>45</td><td>40</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>46%</td><td>42%</td><td>42%</td></tr>
+    <tr><td>EBIT</td><td>55</td><td>40</td><td>35</td></tr>
+    <tr><td>Net Income</td><td>52</td><td>40</td><td>45</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Income Margin %</td><td>40%</td><td>37%</td><td>47%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>136.7</td><td>136.7</td><td>136.7</td></tr>
+    <tr><td>EPS</td><td>$0.38</td><td>$0.29</td><td>$0.33</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>--</td><td>--</td><td>6x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>--</td><td>$2.00</td></tr>
+    <tr><td>FCF</td><td>$58</td><td>$45</td><td>$48</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 6x FY2028E EPS of $0.33</div>
+    <div class="exit-price">Implied Share Price: $2.00</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: -50% from $4.03</div>
+  </div>
+</div>
+
+<!-- CASE 2: BEAR MILD -->
+<div class="case-block">
+  <div class="case-name">Case 2: Bear Mild — Sideways Crypto, Fees Grind Lower</div>
+  <div class="case-desc">Crypto trades range-bound; fee-paying AUM holds ~$5.5B; blended fee drifts to ~165 bps as competition intensifies; Capital Markets stays modest; MiCA compliance costs rise. A solid, profitable, dividend-paying business — but the growth narrative stalls and the multiple stays depressed.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Roughly consensus revenue; AUM flat-to-down; dividend maintained. <strong>FY2027</strong> — Modest fee erosion offsets small inflows; margins stable. <strong>FY2028</strong> — Earnings near FY2026E levels; market keeps CSHR at a mid-single-digit P/E despite the cash backing.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Fee-Paying AUM</span><span>~$5.5B (flat)</span></div>
+  <div class="driver-row"><span>Blended Fee</span><span>165 bps (drift)</span></div>
+  <div class="driver-row"><span>Capital Markets Yield</span><span>~85 bps</span></div>
+  <div class="driver-row"><span>Net Margin</span><span>~51%</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>8x</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$150</td><td>$148</td><td>$152</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>-10%</td><td>-1%</td><td>+3%</td></tr>
+    <tr><td>Adj. EBITDA</td><td>84</td><td>82</td><td>86</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>56%</td><td>55%</td><td>57%</td></tr>
+    <tr><td>EBIT</td><td>78</td><td>76</td><td>80</td></tr>
+    <tr><td>Net Income</td><td>72</td><td>74</td><td>78</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Income Margin %</td><td>48%</td><td>50%</td><td>51%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>136.7</td><td>136.7</td><td>136.7</td></tr>
+    <tr><td>EPS</td><td>$0.53</td><td>$0.54</td><td>$0.57</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>8x</td><td>8x</td><td>8x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$4.21</td><td>$4.33</td><td>$4.55</td></tr>
+    <tr><td>FCF</td><td>$74</td><td>$76</td><td>$80</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 8x FY2028E EPS of $0.57</div>
+    <div class="exit-price">Implied Share Price: $4.55</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +13% from $4.03</div>
+  </div>
+</div>
+
+<!-- CASE 3: BASE CASE -->
+<div class="case-block">
+  <div class="case-name">Case 3: Base Case — Consensus Execution, Modest Crypto Recovery</div>
+  <div class="case-desc">Crypto stabilizes and grinds higher; fee-paying AUM recovers toward $6.5–7.0B; blended fee holds ~170 bps; Capital Markets normalizes; Bastion closes and lifts active mix; dividend maintained. Consensus FY2026E–27E delivered, with FY2028E extrapolated at ~10% growth.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Revenue $158M, EBITDA $91M, net income $79M per FactSet consensus. <strong>FY2027</strong> — Revenue $174M, net income $93M; Physical inflows continue; MiCA distribution scales. <strong>FY2028</strong> — Revenue ~$191M, net income ~$103M; EV re-rates modestly toward the sector as the market credits the cash backing.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Fee-Paying AUM</span><span>~$7.0B (recovery)</span></div>
+  <div class="driver-row"><span>Blended Fee</span><span>170 bps (stable)</span></div>
+  <div class="driver-row"><span>Capital Markets Yield</span><span>~92 bps</span></div>
+  <div class="driver-row"><span>Net Margin</span><span>~54%</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>10x</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$158</td><td>$174</td><td>$191</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>-5%</td><td>+10%</td><td>+10%</td></tr>
+    <tr><td>Adj. EBITDA</td><td>91</td><td>102</td><td>112</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>57.4%</td><td>58.7%</td><td>58.6%</td></tr>
+    <tr><td>EBIT</td><td>85</td><td>95</td><td>105</td></tr>
+    <tr><td>Net Income</td><td>79</td><td>93</td><td>103</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Income Margin %</td><td>49.8%</td><td>53.6%</td><td>53.9%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>136.7</td><td>136.7</td><td>136.7</td></tr>
+    <tr><td>EPS</td><td>$0.58</td><td>$0.68</td><td>$0.75</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>10x</td><td>10x</td><td>10x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$5.77</td><td>$6.81</td><td>$7.50</td></tr>
+    <tr><td>FCF</td><td>$82</td><td>$92</td><td>$102</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 10x FY2028E EPS of $0.75 (≈ SOTP: 6x EBITDA + net capital)</div>
+    <div class="exit-price">Implied Share Price: $7.50</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +86% from $4.03</div>
+  </div>
+</div>
+
+<!-- CASE 4: BULL MILD -->
+<div class="case-block">
+  <div class="case-name">Case 4: Bull Mild — Crypto Up-Cycle + Active/Staked Mix-Shift</div>
+  <div class="case-desc">A crypto bull market lifts fee-paying AUM toward ~$10B; CoinShares Physical and staked ETPs draw strong inflows; Bastion active-alpha and higher-fee products lift the blend; Capital Markets yields rise with volatility; U.S. Valkyrie scales. Earnings surpass the FY2025 peak.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Prices recover; AUM and CM revenue re-accelerate. <strong>FY2027</strong> — Physical inflows compound; active mix lifts blended fee; margins expand on operating leverage. <strong>FY2028</strong> — AUM ~$10B; revenue ~$260M; net income ~$150M; market begins to re-rate CSHR from distressed to growth.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Fee-Paying AUM</span><span>~$10B (bull inflows)</span></div>
+  <div class="driver-row"><span>Blended Fee</span><span>172 bps (mix-shift)</span></div>
+  <div class="driver-row"><span>Capital Markets Yield</span><span>~110 bps (high vol)</span></div>
+  <div class="driver-row"><span>Net Margin</span><span>~57%</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>12x (re-rating)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$180</td><td>$220</td><td>$262</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+9%</td><td>+22%</td><td>+19%</td></tr>
+    <tr><td>Adj. EBITDA</td><td>106</td><td>132</td><td>160</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>59%</td><td>60%</td><td>61%</td></tr>
+    <tr><td>EBIT</td><td>100</td><td>125</td><td>152</td></tr>
+    <tr><td>Net Income</td><td>92</td><td>118</td><td>150</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Income Margin %</td><td>51%</td><td>54%</td><td>57%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>136.7</td><td>136.7</td><td>136.7</td></tr>
+    <tr><td>EPS</td><td>$0.67</td><td>$0.86</td><td>$1.10</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>12x</td><td>12x</td><td>12x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$8.08</td><td>$10.37</td><td>$13.20</td></tr>
+    <tr><td>FCF</td><td>$95</td><td>$120</td><td>$152</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 12x FY2028E EPS of $1.10</div>
+    <div class="exit-price">Implied Share Price: $13.20</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +228% from $4.03</div>
+  </div>
+</div>
+
+<!-- CASE 5: BULL SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 5: Bull Severe — Crypto Supercycle + Consolidation / Takeout Premium</div>
+  <div class="case-desc">A structural crypto adoption supercycle drives fee-paying AUM to $15B+; CoinShares consolidates European share as sub-scale rivals exit; MiCA passporting and U.S. scale accelerate distribution; Capital Markets earns 8–10% delta-neutral yields in sustained high volatility; a TradFi asset manager or larger digital-asset player acquires the #1 European platform at a control premium.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Prices surge; AUM and CM revenue inflect sharply higher. <strong>FY2027</strong> — Share consolidation; active/staked products scale; strategic-interest speculation builds. <strong>FY2028</strong> — Revenue ~$380M; net income ~$230M; CSHR re-rates to a growth multiple or is acquired at a premium as a compliant, cash-rich crypto franchise.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Fee-Paying AUM</span><span>~$15B (supercycle)</span></div>
+  <div class="driver-row"><span>Blended Fee</span><span>175 bps (active mix)</span></div>
+  <div class="driver-row"><span>Capital Markets Yield</span><span>8–10% (sustained vol)</span></div>
+  <div class="driver-row"><span>Net Margin</span><span>~61%</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>15x (takeout / growth)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$200</td><td>$280</td><td>$380</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+21%</td><td>+40%</td><td>+36%</td></tr>
+    <tr><td>Adj. EBITDA</td><td>120</td><td>176</td><td>245</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>60%</td><td>63%</td><td>64%</td></tr>
+    <tr><td>EBIT</td><td>114</td><td>168</td><td>235</td></tr>
+    <tr><td>Net Income</td><td>105</td><td>158</td><td>230</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Income Margin %</td><td>53%</td><td>56%</td><td>61%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>136.7</td><td>136.7</td><td>136.7</td></tr>
+    <tr><td>EPS</td><td>$0.77</td><td>$1.16</td><td>$1.68</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>15x</td><td>15x</td><td>15x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>$11.52</td><td>$17.34</td><td>$25.20</td></tr>
+    <tr><td>FCF</td><td>$108</td><td>$160</td><td>$232</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 15x FY2028E EPS of $1.68</div>
+    <div class="exit-price">Implied Share Price: $25.20</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +525% from $4.03</div>
+  </div>
+</div>
+
+<!-- SVG Bar Chart -->
+<div class="case-chart">
+  <p style="font-size:9px; font-weight:600; margin-bottom:8px;">Implied Share Price by Scenario (FY2028E Exit) vs. Current Price $4.03</p>
+  <svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg" style="width:100%; font-family:Inter,Arial,sans-serif;">
+    <!-- Axes -->
+    <line x1="80" y1="20" x2="80" y2="200" stroke="#ccc" stroke-width="1"/>
+    <line x1="80" y1="200" x2="680" y2="200" stroke="#ccc" stroke-width="1"/>
+    <!-- Y-axis labels (scale: $1 = 6px) -->
+    <text x="75" y="204" text-anchor="end" font-size="9" fill="#888">$0</text>
+    <text x="75" y="174" text-anchor="end" font-size="9" fill="#888">$5</text>
+    <text x="75" y="144" text-anchor="end" font-size="9" fill="#888">$10</text>
+    <text x="75" y="114" text-anchor="end" font-size="9" fill="#888">$15</text>
+    <text x="75" y="84" text-anchor="end" font-size="9" fill="#888">$20</text>
+    <text x="75" y="54" text-anchor="end" font-size="9" fill="#888">$25</text>
+    <!-- Gridlines -->
+    <line x1="80" y1="174" x2="680" y2="174" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="144" x2="680" y2="144" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="114" x2="680" y2="114" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="84" x2="680" y2="84" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="54" x2="680" y2="54" stroke="#eee" stroke-width="0.5"/>
+    <!-- Bar scale: $1 = 6px -->
+    <!-- Bear Severe: $2.00 -> height 12px -->
+    <rect x="110" y="188" width="80" height="12" fill="#2563eb"/>
+    <text x="150" y="183" text-anchor="middle" font-size="9" fill="#333">$2.00</text>
+    <text x="150" y="214" text-anchor="middle" font-size="8" fill="#555">Bear Severe</text>
+    <!-- Bear Mild: $4.55 -> height 27.3px -->
+    <rect x="220" y="172.7" width="80" height="27.3" fill="#2563eb"/>
+    <text x="260" y="168" text-anchor="middle" font-size="9" fill="#333">$4.55</text>
+    <text x="260" y="214" text-anchor="middle" font-size="8" fill="#555">Bear Mild</text>
+    <!-- Base: $7.50 -> height 45px -->
+    <rect x="330" y="155" width="80" height="45" fill="#2563eb"/>
+    <text x="370" y="150" text-anchor="middle" font-size="9" fill="#333">$7.50</text>
+    <text x="370" y="214" text-anchor="middle" font-size="8" fill="#555">Base Case</text>
+    <!-- Bull Mild: $13.20 -> height 79.2px -->
+    <rect x="440" y="120.8" width="80" height="79.2" fill="#2563eb"/>
+    <text x="480" y="116" text-anchor="middle" font-size="9" fill="#333">$13.20</text>
+    <text x="480" y="214" text-anchor="middle" font-size="8" fill="#555">Bull Mild</text>
+    <!-- Bull Severe: $25.20 -> height 151.2px -->
+    <rect x="550" y="48.8" width="80" height="151.2" fill="#2563eb"/>
+    <text x="590" y="44" text-anchor="middle" font-size="9" fill="#333">$25.20</text>
+    <text x="590" y="214" text-anchor="middle" font-size="8" fill="#555">Bull Severe</text>
+    <!-- Current price line: $4.03 = 24.2px -> y = 175.8 -->
+    <line x1="80" y1="175.8" x2="680" y2="175.8" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="685" y="179" font-size="9" fill="#e74c3c">$4.03 (Current)</text>
+    <!-- Prob-wtd PV: $6.70 = 40.2px -> y = 159.8 -->
+    <line x1="80" y1="159.8" x2="680" y2="159.8" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="3,2"/>
+    <text x="685" y="163" font-size="8" fill="#f39c12">$6.70 PV@15%</text>
+  </svg>
+  <p style="font-size:8px; color:#888; margin-top:4px;">Probability weights: 10% / 20% / 35% / 25% / 10% · Prob-wtd avg $9.54 discounted ~2.5yr @15% CoC = $6.70 · Current: $4.03 · Implied upside: +66% · Single sell-side target: $9.00</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 11: COMPS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">11. Comparable Companies</div>
+
+<div class="section-title">FactSet Peer Group — Traditional Asset Managers</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Listing</th>
+      <th class="est-col">Market Cap ($M)</th>
+      <th class="est-col">EV ($M)</th>
+      <th class="est-col">TEV/EBITDA</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>CoinShares PLC</td><td>NASDAQ</td>
+      <td>$521.9</td><td>-$0.0</td><td>—</td>
+    </tr>
+    <tr><td>City of London Investment Group</td><td>LSE</td><td>$301.5</td><td>$206.4</td><td>6.2x</td></tr>
+    <tr><td>Liontrust Asset Management</td><td>LSE</td><td>$281.4</td><td>$131.8</td><td>4.1x</td></tr>
+    <tr><td>Brooks Macdonald Group</td><td>LSE</td><td>$268.1</td><td>$353.2</td><td>8.3x</td></tr>
+    <tr><td>Impax Asset Management</td><td>LSE</td><td>$165.3</td><td>$229.9</td><td>4.4x</td></tr>
+    <tr><td>Premier Miton Group</td><td>LSE</td><td>$89.4</td><td>$95.9</td><td>7.5x</td></tr>
+    <tr><td>TEAM plc</td><td>LSE</td><td>$26.7</td><td>$24.0</td><td>—</td></tr>
+    <tr><td>Oberon Investments Group</td><td>LSE</td><td>$21.9</td><td>$36.1</td><td>—</td></tr>
+    <tr><td>Tavistock Investments</td><td>LSE</td><td>$18.0</td><td>$26.9</td><td>10.1x</td></tr>
+    <tr><td>Fiske Plc</td><td>LSE</td><td>$9.5</td><td>$1.4</td><td>1.8x</td></tr>
+    <tr class="stat-row"><td>Peer Average</td><td>--</td><td>$131.3</td><td>$122.8</td><td>6.0x</td></tr>
+    <tr class="stat-row"><td>Peer Median</td><td>--</td><td>$127.4</td><td>$95.9</td><td>6.2x</td></tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Digital-Asset-Native Peers (strategic comparables)</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th class="est-col">Positioning</th>
+      <th class="est-col">Profitable?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject"><td>CoinShares PLC</td><td>CSHR</td><td>#1 European ETP mgr (~34% share)</td><td>Yes ($114M FY25 NI)</td></tr>
+    <tr><td>Galaxy Digital</td><td>GLXY</td><td>Diversified digital-asset financial services</td><td>Cyclical</td></tr>
+    <tr><td>DeFi Technologies (Valour)</td><td>DEFT</td><td>#2 European ETP issuer; AI-forward</td><td>Cyclical</td></tr>
+    <tr><td>21Shares / Bitwise / Grayscale</td><td>Private</td><td>ETP issuers (US &amp; EU)</td><td>Mixed</td></tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:10px;">The comps crystallize the thesis. On the FactSet Traditional Asset Manager screen, CoinShares' EV registers at ≈ $0 (net cash ≈ market cap) against a peer median TEV/EBITDA of ~6.2x — meaning the market assigns essentially <em>no</em> value to CoinShares' operating business, versus mid-single-digit EBITDA multiples for slower-growing, non-crypto European managers. Applying the peer-median ~6x to FY2026E adjusted EBITDA of ~$91M implies an EV of ~$545M; adding the $481M available-capital position yields an equity value of ~$1.03B, or ~$7.5/share (+86%) — the anchor for the base case. Against digital-asset-native peers (Galaxy, DeFi Technologies/Valour, and private issuers 21Shares/Bitwise/Grayscale), CoinShares stands out as one of only two European issuers that operate profitably through the cycle, yet it trades at a fraction of the EV multiple those growth-oriented crypto names command. The discount is partly warranted — crypto-beta earnings volatility, a fresh de-SPAC float, one covering analyst, and governance concentration all justify some haircut — but a zero EV for the profitable market leader looks like an overshoot rather than fair value.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<div class="verdict">
+  <p><strong>(i) Market Cap Bucket: $551M</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">Micro/Small-cap boundary — squarely in Theia's ideal zone. At $551M, CoinShares sits just above the &lt;$1B microcap "ideal" threshold, small enough to be structurally overlooked by large-cap managers yet a real, profitable, dividend-paying business. The 62% YTD drawdown has compressed it from a ~$1.5B de-SPAC enterprise value into deep small-cap territory, where index/institutional mandates create forced-selling and informational inefficiency — exactly the dislocation Theia hunts.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(ii) Analyst Coverage: 1 Broker Contributor</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">Severely under-covered — a single sell-side contributor per FactSet, far below Theia's &lt;5-analyst threshold for alpha. The lone Buy rating carries a $9.00 target (+123%), but with one voice the consensus is thin and the name is effectively un-modeled by the Street. The recent transition from Nasdaq Stockholm (where Nordic brokers covered CS) to U.S. Nasdaq has left a coverage vacuum; U.S. sell-side initiation is a plausible re-rating catalyst. This is a genuine information-edge opportunity.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iii) Thesis Alignment: Regulated Digital-Asset Investment Manager</strong> <span class="fw-rating strong">Core Thesis</span></p>
+  <p style="margin-top:4px;">This is as core as the internet-finance thesis gets. CoinShares is a pure-play, regulated bridge between traditional capital markets and blockchain assets — it builds crypto ETPs, runs on-chain staking and DeFi strategies, operates a proprietary TradFi↔DeFi trading engine (Galata), and is the #1 European digital-asset ETP manager with first-mover MiCA authorization. Unlike an adjacent software vendor, CoinShares' entire business model <em>is</em> the digitization of finance and the institutionalization of digital assets. Rating: Core thesis.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iv) Outcome Dispersion: $2.00 – $25.20</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">Exceptionally wide — a ~12.6x spread between Bear Severe ($2.00, −50%) and Bull Severe ($25.20, +525%) from the current $4.03. The dispersion is genuine, driven by crypto-price beta on a fixed-cost earnings engine, fee-trajectory uncertainty, and takeout optionality — not by artificial assumption-widening. Critically, the downside is cushioned by a near-zero EV and a $481M capital position that backs ~87% of the market cap, while the upside is amplified by AUM operating leverage. A probability-weighted fair value of $6.70 (+66%) on a heavily cushioned downside is the asymmetric profile Theia targets.</p>
+</div>
+
+<div style="background: #d4edda; border-left: 4px solid #155724; padding: 12px 14px; margin: 16px 0; font-size: 11.5px;">
+  <strong>VERDICT: YES — Initiate on a Near-Zero-EV, Crypto-Beta Dislocation</strong><br><br>
+  CoinShares scores <strong>Strong on all four Theia criteria</strong> — a rare, near-perfect fit: small-cap ($551M), essentially uncovered (1 analyst), a Core internet-finance/digital-asset thesis, and extremely wide outcome dispersion ($2 to $25). The setup is unusual: a profitable ($114M FY2025 net income), cash-generative, ~8%-yielding market leader trading at an enterprise value of roughly zero because a $481M capital surplus backs nearly the whole $551M market cap. The base case (peer-median 6x EBITDA + net capital ≈ 10x FY2028E EPS) implies ~$7.50 (+86%), the probability-weighted fair value is $6.70 (+66%), and the single Street target is $9.00 (+123%) — all well above spot, with downside cushioned to ~$2 by the balance sheet. The bet is explicitly crypto-beta: earnings swing with BTC/ETH prices, fees face a long-run compression risk, and governance is founder-concentrated with a checkered counterparty history. But at a zero EV for Europe's #1 regulated crypto-ETP franchise, the market is pricing in permanent impairment that the cash-backed, through-cycle-profitable reality does not support. Key catalysts: Sep 2 H1 FY2026 results, U.S. sell-side initiation, de-SPAC lock-up expiry, capital-return decisions, and a crypto-price recovery.
+</div>
+
+<p class="prose" style="font-size:10px; font-style:italic; margin-top:6px;">Note: Theia seeks small-cap companies that aren't well covered and are strongly aligned on the core internet-finance thesis with wide outcome dispersion. CSHR scores: Market Cap (Strong) | Coverage (Strong) | Thesis (Core) | Dispersion (Strong) — a four-of-four fit.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 13: RISK SUMMARY -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">13. Risk Summary</div>
+
+<table class="risk-table">
+  <tr>
+    <th>Risk Category</th>
+    <th>Description</th>
+    <th>Severity</th>
+    <th>Mitigant</th>
+  </tr>
+  <tr>
+    <td>Crypto Price Beta</td>
+    <td>Management fees accrue daily on AUM that swings ~1:1 with BTC/ETH prices; Q4 2025 AUM fell $2.5B on price alone. A sustained crypto winter would compress AUM, fees, and Capital Markets yields together, potentially halving earnings.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>Fixed ~$40M cost base keeps the group profitable at low breakeven; ~$481M capital surplus and ~8% dividend cushion downside; balance sheet backs ~87% of market cap regardless of earnings.</td>
+  </tr>
+  <tr>
+    <td>Fee Compression</td>
+    <td>Post-spot-ETF U.S. fee war (sub-0.30%) and CoinShares' own BITC cut to 0.25% threaten the ~170 bps blend. Fungible, price-transparent ETPs give buyers high power to rotate on fees.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>European fragmentation (~44 markets) slows compression; mix-shift to active (Bastion 0.75–1.85%) and staked/index products lifts the blend; legacy XBT holders remain captive at 250 bps.</td>
+  </tr>
+  <tr>
+    <td>Custody / Counterparty / DeFi</td>
+    <td>ETPs depend on third-party custodians (Komainu, Zodia, BitGo); the desk stakes and lends on-chain. History of severe losses: FlowBank $38.4M (2024), Anchor/Terra £17M (2022), FTX write-off (2022).</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>Multi-custodian strategy, ISO 27001 since 2019, daily LedgerLens reserve attestations, delta-neutral hedging isolating the balance sheet, capped custodian liability, and 30-min automated collateral reconciliation.</td>
+  </tr>
+  <tr>
+    <td>Regulatory / Classification</td>
+    <td>MiCA capital/reserve demands; SEC caution on altcoins; risk that non-BTC/ETH assets are deemed "securities" or Investment Company Act of 1940 changes restrict products or raise compliance costs.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>First continental EU MiCA-authorized manager; multi-jurisdiction licenses (Jersey, AMF, SEC, FINRA, NFA); avoids launching non-staking products it deems structurally flawed; decade of compliant operating history.</td>
+  </tr>
+  <tr>
+    <td>Governance / Related-Party</td>
+    <td>Founder-concentrated control (Mognetti + Masters ~33%); extensive related-party trades and balances held for executives; recharge agreements with affiliated Komainu; 5-member board; foreign-private-issuer reporting.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>High insider ownership aligns incentives; independent directors (Grinberg, Myers, Pham); US listing pushes toward stricter domestic disclosure if FPI status lapses; audited US GAAP financials.</td>
+  </tr>
+  <tr>
+    <td>De-SPAC Technical Overhang</td>
+    <td>Fresh April 2026 Nasdaq listing via SPAC; PIPE and founder lock-ups, sponsor selling, thin float (44.6%), and low volume create technical selling pressure and a "DeSPAC reset" discount.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Lock-up expiry clears the overhang over time; U.S. coverage/index inclusion would broaden the base; low 0.16 beta and near-zero EV limit fundamental downside as technicals normalize.</td>
+  </tr>
+  <tr>
+    <td>Normalized Earnings Uncertainty</td>
+    <td>FY2024–25 net income was boosted by one-offs (FTX $36.8M gain) and non-operational digital-asset price gains; consensus FY2026E ($78.8M) sits below the FY2025 actual ($114M), and the true run-rate is debated.</td>
+    <td><span class="fw-rating low">Low</span></td>
+    <td>US GAAP conversion + IFRS reclassification now push fair value through earnings for cleaner reporting; recurring management fees ($126.8M FY25) provide a durable, annuity-like base independent of one-offs.</td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 14: APPENDIX — PYTHON CODE -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section appendix">14. Appendix — Python Code</div>
+
+<p class="prose">Sensitivity table generator and 5-scenario model code for analyst customization:</p>
+
+<div class="section-title">Sensitivity Table Generator</div>
+<div class="code-block">
+import numpy as np
+import pandas as pd
+
+# ─── SENSITIVITY TABLE 1: Asset-Management Fee Revenue ($M) ───
+aum_bn      = [4.0, 5.0, 6.4, 8.0, 10.0]          # $B fee-paying AUM
+fee_bps     = [140, 155, 170, 185, 200]           # blended management fee (bps)
+base_aum, base_fee = 6.4, 170
+
+rows = []
+for aum in aum_bn:
+    rows.append([round(aum * 1000 * (bps / 10000.0), 0) for bps in fee_bps])
+df1 = pd.DataFrame(rows,
+    index=[f"${x}B" for x in aum_bn],
+    columns=[f"{b}bps" for b in fee_bps])
+print("AM Fee Revenue ($M)")
+print(df1.to_string())
+print(f"\nBase: ${base_aum}B x {base_fee}bps -> ${base_aum*1000*base_fee/10000:.0f}M")
+
+# ─── SENSITIVITY TABLE 2: FY2028E Net Income ($M) ───
+revenues    = [95, 150, 191, 260, 380]            # $M total revenue
+net_margins = [0.40, 0.47, 0.54, 0.58, 0.62]      # net margin %
+base_rev, base_mgn = 191, 0.54
+
+rows2 = [[round(rev * m, 0) for m in net_margins] for rev in revenues]
+df2 = pd.DataFrame(rows2,
+    index=[f"${x}M" for x in revenues],
+    columns=[f"{int(m*100)}%" for m in net_margins])
+print("\nFY2028E Net Income ($M)")
+print(df2.to_string())
+print(f"Base: ${base_rev}M x {base_mgn*100:.0f}% = ${base_rev*base_mgn:.0f}M")
+
+# ─── SENSITIVITY TABLE 3: Implied Share Price ($) ───
+eps_vals = [0.33, 0.57, 0.75, 1.10, 1.68]         # FY2028E EPS
+pe_mult  = [6, 8, 10, 12, 15]                      # exit P/E
+rows3 = [[round(eps * pe, 2) for pe in pe_mult] for eps in eps_vals]
+df3 = pd.DataFrame(rows3,
+    index=[f"${e}" for e in eps_vals],
+    columns=[f"{p}x" for p in pe_mult])
+print("\nImplied Share Price ($)")
+print(df3.to_string())
+</div>
+
+<div class="section-title">5-Scenario Model &amp; Probability-Weighted Fair Value</div>
+<div class="code-block">
+import numpy as np
+
+SHARES   = 136.7        # M diluted shares (pro-forma)
+PRICE    = 4.03         # current $
+NET_CAP  = 481.0        # $M available capital position
+COC      = 0.15         # cost of capital (crypto-risk adjusted)
+HORIZON  = 2.5          # years to FY2028E exit
+
+scenarios = {
+    #                fy28_eps   exit_pe   weight
+    "Bear Severe": {"eps": 0.33, "pe": 6,  "w": 0.10},
+    "Bear Mild":   {"eps": 0.57, "pe": 8,  "w": 0.20},
+    "Base Case":   {"eps": 0.75, "pe": 10, "w": 0.35},
+    "Bull Mild":   {"eps": 1.10, "pe": 12, "w": 0.25},
+    "Bull Severe": {"eps": 1.68, "pe": 15, "w": 0.10},
+}
+
+print(f"{'Scenario':<13}{'ImpliedPx':>10}{'Upside':>9}{'Weight':>8}")
+wavg = 0.0
+for name, s in scenarios.items():
+    px = s["eps"] * s["pe"]
+    up = px / PRICE - 1
+    wavg += px * s["w"]
+    print(f"{name:<13}{px:>9.2f}{up:>8.0%}{s['w']:>8.0%}")
+
+pv = wavg / (1 + COC) ** HORIZON
+print(f"\nProb-weighted avg implied price : ${wavg:.2f}")
+print(f"Discounted @ {COC:.0%} over {HORIZON}y  : ${pv:.2f}")
+print(f"Upside vs ${PRICE:.2f}            : {pv/PRICE-1:+.0%}")
+
+# Cross-check: SOTP on base-case EBITDA + net capital
+ebitda_fy26, ev_mult = 91.0, 6.0
+sotp_equity = ebitda_fy26 * ev_mult + NET_CAP
+print(f"\nSOTP: {ev_mult:.0f}x ${ebitda_fy26:.0f}M EBITDA + ${NET_CAP:.0f}M capital"
+      f" = ${sotp_equity:.0f}M -> ${sotp_equity/SHARES:.2f}/sh")
+</div>
+
+<div class="source-note" style="margin-top:16px;">
+CoinShares PLC (CSHR-US) · Preliminary Investment Memo · Prepared for Theia · July 6, 2026<br>
+Sources: FactSet snapshot (Jul 6, 2026); CoinShares FY2025 results (US GAAP); AlphaSense "Company Primer" &amp; "Business Fundamentals" deep dive; F-1/424B3 prospectus; 13D/A &amp; ownership filings. Forward estimates reflect FactSet consensus (1 contributor) and Theia modeling. This memo is a preliminary screening document, not investment advice.
+</div>
+
+</body>
+</html>
