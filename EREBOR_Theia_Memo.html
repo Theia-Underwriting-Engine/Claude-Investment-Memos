@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Erebor Bank, N.A. | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 8px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child, table.comps td:nth-child(2) { text-align: left; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-style: italic; background: #fafbfc; font-weight: 600; border-top: 1px solid #eee; }
+table.comps th.est-col { color: #2563eb; }
+
+table.risk-table { font-size: 10px; width: 100%; margin: 8px 0; }
+table.risk-table th { text-align: left; font-weight: 600; padding: 4px 6px; background: #f4f6f9; border-bottom: 1px solid #ddd; }
+table.risk-table td { padding: 4px 6px; border-bottom: 1px solid #eee; vertical-align: top; }
+table.risk-table td:first-child { font-weight: 600; width: 25%; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.alphasense-box { background: #e8f4fd; border-left: 4px solid #2563eb; padding: 10px 14px; margin: 10px 0; font-size: 10px; line-height: 1.5; }
+
+.bull-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #155724; border-bottom: 1.5px solid #c3e6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #721c24; border-bottom: 1.5px solid #f5c6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+
+.bull-item, .bear-item { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Erebor Bank, N.A. | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">Erebor Bank, National Association is a privately held, branchless, digitally native national bank purpose-built for the "innovation economy" — cryptocurrency and digital-asset companies, artificial intelligence and advanced hardware startups, defense technology contractors, venture funds, and the founders and executives connected to those sectors. Founded in 2025 by Palmer Luckey (founder of defense contractor Anduril Industries) and Joe Lonsdale (co-founder of Palantir and founder of 8VC), with significant backing from Peter Thiel's Founders Fund, Erebor was conceived as the direct answer to the banking void left by the 2023 collapses of Silicon Valley Bank, Silvergate, and Signature — the "debanking" episode that left technology startups, VC funds, and crypto businesses without a primary financial partner that understood their capital structures. The bank received preliminary conditional approval from the OCC on October 15, 2025 (the first de novo national bank charter action under the second Trump administration), FDIC deposit insurance approval in December 2025, and its full national bank charter in February 2026, opening for business on February 8, 2026. Luckey has described the positioning as a "farmers' bank for tech" — a specialized underwriter for advanced technology and hardware sectors the way agricultural banks specialize in farm credit — and the name itself (Tolkien's "Lonely Mountain," the treasure-filled stronghold in <em>The Hobbit</em>) continues the founders' thematic naming convention alongside Anduril and Palantir.</p>
+
+<p class="prose">Erebor's business model groups into four product pillars: <strong>(1) Deposit products</strong> — business operating accounts, treasury concentration, payroll and vendor payment rails for tech firms, funds, trading firms, and select high-net-worth individuals; <strong>(2) Commercial credit and collateralized lending</strong> — commercial loans for capital-intensive hardware startups, credit facilities collateralized by digital assets, and financing purpose-built for acquiring high-cost AI compute (GPU/chip financing); <strong>(3) Stablecoin infrastructure</strong> — regulated stablecoin minting, redemption, and 24/7 on-chain settlement under a federal bank charter, including OCC approval to hold de minimis native crypto on balance sheet for gas fees, with deep integration into the Sui Layer-1 blockchain (reportedly facilitating over $1 trillion in cumulative transfers) and an embedded-banking partnership powering Infinite's "Infinite Accounts" dual-rail (fiat + stablecoin) product; and <strong>(4) Auxiliary services</strong> — treasury management, data processing, and partner-issued corporate cards. Unlike middleware fintechs (Mercury, Brex) that route deposits to sponsor banks, Erebor internalizes the charter, core ledger, payment rails, and digital-asset capabilities in a single vertically integrated entity — the Column / Lead Bank structural model, applied to the crypto/AI/defense vertical. Growth since launch has been explosive: total deposits grew from $1.10B (March 31, 2026) to $4.05B (July 3, 2026) — a near-fourfold increase in three months, on ~400 new institutional and HNW client relationships — and management expects operational profitability by year-end 2026. The bank raised $350M at a $4.35B post-money valuation in December 2025 (led by Lux Capital, with Founders Fund, 8VC, and Haun Ventures), and Bloomberg reported in July 2026 that Erebor is in early-stage discussions to raise at a valuation of at least $8B.</p>
+
+<p class="prose">The regulatory posture is the defining structural feature. As a de novo national bank operating at the intersection of banking and on-chain finance, Erebor operates under unusually strict conditions: a mandatory 12% Tier 1 leverage ratio for its first three years (~3x the standard 4% well-capitalized threshold), a capital call agreement obligating investors to inject equity if capitalization falls below triggers, a prohibition on material deviations from its OCC-approved business plan without prior written non-objection, and OCC/FDIC approval requirements for senior executive appointments and any ≥10% change in control during the first three years. These constraints cap near-term ROE and force equity raises alongside deposit growth — but they are also deliberately worn as a product feature: for institutional depositors who watched SVB, Silvergate, and Signature fail, an over-capitalized, federally supervised balance sheet is the selling point. The legislative centerpiece underneath the whole thesis is the GENIUS Act (signed July 18, 2025), which created the first federal framework for dollar-backed stablecoins and catalyzed the wave of bank-charter activity (Circle, BitGo, Ripple, Paxos, Coinbase, Stripe's Bridge) into which Erebor is now selling.</p>
+
+<p class="prose"><strong>Key facts:</strong> Founded 2025 · Headquarters Columbus, OH (secondary office New York; branchless) · Co-CEOs Owen Rapaport (ex-Aer Compliance) &amp; Jacob Hirshman (ex-Circle adviser) · President Michael Hagedorn (ex-Valley National, UMB, Wells Fargo) · Co-founders/Board: Palmer Luckey, Joe Lonsdale · CFO Richard Grant · CRO Joshua Rosenberg · CTO Aaron Pelz · Employees ~50 · Charter: OCC national bank, FDIC-insured, opened Feb 8, 2026 · Deposits $4.05B (Jul 3, 2026) · Initial capital ~$635M · Last round $4.35B post (Dec 2025); ≥$8B round in discussion (Jul 2026)</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 2: FINANCIAL SUMMARY (PRIVATE COMPANY) -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Theia Private Company Summary</div>
+
+<div class="header">
+  <div>
+    <h1>Erebor Bank, N.A.</h1>
+    <span class="ticker">Private · OCC National Charter · FDIC-Insured</span>
+  </div>
+  <div class="date">Private Company Snapshot · July 29, 2026</div>
+</div>
+
+<!-- Valuation Bar (private-company analog of the price bar) -->
+<div class="price-bar">
+  <div>
+    <span class="label">Last Round (Dec 2025) </span>
+    <span class="price">$4.35B</span>
+  </div>
+  <div><span class="label">Prospective (Jul 2026) </span><span class="chg pos">≥$8.0B (+84%)</span></div>
+  <div><span class="label">Deposits (Jul 3) </span><span style="font-weight:600;">$4.05B</span></div>
+  <div><span class="label">Deposit Growth (3M) </span><span class="chg pos">+268%</span></div>
+  <div><span class="label">Q1'26 Net Loss </span><span class="chg">($6.0M)</span></div>
+  <div><span class="label">Profitability </span><span style="font-weight:600;">Expected YE2026</span></div>
+</div>
+
+<!-- Key Stats + Capitalization Bridge -->
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Company</div>
+    <table class="kv" style="font-size:10px;">
+      <tr><td>Status / Structure</td><td>Private · National Bank (N.A.)</td></tr>
+      <tr><td>Charter Opened</td><td>February 8, 2026</td></tr>
+      <tr><td>Headquarters</td><td>Columbus, OH (branchless)</td></tr>
+      <tr><td>Employees</td><td>~50</td></tr>
+      <tr><td>Clients</td><td>~400 added Mar–Jul 2026</td></tr>
+      <tr><td>Sell-Side Coverage</td><td>None (private)</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Capitalization Bridge</div>
+    <table class="ev" style="font-size:10px;">
+      <tr><td>Initial Capital at Launch</td><td>~$635M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">incl. Dec 2025 round ($350M, Lux-led)</td><td style="font-size:9px;">$4.35B post</td></tr>
+      <tr><td>+ Preferred Stock Offering (Jun 2026)</td><td>$276M</td></tr>
+      <tr><td>= Total Equity Capital Raised</td><td>~$911M</td></tr>
+      <tr><td>Bank Equity (Mar 31, 2026)</td><td>$600.6M</td></tr>
+      <tr><td>Reported Round Talks (Jul 2026)</td><td>≥$8.0B</td></tr>
+      <tr class="total"><td>= Implied P/TBV at $8B</td><td>~8.8x</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- Current Valuation — horizontal 6x2 grid -->
+<div class="section-title">Current Valuation (at Prospective $8.0B Mark)</div>
+<div style="border: 1px solid #eee; border-radius: 4px; margin-bottom: 8px;">
+  <div class="val-grid">
+    <div class="val-cell"><div class="val-label">Valuation</div><div class="val-num">$8.0B</div><div class="val-sub">Jul 2026 round talks</div></div>
+    <div class="val-cell"><div class="val-label">Last Round</div><div class="val-num">$4.35B</div><div class="val-sub">Dec 2025, Lux Capital</div></div>
+    <div class="val-cell"><div class="val-label">P/TBV</div><div class="val-num">~8.8x</div><div class="val-sub">~$911M equity raised</div></div>
+    <div class="val-cell"><div class="val-label">Val / Deposits</div><div class="val-num">2.0x</div><div class="val-sub">$4.05B deposits</div></div>
+    <div class="val-cell"><div class="val-label">P/E (2028E)</div><div class="val-num">~39x</div><div class="val-sub">Base $206M NI</div></div>
+    <div class="val-cell"><div class="val-label">P/TBV (2028E)</div><div class="val-num">~4.0x</div><div class="val-sub">~$2.0B req. equity</div></div>
+  </div>
+  <div style="border-top: 1px solid #eee;">
+    <div class="val-grid">
+      <div class="val-cell"><div class="val-label">Total Assets (Q1)</div><div class="val-num">$1.70B</div><div class="val-sub">Mar 31, 2026 call report</div></div>
+      <div class="val-cell"><div class="val-label">Deposits (Jul 3)</div><div class="val-num">$4.05B</div><div class="val-sub">vs. $1.10B Mar 31</div></div>
+      <div class="val-cell"><div class="val-label">Loans (Q1)</div><div class="val-num">$0</div><div class="val-sub">Pre-credit phase</div></div>
+      <div class="val-cell"><div class="val-label">Tier 1 Leverage Req.</div><div class="val-num">12%</div><div class="val-sub">3-yr mandate (~3x std)</div></div>
+      <div class="val-cell"><div class="val-label">Target L/D Ratio</div><div class="val-num">~50%</div><div class="val-sub">~half industry norm</div></div>
+      <div class="val-cell"><div class="val-label">Next Milestone</div><div class="val-num">$8B Round</div><div class="val-sub">+ YE2026 profitability</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Funding History Table (private-company analog of Valuation Multiples) -->
+<div class="section-title">Funding &amp; Valuation History</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Event</th>
+      <th>Date</th>
+      <th>Amount</th>
+      <th>Post-Money</th>
+      <th>Lead / Key Investors</th>
+      <th>Val / Deposits</th>
+      <th>P/TBV</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Charter application filed</td><td>Jun 2025</td><td>—</td><td>—</td><td>Founders: Luckey, Lonsdale</td><td>—</td><td>—</td></tr>
+    <tr><td>OCC preliminary conditional approval</td><td>Oct 15, 2025</td><td>—</td><td>—</td><td>First under current admin</td><td>—</td><td>—</td></tr>
+    <tr><td>Private round (post-FDIC nod)</td><td>Dec 2025</td><td>$350M</td><td>$4.35B</td><td>Lux Capital; FF, 8VC, Haun</td><td>NM (pre-launch)</td><td>~7.2x</td></tr>
+    <tr><td>Bank opens · initial capital</td><td>Feb 8, 2026</td><td>~$635M total</td><td>—</td><td>+ a16z, Fundrise, Human Capital, Castle Island</td><td>—</td><td>—</td></tr>
+    <tr><td>Preferred stock offering</td><td>Jun 2026</td><td>$276M</td><td>—</td><td>Reg D private placement</td><td>—</td><td>—</td></tr>
+    <tr><td>Reported round discussions</td><td class="est">Jul 2026</td><td class="est">TBD</td><td class="est">≥$8.0B</td><td class="est">Bloomberg, Jul 2, 2026</td><td class="est">2.0x</td><td class="est">~8.8x</td></tr>
+  </tbody>
+</table>
+
+<!-- Deposit & Client Mix -->
+<div class="section-title">Business Mix (No Revenue Disclosure — Structural View)</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Product Pillar</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Pillar</th><th>Status</th><th>Revenue Type</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Deposit Products</td><td>Live, scaling</td><td>NII (spread)</td></tr>
+        <tr><td>Credit &amp; Collateralized Lending</td><td>Ramping ($0 loans Q1)</td><td>NII + fees</td></tr>
+        <tr><td>Stablecoin Infrastructure</td><td>Live (Sui, Infinite)</td><td>Fees + float</td></tr>
+        <tr><td>Auxiliary (Treasury, Cards)</td><td>Early</td><td>Fees</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:8px; color:#aaa; margin-top:4px;">Q1 2026: 100% of revenue was NII ($3.4M) off cash + securities; loan book $0. The model is deposits-first, credit-second by regulatory design.</p>
+  </div>
+  <div>
+    <div class="sub-label">By Target Client Segment</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Segment</th><th>Products</th><th>Concentration</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Crypto / Digital Assets</td><td>Deposits, stablecoin rails</td><td>High</td></tr>
+        <tr><td>AI / Advanced Hardware</td><td>Deposits, chip financing</td><td>High</td></tr>
+        <tr><td>Defense Tech / Aerospace</td><td>Deposits, comm'l credit</td><td>Moderate</td></tr>
+        <tr><td>VC Funds / HNW Founders</td><td>Treasury, private banking</td><td>Moderate</td></tr>
+        <tr><td>Cross-Border / Correspondent</td><td>USD access, settlement</td><td>Emerging</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Financials Table -->
+<div class="section-title">Financials — Reported (Q1 2026 Call Report) + Theia Base-Case Estimates</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">$M (FY Dec)</th>
+      <th>Q1 2026A</th>
+      <th class="est" style="color:#2563eb;">FY2026E</th>
+      <th class="est" style="color:#2563eb;">FY2027E</th>
+      <th class="est" style="color:#2563eb;">FY2028E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="5">BALANCE SHEET</td></tr>
+    <tr><td>Total Deposits (EOP)</td><td>$1,100</td><td class="est">$6,000</td><td class="est">$10,000</td><td class="est">$15,000</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Deposit Growth %</td><td>--</td><td class="est">+445% vs Q1</td><td class="est">+67%</td><td class="est">+50%</td></tr>
+    <tr><td>Total Assets (EOP)</td><td>$1,701</td><td class="est">$6,950</td><td class="est">$11,350</td><td class="est">$17,000</td></tr>
+    <tr><td>Loans (EOP)</td><td>$0</td><td class="est">$600</td><td class="est">$2,500</td><td class="est">$5,300</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Loan / Deposit %</td><td>0%</td><td class="est">10%</td><td class="est">25%</td><td class="est">35%</td></tr>
+    <tr><td>Tangible Equity (EOP)</td><td>$601</td><td class="est">$940</td><td class="est">$1,375</td><td class="est">$2,040</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Tier 1 Leverage % (12% req.)</td><td>35.3%</td><td class="est">~13.5%</td><td class="est">~12.1%</td><td class="est">~12.0%</td></tr>
+    <tr class="section-row"><td colspan="5">INCOME STATEMENT</td></tr>
+    <tr><td>Net Interest Income</td><td>$3.4</td><td class="est">$65</td><td class="est">$205</td><td class="est">$350</td></tr>
+    <tr><td>Fee / Stablecoin Income</td><td>~$0</td><td class="est">$13</td><td class="est">$43</td><td class="est">$88</td></tr>
+    <tr><td>Net Revenue</td><td>$3.4</td><td class="est">$78</td><td class="est">$248</td><td class="est">$438</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Net Rev / Avg Deposits %</td><td>NM</td><td class="est">2.6%</td><td class="est">3.1%</td><td class="est">3.5%</td></tr>
+    <tr><td>Operating Expenses</td><td>($10.6)</td><td class="est">($60)</td><td class="est">($115)</td><td class="est">($170)</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Efficiency Ratio %</td><td>NM</td><td class="est">77%</td><td class="est">46%</td><td class="est">39%</td></tr>
+    <tr><td>Pre-Tax Income</td><td>($6.0)*</td><td class="est">$18</td><td class="est">$133</td><td class="est">$268</td></tr>
+    <tr><td>Net Income</td><td>($6.0)</td><td class="est">$14</td><td class="est">$102</td><td class="est">$206</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">ROE %</td><td>NM</td><td class="est">1.8%</td><td class="est">8.8%</td><td class="est">12.1%</td></tr>
+    <tr class="section-row"><td colspan="5">CAPITAL FORMATION</td></tr>
+    <tr><td>Equity Raised in Period</td><td>—</td><td class="est">$326**</td><td class="est">$330</td><td class="est">$460</td></tr>
+    <tr><td>Implied Cumulative Dilution</td><td>—</td><td class="est">—</td><td class="est">~4% at $8B</td><td class="est">~10% at $8B</td></tr>
+  </tbody>
+</table>
+<p style="font-size:8px; color:#aaa; margin-top:2px;">*Q1 2026 reported: NII $3.36M, noninterest expense $10.56M, net loss $6.01M; cash &amp; due-from $1.41B, AFS securities ~$275M, loans $0, borrowings $0. **Includes $276M June preferred + assumed follow-on. Estimates are Theia's — no consensus exists for a private company. The 12% Tier 1 leverage mandate mechanically forces equity raises alongside deposit growth: every $1B of incremental balance-sheet footings requires ~$120M of fresh Tier 1 capital during the first three years.</p>
+
+<!-- Valuation Summary -->
+<div class="section-title">Valuation Summary</div>
+<p class="prose">Erebor is being marked like a software company but is structurally a bank. At the prospective $8.0B valuation, investors would pay ~8.8x total equity capital raised (~$911M), 2.0x current deposits, roughly 39x Theia's base-case 2028E earnings, and ~4.0x the ~$2.0B of tangible equity the bank will be <em>required</em> to hold by 2028 under its 12% leverage mandate. For context: high-quality public bank franchises trade at 1.5–2.5x TBV and 10–15x earnings; SVB at its 2021 peak — the most generous precedent for an innovation-economy deposit franchise — briefly touched ~3.5x TBV and ~30x forward earnings; SoFi trades near ~3x TBV today; and Circle, the closest "regulated stablecoin infrastructure" public comp, carries a $16.7B market cap on an asset-light issuer model that Erebor's charter emulates but does not replicate. The bull defense of $8B is that Erebor is not a spread bank but a category-defining piece of financial infrastructure — the only de novo full-service national bank charter for the crypto/AI/defense economy, with deposit growth (+268% in three months) that annualizes to a franchise trajectory no public bank can match, plus embedded optionality on stablecoin settlement fees at scale. The bear reading is simpler: the December 2025 round at $4.35B already captured the charter scarcity premium, and the step-up to $8B in seven months prices in flawless execution of a loan book that does not yet exist, at a bank with ~50 employees, one quarter of operating history, and a deposit base concentrated in the most correlated, flightiest sectors in finance. Our probability-weighted 2028 exit value of ~$7.5B (Section 10) discounts back to ~$4.3B at a 25% cost of capital — almost exactly the December 2025 mark, and roughly half the prospective round. The December investors bought the expected value; the July round, if it closes at ≥$8B, is underwriting the bull tail.</p>
+
+<div class="source-note">Source: AlphaSense GenSearch reports (Jul 28, 2026); Q1 2026 FFIEC call report data via insights4vc; Bloomberg (Jul 2, 2026); The Paypers (Jul 3, 2026); TSG Invest; Sacra "Erebor One-Pager" (Apr 5, 2026). No FactSet coverage — private company. Estimates are Theia's own.</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 3: BULL & BEAR CASES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Cases</div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">The SVB Void Is Real, Large, and Still Unfilled.</span> The 2023 failures of SVB, Silvergate, and Signature removed roughly $300B+ of innovation-economy deposit franchise from the market in a single quarter, and no chartered institution has rebuilt it. First Citizens absorbed SVB's book but not its mission; Mercury and Brex are software layers on sponsor banks; Anchorage is a trust bank that cannot lend commercially or take FDIC-insured deposits at scale. Erebor is the only de novo, full-service, FDIC-insured national bank purpose-built for this client base — and the deposit evidence ($1.1B to $4.05B in three months, ~400 new institutional clients) suggests the demand pool is deep. If Erebor sustains even a fraction of this trajectory, a $15–25B deposit franchise by 2028 is achievable, which at SVB-style economics (3.5–4.0% net revenue yield on deposits, 35–40% efficiency) supports $400–700M of earnings power.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">The GENIUS Act Makes Erebor the Most-Regulated Stablecoin Rail in America.</span> The GENIUS Act (July 2025) created the first federal stablecoin framework and set off a land-grab for regulated issuance and settlement infrastructure. Erebor's positioning — "the most regulated entity conducting and facilitating stablecoin transactions" — is genuinely differentiated: it can mint, burn, and settle stablecoins 24/7 under a federal bank charter, hold native crypto for gas fees on balance sheet with OCC blessing, and offer clients dual-rail (ACH/wire + on-chain) treasury from a single FDIC-insured account. The Sui integration has reportedly facilitated over $1T in cumulative transfers, and the Infinite Accounts partnership shows the embedded-infrastructure distribution model working. If stablecoins scale from ~$300B to ~$1T by late 2027 as projected, the regulated settlement layer becomes one of the most valuable tolls in finance — and trust-charter competitors cannot pair it with deposits and credit.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Charter Scarcity + First-Mover Window.</span> A full national bank charter is among the scarcest regulatory assets in America — Erebor's was the first new one granted in the current administration, and the application-to-charter path took ~8 months of a uniquely favorable political window. Competitors are getting OCC <em>trust</em> charters (Circle, BitGo, Ripple, Paxos, Coinbase, Bridge), which permit custody but not commercial lending or insured deposit-taking. Replicating Erebor's position requires either years of chartering risk or buying a bank — and the FDIC's change-of-control restrictions make Erebor itself hard to buy for three years, protecting the franchise-building window. Scarcity value alone supported the $4.35B December mark before the bank had meaningful deposits.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">The Founder Network Is a Deposit-Gathering Machine.</span> Erebor's cap table (Founders Fund, 8VC, Lux, a16z, Haun, Elad Gil) and its founders' operating companies (Anduril, Palantir-adjacent networks) function as a captive distribution channel: portfolio companies, defense-tech contractors, and crypto firms bank where their investors and heroes tell them to. Anduril itself banked with SVB and lived the collapse. This is the same reflexive dynamic that built SVB's franchise over decades, compressed by network density — and it extends to lending: AI chip financing and defense-tech credit are underwriting problems Erebor's backers understand better than any incumbent bank credit committee. Defense and AI capex are simultaneously in secular boom, giving the niche real tailwind.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Profitability Within Year One + Exit Optionality.</span> Management expects operational profitability by end-2026 — inside 11 months of opening, nearly unheard of for a de novo bank. The branchless model carries structurally high compliance costs but zero physical distribution, so incremental deposits carry very high contribution margins once the fixed regulatory base is covered. Exit paths are multiplying: Kraken is targeting an H2 2026 IPO at ~$20B, Circle's IPO minted a $16.7B public comp, and Capital One paid $5.15B for Brex (Jan 2026) — a software layer without a charter. A profitable, growing, chartered Erebor at 2028 scale would be a headline IPO or a strategic prize for any acquirer wanting an instant regulated on-chain banking franchise.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="bear-header">Bear Cases</div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">SVB Redux — Correlated Deposit Concentration.</span> Erebor's deposit base is deliberately concentrated in tech, crypto, AI, and defense — sectors whose funding cycles, token prices, and sentiment are tightly correlated. This is precisely the structural fragility that killed SVB, Silvergate, and Signature: deposits from a single interconnected ecosystem flee together, at digital speed. Erebor's mitigations (12% leverage ratio, ~50% target loan/deposit ratio, large securities/cash buffer) are real but untested, and the deposit base that grew 4x in three months can shrink just as fast. A 2027 crypto winter or VC funding freeze could simultaneously drain deposits, impair crypto-collateralized loans, and crater AI chip collateral values — the exact triple-correlation regulators worried about when imposing the constraints.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">The $8B Mark Prices In Flawless Execution.</span> At ≥$8B, Erebor would be valued at ~8.8x equity capital raised and ~2x deposits — for a bank with one quarter of reported operating history, a $6.0M quarterly net loss, zero loans on the books at Q1, and ~50 employees. Our base case — deposits compounding to $15B by 2028, profitability on schedule, clean credit — still only supports a ~$6.2B exit value at a generous 30x P/E, meaning the prospective round has negative expected return unless the bull case materializes. The December 2025 investors captured the mispricing; July 2026 investors are paying for it. For Theia, entry price is the thesis-killer here, not the business.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Regulatory Dependency Cuts Both Ways.</span> Erebor exists because of a uniquely favorable OCC/FDIC posture and the GENIUS Act; its core products (stablecoin settlement, crypto-collateralized lending, on-chain gas holdings) depend on that interpretive stance persisting. A 2028 administration change, a high-profile crypto-bank failure, or an enforcement wave could restrict products before the bank reaches scale. Senator Warren has already framed the charter as politically connected risk-taking, making Erebor the obvious first target of any backlash. Meanwhile the same regulators cap its economics: the 12% Tier 1 leverage mandate suppresses ROE below ~12% for three years, the business-plan straitjacket prevents opportunistic pivots, and every $1B of growth forces ~$120M of dilutive equity issuance.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">The Niche Is Crowding Faster Than Erebor Can Scale.</span> The regulatory clarity that enabled Erebor is enabling everyone else: Circle won final OCC trust approval (July 2026) and brings its ~$73B USDC reserve in-house; BitGo, Ripple, Paxos, Coinbase, and Stripe's Bridge hold conditional trust approvals; Kraken has a Fed master account; JPMorgan's Kinexys processes $5B+ daily and has settled tokenized-Treasury transactions with Mastercard, Ripple, and Ondo; Sony is chartering Connectia Trust; and sponsor banks (Cross River, Lead, Customers) capture embedded fintech flows at volumes Erebor's relationship model won't touch. Mercury ($5.2B mark, pursuing a charter) and Brex-inside-Capital-One attack from the neobank side. The risk isn't losing head-to-head — it's being carved into a well-capitalized, low-velocity niche while each product pillar is unbundled by a specialist.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Unproven Credit in Unprecedented Asset Classes.</span> Erebor's lending differentiation — crypto-collateralized credit and AI chip/GPU financing — has never been underwritten through a full cycle by anyone, let alone a de novo team. GPU collateral depreciates on Moore's-Law time; a Blackwell-generation chip financed at 80% LTV in 2026 may be worth 30 cents on the dollar in 2028. Crypto collateral gaps 40% overnight. Defense-tech borrowers carry lumpy, government-dependent revenue. The bank's credit leadership is new, its models are unproven, and the 2028 loan book we project ($5B+) will season exactly when the first stress arrives. Banks die two ways — deposits or credit — and Erebor has chosen frontier exposure on both sides of the balance sheet.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Scale Economies</span> <span class="fw-rating moderate">Moderate</span><br>
+  A branchless bank's cost curve is dominated by fixed regulatory infrastructure — compliance, BSA/AML, cybersecurity, core processing, and capital-markets functions that cost roughly the same at $1B of deposits as at $15B. Erebor's Q1 2026 expense base ($10.6M/quarter, ~$42M annualized) against $4.05B of July deposits already implies rapidly improving unit economics, and each incremental deposit dollar arrives at near-zero marginal servicing cost. The countervailing force is that Erebor is sub-scale against every incumbent it touches: JPMorgan spends more on technology in a week than Erebor's annual budget, and money-center banks amortize their compliance stack over trillion-dollar balance sheets. Within the niche, scale economics work in Erebor's favor — the fixed regulatory cost of serving crypto/defense clients compliantly is a barrier competitors must also pay — but the power is confined to the vertical, not the industry. Rating: Moderate, strengthening with deposit growth.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Network Effects</span> <span class="fw-rating moderate">Moderate</span><br>
+  Two real but early network dynamics exist. First, settlement network effects: as more innovation-economy counterparties bank at Erebor, more payments become instant intra-bank (or on-chain via Erebor's rails) rather than crossing ACH/SWIFT — the same dynamic that made Silvergate's SEN and Signature's Signet briefly indispensable to crypto market structure. The Sui integration (reportedly $1T+ cumulative transfers) and Infinite Accounts embed Erebor as the settlement layer inside other platforms, compounding this. Second, ecosystem referral density: the Founders Fund/8VC/a16z/Lux portfolio network functions as a self-reinforcing client-acquisition graph — each defense-tech or crypto startup that onboards makes Erebor more obviously the default for the next. Neither effect yet has the depth of a mature two-sided network, and SEN/Signet proved settlement networks evaporate when the deposit base flees. Rating: Moderate, with genuine upside if stablecoin settlement volume compounds.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Counter-Positioning</span> <span class="fw-rating strong">Strong</span><br>
+  Erebor's strongest power. Incumbent banks <em>cannot</em> serve this client base the way Erebor does without damaging their existing franchises: (a) reputational and supervisory legacy — a money-center bank that leaned into crypto-collateralized lending and stablecoin settlement would invite scrutiny across its entire multi-trillion-dollar balance sheet, a risk no incumbent CEO will take for a niche P&amp;L; (b) the post-2023 lesson taught traditional banks to <em>reduce</em> deposit concentration in tech/crypto, not court it — their risk committees are structurally unable to chase this business; (c) sponsor banks (Cross River, Lead) monetize fintech flows but explicitly avoid owning the primary relationship and the concentrated deposit risk; and (d) software-layer fintechs (Mercury, Brex) cannot counter-position against Erebor's charter without spending years acquiring one, during which they remain dependent on the sponsor banks Erebor disintermediates. The bet-the-company commitment to a correlated, politically exposed client base is precisely what incumbents are unwilling to copy — the definition of counter-positioning.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Switching Costs</span> <span class="fw-rating moderate">Moderate</span><br>
+  Primary operating accounts are sticky in normal times — payroll, vendor payments, treasury workflows, and API integrations create real migration friction, and Erebor's model deliberately deepens integration (dual-rail treasury, stablecoin mint/burn tied to the deposit account, embedded accounts inside partner platforms like Infinite). Lending relationships add contractual stickiness, and clients who post crypto or chip collateral cannot easily re-bank mid-facility. But 2023 proved the brutal ceiling on deposit switching costs: SVB's clients — with identical payroll/treasury/API integration — moved $42B in one day. Deposits are the most liquid liability in finance, and Erebor's clients are the most digitally fluent, herd-prone depositors in existence. Switching costs here are meaningful for revenue durability in the base case and nearly worthless in the tail scenario, which is exactly the scenario that matters for a bank. Rating: Moderate.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Branding</span> <span class="fw-rating moderate">Moderate</span><br>
+  In this niche, brand is a deposit-gathering asset, and Erebor's is remarkable for a one-year-old bank: the Luckey/Lonsdale/Thiel halo signals to founders that "this bank is one of us and will not debank you," while the over-capitalized, most-regulated positioning signals to CFOs and fund treasurers that it will not be the next Silvergate. The Tolkien naming and the founders' celebrity generate free, continuous media coverage no marketing budget could buy — the $8B round speculation itself is brand-building. The limits: the brand is polarizing (Warren-wing political attention is the mirror image of the halo), it is founder-dependent (Luckey's attention belongs to Anduril), and it commands no pricing power on the deposit side — innovation-economy treasurers still demand competitive yield. Rating: Moderate — a genuine acquisition asset, not yet a pricing asset.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">6. Cornered Resource</span> <span class="fw-rating strong">Strong</span><br>
+  The national bank charter is the cornered resource. It is the first and only de novo full-service national charter granted to a crypto/tech-focused institution in this cycle; it permits the specific combination — FDIC-insured deposits + commercial lending + regulated stablecoin settlement + de minimis on-chain crypto holdings — that no trust charter (Anchorage, Circle, BitGo, Ripple, Paxos, Coinbase, Bridge) can replicate; and the path to obtaining one runs through a multi-year, politically contingent OCC process that may already be narrowing. The charter's value is amplified by its timing: Erebor got through the window first, and the FDIC's three-year change-of-control restriction means the asset cannot simply be bought. Secondary cornered resources include the founder network (the Anduril/8VC/Founders Fund deal-flow graph as captive distribution) and the political relationship capital that expedited the charter — though the latter is a wasting asset tied to the current administration. Rating: Strong, with the caveat that regulators who granted the resource can constrain it.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">7. Process Power</span> <span class="fw-rating weak">Weak</span><br>
+  Process power is accumulated organizational capability, and Erebor — ~50 employees, one quarter of operating history, zero loans seasoned, first stress test unfaced — has not had time to accumulate any. The claimed process advantages (crypto-aware underwriting, from-scratch core banking system enabling 24/7 on-chain settlement, compliance-native onboarding for debanked sectors) are architecture choices, not yet proven processes; the from-scratch core is as much execution risk as advantage until it survives scale. The veteran banking layer (Hagedorn from Valley National/UMB/Wells, CRO Rosenberg, the Atticus Digital technical subsidiary) is credible scaffolding, but SVB had 40 years of accumulated innovation-banking process and still died of a treasury-desk error. If Erebor executes for 3–5 years, its underwriting data in crypto-collateralized and AI-hardware credit could become genuine process power — nobody else will have the loss curves. Today it is aspiration. Rating: Weak.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> Erebor is a 2-power business today — genuine strength in Counter-Positioning (incumbents structurally cannot chase this client base) and Cornered Resource (the only full-service national charter of its kind, in a window that may be closing behind it) — with Moderate and improving Scale Economies, Network Effects, Switching Costs, and Branding, and Weak Process Power. That is a respectable but incomplete moat profile: the two strong powers protect the <em>opportunity</em>, while the moats that protect the <em>P&amp;L through a downturn</em> (switching costs, process power) are exactly the ones still unproven. The 7 Powers lens says Erebor has won the right to build a fortress; it has not yet built one.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Threat of New Entrants</span> <span class="fw-rating moderate">Moderate</span><br>
+  The full-charter barrier is formidable — a de novo national bank requires ~$276M+ minimum capital (Erebor raised $635M), an 8–18 month politically contingent OCC process, executive teams that clear regulatory non-objection, and three years of constrained operation — and Erebor's own approval consumed scarce political capital that may not be available to the next applicant. But the moat has a gate swinging open: the same OCC has granted conditional <em>trust</em> charters to Circle, BitGo, Ripple, Paxos, Coinbase, and Stripe's Bridge in twelve months, Kraken secured a Fed master account, Sony is chartering Connectia, and Mercury (fresh $5.2B mark) is publicly pursuing charter status. Each entrant attacks a slice of Erebor's stack even if none replicates the whole. The three-year window before Erebor's regulatory training wheels come off is also the window in which the entrant queue clears. Rating: Moderate — high barriers, but an unusually motivated and well-capitalized applicant pool.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Bargaining Power of Suppliers</span> <span class="fw-rating high">High</span><br>
+  A bank's true suppliers are its depositors, and Erebor's are among the most powerful in banking: ~400 institutional and HNW relationships supplying $4.05B — an average balance of ~$10M per relationship — means individual clients are material to the liability structure, sophisticated enough to demand competitive yield and covenants, and (as an interconnected community sharing the same group chats, cap tables, and Twitter feeds) capable of acting in concert within hours. Deposit betas in this segment are high and rising as competitors (Mercury at 4%+ yield tiers, treasury MMFs, tokenized T-bill funds) bid for the same balances. Secondary suppliers reinforce the picture: capital suppliers (VCs) hold a capital call agreement with mandatory injection triggers; the Sui Foundation and blockchain networks control rails Erebor builds on; and regulatory "supply" (the charter's permissions) is subject to unilateral repricing by the OCC. Rating: High — this is the single most adverse force.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Bargaining Power of Buyers</span> <span class="fw-rating moderate">Moderate</span><br>
+  On the asset side, Erebor's borrowers — crypto firms, AI hardware startups, defense contractors — have historically had <em>no</em> alternatives (that is the founding thesis), which grants Erebor pricing power on credit: debanked borrowers pay up, and crypto-collateralized or chip-financed credit can carry wide spreads precisely because no incumbent competes. But buyer power rises with every new entrant: a defense-tech borrower in 2027 can shop Erebor against sponsor banks rediscovering the vertical, credit funds (private credit is aggressively entering GPU financing), and eventually Mercury-with-a-charter. Fee-side buyers (stablecoin issuers, payment platforms like Infinite) are large, sophisticated, and multi-homing by design. The structural picture is a temporary seller's market in credit, eroding toward normal competitive pricing as the niche is validated. Rating: Moderate.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Threat of Substitutes</span> <span class="fw-rating high">High</span><br>
+  Nearly every Erebor product has a viable substitute for a client willing to unbundle: deposits can sit in tokenized money-market funds, T-bill ETFs, or swept multi-bank networks (higher yield, arguably lower single-name risk); stablecoin settlement can route through Circle directly, through Kinexys for institutional flows, or through trust-charter custodians; credit is substitutable by venture debt funds, private credit (racing into AI infrastructure financing), and equipment lessors; and the integrated "one regulated balance sheet" proposition is substitutable by the middleware stack (Mercury/Brex UX + sponsor bank + Anchorage custody) that already serves tens of thousands of startups adequately. The substitute Erebor really competes against is the status quo assembled stack — and its pitch (one throat to choke, no sponsor-bank risk) is compelling but not compulsory. The rise of yield-bearing stablecoins and tokenized treasuries is a slow-motion substitute for the non-interest-bearing deposit base every bank depends on. Rating: High.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Competitive Rivalry</span> <span class="fw-rating high">High</span><br>
+  The regulated digital-asset banking space has gone from empty (2023–24) to crowded (2026) in eight quarters: Anchorage ($4.2B valuation, Tether-backed) in institutional custody/settlement; Circle ($16.7B public, trust charter, $73B USDC) pulling reserve and settlement economics in-house; Kraken (~$20B, IPO-bound, Fed master account) in exchange-adjacent banking; JPMorgan Kinexys ($5B+ daily volume) at the institutional top; Cross River/Lead/Customers underneath in embedded flows; Mercury ($5.2B) and Brex-inside-Capital-One at the startup front door; Column (~$6B, ~$200M revenue) as the infrastructure-bank template; and Old Glory/Varo/Chime/SoFi in adjacent digital retail. Rivalry is intensified by the fact that most rivals are better capitalized than Erebor, several are loss-tolerant strategics, and all perceive the same GENIUS-Act land grab with the same urgency. Erebor's differentiation (full charter + vertical focus) is real but the perimeter is contested on every side. Rating: High.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> Erebor's five-force structure is challenging — materially tougher than the moat narrative suggests: high supplier (depositor) power, high substitute threat, and high rivalry, offset by moderate entry barriers and temporarily favorable buyer dynamics on the credit side. This is the mirror image of a Intapp-style vertical-SaaS fortress: the industry Erebor operates in (banking a correlated, yield-sensitive, politically contested client base) is structurally hard, and the company's edge must come from its two Helmer powers — counter-positioning and the cornered charter — outrunning the industry structure during a 12–24 month first-mover window. The five forces say: the prize is real, the field is brutal, and speed is the strategy.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 6: WHAT DRIVES THE VALUATION? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Valuation?</div>
+
+<p class="prose">Erebor has no stock, but it has a price — set roughly semi-annually by private rounds — and the following are the 6 variables that will move that price materially over the next 12 months. These are what a crossover fund's IC would debate before wiring into the $8B round.</p>
+
+<p class="prose"><strong>1. Deposit Growth and, Above All, Deposit Retention.</strong> The $1.1B → $4.05B surge (March–July 2026) is the entire empirical case for the valuation step-up. The market will watch whether deposits continue compounding toward $6B+ by year-end — and, more importantly, whether they <em>stay</em> through the first crypto drawdown or VC funding air-pocket. A single quarter of net deposit outflow would break the growth narrative and reprice the franchise toward book value; continued 40–60% quarterly growth would validate the $8B+ trajectory. Watch quarterly FFIEC call reports (public for any insured bank) — the only audited scoreboard a private bank can't spin.</p>
+
+<p class="prose"><strong>2. Whether the ≥$8B Round Actually Closes, and Who Leads It.</strong> Bloomberg reported (July 2, 2026) that talks are early-stage and the valuation unsettled. A completed round at $8B+ led by a disciplined crossover investor would set a hard mark and fund the Tier 1 capital that the 12% leverage mandate demands for the next ~$4B of deposit growth. A round that closes flat-to-down, or one filled entirely by existing insiders, would signal that outside diligence found what Section 10 finds — that $8B prices in the bull case. The round's structure (preferred terms, ratchets, capital call amendments) matters as much as the headline number.</p>
+
+<p class="prose"><strong>3. Hitting Profitability by YE2026 — On Schedule and Clean.</strong> Management has publicly committed to operational profitability by end-2026 (from a $6.0M Q1 net loss). Delivering it inside 11 months of opening would be a near-unprecedented de novo achievement and the single best rebuttal to the "story bank" critique; missing it — or achieving it via securities gains rather than core spread income — would hand skeptics the narrative. The composition matters: watch NII growth against the $10.6M/quarter expense base, and whether fee income (stablecoin settlement, treasury) becomes visible as a second revenue line.</p>
+
+<p class="prose"><strong>4. The Regulatory Weather: OCC Posture, GENIUS Act Implementation, and the 2028 Overhang.</strong> Erebor's product perimeter (stablecoin mint/burn, crypto collateral, on-chain gas holdings) exists at the pleasure of current OCC interpretive guidance, and its charter conditions prohibit material business-plan deviation without regulator sign-off. Watch: GENIUS Act rulemaking details (reserve and issuer rules shape Erebor's stablecoin fee pool), any OCC leadership change, Senator Warren-wing oversight letters, and — increasingly as 2028 approaches — election-cycle risk pricing. Any high-profile failure elsewhere in crypto banking would tighten supervision on Erebor first, as the most visible new charter.</p>
+
+<p class="prose"><strong>5. Loan Book Ramp and First Credit Marks.</strong> Erebor had $0 loans at Q1 2026; the equity story requires building a multi-billion-dollar book of crypto-collateralized and AI-hardware credit toward the ~50% target loan/deposit ratio. The next four quarters reveal origination velocity, pricing (are debanked borrowers really paying premium spreads?), and — by 2027 — the first delinquency data in asset classes nobody has underwritten through a cycle. Early credit losses in GPU financing or a collateral liquidation gone wrong would damage the franchise narrative disproportionately, because credit competence is the least-proven part of the team.</p>
+
+<p class="prose"><strong>6. Competitive Boundary Events.</strong> Specific watch items: Circle's trust bank going live with in-house USDC reserve management (does settlement flow bypass banks entirely?); Kraken's H2 2026 IPO (sets the public multiple for regulated crypto-financial franchises — a strong debut lifts Erebor's mark, a broken one caps it); Mercury's charter pursuit (the $5.2B neobank acquiring Erebor's structural advantage); any OCC full-service charter granted to a second crypto-focused de novo (ends the "only one" scarcity story); and JPMorgan Kinexys expanding from institutional settlement into Erebor's mid-market. Each event either validates the category or carves off a pillar.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<p class="prose">Erebor's revenue decomposes into four lines with classic bank unit economics, complicated by one binding constraint — the 12% Tier 1 leverage mandate — that couples every dollar of growth to fresh equity:</p>
+
+<table class="data" style="font-size:10px; margin-bottom:16px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Revenue Line</th>
+      <th style="text-align:left;">Driver 1</th>
+      <th style="text-align:left;">Driver 2</th>
+      <th style="text-align:left;">Driver 3</th>
+      <th style="text-align:left;">= Revenue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Securities/Cash NII</strong></td>
+      <td>Avg Deposits ($)</td>
+      <td>x (1 − L/D Ratio)</td>
+      <td>x Net Spread (~2.3%)</td>
+      <td>= Liquidity Book NII</td>
+    </tr>
+    <tr>
+      <td><strong>Lending NII</strong></td>
+      <td>Avg Deposits ($)</td>
+      <td>x L/D Ratio (0%→~50%)</td>
+      <td>x Loan Spread (~4–5%)</td>
+      <td>= Credit NII</td>
+    </tr>
+    <tr>
+      <td><strong>Stablecoin / Settlement Fees</strong></td>
+      <td>On-Chain Volume ($)</td>
+      <td>x Fee Rate (~0.5–2 bps)</td>
+      <td>+ Mint/Burn &amp; FX fees</td>
+      <td>= Settlement Revenue</td>
+    </tr>
+    <tr>
+      <td><strong>Auxiliary Fees</strong></td>
+      <td># Clients (~400+)</td>
+      <td>x ARPC (treasury, cards)</td>
+      <td>x Attach Rate</td>
+      <td>= Service Revenue</td>
+    </tr>
+    <tr>
+      <td><strong>Binding Constraint</strong></td>
+      <td>Total Assets ($)</td>
+      <td>x 12% Tier 1 Req.</td>
+      <td>− Retained Earnings</td>
+      <td>= Required Equity Raises</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose"><strong>Key driver quantification (Theia base case, FY2028E):</strong></p>
+<ul style="font-size: 11px; line-height: 1.7; color: #333; margin-left: 20px; margin-bottom: 10px;">
+  <li><strong>Liquidity book:</strong> ~$12.5B avg deposits x 65% held in cash/T-bills/AFS x ~2.3% net spread (asset yield ~4.2% less blended deposit cost ~1.9%) = ~$185M NII</li>
+  <li><strong>Lending book:</strong> ~$12.5B avg deposits x ~30% average L/D x ~4.5% net loan spread = ~$165M NII (crypto-collateralized and chip-finance loans priced 300–500bps over the liquidity book)</li>
+  <li><strong>Stablecoin/settlement + auxiliary fees:</strong> ~$88M — the least knowable line; at 1bp blended on settlement flow, this implies ~$500B+ of annual monetized volume, vs. the reported $1T+ cumulative Sui transfers to date</li>
+  <li><strong>Total FY2028E net revenue:</strong> ~$438M (~3.5% of avg deposits), less ~$170M opex (39% efficiency) = ~$268M pre-tax, ~$206M net income</li>
+</ul>
+
+<p class="prose"><strong>Leverage analysis:</strong> The two highest-leverage drivers are: (1) <em>Deposit growth</em> — each incremental $1B of average deposits at a 3.5% net revenue yield adds ~$35M of revenue, and because the fixed regulatory cost base is already funded, ~$25M of that reaches pre-tax income (~$19M after tax). But the 12% leverage mandate makes deposit growth capital-hungry: the same $1B of footings requires ~$120M of Tier 1 capital, so during the three-year constraint window, growth beyond retained earnings is mechanically dilutive — a ~6x capital-to-earnings ratio on marginal growth that explains why the bank is raising again just seven months after opening. (2) <em>Blended net revenue yield</em> — the swing from a pure liquidity book (~2.3% yield, where Erebor is today) to the mature mix (~3.5%+ with 50% L/D and scaled fees) is worth ~$150M of annual revenue on the 2028 balance sheet, more than the entire projected opex base; every 25bps of yield is ~$31M of revenue and ~1.5 points of ROE. The strategic implication: the business plan lives or dies on converting flighty, expensive-to-hold deposits into seasoned, wide-spread credit relationships faster than the niche crowds — while the capital constraint punishes any growth that outruns profitability.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+  <strong>AlphaSense Research Reports</strong> · Subject: Erebor Bank, N.A. (Private) · Reports Reviewed: "Company Primer: Erebor" &amp; "Comprehensive Business Analysis of Erebor" (both GenSearch, Jul 28, 2026), drawing on the Sacra Erebor One-Pager (Apr 2026), FDIC/OCC chartering documents, expert calls (former FDIC Deputy General Counsel; CX2 co-founder), Banking Dive, The Paypers, and press coverage<br>
+  <em>Key themes synthesized from AlphaSense competitive intelligence, regulatory filings, and expert commentary.</em>
+</div>
+
+<p class="prose"><strong>The Charter Is the Moat — and the Experts Can't See Past It Yet.</strong> The most striking feature of the AlphaSense record is what's missing: across both reports, expert evaluations of Erebor's proprietary technology depth and competitive moats are explicitly "absent from available reports." The only moat the documents can verify is the national bank charter itself — a significant regulatory barrier to entry — plus the structural contrast Sacra draws between Erebor's vertically integrated single-charter model (charter + core ledger + payment rails + digital-asset capabilities in one entity, à la Column or Lead Bank) and the middleware/sponsor-bank stack it disintermediates. For an underwriter, this cuts both ways: there is no expert consensus to lean on, but also no expert consensus priced in — the diligence vacuum is the alpha opportunity and the risk in equal measure. Notably, a former FDIC Deputy General Counsel confirms on an expert call that the current administration favors fintech bank applications, but stresses that new banks must demonstrate capital, liquidity, and compliance adjustments before regulators permit product expansion — the training-wheels thesis, from the horse's mouth.</p>
+
+<p class="prose"><strong>Regulatory Conservatism as Product Feature.</strong> Sacra's analysis — the deepest source in the record — reframes Erebor's constraints as strategy: the 12% Tier 1 leverage mandate, the highly liquid balance sheet, and the prohibition on business-plan deviation are not just imposed costs but a sales pitch to "risk-sensitive institutional depositors who previously witnessed the rapid collapse of prior tech-focused banks." The bank deliberately runs a ~50% target loan/deposit ratio (half industry norm) and wears its over-capitalization as marketing. The July deposit data ($4.05B, +268% in three months) suggests the pitch is landing. The corollary insight: Erebor's expense profile is inverted relative to a normal de novo — it saves on branches and tellers but carries "exceptionally high compliance, cybersecurity, legal, and technical-governance costs," meaning the fixed cost base is regulatory, not physical, and operating leverage arrives only with deposit scale.</p>
+
+<p class="prose"><strong>The Deposit Concentration Warning Is Loud and Specific.</strong> Both reports independently flag the same structural fragility in nearly identical language: Erebor's customer base is concentrated in "interconnected tech/crypto ecosystems" that "could trigger correlated deposit flight during industry downturns," explicitly mirroring "Silicon Valley Bank's failure pattern" and the Silvergate/Signature precedents. This is the consensus bear case — notable because it is the <em>only</em> risk on which the fragmented source record fully agrees. The reports also surface the political dimension: Senator Warren has characterized the charter approval as "a politically connected and risky venture that could pose a risk to taxpayers," establishing Erebor as the first target of any supervisory backlash. An underwriter should treat the SVB-pattern risk as base-rate-relevant, not merely narrative: three banks with this deposit profile failed within one quarter in 2023.</p>
+
+<p class="prose"><strong>Market Misunderstanding: Valuation Timing and the Wrong Comp Set.</strong> The business-analysis report makes an underappreciated point about the marks: "historical valuation assessments occurred before the bank received its charter or launched operations" — the $4.35B December 2025 round priced a pre-operational shell with a conditional approval, meaning the market has never actually priced Erebor <em>as an operating bank</em>; the ≥$8B discussion is the first attempt, on one quarter of data. Separately, the same report benchmarks Erebor against Varo ($374M assets), Chime ($2.2B revenue), and SoFi ($51B assets) — a framing Theia regards as a category error: those are mass-market retail neobanks, while Erebor's economics (relationship-dense, ~$10M average balances, B2B credit) make Column, Mercury, Anchorage, and pre-2022 SVB the correct references. The prevalence of the wrong comp set in the public record is itself useful: it suggests the market has not yet converged on how to value this franchise, which is where dispersion — and mispricing — lives.</p>
+
+<p class="prose"><strong>Key Investor Questions.</strong> Based on the gaps in the AlphaSense record, the questions that would most sharpen conviction: (1) What is the deposit composition — how much is operating/payments cash (sticky) vs. yield-seeking treasury (flighty), and what share is from crypto-native firms vs. defense/AI? (2) What are the actual terms of the capital call agreement — who is obligated, for how much, and at what triggers? (3) What is monetized stablecoin settlement volume and the realized fee rate — is the reported $1T+ Sui transfer figure revenue-bearing or vanity flow? (4) What does the loan pipeline look like — origination commitments, pricing spreads, and collateral haircuts on crypto and GPU-backed facilities? (5) At what valuation and structure does the July round actually close, and does a new outside lead price it — or is it an insider mark? (6) How does management plan to satisfy the ~$120M-per-$1B-of-growth capital requirement without serial dilution — and is a 2028 IPO the explicit plan?</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 9: SENSITIVITY ANALYSIS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Sensitivity Analysis</div>
+
+<!-- Sensitivity Table 1 -->
+<p class="prose"><strong>Sensitivity Table 1: YE2028E Total Deposits ($B) — YE2026E Starting Deposits ($B) vs. 2-Year Deposit CAGR (%)</strong></p>
+<p class="prose"><strong>Current: Deposits = $4.05B (Jul 3, 2026); Theia base = $6.0B YE2026 growing at 58% CAGR to ~$15B by YE2028</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>YE26 Deposits / CAGR</th>
+      <th>25%</th>
+      <th>40%</th>
+      <th>58%</th>
+      <th>75%</th>
+      <th>90%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$4.5B</td><td>$7.0</td><td>$8.8</td><td>$11.2</td><td>$13.8</td><td>$16.2</td></tr>
+    <tr><td>$5.0B</td><td>$7.8</td><td>$9.8</td><td>$12.5</td><td>$15.3</td><td>$18.1</td></tr>
+    <tr><td>$6.0B</td><td>$9.4</td><td>$11.8</td><td class="base">$15.0</td><td>$18.4</td><td>$21.7</td></tr>
+    <tr><td>$7.0B</td><td>$10.9</td><td>$13.7</td><td>$17.5</td><td>$21.4</td><td>$25.3</td></tr>
+    <tr><td>$8.0B</td><td>$12.5</td><td>$15.7</td><td>$20.0</td><td>$24.5</td><td>$28.9</td></tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 2 -->
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 2: FY2028E Net Revenue ($M) — FY2028E Average Deposits ($B) vs. Blended Net Revenue Yield (% of Avg Deposits)</strong></p>
+<p class="prose"><strong>Current: Theia base = $12.5B avg deposits x 3.50% blended yield (NII + fees) = ~$438M net revenue; Q1 2026 actual annualized yield was ~2.4% on a zero-loan balance sheet</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Avg Deposits / Yield</th>
+      <th>2.75%</th>
+      <th>3.00%</th>
+      <th>3.50%</th>
+      <th>3.75%</th>
+      <th>4.00%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$8.0B</td><td>$220</td><td>$240</td><td>$280</td><td>$300</td><td>$320</td></tr>
+    <tr><td>$10.0B</td><td>$275</td><td>$300</td><td>$350</td><td>$375</td><td>$400</td></tr>
+    <tr><td>$12.5B</td><td>$344</td><td>$375</td><td class="base">$438</td><td>$469</td><td>$500</td></tr>
+    <tr><td>$16.0B</td><td>$440</td><td>$480</td><td>$560</td><td>$600</td><td>$640</td></tr>
+    <tr><td>$20.0B</td><td>$550</td><td>$600</td><td>$700</td><td>$750</td><td>$800</td></tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 3 -->
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 3: Implied Equity Value ($B) — FY2028E Net Income ($M) vs. Exit P/E Multiple (x)</strong></p>
+<p class="prose"><strong>Current: Theia base = $206M FY2028E net income x 30x = ~$6.2B implied value vs. $8.0B prospective round mark and $4.35B Dec 2025 mark</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>2028E NI / P/E</th>
+      <th>15x</th>
+      <th>20x</th>
+      <th>25x</th>
+      <th>30x</th>
+      <th>35x</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$58M</td><td class="base" style="background:#f8d7da;">$0.9</td><td>$1.2</td><td>$1.5</td><td>$1.7</td><td>$2.0</td></tr>
+    <tr><td>$120M</td><td>$1.8</td><td class="base" style="background:#fff3cd;">$2.4</td><td>$3.0</td><td>$3.6</td><td>$4.2</td></tr>
+    <tr><td>$206M</td><td>$3.1</td><td>$4.1</td><td>$5.2</td><td class="base">$6.2</td><td>$7.2</td></tr>
+    <tr><td>$400M</td><td>$6.0</td><td>$8.0</td><td>$10.0</td><td class="base" style="background:#d4edda;">$12.0</td><td>$14.0</td></tr>
+    <tr><td>$700M</td><td>$10.5</td><td>$14.0</td><td>$17.5</td><td>$21.0</td><td class="base" style="background:#d4edda;">$24.5</td></tr>
+  </tbody>
+</table>
+<p class="prose" style="font-size:9px; color:#888;">Note the asymmetry the grid exposes: at the $8.0B prospective mark, the entire left half of the table — including the base case — implies a loss. Only outcomes at or above ~$270M of 2028E net income at 30x clear the round price. The Dec 2025 mark of $4.35B, by contrast, is cleared by the base case with 42% headroom.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 10: 3-YEAR MODEL — 5 SCENARIOS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios</div>
+
+<p class="prose">All figures $M unless stated. Modeled FY2026E, FY2027E, FY2028E (FYE Dec). Exit = implied equity value at YE2028, valued on 2028E earnings (P/E) with a P/TBV cross-check. Reference marks: <strong>$8.0B</strong> prospective round (Jul 2026) and <strong>$4.35B</strong> last completed round (Dec 2025). Equity is assumed raised as needed to hold the mandated 12% Tier 1 leverage ratio — dilution, not leverage, is the swing factor. No public shares exist; "upside/downside" is MOIC on the round marks.</p>
+
+<!-- CASE 1: BEAR SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 1: Bear Severe — Correlated Deposit Flight (The SVB Pattern Repeats)</div>
+  <div class="case-desc">A 2027 crypto winter coincides with a VC funding freeze; the interconnected deposit base flees at digital speed; crypto-collateralized loans and GPU financing mark down simultaneously; regulators restrict products; the bank survives (12% capital + capital calls) but the franchise narrative dies.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Growth continues on momentum; deposits reach ~$5B by year-end; profitability narrowly achieved. <strong>FY2027</strong> — Crypto drawdown + funding freeze triggers correlated withdrawals; deposits halve to $2.5B; early loan book takes first losses; opex cuts lag revenue collapse. <strong>FY2028</strong> — Deposits stabilize at $1.5B of genuinely sticky operating accounts; bank shrinks to survive; investors value the entity at liquidation-adjacent book.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Deposits (YE2028)</span><span>$1.5B (down from $5B peak)</span></div>
+  <div class="driver-row"><span>Net Revenue Yield</span><span>~2.0% (liquidity book only)</span></div>
+  <div class="driver-row"><span>Credit Losses</span><span>Material — first-cycle GPU/crypto marks</span></div>
+  <div class="driver-row"><span>Regulatory Posture</span><span>Restrictive; product perimeter narrowed</span></div>
+  <div class="driver-row"><span>Exit Basis</span><span>~1.0x distressed TBV</span></div>
+  <table class="scenario-mini">
+    <tr><td>Deposits (EOP, $B)</td><td>$5.0</td><td>$2.5</td><td>$1.5</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Deposit Growth %</td><td>+355%</td><td>-50%</td><td>-40%</td></tr>
+    <tr><td>Net Revenue</td><td>70</td><td>90</td><td>40</td></tr>
+    <tr><td>Operating Expenses</td><td>(60)</td><td>(95)</td><td>(70)</td></tr>
+    <tr><td>Net Income</td><td>8</td><td>(10)</td><td>(25)</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">ROE %</td><td>0.9%</td><td>NM</td><td>NM</td></tr>
+    <tr><td>Tangible Equity ($B)</td><td>0.92</td><td>0.92</td><td>0.90</td></tr>
+    <tr class="valuation-row"><td>Exit Multiple</td><td>--</td><td>--</td><td>1.0x TBV</td></tr>
+    <tr class="valuation-row"><td>Implied Equity Value ($B)</td><td>--</td><td>--</td><td>$0.9</td></tr>
+    <tr><td>MOIC vs $8.0B / $4.35B</td><td>--</td><td>--</td><td>0.11x / 0.21x</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: ~1.0x FY2028E tangible book of ~$0.9B</div>
+    <div class="exit-price">Implied Equity Value: $0.9B</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: -89% vs $8.0B mark · -79% vs $4.35B mark</div>
+  </div>
+</div>
+
+<!-- CASE 2: BEAR MILD -->
+<div class="case-block">
+  <div class="case-name">Case 2: Bear Mild — Growth Stalls, Niche Gets Carved Up</div>
+  <div class="case-desc">No crisis — just gravity. Deposit growth flattens after the launch cohort onboards; Circle, Kraken, Mercury-with-a-charter, and sponsor banks unbundle each pillar; loan ramp is slow and spreads compress; Erebor becomes a profitable but small specialty bank whose private mark converges to bank-M&amp;A math.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Deposits plateau near $5.5B as the debanked backlog clears; profitability achieved on schedule. <strong>FY2027</strong> — Competition for innovation-economy deposits bids up funding costs; loan origination underwhelms; growth stalls at ~$6B. <strong>FY2028</strong> — A solid, boring $6B specialty bank earning a ~5% ROE; strategic interest exists for the charter, but at bank multiples, not venture multiples.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Deposits (YE2028)</span><span>$6.0B (flat from 2026)</span></div>
+  <div class="driver-row"><span>Net Revenue Yield</span><span>~3.25% (partial loan ramp)</span></div>
+  <div class="driver-row"><span>Loan / Deposit Ratio</span><span>~25% (slow ramp)</span></div>
+  <div class="driver-row"><span>Competitive Position</span><span>Unbundled by specialists</span></div>
+  <div class="driver-row"><span>Exit Basis</span><span>2.0x TBV (charter/strategic value)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Deposits (EOP, $B)</td><td>$5.5</td><td>$6.0</td><td>$6.0</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Deposit Growth %</td><td>+400%</td><td>+9%</td><td>0%</td></tr>
+    <tr><td>Net Revenue</td><td>72</td><td>170</td><td>195</td></tr>
+    <tr><td>Operating Expenses</td><td>(58)</td><td>(105)</td><td>(120)</td></tr>
+    <tr><td>Net Income</td><td>11</td><td>50</td><td>58</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">ROE %</td><td>1.2%</td><td>4.9%</td><td>5.1%</td></tr>
+    <tr><td>Tangible Equity ($B)</td><td>0.93</td><td>1.05</td><td>1.18</td></tr>
+    <tr class="valuation-row"><td>Exit Multiple</td><td>--</td><td>--</td><td>2.0x TBV (~41x P/E)</td></tr>
+    <tr class="valuation-row"><td>Implied Equity Value ($B)</td><td>--</td><td>--</td><td>$2.4</td></tr>
+    <tr><td>MOIC vs $8.0B / $4.35B</td><td>--</td><td>--</td><td>0.30x / 0.55x</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 2.0x FY2028E tangible book of ~$1.2B — charter scarcity still commands a bank-M&amp;A premium</div>
+    <div class="exit-price">Implied Equity Value: $2.4B</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: -70% vs $8.0B mark · -45% vs $4.35B mark</div>
+  </div>
+</div>
+
+<!-- CASE 3: BASE CASE -->
+<div class="case-block">
+  <div class="case-name">Case 3: Base Case — Franchise Builds, Constraints Bind, Multiple Normalizes</div>
+  <div class="case-desc">Deposits compound to $15B by 2028; profitability lands on schedule (YE2026); the loan book ramps to ~35% L/D with clean early credit; stablecoin fees become a visible second revenue line; but the 12% leverage mandate forces ~$790M of additional equity, and the exit multiple normalizes toward what a high-growth regulated bank supports.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Deposits $6B; operational profitability achieved in Q4 as promised; loan book reaches $600M. <strong>FY2027</strong> — Deposits $10B; net revenue $248M; efficiency crosses below 50%; first full year of meaningful lending NII. <strong>FY2028</strong> — Deposits $15B; net revenue $438M; net income ~$206M; ROE ~12% — pinned near the ceiling the 12% leverage mandate allows; IPO-readiness discussions begin as the 3-year de novo constraints approach expiry (Feb 2029).</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Deposits (YE2028)</span><span>$15B (58% 2-yr CAGR)</span></div>
+  <div class="driver-row"><span>Net Revenue Yield</span><span>3.5% of avg deposits</span></div>
+  <div class="driver-row"><span>Loan / Deposit Ratio</span><span>35% (ramping to 50% target)</span></div>
+  <div class="driver-row"><span>Efficiency Ratio</span><span>39%</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>30x (~3.0x TBV)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Deposits (EOP, $B)</td><td>$6.0</td><td>$10.0</td><td>$15.0</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Deposit Growth %</td><td>+445%</td><td>+67%</td><td>+50%</td></tr>
+    <tr><td>Net Revenue</td><td>78</td><td>248</td><td>438</td></tr>
+    <tr><td>Operating Expenses</td><td>(60)</td><td>(115)</td><td>(170)</td></tr>
+    <tr><td>Net Income</td><td>14</td><td>102</td><td>206</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">ROE %</td><td>1.8%</td><td>8.8%</td><td>12.1%</td></tr>
+    <tr><td>Tangible Equity ($B)</td><td>0.94</td><td>1.38</td><td>2.04</td></tr>
+    <tr class="valuation-row"><td>Exit Multiple</td><td>--</td><td>--</td><td>30x P/E</td></tr>
+    <tr class="valuation-row"><td>Implied Equity Value ($B)</td><td>--</td><td>--</td><td>$6.2</td></tr>
+    <tr><td>MOIC vs $8.0B / $4.35B</td><td>--</td><td>--</td><td>0.77x / 1.42x</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 30x FY2028E net income of $206M (cross-check: ~3.0x required tangible book of $2.04B)</div>
+    <div class="exit-price">Implied Equity Value: $6.2B</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: -23% vs $8.0B mark · <span style="color:#27ae60;">Upside: +42% vs $4.35B mark</span></div>
+  </div>
+</div>
+
+<!-- CASE 4: BULL MILD -->
+<div class="case-block">
+  <div class="case-name">Case 4: Bull Mild — The Innovation-Economy Primary Bank</div>
+  <div class="case-desc">Erebor consolidates primary-bank status for the crypto/AI/defense economy: deposits reach $25B by 2028; the loan book prices at premium spreads with clean credit; stablecoin settlement fees scale with GENIUS-Act adoption; the franchise earns a growth-bank premium at exit as IPO preparation begins.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Deposits $7B; profitability early; defense-tech and AI-hardware verticals accelerate alongside crypto. <strong>FY2027</strong> — Deposits $15B; net revenue $345M; chip-financing book scales with the AI capex boom; Kraken's successful IPO validates public appetite for the category. <strong>FY2028</strong> — Deposits $25B; net revenue $720M; net income ~$393M; ROE ~13% at the leverage constraint; Erebor is the reference bank for its ecosystem the way SVB was for venture.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Deposits (YE2028)</span><span>$25B (~90% 2-yr CAGR)</span></div>
+  <div class="driver-row"><span>Net Revenue Yield</span><span>3.6% of avg deposits</span></div>
+  <div class="driver-row"><span>Loan / Deposit Ratio</span><span>~45%, premium spreads hold</span></div>
+  <div class="driver-row"><span>Stablecoin Fees</span><span>Visible at scale ($100M+ line)</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>32x (growth-bank premium)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Deposits (EOP, $B)</td><td>$7.0</td><td>$15.0</td><td>$25.0</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Deposit Growth %</td><td>+536%</td><td>+114%</td><td>+67%</td></tr>
+    <tr><td>Net Revenue</td><td>85</td><td>345</td><td>720</td></tr>
+    <tr><td>Operating Expenses</td><td>(62)</td><td>(135)</td><td>(210)</td></tr>
+    <tr><td>Net Income</td><td>18</td><td>162</td><td>393</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">ROE %</td><td>2.2%</td><td>10.9%</td><td>13.0%</td></tr>
+    <tr><td>Tangible Equity ($B)</td><td>1.00</td><td>1.98</td><td>3.40</td></tr>
+    <tr class="valuation-row"><td>Exit Multiple</td><td>--</td><td>--</td><td>32x P/E</td></tr>
+    <tr class="valuation-row"><td>Implied Equity Value ($B)</td><td>--</td><td>--</td><td>$12.6</td></tr>
+    <tr><td>MOIC vs $8.0B / $4.35B</td><td>--</td><td>--</td><td>1.57x / 2.89x</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 32x FY2028E net income of $393M (~3.7x required tangible book of $3.4B)</div>
+    <div class="exit-price">Implied Equity Value: $12.6B</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +57% vs $8.0B mark · +189% vs $4.35B mark</div>
+  </div>
+</div>
+
+<!-- CASE 5: BULL SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 5: Bull Severe — The SVB of the Stablecoin Era, at IPO</div>
+  <div class="case-desc">Stablecoins scale toward $1T as projected; Erebor becomes the regulated settlement layer of record (Sui + Infinite + successors) while consolidating innovation-economy banking; deposits reach $40B; settlement fees become a software-margin second engine; a 2029 IPO prices the franchise as financial infrastructure, not a spread bank.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Deposits $8B; the $8B round closes oversubscribed with a marquee crossover lead. <strong>FY2027</strong> — Deposits $20B; GENIUS-Act stablecoin adoption inflects; settlement volume monetizes at scale; net revenue $520M. <strong>FY2028</strong> — Deposits $40B; net revenue ~$1.14B; net income ~$700M; ROE pushing the regulatory ceiling; IPO filing as the de novo constraints expire — the public market prices the only chartered pure-play at a Circle/Kraken-blended premium.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Deposits (YE2028)</span><span>$40B (SVB-scale franchise)</span></div>
+  <div class="driver-row"><span>Net Revenue Yield</span><span>3.8% incl. scaled settlement fees</span></div>
+  <div class="driver-row"><span>Stablecoin Market</span><span>~$1T (per late-2027 projections)</span></div>
+  <div class="driver-row"><span>Competitive Outcome</span><span>Category winner; IPO window open</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>35x (infrastructure premium)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Deposits (EOP, $B)</td><td>$8.0</td><td>$20.0</td><td>$40.0</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Deposit Growth %</td><td>+627%</td><td>+150%</td><td>+100%</td></tr>
+    <tr><td>Net Revenue</td><td>95</td><td>520</td><td>1,140</td></tr>
+    <tr><td>Operating Expenses</td><td>(65)</td><td>(165)</td><td>(250)</td></tr>
+    <tr><td>Net Income</td><td>23</td><td>273</td><td>700</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">ROE %</td><td>2.6%</td><td>13.5%</td><td>15.5%</td></tr>
+    <tr><td>Tangible Equity ($B)</td><td>1.10</td><td>2.90</td><td>5.30</td></tr>
+    <tr class="valuation-row"><td>Exit Multiple</td><td>--</td><td>--</td><td>35x P/E</td></tr>
+    <tr class="valuation-row"><td>Implied Equity Value ($B)</td><td>--</td><td>--</td><td>$24.5</td></tr>
+    <tr><td>MOIC vs $8.0B / $4.35B</td><td>--</td><td>--</td><td>3.06x / 5.63x</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 35x FY2028E net income of $700M at IPO (~4.6x required tangible book of $5.3B)</div>
+    <div class="exit-price">Implied Equity Value: $24.5B</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +206% vs $8.0B mark · +463% vs $4.35B mark</div>
+  </div>
+</div>
+
+<!-- SVG Bar Chart -->
+<div class="case-chart">
+  <p style="font-size:9px; font-weight:600; margin-bottom:8px;">Implied Equity Value by Scenario (YE2028E Exit, $B) vs. Round Marks: $8.0B Prospective (Jul 2026) and $4.35B Last Close (Dec 2025)</p>
+  <svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg" style="width:100%; font-family:Inter,Arial,sans-serif;">
+    <!-- Axes -->
+    <line x1="80" y1="20" x2="80" y2="200" stroke="#ccc" stroke-width="1"/>
+    <line x1="80" y1="200" x2="680" y2="200" stroke="#ccc" stroke-width="1"/>
+    <!-- Y-axis labels (scale: $1B = 7.2px) -->
+    <text x="75" y="204" text-anchor="end" font-size="9" fill="#888">$0</text>
+    <text x="75" y="168" text-anchor="end" font-size="9" fill="#888">$5B</text>
+    <text x="75" y="132" text-anchor="end" font-size="9" fill="#888">$10B</text>
+    <text x="75" y="96" text-anchor="end" font-size="9" fill="#888">$15B</text>
+    <text x="75" y="60" text-anchor="end" font-size="9" fill="#888">$20B</text>
+    <text x="75" y="24" text-anchor="end" font-size="9" fill="#888">$25B</text>
+    <!-- Gridlines -->
+    <line x1="80" y1="164" x2="680" y2="164" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="128" x2="680" y2="128" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="92" x2="680" y2="92" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="56" x2="680" y2="56" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="20" x2="680" y2="20" stroke="#eee" stroke-width="0.5"/>
+    <!-- Bear Severe: $0.9B -> height 6.5px -->
+    <rect x="110" y="193.5" width="80" height="6.5" fill="#2563eb"/>
+    <text x="150" y="189" text-anchor="middle" font-size="9" fill="#333">$0.9B</text>
+    <text x="150" y="214" text-anchor="middle" font-size="8" fill="#555">Bear Severe</text>
+    <!-- Bear Mild: $2.4B -> height 17.3px -->
+    <rect x="220" y="182.7" width="80" height="17.3" fill="#2563eb"/>
+    <text x="260" y="178" text-anchor="middle" font-size="9" fill="#333">$2.4B</text>
+    <text x="260" y="214" text-anchor="middle" font-size="8" fill="#555">Bear Mild</text>
+    <!-- Base: $6.2B -> height 44.6px -->
+    <rect x="330" y="155.4" width="80" height="44.6" fill="#2563eb"/>
+    <text x="370" y="151" text-anchor="middle" font-size="9" fill="#333">$6.2B</text>
+    <text x="370" y="214" text-anchor="middle" font-size="8" fill="#555">Base Case</text>
+    <!-- Bull Mild: $12.6B -> height 90.7px -->
+    <rect x="440" y="109.3" width="80" height="90.7" fill="#2563eb"/>
+    <text x="480" y="105" text-anchor="middle" font-size="9" fill="#333">$12.6B</text>
+    <text x="480" y="214" text-anchor="middle" font-size="8" fill="#555">Bull Mild</text>
+    <!-- Bull Severe: $24.5B -> height 176.4px -->
+    <rect x="550" y="23.6" width="80" height="176.4" fill="#2563eb"/>
+    <text x="590" y="19" text-anchor="middle" font-size="9" fill="#333">$24.5B</text>
+    <text x="590" y="214" text-anchor="middle" font-size="8" fill="#555">Bull Severe</text>
+    <!-- Prospective round mark: $8.0B -> y = 200 - 57.6 = 142.4 -->
+    <line x1="80" y1="142.4" x2="680" y2="142.4" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="683" y="146" font-size="8" fill="#e74c3c">$8.0B (Jul '26 talks)</text>
+    <!-- Last round mark: $4.35B -> y = 200 - 31.3 = 168.7 -->
+    <line x1="80" y1="168.7" x2="680" y2="168.7" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="3,2"/>
+    <text x="683" y="172" font-size="8" fill="#f39c12">$4.35B (Dec '25)</text>
+  </svg>
+  <p style="font-size:8px; color:#888; margin-top:4px;">Probability weights: 5% / 20% / 50% / 20% / 5% · Prob-wtd YE2028 value = $7.4B · PV @ 25% CoC over ~2.5 yrs = ~$4.2B — almost exactly the Dec 2025 mark · vs. $8.0B prospective: prob-wtd expected MOIC ≈ 0.93x (negative EV before discounting) · vs. $4.35B: ≈ 1.70x undiscounted</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 11: COMPS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">11. Comparable Companies</div>
+
+<div class="section-title">Private Marks — Innovation-Economy Banking &amp; Regulated Crypto Infrastructure</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Model</th>
+      <th>Valuation</th>
+      <th>Mark Date</th>
+      <th>Own Charter?</th>
+      <th>Key Scale Metric</th>
+      <th>Val / Metric</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Erebor Bank</td><td>Full-service national bank (crypto/AI/defense)</td>
+      <td>$8.0B (talks)</td><td>Jul 2026</td><td>Yes — OCC N.A.</td><td>$4.05B deposits</td><td>2.0x deposits · ~8.8x TBV</td>
+    </tr>
+    <tr class="subject" style="background:#f7f7f7;">
+      <td>Erebor Bank (last close)</td><td>—</td>
+      <td>$4.35B</td><td>Dec 2025</td><td>Yes</td><td>Pre-launch</td><td>~7.2x capital raised</td>
+    </tr>
+    <tr>
+      <td>Mercury</td><td>Startup neobank on sponsor banks (charter pursuit)</td>
+      <td>$5.2B</td><td>May 2026</td><td>No</td><td>$200M raise, TCV-led</td><td>—</td>
+    </tr>
+    <tr>
+      <td>Column</td><td>Vertically integrated infrastructure bank</td>
+      <td>~$6.0B (est.)</td><td>2026</td><td>Yes — CA national</td><td>~$200M revenue</td><td>~30x revenue</td>
+    </tr>
+    <tr>
+      <td>Anchorage Digital</td><td>Federal trust bank — custody/settlement</td>
+      <td>$4.2B</td><td>Feb 2026</td><td>Trust only</td><td>Tether $100M strategic</td><td>—</td>
+    </tr>
+    <tr>
+      <td>Kraken</td><td>Exchange + WY SPDI, Fed master account; IPO H2'26</td>
+      <td>~$20B</td><td>Jun 2026</td><td>State SPDI</td><td>$800M raise</td><td>—</td>
+    </tr>
+    <tr>
+      <td>Brex (acq. by Capital One)</td><td>Corporate card/spend, no charter</td>
+      <td>$5.15B</td><td>Jan 2026</td><td>No</td><td>Strategic acquisition</td><td>—</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Public Reference Points</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>Mkt Cap</th>
+      <th>Model</th>
+      <th>Scale</th>
+      <th>Approx P/TBV</th>
+      <th>Relevance to Erebor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Erebor Bank</td><td>Private</td>
+      <td>$8.0B (talks)</td><td>Chartered crypto/tech bank</td><td>$4.05B deposits</td><td>~8.8x</td><td>—</td>
+    </tr>
+    <tr>
+      <td>Circle Internet Group</td><td>CRCL</td>
+      <td>$16.7B</td><td>Stablecoin issuer + new OCC trust</td><td>~$73B USDC</td><td>NM (asset-light)</td><td>Stablecoin economics ceiling</td>
+    </tr>
+    <tr>
+      <td>SoFi Technologies</td><td>SOFI</td>
+      <td>$23.8B</td><td>Digital bank w/ national charter</td><td>~$51B assets</td><td>~3x</td><td>What a scaled digital bank earns</td>
+    </tr>
+    <tr>
+      <td>Coinbase Global</td><td>COIN</td>
+      <td>$42.5B</td><td>Exchange + trust charter</td><td>Category leader</td><td>~4x</td><td>Crypto-franchise multiple ceiling</td>
+    </tr>
+    <tr>
+      <td>SVB Financial (peak, 2021)</td><td>—</td>
+      <td>$44B peak</td><td>Innovation-economy bank</td><td>$189B deposits</td><td>~3.5x peak</td><td>The franchise Erebor is rebuilding — and its failure mode</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Chartered-bank reference range</td><td>--</td>
+      <td>--</td><td>--</td><td>--</td><td>1.5x–3.5x TBV</td><td>10–15x P/E mature; 25–35x hypergrowth</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:10px;">The comp set splits into two universes, and Erebor's prospective mark only works in one of them. Against <em>banks</em> — the universe its balance sheet actually lives in — $8B is extreme: ~8.8x capital raised and 2.0x deposits, versus SoFi at ~3x TBV with $51B of assets and a decade of operating history, and versus SVB's all-time-peak ~3.5x TBV achieved at $189B of deposits in the biggest venture bubble on record. Against <em>venture-marked fintech infrastructure</em>, the mark is less anomalous: Mercury commands $5.2B without a charter, Column ~$6B on ~$200M of infrastructure revenue, Anchorage $4.2B on a trust charter alone, and Capital One paid $5.15B for Brex's software layer — by that logic, a full national charter plus $4.05B of deposits plus the founder network plausibly "deserves" a premium to all of them. The reconciliation is time: private marks assume Erebor grows into bank-multiple math (our base case gets to ~$2.0B TBV and $206M NI by 2028, at which point $8B = 3.9x TBV / 39x P/E — still a premium to every scaled comp), while public markets will eventually demand it. Kraken's H2 2026 IPO is the live experiment in whether public investors pay venture multiples for regulated crypto-financial franchises; Theia should treat its pricing as the single most informative external datapoint for Erebor's exit multiple.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<div class="verdict">
+  <p><strong>(i) Market Cap Bucket: $4.35B Last Close / $8.0B Prospective</strong> <span class="fw-rating moderate">Moderate Fit</span></p>
+  <p style="margin-top:4px;">At the December 2025 close ($4.35B) Erebor sits at the top of Theia's small-cap sweet spot; at the prospective $8.0B it exits the range entirely into mid-cap territory — for a company with one quarter of operating history. The more useful framing for a private name: the informational inefficiency Theia hunts for in under-covered small caps exists here in amplified form (no sell-side, no consensus, marks set by momentum-prone venture rounds), but so does the illiquidity — access requires the round, a secondary, or an SPV, and the FDIC's three-year change-of-control restrictions constrain exit paths. Rating: Moderate at the last mark, Weak at the prospective one.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(ii) Analyst Coverage: Zero (Private)</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">No sell-side coverage exists or can exist; the public record consists of two AlphaSense syntheses, a Sacra one-pager, quarterly FFIEC call reports, and press coverage — and the AlphaSense record explicitly notes that expert evaluations of Erebor's moats "remain absent from available reports." This is maximal under-coverage: the market's information set is thin enough that disciplined primary work (call-report tracking, deposit-mix diligence, expert calls with clients and competitors) creates genuine edge. The flip side: the same thinness means the $8B mark is being set by insiders with the least incentive toward conservatism. For a fund whose edge is doing the work nobody else does, this screens strongly.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iii) Thesis Alignment: Regulated On-Chain Banking Infrastructure</strong> <span class="fw-rating strong">Core Thesis</span></p>
+  <p style="margin-top:4px;">Erebor is as close to the bullseye of Theia's internet-financial-system thesis as any company in existence: a federally chartered bank whose explicit purpose is fusing insured deposits, commercial credit, and stablecoin settlement into one regulated balance sheet — the institutional bridge over which traditional finance moves on-chain. The GENIUS Act framework, the stablecoin market's path from ~$300B toward ~$1T, the charter land-grab (Circle, BitGo, Ripple, Paxos, Coinbase, Bridge), and the debanked innovation economy are all Theia coverage priorities, and Erebor sits at their intersection. Whatever the verdict on price, Erebor belongs permanently on the watchlist as the purest chartered expression of the thesis. Rating: Core.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iv) Outcome Dispersion: $0.9B – $24.5B</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">The 5-scenario model spans a 27x spread between Bear Severe ($0.9B — the SVB pattern repeats and the bank shrinks to book value) and Bull Severe ($24.5B — the SVB of the stablecoin era at IPO). This is genuine, irreducible uncertainty — deposit franchises of this type either compound spectacularly or unravel abruptly, with thin middle ground — and it is precisely the dispersion profile Theia screens for. The problem is where the marks sit inside the distribution: the probability-weighted YE2028 value of ~$7.4B sits <em>below</em> the $8.0B prospective round, meaning the current asked price captures the entire expected value and pays nothing for the tail risk. At $4.35B, the same distribution offered ~1.7x undiscounted expected MOIC. Dispersion: Strong. Asymmetry at the offered price: absent.</p>
+</div>
+
+<div style="background: #fff3cd; border-left: 4px solid #856404; padding: 12px 14px; margin: 16px 0; font-size: 11.5px;">
+  <strong>VERDICT: MAYBE — Core Thesis, Wrong Price. Track Intensively; Buy Dislocation, Not Momentum.</strong><br><br>
+  Erebor is the most thesis-aligned private company Theia has evaluated — the only full-service national bank charter in the crypto/AI/defense economy, with deposit traction ($1.1B→$4.05B in three months) that validates the SVB-void hypothesis, counter-positioning incumbents cannot answer, and a management/regulatory structure deliberately engineered against the failure mode that killed its predecessors. But the prospective ≥$8.0B round prices in the bull case: our probability-weighted 2028 exit (~$7.4B) sits below the asked mark, base-case MOIC is 0.77x, and the entry multiple (~8.8x capital raised, 2.0x deposits, ~39x base-case 2028E earnings) exceeds every relevant public and private precedent including peak-bubble SVB. The December 2025 investors bought the expected value; July 2026 investors are donating the risk premium. <strong>Actions:</strong> (1) pass on the ≥$8B round as priced; (2) pursue secondary access at or below the $4.35B mark (~1.7x expected MOIC) — early-employee or seed-investor secondaries around prior marks are realistic in names this young; (3) build the monitoring apparatus now — quarterly FFIEC call reports (deposits, loans, NII, capital), the round's final terms, Kraken's IPO pricing, and GENIUS-Act rulemaking — so Theia is the fastest-moving buyer when the first drawdown or flat round reprices the franchise; and (4) revisit immediately on YE2026 profitability confirmation, since clean delivery would raise our base-case conviction and justify paying up.
+</div>
+
+<p class="prose" style="font-size:10px; font-style:italic; margin-top:6px;">Note: Theia seeks small-cap companies that aren't well covered and are strongly aligned on the core internet finance thesis with wide outcome dispersion. Erebor scores: Market Cap (Moderate at $4.35B / Weak at $8B) | Coverage (Strong) | Thesis (Core) | Dispersion (Strong — but fully priced at the prospective mark)</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 13: RISK SUMMARY -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">13. Risk Summary</div>
+
+<table class="risk-table">
+  <tr>
+    <th>Risk Category</th>
+    <th>Description</th>
+    <th>Severity</th>
+    <th>Mitigant</th>
+  </tr>
+  <tr>
+    <td>Correlated Deposit Flight (SVB Pattern)</td>
+    <td>Deposit base concentrated in interconnected tech/crypto/AI/defense ecosystems; ~$10M average balances across ~400 relationships; a sector shock could trigger digital-speed correlated withdrawals — the exact failure mode of SVB, Silvergate, and Signature in 2023.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>12% Tier 1 leverage mandate; ~50% target loan/deposit ratio; large cash/securities buffer ($1.4B+ liquid at Q1); capital call agreement with investors; over-capitalization marketed as the product. Untested, but deliberately engineered.</td>
+  </tr>
+  <tr>
+    <td>Entry Valuation</td>
+    <td>≥$8B prospective mark = ~8.8x equity raised, 2.0x deposits, ~39x base-case 2028E NI — above peak-SVB and every scaled public comp; probability-weighted expected value sits below the asked price.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>Avoidable — this is a price risk, not a business risk. Secondary access near the $4.35B mark restores asymmetry; a flat/down round or first deposit stumble creates the entry point.</td>
+  </tr>
+  <tr>
+    <td>Regulatory / Political Dependency</td>
+    <td>Product perimeter (stablecoin mint/burn, crypto collateral, gas holdings) depends on current OCC posture and GENIUS Act stability; business-plan straitjacket bars pivots; Warren-wing scrutiny makes Erebor the first target of any backlash; 2028 election overhang.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>Full national charter is harder to revoke than to deny; GENIUS Act is statute, not guidance; compliance-first leadership (Rapaport/Aer, CSO ex-Circle) built for supervision; three-year constraints expire Feb 2029, restoring flexibility.</td>
+  </tr>
+  <tr>
+    <td>Unproven Credit in Frontier Assets</td>
+    <td>Crypto-collateralized lending and GPU/AI-chip financing have never been underwritten through a cycle; GPU collateral depreciates on technology time; loan book will season into whatever stress arrives 2027–28.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Slow mandated ramp (0% loans at Q1; ~50% L/D ceiling by design); veteran credit hires (CRO Rosenberg); premium spreads compensate; collateralized structures with conservative LTVs; small book relative to capital in early years.</td>
+  </tr>
+  <tr>
+    <td>Competitive Crowding</td>
+    <td>Circle, BitGo, Ripple, Paxos, Coinbase, Bridge (trust charters), Kraken (master account, IPO), JPM Kinexys, Sony Connectia, sponsor banks, and Mercury's charter pursuit each unbundle a pillar of Erebor's stack before it reaches scale.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Only full-service national charter in the niche — deposits + credit + settlement in one entity is un-replicated; counter-positioning keeps incumbents out of the core; 12–24 month window is real and the deposit data shows Erebor using it.</td>
+  </tr>
+  <tr>
+    <td>Forced Dilution from Capital Mandate</td>
+    <td>12% Tier 1 leverage requires ~$120M fresh equity per $1B of balance-sheet growth for three years; base case implies ~$790M of additional issuance through 2028; growth is mechanically dilutive when it outruns retained earnings.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Investor demand currently exceeds supply (oversubscribed rounds); dilution at rising marks is tolerable for existing holders; constraint expires after year three; profitability (YE2026 target) increasingly self-funds growth.</td>
+  </tr>
+  <tr>
+    <td>Key-Person / Governance Concentration</td>
+    <td>The franchise halo is tied to Luckey (full-time at Anduril) and Lonsdale (8VC); co-CEO structure plus founder board control is unusual for a bank; ~50 employees run a $4B-deposit institution; political brand is polarizing.</td>
+    <td><span class="fw-rating low">Low</span></td>
+    <td>Day-to-day operations deliberately separated from founders (Rapaport/Hirshman/Hagedorn operating team with regulator-approved appointments); OCC non-objection process vets every senior hire; the halo's deposit-gathering value exceeds its key-person cost so far.</td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 14: APPENDIX — PYTHON CODE -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section appendix">14. Appendix — Python Code</div>
+
+<p class="prose">Sensitivity table generator and scenario model code for analyst customization:</p>
+
+<div class="section-title">Sensitivity Table Generator</div>
+<div class="code-block">
+import numpy as np
+import pandas as pd
+
+# ─── SENSITIVITY TABLE 1: YE2028E Total Deposits ($B) ───
+starting_deposits = [4.5, 5.0, 6.0, 7.0, 8.0]     # $B, YE2026E
+growth_rates = [0.25, 0.40, 0.58, 0.75, 0.90]     # 2-year CAGR
+base_dep = 6.0
+base_growth = 0.58
+years = 2  # YE2026 -> YE2028
+
+rows = []
+for d in starting_deposits:
+    rows.append([round(d * (1 + g) ** years, 1) for g in growth_rates])
+
+df1 = pd.DataFrame(rows,
+    index=[f"${x}B" for x in starting_deposits],
+    columns=[f"{int(g*100)}%" for g in growth_rates])
+print("YE2028E Total Deposits ($B)")
+print(df1.to_string())
+print(f"\nBase: ${base_dep}B @ {base_growth*100:.0f}% CAGR -> ${base_dep*(1+base_growth)**years:.1f}B")
+
+# ─── SENSITIVITY TABLE 2: FY2028E Net Revenue ($M) ───
+avg_deposits = [8.0, 10.0, 12.5, 16.0, 20.0]      # $B average FY2028
+rev_yields = [0.0275, 0.030, 0.035, 0.0375, 0.040] # NII + fees, % of avg deposits
+base_avg = 12.5
+base_yield = 0.035
+
+rows2 = []
+for d in avg_deposits:
+    rows2.append([round(d * 1000 * y, 0) for y in rev_yields])
+
+df2 = pd.DataFrame(rows2,
+    index=[f"${x}B" for x in avg_deposits],
+    columns=[f"{y*100:.2f}%" for y in rev_yields])
+print("\nFY2028E Net Revenue ($M)")
+print(df2.to_string())
+print(f"Base: ${base_avg}B x {base_yield*100:.2f}% = ${base_avg*1000*base_yield:.0f}M")
+
+# ─── SENSITIVITY TABLE 3: Implied Equity Value ($B) ───
+net_income_2028 = [58, 120, 206, 400, 700]        # $M
+pe_multiples = [15, 20, 25, 30, 35]               # exit P/E
+
+rows3 = []
+for ni in net_income_2028:
+    rows3.append([round(ni * m / 1000, 1) for m in pe_multiples])
+
+df3 = pd.DataFrame(rows3,
+    index=[f"${x}M" for x in net_income_2028],
+    columns=[f"{m}x" for m in pe_multiples])
+print("\nImplied Equity Value ($B)")
+print(df3.to_string())
+print(f"Base: $206M x 30x = ${206*30/1000:.1f}B")
+
+# ─── CAPITAL MANDATE CHECK: 12% Tier 1 leverage ───
+def required_equity(deposits_b, tier1_req=0.12):
+    """Assets ~= deposits + equity; solve E >= 0.12 * (D + E)."""
+    return tier1_req * deposits_b / (1 - tier1_req)
+
+for d in [6, 10, 15, 25, 40]:
+    print(f"Deposits ${d}B -> required Tier 1 equity ~${required_equity(d):.2f}B")
+</div>
+
+<div class="section-title" style="margin-top:16px;">5-Scenario Model Generator</div>
+<div class="code-block">
+# ─── EREBOR 5-SCENARIO 3-YEAR MODEL (private-company version) ───
+scenarios = {
+    "Bear Severe": {
+        "deposits_eop": [5.0, 2.5, 1.5],       # $B
+        "net_rev":      [70, 90, 40],          # $M
+        "opex":         [60, 95, 70],
+        "net_income":   [8, -10, -25],
+        "tbv":          [0.92, 0.92, 0.90],    # $B
+        "exit_basis":   ("P/TBV", 1.0),
+    },
+    "Bear Mild": {
+        "deposits_eop": [5.5, 6.0, 6.0],
+        "net_rev":      [72, 170, 195],
+        "opex":         [58, 105, 120],
+        "net_income":   [11, 50, 58],
+        "tbv":          [0.93, 1.05, 1.18],
+        "exit_basis":   ("P/TBV", 2.0),
+    },
+    "Base Case": {
+        "deposits_eop": [6.0, 10.0, 15.0],
+        "net_rev":      [78, 248, 438],
+        "opex":         [60, 115, 170],
+        "net_income":   [14, 102, 206],
+        "tbv":          [0.94, 1.38, 2.04],
+        "exit_basis":   ("P/E", 30),
+    },
+    "Bull Mild": {
+        "deposits_eop": [7.0, 15.0, 25.0],
+        "net_rev":      [85, 345, 720],
+        "opex":         [62, 135, 210],
+        "net_income":   [18, 162, 393],
+        "tbv":          [1.00, 1.98, 3.40],
+        "exit_basis":   ("P/E", 32),
+    },
+    "Bull Severe": {
+        "deposits_eop": [8.0, 20.0, 40.0],
+        "net_rev":      [95, 520, 1140],
+        "opex":         [65, 165, 250],
+        "net_income":   [23, 273, 700],
+        "tbv":          [1.10, 2.90, 5.30],
+        "exit_basis":   ("P/E", 35),
+    },
+}
+
+mark_prospective = 8.00   # $B, Jul 2026 round talks
+mark_last_close  = 4.35   # $B, Dec 2025 round
+years = ["FY2026E", "FY2027E", "FY2028E"]
+
+exit_values = {}
+for name, s in scenarios.items():
+    basis, mult = s["exit_basis"]
+    if basis == "P/E":
+        ev = s["net_income"][-1] * mult / 1000      # $B
+    else:  # P/TBV
+        ev = s["tbv"][-1] * mult
+    exit_values[name] = ev
+    print(f"\n{'='*60}\nScenario: {name}")
+    print(f"Exit: {mult}x {basis} -> Implied Equity Value ${ev:.1f}B")
+    print(f"MOIC vs ${mark_prospective}B: {ev/mark_prospective:.2f}x | "
+          f"vs ${mark_last_close}B: {ev/mark_last_close:.2f}x")
+    for i, yr in enumerate(years):
+        print(f"  {yr}: Deposits ${s['deposits_eop'][i]}B | "
+              f"NetRev ${s['net_rev'][i]}M | NI ${s['net_income'][i]}M")
+
+# ─── PROBABILITY-WEIGHTED VALUE ───
+weights = {"Bear Severe": 0.05, "Bear Mild": 0.20, "Base Case": 0.50,
+           "Bull Mild": 0.20, "Bull Severe": 0.05}
+coc = 0.25
+horizon_yrs = 2.5
+
+wtd = sum(weights[k] * exit_values[k] for k in weights)
+pv = wtd / (1 + coc) ** horizon_yrs
+print(f"\nProbability-Weighted YE2028 Value: ${wtd:.2f}B")
+print(f"PV @ {coc*100:.0f}% CoC / {horizon_yrs}yrs:      ${pv:.2f}B")
+print(f"vs Prospective Mark ${mark_prospective}B: {wtd/mark_prospective:.2f}x expected MOIC")
+print(f"vs Last Close ${mark_last_close}B:       {wtd/mark_last_close:.2f}x expected MOIC")
+</div>
+
+<div class="source-note" style="margin-top:16px;">
+  Erebor Bank, N.A. | Preliminary Memo for Theia · Generated July 29, 2026 · Data: AlphaSense GenSearch reports (Jul 28, 2026), Q1 2026 FFIEC call report, Sacra Erebor One-Pager (Apr 2026), Bloomberg (Jul 2, 2026), The Paypers, Banking Dive, TSG Invest, insights4vc, public press · Private company — no FactSet coverage; all estimates are Theia's own · FYE December · Not investment advice.
+</div>
+
+</body>
+</html>
