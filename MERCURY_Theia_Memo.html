@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mercury Technologies | Preliminary Memo for Theia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1a1a2e; border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1a1a2e; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #555; }
+.header .date { font-size: 10px; color: #888; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f4f6f9; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; }
+.price-bar .chg { color: #c0392b; font-weight: 600; }
+.price-bar .chg.pos { color: #27ae60; }
+.price-bar .label { color: #888; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1a1a2e; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #888; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr.section-row td { font-weight: 700; color: #1a1a2e; padding-top: 5px; border-top: 1px solid #eee; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #2563eb; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #555; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1a1a2e; color: #1a1a2e; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #333; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #aaa; font-weight: 400; }
+.source-note { font-size: 8px; color: #aaa; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #888; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 8px; }
+.fw-item .fw-name { font-weight: 700; color: #1a1a2e; }
+.fw-item .fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong { background: #d4edda; color: #155724; }
+.fw-rating.moderate { background: #fff3cd; color: #856404; }
+.fw-rating.weak { background: #f8d7da; color: #721c24; }
+.fw-rating.high { background: #f8d7da; color: #721c24; }
+.fw-rating.low { background: #d4edda; color: #155724; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #f4f6f9; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #e8f4fd; font-weight: 700; }
+
+.case-block { background: #fafbfc; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #666; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #e8f4fd; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #333; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #1a1a2e; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #555; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.valuation-row td { background: #f0f7ff !important; font-weight: 600; color: #1a1a2e; }
+.case-block .exit-metrics { border-top: 1px solid #ddd; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #888; padding: 2px 4px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child, table.comps td:nth-child(2) { text-align: left; }
+table.comps tr.subject td { font-weight: 700; background: #f0f0f0; }
+table.comps tr.stat-row td { font-style: italic; background: #fafbfc; font-weight: 600; border-top: 1px solid #eee; }
+table.comps th.est-col { color: #2563eb; }
+
+table.risk-table { font-size: 10px; width: 100%; margin: 8px 0; }
+table.risk-table th { text-align: left; font-weight: 600; padding: 4px 6px; background: #f4f6f9; border-bottom: 1px solid #ddd; }
+table.risk-table td { padding: 4px 6px; border-bottom: 1px solid #eee; vertical-align: top; }
+table.risk-table td:first-child { font-weight: 600; width: 25%; }
+
+.verdict { background: #f4f6f9; border-left: 4px solid #1a1a2e; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.alphasense-box { background: #e8f4fd; border-left: 4px solid #2563eb; padding: 10px 14px; margin: 10px 0; font-size: 10px; line-height: 1.5; }
+
+.bull-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #155724; border-bottom: 1.5px solid #c3e6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #721c24; border-bottom: 1.5px solid #f5c6cb; padding-bottom: 3px; margin: 0 0 8px 0; }
+
+.bull-item, .bear-item { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Mercury Technologies | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">Mercury Technologies, Inc. ("Mercury") is the leading software-driven banking platform for startups and small-to-medium businesses in the United States. Founded in 2017 by Immad Akhund (CEO), Max Tagher (CTO), and Jason Zhang (COO), and headquartered in San Francisco, Mercury was built to solve the core banking frictions faced by tech companies — providing business checking and savings accounts, corporate charge cards (Mercury IO), treasury management, invoicing, bill pay, spend management, and, following the April 2026 acquisition of AI-native payroll platform Central, an integrated payroll engine — all delivered through a single dashboard widely regarded as the best user experience in business banking. Mercury today serves more than 300,000 businesses, including one in three U.S. startups and a rapidly growing share of AI companies (customers include Supabase, ElevenLabs, Lovable, Linear, Phantom, and Tempo). Critically, Mercury is not yet a bank: it operates as a fintech layer on top of FDIC-insured partner banks — primarily Choice Financial Group and Column N.A. after migrating over 200,000 accounts away from Evolve Bank &amp; Trust following Evolve's 2024 regulatory cease-and-desist order and cyberattack. That structure is now changing: in April 2026, Mercury received conditional approval from the OCC to establish Mercury Bank, N.A., a national bank headquartered in Utah — just five months after applying — with FDIC deposit insurance and Federal Reserve bank holding company approvals pending. Jon Auxier, the former SoFi Bank CFO who led SoFi's own charter transition, will serve as CEO and President of Mercury Bank, N.A.</p>
+
+<p class="prose">Mercury's economic engine is deposit-centric — the fundamental contrast with card-first competitors Ramp and Brex. The company has accumulated approximately $20B in customer deposits and processed $248B in transaction volume in 2025 (+59% YoY). It monetizes three ways: (1) net interest margin sharing on its deposit base — partner banks deploy Mercury-sourced deposits into loans and securities and share the net interest income, historically the majority of revenue; (2) interchange fees on debit and IO credit card spend; and (3) software subscriptions and fees — tiered SaaS plans, the premium "Tea Room" tier, Mercury Personal (a subscription consumer account for founders), and Mercury Treasury (managed by SEC-registered Mercury Advisory, LLC via Apex Clearing). Because a company needs an operating account from day one — before it needs a corporate card — Mercury's depository offering establishes the priority relationship with newly formed startups, positioning it as the system of record from which cards, treasury, payroll, and payments naturally attach. The model has been remarkably profitable: Mercury has delivered four consecutive years of profitability on both a GAAP net income and EBITDA basis, reaching $650M in annualized revenue in Q3 2025 (vs. $500M in 2024), with customer applications up 2.5x YoY in Q1 2026. Notably, more than 73% of new customers in 2025 came from outside the traditional AI/tech startup category — e-commerce brands and professional services firms — reducing dependence on venture funding cycles. In May 2026, Mercury raised a $200M Series D led by TCV at a $5.2B post-money valuation (up 49% from the $3.5B Series C mark of March 2025), bringing total primary and secondary capital raised to approximately $700M, with participation from Andreessen Horowitz, Coatue, CRV, Sequoia Capital, Sapphire Ventures, and Spark Capital.</p>
+
+<p class="prose">The 2026 product strategy has pushed aggressively into AI-native banking: Mercury Insights (in-product AI cash runway and burn-rate analysis), Mercury Command (June 2026 — a conversational natural-language interface that executes end-to-end financial tasks with staged actions and human confirmation guardrails), Model Context Protocol (MCP) support and a native CLI for its developer-heavy customer base, and the Central acquisition to build AI-native payroll directly into the banking dashboard (payroll represents ~20% of spend for Mercury customers that run it). The strategic arc is clear: Mercury is converting from a neobank interface dependent on sponsor banks into a fully chartered, vertically integrated "bank for builders" — capturing the full deposit economics it currently shares with partners, unlocking direct lending and Zelle, and gaining sovereign control of its payment infrastructure — while layering software and AI to deepen the workflow moat that pure balance-sheet banks cannot replicate.</p>
+
+<p class="prose"><strong>Key facts:</strong> Founded 2017 · Headquarters San Francisco, CA · CEO Immad Akhund (co-founder) · CTO Max Tagher (co-founder) · COO Jason Zhang (co-founder) · Bank CEO-designate Jon Auxier (ex-SoFi Bank CFO) · Employees ~800+ · Private — Series D May 2026, $200M led by TCV · Post-money valuation $5.2B · Total raised ~$700M · 300,000+ customers · ~$20B deposits · $248B 2025 transaction volume</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 2: FINANCIAL SUMMARY -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Theia FactSet Summary</div>
+
+<p class="prose" style="font-size:9.5px; font-style:italic;">Mercury is a private company — no FactSet coverage exists. This section reconstructs the standard summary from disclosed figures (press releases, the May 2026 Series D announcement, Sacra, and the AlphaSense primer). Figures marked in blue are Theia estimates; Mercury discloses revenue and profitability milestones but not full financial statements.</p>
+
+<div class="header">
+  <div>
+    <h1>Mercury Technologies, Inc.</h1>
+    <span class="ticker">Private · Series D · San Francisco, CA</span>
+  </div>
+  <div class="date">Private Company Snapshot · July 30, 2026</div>
+</div>
+
+<!-- Price Bar -->
+<div class="price-bar">
+  <div>
+    <span class="label">Last Round Valuation </span>
+    <span class="price">$5.2B</span>
+  </div>
+  <div><span class="label">vs. Series C (Mar '25) </span><span class="chg pos">+48.6%</span></div>
+  <div><span class="label">vs. 2021 Mark ($1.62B) </span><span class="chg pos">+221%</span></div>
+  <div><span class="label">EV/Rev (2025A) </span><span style="font-weight:600;">8.0x</span></div>
+  <div><span class="label">EV/Rev (2026E) </span><span style="font-weight:600; color:#2563eb;">6.0x</span></div>
+  <div><span class="label">Round </span><span style="font-weight:600;">Series D · $200M · TCV · May 2026</span></div>
+</div>
+
+<!-- Key Stats + Valuation Bridge -->
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Private Market</div>
+    <table class="kv" style="font-size:10px;">
+      <tr><td>Legal Entity</td><td>Mercury Technologies, Inc.</td></tr>
+      <tr><td>Last Round</td><td>Series D · $200M · May 20, 2026</td></tr>
+      <tr><td>Lead Investor</td><td>TCV</td></tr>
+      <tr><td>Other Investors</td><td>a16z, Coatue, CRV, Sequoia, Sapphire, Spark</td></tr>
+      <tr><td>Total Raised (Primary + Secondary)</td><td>~$700M</td></tr>
+      <tr><td>Customers</td><td>300,000+ businesses</td></tr>
+      <tr><td>2025 Transaction Volume</td><td>$248B (+59% YoY)</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Valuation &amp; Deposit Bridge</div>
+    <table class="ev" style="font-size:10px;">
+      <tr><td>Series D Post-Money (May 2026)</td><td>$5,200M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">Series C Post-Money (Mar 2025)</td><td style="font-size:9px;">$3,500M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">Series B Post-Money (2021)</td><td style="font-size:9px;">$1,620M</td></tr>
+      <tr><td>Revenue (FY2025)</td><td>$650M</td></tr>
+      <tr><td>= EV / Revenue (trailing)</td><td>8.0x</td></tr>
+      <tr><td>Customer Deposits</td><td>~$20,000M</td></tr>
+      <tr class="total"><td>= Valuation / Deposits</td><td>26%</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- Current Valuation — horizontal 6x2 grid -->
+<div class="section-title">Current Valuation</div>
+<div style="border: 1px solid #eee; border-radius: 4px; margin-bottom: 8px;">
+  <div class="val-grid">
+    <div class="val-cell"><div class="val-label">Valuation</div><div class="val-num">$5.2B</div><div class="val-sub">Series D post-money</div></div>
+    <div class="val-cell"><div class="val-label">Revenue (2025)</div><div class="val-num">$650M</div><div class="val-sub">$500M in 2024</div></div>
+    <div class="val-cell"><div class="val-label">EV/Rev (2025A)</div><div class="val-num">8.0x</div><div class="val-sub">6.0x on 2026E</div></div>
+    <div class="val-cell"><div class="val-label">Deposits</div><div class="val-num">~$20B</div><div class="val-sub">Across partner banks</div></div>
+    <div class="val-cell"><div class="val-label">Txn Volume</div><div class="val-num">$248B</div><div class="val-sub">2025, +59% YoY</div></div>
+    <div class="val-cell"><div class="val-label">Customers</div><div class="val-num">300K+</div><div class="val-sub">+50% YoY in 2025</div></div>
+  </div>
+  <div style="border-top: 1px solid #eee;">
+    <div class="val-grid">
+      <div class="val-cell"><div class="val-label">Profitability</div><div class="val-num">4 yrs</div><div class="val-sub">GAAP NI &amp; EBITDA positive</div></div>
+      <div class="val-cell"><div class="val-label">Total Raised</div><div class="val-num">~$700M</div><div class="val-sub">Primary + secondary</div></div>
+      <div class="val-cell"><div class="val-label">Charter Status</div><div class="val-num">OCC ✓</div><div class="val-sub">FDIC + Fed pending</div></div>
+      <div class="val-cell"><div class="val-label">Applications</div><div class="val-num">2.5x</div><div class="val-sub">Q1'26 vs Q1'25</div></div>
+      <div class="val-cell"><div class="val-label">New Non-Tech Customers</div><div class="val-num">73%</div><div class="val-sub">of 2025 adds</div></div>
+      <div class="val-cell"><div class="val-label">Employees</div><div class="val-num">~800+</div><div class="val-sub">Remote-first</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Valuation Multiples Table -->
+<div class="section-title">Valuation Multiples (at $5.2B Series D Mark)</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Metric</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th class="est" style="color:#2563eb;">FY2026E</th>
+      <th class="est" style="color:#2563eb;">FY2027E</th>
+      <th class="est" style="color:#2563eb;">FY2028E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">REVENUE MULTIPLES</td></tr>
+    <tr><td>EV / Revenue</td><td>17.0x</td><td>10.4x</td><td>8.0x</td><td class="est">6.0x</td><td class="est">4.8x</td><td class="est">4.0x</td></tr>
+    <tr class="section-row"><td colspan="7">EARNINGS MULTIPLES (THEIA ESTIMATES)</td></tr>
+    <tr><td>EV / EBITDA</td><td class="est">104x</td><td class="est">58x</td><td class="est">43x</td><td class="est">32x</td><td class="est">23x</td><td class="est">17x</td></tr>
+    <tr><td>P / E (GAAP NI)</td><td class="est">149x</td><td class="est">69x</td><td class="est">50x</td><td class="est">35x</td><td class="est">25x</td><td class="est">19x</td></tr>
+    <tr class="section-row"><td colspan="7">DEPOSIT-BASED</td></tr>
+    <tr><td>Valuation / Deposits</td><td class="est">43%</td><td class="est">33%</td><td>26%</td><td class="est">21%</td><td class="est">17%</td><td class="est">15%</td></tr>
+  </tbody>
+</table>
+
+<!-- Revenue Exposure -->
+<div class="section-title">Revenue Exposure (FY2025, Theia Estimates)</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Revenue Stream</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Stream</th><th>$M</th><th>% Rev</th><th>Driver</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Net Interest Share</td><td class="est">~$390M</td><td class="est">~60%</td><td>Deposits × NIM share</td></tr>
+        <tr><td>Card Interchange</td><td class="est">~$175M</td><td class="est">~27%</td><td>Card spend × rate</td></tr>
+        <tr><td>SaaS, Treasury &amp; Other</td><td class="est">~$85M</td><td class="est">~13%</td><td>Subs × ARPU</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>$650M</td><td>100%</td><td>+30% YoY</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:8px; color:#aaa; margin-top:4px;">Mix estimated from Sacra monetization breakdown; Mercury does not disclose stream-level revenue.</p>
+  </div>
+  <div>
+    <div class="sub-label">By Customer Segment</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Segment</th><th>% Base</th><th>Trend</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Tech / AI Startups</td><td class="est">~60%</td><td>1 in 3 U.S. startups</td></tr>
+        <tr><td>E-commerce Brands</td><td class="est">~20%</td><td>Fastest-growing add</td></tr>
+        <tr><td>Professional Services &amp; Other</td><td class="est">~20%</td><td>73% of new adds non-tech</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #ccc;"><td>Total</td><td>100%</td><td>300K+ customers</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Financials Table -->
+<div class="section-title">Financials (Actuals Where Disclosed; Estimates in Blue)</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">$M (FY Dec)</th>
+      <th>FY2023</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th class="est" style="color:#2563eb;">FY2026E</th>
+      <th class="est" style="color:#2563eb;">FY2027E</th>
+      <th class="est" style="color:#2563eb;">FY2028E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">INCOME STATEMENT</td></tr>
+    <tr><td>Revenue</td><td class="est">~$305</td><td>$500</td><td>$650</td><td class="est">$860</td><td class="est">$1,090</td><td class="est">$1,300</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Revenue Growth %</td><td>--</td><td class="est">+64%</td><td>+30%</td><td class="est">+32%</td><td class="est">+27%</td><td class="est">+19%</td></tr>
+    <tr><td>EBITDA</td><td class="est">$50</td><td class="est">$90</td><td class="est">$120</td><td class="est">$165</td><td class="est">$230</td><td class="est">$300</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">EBITDA Margin %</td><td class="est">16.4%</td><td class="est">18.0%</td><td class="est">18.5%</td><td class="est">19.2%</td><td class="est">21.1%</td><td class="est">23.1%</td></tr>
+    <tr><td>Net Income (GAAP)</td><td class="est">$35</td><td class="est">$75</td><td class="est">$105</td><td class="est">$150</td><td class="est">$205</td><td class="est">$270</td></tr>
+    <tr style="color:#555; font-size:8.5px;"><td style="padding-left:12px;">Net Income Margin %</td><td class="est">11.5%</td><td class="est">15.0%</td><td class="est">16.2%</td><td class="est">17.4%</td><td class="est">18.8%</td><td class="est">20.8%</td></tr>
+    <tr class="section-row"><td colspan="7">PLATFORM METRICS</td></tr>
+    <tr><td>Customer Deposits ($B)</td><td class="est">~$12</td><td class="est">~$16</td><td>~$20</td><td class="est">~$26</td><td class="est">~$30</td><td class="est">~$34</td></tr>
+    <tr><td>Transaction Volume ($B)</td><td class="est">~$110</td><td class="est">$156</td><td>$248</td><td class="est">~$350</td><td class="est">~$450</td><td class="est">~$550</td></tr>
+    <tr><td>Customers ('000)</td><td class="est">~140</td><td class="est">~200</td><td>300+</td><td class="est">~420</td><td class="est">~540</td><td class="est">~650</td></tr>
+    <tr class="section-row"><td colspan="7">CAPITALIZATION</td></tr>
+    <tr><td>Cumulative Capital Raised</td><td>~$500</td><td>~$500</td><td>~$500</td><td>~$700</td><td class="est">~$700</td><td class="est">~$700+</td></tr>
+    <tr><td>Post-Money Valuation</td><td>$1,620 (2021)</td><td>--</td><td>$3,500 (Mar)</td><td>$5,200 (May)</td><td class="est">--</td><td class="est">--</td></tr>
+  </tbody>
+</table>
+
+<!-- Valuation Summary -->
+<div class="section-title">Valuation Summary</div>
+<p class="prose">Mercury's Series D priced the company at 8.0x trailing revenue ($5.2B / $650M) — a striking discount to the private-market comp set. Ramp raised at $44B in June 2026 on ~$1.5B of annualized revenue (~29x), while Capital One's acquisition of Brex (announced January 2026, closed April 2026) valued that business at $5.15B on roughly $1B of revenue (~5.2x) — but Brex was sold as a strategic exit after growth stalled, whereas Mercury is compounding revenue at 30%+ while GAAP profitable for four consecutive years. Against public comps, Mercury's 8.0x trailing sits between SoFi (6.1x FY2025 revenue, chartered bank) and Chime (~12.7x FY2024 revenue at its ~$11B 2026 listing), and above Nubank (4.2x) — reasonable for a business growing faster than all three with demonstrated profitability. The more interesting frame is Valuation/Deposits: at 26% of its ~$20B deposit base, Mercury is being valued like a fintech, not a bank — SoFi trades near 60% of deposits, and premium regional banks historically commanded 15–25%. If the charter closes and Mercury converts from NIM-sharing (keeping perhaps half the economics) to full deposit ownership, the same deposit base could support roughly double the net interest revenue at maturity — meaning the true pro-forma multiple on charter-complete economics is materially lower than the headline 8.0x. The Series D was also modestly sized ($200M on a $5.2B base) and reportedly demand-constrained by insiders — a mark set by conviction investors rather than a promotional blitz. On Theia estimates of $860M 2026 revenue, the entry multiple is 6.0x, compressing to 4.0x by 2028E — cheap for a profitable 25–30% grower with a bank charter option embedded.</p>
+
+<div class="source-note">Sources: Mercury Series D press release (May 20, 2026), CNBC, Crunchbase News, Sacra, AlphaSense primer (Jul 30, 2026). Blue figures are Theia estimates. FYE December.</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 3: BULL & BEAR CASES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Cases</div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">The Charter Doubles Unit Economics.</span> Today Mercury shares net interest income with Choice Financial and Column — the partner banks hold the deposits, own the regulatory relationship, and keep a substantial share of the NIM. Once Mercury Bank, N.A. is fully operational (OCC conditional approval already in hand; FDIC and Fed pending), Mercury keeps the entire spread on ~$20B and growing deposits, can integrate Zelle, extend direct lending to businesses and individuals, and controls its own payment rails (FedNow, RTP) without third-party friction. The precedent is SoFi, whose 2022 charter conversion transformed its deposit economics and funding costs — and Mercury has hired the exact executive who ran that playbook (Jon Auxier, ex-SoFi Bank CFO) to run it again. If NIM capture roughly doubles on the same deposit base, charter-complete Mercury generates materially higher revenue with no incremental customer acquisition — the single largest embedded option in the capital structure.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Beyond-Startup Expansion Is Already Working.</span> The classic knock on Mercury — that it is a levered bet on venture funding cycles — is being dismantled by the data: more than 73% of new customers in 2025 came from outside the AI/tech startup category (e-commerce brands like Bogey Bros, professional services firms like Ways &amp; Means), and customer applications grew 2.5x YoY in Q1 2026 amid a broad surge in domestic entrepreneurship. The U.S. has ~34M small businesses, most banked by branch-era incumbents with poor software; Mercury's addressable market is not "startups" but the entire digitally-native SMB economy. If Mercury sustains 50%+ customer growth with deposit-rich SMB cohorts, the deposit base compounds independently of the VC cycle.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Software Layer Re-Rates the Multiple.</span> Mercury Command (conversational banking with staged-action guardrails), Mercury Insights (AI runway/burn analysis), MCP + CLI for programmatic banking, Mercury Personal subscriptions, the premium "Tea Room" tier, and the Central acquisition (AI-native payroll — a category where payroll is ~20% of customer spend) are all shifting revenue mix from rate-sensitive NIM toward recurring, high-margin software and payments. Every point of mix shift from NII toward SaaS both de-risks the revenue base and re-rates the multiple: the market pays 4–6x for deposit economics and 10x+ for SMB software (Bill.com, Toast at peak). A Mercury that is 30% software revenue by 2028 is a structurally different — and more valuable — asset than today's 60% NII business.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Deposit Primacy Is the Beachhead Competitors Can't Flank.</span> Companies need a bank account on day one — before they need a corporate card, spend management, or payroll. Mercury's depository product wins the priority relationship at formation (one in three U.S. startups), then lands-and-expands into IO cards, Treasury, bill pay, and now payroll. Ramp and Brex, by contrast, must displace an existing operating account to own the customer — a structurally harder motion. Ecosystem assets (founder databases, investor connect, networking programs) deepen the funnel at near-zero CAC. The result is organic, product-led growth with four years of GAAP profitability while Ramp and Brex burned capital: Mercury is the only player that owns the SMB balance-sheet relationship at scale with software-native UX.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Scarcity Value + Open IPO Window.</span> The 2026 fintech exit environment has validated the category: Chime and Klarna listed publicly, Capital One paid $5.15B for Brex, and Ramp re-priced to $44B. Mercury is now the last independent, scaled, profitable SMB banking platform — the de facto SVB replacement for the innovation economy, with a national charter in progress. That combination (profitable + chartered + category-defining brand) is precisely what public investors rewarded in SoFi and Nu. An IPO at even conservative public multiples on 2028E revenue implies 2–3.5x from the Series D mark, and strategic acquirers (large banks needing SMB digital distribution) provide a floor — Capital One/Brex proved incumbents will pay ~5x revenue for weaker assets.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="bear-header">Bear Cases</div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Rate Sensitivity: ~60% of Revenue Is a Fed Funds Derivative.</span> Mercury's largest revenue stream is net interest margin share on ~$20B of deposits. That revenue was built during the highest-rate environment in two decades. A Fed easing cycle to a 2–3% policy rate would compress the deposit spread dramatically: each 100bps decline in effective yield share on $20B is roughly $100M+ of revenue (15%+ of the 2025 base) with near-100% flow-through to EBITDA. Startups also increasingly demand yield on idle cash (Treasury sweep), forcing Mercury to pass more economics to customers. The four-year profitability record has never been tested by a low-rate regime — 2019-era Mercury was a fraction of today's scale and the model's rate beta is unproven through a full cycle.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Charter Execution Is Long, Expensive, and Dilutive.</span> Conditional OCC approval is the start, not the end: Mercury must still secure FDIC deposit insurance and Federal Reserve bank holding company approval, build bank-grade risk, compliance, BSA/AML, and capital functions, and then migrate hundreds of thousands of accounts onto its own charter. As a bank holding company, Mercury will face leverage-ratio capital requirements — holding $20B+ of deposits on balance sheet plausibly requires $1.5–2B of Tier 1 capital, implying either major dilutive raises, retained-earnings accumulation over years, or keeping most deposits off balance sheet (which forfeits the charter's economics). SoFi's charter took 3+ years; Varo's consumed enormous capital. Compliance cost step-up and slower product velocity during the transition are certain; the payoff timing is not.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Ramp at $44B and Capital One-Brex Change the Competitive Game.</span> Ramp — ~$1.5B annualized revenue, doubling YoY, FCF positive, $44B war chest of a valuation — is expanding from spend management into treasury and banking-adjacent products, attacking Mercury's expansion surface from the other direction. Brex inside Capital One now pairs fintech UX with a real balance sheet, a chartered bank, and effectively unlimited capital — able to offer deposit pricing and credit that Mercury cannot match pre-charter. Vertical neobanks (Slash at $200M revenue for high-risk niches, Flex for owner-operators) are unbundling specific segments. Horizontal feature wars mean everything Mercury ships (Command, payroll, MCP) gets copied within quarters; the UX lead that defined Mercury is a depreciating asset.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Startup Concentration Is Still a Correlated-Deposit Time Bomb.</span> One-third of U.S. startups bank with Mercury — which means Mercury's deposit base is levered to the AI funding boom the same way SVB's was levered to 2021 ZIRP venture excess. An AI winter or venture funding contraction would hit Mercury on three axes simultaneously: deposit outflows (startups burn down balances), customer mortality (startups die), and new-formation slowdown (fewer accounts opened). The 73% non-tech new-customer stat is encouraging but the deposit dollars remain concentrated in venture-backed tech. SVB demonstrated how fast correlated depositor bases move in stress; Mercury's depositors are the most online, fastest-moving cohort in banking.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Partner-Bank Fragility Persists Through the Transition Window.</span> Until Mercury Bank, N.A. is fully operational, Mercury remains dependent on Choice Financial Group and Column N.A. — the same BaaS structure that blew up with Evolve (federal cease-and-desist, June 2024 cyberattack and data breach affecting Mercury customers, forced migration of 200,000+ accounts). Sponsor banks can change terms, regulators are tightening BaaS oversight (Synapse's collapse froze fintech customer funds industry-wide), and fintech BSA/AML scrutiny — including reported regulatory attention on foreign-founder accounts at Mercury — is intensifying. A second partner-bank disruption during the 12–24 month charter transition would damage the trust that underpins deposit primacy, and Mercury's deposits are uninsured above FDIC caps at sweep-network banks in a stress scenario.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Scale Economies</span> <span class="fw-rating moderate">Moderate</span><br>
+  Mercury's cost structure has meaningful fixed components — the core banking platform, compliance/risk infrastructure, and product engineering — that amortize across a growing customer base, and its product-led growth model means CAC stays low while the customer count compounds (300K+ customers served by only ~800 employees, versus tens of thousands of employees at similarly-sized regional banks). Deposit scale also matters directly: $20B of deposits gives Mercury negotiating leverage over partner banks for a larger NIM share, and post-charter, scale spreads the fixed cost of bank-grade compliance across a wider revenue base. However, banking is a business where the largest players (JPMorgan spends $17B/year on technology) have overwhelming absolute scale advantages, and Mercury's four-year profitability at sub-$1B revenue proves the model works at moderate scale rather than proving scale-based cost dominance. The scale advantage is real within the fintech peer set — Mercury is profitable where Ramp and Brex burned capital for years — but is not yet decisive against money-center incumbents.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Network Effects</span> <span class="fw-rating weak">Weak</span><br>
+  Banking is not inherently a network business — one customer's Mercury account does not directly improve another's. Mercury has built partial network assets: the investor database and founder-networking programs create ecosystem gravity (founders discover investors through Mercury, VCs recommend Mercury to portfolio companies), and the fact that one in three U.S. startups banks with Mercury creates a "default" dynamic where accelerators, lawyers, and accountants standardize onboarding around Mercury — a social-proof flywheel that functions like a weak network effect. Payments within the Mercury network (Mercury-to-Mercury transfers) settle instantly, which becomes more valuable as more counterparties join. But these are second-order effects: the core product's value is largely independent of other users, and a customer can leave without losing network access. Rated Weak — the ecosystem flywheel aids distribution but does not lock in usage the way true network effects do.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Counter-Positioning</span> <span class="fw-rating strong">Strong</span><br>
+  Mercury is counter-positioned against both incumbent banks and card-first fintechs. Traditional banks (JPMorgan, Citi, HSBC) historically dominated commercial banking but underinvested in SMB software because their economics depend on branch networks, relationship managers, and fee income (wire fees, minimum balances, monthly charges) that Mercury eliminated — matching Mercury's free, software-first model would cannibalize billions in fee revenue and strand branch infrastructure, which is why they haven't. Against Ramp and Brex, the counter-positioning is structural: they built interchange-monetized spend platforms that require the customer to already have a bank account elsewhere; Mercury owns the deposit relationship from day one, and a card business bolted onto deposits is far easier than deposits bolted onto a card business (Brex tried and retreated from SMB entirely in 2022). The charter deepens this: partner-bank fintechs cannot match chartered Mercury's economics, and incumbent banks cannot match its software velocity. This is Mercury's strongest power.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Switching Costs</span> <span class="fw-rating strong">Strong</span><br>
+  The primary operating account is the highest-switching-cost product in SMB finance. Moving banks means re-routing every inbound payment (customer ACH/wire instructions, Stripe/Shopify payouts), every outbound autopay (vendors, SaaS subscriptions, payroll, taxes), updating banking details with counterparties, and re-establishing card numbers — all while the business cannot afford a single missed payroll or bounced vendor payment. Mercury compounds this with product depth: IO cards, Treasury balances at Apex, bill pay approval workflows, accounting integrations, API/MCP/CLI integrations embedded in customers' own codebases, and now payroll via Central (the stickiest workflow in business finance — payroll migrations are so painful that providers retain customers for decades). Each attached product multiplies the extraction cost. The evidence: Mercury migrated 200,000+ accounts from Evolve to new partner banks — through a cyberattack and regulatory crisis at its partner — with minimal customer loss, demonstrating that customers stay through even severe infrastructure turbulence.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Branding</span> <span class="fw-rating strong">Strong</span><br>
+  Within its vertical, Mercury's brand is dominant to the point of being generic: "open a Mercury account" is a standard line item in startup formation checklists, YC onboarding guides, and law-firm incorporation packets. The brand was forged in the March 2023 SVB collapse, when Mercury absorbed billions in deposits within days and positioned itself as "SVB with good UX" — earning trust at precisely the moment startup banking trust was shattered. Design excellence is core to the brand (the "minimum lovable product" philosophy cited in expert calls), and in banking, brand is not a luxury: it is the trust substrate that lets a non-bank hold $20B of business-critical deposits. The brand commands real pricing power — Mercury Personal launched as a paid subscription consumer account on brand strength alone, and the premium "Tea Room" tier monetizes affinity. The brand is narrower than consumer champions like Chime or Nubank (it means little outside the founder/SMB economy), but within the served market it is the category-defining name — and post-charter, "Mercury Bank, N.A." converts brand trust into a regulated moat.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">6. Cornered Resource</span> <span class="fw-rating moderate">Moderate</span><br>
+  Mercury's clearest cornered resource is prospective: a national bank charter. The OCC has granted only a handful of de novo fintech charters in a decade; conditional approval in five months — with FDIC and Fed applications in motion and the ex-SoFi Bank CFO (Jon Auxier) hired to complete the conversion — puts Mercury years ahead of any fintech peer that decides to pursue the same path (Ramp has no charter application; Brex solved it by selling to a bank). A completed charter is a genuinely scarce, non-replicable regulatory asset. Secondary cornered resources: the accumulated risk/underwriting data on 300K+ startup and SMB accounts (loss rates, fraud patterns, deposit behavior through the SVB crisis and Evolve migration) which powers better credit and fraud decisions than any de novo competitor can make; and the founding team's decade of trust capital in the startup ecosystem. Rated Moderate rather than Strong because the charter is not yet complete — it is an option on a cornered resource, with FDIC/Fed approval risk remaining.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">7. Process Power</span> <span class="fw-rating moderate">Moderate</span><br>
+  Mercury has demonstrated unusual institutional capability in exactly the processes that kill fintechs: it migrated 200,000+ customer accounts across sponsor banks under regulatory duress without losing the franchise — an operational feat few BaaS-dependent fintechs have survived; it has maintained GAAP profitability for four consecutive years while shipping at startup velocity (Command, Insights, MCP/CLI, Personal, Central integration — all within ~18 months); and it operates compliance-heavy banking workflows with ~800 people. The product organization's "minimum lovable product" discipline — praised by former design leadership in expert calls as the differentiator that features-first competitors cannot replicate — functions as embedded process power: competitors copy features but consistently fail to copy the coherence. However, the hardest process test is ahead (operating a regulated national bank at fintech product velocity — a combination SoFi took years to tune), so the rating stays Moderate with a path to Strong post-charter.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> Mercury is a 3-power business today — Counter-Positioning (deposit-first software banking that neither incumbents nor card-first fintechs can copy without self-harm), Switching Costs (primary operating account + attached cards/treasury/payroll), and Branding (the default bank of the innovation economy) — with a fourth power (Cornered Resource: the national charter) currently in escrow at the OCC. Scale Economies and Process Power are moderate and compounding; Network Effects are weak. This is a strong profile for a financial services company: the moat is the customer relationship and regulatory position, not the technology, which is the durable kind.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Threat of New Entrants</span> <span class="fw-rating moderate">Moderate</span><br>
+  Launching a neobank interface is easy — BaaS providers, sponsor banks, and card issuers let a team stand up a Mercury-lookalike in months, and dozens have (Slash, Flex, Rho, Relay, Found, North One). But entering at scale is brutally hard: trust is the product in banking, and new entrants cannot manufacture Mercury's decade of reputation, its SVB-crisis performance, or its 300K-customer social proof. Regulatory barriers are rising, not falling — post-Synapse and post-Evolve, sponsor banks have tightened fintech partnerships dramatically, raising the compliance bar for new BaaS entrants precisely as Mercury graduates beyond BaaS entirely via its charter. The realistic entrant threat is not a startup but a verticalized unbundler (Slash for high-risk niches, Flex for owner-operators) picking off specific segments with tailored workflows — a real but contained threat that pressures the edges of the market rather than the core. Rated Moderate: the door is open for niche entry, effectively closed for the core franchise.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Bargaining Power of Suppliers</span> <span class="fw-rating high">High (Declining)</span><br>
+  This is Mercury's most distinctive force — and the entire strategic rationale for the charter. Mercury's critical suppliers are its sponsor banks (Choice Financial Group, Column N.A.), which hold the deposits, provide FDIC insurance, sponsor card issuance, and control access to payment rails. The Evolve episode proved how much power these suppliers hold: a regulatory order against Mercury's supplier forced a 200,000-account migration through no fault of Mercury's own. Sponsor banks can change economic terms, impose product constraints, or suffer their own failures — and the regulatory environment keeps tightening around them. Secondary suppliers (Apex Clearing for Treasury, card networks, core processors) hold conventional leverage. The charter is the structural answer: once Mercury Bank, N.A. is operational, the most powerful supplier is eliminated entirely — Mercury becomes its own bank. Rated High today, trending to Low post-conversion; the 12–24 month transition window is the residual exposure.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Bargaining Power of Buyers</span> <span class="fw-rating low">Low</span><br>
+  Mercury's 300K+ customers are radically fragmented — no customer is remotely material to revenue, and the largest startup depositors are price-takers on deposit yield (operating cash prioritizes safety and workflow over yield; those that want yield use Mercury's own Treasury product). The core product is free, so there is no price to negotiate down; monetization happens invisibly through NIM share and interchange, which customers do not perceive as a cost. Buyer power rises modestly upmarket — larger companies negotiate treasury yields and interchange rebates, and the e-commerce/professional-services segments Mercury is expanding into are more rate-aware — and startup buyers are sophisticated enough to multi-bank after SVB (many keep redundant accounts at a megabank), which caps wallet share. But fragmentation plus switching costs plus a free product equals structurally low buyer power over pricing and economics.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Threat of Substitutes</span> <span class="fw-rating moderate">Moderate</span><br>
+  The substitutes for Mercury are credible but each is inferior on a key axis: traditional banks (Chase Business, mercury-of-record for non-tech SMBs) offer safety and lending but archaic software; brokerage cash management (Fidelity, Vanguard) offers yield but no operational banking; spend platforms (Ramp, Brex) offer cards but require a bank elsewhere; and vertical neobanks serve niches Mercury deprioritizes. The emergent substitute worth watching is stablecoin-based business accounts — as USDC/USDT rails mature and yield-bearing stablecoin treasury products grow, a segment of Mercury's crypto-native customer base (Phantom et al.) could hold operating balances on-chain instead of in bank deposits; Mercury's developer-forward posture (MCP, CLI, API) positions it to absorb rather than lose this shift, but the disintermediation scenario is real for Theia's thesis horizon. AI-agent banking is a second frontier: if autonomous agents transact via open protocols, the interface layer could commoditize — though Mercury Command and MCP support are explicitly aimed at owning that layer. Rated Moderate.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Competitive Rivalry</span> <span class="fw-rating high">High</span><br>
+  SMB fintech is one of the most intensely contested arenas in financial services. Ramp ($44B valuation, ~$1.5B revenue doubling YoY) is the pace-setter in spend management and is expanding toward Mercury's territory; Brex now operates inside Capital One with a charter and unlimited capital; Slash ($200M revenue) and Flex (~$75M) are verticalizing the edges; and incumbent banks are finally shipping better SMB digital products. The feature war is relentless — expert calls note that successful integrations and software features get copied within quarters, and Ramp's AI-driven repositioning directly answers Mercury's AI-native suite. Mercury's saving grace is that the rivals mostly monetize different pools (interchange on spend vs. Mercury's NIM on deposits), so head-to-head price destruction is limited — the fight is for the customer relationship, not price. But the intensity, capital availability, and velocity of this competitive set make rivalry the highest sustained pressure on the business. Rated High.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> The five-force structure is mixed but improving: low buyer power and contained entrant threat are durable positives; high rivalry is the permanent tax of a great market; and the two most negative forces — supplier power (sponsor banks) and substitution — are both being structurally addressed by the charter and the AI/developer product strategy respectively. The single most important structural fact: completing the bank charter flips the worst force (supplier power: High) to a non-factor, which is why the FDIC/Fed approval timeline is the central variable in the entire investment case.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 6: WHAT DRIVES THE STOCK? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<p class="prose">Mercury is private, so "the stock" means the private mark, secondary pricing, and the eventual IPO valuation. These are the 6 variables that would move Mercury's valuation materially over the next 12–24 months — what a crossover investor underwriting the next round (or Theia underwriting a secondary) would track.</p>
+
+<p class="prose"><strong>1. FDIC and Federal Reserve Approvals — Completing the Charter.</strong> OCC conditional approval (April 2026) started the clock; the remaining gates are FDIC deposit insurance and Fed bank holding company approval, followed by the operational conversion itself. Each regulatory milestone de-risks the single largest value driver in the company (full NIM capture, direct lending, payments sovereignty) and would likely trigger a mark-up; conversely, an FDIC denial, extended delay, or onerous capital conditions would compress the story back to "BaaS fintech with rate risk." Watch for: FDIC approval news, the bank's opening date, initial capitalization disclosures, and which deposits migrate on-balance-sheet first. This is the binary catalyst of 2026–2027.</p>
+
+<p class="prose"><strong>2. The Fed Funds Path and Deposit Spread Capture.</strong> With ~60% of revenue estimated to be NIM share on ~$20B of deposits, Mercury's revenue is mechanically levered to short rates. A stable 4%+ policy rate sustains the current revenue engine; an easing cycle toward 2–3% would take $100M+ out of annual revenue per 100bps of effective spread compression — swamping customer growth in the near term. The charter partially hedges this (full NIM capture doubles the spread per dollar, so post-charter Mercury can absorb rate cuts that pre-charter Mercury cannot), which makes the sequencing of rate cuts vs. charter completion the key macro-micro interaction. Watch: FOMC path, Mercury Treasury yield pass-through, and any disclosure on deposit beta.</p>
+
+<p class="prose"><strong>3. Deposit and Customer Growth Momentum.</strong> Deposits are the raw material of the whole model. The trajectory is strong — 300K+ customers (+50% YoY), 2.5x application growth in Q1 2026, $248B transaction volume (+59%) — and the 73%-non-tech new-customer mix means deposit growth is increasingly diversified. Sustained 25–35% deposit growth compounds every revenue line simultaneously; a stall (VC winter, AI-funding correction, startup mortality spike) hits NII, interchange, and software attach at once. Watch: the annual letter's deposit and customer disclosures, transaction volume growth, and the non-tech mix of new cohorts.</p>
+
+<p class="prose"><strong>4. Revenue Mix Shift Toward Software and Payments.</strong> Central payroll monetization, Mercury Personal subscriptions, Tea Room tier attach, Treasury AUM fees, and Command-driven engagement all shift mix away from rate-sensitive NII. Beyond de-risking, mix drives the multiple: markets pay bank multiples (1–2x revenue) for spread income and software multiples (8–12x) for recurring SaaS. Evidence that software/payments revenue is scaling toward 25–30% of mix by 2027–2028 would justify the high end of the exit-multiple range in Section 10. Watch: payroll cross-sell metrics post-Central integration, subscription pricing actions, and any disclosed ARPU/attach figures.</p>
+
+<p class="prose"><strong>5. Competitive Escalation from Ramp and Capital One-Brex.</strong> Ramp's $44B mark and ~$1.5B revenue give it the capital and the narrative momentum to push into Mercury's deposit territory (Ramp Treasury already exists); Capital One-Brex can now bundle chartered banking with Brex's card stack. Signs that either is winning primary operating accounts at scale — not just card spend — would directly impair Mercury's land-and-expand engine and its IPO narrative as the category winner. Conversely, Ramp staying spend-focused and Brex integration turbulence (typical of bank acquisitions) would leave Mercury's core uncontested. Watch: Ramp banking product launches, Brex customer attrition post-close, head-to-head win anecdotes in founder communities.</p>
+
+<p class="prose"><strong>6. The Fintech IPO Window and Public Comp Multiples.</strong> Mercury's next mark will be set against public fintech multiples: Chime and Klarna's 2026 listings re-opened the window, SoFi trades at 6x revenue, and Ramp targets IPO-readiness by end-2026. A sustained fintech bull tape (Chime trading well, Ramp listing strongly) would pull Mercury's IPO forward and support a premium multiple; a fintech de-rating would push the IPO out and cap secondary pricing near the $5.2B mark. Mercury's four years of GAAP profitability make it IPO-ready on fundamentals whenever the window is attractive — a luxury most fintechs lack. Watch: CHYM/Klarna trading, Ramp S-1 signals, and fintech EV/Revenue multiples broadly.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<p class="prose">Mercury's revenue decomposes into three streams with distinct fundamental drivers:</p>
+
+<table class="data" style="font-size:10px; margin-bottom:16px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Revenue Line</th>
+      <th style="text-align:left;">Driver 1</th>
+      <th style="text-align:left;">Driver 2</th>
+      <th style="text-align:left;">Driver 3</th>
+      <th style="text-align:left;">= Revenue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Net Interest Share</strong></td>
+      <td>Avg Deposits (~$20B)</td>
+      <td>x Net Yield (Fed funds − pass-through)</td>
+      <td>x Mercury's Share of NIM (pre-charter)</td>
+      <td>= ~$390M (est. 60%)</td>
+    </tr>
+    <tr>
+      <td><strong>Card Interchange</strong></td>
+      <td>Card Spend Volume (~$10B est.)</td>
+      <td>x Blended Interchange (~1.75%)</td>
+      <td>− Network/Issuer Share</td>
+      <td>= ~$175M (est. 27%)</td>
+    </tr>
+    <tr>
+      <td><strong>SaaS &amp; Treasury</strong></td>
+      <td>Paying Subscribers (Plus/Pro/Tea Room/Personal)</td>
+      <td>x ARPU + Treasury AUM</td>
+      <td>x Mgmt Fee (~15–25bps)</td>
+      <td>= ~$85M (est. 13%)</td>
+    </tr>
+    <tr>
+      <td><strong>Total Revenue</strong></td>
+      <td>NII Share</td>
+      <td>+ Interchange</td>
+      <td>+ SaaS/Treasury (+ Payroll from 2026)</td>
+      <td>= $650M (FY2025) / $860M (FY2026E)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose"><strong>Key driver quantification (Theia estimates):</strong></p>
+<ul style="font-size: 11px; line-height: 1.7; color: #333; margin-left: 20px; margin-bottom: 10px;">
+  <li><strong>Net Interest Share:</strong> ~$20B avg deposits x ~4.3% short-rate environment, with roughly 45–50% of gross NIM retained by Mercury after partner-bank share and customer yield pass-through → ~190–200bps effective capture = ~$390M. Post-charter, the partner-bank share goes away: the same deposits at ~350bps+ net capture would generate ~$700M — the charter approximately doubles this line at maturity.</li>
+  <li><strong>Card Interchange:</strong> Of $248B total 2025 transaction volume, most is ACH/wire (non-monetized); card spend is estimated at ~$10B. At ~1.75% blended interchange on IO credit + debit, less network costs → ~$175M. Card attach is the fastest-compounding line: every deposit customer is a card prospect, and spend grows with customer maturity.</li>
+  <li><strong>SaaS, Treasury &amp; Payroll:</strong> Subscription tiers (Mercury Plus/Pro, Tea Room, Mercury Personal at $240/yr), Treasury AUM fees via Mercury Advisory, FX, and wires → ~$85M. Central adds payroll — at ~$40–60/employee/month industry pricing across even 50K of Mercury's 300K customers, payroll is a $150M+ revenue opportunity by 2028, the largest white space in the model.</li>
+  <li><strong>Total FY2026E:</strong> ~$860M (+32%), with growth from deposit expansion (~$26B avg), card spend scaling toward $13B, and first payroll/subscription contribution.</li>
+</ul>
+
+<p class="prose"><strong>Leverage analysis:</strong> The two highest-leverage variables are: (1) <em>The NIM capture rate</em> — the charter swings Mercury's share of deposit economics from ~45–50% to ~100% of net spread. On $26B of 2026E deposits, each 25-point increase in capture share is worth roughly $100M of nearly pure-margin revenue; full conversion is worth ~$300–350M annually at current rates — equivalent to re-creating half of 2025's entire revenue base without adding a single customer. No other variable in the model comes close, which is why the FDIC/Fed timeline dominates the valuation. (2) <em>Deposit growth</em> — every $1B of incremental deposits generates ~$19–20M of annual revenue pre-charter (~$35M post-charter) at current rates, plus downstream card and software attach. Deposits grew ~25% in 2025 despite the Evolve migration; the 2.5x application growth suggests 2026 cohorts could accelerate this. The interaction of the two — more deposits × double capture — is the bull case in one sentence. The main offsetting sensitivity is the short rate itself: each 100bps of Fed easing costs ~$100M of pre-charter revenue on the current base, making rate path the dominant exogenous risk.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+  <strong>AlphaSense Research Reports</strong> · Subject: Mercury Technologies · Reports Reviewed: "Company Primer for Mercury" (GenSearch, Jul 30, 2026 — sourced from Sacra one-pagers, expert calls, press releases, Payments Dive, PYMNTS)<br>
+  <em>Note: a second AlphaSense query ("Business Analysis and Strategic Assessment of Mercury") returned results for Mercury NZ Limited — the New Zealand electricity gentailer — due to an entity mismatch, and is excluded from this memo. Insights below synthesize the fintech primer only.</em>
+</div>
+
+<p class="prose"><strong>Deposit-Centric vs. Spend-Driven: The Category's Defining Split.</strong> The primer's central analytical frame is that the SMB fintech market has bifurcated into two monetization architectures: Mercury's deposit-centric model (NIM share on a massive deposit base, positioned as "SVB with good UX" with $20B accumulated) versus the transaction-centric models of Ramp ($1B+ annualized revenue from interchange and SaaS) and Brex ($700M from interchange and enterprise software at the time of the primer's sourcing). The strategic consequence: because companies need a bank account from day one, Mercury's depository offering establishes a priority relationship with newly-founded startups ahead of card providers — the card players must displace an incumbent relationship, Mercury only has to defend one. Expert calls (JPMorgan executive director) confirm incumbents see fintech challengers forcing innovation in commercial cards but note legacy banks retain enterprise clients through relationship depth — implying the SMB/startup segment is structurally ceded territory.</p>
+
+<p class="prose"><strong>The Evolve Episode Validated — Then Ended — the BaaS Era.</strong> The primer documents the partner-bank crisis in detail: a federal cease-and-desist against Evolve Bank &amp; Trust, followed by the June 2024 cyberattack and data breach affecting multiple fintechs including Mercury, forced the migration of 200,000+ customer accounts to Choice Financial Group and Column N.A. The primer frames this as the structural lesson of the BaaS model — "scaled fintechs naturally move toward more reliable sponsor banks under regulatory pressure" — and positions Mercury's charter pursuit as the logical terminal state: sponsor banks can change terms, the regulatory environment keeps tightening, and only direct chartering eliminates the dependency. Notably, Column N.A. is described as a vertically integrated partner handling regulated banking, card issuance, FDIC insurance management, and real-time payments (FedNow/RTP) — the exact capability stack Mercury is now building for itself.</p>
+
+<p class="prose"><strong>The Charter: Capabilities Unlocked and Costs Acknowledged.</strong> The primer catalogs what Mercury Bank, N.A. specifically enables: native Zelle integration for P2P/B2B payments, direct expanded lending to businesses and individuals without third-party balance sheets, and — "perhaps most critically" — sovereign control over payment infrastructure (faster money movement, automated routing, direct processing control). It equally flags the costs: increased direct regulatory oversight, higher compliance expenses, and potential constraints on product velocity during migration. The leadership signal is emphasized: Jon Auxier (CEO/President-designate of the bank) previously led SoFi's charter implementation as SoFi Bank CFO and Corporate Treasurer, with prior Green Dot and Goldman Sachs experience — regulatory pedigree specifically procured for this transition, supporting co-founder Immad Akhund, who initiated the application "to resolve product gaps and deliver a natively integrated bank built specifically for modern founders."</p>
+
+<p class="prose"><strong>AI-Native Banking With Guardrails as the Differentiator.</strong> The primer treats Mercury's June 2026 Command launch as the most consequential product event: a conversational natural-language interface executing end-to-end financial operations — liquidity management (real-time cash positions, automated transfer rules), card controls (freezing, limits, permissions), and receivables/payables (creating, categorizing, sending invoices; paying bills from contextual transaction history). The design details matter for the moat argument: every Command response links back to underlying transactions for auditability; proposed actions are staged and require explicit human confirmation; permissions inherit from existing account roles; and chat escalates to 24/7 human support. Combined with MCP support (external AI models safely reading account data) and the native CLI, Mercury is building for a future where AI agents are banking counterparties — with the compliance guardrails that horizontal AI tools lack. The Central acquisition extends this: an AI-native payroll engine consolidating payroll, employee spend, and cash-flow forecasting into the banking dashboard.</p>
+
+<p class="prose"><strong>The Verticalization Squeeze and the Feature War.</strong> The primer's competitive section flags an emerging structural threat that generic Mercury-vs-Ramp framing misses: verticalized SaaS platforms embedding financial services into industry-specific workflows — Flex (~$75M revenue; Net-60 cards as rolling working capital for construction/trucking owner-operators) and Slash ($200M revenue; vertical neobank for high-risk solopreneurs, sneaker resellers, and performance marketers that blue-chip neobanks reject). These players win by tailoring payment terms to niche cash-flow patterns, creating "defensive pressure on horizontal players, forcing them to integrate complex industry workflows to protect their customer acquisition pipelines." Expert calls add the second structural pressure: horizontal platforms are "caught in a relentless feature war, where competitors quickly copy successful integrations and software features" — supporting the thesis that Mercury's durable edges are the deposit relationship, brand trust, and charter, not any individual feature. A former Mercury design leader (Rho expert call) argues fintech differentiation "hinges on user experience over features" — the coherence of the whole, not the checklist — which is the hardest thing for feature-copying rivals to replicate.</p>
+
+<p class="prose"><strong>Key Investor Questions.</strong> The diligence questions the AlphaSense material surfaces but cannot answer: (1) What is the actual revenue split between NIM share, interchange, and software — and what is the contractual NIM share with Choice/Column that the charter would reclaim? (2) What are the FDIC and Fed approval timelines, and what capital commitments/leverage requirements will the regulators impose on Mercury Bank, N.A.? (3) What is deposit concentration by cohort — how much of the $20B sits with venture-backed tech startups vs. the diversifying e-commerce/services base? (4) What were the economics of the Central acquisition, and what payroll attach rate is achievable in the first 24 months? (5) How much customer/deposit attrition occurred through the Evolve migration — the cleanest available stress test of switching costs? (6) Where does the Series D leave employee/early-investor secondary pressure, and at what price would quality secondary blocks clear today?</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 9: SENSITIVITY ANALYSIS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Sensitivity Analysis</div>
+
+<!-- Sensitivity Table 1 -->
+<p class="prose"><strong>Sensitivity Table 1: Annual Net Interest Share Revenue ($M) — Average Deposits ($B) vs. Effective Net Yield Capture (bps)</strong></p>
+<p class="prose"><strong>Current: ~$20–21B avg deposits x ~190bps effective capture ≈ $390–400M (~60% of revenue). Post-charter capture potential: 300–350bps.</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Deposits / Net Capture</th>
+      <th>125bps</th>
+      <th>150bps</th>
+      <th>175bps</th>
+      <th>200bps</th>
+      <th>250bps</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$15B</td><td>$188</td><td>$225</td><td>$263</td><td>$300</td><td>$375</td></tr>
+    <tr><td>$18B</td><td>$225</td><td>$270</td><td>$315</td><td>$360</td><td>$450</td></tr>
+    <tr><td>$21B</td><td>$263</td><td>$315</td><td>$368</td><td class="base">$420</td><td>$525</td></tr>
+    <tr><td>$26B</td><td>$325</td><td>$390</td><td>$455</td><td>$520</td><td>$650</td></tr>
+    <tr><td>$34B</td><td>$425</td><td>$510</td><td>$595</td><td>$680</td><td>$850</td></tr>
+  </tbody>
+</table>
+<p class="prose" style="font-size:9px; color:#666;">Read the rate risk horizontally (a Fed easing cycle pushes capture from 200bps toward 125–150bps: −$100 to −150M on today's base) and the charter upside as a jump beyond the right edge (250bps+ at full capture). The bull path is down-and-right: $34B deposits at 250bps = $850M from this line alone.</p>
+
+<!-- Sensitivity Table 2 -->
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 2: Annual Card Interchange Revenue ($M) — Annual Card Spend ($B) vs. Blended Net Interchange Rate (%)</strong></p>
+<p class="prose"><strong>Current: ~$10B card spend x ~1.75% ≈ $175M (~27% of revenue). Card spend is the fastest-growing volume line.</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Card Spend / Rate</th>
+      <th>1.30%</th>
+      <th>1.50%</th>
+      <th>1.75%</th>
+      <th>1.90%</th>
+      <th>2.10%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$6B</td><td>$78</td><td>$90</td><td>$105</td><td>$114</td><td>$126</td></tr>
+    <tr><td>$8B</td><td>$104</td><td>$120</td><td>$140</td><td>$152</td><td>$168</td></tr>
+    <tr><td>$10B</td><td>$130</td><td>$150</td><td class="base">$175</td><td>$190</td><td>$210</td></tr>
+    <tr><td>$13B</td><td>$169</td><td>$195</td><td>$228</td><td>$247</td><td>$273</td></tr>
+    <tr><td>$16B</td><td>$208</td><td>$240</td><td>$280</td><td>$304</td><td>$336</td></tr>
+  </tbody>
+</table>
+<p class="prose" style="font-size:9px; color:#666;">Interchange is rate-insensitive — the natural hedge against Table 1's Fed exposure. Ramp's entire ~$1.5B business is built on this line; Mercury's card attach (IO) into its 300K deposit customers is the obvious growth vector. Regulatory interchange caps (Durbin extension to credit) are the left-tail risk.</p>
+
+<!-- Sensitivity Table 3 -->
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 3: Implied Exit Valuation ($B) — FY2028E Revenue ($M) vs. Exit EV/Revenue Multiple (x)</strong></p>
+<p class="prose"><strong>Current: Base case FY2028E revenue $1,300M x 6.0x = $7.8B vs. $5.2B Series D mark (+50%).</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>FY2028E Rev / EV/Rev</th>
+      <th>2.8x</th>
+      <th>4.0x</th>
+      <th>6.0x</th>
+      <th>8.0x</th>
+      <th>10.0x</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$820M</td><td class="base" style="background:#f8d7da;">$2.3</td><td>$3.3</td><td>$4.9</td><td>$6.6</td><td>$8.2</td></tr>
+    <tr><td>$1,050M</td><td>$2.9</td><td class="base" style="background:#fff3cd;">$4.2</td><td>$6.3</td><td>$8.4</td><td>$10.5</td></tr>
+    <tr><td>$1,300M</td><td>$3.6</td><td>$5.2</td><td class="base">$7.8</td><td>$10.4</td><td>$13.0</td></tr>
+    <tr><td>$1,550M</td><td>$4.3</td><td>$6.2</td><td>$9.3</td><td class="base" style="background:#d4edda;">$12.4</td><td>$15.5</td></tr>
+    <tr><td>$1,800M</td><td>$5.0</td><td>$7.2</td><td>$10.8</td><td>$14.4</td><td class="base" style="background:#d4edda;">$18.0</td></tr>
+  </tbody>
+</table>
+<p class="prose" style="font-size:9px; color:#666;">Multiple anchors: Brex sold at ~5.2x (distressed strategic); SoFi trades at ~6x (chartered, profitable, slower growth); Chime listed at ~9–13x; Ramp marks at ~29x (hypergrowth premium). A profitable, chartered Mercury growing 25%+ credibly supports 6–8x at exit; 10x requires the software-mix re-rating narrative to land.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 10: 3-YEAR MODEL — 5 SCENARIOS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios</div>
+
+<p class="prose">All figures in $M unless stated. Modeled FY2026E, FY2027E, FY2028E (FYE December). Exit EV/Revenue multiple applied to FY2028E revenue. Reference mark: $5.2B Series D (May 2026). All financial-statement figures are Theia estimates — Mercury discloses only revenue and profitability milestones.</p>
+
+<!-- CASE 1: BEAR SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 1: Bear Severe — Rate Collapse + VC Winter + Charter Stall</div>
+  <div class="case-desc">Fed cuts to a 2% policy rate as growth falters; the AI funding boom unwinds, driving startup deposit outflows and customer mortality; FDIC approval drags past 2027 amid heightened fintech scrutiny; Ramp and Capital One-Brex bundle aggressively into deposits; Mercury's NII engine compresses faster than software revenue can offset.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Two additional Fed cuts compress NIM capture; AI funding correction begins in H2; deposit growth stalls at ~$22B; revenue grows only 17% as spread compression offsets customer adds. <strong>FY2027</strong> — Policy rate reaches 2.5%; NII share revenue falls outright; startup deposit base shrinks as burn continues without new funding; charter remains in limbo, so no capture offset; revenue roughly flat. <strong>FY2028</strong> — Stabilization at a lower revenue base; interchange and payroll growth partially offset NII decline; Mercury remains modestly profitable (the cost base is variable enough to protect the floor) but the growth story is broken; secondary marks clear at fintech-trough multiples.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Avg Deposits</span><span>$22B (VC-winter outflows)</span></div>
+  <div class="driver-row"><span>Effective NII Capture</span><span>~155bps (rate collapse)</span></div>
+  <div class="driver-row"><span>Card Spend</span><span>$11B (slowing)</span></div>
+  <div class="driver-row"><span>Charter Status</span><span>Still pending / abandoned</span></div>
+  <div class="driver-row"><span>Exit EV/Revenue</span><span>2.8x (broken-growth fintech)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$760</td><td>$780</td><td>$820</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+17%</td><td>+3%</td><td>+5%</td></tr>
+    <tr><td>Net Interest Share</td><td>430</td><td>370</td><td>340</td></tr>
+    <tr><td>Card Interchange</td><td>210</td><td>250</td><td>310</td></tr>
+    <tr><td>Software, Payroll &amp; Other</td><td>120</td><td>160</td><td>170</td></tr>
+    <tr><td>EBITDA</td><td>115</td><td>85</td><td>95</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>15.1%</td><td>10.9%</td><td>11.6%</td></tr>
+    <tr><td>Net Income</td><td>75</td><td>45</td><td>60</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Income Margin %</td><td>9.9%</td><td>5.8%</td><td>7.3%</td></tr>
+    <tr><td>Avg Deposits ($B)</td><td>$22</td><td>$21</td><td>$22</td></tr>
+    <tr class="valuation-row"><td>Exit EV/Revenue Multiple</td><td>--</td><td>--</td><td>2.8x</td></tr>
+    <tr class="valuation-row"><td>Implied Valuation ($B)</td><td>--</td><td>--</td><td>$2.30</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 2.8x FY2028E revenue of $820M</div>
+    <div class="exit-price">Implied Valuation: $2.3B</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: -56% from $5.2B Series D mark</div>
+  </div>
+</div>
+
+<!-- CASE 2: BEAR MILD -->
+<div class="case-block">
+  <div class="case-name">Case 2: Bear Mild — Gradual Easing, Slower Growth, Charter Delayed</div>
+  <div class="case-desc">A normal easing cycle takes the policy rate to ~3%; deposit growth continues but decelerates; FDIC/Fed approvals slip into 2028, delaying the capture uplift; competition caps card economics; Mercury keeps compounding but at a reduced slope, and the exit multiple reflects a good-not-great fintech.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Revenue $820M (+26%) as rate cuts begin to bite in H2; deposits reach ~$25B; Central payroll integration progresses slowly. <strong>FY2027</strong> — Spread compression offsets roughly half of volume growth; revenue +16%; charter approvals still pending at year-end; software mix creeps to ~18%. <strong>FY2028</strong> — Revenue $1,050M (+11%); the business is larger, more diversified, and still profitable, but the charter option remains unexercised and the multiple stays at bank-fintech levels rather than software levels.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Avg Deposits</span><span>$27B (+10%/yr)</span></div>
+  <div class="driver-row"><span>Effective NII Capture</span><span>~185bps (partial compression)</span></div>
+  <div class="driver-row"><span>Card Spend</span><span>$13B</span></div>
+  <div class="driver-row"><span>Charter Status</span><span>Approved late, uplift not yet in P&amp;L</span></div>
+  <div class="driver-row"><span>Exit EV/Revenue</span><span>4.0x (SoFi-minus)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$820</td><td>$950</td><td>$1,050</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+26%</td><td>+16%</td><td>+11%</td></tr>
+    <tr><td>Net Interest Share</td><td>470</td><td>510</td><td>500</td></tr>
+    <tr><td>Card Interchange</td><td>220</td><td>270</td><td>360</td></tr>
+    <tr><td>Software, Payroll &amp; Other</td><td>130</td><td>170</td><td>190</td></tr>
+    <tr><td>EBITDA</td><td>150</td><td>180</td><td>200</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>18.3%</td><td>18.9%</td><td>19.0%</td></tr>
+    <tr><td>Net Income</td><td>115</td><td>140</td><td>165</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Income Margin %</td><td>14.0%</td><td>14.7%</td><td>15.7%</td></tr>
+    <tr><td>Avg Deposits ($B)</td><td>$25</td><td>$26</td><td>$27</td></tr>
+    <tr class="valuation-row"><td>Exit EV/Revenue Multiple</td><td>4.0x</td><td>4.0x</td><td>4.0x</td></tr>
+    <tr class="valuation-row"><td>Implied Valuation ($B)</td><td>$3.28</td><td>$3.80</td><td>$4.20</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 4.0x FY2028E revenue of $1,050M</div>
+    <div class="exit-price">Implied Valuation: $4.2B</div>
+    <div class="exit-upside" style="color:#c0392b;">Downside: -19% from $5.2B Series D mark</div>
+  </div>
+</div>
+
+<!-- CASE 3: BASE CASE -->
+<div class="case-block">
+  <div class="case-name">Case 3: Base Case — Charter Lands 2027, Compounding Continues</div>
+  <div class="case-desc">FDIC and Fed approvals arrive in 2027; Mercury Bank, N.A. begins operating with an initial on-balance-sheet deposit tranche; rates settle near 3.5–4%; deposit and customer growth continue at a moderating but healthy clip; payroll and subscriptions scale; revenue mix shifts visibly toward software and payments.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Revenue $860M (+32%): deposits average ~$26B, card spend ~$13B, Central payroll launches to existing customers in H2; profitability maintained (est. ~19% EBITDA margin). <strong>FY2027</strong> — FDIC/Fed approvals land; bank begins operations with a first deposit tranche migrating on-charter; partial NIM-capture uplift arrives in H2; revenue $1,090M (+27%). <strong>FY2028</strong> — First full year of (partial) charter economics: capture rate blends up toward 230bps as more deposits migrate; payroll reaches ~40K businesses; revenue $1,300M (+19%) with software/payments ~29% of mix; EBITDA margin 23%. Exit at 6.0x — the SoFi/Chime-blend multiple for a profitable, chartered, 20%+ grower.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Avg Deposits</span><span>$34B (+18%/yr)</span></div>
+  <div class="driver-row"><span>Effective NII Capture</span><span>~205bps blended (charter phasing in)</span></div>
+  <div class="driver-row"><span>Card Spend</span><span>$16B</span></div>
+  <div class="driver-row"><span>Charter Status</span><span>Operational 2027, deposits migrating</span></div>
+  <div class="driver-row"><span>Exit EV/Revenue</span><span>6.0x</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$860</td><td>$1,090</td><td>$1,300</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+32%</td><td>+27%</td><td>+19%</td></tr>
+    <tr><td>Net Interest Share</td><td>490</td><td>600</td><td>700</td></tr>
+    <tr><td>Card Interchange</td><td>230</td><td>300</td><td>380</td></tr>
+    <tr><td>Software, Payroll &amp; Other</td><td>140</td><td>190</td><td>220</td></tr>
+    <tr><td>EBITDA</td><td>165</td><td>230</td><td>300</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>19.2%</td><td>21.1%</td><td>23.1%</td></tr>
+    <tr><td>Net Income</td><td>150</td><td>205</td><td>270</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Income Margin %</td><td>17.4%</td><td>18.8%</td><td>20.8%</td></tr>
+    <tr><td>Avg Deposits ($B)</td><td>$26</td><td>$30</td><td>$34</td></tr>
+    <tr class="valuation-row"><td>Exit EV/Revenue Multiple</td><td>6.0x</td><td>6.0x</td><td>6.0x</td></tr>
+    <tr class="valuation-row"><td>Implied Valuation ($B)</td><td>$5.16</td><td>$6.54</td><td>$7.80</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 6.0x FY2028E revenue of $1,300M</div>
+    <div class="exit-price">Implied Valuation: $7.8B</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +50% from $5.2B Series D mark</div>
+  </div>
+</div>
+
+<!-- CASE 4: BULL MILD -->
+<div class="case-block">
+  <div class="case-name">Case 4: Bull Mild — Charter Economics + Payroll Attach + Lending Launch</div>
+  <div class="case-desc">The charter completes on schedule and Mercury moves the majority of deposits on-balance-sheet by 2028, capturing full NIM; direct lending (venture debt lite, working capital, IO credit expansion) launches on the bank's balance sheet; Central payroll attaches rapidly at ~20% of the base; the beyond-startup expansion sustains 30%+ customer growth.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Momentum quarter after quarter: applications convert, deposits reach ~$27B average, payroll beta exceeds plan; revenue $900M (+38%). <strong>FY2027</strong> — Bank operational early in the year; deposit migration runs ahead of schedule; first lending products launch in H2 at conservative underwriting; revenue $1,200M (+33%). <strong>FY2028</strong> — Full-capture NII on ~$40B deposits plus early lending NII; payroll at ~65K businesses ($200M+ run-rate line); software/payments mix reaches ~33%; revenue $1,550M (+29%), EBITDA margin ~26%. Exit at 7.75x — a premium to SoFi justified by growth and mix, still half of Ramp's private mark.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Avg Deposits</span><span>$40B (+26%/yr)</span></div>
+  <div class="driver-row"><span>Effective NII Capture</span><span>~265bps (majority full-capture)</span></div>
+  <div class="driver-row"><span>Card Spend</span><span>$19B + lending book ramp</span></div>
+  <div class="driver-row"><span>Payroll Attach</span><span>~65K businesses (~20%)</span></div>
+  <div class="driver-row"><span>Exit EV/Revenue</span><span>7.75x (chartered growth premium)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$900</td><td>$1,200</td><td>$1,550</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+38%</td><td>+33%</td><td>+29%</td></tr>
+    <tr><td>Net Interest Share (incl. lending)</td><td>510</td><td>670</td><td>850</td></tr>
+    <tr><td>Card Interchange</td><td>240</td><td>320</td><td>430</td></tr>
+    <tr><td>Software, Payroll &amp; Other</td><td>150</td><td>210</td><td>270</td></tr>
+    <tr><td>EBITDA</td><td>180</td><td>290</td><td>400</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>20.0%</td><td>24.2%</td><td>25.8%</td></tr>
+    <tr><td>Net Income</td><td>160</td><td>245</td><td>340</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Income Margin %</td><td>17.8%</td><td>20.4%</td><td>21.9%</td></tr>
+    <tr><td>Avg Deposits ($B)</td><td>$27</td><td>$33</td><td>$40</td></tr>
+    <tr class="valuation-row"><td>Exit EV/Revenue Multiple</td><td>7.75x</td><td>7.75x</td><td>7.75x</td></tr>
+    <tr class="valuation-row"><td>Implied Valuation ($B)</td><td>$6.98</td><td>$9.30</td><td>$12.01</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 7.75x FY2028E revenue of $1,550M</div>
+    <div class="exit-price">Implied Valuation: $12.0B</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +131% from $5.2B Series D mark</div>
+  </div>
+</div>
+
+<!-- CASE 5: BULL SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 5: Bull Severe — "The Bank for Builders" IPO Re-Rating</div>
+  <div class="case-desc">Everything lands: full charter economics by 2027, the entrepreneurship boom sustains 2x+ application growth, payroll/software mix approaches 35%, direct lending scales safely, and Mercury IPOs into a strong fintech tape as the category-defining SMB bank — priced as software-plus-bank, the way the market once priced SVB at peak and prices Nubank's growth today.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Application surge converts: customers cross 450K; deposits average ~$28B; Command/MCP adoption makes Mercury the default AI-agent banking layer; revenue $930M (+43%). <strong>FY2027</strong> — Bank fully operational; majority of deposits on-charter by year-end; lending book scales; Ramp's IPO validates category multiples; revenue $1,320M (+42%). <strong>FY2028</strong> — Revenue $1,800M (+36%) on $48B deposits at near-full capture, $22B card spend, and a payroll/software layer approaching $320M; EBITDA margin ~28%; Mercury lists (or takes a pre-IPO round) at 10x revenue = $18B — a Chime-at-listing multiple on far better fundamentals.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Avg Deposits</span><span>$48B (+34%/yr)</span></div>
+  <div class="driver-row"><span>Effective NII Capture</span><span>~300bps (full charter capture)</span></div>
+  <div class="driver-row"><span>Card Spend</span><span>$22B + scaled lending NII</span></div>
+  <div class="driver-row"><span>Software/Payments Mix</span><span>~35% of revenue</span></div>
+  <div class="driver-row"><span>Exit EV/Revenue</span><span>10.0x (IPO re-rating)</span></div>
+  <table class="scenario-mini">
+    <tr><td>Revenue</td><td>$930</td><td>$1,320</td><td>$1,800</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+43%</td><td>+42%</td><td>+36%</td></tr>
+    <tr><td>Net Interest Share (incl. lending)</td><td>520</td><td>720</td><td>1,000</td></tr>
+    <tr><td>Card Interchange</td><td>250</td><td>350</td><td>480</td></tr>
+    <tr><td>Software, Payroll &amp; Other</td><td>160</td><td>250</td><td>320</td></tr>
+    <tr><td>EBITDA</td><td>195</td><td>340</td><td>500</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>21.0%</td><td>25.8%</td><td>27.8%</td></tr>
+    <tr><td>Net Income</td><td>170</td><td>290</td><td>430</td></tr>
+    <tr style="color:#555; font-size:8px;"><td style="padding-left:8px;">Net Income Margin %</td><td>18.3%</td><td>22.0%</td><td>23.9%</td></tr>
+    <tr><td>Avg Deposits ($B)</td><td>$28</td><td>$37</td><td>$48</td></tr>
+    <tr class="valuation-row"><td>Exit EV/Revenue Multiple</td><td>10.0x</td><td>10.0x</td><td>10.0x</td></tr>
+    <tr class="valuation-row"><td>Implied Valuation ($B)</td><td>$9.30</td><td>$13.20</td><td>$18.00</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 10.0x FY2028E revenue of $1,800M</div>
+    <div class="exit-price">Implied Valuation: $18.0B</div>
+    <div class="exit-upside" style="color:#27ae60;">Upside: +246% from $5.2B Series D mark</div>
+  </div>
+</div>
+
+<!-- SVG Bar Chart -->
+<div class="case-chart">
+  <p style="font-size:9px; font-weight:600; margin-bottom:8px;">Implied Valuation by Scenario (FY2028E Exit) vs. $5.2B Series D Mark</p>
+  <svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg" style="width:100%; font-family:Inter,Arial,sans-serif;">
+    <!-- Axes -->
+    <line x1="80" y1="20" x2="80" y2="200" stroke="#ccc" stroke-width="1"/>
+    <line x1="80" y1="200" x2="680" y2="200" stroke="#ccc" stroke-width="1"/>
+    <!-- Y-axis labels (scale: $1B = 9px, so $20B = 180px) -->
+    <text x="75" y="204" text-anchor="end" font-size="9" fill="#888">$0</text>
+    <text x="75" y="168" text-anchor="end" font-size="9" fill="#888">$4B</text>
+    <text x="75" y="132" text-anchor="end" font-size="9" fill="#888">$8B</text>
+    <text x="75" y="96" text-anchor="end" font-size="9" fill="#888">$12B</text>
+    <text x="75" y="60" text-anchor="end" font-size="9" fill="#888">$16B</text>
+    <text x="75" y="24" text-anchor="end" font-size="9" fill="#888">$20B</text>
+    <!-- Gridlines -->
+    <line x1="80" y1="164" x2="680" y2="164" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="128" x2="680" y2="128" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="92" x2="680" y2="92" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="56" x2="680" y2="56" stroke="#eee" stroke-width="0.5"/>
+    <line x1="80" y1="20" x2="680" y2="20" stroke="#eee" stroke-width="0.5"/>
+    <!-- Bar scale: $1B = 9px -->
+    <!-- Bear Severe: $2.3B -> height 20.7px -->
+    <rect x="110" y="179.3" width="80" height="20.7" fill="#2563eb"/>
+    <text x="150" y="174" text-anchor="middle" font-size="9" fill="#333">$2.3B</text>
+    <text x="150" y="214" text-anchor="middle" font-size="8" fill="#555">Bear Severe</text>
+    <!-- Bear Mild: $4.2B -> height 37.8px -->
+    <rect x="220" y="162.2" width="80" height="37.8" fill="#2563eb"/>
+    <text x="260" y="157" text-anchor="middle" font-size="9" fill="#333">$4.2B</text>
+    <text x="260" y="214" text-anchor="middle" font-size="8" fill="#555">Bear Mild</text>
+    <!-- Base: $7.8B -> height 70.2px -->
+    <rect x="330" y="129.8" width="80" height="70.2" fill="#2563eb"/>
+    <text x="370" y="125" text-anchor="middle" font-size="9" fill="#333">$7.8B</text>
+    <text x="370" y="214" text-anchor="middle" font-size="8" fill="#555">Base Case</text>
+    <!-- Bull Mild: $12.0B -> height 108px -->
+    <rect x="440" y="92" width="80" height="108" fill="#2563eb"/>
+    <text x="480" y="87" text-anchor="middle" font-size="9" fill="#333">$12.0B</text>
+    <text x="480" y="214" text-anchor="middle" font-size="8" fill="#555">Bull Mild</text>
+    <!-- Bull Severe: $18.0B -> height 162px -->
+    <rect x="550" y="38" width="80" height="162" fill="#2563eb"/>
+    <text x="590" y="33" text-anchor="middle" font-size="9" fill="#333">$18.0B</text>
+    <text x="590" y="214" text-anchor="middle" font-size="8" fill="#555">Bull Severe</text>
+    <!-- Current mark line: $5.2B = 46.8px from bottom -> y = 200 - 46.8 = 153.2 -->
+    <line x1="80" y1="153.2" x2="680" y2="153.2" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="683" y="157" font-size="9" fill="#e74c3c">$5.2B (Series D)</text>
+    <!-- Prob-wtd PV: $6.27B = 56.4px -> y = 200 - 56.4 = 143.6 -->
+    <line x1="80" y1="143.6" x2="680" y2="143.6" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="3,2"/>
+    <text x="683" y="146" font-size="8" fill="#f39c12">$6.3B PV@30%</text>
+  </svg>
+  <p style="font-size:8px; color:#888; margin-top:4px;">Probability weights: 5% / 20% / 50% / 20% / 5% · Prob-wtd avg $8.16B discounted @30% CoC = $6.27B · Series D mark: $5.2B · Implied upside: +20.6%</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 11: COMPS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">11. Comparable Companies</div>
+
+<div class="section-title">Selected Financials — Digital Banking &amp; SMB Fintech</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Status</th>
+      <th>Revenue</th>
+      <th>Basis</th>
+      <th>Rev Growth</th>
+      <th>Profitability</th>
+      <th style="text-align:left;">Primary Model</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Mercury</td><td>Private (Series D)</td>
+      <td>$650M</td><td>FY2025</td><td>+30%</td><td>GAAP profitable, 4 yrs</td>
+      <td style="text-align:left;">Deposit-centric SMB banking (NII share + interchange + SaaS)</td>
+    </tr>
+    <tr>
+      <td>Ramp</td><td>Private</td>
+      <td>~$1,500M</td><td>Annualized mid-2026</td><td>~+100%</td><td>FCF positive</td>
+      <td style="text-align:left;">Spend management + corporate cards (interchange + SaaS)</td>
+    </tr>
+    <tr>
+      <td>Brex</td><td>Acq. by Capital One (Apr 2026)</td>
+      <td>~$1,000M</td><td>At acquisition</td><td>--</td><td>--</td>
+      <td style="text-align:left;">Corporate cards + all-in-one finance stack</td>
+    </tr>
+    <tr>
+      <td>Chime</td><td>Public (2026 listing)</td>
+      <td>$864M</td><td>FY2024</td><td>~+30%</td><td>Near breakeven</td>
+      <td style="text-align:left;">Consumer neobank (debit interchange)</td>
+    </tr>
+    <tr>
+      <td>SoFi</td><td>Public (SOFI)</td>
+      <td>$3,600M</td><td>FY2025</td><td>~+25%</td><td>GAAP profitable</td>
+      <td style="text-align:left;">Chartered consumer bank (NII + lending + fees)</td>
+    </tr>
+    <tr>
+      <td>Nubank</td><td>Public (NU)</td>
+      <td>$16,300M</td><td>FY2025</td><td>~+30%</td><td>Highly profitable</td>
+      <td style="text-align:left;">LatAm digital bank (NII + interchange)</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Valuation Multiples</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Valuation Basis</th>
+      <th>Valuation</th>
+      <th class="est-col">EV/Revenue</th>
+      <th class="est-col">Multiple Basis</th>
+      <th style="text-align:left;">Note</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Mercury</td><td>Series D · May 2026</td>
+      <td>$5.2B</td><td>8.0x</td><td>FY2025A (6.0x FY26E)</td>
+      <td style="text-align:left;">Profitable + charter option embedded</td>
+    </tr>
+    <tr>
+      <td>Ramp</td><td>Private round · Jun 2026</td>
+      <td>$44.0B</td><td>~29x</td><td>Annualized</td>
+      <td style="text-align:left;">Hypergrowth premium; IPO-ready end-2026</td>
+    </tr>
+    <tr>
+      <td>Brex</td><td>Capital One acquisition · Jan 2026</td>
+      <td>$5.15B</td><td>~5.2x</td><td>At acquisition</td>
+      <td style="text-align:left;">Strategic exit after growth stalled</td>
+    </tr>
+    <tr>
+      <td>Chime</td><td>Public listing · 2026</td>
+      <td>~$11B</td><td>~12.7x</td><td>FY2024 (~9x FY25E)</td>
+      <td style="text-align:left;">Anchor fintech listing of the 2026 window</td>
+    </tr>
+    <tr>
+      <td>SoFi</td><td>Public market cap</td>
+      <td>~$22B</td><td>6.1x</td><td>FY2025</td>
+      <td style="text-align:left;">The chartered-neobank benchmark</td>
+    </tr>
+    <tr>
+      <td>Nubank</td><td>Public market cap</td>
+      <td>~$68B</td><td>4.2x</td><td>FY2025</td>
+      <td style="text-align:left;">Scale digital bank; margin-rich</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Average (ex-Ramp)</td><td>--</td>
+      <td>--</td><td>~7.1x</td><td>--</td>
+      <td style="text-align:left;">--</td>
+    </tr>
+    <tr class="stat-row">
+      <td>Peer Median (ex-Ramp)</td><td>--</td>
+      <td>--</td><td>~5.7x</td><td>--</td>
+      <td style="text-align:left;">--</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Named Competitors — SMB Fintech Landscape (AlphaSense Primer)</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Player</th>
+      <th style="text-align:left;">Strategic Model</th>
+      <th>Annualized Revenue</th>
+      <th style="text-align:left;">Primary Revenue Stream</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Mercury</td><td style="text-align:left;">Deposit-centric platform</td>
+      <td>$650M</td><td style="text-align:left;">Interest on deposits and card interchange</td>
+    </tr>
+    <tr>
+      <td>Ramp</td><td style="text-align:left;">Spend management and cards</td>
+      <td>$1B+ (now ~$1.5B)</td><td style="text-align:left;">Interchange fees and premium SaaS</td>
+    </tr>
+    <tr>
+      <td>Brex</td><td style="text-align:left;">All-in-one corporate cards (now Capital One)</td>
+      <td>$700M–$1B</td><td style="text-align:left;">Interchange fees and enterprise software</td>
+    </tr>
+    <tr>
+      <td>Slash</td><td style="text-align:left;">Vertical neobank (high-risk niches)</td>
+      <td>$200M</td><td style="text-align:left;">Interchange on high-volume card spend</td>
+    </tr>
+    <tr>
+      <td>Flex</td><td style="text-align:left;">Vertical card (owner-operators)</td>
+      <td>~$75M</td><td style="text-align:left;">Interchange, Net-60 interest, and FX fees</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:10px;">Mercury's 8.0x trailing (6.0x forward) sits right at the ex-Ramp peer average (~7x) — but the comparison flatters the peers. Against SoFi (6.1x): Mercury grows faster (30% vs. 25%), carries no legacy lending book risk, and its charter is additive optionality rather than priced-in reality — yet trades at only a modest premium. Against Chime (~12.7x FY2024 at listing): Mercury is meaningfully cheaper per unit of growth and — unlike Chime at listing — solidly GAAP profitable. Against Brex's 5.2x exit: that was a stalled asset sold under strategic pressure; Mercury compounding at 30% with four profitable years merits a wide premium to a distressed comp. The genuine outlier is Ramp at ~29x — the market is paying for 100% growth and the IPO-next narrative; Mercury at less than a third of Ramp's multiple with half the growth but far better profitability is arguably the better-underwritten risk. The synthesis: the Series D mark embeds little to no value for the charter conversion — the single biggest economic lever — which is precisely the kind of underpriced optionality Theia looks for in preliminary screens. The primary caveat: every multiple above compresses if the fintech window closes, and private marks (Mercury, Ramp) reprice slower and more brutally than public ones.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<div class="verdict">
+  <p><strong>(i) Market Cap Bucket: $5.2B (Private)</strong> <span class="fw-rating moderate">Moderate Fit</span></p>
+  <p style="margin-top:4px;">At $5.2B, Mercury sits above Theia's small-cap sweet spot ($1B–$5B) — barely. But the bucket framework is designed for public equities where size proxies for coverage and efficiency; in private markets the relevant question is whether the mark is efficient, and a $200M insider-led round is a far less "discovered" price than a $5B public float. The practical consideration is access: Theia cannot buy this in the market — entry requires secondary blocks (employee/early-investor liquidity, where quality names often clear at 10–30% discounts to the last primary) or allocation in a future round. If secondary access materializes at or below the $5.2B mark, the effective entry sits inside Theia's range on forward numbers (6.0x FY2026E revenue).</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(ii) Analyst Coverage: Zero</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">No sell-side coverage exists — Mercury is private and pre-IPO, so there is no consensus to be wrong. Information sources are the company's annual letters, funding press, Sacra estimates, and expert networks. That is exactly the informational environment where diligence generates edge: the market-clearing view of Mercury is formed by a handful of growth investors, and key model inputs (revenue mix, NIM share terms, deposit cohort behavior, charter timeline) are genuinely un-modeled by any published source. This memo's estimates — and the questions in Section 8 — define a research agenda no one else has published. When Mercury does file an S-1, the first accurate pre-IPO model will have been built years earlier by whoever did this work.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iii) Thesis Alignment: Internet-Native Financial System</strong> <span class="fw-rating strong">Core</span></p>
+  <p style="margin-top:4px;">Mercury is a direct expression of Theia's core thesis: the re-platforming of financial services onto internet-native infrastructure. It is the banking layer of the innovation economy — the default depository for the startups (including crypto-native companies like Phantom and AI companies like ElevenLabs) that constitute the internet financial system's builders. The charter pursuit makes it a live case study in fintech-becomes-bank convergence; the MCP/CLI/Command suite makes it the first serious attempt at AI-agent-native banking; and its deposit-primacy model is the purest play on "the operating account is the platform" in SMB finance. It is not blockchain-native, but it banks the blockchain economy and is building the programmable-money interfaces Theia's thesis anticipates. Rating: Core.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iv) Outcome Dispersion: $2.3B – $18.0B</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">The 5-scenario model spans $2.3B (Bear Severe, -56%) to $18.0B (Bull Severe, +246%) against the $5.2B mark — a 7.8x bear-to-bull spread driven by genuinely binary variables: the FDIC/Fed charter outcome (doubles deposit economics or doesn't), the Fed funds path (each 100bps ≈ 15% of revenue), and the VC-cycle exposure of the deposit base. The probability-weighted PV of $6.27B implies +20.6% to the mark before any secondary discount; entry via secondary at a 15–20% discount would push probability-weighted upside toward 45–50% with the bear case largely absorbed by the discount. The dispersion is real, the variables are trackable (regulatory filings, FOMC, annual letters), and the base case alone returns +50% over ~2.5 years.</p>
+</div>
+
+<div style="background: #d4edda; border-left: 4px solid #155724; padding: 12px 14px; margin: 16px 0; font-size: 11.5px;">
+  <strong>VERDICT: YES — Pursue Secondary Access; Underwrite the Charter, Not the Rate Cycle</strong><br><br>
+  Mercury scores Core on thesis alignment, Strong on coverage void and outcome dispersion, and Moderate on size — the composite is a clear yes for further work. The investment logic: at 8.0x trailing / 6.0x forward revenue, the Series D mark prices Mercury as a good fintech but embeds almost nothing for the charter conversion that would roughly double the economics of its ~$20B (and compounding) deposit base — an option with a named executive (Jon Auxier, who ran the identical playbook at SoFi), a conditional OCC approval already granted, and a 12–24 month fuse. The offsetting risk is real and specific: ~60% of revenue is a Fed-funds derivative, and an easing cycle before charter completion is the scenario that breaks the mark. Concretely: (1) pursue secondary blocks at or below the $5.2B mark — quality names clear at discounts and the Series D was insider-led, suggesting limited price discovery; (2) track the FDIC/Fed approval milestones as the position's central catalysts; (3) size for the rate risk — this is a fractional-Kelly position until the charter de-risks the revenue base; (4) treat a Ramp banking-product launch or a second partner-bank incident as thesis-review triggers. If secondary access is unavailable, put Mercury on the S-1 watchlist — the pre-IPO round or listing is the realistic entry, and this memo's model is the head start.
+</div>
+
+<p class="prose" style="font-size:10px; font-style:italic; margin-top:6px;">Note: Theia seeks small-cap companies that aren't well covered and are strongly aligned on the core internet finance thesis with wide outcome dispersion. Mercury scores: Market Cap (Moderate — private, access-dependent) | Coverage (Strong — zero) | Thesis (Core) | Dispersion (Strong)</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 13: RISK SUMMARY -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">13. Risk Summary</div>
+
+<table class="risk-table">
+  <tr>
+    <th>Risk Category</th>
+    <th>Description</th>
+    <th>Severity</th>
+    <th>Mitigant</th>
+  </tr>
+  <tr>
+    <td>Interest Rate Sensitivity</td>
+    <td>~60% of revenue is NIM share on ~$20B deposits — a direct Fed-funds derivative. Each 100bps of easing costs an estimated $100M+ of annual revenue with near-full EBITDA flow-through. The 4-year profitability record has never been tested in a low-rate regime at current scale.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>Interchange (~27%) and software/payroll (~13% and growing) are rate-insensitive; charter completion roughly doubles NIM capture, creating a buffer that can absorb 150bps+ of cuts; cost base is variable enough to defend profitability at lower revenue.</td>
+  </tr>
+  <tr>
+    <td>Charter Execution</td>
+    <td>FDIC insurance and Fed BHC approvals still pending; bank-grade compliance build; account migration at scale; leverage-ratio capital needs (plausibly $1.5–2B Tier 1 to hold $20B+ on balance sheet) imply dilution or a slow on-balance-sheet ramp.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>Conditional OCC approval granted in 5 months — an unusually fast signal; Jon Auxier ran the identical conversion at SoFi; phased deposit migration lets capital needs scale with retained earnings; worst case, the profitable partner-bank model continues as-is.</td>
+  </tr>
+  <tr>
+    <td>Startup / VC-Cycle Concentration</td>
+    <td>One in three U.S. startups banks with Mercury; deposit dollars concentrate in venture-backed tech. An AI-funding winter hits deposits (burn-down), customers (mortality), and growth (formation slowdown) simultaneously — the SVB correlation lesson.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>73% of 2025 new customers came from outside AI/tech (e-commerce, professional services); customer count +50% YoY diversifies cohort mix each quarter; sweep networks insure deposits well above FDIC caps, reducing run mechanics vs. SVB.</td>
+  </tr>
+  <tr>
+    <td>Competition (Ramp / Capital One-Brex / Verticals)</td>
+    <td>Ramp ($44B, ~$1.5B revenue, doubling) expanding toward banking; Brex now has Capital One's charter and balance sheet; Slash/Flex verticalizing the edges; relentless feature-copying erodes any single product edge.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Rivals monetize spend, Mercury monetizes deposits — different pools, limited price war; deposit primacy + switching costs defend the core; charter creates a structural capability gap over all non-bank rivals; UX coherence has proven hard to copy.</td>
+  </tr>
+  <tr>
+    <td>Partner-Bank Dependency (Transition Window)</td>
+    <td>Until the charter is operational, Choice Financial and Column N.A. hold the deposits and the regulatory relationship. The Evolve precedent (C&amp;D order + cyberattack forcing a 200K-account migration) shows suppliers can fail through no fault of Mercury's.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Deliberately diversified across two upgraded sponsors (Column is vertically integrated and fintech-native); Mercury executed the Evolve migration with minimal franchise damage — proven playbook; window closes permanently at charter completion.</td>
+  </tr>
+  <tr>
+    <td>Regulatory / BSA-AML Scrutiny</td>
+    <td>Fintech account-opening (especially international founders) faces intensifying BSA/AML attention; post-Synapse BaaS oversight is stricter; as a bank, Mercury inherits direct supervisory burden, exam risk, and potential growth constraints on product velocity.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Charter converts regulatory risk from third-party (unmanageable) to first-party (manageable); bank-grade compliance leadership hired ahead of need; direct supervision, while costly, is a moat against BaaS-dependent competitors.</td>
+  </tr>
+  <tr>
+    <td>Private-Market Illiquidity &amp; Mark Risk</td>
+    <td>No public float: entry requires secondary or round access; exit depends on IPO window or M&amp;A; private marks reprice slowly and discontinuously — a fintech de-rating could strand the position below the Series D mark for years.</td>
+    <td><span class="fw-rating low">Low</span></td>
+    <td>Mercury is self-funding (4 years GAAP profitable, ~$700M raised, modest burn history) — no forced-raise scenario; the 2026 IPO window (Chime, Klarna, Ramp pipeline) provides a visible exit path; secondary entry discounts pre-absorb mark risk.</td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 14: APPENDIX — PYTHON CODE -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section appendix">14. Appendix — Python Code</div>
+
+<p class="prose">Sensitivity table generator and scenario model code for analyst customization:</p>
+
+<div class="section-title">Sensitivity Table Generator</div>
+<div class="code-block">
+import numpy as np
+import pandas as pd
+
+# ─── SENSITIVITY TABLE 1: Net Interest Share Revenue ───
+avg_deposits = [15, 18, 21, 26, 34]              # $B average deposits
+capture_bps  = [125, 150, 175, 200, 250]         # effective net yield capture (bps)
+base_deposits = 21
+base_capture  = 200  # bps; post-charter potential 300-350bps
+
+rows = []
+for d in avg_deposits:
+    row = []
+    for c in capture_bps:
+        nii = d * 1000 * c / 10000               # $M
+        row.append(round(nii, 0))
+    rows.append(row)
+
+df1 = pd.DataFrame(rows,
+    index=[f"${x}B" for x in avg_deposits],
+    columns=[f"{c}bps" for c in capture_bps])
+print("Annual Net Interest Share Revenue ($M)")
+print(df1.to_string())
+print(f"\nBase: ${base_deposits}B x {base_capture}bps = ${base_deposits*1000*base_capture/10000:.0f}M")
+
+# ─── SENSITIVITY TABLE 2: Card Interchange Revenue ───
+card_spend = [6, 8, 10, 13, 16]                  # $B annual card spend
+rates = [0.013, 0.015, 0.0175, 0.019, 0.021]     # blended net interchange
+base_spend = 10
+base_rate = 0.0175
+
+rows2 = []
+for s in card_spend:
+    row = []
+    for r in rates:
+        row.append(round(s * 1000 * r, 0))
+    rows2.append(row)
+
+df2 = pd.DataFrame(rows2,
+    index=[f"${x}B" for x in card_spend],
+    columns=[f"{r*100:.2f}%" for r in rates])
+print("\nAnnual Card Interchange Revenue ($M)")
+print(df2.to_string())
+print(f"Base: ${base_spend}B x {base_rate*100:.2f}% = ${base_spend*1000*base_rate:.0f}M")
+
+# ─── SENSITIVITY TABLE 3: Implied Exit Valuation ───
+rev_2028 = [820, 1050, 1300, 1550, 1800]         # $M FY2028E revenue
+ev_rev   = [2.8, 4.0, 6.0, 8.0, 10.0]            # exit EV/Revenue
+
+rows3 = []
+for rev in rev_2028:
+    row = []
+    for m in ev_rev:
+        row.append(round(rev * m / 1000, 1))     # $B
+    rows3.append(row)
+
+df3 = pd.DataFrame(rows3,
+    index=[f"${x}M" for x in rev_2028],
+    columns=[f"{m}x" for m in ev_rev])
+print("\nImplied Exit Valuation ($B)")
+print(df3.to_string())
+print(f"Base: $1,300M x 6.0x = ${1300*6.0/1000:.1f}B vs $5.2B Series D mark")
+</div>
+
+<div class="section-title" style="margin-top:16px;">5-Scenario Model Generator</div>
+<div class="code-block">
+# ─── MERCURY 5-SCENARIO 3-YEAR MODEL ───
+scenarios = {
+    "Bear Severe": {
+        "rev":       [760, 780, 820],
+        "nii":       [430, 370, 340],
+        "interchange": [210, 250, 310],
+        "software":  [120, 160, 170],
+        "ebitda":    [115, 85, 95],
+        "deposits_b": [22, 21, 22],
+        "exit_ev_rev": 2.8,
+    },
+    "Bear Mild": {
+        "rev":       [820, 950, 1050],
+        "nii":       [470, 510, 500],
+        "interchange": [220, 270, 360],
+        "software":  [130, 170, 190],
+        "ebitda":    [150, 180, 200],
+        "deposits_b": [25, 26, 27],
+        "exit_ev_rev": 4.0,
+    },
+    "Base Case": {
+        "rev":       [860, 1090, 1300],
+        "nii":       [490, 600, 700],
+        "interchange": [230, 300, 380],
+        "software":  [140, 190, 220],
+        "ebitda":    [165, 230, 300],
+        "deposits_b": [26, 30, 34],
+        "exit_ev_rev": 6.0,
+    },
+    "Bull Mild": {
+        "rev":       [900, 1200, 1550],
+        "nii":       [510, 670, 850],
+        "interchange": [240, 320, 430],
+        "software":  [150, 210, 270],
+        "ebitda":    [180, 290, 400],
+        "deposits_b": [27, 33, 40],
+        "exit_ev_rev": 7.75,
+    },
+    "Bull Severe": {
+        "rev":       [930, 1320, 1800],
+        "nii":       [520, 720, 1000],
+        "interchange": [250, 350, 480],
+        "software":  [160, 250, 320],
+        "ebitda":    [195, 340, 500],
+        "deposits_b": [28, 37, 48],
+        "exit_ev_rev": 10.0,
+    },
+}
+
+series_d_mark = 5.2  # $B, May 2026
+years = ["FY2026E", "FY2027E", "FY2028E"]
+
+for name, s in scenarios.items():
+    print(f"\n{'='*60}")
+    print(f"Scenario: {name}")
+    print(f"{'─'*60}")
+    rev_exit = s["rev"][-1]
+    mult = s["exit_ev_rev"]
+    implied_val = rev_exit * mult / 1000  # $B
+    upside = (implied_val / series_d_mark - 1) * 100
+    print(f"Exit: {mult}x EV/Rev on FY2028E revenue ${rev_exit}M")
+    print(f"Implied Valuation: ${implied_val:.1f}B  |  vs Series D: {upside:+.0f}%")
+
+    for i, yr in enumerate(years):
+        print(f"  {yr}: Rev ${s['rev'][i]}M | NII ${s['nii'][i]}M | "
+              f"IC ${s['interchange'][i]}M | SW ${s['software'][i]}M | "
+              f"EBITDA ${s['ebitda'][i]}M | Deposits ${s['deposits_b'][i]}B")
+
+# ─── PROBABILITY-WEIGHTED FAIR VALUE ───
+weights = {"Bear Severe": 0.05, "Bear Mild": 0.20, "Base Case": 0.50,
+           "Bull Mild": 0.20, "Bull Severe": 0.05}
+values  = {"Bear Severe": 2.30, "Bear Mild": 4.20, "Base Case": 7.80,
+           "Bull Mild": 12.01, "Bull Severe": 18.00}
+coc = 0.30
+
+wtd_avg = sum(weights[k] * values[k] for k in weights)
+pv = wtd_avg / (1 + coc)
+print(f"\nProbability-Weighted Avg (FY2028E): ${wtd_avg:.2f}B")
+print(f"Discounted at {coc*100:.0f}% CoC:            ${pv:.2f}B")
+print(f"Series D Mark:                        ${series_d_mark:.2f}B")
+print(f"Implied Upside to PV:                {(pv/series_d_mark-1)*100:+.1f}%")
+
+# ─── CHARTER UPLIFT MODULE ───
+deposits = 26          # $B, 2026E average
+pre_charter_capture = 0.0195   # ~195bps Mercury share
+post_charter_capture = 0.0335  # ~335bps full NIM capture
+uplift = deposits * 1000 * (post_charter_capture - pre_charter_capture)
+print(f"\nCharter uplift on ${deposits}B deposits: "
+      f"${uplift:.0f}M incremental annual revenue at full conversion")
+</div>
+
+<div class="source-note" style="margin-top:16px;">
+  Mercury Technologies | Preliminary Memo for Theia · Generated July 30, 2026 · Data: Mercury Series D press release (May 20, 2026), CNBC, Crunchbase News, Sacra, AlphaSense GenSearch primer (Jul 30, 2026), Payments Dive, PYMNTS · Private company — financial statement figures are Theia estimates · FYE December · Not investment advice.
+</div>
+
+</body>
+</html>
