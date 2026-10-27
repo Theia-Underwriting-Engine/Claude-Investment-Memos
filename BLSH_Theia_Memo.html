@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bullish | Preliminary Memo for Theia</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #fff;
+  color: #000;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1F3864; border-bottom: 3px solid #1F3864;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1F3864; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; color: #1F3864; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #808080; }
+.header .date { font-size: 10px; color: #808080; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #F2F2F2; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; color: #1F3864; }
+.price-bar .chg { color: #000; font-weight: 600; }
+.price-bar .label { color: #808080; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1F3864; border-bottom: 1.5px solid #BFBFBF; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1F3864; border-bottom: 2px solid #1F3864; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #808080; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #808080; padding: 2px 6px; border-bottom: 1px solid #BFBFBF; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #000; }
+table.data tr.section-row td { font-weight: 700; color: #1F3864; padding-top: 5px; border-top: 1px solid #BFBFBF; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #F2F2F2; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #0070C0; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #808080; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1F3864; color: #1F3864; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #808080; padding: 2px 4px; border-bottom: 1px solid #BFBFBF; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #000; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #BFBFBF; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #808080; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1F3864; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #808080; font-weight: 400; }
+.source-note { font-size: 8px; color: #808080; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #808080; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #262626; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 8px; }
+.fw-item .fw-name, .fw-name { font-weight: 700; color: #1F3864; }
+.fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong   { background: #DDEBF7; color: #1F3864; }
+.fw-rating.moderate { background: #F2F2F2; color: #1F3864; border: 1px solid #BFBFBF; }
+.fw-rating.weak     { background: #fff; color: #808080; border: 1px solid #BFBFBF; }
+.fw-rating.high     { background: #fff; color: #808080; border: 1px solid #BFBFBF; }
+.fw-rating.low      { background: #DDEBF7; color: #1F3864; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #F2F2F2; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #DDEBF7; font-weight: 700; color: #1F3864; }
+table.sensitivity td.diag { background: #DDEBF7; }
+
+.case-block { background: #F2F2F2; border: 1px solid #BFBFBF; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1F3864; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #808080; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #808080; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #DDEBF7; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #000; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1F3864; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini th { text-align: right; font-weight: 600; color: #808080; padding: 2px 4px; border-bottom: 1px solid #BFBFBF; }
+.case-block table.scenario-mini th:first-child { text-align: left; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #000; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #808080; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.valuation-row td { background: #DDEBF7 !important; font-weight: 600; color: #1F3864; }
+.case-block .exit-metrics { border-top: 1px solid #BFBFBF; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1F3864; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; color: #000; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #F2F2F2; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #808080; padding: 2px 4px; border-bottom: 1px solid #BFBFBF; white-space: nowrap; }
+table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child, table.comps td:nth-child(2) { text-align: left; }
+table.comps tr.subject td { font-weight: 700; background: #DDEBF7; }
+table.comps tr.group-row td { font-weight: 700; color: #1F3864; font-size: 8px; text-transform: uppercase; letter-spacing: 0.4px; padding-top: 5px; border-top: 1px solid #BFBFBF; }
+table.comps tr.stat-row td { font-style: italic; background: #F2F2F2; font-weight: 600; border-top: 1px solid #BFBFBF; }
+table.comps th.est-col { color: #0070C0; }
+
+table.risk-table { font-size: 10px; width: 100%; margin: 8px 0; }
+table.risk-table th { text-align: left; font-weight: 600; padding: 4px 6px; background: #F2F2F2; border-bottom: 1px solid #BFBFBF; color: #1F3864; }
+table.risk-table td { padding: 4px 6px; border-bottom: 1px solid #F2F2F2; vertical-align: top; }
+table.risk-table td:first-child { font-weight: 600; width: 22%; }
+
+.verdict { background: #F2F2F2; border-left: 4px solid #1F3864; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+.verdict-final { background: #DDEBF7; border-left: 4px solid #1F3864; padding: 12px 14px; margin: 16px 0; font-size: 11.5px; line-height: 1.55; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1F3864; color: #DDEBF7; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.alphasense-box { background: #DDEBF7; border-left: 4px solid #0070C0; padding: 10px 14px; margin: 10px 0; font-size: 10px; line-height: 1.5; }
+
+.bull-header, .bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1F3864; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bull-header { border-bottom: 1.5px solid #0070C0; }
+.bear-header { border-bottom: 1.5px solid #808080; }
+
+.bull-item, .bear-item { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Bullish | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">Bullish (NYSE: BLSH) is an institutionally focused, globally regulated digital asset platform that runs the Bullish Exchange (spot, perpetuals, dated futures and options) and owns CoinDesk, the industry's leading index, data, media and events franchise. Incorporated in the Cayman Islands in June 2021 and seeded by Block.one with ~164k BTC, $100M of cash and 20M EOS, Bullish launched its exchange in late 2021 and has since processed more than $1.5 trillion of cumulative volume. Its core technical differentiation is a patented hybrid matching engine that combines a high-performance central limit order book (CLOB) with Automated Market Making Instructions (AMMI) — an on-exchange, oracle-independent AMM that lets institutions post price-at-quantity liquidity curves with user-defined spreads and volatility parameters, backed by the company's own multibillion-dollar digital asset balance sheet. The company monetizes in two ways: (1) <strong>adjusted transaction revenue</strong> — trading volume multiplied by an average trading spread (2.26bps in Q2 2026), which is volatile and tied to the crypto cycle; and (2) <strong>Subscription, Services &amp; Other (SS&amp;O)</strong> — CoinDesk Indices licensing (#1 digital asset indexer, 15 of 39 global digital asset ETF listings in Q4 2025), CoinDesk Data, CoinDesk Insights/Consensus events, liquidity services, custody and interest income. SS&amp;O hit a record $62.7M in Q2 2026 and is now 68% of adjusted revenue, versus 28% in FY2024 — the business has quietly rotated from a crypto exchange into a crypto information-services and market-infrastructure company.</p>
+
+<p class="prose">Bullish IPO'd on the NYSE on August 13, 2025 at $37 (above a $32–33 raised range), raising ~$1.1B — received largely in stablecoins — and closed day one at $68. The stock has since round-tripped: at $29.13 it sits 21% below the IPO price and 57% below the first-day close, dragged by a 2026 crypto drawdown that cut BTC spot volumes and forced ~$1.3B of IFRS mark-to-market and impairment charges in H1 2026 alone on the BTC/ETH inventory that funds the AMM (FY2025 IFRS net loss $(785.5)M; H1 2026 $(884.9)M). The defining strategic event is the pending <strong>$4.2B acquisition of Equiniti</strong> from Siris (announced May 5, 2026; ~$2.35B in BLSH stock at a $38.48 VWAP ≈ 61.1M new shares, plus $1.85B of assumed debt; all antitrust clearances secured; close expected January 2027). Equiniti is the transfer agent and system of record for ~3,000 public companies — ~35% of the S&amp;P 500 and half of the FTSE 100 — with 20M+ verified shareholders and ~$500B of annual payments. Management's thesis is that the transfer agent "defines the legal ownership" of a share, so owning the register plus a regulated venue lets Bullish run the full issuer-sponsored tokenized-equity lifecycle — an architecture the SEC's September 2026 Innovation Exemption explicitly favors. Pro forma, management guides FY2026 combined adjusted revenue of $1.25–1.35B, EBITDA less capex of $490–530M and adjusted net income of $270–290M, with ~6–8% revenue growth, ~20% annual EPS growth and ~$1B of cumulative FCF over 2027–2029.</p>
+
+<p class="prose">Bullish holds an unusually broad Tier-1 license stack — NYDFS BitLicense, BaFin MiCAR (EEA passport), Hong Kong SFC, Gibraltar GFSC (tokenized-securities trading live since August 2026), a UK FCA benchmark license and pending CFTC DCM/DCO applications. Options, launched October 2025, reached 14% of global BTC options open interest by April 2026, making Bullish the #2 venue behind Deribit.</p>
+
+<p class="prose"><strong>Key facts:</strong> Founded 2021 (Cayman Islands) · Registered office Camana Bay, Grand Cayman; operating hubs in Hong Kong, Gibraltar, Frankfurt and New York · CEO Tom Farley (former NYSE President) · CFO David Bonanno · Chairman Brendan Blumer (Block.one co-founder; ~26% holder) · Employees ~400 (394–414 range disclosed across recent quarters) · IPO August 2025 (NYSE: BLSH) at $37 · FY end December · Foreign private issuer reporting under IFRS (20-F / 6-K) · Market Cap $4,419M (basic) · Pending Equiniti acquisition (close January 2027)</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 2: FINANCIAL SUMMARY -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Theia Financial Summary</div>
+
+<div class="header">
+  <div>
+    <h1>Bullish</h1>
+    <span class="ticker">BLSH · NYSE · Cayman Islands FPI · IFRS</span>
+  </div>
+  <div class="date">Market data · October 27, 2026 (intraday) · Financials through Q2 2026</div>
+</div>
+
+<div class="price-bar">
+  <div>
+    <span class="label">Price (Oct 27, 2026) </span>
+    <span class="price">$29.13</span>
+  </div>
+  <div><span class="label">1M </span><span class="chg">(19.0%)</span></div>
+  <div><span class="label">3M </span><span class="chg">+33.6%</span></div>
+  <div><span class="label">6M </span><span class="chg">(26.8%)</span></div>
+  <div><span class="label">YTD </span><span class="chg">(23.0%)</span></div>
+  <div><span class="label">1Y </span><span class="chg">(48.2%)</span></div>
+  <div><span class="label">52-Wk Range </span><span style="font-weight:600;">$20.55 – $56.92</span></div>
+</div>
+
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv" style="font-size:10px;">
+      <tr><td>Exchange / Ticker</td><td>NYSE · BLSH</td></tr>
+      <tr><td>Price (Oct 27, 2026)</td><td>$29.13</td></tr>
+      <tr><td>3-Month Avg Volume</td><td>1.46M shares/day</td></tr>
+      <tr><td>Float %</td><td>~25.5% (38.7M shares)</td></tr>
+      <tr><td>Short Interest</td><td>20.7% of float</td></tr>
+      <tr><td>Days to Cover</td><td>5.5 days</td></tr>
+      <tr><td>IPO Price / Day-1 Close</td><td>$37.00 / $68.00</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev" style="font-size:10px;">
+      <tr><td>Basic Shares (Ordinary)</td><td>151.7M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">+ Options / RSUs / Warrants</td><td style="font-size:9px;">8.3M</td></tr>
+      <tr><td>= Fully Diluted Shares</td><td>160.0M</td></tr>
+      <tr><td>Share Price</td><td>$29.13</td></tr>
+      <tr><td>= Fully Dil. Market Cap</td><td>$4,661M</td></tr>
+      <tr><td>+ Related-Party Loan (7%, on demand)</td><td>$496M</td></tr>
+      <tr><td>− Cash, Digital Assets &amp; Investments</td><td>($2,807M)</td></tr>
+      <tr><td>+ Other Liabilities vs. Liquid Assets</td><td>$210M</td></tr>
+      <tr><td>= EV (Book, Jun 30, 2026)</td><td>$2,559M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">− BTC/ETH Mark-Up Since Jun 30 (est.)</td><td style="font-size:9px;">($447M)</td></tr>
+      <tr class="total"><td>= Enterprise Value (Marked)</td><td>$2,112M</td></tr>
+    </table>
+  </div>
+</div>
+<p style="font-size:8px; color:#808080; margin-top:2px;">Net liquid assets $2,102M at Jun 30, 2026 (gross $2,807M). Holdings ~19,990 BTC (incl. 12,287 cbBTC) carried at ~$58.6k vs. $80.6k spot; ~9,540 ETH at ~$1,562 vs. $2,349. Aggregator EVs (~$4.6B) ignore the digital asset balance sheet. Pro forma for Equiniti: ~222M FD shares, ~$0 net leverage per management.</p>
+
+<div class="section-title">Current Valuation</div>
+<div style="border: 1px solid #BFBFBF; border-radius: 4px; margin-bottom: 8px;">
+  <div class="val-grid">
+    <div class="val-cell"><div class="val-label">Mkt Cap</div><div class="val-num">$4,419M</div><div class="val-sub">Basic shares</div></div>
+    <div class="val-cell"><div class="val-label">EV (Marked)</div><div class="val-num">$2,112M</div><div class="val-sub">Net of $2.1B liquid assets</div></div>
+    <div class="val-cell"><div class="val-label">P/Sales (FY26E)</div><div class="val-num">12.4x</div><div class="val-sub">Adj. rev $357M</div></div>
+    <div class="val-cell"><div class="val-label">EV/EBITDA (FY26E)</div><div class="val-num">16.3x</div><div class="val-sub">Adj. EBITDA ~$130M</div></div>
+    <div class="val-cell"><div class="val-label">P/E (FY26E)</div><div class="val-num">63.3x</div><div class="val-sub">Adj. EPS $0.46</div></div>
+    <div class="val-cell"><div class="val-label">P/E (PF FY26)</div><div class="val-num">23.1x</div><div class="val-sub">Incl. Equiniti · $1.26</div></div>
+  </div>
+  <div style="border-top: 1px solid #BFBFBF;">
+    <div class="val-grid">
+      <div class="val-cell"><div class="val-label">Fully Dil. Mkt Cap</div><div class="val-num">$4,661M</div><div class="val-sub">160.0M dil. shares</div></div>
+      <div class="val-cell"><div class="val-label">Cost of Equity</div><div class="val-num">~10.5%</div><div class="val-sub">Theia est. (10Y 5.0%)</div></div>
+      <div class="val-cell"><div class="val-label">Beta</div><div class="val-num">0.80</div><div class="val-sub">Short history (Finviz)</div></div>
+      <div class="val-cell"><div class="val-label">Avg Analyst Rating</div><div class="val-num">Hold</div><div class="val-sub">12 brokers · 5B/6H/1S</div></div>
+      <div class="val-cell"><div class="val-label">Cons. Target Price</div><div class="val-num">$40.82</div><div class="val-sub">+40% upside</div></div>
+      <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">~Nov 18</div><div class="val-sub">Q3 2026 (unconfirmed)</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-title">Valuation Multiples (at current price $29.13)</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Metric</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th>LTM 2Q26</th>
+      <th class="est">FY2026E</th>
+      <th class="est">FY2027E</th>
+      <th class="est">PF FY2026</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">PRICE MULTIPLES</td></tr>
+    <tr><td>P/E (Adjusted)</td><td>NM</td><td>97.1x</td><td>57.1x</td><td class="est">63.3x</td><td class="est">40.5x</td><td class="est">23.1x</td></tr>
+    <tr><td>P/Sales (Adj. Revenue)</td><td>20.7x</td><td>15.3x</td><td>12.5x</td><td class="est">12.4x</td><td class="est">10.8x</td><td class="est">5.1x</td></tr>
+    <tr><td>P/Book Value</td><td>1.8x</td><td>1.3x</td><td>1.8x</td><td class="est">--</td><td class="est">--</td><td class="est">--</td></tr>
+    <tr class="section-row"><td colspan="7">EV MULTIPLES (EV $2,112M standalone; ~$6.5B pro forma)</td></tr>
+    <tr><td>EV/Sales</td><td>9.9x</td><td>7.3x</td><td>6.0x</td><td class="est">5.9x</td><td class="est">5.2x</td><td class="est">5.1x</td></tr>
+    <tr><td>EV/EBITDA</td><td>40.5x</td><td>22.4x</td><td>15.3x</td><td class="est">16.3x</td><td class="est">--</td><td class="est">12.7x</td></tr>
+  </tbody>
+</table>
+<p style="font-size:8px; color:#808080; margin-top:2px;">FY2026E/FY2027E = Street consensus, Bullish standalone (10 / 8 analysts; adj. EPS $0.46 / $0.72). PF FY2026 = management's combined Bullish + Equiniti guidance midpoints (adj. revenue $1.3B, EBITDA less capex $510M, adj. net income $280M) on ~222M pro forma diluted shares. IFRS P/E is NM (LTM IFRS net loss $(1.43)B on digital asset MTM).</p>
+
+<div class="section-title">Revenue Exposure (FY2025 Actuals, FYE December)</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Revenue Line (Adjusted)</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Segment</th><th>$M</th><th>% Rev</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Adj. Transaction Revenue</td><td>$131M</td><td>45.3%</td><td>(14.7%)</td></tr>
+        <tr><td>Subscription, Services &amp; Other</td><td>$158M</td><td>54.7%</td><td>+160.7%</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #BFBFBF;"><td>Total Adjusted Revenue</td><td>$289M</td><td>100%</td><td>+34.9%</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:8px; color:#808080; margin-top:4px;">H1 2026: transaction $68M (37%) / SS&amp;O $118M (63%). SS&amp;O split (indices, data, insights, liquidity services, custody, interest) not disclosed; IFRS "digital asset sales" ($244.8B in FY2025) are gross AMM principal flows, not economic revenue.</p>
+  </div>
+  <div>
+    <div class="sub-label">By Product Volume</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Product</th><th>FY25 $B</th><th>% Vol</th><th>Q3'26 $B</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Spot</td><td>$728</td><td>91.4%</td><td>$107</td></tr>
+        <tr><td>Perpetuals / Futures</td><td>$59</td><td>7.4%</td><td>$6</td></tr>
+        <tr><td>Options (from Oct-25)</td><td>$9</td><td>1.1%</td><td>$9</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #BFBFBF;"><td>Total Volume</td><td>$796</td><td>100%</td><td>$122</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:8px; color:#808080; margin-top:4px;">Geographic revenue not disclosed in the materials reviewed. Q3'26 options = 7.4% of volume; spread 2.26bps vs. 1.64bps FY2025.</p>
+  </div>
+</div>
+
+<div class="section-title">Financials</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">$M (FY Dec)</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th>LTM 2Q26</th>
+      <th class="est">FY2026E</th>
+      <th class="est">FY2027E PF</th>
+      <th class="est">FY2028E PF</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">INCOME STATEMENT (ADJUSTED, NON-IFRS)</td></tr>
+    <tr><td>Adjusted Revenue</td><td>$214</td><td>$289</td><td>$354</td><td class="est">$357</td><td class="est">$1,336</td><td class="est">$1,423</td></tr>
+    <tr style="color:#808080; font-size:8.5px;"><td style="padding-left:12px;">Revenue Growth %</td><td>--</td><td>+34.9%</td><td>--</td><td class="est">+23.7%</td><td class="est">+5.0% PF</td><td class="est">+6.5%</td></tr>
+    <tr><td style="padding-left:12px;">Adj. Transaction Revenue</td><td>153</td><td>131</td><td>133</td><td class="est">127</td><td class="est">140</td><td class="est">165</td></tr>
+    <tr><td style="padding-left:12px;">SS&amp;O / Issuer Services</td><td>61</td><td>158</td><td>222</td><td class="est">230</td><td class="est">1,196</td><td class="est">1,258</td></tr>
+    <tr><td>Adjusted Operating Expenses</td><td>(162)</td><td>(194)</td><td>(217)</td><td class="est">(228)</td><td class="est">(751)</td><td class="est">(758)</td></tr>
+    <tr><td>Adjusted EBITDA</td><td>52</td><td>94</td><td>138</td><td class="est">130</td><td class="est">585</td><td class="est">665</td></tr>
+    <tr style="color:#808080; font-size:8.5px;"><td style="padding-left:12px;">EBITDA Margin %</td><td>24.4%</td><td>32.7%</td><td>38.9%</td><td class="est">36.3%</td><td class="est">43.8%</td><td class="est">46.7%</td></tr>
+    <tr><td>Finance Expense</td><td>(39)</td><td>(52)</td><td>(57)</td><td class="est">(56)</td><td class="est">(160)</td><td class="est">(150)</td></tr>
+    <tr><td>Adjusted Net Income</td><td>10</td><td>39</td><td>77</td><td class="est">74</td><td class="est">340</td><td class="est">412</td></tr>
+    <tr style="color:#808080; font-size:8.5px;"><td style="padding-left:12px;">Net Income Margin %</td><td>4.5%</td><td>13.4%</td><td>21.8%</td><td class="est">20.6%</td><td class="est">25.4%</td><td class="est">29.0%</td></tr>
+    <tr><td>Adj. EPS (Dil)</td><td>$0.08</td><td>$0.30</td><td>$0.51</td><td class="est">$0.46</td><td class="est">$1.53</td><td class="est">$1.86</td></tr>
+    <tr><td>IFRS Net Income</td><td>$80</td><td>($786)</td><td>($1,430)</td><td class="est">--</td><td class="est">--</td><td class="est">--</td></tr>
+    <tr class="section-row"><td colspan="7">KEY OPERATING METRICS</td></tr>
+    <tr><td>Total Trading Volume ($B)</td><td>--</td><td>$796</td><td>$692</td><td class="est">~$600</td><td class="est">$650</td><td class="est">$750</td></tr>
+    <tr><td>Avg Trading Spread (bps)</td><td>--</td><td>1.64</td><td>1.91</td><td class="est">~2.1</td><td class="est">2.0</td><td class="est">2.0</td></tr>
+    <tr class="section-row"><td colspan="7">BALANCE SHEET</td></tr>
+    <tr><td>Cash &amp; Equivalents</td><td>$32</td><td>$88</td><td>$87</td><td class="est">--</td><td class="est">--</td><td class="est">--</td></tr>
+    <tr><td>Net Liquid Assets</td><td>$1,696</td><td>$2,860</td><td>$2,102</td><td class="est">--</td><td class="est">&gt;$500</td><td class="est">--</td></tr>
+    <tr><td>Borrowings (incl. Related Party)</td><td>$508</td><td>$556</td><td>$496</td><td class="est">$496</td><td class="est">~$2,350</td><td class="est">--</td></tr>
+    <tr><td>Shareholders' Equity</td><td>$2,401</td><td>$3,298</td><td>$2,460</td><td class="est">--</td><td class="est">--</td><td class="est">--</td></tr>
+    <tr><td>BVPS</td><td>$21.30</td><td>$21.87</td><td>$16.22</td><td class="est">--</td><td class="est">--</td><td class="est">--</td></tr>
+  </tbody>
+</table>
+<p style="font-size:8px; color:#808080; margin-top:2px;">FY2026E = consensus (adj. revenue $356.7M, adj. EPS $0.46) with Theia split of transaction vs. SS&amp;O consistent with FY2026 SS&amp;O guidance of $225–245M and adj. opex guidance of $225–230M. FY2027E/FY2028E = Theia base case, pro forma for Equiniti from January 2027 (no Street consensus incorporates the deal; standalone FY2027E consensus is adj. revenue $408M / EPS $0.72). PF EBITDA shown as EBITDA less capex per management's framing; PF tax rate 20%.</p>
+
+<div class="section-title">Valuation Summary</div>
+<p class="prose">Bullish screens as one of the most expensive names in fintech on a standalone basis — 63x FY2026E adjusted EPS and 12.4x adjusted revenue — but those headline multiples are misleading on two counts. First, roughly half of the market cap is balance sheet: $2.1B of net liquid assets at June 30 book, plus ~$450M of BTC appreciation since. Netting that out, the operating business trades at an EV of ~$2.1B, or ~16x FY2026E adjusted EBITDA — fair for a 36%-margin franchise growing SS&amp;O 40%+, full for a transaction business whose volumes fell 45% from Q4 2025 to Q3 2026. Second, the case is no longer the standalone exchange: on management's pro forma FY2026 guidance (~$1.26 EPS on ~222M shares) the stock trades at 23x earnings and ~12.7x EBITDA less capex — in line with the market-infrastructure median (21x FY1 P/E) and Computershare (~19.5x). The $40.82 consensus target (12 brokers, Hold) implies 40% upside, but targets are falling (JPMorgan $25, Rosenblatt $30, Wells Fargo $35) and the stock trades 24% below the $38.48 at which ~61M shares go to Siris. This is a "show-me" setup on whether Equiniti earns a transfer-agent multiple plus any tokenization credit — with ~21% of a thin float sold short.</p>
+
+<div class="source-note">Sources: Bullish quarterly results releases Q2 2025–Q2 2026, FY2025 Form 20-F, Q2 2026 interim financial statements (6-K), September 2026 monthly metrics, Equiniti transaction release and investor call (May 5, 2026); market data from StockAnalysis/Finviz/Yahoo (Oct 27, 2026); BTC/ETH from CoinGecko. No FactSet snapshot provided.</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 3: BULL & BEAR CASES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Cases</div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Equiniti Makes Bullish the Owner of the Register.</span> The SEC's September 2026 Innovation Exemption requires tokenized NMS stocks to carry rights identical to conventional shares and gives issuers a 30-day veto over third-party tokenizers — which structurally favors the issuer-sponsored model over synthetic wrappers (Robinhood's EU stock tokens, xStocks). The entity that controls the issuer relationship and the legal register is the transfer agent. Post-close, Bullish will own the register for ~3,000 issuers (~35% of the S&amp;P 500, ~50% of the FTSE 100) and 20M+ holders, plus a regulated venue already trading issuer-sponsored tokens in Gibraltar. If even 5% of Equiniti's issuers tokenize by 2028 and Bullish captures a primary venue role, tokenization/blockchain services (guided at ~+20% growth) could add $50–150M of high-margin revenue on top of a base that "rounds to zero" today — and re-rate the combined company from a 15–20x transfer agent toward a 30x+ platform multiple.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Pro Forma Earnings Power Is Hidden by Standalone Consensus.</span> Street numbers still model Bullish standalone ($0.46 FY2026E / $0.72 FY2027E adjusted EPS) because the deal has not closed. Management's combined FY2026 guidance — $1.25–1.35B adjusted revenue, $490–530M EBITDA less capex, $270–290M adjusted net income — implies ~$1.26 pro forma EPS on ~222M shares, and the 2027–2029 framework (EBITDA less capex compounding ~$100M/yr toward a 50%+ exit margin, $25–50M net cost synergies, ~20% EPS CAGR, ~$1B cumulative FCF) puts FY2028E EPS at ~$1.80–1.90. At $29.13 that is ~16x FY2028E, for a business where ~85% of revenue will be recurring fees with ~99% client retention and 15+ year tenure. When consensus migrates to pro forma numbers in Q1 2027, the optical P/E collapses from ~63x to ~19x.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Crypto Cycle Recovery on a Leaner Cost Base.</span> Q3 2026 trading volume of $122B is the lowest since the IPO (vs. $252B in Q1 2025) while the average spread has widened to 2.26bps (from 1.30bps in Q2 2025) as the mix shifts toward options and higher-spread spot. Adjusted transaction revenue therefore bottomed at only ~$27–30M/quarter despite a 52% volume decline. A return to FY2025 volumes (~$800B) at a 2.0–2.2bps spread would add $40–50M of transaction revenue at near-100% incremental margin; a 2021-style cycle ($1.2T+) would add $120M+. Meanwhile the ~$1.6B BTC position (marked) and CoinDesk index fees (which scale with ETF AUM, e.g., $400M+ of Q2 inflows into Morgan Stanley's CoinDesk-benchmarked ETPs) give the equity convex upside to a BTC recovery.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Options Franchise Becomes a Durable #2 to Deribit.</span> Bullish went from zero to 29% peak share of global BTC options volume and 14% of open interest within six months of its October 2025 launch, and has listed options out to January 2029 — the longest-dated in crypto — which is precisely the tenor structured-products desks (Marex, 3,400 clients) need to hedge. With Coinbase now owning Deribit, Bullish is the only scaled, regulated, independent alternative for banks and brokers that will not route to a competitor. Portfolio margining (up to 50% lower margin on delta-hedged books) and integrations with Elwood, Kemet and Immersive Finance deepen institutional stickiness. Options and perps also bring in the higher-frequency, more spread-rich flow that lifts blended take rates.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">CoinDesk Cross-Sell Flywheel and Regulatory Moat.</span> SS&amp;O has grown from $61M (FY2024) to a $222M LTM run-rate, beating guidance in every quarter since IPO, and ~55% of 2026 Consensus sponsorship revenue came from clients who also buy liquidity services or index licensing. CoinDesk Indices is the #1 digital-asset ETF indexer (15 of 39 global listings in Q4 2025) with an FCA benchmark administrator license; every new spot ETF (SOL, XRP, basket products) is an annuity. Combined with the BitLicense, MiCAR passport, SFC, GFSC and pending CFTC DCM/DCO licenses, Bullish is one of a handful of venues a regulated bank can actually onboard to — an advantage that compounds as the GENIUS Act brings bank-issued stablecoins (Bullish was first to list SoFiUSD) onto exchanges.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="bear-header">Bear Cases</div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">The Equity Is a Levered Crypto Treasury in Disguise.</span> Bullish carries ~$1.2B (book) of BTC to fund its AMM, plus ~$950M of digital asset financial assets and ~$270M of crypto loans. IFRS treats most of the BTC as intangible assets — impaired on the way down, not written back up through P&amp;L — which produced $(785.5)M of FY2025 net loss and $(884.9)M in H1 2026 alone, cutting book equity from $3.98B (Q3 2025) to $2.46B. Net liquid assets have fallen from $3.49B to $2.10B in three quarters. A further 30% BTC drawdown would erase another ~$450M of equity and weaken the liquidity buffer that management has promised to keep above $500M post-close — just as the company assumes $1.85B of Equiniti debt.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Equiniti Is a Low-Growth, Rate-Sensitive Transfer Agent Bought at the Top.</span> Of Equiniti's ~$915M 2026E revenue, ~$230M is float interest income on client cash (~2/3 USD, 1/3 GBP, unhedged) — near-100% margin revenue that compresses directly with Fed and BoE cuts. Core issuer and holder services ($685M) grow mid-single digits. Siris, a sophisticated PE seller, took ~61M Bullish shares at $38.48 (now worth ~$1.8B, a 24% markdown) and carved out the non-core lines before close. If 150bp of rate cuts arrive by 2028, float income could fall $70–80M (≈ $0.25–0.30 of EPS), and the "~20% EPS CAGR" framework becomes ~10%. Investors would then be paying a crypto multiple for a Computershare.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Transaction Revenue Is Concentrated and Losing Share.</span> In FY2023, the top five customers accounted for 71% of trading volume and 69% of adjusted transaction revenue — the exchange is effectively a venue for a handful of market makers and arbitrageurs. Management admitted on the Q2 2026 call that spot volumes and market share declined ("Crypto is a lousy environment for trading right now"), and options OI share has slipped from the April 2026 14% peak as Deribit (now inside Coinbase) and CME compete. Spreads have widened in a thin market; if volume recovers, competitive pressure from Coinbase, OKX and Binance could compress spreads back toward the ~1.3bps of mid-2025, capping the transaction recovery.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Tokenization Is Years From Material Revenue.</span> Management explicitly does not expect tokenized equities to lift transaction revenue in 2026 and only calls 2027 a "contributor." Equiniti's blockchain revenue "rounds to zero" today. The SEC exemption is conditional, five years in duration, and permissioned; PartnerCap calls it "investable, not scalable." Issuers must opt in one by one, broker-dealers (Robinhood, Schwab, IBKR) own the retail order flow, and DTCC is building its own tokenization rails. If adoption follows the multi-decade path of past market-structure changes, Bullish shareholders will have issued 40% more stock to buy a stable transfer agent whose optionality never pays.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Governance, Float and Overhang.</span> Chairman Brendan Blumer and director Kokuei Yuan together own ~50% of the company; insiders hold ~64–74%, leaving a ~25% float with ~21% of it sold short. Post-close, Siris and rollover holders will own ~27.5% with two board seats, creating a large future seller. Bullish is a Cayman-domiciled FPI reporting under IFRS with non-standard adjusted metrics, a $496M on-demand loan from a Block.one-related SPV at 7%, and no buyback. The combination of a controlled register, related-party funding, opaque SS&amp;O disclosure (no split by line) and complex crypto accounting is a meaningful discount factor for generalist investors.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Scale Economies</span> <span class="fw-rating moderate">Moderate</span><br>
+  Exchange economics are classic fixed-cost businesses: the matching engine, compliance stack and licensing footprint cost roughly the same whether the venue clears $120B or $250B a quarter. Bullish's adjusted opex has been held to ~$48–63M per quarter with a ~400-person team while EBITDA margins ranged from 14% (Q2 2025, low volume) to 48% (Q4 2025, high volume) — the operating leverage is real. Equiniti adds a second scale layer: transfer agency is a processing business where register maintenance, proxy, dividend payment and corporate action workflows are amortized across 3,000 issuers and 20M holders, and management's $50–75M gross cost-takeout target reflects platform consolidation. However, Bullish's exchange is sub-scale relative to Binance (7x Coinbase volume) and Coinbase, so it does not enjoy a unit-cost advantage versus the leaders; its scale benefits are relative to smaller regulated venues, not to the industry.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Network Effects</span> <span class="fw-rating moderate">Moderate</span><br>
+  Liquidity begets liquidity: tighter spreads and deeper books attract more institutional flow, which in turn tightens spreads. Bullish has engineered a partial shortcut around the cold-start problem by seeding the AMM with its own multibillion-dollar balance sheet, which the company showed preserved materially more order-book depth than offshore venues during the October 10, 2025 flash crash. Options open interest exhibits a stronger network effect (open positions anchor to the venue until expiry, and long-dated listings to 2029 lock in structured-product hedgers). CoinDesk Indices also has a benchmark network effect — once an ETF tracks a CoinDesk index, the AP, market-maker and derivative ecosystem standardizes around it. That said, top-5 customer concentration (71% of FY2023 volume) shows the exchange network is still narrow, and crypto liquidity is notoriously mobile across venues.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Counter-Positioning</span> <span class="fw-rating strong">Strong</span><br>
+  Bullish's strongest strategic power is counter-positioning against offshore crypto exchanges and against legacy transfer agents. Binance, OKX and Bybit built enormous businesses on retail leverage and lighter regulation; adopting Bullish's full-reserve, segregated, multi-Tier-1-licensed model would require them to exit lucrative jurisdictions and products. Conversely, incumbent transfer agents (Computershare, Broadridge) earn stable fees and float income from the existing DTC/Cede &amp; Co. "street name" structure; a world where the token is the legal share and holders sit directly on an on-chain register disintermediates parts of the custody and settlement chain those incumbents partner with, so they have weak incentives to lead it. Bullish has nothing to cannibalize — it can embrace issuer-sponsored tokenization with 24/7 trading and atomic settlement precisely because it has no legacy profit pool to protect. The Equiniti acquisition is the purchase of an incumbent's customer base by the counter-positioned entrant.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Switching Costs</span> <span class="fw-rating moderate">Moderate</span><br>
+  Switching costs differ sharply by segment. For the exchange, they are low-to-moderate: market makers connect via FIX/REST/WebSocket to many venues and can re-route flow within days, though portfolio margining across spot/perps/options and institutional integrations (Elwood, Kemet, Marex) add friction. For CoinDesk Indices, switching costs are high — changing an ETF's benchmark requires board approval, shareholder notice and tracking-error risk. For Equiniti, switching costs are very high: management cites ~99% average retention and 15+ year issuer tenure; migrating a shareholder register, dividend reinvestment plans and employee share plans is an operationally risky, rarely attempted project. Post-close, the weighted average switching cost of Bullish's revenue base rises dramatically (from ~35% to ~85% sticky revenue), which is the heart of the strategic shift.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Branding</span> <span class="fw-rating moderate">Moderate</span><br>
+  CoinDesk is arguably the most recognized media brand in crypto, and Consensus (26,000+ attendees across Miami and Hong Kong in 2026) is the industry's flagship convening, giving Bullish a marketing funnel no competing exchange can replicate without the reputational baggage of owning the press that covers it. Tom Farley's NYSE pedigree and the "regulated, full-reserve, post-FTX" positioning carry genuine weight with bank and asset-manager risk committees. But the "Bullish" exchange brand itself has limited awareness outside institutional circles, and in trading, brand rarely commands a price premium — institutions route to the best spread. Branding helps win mandates (index licensing, Consensus sponsorships, coalition leadership); it does not raise take rates.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">6. Cornered Resource</span> <span class="fw-rating strong">Strong</span><br>
+  Three assets qualify. (a) <strong>The licensing stack</strong>: the BitLicense, MiCAR passport, SFC VATP, GFSC tokenized-securities approval, FCA benchmark license and a registered U.S. transfer agent took years and are not purchasable on demand; few venues globally hold all of them. (b) <strong>Equiniti's register relationships</strong>: being the legal system of record for ~3,000 issuers is the scarce chokepoint for issuer-sponsored tokenization under the SEC framework — a tokenizer needs the issuer's consent and the transfer agent's cooperation. (c) <strong>The patented AMMI technology and seeded balance sheet</strong>: the hybrid CLOB/AMM is patented, and the ~20k BTC inventory funding it is a resource competitors would need billions to replicate. CoinDesk's 40%+ share of digital asset ETF index mandates is a fourth, smaller cornered resource.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">7. Process Power</span> <span class="fw-rating weak">Weak</span><br>
+  Bullish is a five-year-old company with ~400 employees; it has not yet demonstrated embedded organizational processes that competitors cannot replicate. Its execution record is good — options scaled to #2 globally within months, SS&amp;O has beaten guidance every quarter, and licensing was secured across six jurisdictions — but these reflect leadership quality more than institutionalized process. The coming test is integration: merging a ~400-person crypto-native exchange with a much larger, regulated, UK-centric transfer agent (Equiniti) across technology, compliance and culture is the kind of complex execution where process power would be built or found wanting. Greenwich Research flags integration friction as the central execution risk.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> Bullish is a 2–3 power business today, with genuine strength in Counter-Positioning (regulated, full-reserve, tokenization-native against offshore exchanges and legacy transfer agents) and Cornered Resource (licensing stack, patented AMMI plus seeded balance sheet, and — post-close — the Equiniti register). Scale Economies, Network Effects, Switching Costs and Branding are moderate; switching costs step up sharply once Equiniti's ~99%-retention register business is consolidated. Process Power is unproven. The moats protect the <em>option</em> on tokenization; they do not yet protect the transaction revenue line, which remains contestable.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Threat of New Entrants</span> <span class="fw-rating moderate">Moderate</span><br>
+  For an offshore crypto exchange, barriers to entry are low — dozens launch every cycle. For a regulated, institutional venue, barriers are high: the BitLicense, MiCAR authorization, SFC VATP and CFTC registrations take years, require audited capital and controls, and are increasingly the price of admission for bank and asset-manager flow. The more relevant entrant threat is TradFi incumbents moving into crypto and tokenization with existing licenses and client bases: CME (crypto futures and options), Cboe, Nasdaq and ICE (tokenized securities initiatives), DTCC (tokenized collateral and settlement), and brokers like Robinhood and Schwab (direct crypto and tokenized-stock offerings). These incumbents do not need to build a register — they already sit next to one. In transfer agency, entry is slow and capital-light competitors (Vertalo, Securitize as an SEC-registered TA) exist, but displacing a 15-year incumbent at a large issuer is rare.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Bargaining Power of Suppliers</span> <span class="fw-rating low">Low</span><br>
+  Bullish's key "suppliers" are market makers and liquidity providers, third-party custodians (BitGo, Fireblocks, Coinbase Custody, with BitGo carrying $250M cold-wallet insurance policies), cloud infrastructure, stablecoin issuers (Circle, Paxos, SocGen-FORGE, SoFi) and engineering talent. The proprietary AMM reduces dependency on third-party market makers, and multiple custodians remove single-point-of-failure risk. The most important "supplier" relationship is regulatory licensing, which is not priced but can be withdrawn. Talent in crypto market structure is scarce, but Bullish's NYSE-heritage leadership and equity currency make it competitive. Overall supplier power is low; the one notable dependency is the $496M related-party loan from a Block.one-affiliated SPV, which is repayable on demand.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Bargaining Power of Buyers</span> <span class="fw-rating high">High</span><br>
+  On the exchange, buyer power is high. Institutional traders are sophisticated, price-sensitive and multi-homed; the top five customers have historically generated ~70% of volume and transaction revenue, and they negotiate rebates and fee tiers aggressively. Spreads fell from 2.6bps (Q2 2024) to 1.3bps (Q2 2025) before widening again in the 2026 lull. For CoinDesk Indices, buyers (ETF issuers) have moderate power — fees are a small fraction of the expense ratio, but issuers compare benchmark providers (CF Benchmarks, MarketVector, S&amp;P). For Equiniti, issuer buyer power is moderate: large-cap issuers run RFPs and negotiate fees, but switching is rare and costly. Weighted by today's revenue mix, buyer power is high; post-Equiniti it moderates.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Threat of Substitutes</span> <span class="fw-rating high">High</span><br>
+  Substitutes are abundant on the trading side: CME-listed futures and options, spot BTC/ETH ETFs (which pull activity off crypto venues into brokerage accounts), on-chain decentralized exchanges and perp DEXs (Hyperliquid, Jupiter), OTC desks and internalizing brokers (Robinhood, Coinbase Prime). In tokenization, synthetic stock tokens (xStocks, Robinhood EU tokens), DTCC-led tokenized settlement, and broker-led "tokenized share classes" all compete with the issuer-sponsored, transfer-agent-led model. CoinDesk Data competes with Kaiko, Amberdata and Bloomberg; CoinDesk media competes with free content. Only the transfer agent function itself — maintaining the legal register — has few substitutes, which is why the Equiniti deal matters strategically.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Competitive Rivalry</span> <span class="fw-rating high">High</span><br>
+  Rivalry in crypto trading is intense and global: Binance (volume >7x Coinbase), Coinbase (now owning Deribit, the #1 options venue), OKX, Bybit, Kraken (private, ~$20B valuation, IPO-bound), Gemini, Robinhood and CME all compete for overlapping institutional flow. Coin Metrics data from mid-2025 showed Bullish at ~22% of spot volume within the peer set of IPO-track exchanges (parity with Kraken; Coinbase 49%), but globally Bullish is a mid-tier venue. In transfer agency the market is an oligopoly (Computershare, Equiniti, Broadridge, plus smaller players) with stable, rational pricing. In indices, CoinDesk competes with CF Benchmarks (Kraken-owned) and S&amp;P/MarketVector. Overall rivalry is high on the revenue lines that matter most to today's numbers and moderate on the lines that matter most to the 2028 thesis.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> Bullish's five-force structure is challenging today and improving post-close. The standalone exchange faces high buyer power, abundant substitutes and intense rivalry from far larger players — a structure that explains volatile, compressing take rates and top-5 customer concentration. The Equiniti register, CoinDesk Indices and the regulatory license stack operate in much more favorable structures (oligopoly, high switching costs, few substitutes). The investment case therefore depends on the combined company's mix shifting toward the structurally advantaged businesses — and on using those positions to capture a share of tokenized-equity trading rather than competing head-on with Binance and Coinbase for crypto spot flow.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 6: WHAT DRIVES THE STOCK? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<p class="prose">The following are the 6 variables that would move BLSH's share price materially in the next 12 months. These are what analysts build tracking models around and PMs ask about in morning meetings.</p>
+
+<p class="prose"><strong>1. BTC Price and Crypto Trading Volumes.</strong> BLSH is still traded as a crypto beta: the stock fell from $56.92 to $20.55 as BTC slid toward ~$60k in mid-2026, then rallied 33% over three months as BTC recovered to ~$80k. BTC drives three things at once — the mark on ~20k BTC held (≈ $20M of book value per $1k move in BTC), CoinDesk index fees (AUM-linked) and exchange volume. Monthly metrics (released ~6th of each month) are the highest-frequency datapoint: Q3 2026 volume was $122B; a return above $200B/quarter at a 2bps+ spread would be bullish, while sub-$100B quarters would signal share loss rather than a cyclical trough.</p>
+
+<p class="prose"><strong>2. Equiniti Closing and the Pro Forma Re-Base.</strong> The January 2027 close is the most important re-rating event. Upon close, Street models will be rebuilt on pro forma numbers (~$1.3B revenue, ~$280M net income vs. $357M / $74M standalone). Watch for: (a) final close timing and any remaining FCA/regulatory conditions, (b) the post-close capital structure — how much BTC/stablecoin liquidity is used to pay down the $1.85B of assumed debt (management targets net leverage ~0 and >$500M net liquid assets), (c) first combined guidance for FY2027 (likely with Q4 results in February 2027). Guidance at or above the ~$1.25–1.35B revenue / ~$600M EBITDA-less-capex trajectory would be bullish; a reset would be severely punished.</p>
+
+<p class="prose"><strong>3. Interest Rates and Equiniti Float Income.</strong> ~$230M of Equiniti's 2026E revenue is interest earned on client cash balances (~2/3 USD, 1/3 GBP, unhedged). This is the single largest profit line in the combined company and near-100% margin. With the U.S. 10-year at ~5.0%, the market is not pricing aggressive cuts, but every 25bp reduction in short rates is worth roughly ~$13–14M of pre-tax income (~$0.05 per pro forma share). A higher-for-longer rate path is quietly bullish for BLSH — an unusual exposure for a crypto name and one the market may not yet have priced. Any decision to hedge the float would reduce volatility and could be well received.</p>
+
+<p class="prose"><strong>4. Tokenized Equity Adoption Signals.</strong> The stock will react to evidence that the issuer-sponsored model is winning: (a) Equiniti issuers announcing tokenized share classes, (b) Coalition membership growth (now 8 firms including QRT, Vertalo, zerohash), (c) Bullish obtaining U.S. approval to run tokenized-equity secondary trading under the SEC Innovation Exemption, (d) tokenized-equity volumes on Bullish Gibraltar, and (e) broker distribution agreements (Alpaca, DriveWealth, Apex). Management has guided that tokenization will not lift 2026 transaction revenue and will only be a "contributor" in 2027 — so the bar is narrative evidence, not revenue, for the next 12 months.</p>
+
+<p class="prose"><strong>5. SS&amp;O Trajectory vs. Guidance.</strong> FY2026 SS&amp;O guidance is $225–245M, implying H2 of $108–128M split ~45/55 between Q3 and Q4 (Q3 ≈ $48–57M). SS&amp;O has beaten guidance every quarter since the IPO; a Q3 print at or above ~$55M and a Q4 outlook at the top of the range would confirm the CoinDesk cross-sell engine is resilient to the trading downturn. Index revenue is the swing factor (it tracks AUM in licensed ETPs), along with interest income on stablecoin and fiat balances. A miss would undercut the "diversified, recurring" story just before the Equiniti close.</p>
+
+<p class="prose"><strong>6. Short Interest, Float and Lockup Dynamics.</strong> With ~21% of a ~39M-share float sold short (5.5 days to cover) and insiders controlling ~64%+ of shares, BLSH is prone to violent squeezes and air-pockets (e.g., +9% on Q2 results, (19%) over the last month). Post-close, ~61M new shares go to Siris and Equiniti rollover holders — roughly 1.6x today's float — creating a potential overhang once any holding restrictions lapse. Conversely, the larger float should support index inclusion and broaden the shareholder base. Any secondary sale, block trade or announced buyback is a material stock driver.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<p class="prose">Bullish's revenue (pro forma for Equiniti from January 2027) can be decomposed into its key product lines using fundamental economic drivers:</p>
+
+<table class="data" style="font-size:10px; margin-bottom:16px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Revenue Line</th>
+      <th style="text-align:left;">Driver 1</th>
+      <th style="text-align:left;">Driver 2</th>
+      <th style="text-align:left;">Driver 3</th>
+      <th style="text-align:left;">= Revenue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Exchange Transactions</strong></td>
+      <td>Trading Volume ($692B LTM)</td>
+      <td>x Avg Spread (1.9bps LTM; 2.26 Q3'26)</td>
+      <td>x Mix (spot / perps / options)</td>
+      <td>= Adj. Transaction Rev (~$133M LTM)</td>
+    </tr>
+    <tr>
+      <td><strong>CoinDesk Indices</strong></td>
+      <td>AUM in Licensed ETPs</td>
+      <td>x Licensing Fee (bps)</td>
+      <td>+ # New Mandates</td>
+      <td>= Index Revenue (in SS&amp;O)</td>
+    </tr>
+    <tr>
+      <td><strong>Data, Insights &amp; Events</strong></td>
+      <td>Data Subscribers x ACV</td>
+      <td>+ Consensus Attendees (26k) x Ticket</td>
+      <td>+ Sponsors x Avg Package</td>
+      <td>= Information Services (in SS&amp;O)</td>
+    </tr>
+    <tr>
+      <td><strong>Liquidity Services, Custody &amp; Interest</strong></td>
+      <td>Client Mandates (issuers, funds)</td>
+      <td>x Avg Fee</td>
+      <td>+ Balances x Yield</td>
+      <td>= Liquidity / Interest (in SS&amp;O)</td>
+    </tr>
+    <tr>
+      <td><strong>Equiniti Issuer &amp; Holder Services</strong></td>
+      <td># Issuers (~3,000) x Avg Fee</td>
+      <td>+ Corporate Actions / Proxy Events</td>
+      <td>x Retention (~99%)</td>
+      <td>= Core TA Revenue (~$685M 2026E)</td>
+    </tr>
+    <tr>
+      <td><strong>Equiniti Float Income</strong></td>
+      <td>Avg Client Cash Balances</td>
+      <td>x Short-Term Yield (USD / GBP)</td>
+      <td>x Retention of Spread</td>
+      <td>= Float Income (~$230M 2026E)</td>
+    </tr>
+    <tr>
+      <td><strong>Tokenization Services</strong></td>
+      <td># Issuers Tokenized</td>
+      <td>x Issuance / Register Fee</td>
+      <td>+ Token Volume x Spread</td>
+      <td>= Blockchain Rev (~$0 today; +20%/yr guide)</td>
+    </tr>
+    <tr>
+      <td><strong>Total Revenue</strong></td>
+      <td>Bullish Standalone</td>
+      <td>+ Equiniti Core + Float</td>
+      <td>+ Tokenization</td>
+      <td>= $357M (FY26E standalone) / ~$1.3B (PF FY26)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose"><strong>Key driver quantification (FY2026E / pro forma estimates):</strong></p>
+<ul style="font-size: 11px; line-height: 1.7; color: #262626; margin-left: 20px; margin-bottom: 10px;">
+  <li><strong>Exchange Transactions:</strong> FY2026E volume of ~$600B (Q1 $197B, Q2 $131B, Q3 $122B, Q4E ~$150B) x ~2.1bps blended spread = ~$127M adjusted transaction revenue; every $100B of annual volume at 2bps = $20M of revenue at near-100% incremental margin</li>
+  <li><strong>SS&amp;O (CoinDesk + Liquidity + Interest):</strong> FY2026 guidance $225–245M (H1 $117.5M actual); Q2 2026 included ~$13M of "other income from non-customers" and ~$5M of interest income — i.e., ~30% of SS&amp;O is balance-sheet and services income rather than pure subscriptions</li>
+  <li><strong>Equiniti Core Issuer &amp; Holder Services:</strong> ~$685M (2026E) x ~6% growth (management: accelerating from ~6% to 8%+ by 2029) = ~$725M FY2027E / ~$770M FY2028E in the base case</li>
+  <li><strong>Equiniti Float Income:</strong> ~$230M (2026E) ≈ ~$5.4B of average balances x ~4.2% blended yield (Theia estimate); base case assumes modest rate cuts to ~$220M FY2027E / ~$218M FY2028E</li>
+  <li><strong>Pro Forma Total:</strong> ~$1.27B FY2026 (management $1.25–1.35B), ~$1.34B FY2027E, ~$1.42B FY2028E in the Theia base case</li>
+</ul>
+
+<p class="prose"><strong>Leverage analysis:</strong> The two highest-leverage drivers on combined earnings are: (1) <em>Short-term interest rates on Equiniti float</em> — with ~$5.4B of average client cash, every 100bp change in blended yield moves revenue by ~$54M and, at near-100% margin and a 20% tax rate, adjusted net income by ~$43M, or ~$0.20 per pro forma share. That is a larger EPS swing than a 25% move in crypto trading volume, which makes BLSH one of the very few crypto equities that is long rates. (2) <em>Exchange trading volume x spread</em> — every $100B of annual volume at 2.0bps adds ~$20M of revenue that drops almost entirely to EBITDA (~$0.07 per pro forma share after tax); the gap between a crypto winter ($400B/yr) and a bull market ($1.2T/yr) is ~$160M of revenue, or ~$0.58 per share — the dominant source of upside dispersion. Tokenization is the third, longer-dated driver: it is the only line capable of changing the multiple rather than just the earnings, but management's own guidance places material contribution in 2027 and beyond.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+  <strong>AlphaSense Research Reports</strong> · Subject: Bullish (BLSH) · Reports Reviewed: AlphaSense Deep Research "Bullish Company Primer" (Oct 27, 2026; 12 pp.) and "Strategic and Operational Analysis of Bullish" (Oct 27, 2026; 15 pp., drawing on earnings releases, Q2 2025–Q2 2026 call transcripts, FY2025 20-F, and expert calls with former Bybit, Binance and Uphold executives); supplemented by Bullish's quarterly releases and earnings-call transcripts<br>
+  <em>Key themes synthesized from AlphaSense competitive intelligence, expert calls, management commentary, and sell-side research (Greenwich Research, PartnerCap Securities, HC Wainwright, CCB International).</em>
+</div>
+
+<p class="prose"><strong>Competitive Moat: Liquidity Architecture and Regulatory Trust, Not Technology Alone.</strong> The expert consensus is that exchange technology advantages erode quickly, so durable moats rest on liquidity, network effects and regulatory trust. A former Bybit Senior Growth Marketing Manager credits Bullish with pairing a CLOB with an AMM "backed by a multibillion-dollar asset reserve," giving it deep liquidity "from day one," and argues post-FTX caution makes compliance a customer-acquisition tool that creates switching costs toward trusted venues. A Binance VP says leadership "strategically capitalized on regulatory approvals to secure institutional trust while building out unique data assets." The caution: the same experts warn that Coinbase's entrenched integrations mean Bullish's U.S. institutional onboarding "could drag on for years."</p>
+
+<p class="prose"><strong>Most Misunderstood Aspect: Gross Accounting and MTM Noise Obscure a Spread Business.</strong> AlphaSense flags the IFRS presentation as the most misunderstood element — and the primer itself illustrates the confusion by citing FY2025 "total revenues of $244,970 million," which is actually IFRS digital asset sales (gross AMM principal flows), not economic revenue (adjusted revenue was $288.5M). Because Bullish is principal on AMM-matched trades under IFRS 15, every fill is booked gross; because most BTC is classified as an intangible, price declines hit P&amp;L as impairments while recoveries largely do not. Hence Q2 2026 showed an IFRS net loss of $(280.0)M ($540.0M of H1 impairments) against adjusted net income of +$14.3M. Management stresses the business is not directional — but the AMM inventory is a deliberate, large, long BTC position, so the equity carries treasury-style crypto exposure even if the desk does not.</p>
+
+<p class="prose"><strong>Equiniti: Buying the "Raw Materials" for Issuer-Sponsored Tokenization.</strong> Both AlphaSense reports frame the $4.2B Equiniti deal as the final piece of a three-part ecosystem — regulated exchange, tokenization technology and transfer agent. Greenwich Research says it positions Bullish as "a dominant market leader in the blockchain era" but warns models must haircut for M&amp;A integration friction. PartnerCap Securities argues the issuer-sponsored coalition model has a higher probability of institutional adoption than synthetic models because it aligns with existing transfer-agent, custody and issuer-control frameworks, but characterizes the SEC Innovation Exemption as an infrastructure-led milestone that makes tokenized equities "investable, not scalable" in the near term, with value accruing first to "picks and shovels" providers such as transfer agents. The expert view is that the register-plus-venue combination creates a moat "that traditional crypto-native exchanges cannot easily match." Management's own framing on the Q1 2026 call was blunt: "The transfer agent defines the legal ownership in partnership with the issuer" — and "we are in the first inning."</p>
+
+<p class="prose"><strong>Revenue Durability and Concentration: The Two Faces of the Model.</strong> AlphaSense identifies customer concentration as the critical vulnerability: per the DRS/A, the top five customers generated 71% of trading volume and 69% of adjusted transaction revenue in FY2023. Against this, SS&amp;O has become the durable core — a record $62.7M in Q2 2026 — with Consensus acting as a "front door": ~55% of 2026 sponsorship revenue came from clients who also buy liquidity services or index licensing. Post-Equiniti, recurring revenue is projected at ~85% of the total, with a target of 50%+ EBITDA-less-capex margins exiting 2029 on $25–50M of net cost takeouts.</p>
+
+<p class="prose"><strong>Leadership and Capital Allocation.</strong> Experts describe CEO Tom Farley and CFO David Bonanno as "highly aggressive and sophisticated in bridging traditional finance with digital assets." Capital allocation is M&amp;A- and venture-heavy — CoinDesk (2023), CCData (2024), Equiniti (2026), a $100M stablecoin GPU credit facility for USD.AI — with no buyback despite the stock trading below both the IPO and Equiniti issuance prices.</p>
+
+<p class="prose"><strong>Key Investor Questions.</strong> Based on the AlphaSense research, filings and earnings transcripts, the questions that would most sharpen conviction on Bullish are: (1) What is the post-close capital structure — how much of the ~$2.1B net liquid asset base (and the ~20k BTC) will be used to retire Equiniti's $1.85B of debt, and will the BTC position shrink? (2) What is the exact sensitivity of Equiniti float income to a 100bp move in USD and GBP rates, and will management hedge it? (3) How many Equiniti issuers have expressed concrete interest in issuer-sponsored tokenized share classes, and what is the U.S. regulatory timeline for Bullish to provide secondary liquidity under the SEC exemption? (4) What is the current top-5 customer concentration of transaction revenue, and what is BTC options OI share today versus the 14% April peak? (5) What is the composition of SS&amp;O by line (indices, data, events, liquidity services, interest and "other income from non-customers"), and how much is genuinely recurring?</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 9: SENSITIVITY ANALYSIS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Sensitivity Analysis</div>
+
+<!-- Sensitivity Table 1 -->
+<p class="prose"><strong>Sensitivity Table 1: FY2028E Adjusted Transaction Revenue ($M) — Annual Trading Volume ($B) vs. Average Trading Spread (bps)</strong></p>
+<p class="prose"><strong>Current: LTM volume (Q4'25–Q3'26) = $672B; FY2025 = $796B; Q3'26 spread = 2.26bps, FY2025 = 1.64bps. Base case FY2028E = $750B x 2.0bps = $150M (ex-tokenization)</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Volume / Spread</th>
+      <th>1.4bps</th>
+      <th>1.7bps</th>
+      <th>2.0bps</th>
+      <th>2.3bps</th>
+      <th>2.6bps</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$400B</td><td>$56</td><td>$68</td><td>$80</td><td>$92</td><td>$104</td></tr>
+    <tr><td>$550B</td><td>$77</td><td>$94</td><td>$110</td><td>$126</td><td>$143</td></tr>
+    <tr><td>$750B</td><td>$105</td><td>$128</td><td class="base">$150</td><td>$172</td><td>$195</td></tr>
+    <tr><td>$950B</td><td>$133</td><td>$162</td><td>$190</td><td>$218</td><td>$247</td></tr>
+    <tr><td>$1,200B</td><td>$168</td><td>$204</td><td>$240</td><td>$276</td><td>$312</td></tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 2 -->
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 2: FY2028E Equiniti Float Income ($M) — Average Client Cash Balances ($B) vs. Blended Short-Term Yield (%)</strong></p>
+<p class="prose"><strong>Current: ~$230M FY2026E float income (management) ≈ ~$5.45B balances x ~4.2% blended USD/GBP yield (Theia estimate). Base case FY2028E = $5.45B x 4.0% = $218M</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>Balances / Yield</th>
+      <th>3.0%</th>
+      <th>3.5%</th>
+      <th>4.0%</th>
+      <th>4.5%</th>
+      <th>5.0%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$4.45B</td><td>$134</td><td>$156</td><td>$178</td><td>$200</td><td>$222</td></tr>
+    <tr><td>$4.95B</td><td>$148</td><td>$173</td><td>$198</td><td>$223</td><td>$248</td></tr>
+    <tr><td>$5.45B</td><td>$164</td><td>$191</td><td class="base">$218</td><td>$245</td><td>$272</td></tr>
+    <tr><td>$5.95B</td><td>$178</td><td>$208</td><td>$238</td><td>$268</td><td>$298</td></tr>
+    <tr><td>$6.45B</td><td>$194</td><td>$226</td><td>$258</td><td>$290</td><td>$322</td></tr>
+  </tbody>
+</table>
+
+<!-- Sensitivity Table 3 -->
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 3: Implied Share Price ($) — FY2028E Pro Forma Adjusted EPS ($) vs. Exit P/E Multiple (x)</strong></p>
+<p class="prose"><strong>Current: Base case FY2028E adj. EPS = $1.86 x 18x P/E = $33.48 implied share price vs. $29.13 current. Shaded diagonal = the five scenario outcomes (Section 10)</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr>
+      <th>EPS / P/E</th>
+      <th>11x</th>
+      <th>14x</th>
+      <th>18x</th>
+      <th>24x</th>
+      <th>32x</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>$0.90</td><td class="diag">$9.90</td><td>$12.60</td><td>$16.20</td><td>$21.60</td><td>$28.80</td></tr>
+    <tr><td>$1.48</td><td>$16.28</td><td class="diag">$20.72</td><td>$26.64</td><td>$35.52</td><td>$47.36</td></tr>
+    <tr><td>$1.86</td><td>$20.46</td><td>$26.04</td><td class="base">$33.48</td><td>$44.64</td><td>$59.52</td></tr>
+    <tr><td>$2.18</td><td>$23.98</td><td>$30.52</td><td>$39.24</td><td class="diag">$52.32</td><td>$69.76</td></tr>
+    <tr><td>$2.77</td><td>$30.47</td><td>$38.78</td><td>$49.86</td><td>$66.48</td><td class="diag">$88.64</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 10: 3-YEAR MODEL — 5 SCENARIOS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios</div>
+
+<p class="prose">All figures in $M unless stated. Modeled FY2026E (Bullish standalone), FY2027E and FY2028E (pro forma for Equiniti from January 2027; FYE December). Revenue = adjusted revenue; EBITDA = adjusted EBITDA (pro forma years: EBITDA less capex, management's framing); net income = adjusted (non-IFRS, excludes digital asset MTM/impairment), PF tax rate 20%. Exit P/E applied to FY2028E adjusted EPS; Gordon anchor for the base multiple: P/E = (1 − g/ROE)/(r − g) with r = 10.0%, g = 4.0%, tangible ROE ~25% ⇒ ~14x, blended with the market-infrastructure peer median of ~21x ⇒ 18x. Current share price: $29.13. Diluted shares: 160.0M standalone; ~222M pro forma. Pro forma net leverage ~0x (management).</p>
+
+<!-- CASE 1: BEAR SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 1: Bear Severe — Crypto Winter + Rate Cuts + Integration Stumble</div>
+  <div class="case-desc">BTC falls below $50k and stays there; exchange volumes collapse toward 2019-style levels and top market makers reduce activity; the Fed and BoE cut 150bp+ and Equiniti float income falls ~40%; integration absorbs management and synergies slip; tokenization stalls at pilot stage as DTCC/broker-led models win.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Q4 volumes fail to recover (~$110B); SS&amp;O lands at the low end of guidance as index AUM and Consensus sponsorships shrink; further BTC impairments push IFRS equity below $2.2B. <strong>FY2027</strong> — Equiniti closes into falling rates; float income drops to ~$150M; Bullish uses liquidity to service the $1.85B of assumed debt; transaction revenue ~$65M; no tokenization revenue; Siris overhang weighs on the stock. <strong>FY2028</strong> — Combined revenue ~$1.13B, EBITDA-less-capex margin stuck at ~36%; the market values BLSH as a sub-scale, ex-growth transfer agent with a crypto tail.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Exchange Volume x Spread</span><span>$380B x 1.85bps = $70M</span></div>
+  <div class="driver-row"><span>Equiniti Float Income</span><span>$140M (~2.6% yield)</span></div>
+  <div class="driver-row"><span>Equiniti Core TA Growth</span><span>+3% p.a.</span></div>
+  <div class="driver-row"><span>Tokenization Revenue</span><span>$0</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>11x (distressed transfer agent)</span></div>
+  <table class="scenario-mini">
+    <tr><th>$M</th><th>FY2026E</th><th>FY2027E PF</th><th>FY2028E PF</th></tr>
+    <tr><td>Revenue</td><td>$345</td><td>$1,109</td><td>$1,132</td></tr>
+    <tr style="color:#808080; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+19.6%</td><td>(12.8%) PF</td><td>+2.1%</td></tr>
+    <tr><td>Adj. EBITDA</td><td>118</td><td>400</td><td>410</td></tr>
+    <tr style="color:#808080; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>34.2%</td><td>36.1%</td><td>36.2%</td></tr>
+    <tr><td>Finance Expense</td><td>(56)</td><td>(165)</td><td>(160)</td></tr>
+    <tr><td>Adj. Net Income</td><td>62</td><td>188</td><td>200</td></tr>
+    <tr style="color:#808080; font-size:8px;"><td style="padding-left:8px;">Net Income Margin %</td><td>18.0%</td><td>17.0%</td><td>17.7%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>160.0</td><td>222.0</td><td>222.0</td></tr>
+    <tr><td>Adj. EPS</td><td>$0.39</td><td>$0.85</td><td>$0.90</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>--</td><td>11x</td><td>11x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>$9.35</td><td>$9.90</td></tr>
+    <tr><td>FCF</td><td>$60</td><td>$190</td><td>$200</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 11x FY2028E adj. EPS of $0.90</div>
+    <div class="exit-price">Implied Share Price: $9.90</div>
+    <div class="exit-upside">Downside: (66%) from $29.13</div>
+  </div>
+</div>
+
+<!-- CASE 2: BEAR MILD -->
+<div class="case-block">
+  <div class="case-name">Case 2: Bear Mild — Choppy Crypto, Lower Rates, Tokenization Delayed</div>
+  <div class="case-desc">Crypto markets range-trade with subdued volumes; spreads drift down as competition returns; rates fall ~100bp and trim float income; Equiniti integrates cleanly but delivers only mid-single-digit core growth; tokenization remains a 2029+ story.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — SS&amp;O lands mid-guidance (~$228M); transaction revenue ~$124M; the stock trades on BTC. <strong>FY2027</strong> — Equiniti closes on time; float income ~$185M; first combined guidance disappoints the "~20% EPS growth" framework; Street P/E settles in the mid-teens. <strong>FY2028</strong> — Combined revenue ~$1.27B and ~45% EBITDA-less-capex margin; EPS of ~$1.48 is respectable but the market prices BLSH like Computershare, not like a tokenization platform.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Exchange Volume x Spread</span><span>$600B x 1.9bps = $114M</span></div>
+  <div class="driver-row"><span>Equiniti Float Income</span><span>$175M (~3.2% yield)</span></div>
+  <div class="driver-row"><span>Equiniti Core TA Growth</span><span>+4% p.a.</span></div>
+  <div class="driver-row"><span>Tokenization Revenue</span><span>~$0–5M</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>14x (transfer-agent multiple)</span></div>
+  <table class="scenario-mini">
+    <tr><th>$M</th><th>FY2026E</th><th>FY2027E PF</th><th>FY2028E PF</th></tr>
+    <tr><td>Revenue</td><td>$352</td><td>$1,227</td><td>$1,266</td></tr>
+    <tr style="color:#808080; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+22.0%</td><td>(3.5%) PF</td><td>+3.2%</td></tr>
+    <tr><td>Adj. EBITDA</td><td>125</td><td>520</td><td>565</td></tr>
+    <tr style="color:#808080; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>35.5%</td><td>42.4%</td><td>44.6%</td></tr>
+    <tr><td>Finance Expense</td><td>(56)</td><td>(160)</td><td>(155)</td></tr>
+    <tr><td>Adj. Net Income</td><td>69</td><td>288</td><td>328</td></tr>
+    <tr style="color:#808080; font-size:8px;"><td style="padding-left:8px;">Net Income Margin %</td><td>19.6%</td><td>23.5%</td><td>25.9%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>160.0</td><td>222.0</td><td>222.0</td></tr>
+    <tr><td>Adj. EPS</td><td>$0.43</td><td>$1.30</td><td>$1.48</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>--</td><td>14x</td><td>14x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>$18.20</td><td>$20.72</td></tr>
+    <tr><td>FCF</td><td>$65</td><td>$290</td><td>$330</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 14x FY2028E adj. EPS of $1.48</div>
+    <div class="exit-price">Implied Share Price: $20.72</div>
+    <div class="exit-upside">Downside: (29%) from $29.13</div>
+  </div>
+</div>
+
+<!-- CASE 3: BASE CASE -->
+<div class="case-block">
+  <div class="case-name">Case 3: Base Case — Equiniti Delivers the Framework, Crypto Normalizes</div>
+  <div class="case-desc">Consensus standalone FY2026 ($357M revenue, $0.46 EPS); Equiniti closes in January 2027 and broadly delivers management's pro forma trajectory (6%→8% growth, EBITDA-less-capex compounding toward ~47%); crypto volumes recover modestly to ~$750B/yr; rates drift slightly lower; tokenization begins to contribute in 2027–2028.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Q4 volumes rebound to ~$150B; SS&amp;O ~$230M (mid-guidance); adjusted EBITDA ~$130M; adjusted EPS $0.46. <strong>FY2027</strong> — Combined revenue ~$1.34B (+5% PF); $25–50M net synergies begin; float income ~$220M; first issuer-sponsored tokenized share classes from Equiniti clients; EPS ~$1.53. <strong>FY2028</strong> — Revenue ~$1.42B (+6.5%) with exchange volume $750B at 2.0bps and ~$15M of tokenization revenue; EBITDA less capex ~$665M (46.7%); EPS ~$1.86, consistent with management's ~20% EPS CAGR off the $1.26 PF base.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Exchange Volume x Spread</span><span>$750B x 2.0bps = $150M</span></div>
+  <div class="driver-row"><span>Equiniti Float Income</span><span>$218M (~4.0% yield)</span></div>
+  <div class="driver-row"><span>Equiniti Core TA Growth</span><span>+6% p.a.</span></div>
+  <div class="driver-row"><span>Tokenization Revenue</span><span>~$15M</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>18x (Gordon 14x / peer median 21x)</span></div>
+  <table class="scenario-mini">
+    <tr><th>$M</th><th>FY2026E</th><th>FY2027E PF</th><th>FY2028E PF</th></tr>
+    <tr><td>Revenue</td><td>$357</td><td>$1,336</td><td>$1,423</td></tr>
+    <tr style="color:#808080; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+23.7%</td><td>+5.0% PF</td><td>+6.5%</td></tr>
+    <tr><td>Adj. EBITDA</td><td>130</td><td>585</td><td>665</td></tr>
+    <tr style="color:#808080; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>36.3%</td><td>43.8%</td><td>46.7%</td></tr>
+    <tr><td>Finance Expense</td><td>(56)</td><td>(160)</td><td>(150)</td></tr>
+    <tr><td>Adj. Net Income</td><td>74</td><td>340</td><td>412</td></tr>
+    <tr style="color:#808080; font-size:8px;"><td style="padding-left:8px;">Net Income Margin %</td><td>20.6%</td><td>25.4%</td><td>29.0%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>160.0</td><td>222.0</td><td>222.0</td></tr>
+    <tr><td>Adj. EPS</td><td>$0.46</td><td>$1.53</td><td>$1.86</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>--</td><td>18x</td><td>18x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>$27.54</td><td>$33.48</td></tr>
+    <tr><td>FCF</td><td>$70</td><td>$340</td><td>$410</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 18x FY2028E adj. EPS of $1.86</div>
+    <div class="exit-price">Implied Share Price: $33.48</div>
+    <div class="exit-upside">Upside: +15% from $29.13</div>
+  </div>
+</div>
+
+<!-- CASE 4: BULL MILD -->
+<div class="case-block">
+  <div class="case-name">Case 4: Bull Mild — Crypto Recovery + Tokenization Proof Points</div>
+  <div class="case-desc">BTC recovers above $120k; volumes return to FY2025 levels and beyond with a richer options/perps mix; rates stay higher for longer, protecting float income; dozens of Equiniti issuers launch tokenized share classes and Bullish becomes a primary secondary venue under the SEC exemption.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Q4 volumes rebound sharply on a year-end rally; SS&amp;O at the top of guidance; EPS ~$0.49. <strong>FY2027</strong> — Combined revenue ~$1.41B (+11% PF); transaction revenue ~$160M plus ~$20M tokenization; Marex and Coalition partners route institutional tokenized-equity flow; EPS ~$1.69. <strong>FY2028</strong> — Revenue ~$1.54B; volume $900B at 2.1bps; tokenization ~$40M; EBITDA less capex ~$745M (48%); the market begins to pay a growth-infrastructure multiple.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Exchange Volume x Spread</span><span>$900B x 2.1bps = $189M</span></div>
+  <div class="driver-row"><span>Equiniti Float Income</span><span>$230M (~4.2% yield)</span></div>
+  <div class="driver-row"><span>Equiniti Core TA Growth</span><span>+7% p.a.</span></div>
+  <div class="driver-row"><span>Tokenization Revenue</span><span>~$40M</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>24x (exchange-group premium)</span></div>
+  <table class="scenario-mini">
+    <tr><th>$M</th><th>FY2026E</th><th>FY2027E PF</th><th>FY2028E PF</th></tr>
+    <tr><td>Revenue</td><td>$362</td><td>$1,413</td><td>$1,543</td></tr>
+    <tr style="color:#808080; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+25.5%</td><td>+11.1% PF</td><td>+9.2%</td></tr>
+    <tr><td>Adj. EBITDA</td><td>135</td><td>625</td><td>745</td></tr>
+    <tr style="color:#808080; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>37.3%</td><td>44.2%</td><td>48.3%</td></tr>
+    <tr><td>Finance Expense</td><td>(56)</td><td>(155)</td><td>(140)</td></tr>
+    <tr><td>Adj. Net Income</td><td>79</td><td>376</td><td>484</td></tr>
+    <tr style="color:#808080; font-size:8px;"><td style="padding-left:8px;">Net Income Margin %</td><td>21.8%</td><td>26.6%</td><td>31.4%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>160.0</td><td>222.0</td><td>222.0</td></tr>
+    <tr><td>Adj. EPS</td><td>$0.49</td><td>$1.69</td><td>$2.18</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>--</td><td>24x</td><td>24x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>$40.56</td><td>$52.32</td></tr>
+    <tr><td>FCF</td><td>$75</td><td>$375</td><td>$485</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 24x FY2028E adj. EPS of $2.18</div>
+    <div class="exit-price">Implied Share Price: $52.32</div>
+    <div class="exit-upside">Upside: +80% from $29.13</div>
+  </div>
+</div>
+
+<!-- CASE 5: BULL SEVERE -->
+<div class="case-block">
+  <div class="case-name">Case 5: Bull Severe — Crypto Supercycle + Issuer-Sponsored Tokenization at Scale</div>
+  <div class="case-desc">A new crypto bull market lifts volumes to $1.3T+; issuer-sponsored tokenization becomes the default for new share classes among Equiniti's S&amp;P 500 and FTSE 100 clients; Bullish is the regulated 24/7 venue of record; the market re-rates BLSH alongside Robinhood/Coinbase as a financial-infrastructure platform.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — BTC breaks to new highs into year-end; Q4 volume >$200B; EPS ~$0.53. <strong>FY2027</strong> — Combined revenue ~$1.55B (+22% PF); tokenization ~$50M as early adopters list tokenized shares; options OI share returns toward 20%+; EPS ~$1.98. <strong>FY2028</strong> — Revenue ~$1.81B; exchange $1.3T at 2.2bps ($286M); tokenization ~$120M; EBITDA less capex ~$900M (50%); EPS ~$2.77; strategic interest from exchange groups (ICE, Nasdaq, Deutsche Börse) or brokers puts a floor under a platform multiple.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Exchange Volume x Spread</span><span>$1,300B x 2.2bps = $286M</span></div>
+  <div class="driver-row"><span>Equiniti Float Income</span><span>$240M (~4.4% yield)</span></div>
+  <div class="driver-row"><span>Equiniti Core TA Growth</span><span>+8% p.a.</span></div>
+  <div class="driver-row"><span>Tokenization Revenue</span><span>~$120M</span></div>
+  <div class="driver-row"><span>Exit P/E</span><span>32x (tokenization platform premium)</span></div>
+  <table class="scenario-mini">
+    <tr><th>$M</th><th>FY2026E</th><th>FY2027E PF</th><th>FY2028E PF</th></tr>
+    <tr><td>Revenue</td><td>$368</td><td>$1,550</td><td>$1,805</td></tr>
+    <tr style="color:#808080; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+27.6%</td><td>+21.9% PF</td><td>+16.5%</td></tr>
+    <tr><td>Adj. EBITDA</td><td>141</td><td>700</td><td>900</td></tr>
+    <tr style="color:#808080; font-size:8px;"><td style="padding-left:8px;">EBITDA Margin %</td><td>38.3%</td><td>45.2%</td><td>49.9%</td></tr>
+    <tr><td>Finance Expense</td><td>(56)</td><td>(150)</td><td>(130)</td></tr>
+    <tr><td>Adj. Net Income</td><td>85</td><td>440</td><td>616</td></tr>
+    <tr style="color:#808080; font-size:8px;"><td style="padding-left:8px;">Net Income Margin %</td><td>23.1%</td><td>28.4%</td><td>34.1%</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>160.0</td><td>222.0</td><td>222.0</td></tr>
+    <tr><td>Adj. EPS</td><td>$0.53</td><td>$1.98</td><td>$2.77</td></tr>
+    <tr class="valuation-row"><td>Exit P/E Multiple</td><td>--</td><td>32x</td><td>32x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>$63.36</td><td>$88.64</td></tr>
+    <tr><td>FCF</td><td>$80</td><td>$440</td><td>$615</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: 32x FY2028E adj. EPS of $2.77</div>
+    <div class="exit-price">Implied Share Price: $88.64</div>
+    <div class="exit-upside">Upside: +204% from $29.13</div>
+  </div>
+</div>
+
+<!-- SVG Bar Chart -->
+<div class="case-chart">
+  <p style="font-size:9px; font-weight:600; margin-bottom:8px; color:#1F3864;">Implied Share Price by Scenario (FY2028E Exit) vs. Current Price $29.13</p>
+  <svg viewBox="0 0 760 240" xmlns="http://www.w3.org/2000/svg" style="width:100%; font-family:Arial,Helvetica,sans-serif;">
+    <line x1="80" y1="20" x2="80" y2="200" stroke="#BFBFBF" stroke-width="1"/>
+    <line x1="80" y1="200" x2="680" y2="200" stroke="#BFBFBF" stroke-width="1"/>
+    <!-- scale: $1 = 1.7px -->
+    <text x="75" y="204" text-anchor="end" font-size="9" fill="#808080">$0</text>
+    <text x="75" y="170" text-anchor="end" font-size="9" fill="#808080">$20</text>
+    <text x="75" y="136" text-anchor="end" font-size="9" fill="#808080">$40</text>
+    <text x="75" y="102" text-anchor="end" font-size="9" fill="#808080">$60</text>
+    <text x="75" y="68" text-anchor="end" font-size="9" fill="#808080">$80</text>
+    <text x="75" y="34" text-anchor="end" font-size="9" fill="#808080">$100</text>
+    <line x1="80" y1="166" x2="680" y2="166" stroke="#F2F2F2" stroke-width="0.8"/>
+    <line x1="80" y1="132" x2="680" y2="132" stroke="#F2F2F2" stroke-width="0.8"/>
+    <line x1="80" y1="98" x2="680" y2="98" stroke="#F2F2F2" stroke-width="0.8"/>
+    <line x1="80" y1="64" x2="680" y2="64" stroke="#F2F2F2" stroke-width="0.8"/>
+    <line x1="80" y1="30" x2="680" y2="30" stroke="#F2F2F2" stroke-width="0.8"/>
+    <!-- Bear Severe $9.90 -> 16.8px -->
+    <rect x="110" y="183.2" width="80" height="16.8" fill="#9DC3E6"/>
+    <text x="150" y="179" text-anchor="middle" font-size="9" fill="#000">$9.90</text>
+    <text x="150" y="214" text-anchor="middle" font-size="8" fill="#808080">Bear Severe</text>
+    <!-- Bear Mild $20.72 -> 35.2px -->
+    <rect x="220" y="164.8" width="80" height="35.2" fill="#9DC3E6"/>
+    <text x="260" y="160" text-anchor="middle" font-size="9" fill="#000">$20.72</text>
+    <text x="260" y="214" text-anchor="middle" font-size="8" fill="#808080">Bear Mild</text>
+    <!-- Base $33.48 -> 56.9px -->
+    <rect x="330" y="143.1" width="80" height="56.9" fill="#0070C0"/>
+    <text x="370" y="139" text-anchor="middle" font-size="9" fill="#000">$33.48</text>
+    <text x="370" y="214" text-anchor="middle" font-size="8" fill="#808080">Base Case</text>
+    <!-- Bull Mild $52.32 -> 88.9px -->
+    <rect x="440" y="111.1" width="80" height="88.9" fill="#1F3864"/>
+    <text x="480" y="107" text-anchor="middle" font-size="9" fill="#000">$52.32</text>
+    <text x="480" y="214" text-anchor="middle" font-size="8" fill="#808080">Bull Mild</text>
+    <!-- Bull Severe $88.64 -> 150.7px -->
+    <rect x="550" y="49.3" width="80" height="150.7" fill="#1F3864"/>
+    <text x="590" y="45" text-anchor="middle" font-size="9" fill="#000">$88.64</text>
+    <text x="590" y="214" text-anchor="middle" font-size="8" fill="#808080">Bull Severe</text>
+    <!-- Current $29.13 -> 49.5px -> y 150.5 -->
+    <line x1="80" y1="150.5" x2="680" y2="150.5" stroke="#808080" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="685" y="146" font-size="9" fill="#808080">$29.13 (Current)</text>
+    <!-- PV $27.90 -> 47.4px -> y 152.6 -->
+    <line x1="80" y1="152.6" x2="680" y2="152.6" stroke="#1F3864" stroke-width="1.2" stroke-dasharray="2,2"/>
+    <text x="685" y="160" font-size="8" fill="#1F3864">$27.90 PV@30%</text>
+  </svg>
+  <p style="font-size:8px; color:#808080; margin-top:4px;">Probability weights: 5% / 20% / 50% / 20% / 5% · Prob-wtd avg $36.28 discounted @30% CoC = $27.90 · Current: $29.13 · Implied upside to PV: (4.2%)</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 11: COMPS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">11. Comparable Companies</div>
+
+<div class="section-title">Selected Financials — Digital Asset &amp; Market Infrastructure Peers</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>Mkt Cap</th>
+      <th>EV</th>
+      <th class="est-col">Rev FY1</th>
+      <th class="est-col">Rev Gr. FY1</th>
+      <th class="est-col">Rev FY2</th>
+      <th>EBITDA TTM</th>
+      <th>EBITDA Mgn TTM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Bullish</td><td>BLSH</td>
+      <td>$4.4B</td><td>$2.1B*</td><td>$357M</td><td>+23.7%</td><td>$408M</td><td>$138M</td><td>38.9%</td>
+    </tr>
+    <tr class="group-row"><td colspan="9">Digital Asset Platforms</td></tr>
+    <tr><td>Coinbase</td><td>COIN</td><td>$42.3B</td><td>$40.2B</td><td>$5.30B</td><td>(23.0%)</td><td>$6.89B</td><td>$700M</td><td>11.6%</td></tr>
+    <tr><td>Robinhood</td><td>HOOD</td><td>$86.2B</td><td>$85.2B</td><td>$5.33B</td><td>+19.0%</td><td>$6.88B</td><td>--</td><td>--</td></tr>
+    <tr><td>Circle</td><td>CRCL</td><td>$20.5B</td><td>$18.8B</td><td>$3.02B</td><td>+10.0%</td><td>$3.82B</td><td>$229M</td><td>7.9%</td></tr>
+    <tr><td>eToro</td><td>ETOR</td><td>$1.9B</td><td>$1.0B</td><td>$0.90B</td><td>--</td><td>$1.00B</td><td>--</td><td>--</td></tr>
+    <tr><td>Gemini</td><td>GEMI</td><td>$0.4B</td><td>$0.7B</td><td>$0.19B</td><td>+3.0%</td><td>$0.23B</td><td>($365M)</td><td>NM</td></tr>
+    <tr class="group-row"><td colspan="9">Exchanges &amp; Issuer Services</td></tr>
+    <tr><td>CME Group</td><td>CME</td><td>$105.7B</td><td>$107.2B</td><td>$7.09B</td><td>+8.9%</td><td>$7.46B</td><td>$4.94B</td><td>71.0%</td></tr>
+    <tr><td>Intercontinental Exchange</td><td>ICE</td><td>$88.0B</td><td>$107.5B</td><td>$11.08B</td><td>+11.5%</td><td>$11.72B</td><td>$6.71B</td><td>64.0%</td></tr>
+    <tr><td>Nasdaq</td><td>NDAQ</td><td>$57.9B</td><td>$66.7B</td><td>$5.92B</td><td>+12.8%</td><td>$6.45B</td><td>$3.49B</td><td>60.0%</td></tr>
+    <tr><td>Cboe Global Markets</td><td>CBOE</td><td>$34.0B</td><td>$33.2B</td><td>$2.87B</td><td>--</td><td>$2.96B</td><td>$1.93B</td><td>38.0%</td></tr>
+    <tr><td>Broadridge (FY Jun)</td><td>BR</td><td>$20.1B</td><td>$23.2B</td><td>$7.86B</td><td>+5.1%</td><td>--</td><td>$1.81B</td><td>24.0%</td></tr>
+    <tr><td>Computershare (FY Jun)</td><td>CPU.AX</td><td>A$24.9B</td><td>A$25.4B</td><td>$3.31B</td><td>+1.3%</td><td>$3.44B</td><td>A$1.56B</td><td>33.0%</td></tr>
+    <tr class="stat-row">
+      <td>Peer Median</td><td>--</td><td>--</td><td>--</td><td>--</td><td>+8.9%</td><td>--</td><td>--</td><td>35.5%</td>
+    </tr>
+  </tbody>
+</table>
+<p style="font-size:8px; color:#808080; margin-top:2px;">*BLSH EV net of $2.1B net liquid assets with BTC marked to $80.6k (aggregator EV $4.6B). BLSH revenue = adjusted revenue; CRCL revenue gross of distribution costs; CBOE FY1 net of cost of revenue. FY1 = CY2026 (BR, CPU: FY Jun-2027). Peer TTM EBITDA from StockAnalysis; consensus FY EBITDA not available.</p>
+
+<div class="section-title" style="margin-top:12px;">Valuation Multiples</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>EV/EBITDA TTM</th>
+      <th class="est-col">P/E FY1</th>
+      <th class="est-col">P/E FY2</th>
+      <th class="est-col">P/Sales FY1</th>
+      <th>Price</th>
+      <th>P/B</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Bullish (standalone)</td><td>BLSH</td>
+      <td>15.3x</td><td>63.3x</td><td>40.5x</td><td>12.4x</td><td>$29.13</td><td>1.8x</td>
+    </tr>
+    <tr class="subject">
+      <td>Bullish (pro forma, mgmt FY26 / Theia FY27E)</td><td>BLSH PF</td>
+      <td>12.7x</td><td>23.1x</td><td>19.0x</td><td>5.1x</td><td>$29.13</td><td>--</td>
+    </tr>
+    <tr class="group-row"><td colspan="8">Digital Asset Platforms</td></tr>
+    <tr><td>Coinbase</td><td>COIN</td><td>57.2x</td><td>NM</td><td>52.0x</td><td>8.0x</td><td>$160.20</td><td>--</td></tr>
+    <tr><td>Robinhood</td><td>HOOD</td><td>--</td><td>37.7x</td><td>28.0x</td><td>16.2x</td><td>$95.85</td><td>--</td></tr>
+    <tr><td>Circle</td><td>CRCL</td><td>80.9x</td><td>69.9x</td><td>54.3x</td><td>6.8x</td><td>$80.41</td><td>--</td></tr>
+    <tr><td>eToro</td><td>ETOR</td><td>--</td><td>10.0x</td><td>7.8x</td><td>2.1x</td><td>$23.55</td><td>--</td></tr>
+    <tr><td>Gemini</td><td>GEMI</td><td>NM</td><td>NM</td><td>NM</td><td>2.2x</td><td>$3.08</td><td>--</td></tr>
+    <tr class="stat-row"><td>Digital Asset Median</td><td>--</td><td>69.1x</td><td>37.7x</td><td>40.0x</td><td>6.8x</td><td>--</td><td>--</td></tr>
+    <tr class="group-row"><td colspan="8">Exchanges &amp; Issuer Services</td></tr>
+    <tr><td>CME Group</td><td>CME</td><td>22.1x</td><td>23.8x</td><td>22.3x</td><td>14.9x</td><td>$295.25</td><td>--</td></tr>
+    <tr><td>Intercontinental Exchange</td><td>ICE</td><td>16.3x</td><td>19.2x</td><td>17.7x</td><td>7.9x</td><td>$156.81</td><td>--</td></tr>
+    <tr><td>Nasdaq</td><td>NDAQ</td><td>19.1x</td><td>25.2x</td><td>22.0x</td><td>9.8x</td><td>$104.29</td><td>--</td></tr>
+    <tr><td>Cboe Global Markets</td><td>CBOE</td><td>17.7x</td><td>23.0x</td><td>21.4x</td><td>11.9x</td><td>$325.72</td><td>--</td></tr>
+    <tr><td>Broadridge</td><td>BR</td><td>13.0x</td><td>16.8x</td><td>--</td><td>2.6x</td><td>$177.69</td><td>--</td></tr>
+    <tr><td>Computershare</td><td>CPU.AX</td><td>15.9x</td><td>19.5x</td><td>--</td><td>5.3x</td><td>A$43.06</td><td>--</td></tr>
+    <tr class="stat-row"><td>Infrastructure Median</td><td>--</td><td>17.0x</td><td>21.2x</td><td>21.7x</td><td>8.9x</td><td>--</td><td>--</td></tr>
+    <tr class="stat-row"><td>All-Peer Average</td><td>--</td><td>30.3x</td><td>27.2x</td><td>28.2x</td><td>8.0x</td><td>--</td><td>--</td></tr>
+    <tr class="stat-row"><td>All-Peer Median</td><td>--</td><td>18.4x</td><td>23.0x</td><td>22.1x</td><td>7.9x</td><td>--</td><td>--</td></tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Named Competitors</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th style="text-align:left;">Overlap with Bullish</th>
+      <th class="est-col">P/E FY1</th>
+      <th class="est-col">P/E FY2</th>
+      <th class="est-col">P/Sales FY1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject">
+      <td>Bullish</td><td>BLSH</td><td style="text-align:left;">Exchange, options, indices, transfer agent (PF)</td>
+      <td>63.3x</td><td>40.5x</td><td>12.4x</td>
+    </tr>
+    <tr><td>Coinbase (incl. Deribit)</td><td>COIN</td><td style="text-align:left;">Spot/derivatives, #1 BTC options venue</td><td>NM</td><td>52.0x</td><td>8.0x</td></tr>
+    <tr><td>Computershare</td><td>CPU.AX</td><td style="text-align:left;">Transfer agency (Equiniti's #1 rival)</td><td>19.5x</td><td>--</td><td>5.3x</td></tr>
+    <tr><td>CME Group</td><td>CME</td><td style="text-align:left;">Regulated crypto futures &amp; options</td><td>23.8x</td><td>22.3x</td><td>14.9x</td></tr>
+    <tr><td>Kraken (private)</td><td>--</td><td style="text-align:left;">Spot, CF Benchmarks indices; ~$20B last private round</td><td>--</td><td>--</td><td>--</td></tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:10px;">On standalone consensus, Bullish looks like a crypto growth multiple — 63.3x FY1 P/E and 12.4x FY1 P/Sales versus the digital asset median of 37.7x and 6.8x — but roughly half the market cap is balance sheet. On an EV net of $2.1B of liquid assets, the standalone business trades at 15.3x TTM adjusted EBITDA: below Coinbase (57x) and Circle (81x) and in line with the exchange/issuer-services median of 17.0x despite a 38.9% margin and 24% FY1 growth. Pro forma, at 23.1x management's FY2026 combined EPS and ~19x Theia's FY2027E, BLSH trades at a small premium to the infrastructure median (21.2x FY1) and Computershare (19.5x) — justified by faster growth (6–8% vs. ~1%) and tokenization optionality, offset by balance-sheet volatility, integration risk and rate-dependent float income. Versus Coinbase (52x FY2) and Robinhood (28x FY2), ~19x is a clear discount: the market already values the combined company as a transfer agent with an exchange attached. That is the asymmetry — the base case needs Equiniti valued like Computershare; the bull cases need a re-rating toward CME/Nasdaq exchange-group multiples.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<div class="verdict">
+  <p><strong>(i) Market Cap Bucket: $4.4B</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">Small Cap ($1B–$5B). Bullish's $4,419M basic market cap ($4,661M fully diluted) sits at the top of Theia's small-cap sweet spot. Post-Equiniti the share count rises to ~222M, taking the pro forma equity value to ~$6.5B (mid-cap) at today's price, so the "small cap" window is closing in January 2027. More important than the headline bucket is the tradable float: only ~39M shares (~$1.1B) are free-floating, with insiders controlling ~64%+ and ~21% of the float sold short. That thin float is a source of mispricing (and of liquidity risk for a position) — exactly the type of structural inefficiency where Theia can build an edge, but sizing must respect ~1.5M shares/day of volume.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(ii) Analyst Coverage: 12 Broker Contributors</strong> <span class="fw-rating moderate">Moderate Fit</span></p>
+  <p style="margin-top:4px;">Twelve sell-side analysts cover BLSH (JPMorgan, Jefferies, Citi, Deutsche Bank, Cantor, Bernstein, UBS, KBW, Canaccord, Compass Point, Rosenblatt, Wells Fargo), rated Hold on average (5 Buy / 6 Hold / 1 Sell) with a $40.82 average target and a wide $25–$53 range. That is moderately covered — above Theia's ideal of fewer than five analysts. However, the coverage gap is real where it matters: no Street model we found incorporates Equiniti (all FY2026–FY2027 consensus is standalone), none appears to model float-income rate sensitivity, and estimate dispersion is extreme (FY2026E EPS $0.28–$0.54; targets cut by JPMorgan to $25 and Rosenblatt to $30). The re-basing of consensus to pro forma numbers in early 2027 is an information event the Street has not yet done the work on.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iii) Thesis Alignment: Blockchain Market Infrastructure / Tokenization</strong> <span class="fw-rating strong">Core Thesis</span></p>
+  <p style="margin-top:4px;">Bullish is about as directly aligned with Theia's internet-finance thesis as a listed equity can be. It is a regulated digital asset exchange (spot, perps, options), the owner of the leading crypto index/data/media franchise (CoinDesk), a stablecoin distribution venue (first to list SoFiUSD; EURCV/USDCV under MiCAR), an on-chain lender (USD.AI GPU credit facility) and — after the Equiniti close — the only public company combining a licensed crypto venue with a top-3 global transfer agent to pursue issuer-sponsored tokenization of public equities. It also tokenized its own cap table on Solana and launched the first issuer-sponsored tokenized equity trading on a regulated venue. Every leg of the Theia thesis — institutionalization of crypto, stablecoins, RWA tokenization, migration of capital-markets plumbing on-chain — runs through this company. Rating: Core.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iv) Outcome Dispersion: $10 – $89</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">The 5-scenario model shows implied FY2028E prices from $9.90 (Bear Severe, (66%)) to $88.64 (Bull Severe, +204%) versus $29.13 today — a ~9x spread between the tails, driven by three largely independent variables: crypto volumes (±$0.58/share of EPS across the cycle), short-term rates on Equiniti float (~$0.20/share per 100bp) and whether tokenization earns a platform multiple (11x–32x). The probability-weighted value is $36.28, or $27.90 discounted at Theia's 30% cost of capital — (4.2%) versus the current price. In other words, the dispersion is genuinely wide, but at $29.13 the market is pricing the distribution roughly fairly; the edge is not in today's price but in the timing — the stock is likely to be volatile through the January close and the first pro forma guidance, offering entry points below the PV.</p>
+</div>
+
+<div class="verdict-final">
+  <strong>VERDICT: MAYBE — Core Thesis Fit, Fairly Priced Today; Build on Weakness Into the Equiniti Close</strong><br><br>
+  Bullish scores Strong on market cap ($4.4B, thin float), Core on thesis alignment and Strong on outcome dispersion ($10 to $89), with moderate analyst coverage (12 brokers, all still modeling standalone). It is the purest listed expression of Theia's tokenization thesis: a regulated crypto venue plus CoinDesk plus — in three months — the register for ~35% of the S&amp;P 500. But the probability-weighted value of $27.90 (after a 30% CoC) is ~4% <em>below</em> the current $29.13, because the near-term earnings base is dominated by a rate-sensitive transfer agent and a cyclically depressed crypto exchange, while tokenization revenue is a 2027–2028 option that management itself will not underwrite for 2026. The pro forma stock is ~19x FY2027E EPS — fair versus Computershare and exchange peers, not cheap. We would (a) do the work now (float-income sensitivity, post-close capital structure, issuer pipeline), (b) look to initiate below ~$24 (≈ 13x FY2028E base EPS, below the $25.75 PV of the base case alone) or on evidence that Equiniti issuers are adopting tokenized share classes, and (c) watch the ~Nov 18 Q3 print (Q3 volumes already disclosed at $122B; SS&amp;O vs. ~$53M guide midpoint) and February 2027 combined guidance as the key catalysts.
+</div>
+
+<p class="prose" style="font-size:10px; font-style:italic; margin-top:6px;">Note: Theia seeks small-cap companies that aren't well covered and are strongly aligned on the core internet finance thesis with wide outcome dispersion. BLSH scores: Market Cap (Strong) | Coverage (Moderate) | Thesis (Core) | Dispersion (Strong)</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 13: RISK SUMMARY -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">13. Risk Summary</div>
+
+<table class="risk-table">
+  <tr>
+    <th>Risk Category</th>
+    <th>Description</th>
+    <th>Severity</th>
+    <th>Mitigant</th>
+  </tr>
+  <tr>
+    <td>Digital Asset Balance Sheet / MTM</td>
+    <td>~20k BTC plus stablecoins, crypto loans and investments fund the AMM; IFRS intangible treatment produced $(1.43)B LTM net loss and cut equity from $3.98B to $2.46B in three quarters. Further BTC declines erode the liquidity buffer just as $1.85B of Equiniti debt is assumed.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>Net liquid assets still $2.1B (book) with BTC marked ~38% higher since Jun 30; management targets &gt;$500M post-close liquidity and ~0x net leverage; adjusted earnings exclude MTM and the AMM is not directional trading.</td>
+  </tr>
+  <tr>
+    <td>Equiniti Integration &amp; Execution</td>
+    <td>$4.2B deal ~2x Bullish's current EV; UK-centric, larger, regulated organization; ~61M new shares to Siris at $38.48 (now underwater); integration friction flagged by Greenwich Research; synergies ($25–50M net) and growth acceleration (6%→8%+) unproven.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>All antitrust clearances secured; Equiniti CEO Dan Kramer stays; non-core lines carved out to Siris; ~99% client retention and 15+ year tenure provide a stable base during integration.</td>
+  </tr>
+  <tr>
+    <td>Interest Rate Sensitivity (Float)</td>
+    <td>~$230M of Equiniti's 2026E revenue is float income on client cash (~2/3 USD, 1/3 GBP, unhedged); each 100bp cut ≈ ~$54M revenue / ~$0.20 pro forma EPS.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>U.S. 10-year at ~5.0% implies limited near-term easing; float balances grow with payment volumes (~$500B/yr); hedging (swaps / term deposits) is available and could be layered post-close.</td>
+  </tr>
+  <tr>
+    <td>Customer Concentration &amp; Share Loss</td>
+    <td>Top 5 customers = 71% of FY2023 volume and 69% of adjusted transaction revenue; management acknowledged spot volume and share declines in Q2 2026; options OI share below the 14% April peak.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Transaction revenue is now only ~32–37% of standalone revenue and ~10% pro forma; AMM reduces reliance on third-party market makers; Marex, Elwood and Kemet integrations broaden the client base.</td>
+  </tr>
+  <tr>
+    <td>Tokenization Adoption Timing</td>
+    <td>Management guides no material 2026 transaction uplift; SEC exemption is conditional and permissioned; competing models (DTCC, broker-led, synthetic tokens) may win; Equiniti blockchain revenue "rounds to zero."</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Base case assumes only ~$15M of FY2028E tokenization revenue — the thesis does not require it; SEC framework explicitly favors issuer-sponsored tokens and gives issuers veto rights; Coalition of 8 infrastructure firms.</td>
+  </tr>
+  <tr>
+    <td>Regulatory &amp; Jurisdictional</td>
+    <td>Loss or restriction of BitLicense, MiCAR, SFC or GFSC licenses would disrupt operations; divergent asset classifications across jurisdictions; CFTC DCM/DCO approvals pending.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Compliance-first culture with Tier-1 licenses across six jurisdictions; U.S. policy (GENIUS Act, SEC Innovation Exemption) has moved decisively toward Bullish's model.</td>
+  </tr>
+  <tr>
+    <td>Governance, Float &amp; Overhang</td>
+    <td>~50% held by Chairman Blumer and director Yuan; ~25% float with ~21% short; $496M on-demand related-party loan at 7%; ~61M Siris/rollover shares (1.6x current float) post-close; Cayman FPI with non-IFRS metrics.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Larger post-close float supports index eligibility and liquidity; insiders' large stakes align incentives; adjusted metrics reconciled quarterly to IFRS.</td>
+  </tr>
+  <tr>
+    <td>Cybersecurity &amp; Custody</td>
+    <td>Exchange and custody of billions in digital assets is a constant attack target; key compromise or third-party custodian failure could cause loss of client funds and reputational collapse.</td>
+    <td><span class="fw-rating low">Low</span></td>
+    <td>Full-reserve, 1:1 segregated client assets; hot/warm/cold architecture with offline key generation and multi-sig; BitGo, Fireblocks and Coinbase Custody with insured cold wallets; no major incident since 2021 launch.</td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 14: APPENDIX — PYTHON CODE -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section appendix">14. Appendix — Python Code</div>
+
+<p class="prose">Sensitivity table generator and scenario model code for analyst customization:</p>
+
+<div class="section-title">Sensitivity Table Generator</div>
+<div class="code-block">
+import pandas as pd
+
+# ─── SENSITIVITY TABLE 1: FY2028E Adjusted Transaction Revenue ───
+volumes = [400, 550, 750, 950, 1200]          # $B annual trading volume
+spreads = [1.4, 1.7, 2.0, 2.3, 2.6]           # avg trading spread, bps
+# $1B of volume x 1bp = $0.1M of revenue
+df1 = pd.DataFrame([[v * s / 10 for s in spreads] for v in volumes],
+    index=[f"${v:,}B" for v in volumes],
+    columns=[f"{s:.1f}bps" for s in spreads]).round(0)
+print("FY2028E Adj. Transaction Revenue ($M)")
+print(df1.to_string())
+print(f"Base: $750B x 2.0bps = ${750*2.0/10:.0f}M | LTM: $672B, Q3'26 spread 2.26bps")
+
+# ─── SENSITIVITY TABLE 2: FY2028E Equiniti Float Income ───
+balances = [4.45, 4.95, 5.45, 5.95, 6.45]     # $B avg client cash
+yields   = [0.030, 0.035, 0.040, 0.045, 0.050]
+df2 = pd.DataFrame([[b * 1000 * y for y in yields] for b in balances],
+    index=[f"${b:.2f}B" for b in balances],
+    columns=[f"{y*100:.1f}%" for y in yields]).round(0)
+print("\nFY2028E Equiniti Float Income ($M)")
+print(df2.to_string())
+print(f"Base: $5.45B x 4.0% = ${5.45*1000*0.04:.0f}M | FY2026E mgmt ~$230M")
+# EPS impact of a 100bp move: balances x 1% x (1 - 20% tax) / 222M PF shares
+print(f"EPS per 100bp: ${5450*0.01*0.8/222:.2f}")
+
+# ─── SENSITIVITY TABLE 3: Implied Share Price ───
+eps_2028 = [0.90, 1.48, 1.86, 2.18, 2.77]     # FY2028E PF adj. EPS
+pe_mults = [11, 14, 18, 24, 32]
+df3 = pd.DataFrame([[e * m for m in pe_mults] for e in eps_2028],
+    index=[f"${e:.2f}" for e in eps_2028],
+    columns=[f"{m}x" for m in pe_mults]).round(2)
+print("\nImplied Share Price ($)")
+print(df3.to_string())
+print(f"Base: $1.86 x 18x = ${1.86*18:.2f} vs. $29.13 current")
+</div>
+
+<div class="section-title" style="margin-top:16px;">5-Scenario Model Generator</div>
+<div class="code-block">
+# ─── BLSH 5-SCENARIO 3-YEAR MODEL ───
+# FY2026E = Bullish standalone; FY2027E-FY2028E = pro forma incl. Equiniti
+# NI: FY2026E = EBITDA - finance expense (no material tax);
+#     PF years = (EBITDA less capex - finance expense) x (1 - 20% tax)
+TAX_PF = 0.20
+shares = [160.0, 222.0, 222.0]                # M diluted (standalone, PF, PF)
+PF_2026_REV = 1272                            # Bullish $357M + Equiniti ~$915M
+
+scenarios = {
+    "Bear Severe": {"rev": [345, 1109, 1132], "ebitda": [118, 400, 410],
+                    "fin": [56, 165, 160], "pe": 11,
+                    "drivers": "380B x 1.85bps; float $140M; core +3%; token $0"},
+    "Bear Mild":   {"rev": [352, 1227, 1266], "ebitda": [125, 520, 565],
+                    "fin": [56, 160, 155], "pe": 14,
+                    "drivers": "600B x 1.9bps; float $175M; core +4%; token ~$0"},
+    "Base Case":   {"rev": [357, 1336, 1423], "ebitda": [129.5, 585, 665],
+                    "fin": [56, 160, 150], "pe": 18,
+                    "drivers": "750B x 2.0bps; float $218M; core +6%; token $15M"},
+    "Bull Mild":   {"rev": [362, 1413, 1543], "ebitda": [135, 625, 745],
+                    "fin": [56, 155, 140], "pe": 24,
+                    "drivers": "900B x 2.1bps; float $230M; core +7%; token $40M"},
+    "Bull Severe": {"rev": [368, 1550, 1805], "ebitda": [141, 700, 900],
+                    "fin": [56, 150, 130], "pe": 32,
+                    "drivers": "1.3T x 2.2bps; float $240M; core +8%; token $120M"},
+}
+
+current_price = 29.13
+years = ["FY2026E", "FY2027E PF", "FY2028E PF"]
+prices = {}
+
+for name, s in scenarios.items():
+    ni = [s["ebitda"][0] - s["fin"][0]] + \
+         [(s["ebitda"][i] - s["fin"][i]) * (1 - TAX_PF) for i in (1, 2)]
+    eps = [ni[i] / shares[i] for i in range(3)]
+    implied = round(eps[2], 2) * s["pe"]
+    prices[name] = implied
+    print(f"\n{'='*64}\nScenario: {name}  [{s['drivers']}]\n{'─'*64}")
+    for i, yr in enumerate(years):
+        print(f"  {yr}: Rev ${s['rev'][i]:,.0f}M | EBITDA ${s['ebitda'][i]:,.0f}M "
+              f"({s['ebitda'][i]/s['rev'][i]:.1%}) | NI ${ni[i]:,.0f}M | EPS ${eps[i]:.2f}")
+    print(f"Exit: {s['pe']}x FY2028E EPS ${eps[2]:.2f} -> ${implied:.2f} "
+          f"({implied/current_price-1:+.0%})")
+
+# ─── PROBABILITY-WEIGHTED FAIR VALUE ───
+weights = {"Bear Severe": 0.05, "Bear Mild": 0.20, "Base Case": 0.50,
+           "Bull Mild": 0.20, "Bull Severe": 0.05}
+coc = 0.30
+wtd_avg = sum(weights[k] * prices[k] for k in weights)
+pv = wtd_avg / (1 + coc)
+print(f"\nProbability-Weighted Avg (FY2028E): ${wtd_avg:.2f}")
+print(f"Discounted at {coc*100:.0f}% CoC:           ${pv:.2f}")
+print(f"Current Price:                         ${current_price:.2f}")
+print(f"Implied Upside to PV:                  {(pv/current_price-1)*100:+.1f}%")
+
+# ─── EV BRIDGE (standalone, Jun 30, 2026 balance sheet) ───
+fd_mcap = 160.0 * current_price
+ev_book = fd_mcap + 495.7 - 2807.3 + 210.0     # + RP loan - gross liquid + other liab
+btc_mtm = 19990 * (80591 - 58599) / 1e6        # BTC mark since Jun 30
+eth_mtm = 9540 * (2349 - 1562) / 1e6
+print(f"\nEV (book) ${ev_book:,.0f}M | EV (marked) ${ev_book - btc_mtm - eth_mtm:,.0f}M")
+</div>
+
+<div class="source-note" style="margin-top:16px;">
+  Bullish | Preliminary Memo for Theia · Generated October 27, 2026 · Data: Bullish quarterly results releases (Q2 2025–Q2 2026), FY2025 Form 20-F, Q1/Q2 2026 interim financial statements (6-K), monthly metrics (Jan 2025–Sep 2026), Equiniti transaction release and investor call (May 5, 2026), Siris carve-out release (Jul 24, 2026), Q4 2025 / Q1 2026 / Q2 2026 earnings call transcripts, AlphaSense Deep Research (Company Primer; Strategic &amp; Operational Analysis, Oct 27, 2026); market data and consensus via StockAnalysis, Finviz, Yahoo Finance, MarketBeat (Oct 27, 2026); BTC/ETH via CoinGecko; 10Y UST via FRED. No FactSet snapshot provided — consensus beyond FY2027E and peer forward EBITDA unavailable. FYE December. Not investment advice.
+</div>
+
+</body>
+</html>
