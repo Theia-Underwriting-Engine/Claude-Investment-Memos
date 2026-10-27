@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gemini Space Station | Preliminary Memo for Theia</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #fff;
+  color: #000;
+  width: 816px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.title-bar {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  color: #1F3864; border-bottom: 3px solid #1F3864;
+  padding-bottom: 10px; margin-bottom: 20px; text-align: center;
+}
+
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #1F3864; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; color: #1F3864; }
+.header .ticker { font-size: 13px; font-weight: 600; color: #808080; }
+.header .date { font-size: 10px; color: #808080; }
+
+.price-bar { display: flex; gap: 20px; align-items: center; background: #F2F2F2; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; }
+.price-bar .price { font-size: 20px; font-weight: 700; color: #1F3864; }
+.price-bar .chg { color: #000; font-weight: 600; }
+.price-bar .label { color: #808080; font-weight: 500; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1F3864; border-bottom: 1.5px solid #BFBFBF; padding-bottom: 3px; margin: 12px 0 6px 0; }
+
+.memo-section { font-size: 14px; font-weight: 700; color: #1F3864; border-bottom: 2px solid #1F3864; padding-bottom: 4px; margin: 24px 0 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #808080; width: 45%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #808080; padding: 2px 6px; border-bottom: 1px solid #BFBFBF; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #000; }
+table.data tr.section-row td { font-weight: 700; color: #1F3864; padding-top: 5px; border-top: 1px solid #BFBFBF; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.data tr:nth-child(even) { background: #F2F2F2; }
+table.data tr.section-row { background: transparent !important; }
+.est { color: #0070C0; }
+
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+
+table.ev td { padding: 1.5px 0; }
+table.ev td:first-child { color: #808080; }
+table.ev td:last-child { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.ev tr.total td { font-weight: 700; border-top: 1.5px solid #1F3864; color: #1F3864; }
+
+table.rev { font-size: 10px; }
+table.rev th { text-align: right; font-weight: 600; color: #808080; padding: 2px 4px; border-bottom: 1px solid #BFBFBF; }
+table.rev th:first-child { text-align: left; }
+table.rev td { text-align: right; padding: 2px 4px; }
+table.rev td:first-child { text-align: left; font-weight: 500; color: #000; }
+
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #BFBFBF; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #808080; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #1F3864; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #808080; font-weight: 400; }
+.source-note { font-size: 8px; color: #808080; margin-top: 8px; text-align: right; }
+.sub-label { font-size: 9px; font-weight: 600; color: #808080; margin: 5px 0 2px 0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.prose { font-size: 11px; line-height: 1.6; color: #262626; margin-bottom: 8px; }
+
+.fw-item { margin-bottom: 8px; }
+.fw-item .fw-name, .fw-name { font-weight: 700; color: #1F3864; }
+.fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong   { background: #DDEBF7; color: #1F3864; }
+.fw-rating.moderate { background: #F2F2F2; color: #1F3864; border: 1px solid #BFBFBF; }
+.fw-rating.weak     { background: #fff; color: #808080; border: 1px solid #BFBFBF; }
+.fw-rating.high     { background: #fff; color: #808080; border: 1px solid #BFBFBF; }
+.fw-rating.low      { background: #DDEBF7; color: #1F3864; }
+
+table.sensitivity { font-size: 9px; margin: 8px 0; width: 100%; }
+table.sensitivity th { background: #F2F2F2; font-weight: 600; padding: 3px 6px; text-align: center; }
+table.sensitivity td { text-align: center; padding: 3px 6px; }
+table.sensitivity td.base { background: #DDEBF7; font-weight: 700; color: #1F3864; }
+table.sensitivity td.diag { background: #DDEBF7; }
+
+.case-block { background: #F2F2F2; border: 1px solid #BFBFBF; border-radius: 4px; padding: 12px; margin-bottom: 16px; }
+.case-block .case-name { font-size: 12px; font-weight: 700; color: #1F3864; margin-bottom: 8px; }
+.case-block .case-desc { font-size: 10px; color: #808080; margin-bottom: 10px; font-style: italic; }
+.case-block .driver-label { font-size: 9px; font-weight: 600; color: #808080; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 8px; margin-bottom: 4px; }
+.case-block .driver-row { background: #DDEBF7; padding: 3px 6px; margin-bottom: 2px; font-size: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
+.case-block .driver-row span:first-child { font-weight: 500; color: #000; }
+.case-block .driver-row span:last-child { font-weight: 600; color: #1F3864; }
+.case-block table.scenario-mini { font-size: 9px; width: 100%; border-collapse: collapse; margin: 8px 0; }
+.case-block table.scenario-mini th { text-align: right; font-weight: 600; color: #808080; padding: 2px 4px; border-bottom: 1px solid #BFBFBF; }
+.case-block table.scenario-mini th:first-child { text-align: left; }
+.case-block table.scenario-mini td { padding: 2px 4px; text-align: right; color: #000; }
+.case-block table.scenario-mini td:first-child { text-align: left; color: #808080; font-weight: 500; }
+.case-block table.scenario-mini tr:nth-child(even) { background: #fff; }
+.case-block table.scenario-mini tr.valuation-row td { background: #DDEBF7 !important; font-weight: 600; color: #1F3864; }
+.case-block .exit-metrics { border-top: 1px solid #BFBFBF; padding-top: 6px; margin-top: 6px; }
+.case-block .exit-price { font-size: 14px; font-weight: 700; color: #1F3864; margin-top: 4px; }
+.case-block .exit-upside { font-size: 10px; font-weight: 600; margin-top: 2px; color: #000; }
+
+.case-chart { margin-top: 16px; padding: 12px; background: #F2F2F2; border-radius: 4px; }
+.case-chart svg { width: 100%; height: auto; }
+
+table.comps { font-size: 8px; }
+table.comps th { text-align: right; font-weight: 600; color: #808080; padding: 2px 4px; border-bottom: 1px solid #BFBFBF; white-space: nowrap; }
+table.comps th:first-child, table.comps th:nth-child(2) { text-align: left; }
+table.comps td { text-align: right; padding: 2px 4px; }
+table.comps td:first-child, table.comps td:nth-child(2) { text-align: left; }
+table.comps tr.subject td { font-weight: 700; background: #DDEBF7; }
+table.comps tr.group-row td { font-weight: 700; color: #1F3864; font-size: 8px; text-transform: uppercase; letter-spacing: 0.4px; padding-top: 5px; border-top: 1px solid #BFBFBF; }
+table.comps tr.stat-row td { font-style: italic; background: #F2F2F2; font-weight: 600; border-top: 1px solid #BFBFBF; }
+table.comps th.est-col { color: #0070C0; }
+
+table.risk-table { font-size: 10px; width: 100%; margin: 8px 0; }
+table.risk-table th { text-align: left; font-weight: 600; padding: 4px 6px; background: #F2F2F2; border-bottom: 1px solid #BFBFBF; color: #1F3864; }
+table.risk-table td { padding: 4px 6px; border-bottom: 1px solid #F2F2F2; vertical-align: top; }
+table.risk-table td:first-child { font-weight: 600; width: 22%; }
+
+.verdict { background: #F2F2F2; border-left: 4px solid #1F3864; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.5; }
+.verdict-final { background: #DDEBF7; border-left: 4px solid #1F3864; padding: 12px 14px; margin: 16px 0; font-size: 11.5px; line-height: 1.55; }
+
+.appendix { margin-top: 24px; }
+.code-block { background: #1F3864; color: #DDEBF7; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 9px; line-height: 1.5; overflow-x: auto; white-space: pre; margin: 8px 0; }
+
+.alphasense-box { background: #DDEBF7; border-left: 4px solid #0070C0; padding: 10px 14px; margin: 10px 0; font-size: 10px; line-height: 1.5; }
+
+.bull-header, .bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1F3864; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bull-header { border-bottom: 1.5px solid #0070C0; }
+.bear-header { border-bottom: 1.5px solid #808080; }
+
+.bull-item, .bear-item { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">Gemini Space Station | Preliminary Memo for Theia</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 1: BUSINESS OVERVIEW -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">1. Business Overview</div>
+
+<p class="prose">Gemini Space Station, Inc. (NASDAQ: GEMI) is the holding company for Gemini, the regulated U.S. crypto platform founded in 2014 by Cameron and Tyler Winklevoss. Gemini built its brand on "asking for permission, not forgiveness": it runs a NYDFS-chartered limited-purpose trust company (custody and the GUSD stablecoin), holds money transmitter licenses in every state that requires them, and has added a CFTC Designated Contract Market (Gemini Titan, December 2025), a CFTC Derivatives Clearing Organization (Gemini Olympus, April 2026) and a FINRA broker-dealer (Gemini Galactic). Since the February 2026 "Gemini 2.0" pivot, the business is organized into four lines: <strong>Invest &amp; Trade</strong> (spot exchange, OTC and — since July 2026 — commission-free U.S. stocks and ETFs cleared through Apex); <strong>Onchain</strong> (custody, staking, GUSD, self-custody wallet); <strong>Card</strong> (the WebBank-issued Mastercard credit card that pays rewards in crypto, funded by a Ripple warehouse facility); and <strong>Predictions</strong> (CFTC-regulated event contracts on crypto, sports, politics and economics, now cleared in-house). Management's stated ambition is "the super app for the markets economy" — over 5,000 tradable instruments versus fewer than 100 two years ago.</p>
+
+<p class="prose">The economics have shifted sharply. Spot exchange volume collapsed from $11.3B in Q2 2025 to $3.8B in Q2 2026 (−66%) and assets on platform fell from $18.2B to $8.4B, so exchange revenue dropped 38% to $12.5M. Offsetting that, the card has become the largest revenue line ($16.2M in Q2 2026, +231% YoY, on $219.6M of managed receivables), and services plus interest income reached 59% of net revenue. Total revenue was $179.6M in FY2025 (+26%) and $45.5M in Q2 2026 (+37% YoY), but the cost base remains far larger than the revenue base: FY2025 operating expenses were $525.2M, the net loss was $(582.8)M and adjusted EBITDA was $(258.0)M. The IPO on September 12, 2025 priced at $28 (raising $425M, plus a $50M Nasdaq strategic investment at $26.25). Within five months management exited the UK, EU and Australia, cut ~25% of staff (headcount has since fallen from ~650 to ~402) and, on February 17, 2026, the CFO, COO and Chief Legal Officer all departed the same day. In May 2026 the Winklevoss Capital Fund injected $100M of equity — paid in ~1,258 BTC at $14 per share — to shore up liquidity. Cash stood at $188.6M on June 30, 2026, against H1 2026 operating cash burn of $(105.9)M.</p>
+
+<p class="prose">At $3.12 the stock is down 89% from its IPO price and trades at roughly 2x FY2026E revenue and 0.86x book value, with 27% of the float sold short. The equity is now effectively a call option on three things: (1) whether prediction markets — where Gemini owns a rare vertically integrated DCM + DCO stack and signed an August 2026 letter of intent to be the exclusive CFTC venue for crypto event contracts across Apex Fintech's broker network — become a scaled revenue line (they produced only ~$0.5M of revenue in Q2 2026); (2) whether the card can be grown profitably after a Q2 identity-fraud event pushed 30+ day delinquencies to 9.4%; and (3) whether the company can reach breakeven before it needs to raise dilutive capital again (a $100M shelf was filed in October 2026).</p>
+
+<p class="prose"><strong>Key facts:</strong> Founded 2014 · Headquarters New York, NY (600 Third Avenue) · CEO &amp; Chairman Tyler Winklevoss · President &amp; Vice Chairman Cameron Winklevoss · Interim CFO Danijela Stojanovic (since Feb 2026) · Employees ~402 (Q2 2026; ~650 at Dec 2025) · IPO September 2025 (NASDAQ: GEMI) at $28 · Up-C structure, Nevada corporation; Class B (10 votes) held by Winklevoss Capital Fund ≈ 94% voting control · FY end December · Market Cap $405M · Q3 2026 results November 12, 2026</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 2: FINANCIAL SUMMARY -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">2. Theia Financial Summary</div>
+
+<div class="header">
+  <div>
+    <h1>Gemini Space Station, Inc.</h1>
+    <span class="ticker">GEMI · NASDAQ · Class A Common Stock · US GAAP</span>
+  </div>
+  <div class="date">Market data · October 27, 2026 (intraday) · Financials through Q2 2026</div>
+</div>
+
+<div class="price-bar">
+  <div>
+    <span class="label">Price (Oct 27, 2026) </span>
+    <span class="price">$3.12</span>
+  </div>
+  <div><span class="label">1M </span><span class="chg">(40.0%)</span></div>
+  <div><span class="label">3M </span><span class="chg">(23.2%)</span></div>
+  <div><span class="label">6M </span><span class="chg">(30.2%)</span></div>
+  <div><span class="label">YTD </span><span class="chg">(68.6%)</span></div>
+  <div><span class="label">1Y </span><span class="chg">(84.7%)</span></div>
+  <div><span class="label">52-Wk Range </span><span style="font-weight:600;">$2.81 – $20.93</span></div>
+</div>
+
+<div class="two-col">
+  <div>
+    <div class="section-title">Key Stats — Trading</div>
+    <table class="kv" style="font-size:10px;">
+      <tr><td>Exchange / Ticker</td><td>NASDAQ · GEMI</td></tr>
+      <tr><td>Price (Oct 27, 2026)</td><td>$3.12</td></tr>
+      <tr><td>3-Month Avg Volume</td><td>~2.0M shares/day</td></tr>
+      <tr><td>Float</td><td>~45.7M shares (~35% of total)</td></tr>
+      <tr><td>Short Interest</td><td>27.0% of float</td></tr>
+      <tr><td>Days to Cover</td><td>7.2 days</td></tr>
+      <tr><td>IPO Price / Day-1 Close</td><td>$28.00 / $32.00</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Enterprise Value Bridge</div>
+    <table class="ev" style="font-size:10px;">
+      <tr><td>Class A Shares</td><td>54.53M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">+ Class B Shares (Winklevoss)</td><td style="font-size:9px;">75.13M</td></tr>
+      <tr><td>= Total Basic Shares</td><td>129.65M</td></tr>
+      <tr><td>Share Price</td><td>$3.12</td></tr>
+      <tr><td>= Market Cap</td><td>$405M</td></tr>
+      <tr><td>+ Related-Party Loans (WCF, BTC-denominated)</td><td>$259M</td></tr>
+      <tr><td>+ Third-Party Loans</td><td>$75M</td></tr>
+      <tr><td>+ Card Warehouse Debt (Ripple)</td><td>$147M</td></tr>
+      <tr><td>− Cash &amp; Equivalents</td><td>($189M)</td></tr>
+      <tr><td>− Crypto Assets Held</td><td>($331M)</td></tr>
+      <tr class="total"><td>= Enterprise Value</td><td>$366M</td></tr>
+      <tr><td style="padding-left:12px; font-size:9px;">− Card Receivables Pledged</td><td style="font-size:9px;">($182M)</td></tr>
+      <tr><td style="font-size:9px;">= EV ex-Card Book</td><td style="font-size:9px;">$184M</td></tr>
+    </table>
+  </div>
+</div>
+<p style="font-size:8px; color:#808080; margin-top:2px;">Balance sheet at Jun 30, 2026 (Q2 10-Q). Excludes $103.5M restricted cash and $454.7M customer custodial funds (offset by liabilities). WCF loans are owed in BTC (4,419 BTC at Jun 30) and rise with BTC, partly offset by crypto held (incl. 988 company-owned BTC). Aggregator EV ($715M) ignores the crypto. Dilutive RSUs not disclosed in the sources reviewed; FY2026 SBC guide is $100–115M.</p>
+
+<div class="section-title">Current Valuation</div>
+<div style="border: 1px solid #BFBFBF; border-radius: 4px; margin-bottom: 8px;">
+  <div class="val-grid">
+    <div class="val-cell"><div class="val-label">Mkt Cap</div><div class="val-num">$405M</div><div class="val-sub">Class A + B</div></div>
+    <div class="val-cell"><div class="val-label">EV</div><div class="val-num">$366M</div><div class="val-sub">Net of cash &amp; crypto</div></div>
+    <div class="val-cell"><div class="val-label">P/Sales (FY26E)</div><div class="val-num">2.2x</div><div class="val-sub">Rev $186M</div></div>
+    <div class="val-cell"><div class="val-label">EV/Sales (FY26E)</div><div class="val-num">2.0x</div><div class="val-sub">1.6x FY27E</div></div>
+    <div class="val-cell"><div class="val-label">P/Book</div><div class="val-num">0.86x</div><div class="val-sub">BVPS $3.61</div></div>
+    <div class="val-cell"><div class="val-label">H1'26 Op. Cash Burn</div><div class="val-num">($106M)</div><div class="val-sub">Cash $189M</div></div>
+  </div>
+  <div style="border-top: 1px solid #BFBFBF;">
+    <div class="val-grid">
+      <div class="val-cell"><div class="val-label">Voting Control</div><div class="val-num">~94%</div><div class="val-sub">Class B · Winklevoss</div></div>
+      <div class="val-cell"><div class="val-label">Cost of Equity</div><div class="val-num">~15%</div><div class="val-sub">Theia est. (β 2.55)</div></div>
+      <div class="val-cell"><div class="val-label">Beta</div><div class="val-num">2.55</div><div class="val-sub">Since IPO (Finviz)</div></div>
+      <div class="val-cell"><div class="val-label">Avg Analyst Rating</div><div class="val-num">Hold</div><div class="val-sub">10 brokers · 3B/5H/2S</div></div>
+      <div class="val-cell"><div class="val-label">Cons. Target Price</div><div class="val-num">$5.23</div><div class="val-sub">+68% upside</div></div>
+      <div class="val-cell"><div class="val-label">Next Earnings</div><div class="val-num">Nov 12</div><div class="val-sub">Q3 2026 (after close)</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-title">Valuation Multiples (at current price $3.12)</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Metric</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th>LTM 2Q26</th>
+      <th class="est">FY2026E</th>
+      <th class="est">FY2027E</th>
+      <th class="est">FY2028E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">PRICE MULTIPLES</td></tr>
+    <tr><td>P/E</td><td>NM</td><td>NM</td><td>NM</td><td class="est">NM</td><td class="est">NM</td><td class="est">NM</td></tr>
+    <tr><td>P/Sales</td><td>2.8x</td><td>2.3x</td><td>2.0x</td><td class="est">2.2x</td><td class="est">1.8x</td><td class="est">1.5x</td></tr>
+    <tr><td>P/Book Value</td><td>NM</td><td>0.75x</td><td>0.86x</td><td class="est">--</td><td class="est">--</td><td class="est">--</td></tr>
+    <tr class="section-row"><td colspan="7">EV MULTIPLES (EV $366M)</td></tr>
+    <tr><td>EV/Sales</td><td>2.6x</td><td>2.0x</td><td>1.8x</td><td class="est">2.0x</td><td class="est">1.6x</td><td class="est">1.4x</td></tr>
+    <tr><td>EV/EBITDA (Adjusted)</td><td>NM</td><td>NM</td><td>NM</td><td class="est">NM</td><td class="est">NM</td><td class="est">NM</td></tr>
+  </tbody>
+</table>
+<p style="font-size:8px; color:#808080; margin-top:2px;">FY2026E/FY2027E revenue = Street consensus ($185.6M / $226.4M, 9 analysts); FY2028E = Theia base case ($267M). Consensus EPS $(2.77) FY2026E / $(2.02) FY2027E. FY2024 book equity was negative ($(795)M) before the IPO conversion of related-party notes.</p>
+
+<div class="section-title">Revenue Exposure (FY2025 Actuals, FYE December)</div>
+<div class="two-col">
+  <div>
+    <div class="sub-label">By Revenue Line</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Segment</th><th>$M</th><th>% Rev</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Transaction (Exchange + OTC)</td><td>$98M</td><td>54.6%</td><td>(1.1%)</td></tr>
+        <tr><td>Services (Card, Staking, Custody)</td><td>$65M</td><td>36.0%</td><td>+115%</td></tr>
+        <tr><td>Interest on Customer Funds</td><td>$11M</td><td>6.3%</td><td>(3.4%)</td></tr>
+        <tr><td>Other (Corporate Interest)</td><td>$6M</td><td>3.1%</td><td>NM</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #BFBFBF;"><td>Total Revenue</td><td>$180M</td><td>100%</td><td>+26.3%</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:8px; color:#808080; margin-top:4px;">FY2025 services detail: card $33.1M (+185%), staking $16.8M, custody $8.7M, advisory $4.8M. Geographic split not disclosed; UK/EU/Australia exited in H1 2026 (U.S. + Singapore only).</p>
+  </div>
+  <div>
+    <div class="sub-label">By Product (Q2 2026)</div>
+    <table class="rev">
+      <thead>
+        <tr><th style="text-align:left;">Product</th><th>$M</th><th>% Rev</th><th>YoY</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Credit Card</td><td>$16.2</td><td>35.6%</td><td>+231%</td></tr>
+        <tr><td>Exchange</td><td>$12.5</td><td>27.5%</td><td>(38.1%)</td></tr>
+        <tr><td>OTC</td><td>$4.7</td><td>10.3%</td><td>NM</td></tr>
+        <tr><td>Staking</td><td>$4.0</td><td>8.8%</td><td>+48%</td></tr>
+        <tr><td>Advisory (ends Q3'26)</td><td>$2.7</td><td>5.9%</td><td>NM</td></tr>
+        <tr><td>Interest on Customer Funds</td><td>$2.4</td><td>5.3%</td><td>flat</td></tr>
+        <tr><td>Custody / Predictions / Other</td><td>$2.9</td><td>6.4%</td><td>--</td></tr>
+        <tr style="font-weight:700; border-top: 1px solid #BFBFBF;"><td>Total Revenue</td><td>$45.5</td><td>100%</td><td>+36.6%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="section-title">Financials</div>
+<table class="data" style="font-size:9.5px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">$M (FY Dec)</th>
+      <th>FY2024</th>
+      <th>FY2025</th>
+      <th>LTM 2Q26</th>
+      <th class="est">FY2026E</th>
+      <th class="est">FY2027E</th>
+      <th class="est">FY2028E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">INCOME STATEMENT (GAAP)</td></tr>
+    <tr><td>Total Revenue</td><td>$142</td><td>$180</td><td>$207</td><td class="est">$186</td><td class="est">$226</td><td class="est">$267</td></tr>
+    <tr style="color:#808080; font-size:8.5px;"><td style="padding-left:12px;">Revenue Growth %</td><td>--</td><td>+26.3%</td><td>--</td><td class="est">+3.3%</td><td class="est">+22.0%</td><td class="est">+18.1%</td></tr>
+    <tr><td style="padding-left:12px;">Transaction Revenue</td><td>99</td><td>98</td><td>95</td><td class="est">~70</td><td class="est">--</td><td class="est">--</td></tr>
+    <tr><td style="padding-left:12px;">Services + Interest</td><td>42</td><td>76</td><td>104</td><td class="est">~110</td><td class="est">--</td><td class="est">--</td></tr>
+    <tr><td>Total Operating Expenses</td><td>(308)</td><td>(525)</td><td>(610)</td><td class="est">--</td><td class="est">--</td><td class="est">--</td></tr>
+    <tr><td style="padding-left:12px;">of which Stock-Based Comp</td><td>--</td><td>(85)</td><td>--</td><td class="est">(100)–(115)</td><td class="est">--</td><td class="est">--</td></tr>
+    <tr><td>Operating Loss</td><td>(166)</td><td>(346)</td><td>(403)</td><td class="est">--</td><td class="est">--</td><td class="est">--</td></tr>
+    <tr><td>Adjusted EBITDA</td><td>(13)</td><td>(258)</td><td>(279)</td><td class="est">(215)</td><td class="est">(110)</td><td class="est">(40)</td></tr>
+    <tr style="color:#808080; font-size:8.5px;"><td style="padding-left:12px;">Adj. EBITDA Margin %</td><td>NM</td><td>NM</td><td>NM</td><td class="est">NM</td><td class="est">NM</td><td class="est">NM</td></tr>
+    <tr><td>Net Income</td><td>(159)</td><td>(583)</td><td>(517)</td><td class="est">~(350)</td><td class="est">~(265)</td><td class="est">--</td></tr>
+    <tr><td>EPS (Dil)</td><td>($32.24)</td><td>($15.52)</td><td>($5.47)</td><td class="est">($2.77)</td><td class="est">($2.02)</td><td class="est">--</td></tr>
+    <tr class="section-row"><td colspan="7">KEY OPERATING METRICS</td></tr>
+    <tr><td>Monthly Transacting Users (k)</td><td>512</td><td>601</td><td>580</td><td class="est">--</td><td class="est">--</td><td class="est">--</td></tr>
+    <tr><td>Trading Volume ($B)</td><td>$38.6</td><td>$52.7</td><td>$38.0</td><td class="est">--</td><td class="est">--</td><td class="est">--</td></tr>
+    <tr><td>Assets on Platform ($B, period end)</td><td>$18.2</td><td>$15.9</td><td>$8.4</td><td class="est">--</td><td class="est">--</td><td class="est">--</td></tr>
+    <tr><td>Card Receivables ($M, managed)</td><td>$66</td><td>$220</td><td>$220</td><td class="est">--</td><td class="est">--</td><td class="est">--</td></tr>
+    <tr class="section-row"><td colspan="7">CASH FLOW</td></tr>
+    <tr><td>Operating Cash Flow</td><td>($109)</td><td>($218)</td><td>--</td><td class="est">~($200)</td><td class="est">~($110)</td><td class="est">~($45)</td></tr>
+    <tr class="section-row"><td colspan="7">BALANCE SHEET</td></tr>
+    <tr><td>Cash &amp; Equivalents</td><td>$43</td><td>$252</td><td>$189</td><td class="est">--</td><td class="est">--</td><td class="est">--</td></tr>
+    <tr><td>Crypto Assets Held</td><td>$470</td><td>$440</td><td>$331</td><td class="est">--</td><td class="est">--</td><td class="est">--</td></tr>
+    <tr><td>Total Debt (incl. Related Party)</td><td>$1,166</td><td>$634</td><td>$481</td><td class="est">--</td><td class="est">--</td><td class="est">--</td></tr>
+    <tr><td>Shareholders' Equity</td><td>($795)</td><td>$541</td><td>$468</td><td class="est">--</td><td class="est">--</td><td class="est">--</td></tr>
+    <tr><td>BVPS</td><td>NM</td><td>$4.60</td><td>$3.61</td><td class="est">--</td><td class="est">--</td><td class="est">--</td></tr>
+  </tbody>
+</table>
+<p style="font-size:8px; color:#808080; margin-top:2px;">FY2026E/FY2027E revenue and EPS = consensus; net income derived from consensus EPS x ~127–130M shares. Adjusted EBITDA (company definition) and operating cash flow estimates = Theia base case. FY2028E = Theia base case (no Street consensus). Transaction/services split for FY2026E = H1 actuals plus Theia H2 estimate. FY2025 BVPS on 117.5M shares (Class A + B).</p>
+
+<div class="section-title">Quarterly Results &amp; KPIs (Company Filings)</div>
+<table class="data" style="font-size:9px;">
+  <thead>
+    <tr><th style="text-align:left;">$M</th><th>Q1 2025</th><th>Q2 2025</th><th>Q3 2025</th><th>Q4 2025</th><th>Q1 2026</th><th>Q2 2026</th><th class="est">Q3 2026E</th></tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="8">INCOME STATEMENT (GAAP)</td></tr>
+    <tr><td>Total Revenue</td><td>$35.3</td><td>$33.3</td><td>$50.6</td><td>$60.3</td><td>$50.3</td><td>$45.5</td><td class="est">$43.1 cons.</td></tr>
+    <tr style="color:#808080; font-size:8.5px;"><td style="padding-left:12px;">YoY Growth %</td><td>--</td><td>--</td><td>+107%</td><td>+39%</td><td>+42.5%</td><td>+36.6%</td><td class="est">(15%)</td></tr>
+    <tr><td>Transaction Revenue</td><td>24.1</td><td>20.8</td><td>26.3</td><td>26.7</td><td>24.1</td><td>17.8</td><td class="est">--</td></tr>
+    <tr><td>Services Revenue</td><td>8.8</td><td>9.5</td><td>19.9</td><td>26.5</td><td>21.9</td><td>23.5</td><td class="est">--</td></tr>
+    <tr><td style="padding-left:12px;">of which Credit Card</td><td>3.7</td><td>4.8</td><td>8.5</td><td>16.0</td><td>14.7</td><td>16.2</td><td class="est">--</td></tr>
+    <tr><td>Interest on Customer Funds</td><td>2.2</td><td>2.4</td><td>3.6</td><td>3.2</td><td>2.6</td><td>2.4</td><td class="est">--</td></tr>
+    <tr><td>Total Operating Expenses</td><td>(83.3)</td><td>(98.7)</td><td>(171.4)</td><td>(171.7)</td><td>(144.5)</td><td>(122.4)</td><td class="est">--</td></tr>
+    <tr><td style="padding-left:12px;">of which SBC</td><td>(1.5)</td><td>(1.8)</td><td colspan="2" style="text-align:center;">(81.7) combined</td><td>(24.2)</td><td>(20.3)</td><td class="est">--</td></tr>
+    <tr><td style="padding-left:12px;">of which Transaction Losses (incl. card provisions)</td><td>(4.1)</td><td>(3.6)</td><td>(7.7)</td><td>(6.0)</td><td>(11.1)</td><td>(20.1)</td><td class="est">--</td></tr>
+    <tr><td>Adjusted EBITDA</td><td>(61.6)</td><td>(51.9)</td><td>(52.4)</td><td>(92.2)</td><td>(59.9)</td><td>(74.0)</td><td class="est">--</td></tr>
+    <tr><td>Net Loss</td><td>(149.3)</td><td>(133.2)</td><td>(159.5)</td><td>(140.8)</td><td>(109.0)</td><td>(107.7)</td><td class="est">--</td></tr>
+    <tr><td>Diluted EPS ($)</td><td>(30.34)</td><td>(27.08)</td><td>(6.67)</td><td>(1.22)</td><td>(0.93)</td><td>(0.89)</td><td class="est">(0.57) cons.</td></tr>
+    <tr class="section-row"><td colspan="8">KPIs</td></tr>
+    <tr><td>Monthly Transacting Users (k)</td><td>~503</td><td>523</td><td>~587</td><td>601</td><td>589</td><td>580</td><td class="est">--</td></tr>
+    <tr><td>Trading Volume ($B)</td><td>$13.5</td><td>$11.3</td><td>$16.4</td><td>$11.5</td><td>$6.3</td><td>$3.8</td><td class="est">--</td></tr>
+    <tr><td>Exchange Take Rate (bps, derived)</td><td>~17.5</td><td>~17.9</td><td>~15.4</td><td>~21.3</td><td>~27.3</td><td>~32.9</td><td class="est">--</td></tr>
+    <tr><td>Assets on Platform ($B)</td><td>$14.2</td><td>$18.2</td><td>~$21.2</td><td>$15.9</td><td>$11.1</td><td>$8.4</td><td class="est">--</td></tr>
+    <tr><td>Card Receivables ($M)</td><td>~69</td><td>93.5</td><td>150.6</td><td>219.8</td><td>218.1</td><td>219.6</td><td class="est">--</td></tr>
+    <tr><td>Card 30+ Day Delinquency</td><td>--</td><td>--</td><td>--</td><td>3.4%</td><td>3.8%</td><td>9.4%</td><td class="est">--</td></tr>
+    <tr><td>Headcount</td><td>--</td><td>--</td><td>677</td><td>650</td><td>442</td><td>~402</td><td class="est">--</td></tr>
+    <tr class="section-row"><td colspan="8">LIQUIDITY</td></tr>
+    <tr><td>Cash &amp; Equivalents</td><td>--</td><td>--</td><td>$487.5</td><td>$252.2</td><td>$215.6</td><td>$188.6</td><td class="est">--</td></tr>
+    <tr><td>Operating Cash Flow</td><td>--</td><td>--</td><td>--</td><td>(138.2)</td><td>(54.4)</td><td>(51.4)</td><td class="est">--</td></tr>
+  </tbody>
+</table>
+<p style="font-size:8px; color:#808080; margin-top:2px;">Sources: Q3 2025 and Q4 2025 shareholder letters, Q1 and Q2 2026 earnings releases (8-K), FY2025 10-K, Q2 2026 10-Q, IPO prospectus (424B4). Take rate = exchange revenue / trading volume. Q2 2026 delinquency: 6.1% fraud cohort + 3.3% non-fraud. Q3 2026 consensus per Yahoo Finance (7 analysts); results due Nov 12.</p>
+
+<div class="section-title">Guidance Track Record (Earnings Releases &amp; Calls)</div>
+<table class="data" style="font-size:9px;">
+  <thead>
+    <tr><th style="text-align:left;">Given</th><th style="text-align:left;">Period · Metric</th><th>Guidance</th><th>Actual</th><th style="text-align:left;">Result</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Q3'25 call</td><td style="text-align:left;">FY25 · Services + interest revenue</td><td>$60–70M</td><td>$76.0M</td><td style="text-align:left;">Beat</td></tr>
+    <tr><td>Q3'25 call</td><td style="text-align:left;">FY25 · Technology + G&amp;A</td><td>$140–155M</td><td>$154.6M</td><td style="text-align:left;">Top of range</td></tr>
+    <tr><td>Q3'25 call</td><td style="text-align:left;">Medium term · MTU growth</td><td>20–25% CAGR</td><td>+10.9% (Q2'26 YoY)</td><td style="text-align:left;">Tracking below</td></tr>
+    <tr><td>Feb 17, 2026 8-K</td><td style="text-align:left;">FY25 · Net revenue</td><td>$165–175M</td><td>$174.1M</td><td style="text-align:left;">Top of range</td></tr>
+    <tr><td>Feb 17, 2026 8-K</td><td style="text-align:left;">FY25 · Operating expenses</td><td>$520–530M</td><td>$525.2M</td><td style="text-align:left;">Midpoint</td></tr>
+    <tr><td>Feb 17, 2026 8-K</td><td style="text-align:left;">FY25 · Adjusted EBITDA</td><td>$(267)–(257)M</td><td>$(258.0)M</td><td style="text-align:left;">Better end</td></tr>
+    <tr><td>Feb 5, 2026 8-K</td><td style="text-align:left;">Restructuring · Pre-tax charges</td><td>~$11M</td><td>$7.9M in Q1'26</td><td style="text-align:left;">On track</td></tr>
+    <tr><td>Q4'25 → Q2'26 calls</td><td style="text-align:left;">FY26 · Technology + G&amp;A</td><td>$155–190M → $155–170M</td><td>H1 $83.2M</td><td style="text-align:left;">Narrowed; tracking upper half</td></tr>
+    <tr><td>Q4'25 call</td><td style="text-align:left;">FY26 · Stock-based comp</td><td>$100–115M</td><td>H1 $44.5M</td><td style="text-align:left;">Tracking below low end</td></tr>
+    <tr><td>Q4'25 call</td><td style="text-align:left;">FY26 · Cash comp (ex SBC) vs FY25</td><td>(15)–(20)%</td><td>Q2 comp incl. SBC $48.2M vs Q4'25 $72.2M</td><td style="text-align:left;">On track</td></tr>
+  </tbody>
+</table>
+<p style="font-size:8px; color:#808080; margin-top:2px;">Gemini has never given revenue guidance, total FY2026 opex guidance or a breakeven date. Services and cost guides have generally been met; the MTU growth target set at the Q3 2025 call is not being met.</p>
+
+<div class="section-title">Valuation Summary</div>
+<p class="prose">Gemini trades at 2.2x FY2026E revenue and ~2.0x EV/Sales after netting $189M of cash and $331M of crypto against $481M of debt — the cheapest revenue multiple among scaled U.S. crypto platforms (net-revenue peer median ~5.9x EV/Sales) and below book value (0.86x). The discount is earned. Revenue is barely growing in 2026 (+3% consensus) as spot volumes have fallen two-thirds; the cost base still runs at roughly 2.5x revenue (Q2 2026 opex $122.4M vs. revenue $45.5M); adjusted EBITDA has been $(52)–(92)M every quarter for six quarters; and H1 2026 operating cash burn of $(106)M against $189M of cash implies the company needs new capital within roughly a year unless burn falls sharply. Stock-based compensation guided at $100–115M for FY2026 would equal ~25% of today's market cap, so dilution is structural, not optional. The consensus target of $5.23 (10 brokers, rated Hold) implies 68% upside, but the target trend is down (Truist cut to $3.50, Morgan Stanley to Underweight at $4.75), and 27% of the float is sold short. The bull case rests on the prediction-markets stack (DCM + DCO + Apex distribution) and the card franchise being worth more than the market's ~$370M EV — an option the market is pricing at roughly the value of the company's cash and crypto minus its debt.</p>
+
+<div class="source-note">Sources: Gemini Q3 2025 / Q4 2025 shareholder letters, Q1 / Q2 2026 earnings releases (8-K), FY2025 Form 10-K, Q2 2026 Form 10-Q, IPO prospectus (424B4), Schedule 13D (May 2026); market data from StockAnalysis/Finviz/Yahoo/MarketBeat (Oct 27, 2026). No FactSet snapshot provided.</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 3: BULL & BEAR CASES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull Cases</div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">A Full-Stack Prediction Market at a Sub-$400M EV.</span> Gemini is one of very few crypto-native firms holding both a CFTC DCM (Titan, December 2025) and a DCO (Olympus, April 2026), and its in-house clearinghouse went live on August 4, 2026 — so it captures the exchange fee, the clearing fee and the float on collateral without paying a third-party clearer. Event contracts traded rose 93% QoQ in Q2 2026 to 225M+ cumulative across 27,000+ traders, and the August 2026 Apex Fintech LOI would make Titan the exclusive CFTC venue for crypto event contracts distributed across Apex's FCM network of brokerages. Kalshi's monthly volume went from $9B to $33B in the first half of 2026 alone; if Gemini captures even a low-single-digit share of U.S. regulated event-contract volume, predictions alone could justify more than today's ~$370M EV.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">The Card Is a Real, Growing Annuity.</span> Card revenue went from $11.6M in FY2024 to $33.1M in FY2025 and $16.2M in Q2 2026 alone (+231% YoY), on $219.6M of managed receivables — a ~30% annualized revenue yield. Card pre-provision net revenue turned positive ($3.8M in Q1, $5.5M in Q2), card MTUs exceed 100k, and 55% of prediction traders also hold the card. Excluding the identity-fraud cohort, 30+ day delinquency was 3.3% — in line with prime card issuers — and the company has added Experian bust-out models and tighter identity verification. The card gives Gemini what no other crypto exchange has at scale: a daily-use consumer product with credit-card economics that feeds deposits, staking and trading.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">The Cost Reset Is Already in the Run-Rate.</span> Total opex fell from $171.7M in Q4 2025 to $122.4M in Q2 2026 (−29%), headcount from ~650 to ~402 (−38%), and Q2 included a one-off $16.1M fraud provision. Management narrowed FY2026 technology + G&amp;A to $155–170M and guided cash compensation down 15–20%. On a normalized Q2 base (ex-fraud provision, ex-SBC) cash opex is roughly $86M per quarter; a recovery to the Q3 2025 revenue level ($50M/quarter) with flat costs takes the adjusted EBITDA loss to ~$(35)M a quarter, and a crypto upcycle that doubles exchange revenue would bring Gemini close to breakeven. Operating leverage cuts both ways — in 2026 it has been punishing, but the base is now much smaller.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Founders Keep Writing Checks, Downside Partly Underwritten.</span> The Winklevoss Capital Fund put $100M of BTC into the company at $14 per share in May 2026 — 4.5x today's price — and its loans to Gemini are denominated in BTC (4,419 BTC at June 30) with no fixed maturity. Founders who control ~94% of the vote and own ~63% of the economics have repeatedly chosen to fund rather than sell. The stock trades at 0.86x book and ~2x revenue, against a regulated platform with an NYDFS trust charter, money transmitter licenses in every state, a DCM, a DCO and a broker-dealer — a license stack that took a decade to assemble and that an acquirer (an exchange group, a broker or a prediction-market operator) could not quickly replicate. April 2026 press reports of buyer interest in Gemini or its custody/trading units highlight the strategic floor.</p>
+    </div>
+
+    <div class="bull-item">
+      <p class="prose"><span class="fw-name">Legal Overhang Is Clearing.</span> The SEC dismissed its Earn case with prejudice in January 2026; Earn customers recovered 100% in kind ($2.18B via Genesis plus Gemini's ~$50M NYAG restitution and $40M NYDFS contribution); and Gemini won its first five bellwether Earn arbitrations, including an August 2026 ruling that it was not at fault for Earn's collapse. The remaining IPO class action (Methvin v. Gemini, S.D.N.Y.) is a typical post-IPO-drawdown suit. With the regulatory regime in Washington now constructive for crypto and prediction markets (the CFTC itself sought to vacate its 2025 consent order), the "regulated-first" positioning that was a cost center for a decade can become a distribution advantage with banks and brokers.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="bear-header">Bear Cases</div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">The Funding Gap Forces Dilution at the Bottom.</span> H1 2026 operating cash flow was $(105.9)M against $188.6M of cash at June 30, and adjusted EBITDA has been $(52)–(92)M in every one of the last six quarters. Even if burn halves, Gemini likely needs another $100–150M within 12 months; a $100M mixed shelf was filed in October 2026 and the WCF placement shares were registered for resale. Raising $150M at $2–3 per share would add 50–75M shares (40–60% dilution) on top of $100–115M of annual SBC — itself equal to roughly a quarter of the market cap. Equity holders can be right about the business and still lose money.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">The Core Exchange Is Shrinking Faster Than the Market.</span> Gemini's spot volume fell 66% YoY to $3.8B in Q2 2026 and assets on platform halved to $8.4B, while Robinhood's crypto notional was down ~38% YoY in August and global CEX spot volume was recovering by September. The exit from the UK, EU and Australia removed international users; MTUs have declined for two quarters (601k → 580k) against a 20–25% CAGR target set only nine months earlier. The rising take rate (~33bps derived) reflects a shrinking, more retail-heavy mix rather than pricing power. Coinbase, Robinhood and Kraken have far larger user bases and marketing budgets; Gemini's sub-scale exchange may never recover share.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Card Credit Risk Is the New Volatility.</span> Card receivables of ~$220M are funded by a Ripple warehouse whose rate steps from 7% to 10% if borrowings exceed $150M after July 2026, and which requires Gemini to pledge RLUSD collateral. The Q2 2026 identity-fraud event drove a $16.1M credit-loss provision and lifted 30+ day delinquency to 9.4%; total transaction losses were $20.1M — 44% of quarterly revenue. Unsecured revolving credit to a crypto-native, fraud-targeted customer base is a cyclical business; growing the book requires more warehouse capacity and capital Gemini does not have, and another loss cycle would wipe out the card's pre-provision profit.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Predictions Revenue Is Tiny and Contested.</span> Despite record contract counts, prediction-market revenue was only ~$0.5M in Q2 2026 (reported net of ~20% rebates), and Gemini tripled its contracted market makers and launched three maker/taker rebate programs to buy liquidity. Kalshi and Polymarket dominate volume, Robinhood, CME/FanDuel and DraftKings distribute event contracts to tens of millions of users, and the New York Attorney General sued Gemini Titan in August 2026. An ICE expert notes Gemini's direct-to-user model (no broker intermediaries) limits access to broker customer bases — the Apex LOI addresses this, but it is non-binding and exclusive only for crypto event contracts.</p>
+    </div>
+
+    <div class="bear-item">
+      <p class="prose"><span class="fw-name">Governance and Execution Credibility.</span> The prospectus sold a global growth story in September 2025; within five months the company exited three regions, cut a quarter of staff and lost its CFO, COO and CLO on the same day — the CFO role remains interim eight months later and the COO role was not backfilled. Securities class actions and a Nevada derivative suit allege the IPO concealed the pivot. The founders hold ~94% of the vote through Class B shares, are also the company's largest lender (BTC-denominated related-party loans of $259M) and its most recent equity investor — a web of related-party relationships in which minority Class A holders have little influence. Truist's analyst said the strategy "needs to change"; Morgan Stanley moved to Underweight in October 2026.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 4: HELMER'S 7 POWERS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Scale Economies</span> <span class="fw-rating weak">Weak</span><br>
+  Exchanges, custodians and card issuers are fixed-cost businesses where scale drives unit costs, and Gemini lacks scale in every one. Its $3.8B of quarterly spot volume is a rounding error next to Coinbase or Robinhood, its ~$220M card book is tiny relative to any bank issuer, and its operating expenses ($122.4M in Q2 2026) are ~2.7x revenue. The 2026 restructuring cut costs, but cost-cutting is not scale: Gemini is still spreading a full regulated-platform overhead (compliance, security, licensing in every state, a DCM and DCO) across ~580k monthly transacting users. Competitors with 10–20x the user base amortize identical fixed costs far more efficiently.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Network Effects</span> <span class="fw-rating weak">Weak</span><br>
+  Order-book and prediction-market liquidity both exhibit network effects — traders go where the depth is — but those effects accrue to the market leaders (Coinbase and Binance in spot; Kalshi and Polymarket in event contracts), not to Gemini. Gemini's response — tripling contracted market makers and paying maker/taker rebates — is the classic sign of a venue buying liquidity rather than enjoying it. The Apex distribution LOI is the most credible attempt to manufacture a network effect by aggregating many brokers' order flow on Titan; if executed, it would materially upgrade this rating. Cross-product links (55% of predictors hold the card) are an engagement effect, not a network effect.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Counter-Positioning</span> <span class="fw-rating moderate">Moderate</span><br>
+  Gemini's "regulation-first" model was historically counter-positioned against offshore exchanges (Binance, FTX, Bybit) that could not adopt U.S. trust-company standards without abandoning their most profitable products. In prediction markets, owning both the DCM and the DCO is a modest counter-position against offshore Polymarket-style venues and against broker-distributors who rely on third-party exchanges. But in 2026, with U.S. policy friendly to crypto, the large regulated incumbents (Coinbase, Robinhood, CME) can and do replicate Gemini's model without cannibalizing anything — the counter-positioning advantage has eroded as the industry has converged on regulated U.S. operation.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Switching Costs</span> <span class="fw-rating weak">Weak</span><br>
+  Retail crypto users switch exchanges easily — balances are portable and Gemini's 66% YoY spot-volume decline and halving of assets on platform show how quickly activity leaves. Custody clients (ETF issuers, treasuries such as Empery Digital) have moderate switching costs given integration and audit work, but custodial fees fell to just $0.6M in Q2 2026. The credit card creates the stickiest relationship: cardholders rarely churn a primary card, and rewards accumulate inside the Gemini account. Overall, switching costs are low for most of the revenue base.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Branding</span> <span class="fw-rating moderate">Moderate</span><br>
+  The Gemini and Winklevoss brands are among the best known in U.S. crypto, associated with security and regulatory compliance, and the card's co-branded editions (XRP, Solana) generated record sign-ups (30k+ in the first month of the XRP card). However, the brand was damaged by the Earn/Genesis collapse (fully remediated only in 2024–2026) and by the post-IPO restructuring, and it does not translate into pricing power: retail users compare fees, and the institutional business is shrinking. Branding helps customer acquisition at the margin; it does not protect economics.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">6. Cornered Resource</span> <span class="fw-rating moderate">Moderate</span><br>
+  Gemini's licensing stack is its most defensible asset: an NYDFS limited-purpose trust charter (qualified custodian, GUSD issuer), money transmitter licenses in all required states, a CFTC DCM and DCO, a FINRA broker-dealer and a Singapore MPI in-principle approval. Assembling the DCM + DCO pair in particular is slow and rare. These licenses are not truly scarce — Coinbase, Kraken, Robinhood and Kalshi hold comparable ones — but they are a real barrier for new entrants and a key reason an acquirer might pay for the platform. Founder capital (the Winklevoss Capital Fund's BTC loans and equity) has also functioned as a cornered funding resource that a typical sub-scale fintech would not have.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">7. Process Power</span> <span class="fw-rating weak">Weak</span><br>
+  Gemini has a strong track record in security and custody operations (no major hack in over a decade), which reflects genuine operational discipline. But the 2025–2026 sequence — an expansion-oriented IPO followed within months by a three-region exit, ~40% headcount reduction and the simultaneous departure of three C-suite officers, plus a Q2 2026 identity-fraud breach in card underwriting — suggests organizational processes are still being rebuilt. Process power is unproven.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> Gemini is a 0–1 power business today. Its only meaningful advantages are a regulated license stack (Cornered Resource, moderate) — especially the rare DCM + DCO pairing — and a recognized brand. It lacks scale, network effects and switching costs in its core exchange, and the counter-positioning it enjoyed against offshore venues has faded as the industry has moved onshore. The prediction-markets build and the Apex distribution deal are the only plausible routes to a real power (network effects); until they produce volume, Gemini competes on licenses and brand alone.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 5: PORTER'S 5 FORCES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">1. Threat of New Entrants</span> <span class="fw-rating high">High</span><br>
+  Regulatory licenses are a hurdle, but the threat comes from well-capitalized adjacent players rather than start-ups. In crypto trading, every major broker (Robinhood, Schwab, Fidelity, E*Trade, SoFi) now offers crypto or plans to; in prediction markets, CME (with FanDuel), DraftKings, Robinhood, Interactive Brokers (ForecastEx) and Coinbase have all entered within two years. In cards, Coinbase and others have launched crypto-rewards products. These entrants bring existing customer bases measured in the tens of millions, which Gemini cannot match.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">2. Bargaining Power of Suppliers</span> <span class="fw-rating moderate">Moderate</span><br>
+  Key suppliers are the card issuing bank (WebBank) and network (Mastercard), the warehouse lender (Ripple, which sets a 7–10% rate and RLUSD collateral requirements), clearing partners for equities (Apex), liquidity providers and market makers (who must be paid rebates to quote predictions), and the founders' Winklevoss Capital Fund (lender of BTC). Several of these relationships are concentrated and on terms that favor the supplier — especially the warehouse and market-maker rebates — which limits Gemini's margins.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">3. Bargaining Power of Buyers</span> <span class="fw-rating high">High</span><br>
+  Retail traders and institutions are price-sensitive and multi-homed; they move to the venue with the lowest fees, best liquidity or biggest promotions. Gemini's institutional volume fell sharply after 2025, and the elevated take rate reflects a shrinking retail base rather than pricing power. In predictions, traders compare odds and fees across Kalshi, Polymarket and Robinhood instantly. Card customers are stickier but respond to rewards rates (Gemini pays up to 4% back), so economics are competed away into rewards expense.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">4. Threat of Substitutes</span> <span class="fw-rating high">High</span><br>
+  Spot BTC/ETH ETFs in brokerage accounts substitute for exchange trading and custody; stablecoin and DeFi venues substitute for on-platform trading and staking; sportsbooks substitute for sports event contracts; and any rewards credit card substitutes for the Gemini card. The products Gemini sells are, almost without exception, available elsewhere from larger providers.</p>
+</div>
+
+<div class="fw-item">
+  <p class="prose"><span class="fw-name">5. Competitive Rivalry</span> <span class="fw-rating high">High</span><br>
+  Gemini competes against Coinbase ($42B market cap), Robinhood ($86B), Kraken (~$13B private), Bullish and Binance in crypto; Kalshi, Polymarket, CME/FanDuel and DraftKings in predictions; and large banks and fintechs in cards. Most rivals are profitable or far better funded, and are spending aggressively on the same customers in a weak crypto market. Rivalry is intense on every product line.</p>
+</div>
+
+<p class="prose" style="font-style: italic; margin-top:8px;"><strong>Summary:</strong> The competitive environment is unfavorable. Gemini is a sub-scale participant in three highly contested markets (retail crypto trading, prediction markets, rewards cards) with high buyer power, abundant substitutes and much larger rivals. Its licenses keep new start-ups out but not the incumbents that matter. The structural route to better economics is distribution through partners (Apex) and a differentiated, vertically integrated derivatives stack — both still early.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 6: WHAT DRIVES THE STOCK? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">6. What Drives the Stock?</div>
+
+<p class="prose">The following are the 6 variables that would move GEMI's share price materially in the next 12 months. These are what analysts build tracking models around and PMs ask about in morning meetings.</p>
+
+<p class="prose"><strong>1. Cash Burn and the Next Financing.</strong> With $188.6M of cash at June 30 and H1 2026 operating cash burn of $(105.9)M, the size, timing and price of the next capital raise is the single biggest determinant of per-share value. A $100M mixed shelf filed in October 2026 makes an offering possible at any time. Bullish: another founder-led investment at a premium, a non-dilutive asset sale (e.g., custody unit) or burn falling below $25M/quarter. Bearish: a discounted public offering or ATM at $2–3 per share.</p>
+
+<p class="prose"><strong>2. Prediction-Market Traction and Apex Conversion.</strong> Investors will track event contracts traded, notional volume, number of traders and — critically — prediction revenue (only ~$0.5M in Q2 2026). Converting the Apex LOI into a definitive agreement with named brokerages live on Titan, and adding futures/perps through the DCO (management said U.S. approvals "could happen this year"), would be the clearest catalysts. The outcome of the New York Attorney General's August 2026 suit against Titan is a key risk.</p>
+
+<p class="prose"><strong>3. Card Credit Quality and Growth.</strong> After the fraud-driven spike to 9.4% delinquency, the Q3 print (Nov 12) will show whether provisions normalize and whether non-fraud delinquency stays near 3.3%. Card revenue (~$16M/quarter) is now the largest line; resumed receivables growth with stable credit would support the "card-led super app" thesis, while further provisions would undermine it. Watch also the Ripple warehouse terms (rate step to 10% above $150M).</p>
+
+<p class="prose"><strong>4. Crypto Prices and Retail Volumes.</strong> GEMI has a 2.55 beta and fell 84.7% over the past year as BTC fell ~30% and Gemini's spot volume fell ~66%. Exchange and staking revenue, assets on platform and the value of crypto on the balance sheet (and the BTC-denominated founder loans) all move with crypto prices. A sustained retail crypto recovery would lift transaction revenue disproportionately given the higher take rate.</p>
+
+<p class="prose"><strong>5. Operating Expense Delivery.</strong> FY2026 guidance: technology + G&amp;A $155–170M, cash compensation down 15–20% vs. FY2025, SBC $100–115M, marketing (ex rewards) 10–15% of revenue. Hitting the low end and showing quarterly adjusted EBITDA losses shrinking toward $(30)–(40)M would materially change the funding math; a re-acceleration of spending (marketing is guided to step up in H2) would worry the market.</p>
+
+<p class="prose"><strong>6. Short Interest, Float and Founder Actions.</strong> 27% of the ~46M-share float is short with 7.2 days to cover, so positive surprises can trigger sharp squeezes (the stock rose 8.5% intraday on October 27 alone). The registration for resale of the WCF placement shares, any conversion of the founders' BTC loans into equity (Bloomberg reported this was under consideration in April 2026), or founder buying/selling would all move the stock.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 7: WHAT DRIVES THE BUSINESS? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">7. What Drives the Business?</div>
+
+<p class="prose">Gemini's revenue can be decomposed into its four post-pivot business lines using fundamental economic drivers:</p>
+
+<table class="data" style="font-size:10px; margin-bottom:16px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Revenue Line</th>
+      <th style="text-align:left;">Driver 1</th>
+      <th style="text-align:left;">Driver 2</th>
+      <th style="text-align:left;">Driver 3</th>
+      <th style="text-align:left;">= Revenue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Exchange (Invest &amp; Trade)</strong></td>
+      <td>Trading Volume ($3.8B Q2'26)</td>
+      <td>x Take Rate (~33bps derived)</td>
+      <td>x Retail / Institutional Mix</td>
+      <td>= Exchange Rev ($12.5M Q2'26)</td>
+    </tr>
+    <tr>
+      <td><strong>OTC</strong></td>
+      <td>Institutional Block Volume</td>
+      <td>x OTC Spread</td>
+      <td>+ Treasury Clients (e.g., Empery)</td>
+      <td>= OTC Rev ($4.7M Q2'26)</td>
+    </tr>
+    <tr>
+      <td><strong>Credit Card</strong></td>
+      <td>Card Receivables ($220M)</td>
+      <td>x Revenue Yield (~30% annualized)</td>
+      <td>− Rewards &amp; Credit Losses</td>
+      <td>= Card Rev ($16.2M Q2'26)</td>
+    </tr>
+    <tr>
+      <td><strong>Staking &amp; Custody (Onchain)</strong></td>
+      <td>Assets on Platform ($8.4B)</td>
+      <td>x Staked / Custodied Share</td>
+      <td>x Fee or Reward Share</td>
+      <td>= Staking + Custody ($4.6M Q2'26)</td>
+    </tr>
+    <tr>
+      <td><strong>Predictions</strong></td>
+      <td># Event Contracts / Notional</td>
+      <td>x Fee per Contract</td>
+      <td>− Maker/Taker Rebates (~20%)</td>
+      <td>= Predictions Rev (~$0.5M Q2'26)</td>
+    </tr>
+    <tr>
+      <td><strong>Interest on Customer Funds</strong></td>
+      <td>Customer Fiat Balances (~$455M)</td>
+      <td>x Short-Term Yield</td>
+      <td>x Retained Share</td>
+      <td>= Interest ($2.4M Q2'26)</td>
+    </tr>
+    <tr>
+      <td><strong>Total Revenue</strong></td>
+      <td>Invest &amp; Trade</td>
+      <td>+ Card + Onchain</td>
+      <td>+ Predictions + Interest/Other</td>
+      <td>= $180M (FY2025) / $186M (FY2026E)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="prose"><strong>Key driver quantification (FY2026E / FY2028E base case):</strong></p>
+<ul style="font-size: 11px; line-height: 1.7; color: #262626; margin-left: 20px; margin-bottom: 10px;">
+  <li><strong>Exchange + OTC:</strong> H1 2026 transaction revenue $41.9M on $10.1B of volume; Theia FY2026E ~$70M assumes H2 volume of ~$9B at a ~30bps blended take rate. A return to FY2025 volume ($52.7B) at even 20bps would add ~$65M of revenue at near-100% incremental margin</li>
+  <li><strong>Card:</strong> $219.6M receivables x ~29.5% annualized revenue yield (Q2'26) ≈ $65M run-rate; base case grows receivables to ~$300M by FY2028E at a ~28% yield ≈ $84M, contingent on warehouse capacity and normalized credit (non-fraud delinquency 3.3%)</li>
+  <li><strong>Staking, custody &amp; interest:</strong> ~$7M per quarter, scaling with assets on platform ($8.4B, down from $18.2B a year ago) and short-term rates</li>
+  <li><strong>Predictions:</strong> ~$2M annualized today; the base case assumes ~$25M by FY2028E (Apex distribution live, futures/perps added through the DCO); the bull cases assume $50–120M</li>
+  <li><strong>Total:</strong> FY2026E $186M (consensus) → FY2027E $226M (consensus) → FY2028E $267M (Theia base, +18%)</li>
+</ul>
+
+<p class="prose"><strong>Leverage analysis:</strong> The two highest-leverage drivers on Gemini's equity value are: (1) <em>Cash operating expenses</em> — at ~$86M per quarter (Q2 2026, excluding SBC and the one-time fraud provision), every 10% cost reduction is worth ~$34M of annual EBITDA, more than the entire FY2026 growth in revenue; cost delivery determines whether the next financing is $50M or $200M, and therefore how much dilution existing holders absorb. (2) <em>Spot trading volume</em> — at a ~30bps take rate, every $10B of incremental annual volume adds ~$30M of revenue with almost no incremental cost; the difference between Gemini's 2026 trough (~$20B annualized) and its FY2024 level ($38.6B) is ~$55M of revenue, enough to cut the FY2026E adjusted EBITDA loss by roughly a quarter. Card receivables growth is the third lever, but it consumes warehouse capacity and capital. Predictions are the only line with platform-style upside, but at ~$0.5M of quarterly revenue they do not yet move the P&amp;L.</p>
+
+<div class="section-title">Management Commentary — Earnings Calls (Q4 2025 – Q2 2026)</div>
+<table class="risk-table" style="font-size:9.5px;">
+  <tr><th>Call</th><th>Speaker</th><th>Quote (verbatim)</th><th>Theia Read-Through</th></tr>
+  <tr><td style="width:14%;">Q4'25 · Mar 20, 2026</td><td style="font-weight:400;">Cameron W.</td><td style="font-style:italic;">&ldquo;2025 marked the end of Gemini 1.0, and 2026 marks the beginning of Gemini 2.0.&rdquo;</td><td>Formal pivot from global exchange to U.S.-focused multi-product app.</td></tr>
+  <tr><td>Q4'25</td><td style="font-weight:400;">Cameron W.</td><td style="font-style:italic;">&ldquo;We believe prediction markets will be as big or bigger than today's capital markets.&rdquo;</td><td>The thesis the equity now rests on; Q2'26 predictions revenue was ~$0.5M.</td></tr>
+  <tr><td>Q4'25</td><td style="font-weight:400;">Cameron W.</td><td style="font-style:italic;">&ldquo;As a result, we have reduced the size of our workforce by roughly 30% since the start of 2026.&rdquo;</td><td>Headcount ~650 → ~402 by Q2'26 (−38%).</td></tr>
+  <tr><td>Q4'25</td><td style="font-weight:400;">Stojanovic (interim CFO)</td><td style="font-style:italic;">&ldquo;If 2025 was the year of investment, I'd say 2026 is really the year of focus and discipline.&rdquo;</td><td>Cost guidance (tech + G&amp;A, cash comp −15–20%) since met.</td></tr>
+  <tr><td>Q4'25</td><td style="font-weight:400;">Stojanovic</td><td style="font-style:italic;">&ldquo;We're really encouraged by the progress that we made in Q4, reaching near breakeven on the card.&rdquo;</td><td>Card PPNR turned positive ($3.8M Q1, $5.5M Q2) before the fraud provision.</td></tr>
+  <tr><td>Q1'26 release · May 14</td><td style="font-weight:400;">Tyler W.</td><td style="font-style:italic;">&ldquo;We believe the market has significantly undervalued Gemini&rdquo;</td><td>Accompanied the $100M founder investment at $14/share (4.5x today's price).</td></tr>
+  <tr><td>Q2'26 · Aug 14, 2026</td><td style="font-weight:400;">Tyler W.</td><td style="font-style:italic;">&ldquo;Bear markets are for building.&rdquo;</td><td>No sign of further retrenchment; marketing guided to step up in H2.</td></tr>
+  <tr><td>Q2'26</td><td style="font-weight:400;">Stojanovic</td><td style="font-style:italic;">&ldquo;The full benefit of the Q1 restructuring is now flowing through the cost structure.&rdquo;</td><td>Q2 opex $122.4M (−29% vs Q4'25); limited further cost levers.</td></tr>
+  <tr><td>Q2'26</td><td style="font-weight:400;">Stojanovic</td><td style="font-style:italic;">&ldquo;Delinquency increased from 3.8% to 9.4%, but nearly all of that increase was fraud-related.&rdquo;</td><td>Q3 print is the test: fraud cohort 6.1% vs non-fraud 3.3%.</td></tr>
+  <tr><td>Q2'26</td><td style="font-weight:400;">Stojanovic</td><td style="font-style:italic;">&ldquo;While there is still meaningful work ahead to improve profitability, we believe we've largely completed&hellip;&rdquo;</td><td>Implies cost actions are done; profitability now depends on revenue.</td></tr>
+  <tr><td>Q2'26</td><td style="font-weight:400;">Stojanovic</td><td style="font-style:italic;">&ldquo;We now expect technology and G&amp;A expenses to be between $155 million and $170 million for the full year&hellip;&rdquo;</td><td>Range narrowed from $155–190M.</td></tr>
+  <tr><td>Q2'26</td><td style="font-weight:400;">Stojanovic</td><td style="font-style:italic;">&ldquo;That figure is reported net of rebates.&rdquo;</td><td>On predictions revenue — liquidity is being paid for.</td></tr>
+  <tr><td>Q2'26</td><td style="font-weight:400;">Cameron W.</td><td style="font-style:italic;">&ldquo;So I think one of the key points here is that we are not just a predictions app.&rdquo;</td><td>Positioning as a "super app" (stocks, crypto, card, predictions).</td></tr>
+  <tr><td>Q2'26</td><td style="font-weight:400;">Tyler W.</td><td style="font-style:italic;">&ldquo;And now it's just a matter of getting the necessary approvals in the U.S., which we believe could happen this year.&rdquo;</td><td>On U.S. crypto futures/perps through the DCM/DCO — a 2027 revenue option.</td></tr>
+</table>
+<p class="prose" style="margin-top:6px;"><strong>Other call and filing disclosures worth tracking:</strong> Advisory fee revenue ($2.7M per quarter for three quarters, tied to a warrant-based agreement from Q3 2025) ends after Q3 2026 — a ~$11M annualized headwind. Management has never given revenue guidance or a breakeven date. The medium-term 20–25% MTU growth target from the Q3 2025 call has not been repeated. Card sign-ups slowed to ~5,000 in Q2 2026 from ~64,000 in Q3 2025 as underwriting was tightened after the fraud event.</p>
+<p style="font-size:8px; color:#808080;">Quotes verified against the Q4 2025 (MarketBeat, Mar 20, 2026) and Q2 2026 (Earnings Whispers, Aug 14, 2026) call transcripts and the Q1 2026 earnings release; ellipses mark truncation.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 8: ALPHASENSE INSIGHTS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">8. AlphaSense Insights</div>
+
+<div class="alphasense-box">
+  <strong>AlphaSense Research Reports</strong> · Subject: Gemini Space Station, Inc. (GEMI) · Reports Reviewed: AlphaSense Deep Research "Gemini Company Primer" (Oct 27, 2026; 15 pp., drawing on the FY2025 10-K, Q1/Q2 2026 10-Qs, 8-Ks, proxy and Schedule 13D) and "Gemini Business Primer and Strategic Analysis" (Oct 27, 2026; 14 pp., earnings releases and expert calls); supplemented by Gemini's filings and earnings-call transcripts<br>
+  <em>Note: the second report conflated three unrelated "Gemini" entities (Google's Gemini AI, the Maersk/Hapag-Lloyd "Gemini Cooperation" shipping alliance, and Gemini the crypto platform). Only the sections on Gemini Space Station / Gemini Trust Company are used below.</em>
+</div>
+
+<p class="prose"><strong>Gemini 2.0: An Abrupt Pivot That Reset the Equity Story.</strong> The AlphaSense primer frames the February 5, 2026 "Gemini 2.0" announcement as "a dramatic corporate transformation that marked an abrupt departure from previous expansion plans": the wind-down of UK, EU and Australian operations (accounts moved to withdrawal-only in March, final shutdown in April), a 25% workforce reduction (~200 employees), lease exits in London, Malta and San Francisco, and restructuring charges of $7.9M in Q1 2026 (~$10.9M total). It documents the market reaction: the stock fell 8.7% on the pivot announcement and 12.9% on the February 17 departure of the COO, CFO and CLO, with market cap sliding from $893M (February 2) to $707M (February 27) — and, today, ~$405M. The pivot consolidated the business into four lines (Invest &amp; Trade, Onchain, Card, Predictions) and expanded the platform from under 100 tradable markets to over 5,000 instruments.</p>
+
+<p class="prose"><strong>The Derivatives Stack Is the Strategic Asset.</strong> AlphaSense highlights that holding both a DCM (Titan, December 2025) and a DCO (Olympus, April 29, 2026) is "a rare combination in the United States," letting Gemini manage settlement, risk parameters and collateral in-house, eliminate third-party clearing fees and "retain the entire economic value loop." The clearinghouse went live August 4, 2026 for prediction contracts, with plans to extend to crypto futures, options and perpetuals. Volume set consecutive monthly records in Q2 2026 (+93% QoQ in contracts) and surpassed 225M cumulative contracts across 27,000+ traders by July. The August 24, 2026 Apex LOI would make Titan the exclusive CFTC venue for crypto event contracts distributed through Apex's FCM network. The counterpoint, from a former ICE Senior Director in the expert calls, is that Gemini's direct-to-end-user model (without broker intermediaries) speeds licensing but "restricts Gemini's ability to partner with brokers who maintain large established customer bases, severely limiting platform liquidity" — exactly the gap the Apex deal is meant to close.</p>
+
+<p class="prose"><strong>Most Misunderstood Aspect: Gemini Is Becoming a Card and Services Company.</strong> The expert-call report argues the market still views Gemini as a volatile, spot-fee-dependent exchange, while services and interest grew 117% YoY to 59% of net revenue in Q2 2026. Credit card revenue rose 231% YoY to $16.2M on $219.6M of receivables, fueled by a 164% increase in card MTUs, partly offset by an $11.5M year-to-date increase in rewards expense. The primer also details the negative side of that shift: an automated identity-fraud pattern in the Q1 2026 card origination cohort led to a $4.1M reserve in Q1 and a $16.15M credit-loss provision in Q2 as accounts rolled through delinquency, pushing quarterly transaction losses to $20.15M (from $3.55M a year earlier). Management responded with Experian credit bust-out models and tighter identity verification.</p>
+
+<p class="prose"><strong>Balance Sheet: Founder Capital in Bitcoin.</strong> The primer details the May 14, 2026 Winklevoss Capital Fund investment: 7,142,857 Class A shares at $14 paid in 1,257.91 BTC (at $79,496.91), lifting liquidity from $235.8M to a pro forma $335.8M. Gemini then sold part of the BTC, retaining 988 BTC ($57.9M) at June 30 — and Q2 adjusted EBITDA was hit by losses on the BTC received. Gemini "historically utilizes Bitcoin as a treasury asset, preferring to carry debt in U.S. dollars under its related-party lending facilities," and still owed 4,419 BTC under WCF lending agreements at June 30. Cash declined from $252.2M (December) to $215.6M (March) to $188.6M (June), driven by operating losses and funding of card receivables.</p>
+
+<p class="prose"><strong>Leadership, Culture and Analyst Views.</strong> An expert (former director) views the Winklevoss-led leadership as "highly motivated, long-term oriented, and deeply committed to preserving this security-first positioning." Sell-side and press views are harsher: Truist's analyst called the simultaneous departure of three top executives "highly concerning" and said the strategy "needs to change"; Mizuho kept an Outperform in February 2026 with a $26 target (bull $43, bear $8) — since cut to $7; HC Wainwright noted ~2.1x EV/Sales with the stock unrated. The report flags "heightened internal strain and operational uncertainty" from the abrupt cuts. On legal matters, AlphaSense records the SEC's dismissal of the Earn case with prejudice (January 23, 2026), the August 2026 arbitration win, and Judge Hellerstein's October 15, 2026 refusal to vacate the CFTC's $5M consent order despite the CFTC's own support.</p>
+
+<p class="prose"><strong>Key Investor Questions.</strong> Based on the AlphaSense research, filings and earnings transcripts, the questions that would most sharpen conviction on Gemini are: (1) What is the cash runway at the current burn, and what is the financing plan (shelf offering, founder capital, conversion of the $259M BTC-denominated founder loans, asset sales)? (2) When will the Apex LOI become definitive, which brokerages will go live on Titan, and what is the expected revenue per contract after rebates? (3) What are Q3 2026 card provisions and non-fraud delinquency, and how much warehouse capacity remains under the Ripple facility at what rate? (4) What is the path and timeline to adjusted EBITDA breakeven, and what revenue level does it require? (5) Will a permanent CFO be appointed, and what is the status of the IPO class action and the NYAG suit against Titan?</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 9: SENSITIVITY ANALYSIS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">9. Sensitivity Analysis</div>
+
+<p class="prose"><strong>Sensitivity Table 1: FY2028E Credit Card Revenue ($M) — Average Card Receivables ($M) vs. Annualized Revenue Yield (%)</strong></p>
+<p class="prose"><strong>Current: Q2 2026 card revenue $16.2M on $219.6M managed receivables = ~29.5% annualized yield (~$65M run-rate). Base case FY2028E = $300M x 28% = $84M</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr><th>Receivables / Yield</th><th>20%</th><th>24%</th><th>28%</th><th>32%</th><th>36%</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>$200M</td><td>$40</td><td>$48</td><td>$56</td><td>$64</td><td>$72</td></tr>
+    <tr><td>$250M</td><td>$50</td><td>$60</td><td>$70</td><td>$80</td><td>$90</td></tr>
+    <tr><td>$300M</td><td>$60</td><td>$72</td><td class="base">$84</td><td>$96</td><td>$108</td></tr>
+    <tr><td>$350M</td><td>$70</td><td>$84</td><td>$98</td><td>$112</td><td>$126</td></tr>
+    <tr><td>$400M</td><td>$80</td><td>$96</td><td>$112</td><td>$128</td><td>$144</td></tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 2: FY2028E Adjusted EBITDA ($M) — Total Revenue ($M) vs. Cash Operating Expenses ex-SBC ($M)</strong></p>
+<p class="prose"><strong>Current: Q2 2026 revenue $45.5M ($182M annualized) vs. ~$86M/quarter cash opex ex-SBC and ex-fraud provision (~$344M annualized). Base case FY2028E = $267M revenue − $307M cash opex = $(40)M</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr><th>Revenue / Cash Opex</th><th>$247M</th><th>$277M</th><th>$307M</th><th>$337M</th><th>$367M</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>$200M</td><td>($47)</td><td>($77)</td><td>($107)</td><td>($137)</td><td>($167)</td></tr>
+    <tr><td>$235M</td><td>($12)</td><td>($42)</td><td>($72)</td><td>($102)</td><td>($132)</td></tr>
+    <tr><td>$267M</td><td>$20</td><td>($10)</td><td class="base">($40)</td><td>($70)</td><td>($100)</td></tr>
+    <tr><td>$300M</td><td>$53</td><td>$23</td><td>($7)</td><td>($37)</td><td>($67)</td></tr>
+    <tr><td>$340M</td><td>$93</td><td>$63</td><td>$33</td><td>$3</td><td>($27)</td></tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:14px;"><strong>Sensitivity Table 3: Implied Share Price ($) — FY2028E Revenue ($M) vs. Exit EV/Sales Multiple (x)</strong></p>
+<p class="prose"><strong>Current: Base case FY2028E revenue $267M x 2.5x EV/Sales + $50M net cash ÷ 219.7M diluted shares = $3.27 vs. $3.12 current (holds base-case share count and net cash constant)</strong></p>
+<table class="sensitivity">
+  <thead>
+    <tr><th>Revenue / EV/Sales</th><th>1.0x</th><th>1.5x</th><th>2.5x</th><th>3.5x</th><th>5.0x</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>$160M</td><td>$0.96</td><td>$1.32</td><td>$2.05</td><td>$2.78</td><td>$3.87</td></tr>
+    <tr><td>$220M</td><td>$1.23</td><td>$1.73</td><td>$2.73</td><td>$3.73</td><td>$5.23</td></tr>
+    <tr><td>$267M</td><td>$1.44</td><td>$2.05</td><td class="base">$3.27</td><td>$4.48</td><td>$6.30</td></tr>
+    <tr><td>$320M</td><td>$1.68</td><td>$2.41</td><td>$3.87</td><td>$5.33</td><td>$7.51</td></tr>
+    <tr><td>$420M</td><td>$2.14</td><td>$3.10</td><td>$5.01</td><td>$6.92</td><td>$9.79</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 10: 3-YEAR MODEL — 5 SCENARIOS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios</div>
+
+<p class="prose">All figures in $M unless stated. Modeled FY2026E, FY2027E, FY2028E (FYE December). Gemini is loss-making in every case through FY2027E, so the exit is valued on <strong>FY2028E EV/Sales</strong> plus FY2028E net cash, divided by FY2028E diluted shares — explicitly including the equity raises each case requires and ongoing SBC dilution. (A Gordon/P/E anchor is not meaningful without earnings; the multiple range is anchored on the net-revenue crypto peer set: eToro ~1.1x, Exodus ~1.4x, Figure ~5.3x, Coinbase ~7.6x, Robinhood ~16x.) Current share price: $3.12. Basic shares: 129.65M. Cash: $188.6M; crypto held $331M; total debt $481M (Jun 30, 2026).</p>
+
+<!-- CASE 1 -->
+<div class="case-block">
+  <div class="case-name">Case 1: Bear Severe — Crypto Winter, Card Losses, Distressed Recapitalization</div>
+  <div class="case-desc">Crypto stays depressed through 2027; spot volume keeps shrinking; prediction markets fail to gain share against Kalshi/Robinhood and the Apex LOI lapses; card fraud and credit losses recur, forcing the book to shrink; with cash exhausted, Gemini raises $150M at ~$1.00 in a heavily dilutive recapitalization (or founder loans convert at distressed terms).</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Q3/Q4 revenue undershoots consensus as advisory fees end and volumes stay low; adjusted EBITDA $(230)M. <strong>FY2027</strong> — Cash falls below regulatory comfort levels; $150M raised at ~$1.00 (150M new shares); card receivables run off; revenue $165M. <strong>FY2028</strong> — A shrunken U.S. exchange and custodian with $160M of revenue and continuing losses; valued at 1x sales.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Exchange + OTC Revenue</span><span>~$55M (volume ~$20B/yr)</span></div>
+  <div class="driver-row"><span>Card Revenue</span><span>~$45M (receivables shrink to ~$160M)</span></div>
+  <div class="driver-row"><span>Predictions Revenue</span><span>~$2M</span></div>
+  <div class="driver-row"><span>Equity Raised / Price</span><span>$150M at $1.00</span></div>
+  <div class="driver-row"><span>Exit EV/Sales</span><span>1.0x (distressed)</span></div>
+  <table class="scenario-mini">
+    <tr><th>$M</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr>
+    <tr><td>Revenue</td><td>$178</td><td>$165</td><td>$160</td></tr>
+    <tr style="color:#808080; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>(0.9%)</td><td>(7.3%)</td><td>(3.0%)</td></tr>
+    <tr><td>Adj. EBITDA</td><td>(230)</td><td>(170)</td><td>(130)</td></tr>
+    <tr style="color:#808080; font-size:8px;"><td style="padding-left:8px;">Adj. EBITDA Margin %</td><td>NM</td><td>NM</td><td>NM</td></tr>
+    <tr><td>Equity Raised</td><td>--</td><td>150</td><td>--</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>132.7</td><td>304.6</td><td>329.6</td></tr>
+    <tr><td>Revenue/Share</td><td>$1.34</td><td>$0.54</td><td>$0.49</td></tr>
+    <tr><td>Net Cash (Debt), FY-end</td><td>--</td><td>--</td><td>(100)</td></tr>
+    <tr class="valuation-row"><td>Exit EV/Sales Multiple</td><td>--</td><td>--</td><td>1.0x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>--</td><td>$0.18</td></tr>
+    <tr><td>Operating Cash Flow</td><td>($210)</td><td>($160)</td><td>($120)</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: (1.0x x $160M − $100M net debt) ÷ 329.6M shares</div>
+    <div class="exit-price">Implied Share Price: $0.18</div>
+    <div class="exit-upside">Downside: (94%) from $3.12</div>
+  </div>
+</div>
+
+<!-- CASE 2 -->
+<div class="case-block">
+  <div class="case-name">Case 2: Bear Mild — Slow Grind, Dilutive Raise at $2</div>
+  <div class="case-desc">Crypto recovers only modestly; the card stabilizes after the fraud event but grows slowly; predictions grow but stay sub-scale; cost cuts hold but revenue growth is ~10%, so Gemini raises $150M at ~$2.00 in 2027.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Revenue $183M, slightly below consensus; adjusted EBITDA $(220)M. <strong>FY2027</strong> — Revenue $200M (+9%); $150M equity offering at ~$2.00 (75M shares); losses narrow to $(130)M. <strong>FY2028</strong> — Revenue $220M; adjusted EBITDA $(80)M; the market prices Gemini as a sub-scale, still-unprofitable fintech at 1.5x sales.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Exchange + OTC Revenue</span><span>~$75M (volume ~$28B/yr)</span></div>
+  <div class="driver-row"><span>Card Revenue</span><span>~$70M (receivables ~$250M)</span></div>
+  <div class="driver-row"><span>Predictions Revenue</span><span>~$10M</span></div>
+  <div class="driver-row"><span>Equity Raised / Price</span><span>$150M at $2.00</span></div>
+  <div class="driver-row"><span>Exit EV/Sales</span><span>1.5x (eToro/Exodus range)</span></div>
+  <table class="scenario-mini">
+    <tr><th>$M</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr>
+    <tr><td>Revenue</td><td>$183</td><td>$200</td><td>$220</td></tr>
+    <tr style="color:#808080; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+1.9%</td><td>+9.3%</td><td>+10.0%</td></tr>
+    <tr><td>Adj. EBITDA</td><td>(220)</td><td>(130)</td><td>(80)</td></tr>
+    <tr style="color:#808080; font-size:8px;"><td style="padding-left:8px;">Adj. EBITDA Margin %</td><td>NM</td><td>NM</td><td>NM</td></tr>
+    <tr><td>Equity Raised</td><td>--</td><td>150</td><td>--</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>132.7</td><td>224.7</td><td>244.7</td></tr>
+    <tr><td>Revenue/Share</td><td>$1.38</td><td>$0.89</td><td>$0.90</td></tr>
+    <tr><td>Net Cash (Debt), FY-end</td><td>--</td><td>--</td><td>(20)</td></tr>
+    <tr class="valuation-row"><td>Exit EV/Sales Multiple</td><td>--</td><td>--</td><td>1.5x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>--</td><td>$1.27</td></tr>
+    <tr><td>Operating Cash Flow</td><td>($205)</td><td>($125)</td><td>($80)</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: (1.5x x $220M − $20M net debt) ÷ 244.7M shares</div>
+    <div class="exit-price">Implied Share Price: $1.27</div>
+    <div class="exit-upside">Downside: (59%) from $3.12</div>
+  </div>
+</div>
+
+<!-- CASE 3 -->
+<div class="case-block">
+  <div class="case-name">Case 3: Base Case — Consensus Revenue, One More Raise, Approaching Breakeven</div>
+  <div class="case-desc">Revenue tracks consensus ($186M FY2026E, $226M FY2027E) then grows ~18% in FY2028E as the card book reaches ~$300M and predictions scale through Apex; cash opex held near ~$300M; Gemini raises $150M at ~$3.00 in 2027 and exits FY2028E near adjusted EBITDA breakeven.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Revenue $186M (+3%); advisory fees roll off after Q3; adjusted EBITDA $(215)M; operating cash burn ~$(200)M. <strong>FY2027</strong> — Revenue $226M (+22%) on crypto recovery, card growth and Apex-distributed event contracts; $150M equity raise at ~$3.00 (50M shares); adjusted EBITDA $(110)M. <strong>FY2028</strong> — Revenue $267M (+18%); adjusted EBITDA $(40)M; valued at 2.5x sales, between eToro and Figure.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Exchange + OTC Revenue</span><span>~$95M (volume ~$35B/yr)</span></div>
+  <div class="driver-row"><span>Card Revenue</span><span>~$84M (receivables ~$300M)</span></div>
+  <div class="driver-row"><span>Predictions Revenue</span><span>~$25M</span></div>
+  <div class="driver-row"><span>Equity Raised / Price</span><span>$150M at $3.00</span></div>
+  <div class="driver-row"><span>Exit EV/Sales</span><span>2.5x</span></div>
+  <table class="scenario-mini">
+    <tr><th>$M</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr>
+    <tr><td>Revenue</td><td>$186</td><td>$226</td><td>$267</td></tr>
+    <tr style="color:#808080; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+3.6%</td><td>+21.5%</td><td>+18.1%</td></tr>
+    <tr><td>Adj. EBITDA</td><td>(215)</td><td>(110)</td><td>(40)</td></tr>
+    <tr style="color:#808080; font-size:8px;"><td style="padding-left:8px;">Adj. EBITDA Margin %</td><td>NM</td><td>NM</td><td>NM</td></tr>
+    <tr><td>Equity Raised</td><td>--</td><td>150</td><td>--</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>132.7</td><td>199.7</td><td>219.7</td></tr>
+    <tr><td>Revenue/Share</td><td>$1.40</td><td>$1.13</td><td>$1.22</td></tr>
+    <tr><td>Net Cash (Debt), FY-end</td><td>--</td><td>--</td><td>50</td></tr>
+    <tr class="valuation-row"><td>Exit EV/Sales Multiple</td><td>--</td><td>--</td><td>2.5x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>--</td><td>$3.27</td></tr>
+    <tr><td>Operating Cash Flow</td><td>($200)</td><td>($110)</td><td>($45)</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: (2.5x x $267M + $50M net cash) ÷ 219.7M shares</div>
+    <div class="exit-price">Implied Share Price: $3.27</div>
+    <div class="exit-upside">Upside: +5% from $3.12</div>
+  </div>
+</div>
+
+<!-- CASE 4 -->
+<div class="case-block">
+  <div class="case-name">Case 4: Bull Mild — Predictions Scale Through Apex, Card Compounds</div>
+  <div class="case-desc">The Apex LOI becomes definitive and multiple brokerages route crypto event contracts to Titan; U.S. futures/perps launch through the DCO; crypto recovers; the card grows to ~$350M of receivables with normalized credit; a smaller $100M raise at ~$4.50 suffices; Gemini turns adjusted EBITDA positive in FY2028E.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Q4 volume rebounds; revenue $190M. <strong>FY2027</strong> — Revenue $250M (+32%); predictions ~$20M; $100M raise at ~$4.50 (22M shares); adjusted EBITDA $(80)M. <strong>FY2028</strong> — Revenue $320M (+28%); predictions ~$50M; adjusted EBITDA +$10M; valued at 3.5x sales as a growing, near-profitable multi-asset platform.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Exchange + OTC + Derivatives Revenue</span><span>~$120M</span></div>
+  <div class="driver-row"><span>Card Revenue</span><span>~$100M (receivables ~$350M)</span></div>
+  <div class="driver-row"><span>Predictions Revenue</span><span>~$50M</span></div>
+  <div class="driver-row"><span>Equity Raised / Price</span><span>$100M at $4.50</span></div>
+  <div class="driver-row"><span>Exit EV/Sales</span><span>3.5x (Figure range)</span></div>
+  <table class="scenario-mini">
+    <tr><th>$M</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr>
+    <tr><td>Revenue</td><td>$190</td><td>$250</td><td>$320</td></tr>
+    <tr style="color:#808080; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+5.8%</td><td>+31.6%</td><td>+28.0%</td></tr>
+    <tr><td>Adj. EBITDA</td><td>(205)</td><td>(80)</td><td>10</td></tr>
+    <tr style="color:#808080; font-size:8px;"><td style="padding-left:8px;">Adj. EBITDA Margin %</td><td>NM</td><td>NM</td><td>3.1%</td></tr>
+    <tr><td>Equity Raised</td><td>--</td><td>100</td><td>--</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>132.7</td><td>166.9</td><td>181.9</td></tr>
+    <tr><td>Revenue/Share</td><td>$1.43</td><td>$1.50</td><td>$1.76</td></tr>
+    <tr><td>Net Cash (Debt), FY-end</td><td>--</td><td>--</td><td>100</td></tr>
+    <tr class="valuation-row"><td>Exit EV/Sales Multiple</td><td>--</td><td>--</td><td>3.5x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>--</td><td>$6.71</td></tr>
+    <tr><td>Operating Cash Flow</td><td>($195)</td><td>($80)</td><td>$0</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: (3.5x x $320M + $100M net cash) ÷ 181.9M shares</div>
+    <div class="exit-price">Implied Share Price: $6.71</div>
+    <div class="exit-upside">Upside: +115% from $3.12</div>
+  </div>
+</div>
+
+<!-- CASE 5 -->
+<div class="case-block">
+  <div class="case-name">Case 5: Bull Severe — Crypto Bull Market + Prediction-Market Platform Re-Rating</div>
+  <div class="case-desc">A new crypto bull market lifts retail volume and the founders' BTC (reducing the need for outside capital); Titan becomes a top-3 regulated event-contract venue through Apex and other distributors; derivatives and stocks drive a genuine super-app; no external raise is required; the market values Gemini alongside Robinhood/Kalshi-style platforms, or a strategic acquirer bids.</div>
+  <p class="prose" style="font-size:9.5px; margin-bottom:8px;"><strong>FY2026</strong> — Year-end rally; revenue $195M. <strong>FY2027</strong> — Revenue $290M (+49%); predictions ~$50M; founder loans converted or repaid from BTC appreciation; adjusted EBITDA $(40)M. <strong>FY2028</strong> — Revenue $420M (+45%) with ~$120M of predictions/derivatives revenue; adjusted EBITDA +$80M (19%); valued at 5x sales.</p>
+  <div class="driver-label">Key Drivers — FY2028E (Year 3)</div>
+  <div class="driver-row"><span>Exchange + OTC + Derivatives Revenue</span><span>~$160M</span></div>
+  <div class="driver-row"><span>Card Revenue</span><span>~$110M</span></div>
+  <div class="driver-row"><span>Predictions Revenue</span><span>~$120M</span></div>
+  <div class="driver-row"><span>Equity Raised / Price</span><span>None</span></div>
+  <div class="driver-row"><span>Exit EV/Sales</span><span>5.0x (platform premium)</span></div>
+  <table class="scenario-mini">
+    <tr><th>$M</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr>
+    <tr><td>Revenue</td><td>$195</td><td>$290</td><td>$420</td></tr>
+    <tr style="color:#808080; font-size:8px;"><td style="padding-left:8px;">Revenue Growth %</td><td>+8.6%</td><td>+48.7%</td><td>+44.8%</td></tr>
+    <tr><td>Adj. EBITDA</td><td>(195)</td><td>(40)</td><td>80</td></tr>
+    <tr style="color:#808080; font-size:8px;"><td style="padding-left:8px;">Adj. EBITDA Margin %</td><td>NM</td><td>NM</td><td>19.0%</td></tr>
+    <tr><td>Equity Raised</td><td>--</td><td>--</td><td>--</td></tr>
+    <tr><td>Diluted Shares (M)</td><td>132.7</td><td>141.7</td><td>153.7</td></tr>
+    <tr><td>Revenue/Share</td><td>$1.47</td><td>$2.05</td><td>$2.73</td></tr>
+    <tr><td>Net Cash (Debt), FY-end</td><td>--</td><td>--</td><td>150</td></tr>
+    <tr class="valuation-row"><td>Exit EV/Sales Multiple</td><td>--</td><td>--</td><td>5.0x</td></tr>
+    <tr class="valuation-row"><td>Implied Stock Price</td><td>--</td><td>--</td><td>$14.64</td></tr>
+    <tr><td>Operating Cash Flow</td><td>($190)</td><td>($45)</td><td>$60</td></tr>
+  </table>
+  <div class="exit-metrics">
+    <div>Exit: (5.0x x $420M + $150M net cash) ÷ 153.7M shares</div>
+    <div class="exit-price">Implied Share Price: $14.64</div>
+    <div class="exit-upside">Upside: +369% from $3.12</div>
+  </div>
+</div>
+
+<div class="case-chart">
+  <p style="font-size:9px; font-weight:600; margin-bottom:8px; color:#1F3864;">Implied Share Price by Scenario (FY2028E Exit) vs. Current Price $3.12</p>
+  <svg viewBox="0 0 760 240" xmlns="http://www.w3.org/2000/svg" style="width:100%; font-family:Arial,Helvetica,sans-serif;">
+    <line x1="80" y1="20" x2="80" y2="200" stroke="#BFBFBF" stroke-width="1"/>
+    <line x1="80" y1="200" x2="680" y2="200" stroke="#BFBFBF" stroke-width="1"/>
+    <!-- scale: $1 = 11.333px -->
+    <text x="75" y="204" text-anchor="end" font-size="9" fill="#808080">$0</text>
+    <text x="75" y="170" text-anchor="end" font-size="9" fill="#808080">$3</text>
+    <text x="75" y="136" text-anchor="end" font-size="9" fill="#808080">$6</text>
+    <text x="75" y="102" text-anchor="end" font-size="9" fill="#808080">$9</text>
+    <text x="75" y="68" text-anchor="end" font-size="9" fill="#808080">$12</text>
+    <text x="75" y="34" text-anchor="end" font-size="9" fill="#808080">$15</text>
+    <line x1="80" y1="132" x2="680" y2="132" stroke="#F2F2F2" stroke-width="0.8"/>
+    <line x1="80" y1="98" x2="680" y2="98" stroke="#F2F2F2" stroke-width="0.8"/>
+    <line x1="80" y1="64" x2="680" y2="64" stroke="#F2F2F2" stroke-width="0.8"/>
+    <line x1="80" y1="30" x2="680" y2="30" stroke="#F2F2F2" stroke-width="0.8"/>
+    <rect x="110" y="198.0" width="80" height="2.0" fill="#9DC3E6"/>
+    <text x="150" y="193" text-anchor="middle" font-size="9" fill="#000">$0.18</text>
+    <text x="150" y="214" text-anchor="middle" font-size="8" fill="#808080">Bear Severe</text>
+    <rect x="220" y="185.6" width="80" height="14.4" fill="#9DC3E6"/>
+    <text x="260" y="181" text-anchor="middle" font-size="9" fill="#000">$1.27</text>
+    <text x="260" y="214" text-anchor="middle" font-size="8" fill="#808080">Bear Mild</text>
+    <rect x="330" y="162.9" width="80" height="37.1" fill="#0070C0"/>
+    <text x="370" y="158" text-anchor="middle" font-size="9" fill="#000">$3.27</text>
+    <text x="370" y="214" text-anchor="middle" font-size="8" fill="#808080">Base Case</text>
+    <rect x="440" y="124.0" width="80" height="76.0" fill="#1F3864"/>
+    <text x="480" y="120" text-anchor="middle" font-size="9" fill="#000">$6.71</text>
+    <text x="480" y="214" text-anchor="middle" font-size="8" fill="#808080">Bull Mild</text>
+    <rect x="550" y="34.1" width="80" height="165.9" fill="#1F3864"/>
+    <text x="590" y="30" text-anchor="middle" font-size="9" fill="#000">$14.64</text>
+    <text x="590" y="214" text-anchor="middle" font-size="8" fill="#808080">Bull Severe</text>
+    <line x1="80" y1="164.6" x2="680" y2="164.6" stroke="#808080" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="685" y="160" font-size="9" fill="#808080">$3.12 (Current)</text>
+    <line x1="80" y1="165.4" x2="680" y2="165.4" stroke="#1F3864" stroke-width="1.2" stroke-dasharray="2,2"/>
+    <text x="685" y="174" font-size="8" fill="#1F3864">$3.05 PV@30%</text>
+  </svg>
+  <p style="font-size:8px; color:#808080; margin-top:4px;">Probability weights: 5% / 20% / 50% / 20% / 5% · Prob-wtd avg $3.97 discounted @30% CoC = $3.05 · Current: $3.12 · Implied upside to PV: (2.1%)</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 11: COMPS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">11. Comparable Companies</div>
+
+<div class="section-title">Selected Financials — Digital Asset &amp; Retail Trading Peers</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th>Mkt Cap</th>
+      <th>EV</th>
+      <th class="est-col">Rev FY1</th>
+      <th class="est-col">Rev Gr. FY1</th>
+      <th class="est-col">Rev FY2</th>
+      <th>EBITDA TTM</th>
+      <th>EBITDA Mgn TTM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject"><td>Gemini Space Station</td><td>GEMI</td><td>$0.40B</td><td>$0.37B*</td><td>$186M</td><td>+3.3%</td><td>$226M</td><td>($279M) adj.</td><td>NM</td></tr>
+    <tr><td>Coinbase</td><td>COIN</td><td>$42.4B</td><td>$40.3B</td><td>$5.30B</td><td>(23.0%)</td><td>$6.89B</td><td>$700M</td><td>11.6%</td></tr>
+    <tr><td>Robinhood</td><td>HOOD</td><td>$86.1B</td><td>$85.2B</td><td>$5.33B</td><td>+19.1%</td><td>$6.88B</td><td>--</td><td>--</td></tr>
+    <tr><td>Bullish</td><td>BLSH</td><td>$4.4B</td><td>$2.1B**</td><td>$357M</td><td>+23.7%</td><td>$408M</td><td>$138M adj.</td><td>38.9%</td></tr>
+    <tr><td>Circle</td><td>CRCL</td><td>$20.6B</td><td>$18.9B</td><td>$3.02B</td><td>+10.0%</td><td>$3.82B</td><td>$229M</td><td>7.9%</td></tr>
+    <tr><td>Figure Technology</td><td>FIGR</td><td>$5.1B</td><td>$4.8B</td><td>$904M</td><td>+109%</td><td>$1.24B</td><td>--</td><td>--</td></tr>
+    <tr><td>eToro</td><td>ETOR</td><td>$1.9B</td><td>$1.0B</td><td>$895M</td><td>NM</td><td>$1.00B</td><td>--</td><td>--</td></tr>
+    <tr><td>Exodus Movement</td><td>EXOD</td><td>$0.17B</td><td>$0.15B</td><td>$111M</td><td>(9.1%)</td><td>$149M</td><td>($24M)</td><td>(21.9%)</td></tr>
+    <tr class="stat-row"><td>Peer Median (ex-GEMI)</td><td>--</td><td>--</td><td>--</td><td>--</td><td>+14.6%</td><td>--</td><td>--</td><td>9.8%</td></tr>
+  </tbody>
+</table>
+<p style="font-size:8px; color:#808080; margin-top:2px;">*GEMI EV net of $189M cash and $331M crypto held against $481M of debt ($184M if card receivables are also netted). **BLSH EV net of $2.1B net liquid assets (see BLSH memo). Galaxy and Bakkt excluded (gross crypto-sales revenue). Kraken private: ~$13.3B implied by Deutsche Börse's April 2026 stake. FY1 = CY2026, FY2 = CY2027. Source: StockAnalysis/S&amp;P consensus, Oct 27, 2026.</p>
+
+<div class="section-title" style="margin-top:12px;">Valuation Multiples</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th class="est-col">EV/Sales FY1</th>
+      <th class="est-col">P/Sales FY1</th>
+      <th class="est-col">P/E FY1</th>
+      <th class="est-col">P/E FY2</th>
+      <th>Price</th>
+      <th>1Y Return</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject"><td>Gemini Space Station</td><td>GEMI</td><td>2.0x</td><td>2.2x</td><td>NM</td><td>NM</td><td>$3.12</td><td>(84.7%)</td></tr>
+    <tr><td>Coinbase</td><td>COIN</td><td>7.6x</td><td>8.0x</td><td>NM</td><td>52.2x</td><td>$160.64</td><td>--</td></tr>
+    <tr><td>Robinhood</td><td>HOOD</td><td>16.0x</td><td>16.2x</td><td>37.7x</td><td>28.0x</td><td>$95.80</td><td>--</td></tr>
+    <tr><td>Bullish</td><td>BLSH</td><td>5.9x</td><td>12.5x</td><td>63.7x</td><td>40.7x</td><td>$29.32</td><td>(48.2%)</td></tr>
+    <tr><td>Circle</td><td>CRCL</td><td>6.3x</td><td>6.8x</td><td>70.2x</td><td>54.6x</td><td>$80.77</td><td>--</td></tr>
+    <tr><td>Figure Technology</td><td>FIGR</td><td>5.3x</td><td>5.6x</td><td>15.6x</td><td>12.0x</td><td>$22.65</td><td>--</td></tr>
+    <tr><td>eToro</td><td>ETOR</td><td>1.1x</td><td>2.1x</td><td>10.0x</td><td>7.8x</td><td>$23.56</td><td>--</td></tr>
+    <tr><td>Exodus Movement</td><td>EXOD</td><td>1.4x</td><td>1.6x</td><td>NM</td><td>~95x</td><td>$5.71</td><td>--</td></tr>
+    <tr class="stat-row"><td>Peer Average</td><td>--</td><td>6.2x</td><td>7.5x</td><td>39.4x</td><td>41.5x</td><td>--</td><td>--</td></tr>
+    <tr class="stat-row"><td>Peer Median</td><td>--</td><td>5.9x</td><td>6.8x</td><td>37.7x</td><td>40.7x</td><td>--</td><td>--</td></tr>
+  </tbody>
+</table>
+
+<div class="section-title" style="margin-top:12px;">Named Competitors</div>
+<table class="comps">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Company</th>
+      <th style="text-align:left;">Ticker</th>
+      <th style="text-align:left;">Overlap with Gemini</th>
+      <th class="est-col">EV/Sales FY1</th>
+      <th class="est-col">P/E FY2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="subject"><td>Gemini Space Station</td><td>GEMI</td><td style="text-align:left;">Crypto exchange, custody, card, predictions (DCM + DCO)</td><td>2.0x</td><td>NM</td></tr>
+    <tr><td>Coinbase</td><td>COIN</td><td style="text-align:left;">U.S. retail/institutional crypto, custody, card; Kalshi-powered predictions</td><td>7.6x</td><td>52.2x</td></tr>
+    <tr><td>Robinhood</td><td>HOOD</td><td style="text-align:left;">Retail crypto + stocks + prediction markets (super app incumbent)</td><td>16.0x</td><td>28.0x</td></tr>
+    <tr><td>Kraken (private)</td><td>--</td><td style="text-align:left;">U.S. crypto exchange, derivatives; ~$13.3B implied valuation</td><td>--</td><td>--</td></tr>
+    <tr><td>Kalshi / Polymarket (private)</td><td>--</td><td style="text-align:left;">Leading event-contract venues (Kalshi $33B monthly volume, Jun-26)</td><td>--</td><td>--</td></tr>
+  </tbody>
+</table>
+
+<p class="prose" style="margin-top:10px;">Gemini trades at 2.0x FY1 EV/Sales and 2.2x P/Sales — roughly one-third of the peer median (5.9x / 6.8x) and in line only with eToro (1.1x EV/Sales) and Exodus (1.4x), the two slowest-growing, sub-scale names in the group. The discount is justified by the fundamentals: Gemini is the only company in the set with near-zero FY2026 revenue growth (+3% vs. a +15% median), deeply negative margins (LTM adjusted EBITDA of $(279)M on $207M of revenue) and a near-term financing need. On the other hand, Gemini is the cheapest way in the public market to own a full-stack CFTC DCM + DCO prediction-market operator, and its card business alone (~$65M revenue run-rate) would plausibly be worth a material fraction of today's EV in a fintech-lender context (Figure trades at 5.3x). A re-rating toward even the peer bottom-quartile (~3–4x) requires evidence that the cost base can be covered by revenue — at which point the market would likely move Gemini from the "distressed exchange" bucket toward the "growth fintech platform" bucket.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 12: IS THIS A THEIA INVESTMENT? -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+
+<div class="verdict">
+  <p><strong>(i) Market Cap Bucket: $0.40B</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">Microcap (&lt;$1B). Gemini's $405M market cap — down from ~$3.3B at the IPO — places it squarely in Theia's ideal bucket, below most institutional mandates' size thresholds and in a zone where forced selling (index deletions, crossover-fund exits post-IPO) has created informational inefficiency. Liquidity is adequate for a position (~2M shares, ~$6M per day), but the free float is only ~46M shares and 27% of it is short, so entry and exit can move the price sharply. The founders' ~94% voting control means minority holders cannot influence strategy.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(ii) Analyst Coverage: 10–11 Broker Contributors</strong> <span class="fw-rating moderate">Moderate Fit</span></p>
+  <p style="margin-top:4px;">Ten to eleven sell-side analysts cover GEMI (Goldman, Citi, Morgan Stanley, Truist, Cantor, KBW, Needham, Rosenblatt, Mizuho, Evercore, Barclays — the IPO syndicate), rated Hold on balance with a $5.23 average target. That is more coverage than Theia prefers, but the coverage is largely legacy IPO-syndicate coverage with low conviction and stale models: only 3–4 analysts publish EPS estimates, no EBITDA consensus exists, and no one publishes FY2028 numbers. Targets have collapsed from $25–42 at initiation (October 2025) to $3.50–7.00, and the debate on prediction-market economics, card credit and funding is thinly modeled.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iii) Thesis Alignment: Crypto Platform / Prediction Markets / Stablecoin</strong> <span class="fw-rating strong">Core Thesis</span></p>
+  <p style="margin-top:4px;">Gemini is directly aligned with Theia's internet-finance thesis: a regulated U.S. crypto exchange and NYDFS-chartered custodian, issuer of the GUSD stablecoin, a crypto-rewards credit card, a CFTC-regulated prediction market with its own clearinghouse, and a broker-dealer offering tokenization-adjacent multi-asset trading. Prediction markets and on-chain finance are two of the fastest-growing internet-finance categories of 2026. Rating: Core.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>(iv) Outcome Dispersion: $0.18 – $14.64</strong> <span class="fw-rating strong">Strong Fit</span></p>
+  <p style="margin-top:4px;">The 5-scenario model shows implied FY2028E prices from $0.18 (Bear Severe, (94%)) to $14.64 (Bull Severe, +369%) versus $3.12 today — an ~80x spread between the tails, the widest of any memo in this series. The dispersion is driven by three variables that are genuinely uncertain: whether predictions become a real revenue line, the price and size of the next equity raise, and crypto retail volumes. The probability-weighted value is $3.97, or $3.05 discounted at Theia's 30% cost of capital — (2.1%) versus the current price. The distribution is highly skewed: the median outcome is roughly flat, a quarter of the probability mass is a 59–94% loss, and the upside is concentrated in the 25% of cases where predictions and the card scale.</p>
+</div>
+
+<div class="verdict-final">
+  <strong>VERDICT: MAYBE — Watchlist; Core Thesis Option, but Wait for the Financing</strong><br><br>
+  Gemini scores Strong on market cap ($405M microcap), Core on thesis alignment and Strong on outcome dispersion ($0.18 to $14.64), with moderate (but stale) analyst coverage. It is a cheap, liquid option on the regulated U.S. prediction-market build-out — the DCM + DCO stack and Apex distribution are genuinely scarce assets — wrapped around a credible card business. But the probability-weighted value of $3.05 (after a 30% CoC) is ~2% <em>below</em> today's $3.12, because the company is still burning ~$50M per quarter against $189M of cash and will almost certainly issue equity in the next 12 months; buying ahead of that raise means funding the dilution. We would (a) track the Nov 12 Q3 print (card provisions, predictions revenue, cash burn), (b) look to participate in — or buy after — the next financing, ideally alongside the founders, at or below ~$2.50, and (c) upgrade to YES on a definitive Apex agreement with live brokerages plus quarterly cash burn below ~$25M.
+</div>
+
+<p class="prose" style="font-size:10px; font-style:italic; margin-top:6px;">Note: Theia seeks small-cap companies that aren't well covered and are strongly aligned on the core internet finance thesis with wide outcome dispersion. GEMI scores: Market Cap (Strong) | Coverage (Moderate) | Thesis (Core) | Dispersion (Strong)</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 13: RISK SUMMARY -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section">13. Risk Summary</div>
+
+<table class="risk-table">
+  <tr><th>Risk Category</th><th>Description</th><th>Severity</th><th>Mitigant</th></tr>
+  <tr>
+    <td>Liquidity &amp; Dilution</td>
+    <td>H1 2026 operating cash burn $(105.9)M vs. $188.6M cash; adjusted EBITDA $(52)–(92)M for six straight quarters; $100M shelf filed Oct 2026; SBC guided $100–115M (~25% of market cap).</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>Founders injected $100M (in BTC) at $14 in May 2026 and hold BTC-denominated loans with no fixed maturity; cost base cut ~29%; $331M of crypto held and $103.5M restricted cash provide additional (partly encumbered) resources.</td>
+  </tr>
+  <tr>
+    <td>Card Credit &amp; Funding</td>
+    <td>Identity-fraud event lifted delinquency to 9.4% and Q2 transaction losses to $20.1M; ~$220M book funded by a Ripple warehouse (7%, stepping to 10% above $150M; RLUSD collateral required).</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>Non-fraud delinquency 3.3%; Experian bust-out models and stricter identity verification added; card PPNR positive ($5.5M Q2); originations slowed deliberately.</td>
+  </tr>
+  <tr>
+    <td>Core Exchange Share Loss</td>
+    <td>Spot volume (66%) YoY, assets on platform (54%) YoY, MTUs declining two quarters; international exit; competing against far larger Coinbase/Robinhood/Kraken.</td>
+    <td><span class="fw-rating high">High</span></td>
+    <td>Take rate rising (~33bps); U.S. stocks and derivatives broaden the product; crypto recovery would lift volume disproportionately.</td>
+  </tr>
+  <tr>
+    <td>Prediction-Market Execution &amp; Regulation</td>
+    <td>Predictions revenue ~$0.5M/quarter net of rebates; Kalshi/Polymarket/Robinhood dominate; Apex deal is a non-binding LOI; NYAG sued Gemini Titan (Aug 2026); state-level challenges to sports event contracts.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Rare DCM + DCO stack with in-house clearing; contracts +93% QoQ; federal (CFTC) framework supportive; Apex distribution would solve the liquidity gap.</td>
+  </tr>
+  <tr>
+    <td>Governance &amp; Related Parties</td>
+    <td>~94% founder voting control via Class B; founders are also lender ($259M BTC loans) and recent equity investor; CFO interim since Feb 2026; COO not replaced; IPO class action and Nevada derivative suit.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>Founders' ~63% economic stake aligns incentives; Lead Independent Director in place; derivative suit stayed pending the federal case.</td>
+  </tr>
+  <tr>
+    <td>Crypto Market &amp; Balance-Sheet Marks</td>
+    <td>Beta 2.55; revenue, assets on platform, crypto held and BTC-denominated loans all move with crypto prices; Q2 adjusted EBITDA hit by losses on BTC received in the placement.</td>
+    <td><span class="fw-rating moderate">Moderate</span></td>
+    <td>BTC-denominated founder loans partly hedge BTC held; services + interest now 59% of net revenue, less volume-sensitive.</td>
+  </tr>
+  <tr>
+    <td>Legacy Legal (Earn, CFTC)</td>
+    <td>Remaining Earn arbitrations (373 pending at Mar 2026); CFTC $5M consent order and injunction upheld Oct 15, 2026.</td>
+    <td><span class="fw-rating low">Low</span></td>
+    <td>Earn users made 100% whole in kind; SEC case dismissed with prejudice; Gemini won its first five bellwether arbitrations.</td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 14: APPENDIX — PYTHON CODE -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="memo-section appendix">14. Appendix — Python Code</div>
+
+<p class="prose">Sensitivity table generator and scenario model code for analyst customization:</p>
+
+<div class="section-title">Sensitivity Table Generator</div>
+<div class="code-block">
+import pandas as pd
+
+# ─── SENSITIVITY TABLE 1: FY2028E Credit Card Revenue ───
+receivables = [200, 250, 300, 350, 400]          # $M avg managed card receivables
+yields      = [0.20, 0.24, 0.28, 0.32, 0.36]     # annualized revenue yield
+df1 = pd.DataFrame([[r * y for y in yields] for r in receivables],
+    index=[f"${r}M" for r in receivables],
+    columns=[f"{y:.0%}" for y in yields]).round(0)
+print("FY2028E Card Revenue ($M)")
+print(df1.to_string())
+print(f"Current: $16.2M x 4 / $219.6M = {16.2*4/219.6:.1%} | Base: $300M x 28% = ${300*0.28:.0f}M")
+
+# ─── SENSITIVITY TABLE 2: FY2028E Adjusted EBITDA ───
+revenues  = [200, 235, 267, 300, 340]            # $M total revenue
+cash_opex = [247, 277, 307, 337, 367]            # $M cash opex ex-SBC
+df2 = pd.DataFrame([[r - o for o in cash_opex] for r in revenues],
+    index=[f"${r}M" for r in revenues],
+    columns=[f"${o}M" for o in cash_opex])
+print("\nFY2028E Adjusted EBITDA ($M)")
+print(df2.to_string())
+print(f"Q2'26 cash opex run-rate: (122.4 - 20.3 SBC - 16.1 fraud) x 4 = ${(122.4-20.3-16.1)*4:.0f}M")
+
+# ─── SENSITIVITY TABLE 3: Implied Share Price ───
+rev_2028  = [160, 220, 267, 320, 420]            # $M FY2028E revenue
+ev_sales  = [1.0, 1.5, 2.5, 3.5, 5.0]
+net_cash, shares = 50, 219.7                     # base-case FY2028E
+df3 = pd.DataFrame([[(r * m + net_cash) / shares for m in ev_sales] for r in rev_2028],
+    index=[f"${r}M" for r in rev_2028],
+    columns=[f"{m}x" for m in ev_sales]).round(2)
+print("\nImplied Share Price ($)")
+print(df3.to_string())
+print(f"Base: (2.5 x $267M + $50M) / 219.7M = ${(2.5*267+50)/219.7:.2f} vs. $3.12 current")
+</div>
+
+<div class="section-title" style="margin-top:16px;">5-Scenario Model Generator</div>
+<div class="code-block">
+# ─── GEMI 5-SCENARIO 3-YEAR MODEL ───
+# Exit = (EV/Sales x FY2028E revenue + FY2028E net cash) / FY2028E diluted shares
+# Shares = 129.65M basic + equity raised (FY2027E) + annual SBC share issuance
+BASIC = 129.65
+current_price = 3.12
+
+scenarios = {
+    #               revenue FY26/27/28   adj. EBITDA FY26/27/28   raise ($M, price)  SBC sh/yr  EV/S  net cash FY28
+    "Bear Severe": dict(rev=[178, 165, 160], ebitda=[-230, -170, -130], raise_=(150, 1.00), sbc=25, ev_s=1.0, net_cash=-100),
+    "Bear Mild":   dict(rev=[183, 200, 220], ebitda=[-220, -130,  -80], raise_=(150, 2.00), sbc=20, ev_s=1.5, net_cash=-20),
+    "Base Case":   dict(rev=[186, 226, 267], ebitda=[-215, -110,  -40], raise_=(150, 3.00), sbc=20, ev_s=2.5, net_cash=50),
+    "Bull Mild":   dict(rev=[190, 250, 320], ebitda=[-205,  -80,   10], raise_=(100, 4.50), sbc=15, ev_s=3.5, net_cash=100),
+    "Bull Severe": dict(rev=[195, 290, 420], ebitda=[-195,  -40,   80], raise_=(0, 1.00),   sbc=12, ev_s=5.0, net_cash=150),
+}
+
+prices = {}
+for name, s in scenarios.items():
+    new_shares = s["raise_"][0] / s["raise_"][1]
+    sh_2027 = BASIC + new_shares + s["sbc"]
+    sh_2028 = sh_2027 + s["sbc"]
+    equity = s["ev_s"] * s["rev"][2] + s["net_cash"]
+    implied = equity / sh_2028
+    prices[name] = implied
+    print(f"\n{'='*64}\nScenario: {name}\n{'─'*64}")
+    for yr, r, e in zip(["FY2026E", "FY2027E", "FY2028E"], s["rev"], s["ebitda"]):
+        print(f"  {yr}: Revenue ${r}M | Adj. EBITDA ${e}M ({e/r:+.0%})")
+    print(f"Raise ${s['raise_'][0]}M @ ${s['raise_'][1]:.2f} -> {new_shares:.1f}M new shares; "
+          f"FY2028E shares {sh_2028:.1f}M")
+    print(f"Exit: {s['ev_s']}x x ${s['rev'][2]}M + ${s['net_cash']}M = ${equity:,.0f}M "
+          f"-> ${implied:.2f} ({implied/current_price-1:+.0%})")
+
+# ─── PROBABILITY-WEIGHTED FAIR VALUE ───
+weights = {"Bear Severe": 0.05, "Bear Mild": 0.20, "Base Case": 0.50,
+           "Bull Mild": 0.20, "Bull Severe": 0.05}
+coc = 0.30
+wtd_avg = sum(weights[k] * prices[k] for k in weights)
+pv = wtd_avg / (1 + coc)
+print(f"\nProbability-Weighted Avg (FY2028E): ${wtd_avg:.2f}")
+print(f"Discounted at {coc*100:.0f}% CoC:           ${pv:.2f}")
+print(f"Current Price:                         ${current_price:.2f}")
+print(f"Implied Upside to PV:                  {(pv/current_price-1)*100:+.1f}%")
+
+# ─── EV BRIDGE (Jun 30, 2026) ───
+mcap = BASIC * current_price
+ev = mcap + 258.8 + 75.0 + 147.4 - 188.6 - 331.0   # + WCF, 3rd-party, warehouse debt - cash - crypto
+print(f"\nMarket cap ${mcap:,.0f}M | EV ${ev:,.0f}M | EV ex-card receivables ${ev - 182.0:,.0f}M")
+</div>
+
+<div class="source-note" style="margin-top:16px;">
+  Gemini Space Station | Preliminary Memo for Theia · Generated October 27, 2026 · Data: Gemini IPO prospectus (424B4), FY2025 Form 10-K, Q2 2026 Form 10-Q, Q3 2025 and Q4 2025 shareholder letters, Q1 and Q2 2026 earnings releases (8-K), Feb 5 and Feb 17, 2026 8-Ks, Schedule 13D (May 2026); Q4 2025 and Q2 2026 earnings call transcripts; AlphaSense Deep Research (Company Primer; Business Primer &amp; Strategic Analysis, Oct 27, 2026); market data and consensus via StockAnalysis, Finviz, Yahoo Finance, MarketBeat (Oct 27, 2026); BTC/ETH via CoinGecko; 10Y UST via FRED. No FactSet snapshot provided — FY2028 consensus and EBITDA consensus unavailable. FYE December. Not investment advice.
+</div>
+
+</body>
+</html>
