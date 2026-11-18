@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>USD.AI (CHIP) | Preliminary Memo for Theia</title>
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: Arial, Helvetica, sans-serif; background: #fff; color: #1a1a2e; width: 816px; margin: 0 auto; padding: 32px 40px; font-size: 11px; line-height: 1.45; }
+.title-bar { font-size: 20px; font-weight: 700; letter-spacing: -0.4px; color: #0b2a6b; border-bottom: 3px solid #0b2a6b; padding-bottom: 10px; margin-bottom: 20px; text-align: center; }
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #0b2a6b; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; color: #0b2a6b; }
+.header .date { font-size: 10px; color: #7f7f7f; }
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f2f5fb; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; flex-wrap: wrap; }
+.price-bar .price { font-size: 20px; font-weight: 700; color: #0b2a6b; }
+.price-bar .chg { color: #595959; font-weight: 600; }
+.price-bar .label { color: #7f7f7f; font-weight: 500; }
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #0b2a6b; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+.memo-section { font-size: 14px; font-weight: 700; color: #0b2a6b; border-bottom: 2px solid #0b2a6b; padding-bottom: 4px; margin: 24px 0 10px 0; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 55%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #7f7f7f; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.key td { font-weight: 700; background: #f2f2f2; border-top: 1px solid #ccc; }
+table.data tr.subject td { font-weight: 700; background: #f2f5fb; }
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #7f7f7f; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #0b2a6b; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #999; }
+.source-note { font-size: 8px; color: #999; margin-top: 6px; text-align: right; }
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+.prose ul { margin: 4px 0 4px 18px; }
+.fw-item { margin-bottom: 8px; font-size: 11px; line-height: 1.55; color: #333; }
+.fw-item .fw-name { font-weight: 700; color: #0b2a6b; }
+.fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong, .fw-rating.high { background: #0b2a6b; color: #fff; }
+.fw-rating.moderate { background: #dbe6f7; color: #0b2a6b; }
+.fw-rating.weak, .fw-rating.low { background: #f2f2f2; color: #595959; }
+table.sensitivity { font-size: 9.5px; margin: 6px 0; }
+table.sensitivity th { background: #f2f5fb; font-weight: 600; padding: 3px 6px; text-align: center; color: #0b2a6b; }
+table.sensitivity td { text-align: center; padding: 3px 6px; border-bottom: 1px solid #f0f0f0; }
+table.sensitivity td:first-child { font-weight: 600; background: #f7f7f7; }
+table.sensitivity td.base { background: #dbe6f7; font-weight: 700; outline: 1.5px solid #0b2a6b; }
+table.risk-table { font-size: 10px; margin: 8px 0; }
+table.risk-table th { text-align: left; font-weight: 600; padding: 4px 6px; background: #f2f5fb; border-bottom: 1px solid #ddd; color: #0b2a6b; }
+table.risk-table td { padding: 4px 6px; border-bottom: 1px solid #eee; vertical-align: top; }
+table.risk-table td:first-child { font-weight: 600; width: 24%; }
+.verdict { background: #f2f5fb; border-left: 4px solid #0b2a6b; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.55; }
+.insight-box { background: #f7f9fd; border-left: 4px solid #4a7ebb; padding: 10px 14px; margin: 10px 0; font-size: 10.5px; line-height: 1.55; }
+.bull-header, .bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bull-header { color: #0b2a6b; border-bottom: 1.5px solid #9fb6dd; }
+.bear-header { color: #404040; border-bottom: 1.5px solid #bbb; }
+.bull-item, .bear-item { margin-bottom: 8px; font-size: 10.5px; line-height: 1.5; color: #333; }
+.bull-item b, .bear-item b { color: #1a1a2e; }
+.draft { font-size: 9px; color: #7f7f7f; font-style: italic; }
+</style>
+</head>
+<body>
+<div class="title-bar">USD.AI (CHIP) | Preliminary Memo for Theia</div>
+
+<div class="memo-section">1. Business Overview</div>
+<p class="prose">USD.AI is an on-chain credit market that lends stablecoins against NVIDIA GPUs. Depositors mint <b>USDai</b> (backed by PYUSD and other stablecoins) and stake it as <b>sUSDai</b>, which funds senior loans to GPU neoclouds. Each loan sits in a bankruptcy-remote Delaware SPV at 70-80% LTV with ~3 months of debt-service reserve and insurance, and title to the hardware is tokenized under the CALIBER framework. GPU Finance Ltd, a CHIP Foundation subsidiary, is lender of record. USD.AI Inc. (formerly Permian Labs) originates and underwrites the loans.</p>
+<p class="prose">The model moved from hold-to-maturity to <b>originate, season and sell</b> in Oct-26. Loans are warehoused in sUSDai, then sold to institutional buyers through GLX: four loans ($387M) placed so far, and the first season-and-sell (Duos, $98.1M) cleared at par. USD.AI says it has originated $531M across 20 deals (12-Nov-26). Live today: 16 active loans ($177M) at an 11.5% weighted APR, plus a $128.9M GB200 loan for a listed GPU cloud in escrow, for $305M deployed against a $463M asset base.</p>
+<p class="prose">The governance token, <b>CHIP</b>, has a narrow cash claim. The protocol keeps 10% of sUSDai yield, about $3.5M a year today. On 28-Oct-26 the Foundation said it would route 100% of that NIM, net of its own costs, to CHIP purchases "from today". No vote has been held and no purchase amounts have been published. Origination fees (2-3%) and 60% of gain on sale are earned off-chain by USD.AI Inc.; the other 40% of gain on sale funds a Yield Reserve that backs a 7% CHIP Hurdle Rate for sUSDai.</p>
+
+<div class="memo-section">2. Theia Token Summary</div>
+<div class="header"><h1>USD.AI (CHIP)</h1><div class="date">CoinGecko · api.usd.ai · DefiLlama · as of 18-Nov-2026</div></div>
+<div class="price-bar"><span class="price">$0.0287</span><span class="chg">(41%) since 29-Oct · (31%) over 30 days · (80%) vs $0.140 ATH (23-Apr-26) · ICO raised $19.4M</span></div>
+<div class="val-grid">
+ <div class="val-cell"><div class="val-label">Market Cap</div><div class="val-num">$57M</div><div class="val-sub">2.0B circulating</div></div>
+ <div class="val-cell"><div class="val-label">FDV</div><div class="val-num">$287M</div><div class="val-sub">10B max supply</div></div>
+ <div class="val-cell"><div class="val-label">Protocol Revenue</div><div class="val-num">~$3.5M</div><div class="val-sub">10% of sUSDai yield</div></div>
+ <div class="val-cell"><div class="val-label">FDV / Revenue</div><div class="val-num">81x</div><div class="val-sub">Maple 7.6x, Aave 28x</div></div>
+ <div class="val-cell"><div class="val-label">Loans Deployed</div><div class="val-num">$305M</div><div class="val-sub">66% utilization</div></div>
+ <div class="val-cell"><div class="val-label">24h Volume</div><div class="val-num">$5.0M</div><div class="val-sub">CoinGecko</div></div>
+</div>
+<div class="two-col">
+ <div><div class="section-title">Balance Sheet (api.usd.ai)</div>
+  <table class="data"><tr><th>$M</th><th>29-Oct</th><th>18-Nov</th></tr>
+   <tr><td>sUSDai</td><td>558.3</td><td>442.4</td></tr>
+   <tr><td>Unstaked USDai</td><td>~21</td><td>20.9</td></tr>
+   <tr><td>Stablecoin reserves</td><td>269.5</td><td>156.7</td></tr>
+   <tr><td>Loans (active + escrow)</td><td>309.7</td><td>305.5</td></tr>
+   <tr class="key"><td>sUSDai gross yield</td><td>7.34%</td><td>8.01%</td></tr></table></div>
+ <div><div class="section-title">Supply &amp; Unlocks</div>
+  <table class="kv">
+   <tr><td>Circulating (all ecosystem)</td><td>~2.16B (22%)</td></tr>
+   <tr><td>TGE</td><td>16-Apr-2026</td></tr>
+   <tr><td>Cliff, 16-Apr-27</td><td>~2.76B CHIP</td></tr>
+   <tr><td>Cliff value at $0.0287</td><td>~$79M</td></tr>
+   <tr><td>Weekly unlock after cliff</td><td>~48M CHIP</td></tr>
+   <tr><td>Full unlock</td><td>~Apr-2029</td></tr></table></div>
+</div>
+<div class="source-note">Source: api.usd.ai/usdai/dashboard (tvl, current-apy, expected-apy); CoinGecko chip-2; DefiLlama unlocks usd-ai; docs.usd.ai tokenomics (18-Nov-2026).</div>
+
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+<div class="two-col">
+ <div><div class="bull-header">Bull</div>
+  <div class="bull-item"><b>1. The product works.</b> Loans went from ~$1M to $305M in a year at an 11.5% weighted APR with no defaults reported. Borrowers include an investment-grade, listed GPU cloud.</div>
+  <div class="bull-item"><b>2. The pipeline is larger than the book.</b> $220.6M of executed term sheets at 11.5-15% and $526M committed; projected sUSDai APY is 11.6% once deployed.</div>
+  <div class="bull-item"><b>3. GLX can scale origination without scaling deposits.</b> Selling seasoned loans at par or better recycles sUSDai like a warehouse line, so origination volume can run several times AUM.</div>
+  <div class="bull-item"><b>4. Value accrual is switching on.</b> The NIM is pointed at CHIP and USD.AI Inc. has started discretionary buys ($1M on ~27-Oct). The USDai NIM is a large dormant lever at scale.</div>
+ </div>
+ <div><div class="bear-header">Bear</div>
+  <div class="bear-item"><b>1. CHIP gets 10% of the yield.</b> ~$3.5M of protocol revenue against a $287M FDV (81x, vs Maple 7.6x). The origination economics sit in a private company.</div>
+  <div class="bear-item"><b>2. Deposits are leaving.</b> sUSDai fell 21% in three weeks ($558M → $442M) and stablecoin reserves fell to $157M. 30-day redemptions are funded from a thin buffer.</div>
+  <div class="bear-item"><b>3. A subsidy ends in January.</b> PayPal's PYUSD incentive is 1.6pp of the 8.01% gross yield; realized APY (6.8%) is already below the 7% hurdle.</div>
+  <div class="bear-item"><b>4. Concentrated, correlated collateral.</b> One $128.9M loan is 42% of deployed capital; GPUs depreciate fast and together. The anchor facility's borrower (QumulusAI) flagged going-concern doubt.</div>
+ </div>
+</div>
+
+<div class="memo-section">4. Helmer's 7 Powers</div>
+<div class="fw-item"><span class="fw-name">Counter-Positioning</span><span class="fw-rating moderate">Moderate</span><br>Banks and private credit can lend against GPUs, but not with permissionless stablecoin deposits, tokenized title and on-chain secondary sales. Incumbents copying it would have to rebuild their funding stack. Silver Point and Victory Park co-lending on the NexGen Cloud loan shows they will partner rather than compete for now.</div>
+<div class="fw-item"><span class="fw-name">Cornered Resource</span><span class="fw-rating moderate">Moderate</span><br>CALIBER (GPU title as ERC-721 under UCC Article 7) and the GPU underwriting data behind "Compute IQ" scores are proprietary, but legal structures can be replicated.</div>
+
+<div class="memo-section">5. Porter's 5 Forces</div>
+<div class="fw-item"><span class="fw-name">Bargaining Power of Suppliers (depositors)</span><span class="fw-rating high">High</span><br>Capital is the input, and depositors move for 50bps. $118M left on 1-4 Nov. sUSDai must out-yield T-bill products after the PYUSD subsidy ends.</div>
+<div class="fw-item"><span class="fw-name">Rivalry</span><span class="fw-rating high">High</span><br>GPU-backed lending is a crowded private-credit trade (Blackstone, Magnetar, Silver Point, bank warehouses). Spreads compress as capital floods AI infrastructure.</div>
+<div class="fw-item"><span class="fw-name">Bargaining Power of Buyers (borrowers)</span><span class="fw-rating moderate">Moderate</span><br>Investment-grade borrowers negotiate down to 9% (the $128.9M loan); smaller neoclouds pay 12-15% but carry more risk.</div>
+<div class="fw-item"><span class="fw-name">Threat of Substitutes</span><span class="fw-rating moderate">Moderate</span><br>For depositors: Maple, Ethena and T-bill tokens. For borrowers: vendor financing and leasing.</div>
+<div class="fw-item"><span class="fw-name">Threat of New Entrants</span><span class="fw-rating moderate">Moderate</span><br>On-chain GPU credit needs legal structure, underwriting and deposits; several crypto credit protocols could add it.</div>
+
+<div class="memo-section">6. What Drives the Token?</div>
+<ul class="prose">
+ <li><b>Proof that CHIP purchases are happening:</b> the first published programmatic buy amount.</li>
+ <li><b>Deposit trend:</b> sUSDai back above $500M, or a further run toward the 90% utilization cap.</li>
+ <li><b>Supply:</b> the 16-Apr-27 cliff (~2.76B CHIP, more than today's float) will dominate price action as it approaches.</li>
+ <li><b>Credit events:</b> any markdown, liquidation or below-par GLX liquidity sale.</li>
+</ul>
+
+<div class="memo-section">7. What Drives the Business?</div>
+<p class="prose">CHIP's revenue = <b>sUSDai AUM × gross yield × 10% keep</b>, minus Foundation costs, plus whatever USD.AI Inc. chooses to buy. AUM is capped by deposits, and yield = utilization × loan APR + reserve yield. USD.AI Inc.'s own revenue scales with <b>originations × (2-3% fee + 60% of gain on sale)</b>, which is why the protocol favours velocity over balance-sheet growth. The model's key distinction: velocity enriches USD.AI Inc. equity; CHIP only sees it through discretionary buys.</p>
+
+<div class="memo-section">8. Research Insights</div>
+<div class="insight-box"><b>"Compounding Economics of CHIP" (USD.AI blog, 28-Oct-26).</b> Sends 100% of sUSDai NIM net of Foundation costs to CHIP purchases "from today"; whether bought CHIP is burned or held is "not yet specified". USDai NIM is switched off until ~$20B outstanding. Gain on sale is ~1-2% today with a 5-6% target once ABS markets open. Season 2 emissions are 2.25% of supply.</div>
+<div class="insight-box"><b>Governance (Snapshot usdai.eth, 27-30 Oct-26).</b> Two CRFCs passed, each with 2.36B CHIP from three voters. Origination standards: max 80% blended LTV, min 1.15x DSCR, max 90% sUSDai utilization. GLX sale terms: par minimum, 99.5 liquidity sales when redemptions exceed liquidity. sCHIP staking "is currently not used for any protocol functions".</div>
+<div class="insight-box"><b>QumulusAI (NASDAQ: QMLS) Q3-26, 11-Nov-26.</b> Revenue +376% but going-concern language; plans include "drawing on a USD.AI protocol loan" ($32.5M drawn on the $500M facility at 30-Sep). Secondary summaries; confirm against the 10-Q.</div>
+<div class="source-note">Source: usd.ai/blog; governance.chipfoundation.ai (t/39, t/40, t/44); Snapshot usdai.eth; QumulusAI Q3-2026 call transcript (Motley Fool, 11-Nov-2026); Bullish / USD.AI press release (12-Nov-2026).</div>
+
+<div class="memo-section">9. Sensitivity Analysis</div>
+<p class="prose">IRR to FY2029E from $0.0287 for the Theia Base case, re-run from the model's live formulas. The outlined cell is the case as modelled: 1.5% share, 65bps NIM take, $1.5B originations, 5% discretionary buys.</p>
+<div class="two-col">
+ <div><div class="section-title">sUSDai Share × NIM Take</div>
+  <table class="sensitivity"><tr><th>Share</th><th>45bps</th><th>55bps</th><th>65bps</th><th>75bps</th><th>85bps</th></tr>
+   <tr><td>0.5%</td><td>(49.3%)</td><td>(49.3%)</td><td>(49.3%)</td><td>(45.9%)</td><td>(41.6%)</td></tr>
+   <tr><td>1.0%</td><td>(39.7%)</td><td>(33.0%)</td><td>(27.4%)</td><td>(22.6%)</td><td>(18.3%)</td></tr>
+   <tr><td>1.5%</td><td>(26.1%)</td><td>(19.3%)</td><td class="base">(13.5%)</td><td>(8.3%)</td><td>(3.7%)</td></tr>
+   <tr><td>2.0%</td><td>(16.3%)</td><td>(9.1%)</td><td>(3.0%)</td><td>2.5%</td><td>7.4%</td></tr>
+   <tr><td>3.0%</td><td>(1.5%)</td><td>6.2%</td><td>13.0%</td><td>19.1%</td><td>24.6%</td></tr>
+   <tr><td>5.0%</td><td>19.1%</td><td>28.0%</td><td>35.8%</td><td>42.8%</td><td>49.2%</td></tr></table></div>
+ <div><div class="section-title">Inc. Buys × Originations ($M/yr)</div>
+  <table class="sensitivity"><tr><th>Buys</th><th>500</th><th>1,000</th><th>1,500</th><th>2,500</th><th>3,500</th></tr>
+   <tr><td>0%</td><td>(19.7%)</td><td>(19.7%)</td><td>(19.7%)</td><td>(19.7%)</td><td>(19.7%)</td></tr>
+   <tr><td>5%</td><td>(17.5%)</td><td>(15.4%)</td><td class="base">(13.5%)</td><td>(9.7%)</td><td>(6.3%)</td></tr>
+   <tr><td>10%</td><td>(15.4%)</td><td>(11.6%)</td><td>(8.0%)</td><td>(1.6%)</td><td>4.1%</td></tr>
+   <tr><td>15%</td><td>(13.5%)</td><td>(8.0%)</td><td>(3.1%)</td><td>5.4%</td><td>12.7%</td></tr></table></div>
+</div>
+<p class="prose">The base case loses money even at today's lower price. On NIM alone it takes ~5% of the house lending market (sUSDai ~$5.9B, 13x today) and a 75bps+ take to clear the 40% hurdle. <b>The origination engine barely moves CHIP unless USD.AI Inc. shares much more of it:</b> even 15% of $3.5B of originations only reaches a 13% IRR.</p>
+<div class="source-note">Source: Theia_USDai_Model.xlsx (sensitivity.py). Axes are DRAFT.</div>
+
+<div class="memo-section">10. 3-Year Model — 5 Scenarios</div>
+<p class="prose">Market (Theia Assumptions › Borrow-Lend, $117bn FY2029E) × sUSDai share × NIM take = sUSDai NIM. Add USDai NIM and subtract Foundation costs; × share routed to CHIP, + USD.AI Inc. discretionary buys = earnings to CHIP. Exit value = MAX(earnings × P/E, protocol revenue × 1.0x P/S floor) + cash (none disclosed), over 10B FD supply. PV is at a 40% hurdle over three years. <span class="draft">Probabilities, viewpoints, Foundation costs, routing, Inc. take and buys are DRAFT.</span></p>
+<table class="data">
+ <tr><th>Driver / output</th><th>Today</th><th>GPU Credit Event</th><th>Steady Warehouse</th><th>Theia Base</th><th>Orig.-to-Distr.</th><th>Dollar for Compute</th><th>Prob-Wtd</th></tr>
+ <tr><td>Probability (draft)</td><td>–</td><td>15%</td><td>25%</td><td>30%</td><td>20%</td><td>10%</td><td>100%</td></tr>
+ <tr><td>sUSDai AUM ($M)</td><td>442</td><td>328</td><td>449</td><td>1,760</td><td>3,519</td><td>7,038</td><td></td></tr>
+ <tr><td>NIM take</td><td>80bps</td><td>45bps</td><td>55bps</td><td>65bps</td><td>75bps</td><td>85bps</td><td></td></tr>
+ <tr><td>Protocol revenue ($M)</td><td>3.5</td><td>1.5</td><td>2.5</td><td>11.4</td><td>26.4</td><td>84.8</td><td></td></tr>
+ <tr><td>Originations ($M/yr)</td><td>~$1B target</td><td>150</td><td>400</td><td>1,500</td><td>3,500</td><td>6,000</td><td></td></tr>
+ <tr><td>Earnings to CHIP ($M)</td><td>0 confirmed</td><td>0</td><td>0</td><td>9.3</td><td>31.9</td><td>110.3</td><td></td></tr>
+ <tr><td>Exit P/E</td><td>81x P/S</td><td>12x</td><td>15x</td><td>20x</td><td>22x</td><td>25x</td><td></td></tr>
+ <tr class="key"><td>Exit value / token</td><td>$0.0287</td><td>$0.0001</td><td>$0.0002</td><td>$0.0186</td><td>$0.0702</td><td>$0.2758</td><td>$0.0473</td></tr>
+ <tr><td>MOIC</td><td></td><td>0.0x</td><td>0.0x</td><td>0.6x</td><td>2.4x</td><td>9.6x</td><td>1.6x</td></tr>
+ <tr class="key"><td>IRR</td><td></td><td>(83%)</td><td>(80%)</td><td>(13%)</td><td>35%</td><td>113%</td><td>18%</td></tr>
+</table>
+<div class="section-title">Viewpoints</div>
+<table class="data">
+ <tr><th>Viewpoint</th><th>Weights (1 → 5)</th><th>EV / token</th><th>PV</th><th>MOIC</th><th>IRR</th><th>P(loss)</th></tr>
+ <tr class="subject"><td>Theia (draft)</td><td>15 / 25 / 30 / 20 / 10</td><td>$0.0473</td><td>$0.0172</td><td>1.6x</td><td>18%</td><td>70%</td></tr>
+ <tr><td>Market-implied</td><td>10 / 15 / 30 / 25 / 20</td><td>$0.0783</td><td>$0.0286</td><td>2.7x</td><td>40%</td><td>55%</td></tr>
+ <tr><td>AI-credit bull</td><td>5 / 10 / 25 / 30 / 30</td><td>$0.1085</td><td>$0.0395</td><td>3.8x</td><td>56%</td><td>40%</td></tr>
+ <tr><td>GPU-credit bear</td><td>35 / 35 / 20 / 7 / 3</td><td>$0.0170</td><td>$0.0062</td><td>0.6x</td><td>(16%)</td><td>90%</td></tr>
+</table>
+<div class="source-note">Source: Theia_USDai_Model.xlsx (Lite; Cases &amp; Viewpoints), 18-Nov-2026. Market CAGR on the house lending path is 56% (model QA flag).</div>
+
+<div class="memo-section">11. Comparable Companies</div>
+<table class="data">
+ <tr><th>Name</th><th>Type</th><th>FDV ($M)</th><th>Revenue ($M)</th><th>FDV / Revenue</th></tr>
+ <tr><td>Aave (AAVE)</td><td>Money market</td><td>1,749</td><td>62.2</td><td>28x</td></tr>
+ <tr><td>Centrifuge (CFG)</td><td>RWA credit</td><td>44</td><td>4.3</td><td>10x</td></tr>
+ <tr><td>Maple (SYRUP)</td><td>Institutional credit</td><td>123</td><td>16.1</td><td>7.6x</td></tr>
+ <tr class="subject"><td>USD.AI (CHIP)</td><td>GPU credit</td><td>287</td><td>3.5</td><td>81x</td></tr>
+</table>
+<div class="source-note">Source: CoinGecko (18-Nov-2026); DefiLlama revenue, last 90 days annualized.</div>
+
+<div class="memo-section">12. Is This a Theia Investment?</div>
+<div class="verdict"><b>Not yet. Underwrite again after the first published CHIP purchases and once deposits stabilize, with the Apr-27 cliff in view.</b> USD.AI built a real GPU credit franchise in a year. After a 41% drawdown, the draft weights now show upside: $0.0473 a token, 1.6x MOIC, 18% IRR. But that is below the 40% hurdle, with P(loss) of 70%, and nearly all of the value sits in the two cases where originations scale and USD.AI Inc. shares its economics. CHIP's confirmed claim is a 10% slice of a shrinking sUSDai yield, and 2.76B tokens, more than the entire float, unlock in five months.</div>
+<p class="prose"><b>What would change the answer:</b></p>
+<ul class="prose">
+ <li>Published, recurring CHIP purchases from the NIM, with a burn or treasury policy.</li>
+ <li>sUSDai back above $600M after the PYUSD roll-off, with utilization below 85%.</li>
+ <li>USD.AI Inc. committing a fixed share of origination / gain-on-sale revenue to CHIP.</li>
+ <li>The escrowed $128.9M loan funding cleanly, and no QumulusAI impairment.</li>
+ <li>Price near the draft PV (~$0.017) ahead of the cliff.</li>
+</ul>
+
+<div class="memo-section">13. Risk Summary</div>
+<table class="risk-table">
+ <tr><th>Risk</th><th>Description</th><th>Severity</th></tr>
+ <tr><td>Value capture</td><td>CHIP owns 10% of sUSDai yield net of Foundation costs; the origination economics belong to USD.AI Inc. equity; buys are policy, not a vote or contract.</td><td>High</td></tr>
+ <tr><td>Deposit flight / liquidity</td><td>sUSDai −21% in three weeks; 30-day redemptions against 3-year loans; liquidity sales at 99.5 now allowed.</td><td>High</td></tr>
+ <tr><td>Supply cliff</td><td>~2.76B CHIP (more than the float) unlocks 16-Apr-27, then ~48M a week to Apr-29.</td><td>High</td></tr>
+ <tr><td>Credit concentration</td><td>One loan is 42% of deployed capital; top five 85%; QumulusAI going-concern flag.</td><td>Medium</td></tr>
+ <tr><td>GPU collateral</td><td>Fast depreciation and correlated values (wrong-way risk); next-gen chips cut recovery values.</td><td>Medium</td></tr>
+ <tr><td>Yield subsidy</td><td>The PYUSD incentive (1.6pp) ends ~Jan-27; realized APY is already below the 7% hurdle.</td><td>Medium</td></tr>
+ <tr><td>Governance concentration</td><td>Snapshot outcomes decided by three wallets holding 2.36B CHIP.</td><td>Medium</td></tr>
+</table>
+<div class="source-note">Prepared by Theia with Claude, 18-Nov-2026. Companion package: Theia_USDai_TIP.pptx and Theia_USDai_Model.xlsx (Backup/2026/USD AI/TIP). News items cite public sources and were not independently confirmed with USD.AI.</div>
+</body>
+</html>
