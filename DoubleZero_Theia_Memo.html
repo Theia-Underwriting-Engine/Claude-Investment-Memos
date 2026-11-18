@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DoubleZero (2Z) | Preliminary Memo for Theia</title>
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: Arial, Helvetica, sans-serif; background: #fff; color: #1a1a2e; width: 816px; margin: 0 auto; padding: 32px 40px; font-size: 11px; line-height: 1.45; }
+.title-bar { font-size: 20px; font-weight: 700; letter-spacing: -0.4px; color: #0b2a6b; border-bottom: 3px solid #0b2a6b; padding-bottom: 10px; margin-bottom: 20px; text-align: center; }
+.header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #0b2a6b; padding-bottom: 8px; margin-bottom: 12px; }
+.header h1 { font-size: 18px; font-weight: 700; color: #0b2a6b; }
+.header .date { font-size: 10px; color: #7f7f7f; }
+.price-bar { display: flex; gap: 20px; align-items: center; background: #f2f5fb; border-radius: 4px; padding: 6px 12px; margin-bottom: 14px; font-size: 10.5px; flex-wrap: wrap; }
+.price-bar .price { font-size: 20px; font-weight: 700; color: #0b2a6b; }
+.price-bar .chg { color: #595959; font-weight: 600; }
+.price-bar .label { color: #7f7f7f; font-weight: 500; }
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #0b2a6b; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin: 12px 0 6px 0; }
+.memo-section { font-size: 14px; font-weight: 700; color: #0b2a6b; border-bottom: 2px solid #0b2a6b; padding-bottom: 4px; margin: 24px 0 10px 0; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+table.kv td { padding: 2px 0; }
+table.kv td:first-child { color: #555; width: 55%; }
+table.kv td:last-child { text-align: right; font-weight: 600; }
+table.data { font-size: 10px; }
+table.data th { text-align: right; font-weight: 600; color: #7f7f7f; padding: 2px 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+table.data th:first-child { text-align: left; }
+table.data td { text-align: right; padding: 2px 6px; }
+table.data td:first-child { text-align: left; font-weight: 500; color: #333; }
+table.data tr:nth-child(even) { background: #fafbfc; }
+table.data tr.key td { font-weight: 700; background: #f2f2f2; border-top: 1px solid #ccc; }
+table.data tr.subject td { font-weight: 700; background: #f2f5fb; }
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; }
+.val-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-bottom: 4px; }
+.val-grid .val-cell { padding: 4px 6px; border-right: 1px solid #eee; }
+.val-grid .val-cell:last-child { border-right: none; }
+.val-grid .val-label { font-size: 8.5px; color: #7f7f7f; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.val-grid .val-num { font-size: 12px; font-weight: 700; color: #0b2a6b; margin-top: 1px; }
+.val-grid .val-sub { font-size: 8px; color: #999; }
+.source-note { font-size: 8px; color: #999; margin-top: 6px; text-align: right; }
+.prose { font-size: 11px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+.prose ul { margin: 4px 0 4px 18px; }
+.fw-item { margin-bottom: 8px; font-size: 11px; line-height: 1.55; color: #333; }
+.fw-item .fw-name { font-weight: 700; color: #0b2a6b; }
+.fw-rating { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; display: inline-block; }
+.fw-rating.strong, .fw-rating.high { background: #0b2a6b; color: #fff; }
+.fw-rating.moderate { background: #dbe6f7; color: #0b2a6b; }
+.fw-rating.weak, .fw-rating.low { background: #f2f2f2; color: #595959; }
+table.sensitivity { font-size: 9.5px; margin: 6px 0; }
+table.sensitivity th { background: #f2f5fb; font-weight: 600; padding: 3px 6px; text-align: center; color: #0b2a6b; }
+table.sensitivity td { text-align: center; padding: 3px 6px; border-bottom: 1px solid #f0f0f0; }
+table.sensitivity td:first-child { font-weight: 600; background: #f7f7f7; }
+table.sensitivity td.base { background: #dbe6f7; font-weight: 700; outline: 1.5px solid #0b2a6b; }
+table.risk-table { font-size: 10px; margin: 8px 0; }
+table.risk-table th { text-align: left; font-weight: 600; padding: 4px 6px; background: #f2f5fb; border-bottom: 1px solid #ddd; color: #0b2a6b; }
+table.risk-table td { padding: 4px 6px; border-bottom: 1px solid #eee; vertical-align: top; }
+table.risk-table td:first-child { font-weight: 600; width: 24%; }
+.verdict { background: #f2f5fb; border-left: 4px solid #0b2a6b; padding: 10px 14px; margin: 12px 0; font-size: 11px; line-height: 1.55; }
+.insight-box { background: #f7f9fd; border-left: 4px solid #4a7ebb; padding: 10px 14px; margin: 10px 0; font-size: 10.5px; line-height: 1.55; }
+.bull-header, .bear-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; padding-bottom: 3px; margin: 0 0 8px 0; }
+.bull-header { color: #0b2a6b; border-bottom: 1.5px solid #9fb6dd; }
+.bear-header { color: #404040; border-bottom: 1.5px solid #bbb; }
+.bull-item, .bear-item { margin-bottom: 8px; font-size: 10.5px; line-height: 1.5; color: #333; }
+.bull-item b, .bear-item b { color: #1a1a2e; }
+.draft { font-size: 9px; color: #7f7f7f; font-style: italic; }
+</style>
+</head>
+<body>
+
+<div class="title-bar">DoubleZero (2Z) | Preliminary Memo for Theia</div>
+
+<!-- 1 -->
+<div class="memo-section">1. Business Overview</div>
+<p class="prose">DoubleZero is a private, dedicated fiber network for blockchains and trading firms, launched by Austin Federa (ex-Solana Foundation) and Andrew McConnell (Malbec Labs) with Jump Crypto as a core contributor. Fourteen contributors (Jump, DRW / Cumberland, Galaxy and others) lease links into the network. More than 60% of Solana stake now routes block propagation over DZ, where round-trip latency runs 21.6% below the public internet across 66 corridors.</p>
+<p class="prose">The business has changed shape in a year. From Oct-25 to Apr-26 it charged validators 5% of block rewards and priority fees, earning $1.65M at up to $333k a month. It dropped that fee at epoch 939 to drive adoption and now monetizes through <b>Edge</b>, which sells low-latency market data by the seat. Edge carries Solana shreds (Apr-26), Kalshi (Aug-26), Hyperliquid (Sep-26), Phoenix perps (Sep-26) and Binance spot and futures (Oct-26). Edge for Builders (testnet, 27-Oct-26) lets third parties publish their own feeds.</p>
+<p class="prose">The token, 2Z, has one economic right: <b>10% of network gross is burned</b>. The other 90% goes to fiber contributors and validators / client teams. In Q2-26 Edge grossed ~$330k from 115 seats (~$1.5M ARR), so holders received ~$0.15M a year. On-chain Edge payments tracked by DefiLlama then fell from $133k in May to $0 in Oct-Nov. The Q3 token-holder update, which should explain this, has not been published.</p>
+
+<!-- 2 -->
+<div class="memo-section">2. Theia Token Summary</div>
+<div class="header"><h1>DoubleZero (2Z)</h1><div class="date">CoinGecko · DefiLlama · as of 18-Nov-2026</div></div>
+<div class="price-bar">
+  <span class="price">$0.0176</span>
+  <span class="chg">(42%) since 23-Oct · (58%) since the 2-Oct cliff · (98%) vs $0.894 ATH (TGE, 2-Oct-25)</span>
+</div>
+<div class="val-grid">
+  <div class="val-cell"><div class="val-label">Market Cap</div><div class="val-num">$94M</div><div class="val-sub">5.33B circulating</div></div>
+  <div class="val-cell"><div class="val-label">FDV</div><div class="val-num">$176M</div><div class="val-sub">10B max supply</div></div>
+  <div class="val-cell"><div class="val-label">Gross ARR</div><div class="val-num">~$1.5M</div><div class="val-sub">Q2-26, last disclosed</div></div>
+  <div class="val-cell"><div class="val-label">Holder Accrual</div><div class="val-num">~$0.15M</div><div class="val-sub">10% burn</div></div>
+  <div class="val-cell"><div class="val-label">FDV / Gross</div><div class="val-num">117x</div><div class="val-sub">1,170x on accrual</div></div>
+  <div class="val-cell"><div class="val-label">24h Volume</div><div class="val-num">$3.3M</div><div class="val-sub">CoinGecko</div></div>
+</div>
+<div class="two-col">
+  <div>
+    <div class="section-title">Supply &amp; Unlocks</div>
+    <table class="kv">
+      <tr><td>Cliff, 2-Oct-26</td><td>~1.66B 2Z</td></tr>
+      <tr><td>Monthly unlock to Oct-2029</td><td>~135M 2Z</td></tr>
+      <tr><td>Annual unlock value at $0.0176</td><td>~$28M</td></tr>
+      <tr><td>Annual burn (Q2 pace)</td><td>~$0.15M</td></tr>
+      <tr><td>Still locked</td><td>~6.5B (37 events)</td></tr>
+      <tr><td>Jump Crypto holding</td><td>28%</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Capital &amp; Network</div>
+    <table class="kv">
+      <tr><td>Raised (Mar-25, Multicoin / Dragonfly)</td><td>$28M</td></tr>
+      <tr><td>Reported round valuation</td><td>$400M</td></tr>
+      <tr><td>Foundation treasury / cash</td><td>Undisclosed</td></tr>
+      <tr><td>Solana stake connected</td><td>&gt;60%</td></tr>
+      <tr><td>Paying Edge seats (Q2-26)</td><td>115</td></tr>
+      <tr><td>Edge venues live</td><td>5</td></tr>
+    </table>
+  </div>
+</div>
+<div class="section-title">Tracked Gross Fees by Month ($k)</div>
+<table class="data">
+  <tr><th>Line</th><th>Jan</th><th>Feb</th><th>Mar</th><th>Apr</th><th>May</th><th>Jun</th><th>Jul</th><th>Aug</th><th>Sep</th><th>Oct</th><th>Nov*</th></tr>
+  <tr><td>Validator access fee</td><td>333</td><td>316</td><td>315</td><td>30</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+  <tr><td>Edge subscriptions (on-chain)</td><td>0</td><td>0</td><td>0</td><td>0</td><td>133</td><td>112</td><td>105</td><td>60</td><td>2</td><td>0</td><td>0</td></tr>
+  <tr class="key"><td>Total tracked</td><td>333</td><td>316</td><td>315</td><td>30</td><td>133</td><td>112</td><td>105</td><td>60</td><td>2</td><td>0</td><td>0</td></tr>
+</table>
+<div class="source-note">Source: DefiLlama doublezero-network / doublezero-edge daily fees summed by month (2026); *Nov = 17 days. The parent "DoubleZero" listing also includes the DZ staked-SOL pool, which pays nothing to 2Z and is excluded. CoinGecko doublezero (18-Nov-2026).</div>
+
+<!-- 3 -->
+<div class="memo-section">3. Bull &amp; Bear Cases</div>
+<div class="two-col">
+  <div>
+    <div class="bull-header">Bull</div>
+    <div class="bull-item"><b>1. Distribution is already won.</b> More than 60% of Solana stake runs on DZ, and Triton measured Edge shreds winning ~90% of leader slots. No rival relay has that footprint, and Jito shut ShredStream on 5-Sep-26 and pointed users to Edge.</div>
+    <div class="bull-item"><b>2. Edge is becoming a multi-venue feed.</b> Five venues in six months, with Hyperliquid's bundle listing at up to $9k a month. Edge for Builders could turn DZ into the network where venues publish, not just a relay.</div>
+    <div class="bull-item"><b>3. The pool is real and growing.</b> TradFi real-time data and connectivity is a ~$9bn business (CME data $803M, ICE data &amp; connectivity $1.03bn in FY2025). The crypto slice is ~$270M growing to ~$652M by FY2029E on the house path, and DZ holds 0.6%.</div>
+    <div class="bull-item"><b>4. The burn is a lever.</b> A governance vote from 10% to 30% triples holder accrual with no new customers. In the base case that is $3.7M to $11.0M a year.</div>
+  </div>
+  <div>
+    <div class="bear-header">Bear</div>
+    <div class="bear-item"><b>1. The token barely accrues.</b> ~$0.15M a year reaches 2Z against a $176M FDV (~1,170x). Even on gross, 117x is above every data or DePIN comp.</div>
+    <div class="bear-item"><b>2. Unlocks swamp the burn ~190x.</b> ~135M 2Z (~$28M at today's price) unlocks every month to Oct-2029, and Jump owns 28%.</div>
+    <div class="bear-item"><b>3. Revenue may have stalled.</b> On-chain Edge payments went from $133k in May to $0 in Oct-Nov. Fiat billing or resellers could explain part of it, but there is no Q3 disclosure.</div>
+    <div class="bear-item"><b>4. The best fee was given away.</b> Validators paid up to $333k a month; Edge peaked at ~40% of that. Re-charging validators risks the stake share that is the moat.</div>
+  </div>
+</div>
+
+<!-- 4 -->
+<div class="memo-section">4. Helmer's 7 Powers</div>
+<div class="fw-item"><span class="fw-name">Cornered Resource</span><span class="fw-rating moderate">Moderate</span><br>Low-latency fiber between the right data centres is scarce. The contributors (Jump, DRW, Galaxy) are trading firms that lease capacity in exchange for 2Z. That aligns supply, but the same firms could build private links if economics shift.</div>
+<div class="fw-item"><span class="fw-name">Network Economies</span><span class="fw-rating moderate">Moderate</span><br>Each validator that joins makes DZ shreds earlier and more complete, which makes Edge more valuable to traders, which funds more links. The loop is real but has only been proven on Solana, and validators pay nothing to join, so the network effect does not yet monetize.</div>
+<div class="fw-item"><span class="fw-name">Scale Economies</span><span class="fw-rating moderate">Moderate</span><br>The fiber is a fixed cost shared across venues; each new feed (Hyperliquid, Binance) rides the same backbone at near-zero marginal cost. The edge only matters if volume arrives.</div>
+
+<!-- 5 -->
+<div class="memo-section">5. Porter's 5 Forces</div>
+<div class="fw-item"><span class="fw-name">Threat of Substitutes</span><span class="fw-rating high">High</span><br>Alpenglow's Votor went live on 21-Oct-26. Rotor, which replaces Turbine shred propagation, is deferred, but once live it could compress the shred-latency lead that Edge sells. Exchange-direct feeds (Binance, Hyperliquid nodes) and colocation are close substitutes for multi-venue data.</div>
+<div class="fw-item"><span class="fw-name">Bargaining Power of Buyers</span><span class="fw-rating high">High</span><br>The buyers are ~100-1,000 sophisticated trading desks who benchmark every feed in microseconds and switch when a rival is faster or cheaper. The free promos and resellers that appeared in Q3 suggest pricing is already under pressure.</div>
+<div class="fw-item"><span class="fw-name">Bargaining Power of Suppliers</span><span class="fw-rating high">High</span><br>The suppliers take 90% of gross. Fiber contributors and validators are the cost of revenue. Venues (Kalshi waived its publisher share for only one year; Binance data is used without a confirmed licence) can withhold or reprice their data.</div>
+<div class="fw-item"><span class="fw-name">Rivalry</span><span class="fw-rating moderate">Moderate</span><br>Helius LaserStream, bloXroute, Triton and Pyth Pro compete for the same desks. Jito's exit from ShredStream reduced rivalry on Solana shreds, but Triton now resells DZ shreds, which blurs partner and rival.</div>
+<div class="fw-item"><span class="fw-name">Threat of New Entrants</span><span class="fw-rating moderate">Moderate</span><br>Replicating 14 contributors' fiber and &gt;60% validator adoption is hard, but large trading firms (Jump itself) can and do build private links for their own use.</div>
+
+<!-- 6 -->
+<div class="memo-section">6. What Drives the Token?</div>
+<p class="prose">2Z trades on <b>network narrative and supply</b>, not on accrual. The market-implied weighting that reproduces $0.0176 at a 40% hurdle puts ~50% on the two cases where governance raises the burn to 20-30%. The price fell 58% across the 2-Oct cliff and kept falling as ~135M tokens unlock each month. The near-term drivers are:</p>
+<ul class="prose">
+  <li><b>Unlock absorption:</b> next tranche 2-Dec-26; ~$2.4M a month of supply at today's price against ~$3.3M of daily volume.</li>
+  <li><b>The Q3 update:</b> whether Edge revenue moved off-chain (card / ACH, resellers) or genuinely collapsed.</li>
+  <li><b>Burn / staking governance:</b> any proposal above 10% or a staking launch reprices the token on accrual.</li>
+</ul>
+
+<!-- 7 -->
+<div class="memo-section">7. What Drives the Business?</div>
+<p class="prose">Gross = <b>crypto data pool × DZ share + other pools</b> (re-monetized validator access, private multicast). Three variables decide it:</p>
+<ul class="prose">
+  <li><b>Paying seats × price per seat.</b> 115 seats at ~$13k a year on average in Q2. Hyperliquid bundles at $66-108k a year show the ceiling for a high-value venue.</li>
+  <li><b>Venue count and licensing.</b> Every venue added is near-zero marginal cost on the backbone, if the data can be republished legally.</li>
+  <li><b>Validator monetization.</b> The access fee was a $3.5-3.9M annual run-rate at 5%. Restoring any version of it is the fastest path to gross.</li>
+</ul>
+
+<!-- 8 -->
+<div class="memo-section">8. Research Insights</div>
+<div class="insight-box"><b>Edge payments ~$0 since September (DefiLlama, to 17-Nov-26).</b> A Blockworks / Messari report says Edge collects "in USDC, or by card or ACH for firms that prefer fiat rails" and swaps the full amount into 2Z. DoubleZero's Q2 update added that shreds "will expand beyond direct subscriptions to include resellers" (Reflow, Triton). Either would hide revenue from an on-chain tracker. Neither is confirmed, and no Q3 holder update has been published.</div>
+<div class="insight-box"><b>Hyperion DeFi (HYPD) Q3-26, 12-Nov-26.</b> Booked $505k of ecosystem rewards for 10M 2Z received as initial compensation for publishing Hyperliquid feeds on Edge. That implies a ~$0.05 mark, about 3x today's price. DoubleZero is paying publishers in tokens to seed supply.</div>
+<div class="insight-box"><b>Alpenglow (Solana Compass, Oct-26).</b> Votor activated on mainnet on 21-Oct-26 (epoch 1064). Rotor, the Turbine replacement most relevant to DZ multicast and shred distribution, is deferred to its own SIMD with no date. Claims that Rotor is "natively compatible" with DZ are analyst views, not measurements.</div>
+<div class="source-note">Source: DefiLlama; Blockworks / Messari "DoubleZero: the physical layer of new finance"; DoubleZero Q2-2026 token-holder update (18-Aug-2026); CryptoBriefing (Hyperion Q3, Nov-2026); Solana Compass / Forklog (Alpenglow).</div>
+
+<!-- 9 -->
+<div class="memo-section">9. Sensitivity Analysis</div>
+<p class="prose">IRR to FY2029E from $0.0176 for the Theia Base case, re-run from the model's live formulas. The outlined cell is the case as modelled: 5% pool share, 10% burn, 30x exit multiple.</p>
+<div class="two-col">
+  <div>
+    <div class="section-title">Pool Share × Burn Share</div>
+    <table class="sensitivity">
+      <tr><th>Share</th><th>5%</th><th>10%</th><th>20%</th><th>30%</th></tr>
+      <tr><td>1.0%</td><td>(55.2%)</td><td>(43.6%)</td><td>(28.9%)</td><td>(18.6%)</td></tr>
+      <tr><td>2.5%</td><td>(44.2%)</td><td>(29.7%)</td><td>(11.5%)</td><td>1.3%</td></tr>
+      <tr><td>5.0%</td><td>(32.1%)</td><td class="base">(14.5%)</td><td>7.7%</td><td>23.3%</td></tr>
+      <tr><td>7.5%</td><td>(23.3%)</td><td>(3.3%)</td><td>21.8%</td><td>39.4%</td></tr>
+      <tr><td>10.0%</td><td>(16.1%)</td><td>5.7%</td><td>33.2%</td><td>52.5%</td></tr>
+      <tr><td>15.0%</td><td>(4.6%)</td><td>20.2%</td><td>51.5%</td><td>73.4%</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Burn Share × Exit Multiple</div>
+    <table class="sensitivity">
+      <tr><th>Burn</th><th>15x</th><th>20x</th><th>30x</th><th>40x</th></tr>
+      <tr><td>5%</td><td>(40.7%)</td><td>(40.7%)</td><td>(32.1%)</td><td>(25.3%)</td></tr>
+      <tr><td>10%</td><td>(32.1%)</td><td>(25.3%)</td><td class="base">(14.5%)</td><td>(5.9%)</td></tr>
+      <tr><td>20%</td><td>(14.5%)</td><td>(5.9%)</td><td>7.7%</td><td>18.6%</td></tr>
+      <tr><td>30%</td><td>(2.1%)</td><td>7.7%</td><td>23.3%</td><td>35.7%</td></tr>
+    </table>
+  </div>
+</div>
+<p class="prose">At today's 10% burn, no share up to 15% of the pool clears the 40% hurdle (the best is 20%). At a 30% burn, ~7.5% share gets there. <b>The burn share matters as much as the business.</b> Where cells repeat (5% burn at 15x and 20x), the exit value sits on the 1.0x P/S floor on gross.</p>
+<div class="source-note">Source: Theia_DoubleZero_Model.xlsx (Lite sheet; sensitivity.py). Axes are DRAFT until the deal team sets them.</div>
+
+<!-- 10 -->
+<div class="memo-section">10. 3-Year Model — 5 Scenarios</div>
+<p class="prose">The short-form model: market (Theia Assumptions › Crypto Market Data, PROPOSED) × share + other pools = network gross; gross × burn = holder accrual. Exit value = MAX(accrual × multiple, gross × 1.0x P/S floor) + cash (none disclosed), over 10B FD supply. PV is at the 40% house hurdle over three years. <span class="draft">Probabilities and viewpoint weights are DRAFT.</span></p>
+<table class="data">
+  <tr><th>Driver / output</th><th>Today</th><th>Edge Fades</th><th>Niche Data Pipe</th><th>Theia Base</th><th>Multi-Venue Std.</th><th>Crypto's ICE</th><th>Prob-Wtd</th></tr>
+  <tr><td>Probability (draft)</td><td>–</td><td>30%</td><td>30%</td><td>25%</td><td>10%</td><td>5%</td><td>100%</td></tr>
+  <tr><td>Market FY2029E ($M)</td><td>270 (FY26E)</td><td>457</td><td>554</td><td>652</td><td>652</td><td>783</td><td></td></tr>
+  <tr><td>Share of pool</td><td>0.6%</td><td>0.1%</td><td>1.2%</td><td>5.0%</td><td>10.0%</td><td>15.0%</td><td></td></tr>
+  <tr><td>Network gross ($M)</td><td>1.5</td><td>0.5</td><td>7.2</td><td>36.6</td><td>76.2</td><td>141.4</td><td></td></tr>
+  <tr><td>Burn share</td><td>10%</td><td>10%</td><td>10%</td><td>10%</td><td>20%</td><td>30%</td><td></td></tr>
+  <tr><td>Holder accrual ($M)</td><td>0.15</td><td>0.05</td><td>0.72</td><td>3.66</td><td>15.2</td><td>42.4</td><td></td></tr>
+  <tr><td>Exit multiple on accrual</td><td>~1,170x</td><td>15x</td><td>25x</td><td>30x</td><td>30x</td><td>35x</td><td></td></tr>
+  <tr><td>Exit value ($M)</td><td>176 (FDV)</td><td>0.7</td><td>17.9</td><td>109.8</td><td>457.3</td><td>1,485</td><td>153.0</td></tr>
+  <tr class="key"><td>Exit value / token</td><td>$0.0176</td><td>$0.0001</td><td>$0.0018</td><td>$0.0110</td><td>$0.0457</td><td>$0.1485</td><td>$0.0153</td></tr>
+  <tr><td>PV at 40% hurdle</td><td></td><td>$0.0000</td><td>$0.0007</td><td>$0.0040</td><td>$0.0167</td><td>$0.0541</td><td>$0.0056</td></tr>
+  <tr><td>MOIC</td><td></td><td>0.0x</td><td>0.1x</td><td>0.6x</td><td>2.6x</td><td>8.5x</td><td>0.9x</td></tr>
+  <tr class="key"><td>IRR</td><td></td><td>(84%)</td><td>(53%)</td><td>(14%)</td><td>38%</td><td>104%</td><td>(5%)</td></tr>
+</table>
+<div class="section-title">Viewpoints (probability sets over the same cases)</div>
+<table class="data">
+  <tr><th>Viewpoint</th><th>Weights (1 → 5)</th><th>EV / token</th><th>PV</th><th>MOIC</th><th>IRR</th><th>P(loss)</th></tr>
+  <tr class="subject"><td>Theia (draft)</td><td>30 / 30 / 25 / 10 / 5</td><td>$0.0153</td><td>$0.0056</td><td>0.9x</td><td>(5%)</td><td>85%</td></tr>
+  <tr><td>Market-implied</td><td>5 / 15 / 30 / 30 / 20</td><td>$0.0470</td><td>$0.0171</td><td>2.7x</td><td>39%</td><td>50%</td></tr>
+  <tr><td>Infra bull</td><td>5 / 10 / 30 / 35 / 20</td><td>$0.0492</td><td>$0.0179</td><td>2.8x</td><td>41%</td><td>45%</td></tr>
+  <tr><td>Unlock bear</td><td>45 / 35 / 15 / 5 / 0</td><td>$0.0046</td><td>$0.0017</td><td>0.3x</td><td>(36%)</td><td>95%</td></tr>
+</table>
+<div class="source-note">Source: Theia_DoubleZero_Model.xlsx (Lite and Cases &amp; Viewpoints sheets), as of 18-Nov-2026. Other pools: validator $0 / 0 / 2 / 5 / 9M, multicast $0 / 0.5 / 2 / 6 / 15M.</div>
+
+<!-- 11 -->
+<div class="memo-section">11. Comparable Companies</div>
+<table class="data">
+  <tr><th>Name</th><th>Type</th><th>FDV ($M)</th><th>Revenue ($M)</th><th>FDV / Revenue</th></tr>
+  <tr><td>Pyth (PYTH)</td><td>Paid market data</td><td>540</td><td>10.4 (ARR)</td><td>52x</td></tr>
+  <tr><td>Jito (JTO)</td><td>Solana MEV / relay</td><td>263</td><td>6.1</td><td>43x</td></tr>
+  <tr><td>Geodnet</td><td>DePIN (GNSS data)</td><td>177</td><td>9.6</td><td>18x</td></tr>
+  <tr><td>Akash</td><td>DePIN (compute)</td><td>156</td><td>2.0</td><td>78x</td></tr>
+  <tr><td>Helium</td><td>DePIN (wireless)</td><td>46</td><td>2.2</td><td>21x</td></tr>
+  <tr class="subject"><td>DoubleZero (2Z)</td><td>Fiber + market data</td><td>176</td><td>1.5 gross / 0.15 burn</td><td>117x / 1,170x</td></tr>
+</table>
+<div class="source-note">Source: CoinGecko FDVs (18-Nov-2026); DefiLlama trailing-1y revenue (Oct-2026); Pyth Aug-2026 report.</div>
+
+<!-- 12 -->
+<div class="memo-section">12. Is This a Theia Investment?</div>
+<div class="verdict"><b>Not at $0.0176. Watch for the Q3 update.</b> DoubleZero has built real infrastructure: most of Solana, five data venues and a credible path to being crypto's low-latency network. But 2Z owns 10% of a gross that was ~$1.5M in Q2 and may be lower now. On draft weights the package is worth $0.0153 a token (0.9x MOIC, (5%) IRR, 85% P(loss)). Only the two cases where governance raises the burn clear the hurdle, and that is exactly what the market already prices (market-implied PV $0.0171 ≈ price). There is no edge versus consensus while supply unlocks at ~190x the burn.</div>
+<p class="prose"><b>What would change the answer (re-underwrite triggers):</b></p>
+<ul class="prose">
+  <li>A Q3/Q4 update showing Edge gross above ~$500k a quarter including fiat and reseller billing (vs ~$330k in Q2).</li>
+  <li>A governance proposal raising the burn above 10%, or 2Z staking that routes gross to holders.</li>
+  <li>A licensed Binance or CME data agreement, or a second L1 validator set paying for access.</li>
+  <li>Price below ~$0.006 (the draft PV) with the business intact.</li>
+</ul>
+
+<!-- 13 -->
+<div class="memo-section">13. Risk Summary</div>
+<table class="risk-table">
+  <tr><th>Risk</th><th>Description</th><th>Severity</th></tr>
+  <tr><td>Revenue opacity</td><td>On-chain Edge payments are $0 since Sep-26 and no Q3 disclosure has been made; the run-rate could be anywhere from ~$0 to above Q2.</td><td>High</td></tr>
+  <tr><td>Supply overhang</td><td>~135M 2Z a month to Oct-2029 (~$28M a year at today's price); Jump holds 28%.</td><td>High</td></tr>
+  <tr><td>Weak value capture</td><td>Holders get a governance-set 10% burn; 90% of gross goes to suppliers. No dividend, no equity claim.</td><td>High</td></tr>
+  <tr><td>Protocol substitution</td><td>Alpenglow Rotor could shrink the shred-latency lead that Edge sells on Solana.</td><td>Medium</td></tr>
+  <tr><td>Data licensing</td><td>The Binance feed is built from published data without a confirmed licence; Kalshi's publisher waiver expires after one year.</td><td>Medium</td></tr>
+  <tr><td>Token-funded growth</td><td>Publishers and contributors are paid in 2Z (Hyperion received 10M), adding sell pressure on top of unlocks.</td><td>Medium</td></tr>
+</table>
+<div class="source-note">Prepared by Theia with Claude, 18-Nov-2026. Companion package: Theia_DoubleZero_TIP.pptx and Theia_DoubleZero_Model.xlsx (Backup/2026/DoubleZero/TIP). Data verified against DefiLlama and CoinGecko; news items cite public sources and were not independently confirmed with DoubleZero.</div>
+
+</body>
+</html>
